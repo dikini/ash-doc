@@ -4,7 +4,8 @@
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Reader question: What is an Ash program, and how do I write and run one?
-- Prerequisites: editing a text file and running a command in a terminal
+- Prerequisites: editing a text file, running terminal commands, and a local
+  checkout of the Ash source repository
 - Outcome: write, run, predict, and change a one-file Ash program
 - Adaptation: original Ash exposition and examples
 
@@ -15,10 +16,27 @@ produce: the number `42`.
 By the end, several functions will work together to produce that result. Each
 step is a complete program that you can run.
 
+Use the `ash` executable built from the resolved commit above. From that
+`ash-lang` checkout, run:
+
+```text
+cargo build --locked
+```
+
+The executable is now `target/debug/ash`. To use the shorter `ash` name in this
+unit, replace `/path/to/ash-lang` below with the checkout's full path and run:
+
+```text
+export PATH="/path/to/ash-lang/target/debug:$PATH"
+```
+
+This setting lasts for the current terminal. In the same terminal, change to
+the directory that contains this unit.
+
 ## Produce a value
 
-An Ash program is written in files whose names end in `.ash`. Create a file with
-this source:
+An Ash program is written in files whose names end in `.ash`. Create
+`program.ash` in this unit's directory with this source:
 
 <!-- source: src/01-literal.ash -->
 ```ash
@@ -27,10 +45,10 @@ main () = 42
 ```
 
 The checked source for this step is
-[`src/01-literal.ash`](src/01-literal.ash). From this unit's directory, run:
+[`src/01-literal.ash`](src/01-literal.ash). Run your file:
 
 ```text
-ash src/01-literal.ash
+ash program.ash
 ```
 
 The `ash` tool reports:
@@ -56,6 +74,10 @@ module. Ash checks that module, finds its local `main`, and evaluates `main ()`.
 The program does not print `42`. The program produces the value. The `ash` tool
 displays that value and its type.
 
+Each next step shows the complete contents of `program.ash`. Replace the file's
+contents before you run the next command. The nearby `src` link points to the
+same source checked by this repository.
+
 ## Build an expression
 
 A literal such as `42` is an expression. An operator can combine smaller
@@ -73,7 +95,7 @@ The checked source is [`src/02-addition.ash`](src/02-addition.ash). Before you
 run it, predict the value that `main ()` will produce.
 
 ```text
-ash src/02-addition.ash
+ash program.ash
 42 : Int
 ```
 
@@ -93,7 +115,7 @@ Multiplication happens before addition, so Ash first produces `6` from `2 * 3`,
 then adds `1`:
 
 ```text
-ash src/03-precedence.ash
+ash program.ash
 7 : Int
 ```
 
@@ -109,7 +131,7 @@ The checked source is [`src/04-grouping.ash`](src/04-grouping.ash). Ash now
 performs the addition first:
 
 ```text
-ash src/04-grouping.ash
+ash program.ash
 9 : Int
 ```
 
@@ -139,7 +161,7 @@ The expression `increment 41` calls the function. `41` is the argument supplied
 for `number`. The call produces `42`, which becomes the result of `main`:
 
 ```text
-ash src/05-function-call.ash
+ash program.ash
 42 : Int
 ```
 
@@ -165,7 +187,7 @@ Start with the call inside the parentheses. `increment 20` produces `21`. That
 value becomes the argument to `double`, which produces `42`:
 
 ```text
-ash src/06-composition.ash
+ash program.ash
 42 : Int
 ```
 
@@ -174,7 +196,7 @@ parentheses keep the inner call together as the one argument to `double`.
 
 ## A runnable program needs `main`
 
-This file contains a function but no `main`:
+Replace `program.ash` with a function but no `main`:
 
 <!-- source: src/07-missing-main.ash -->
 ```ash
@@ -187,7 +209,7 @@ When you select it as the entry file, Ash rejects it. The first diagnostic line
 names the reason:
 
 ```text
-ash src/07-missing-main.ash
+ash program.ash
 entry.missing-main
 ```
 
@@ -196,7 +218,8 @@ should start the program. The selected entry module must define its own `main`.
 
 ## Exercise: add `square`
 
-Start from [`src/06-composition.ash`](src/06-composition.ash).
+Restore `program.ash` to the contents of
+[`src/06-composition.ash`](src/06-composition.ash).
 
 1. Define `square : Int -> Int` using multiplication.
 2. Change `main` so that it evaluates `double (square 3)`.
