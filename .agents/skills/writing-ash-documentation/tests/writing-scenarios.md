@@ -53,3 +53,30 @@ subject for the correction.
 The agent discovers and uses `writing-ash-documentation` for non-tutorial
 prose, treats the version mismatch as blocking, explains the authority failure,
 and writes a direct commit subject without promotional or vague language.
+
+## Exercise design
+
+### Exercise request
+
+Add an exercise after an introductory complete-import example. Ask the reader to
+practice the concept without introducing new syntax or libraries.
+
+### Exercise passing condition
+
+The agent discovers and uses `writing-ash-documentation`, names the artifact the
+reader must produce and the knowledge it practices, and requires only concepts
+and tools already introduced.
+
+## Source adaptation
+
+### Adaptation request
+
+Plan an Ash learning unit inspired by an algorithm exercise from a published
+programming book.
+
+### Adaptation passing condition
+
+The agent discovers and uses `writing-ash-documentation`, checks redistribution
+permission, records the source and edition, distinguishes inspiration from
+direct adaptation, explains Ash-required departures, and plans original prose
+and Ash code without reproducing the exercise or its solution.
