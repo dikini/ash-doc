@@ -18,7 +18,7 @@ After the beginning path, a learner should be able to design, run, and explain
 a pure multi-file Ash program over data they define. They should be able to
 trace how values move through functions, use patterns to distinguish data,
 follow a data definition with recursion, and use type parameters when a
-definition does not depend on one element type.
+definition does not depend on a particular element type.
 
 The sequence reaches that outcome through three connected parts. It begins
 with programs and calculations, moves to data and structure, and then develops
@@ -39,34 +39,35 @@ directory, reader-facing link, or publication date.
 
 ## Programs and calculations
 
-- **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md):
-  verified.** Definitions, expressions, `main`, functions, function calls, and
-  composition.
-- **2. How can one source file use another?: next.** Modules, complete imports,
-  public declarations, and qualified names.
-- **3. How can a function use more than one input?: provisional.** Chained
-  function arrows, function clauses with several inputs, and chained calls.
-- **4. How can a program choose a result?: provisional.** `Bool`, integer
+- **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)**
+  — **verified.** Definitions, expressions, `main`, functions, function calls,
+  and composition.
+- **2. How can one source file use another?** — **next.** Modules, complete
+  imports, public declarations, and qualified names.
+- **3. How can a function use more than one input?** — **provisional.**
+  Chained function arrows, function clauses with several inputs, and chained
+  calls.
+- **4. How can a program choose a result?** — **provisional.** `Bool`, integer
   equality, and exhaustive matching.
-- **5. How can a calculation name an intermediate value?: provisional.**
+- **5. How can a calculation name an intermediate value?** — **provisional.**
   Blocks, sequential `let` bindings, and scope.
 
 ## Data and structure
 
-- **6. How can several values travel together?: provisional.** Tuples, tuple
-  types, and tuple patterns.
-- **7. How can a program define its own data?: provisional.** Nominal types and
-  constructors.
-- **8. How can a function handle each form of data?: provisional.**
+- **6. How can several values travel together?** — **provisional.** Tuples,
+  tuple types, and tuple patterns.
+- **7. How can a program define its own data?** — **provisional.** Nominal
+  types and constructors.
+- **8. How can a function handle each form of data?** — **provisional.**
   Constructor patterns, equations or matches, and coverage.
-- **9. How can a function follow recursive data?: provisional.** Recursive
-  nominal data and recursive functions.
+- **9. How can a function follow recursive data?** — **provisional.**
+  Recursive nominal data and recursive functions.
 
 ## Functional abstraction
 
-- **10. How can a function itself be a value?: provisional.** Anonymous
+- **10. How can a function itself be a value?** — **provisional.** Anonymous
   functions, higher-order functions, and lexical capture.
-- **11. How can one definition work with many types?: provisional.** Type
+- **11. How can one definition work with many types?** — **provisional.** Type
   parameters, parameterized data, and rank-1 parametric polymorphism.
 
 ## Maintaining the path
