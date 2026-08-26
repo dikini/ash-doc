@@ -94,8 +94,8 @@ main : Unit -> Int
 main () = (1 + 2) * 3
 ```
 
-Compare this program with the previous one. Only the grouping has changed, but
-now the calculation is:
+Only the grouping has changed. Before you run this version, predict its value.
+Then work through the calculation:
 
 ```text
 (1 + 2) * 3
@@ -103,8 +103,8 @@ now the calculation is:
 9
 ```
 
-The result is `9 : Int`. Parentheses make `1 + 2` the smaller expression that
-Ash evaluates first.
+Run the file. Ash reports `9 : Int`. Parentheses make `1 + 2` the smaller
+expression that Ash evaluates first.
 
 > **With a learning assistant:** Run both grouping programs. Show the assistant
 > your predictions, the two programs, and the actual results from `ash`. Explain

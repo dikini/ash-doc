@@ -15,8 +15,9 @@ For the learning-core correction, a baseline agent began directly with the
 program but explained `Unit` and `Int` before the learner ran it. Its optional
 assistant prompt asked for guided reasoning and withheld the final answer, but
 it grounded the assistant only in pasted code, not in the lesson, repository,
-or observed `ash` output. The revised skill must preserve the direct opening
-while correcting those two gaps.
+or observed `ash` output. The revised skill must place a working model before
+the first command, keep detailed vocabulary after observation, and ground the
+assistant in actual evidence.
 
 For the narrative-lesson correction, an agent using the current skill opened
 with “Can two lines of Ash produce a value? Create `program.ash`...” It gave the
@@ -113,11 +114,12 @@ must teach through the existing literal and arithmetic programs.
 
 ### Sequential-lesson passing condition
 
-The agent discovers and uses `writing-ash-documentation`, begins with reader
-activity, and introduces vocabulary after an observation creates a need for it.
-The lesson continues a learning sequence and renders no state, target,
-specification inventory, canonical-source link, evidence report, or project
-limitation. Any required page-local metadata uses YAML front matter.
+The agent discovers and uses `writing-ash-documentation`, establishes a reason
+and working model before directing reader activity, and introduces detailed
+vocabulary after an observation creates a need for it. The lesson continues a
+learning sequence and renders no state, target, specification inventory,
+canonical-source link, evidence report, or project limitation. Any required
+page-local metadata uses YAML front matter.
 
 ## Narrative lesson
 

@@ -34,7 +34,8 @@ administration. Add YAML metadata only for a concrete consumer.
 - Use the tool cycle: edit, predict, run `ash`, inspect, and explain.
   Weave these actions into the account; do not repeat the cycle as the prose
   skeleton after every example.
-- Let the reader observe a program before introducing words for its parts.
+- Use needed vocabulary in the opening model; name source parts after
+  observation.
 - Make one conceptual move at a time. Show calculations that aid prediction.
 - Make each paragraph a connected move: establish an idea or question, examine
   evidence, then interpret it or create the next question. Vary sentence length
@@ -61,7 +62,7 @@ solutions until the learner reasons. The CLI observation tests behavior.
 - Use `you` for reader actions and `we` only for genuine shared work.
 - Never call an idea easy, obvious, trivial, magical, or intuitive. Explain it.
 - Introduce an Ash term only when the reader needs it, define it through
-  the current example, and then use it consistently.
+  the example, and then use it consistently.
 - Prefer nouns and verbs. State concrete properties instead of praise.
 
 ## Keep evidence behind the lesson
