@@ -1,78 +1,89 @@
 ---
 name: writing-ash-documentation
-description: Use when drafting, editing, reviewing, or planning any ash-doc prose, including tutorials, learning paths, adapted algorithms, application cases, exercises, research records, project documentation, and commit or pull-request messages.
+description: Use when writing, editing, reviewing, or planning ash-doc lessons, exercises, research, project records, or change messages.
 ---
 
 # Writing Ash Documentation
 
 ## Purpose
 
-Teach through observable programs. Use this preferred skill for every ash-doc
-writing task. Read [AGENTS.md](../../../AGENTS.md) first; it owns version,
-authority, executable-example, and verification rules.
+This is the preferred skill for ash-doc prose. Read
+[AGENTS.md](../../../AGENTS.md) first for authority, version, examples, and
+verification.
 
-Extend Ash's direct writing with the problem-first method from
-[*How to Design Programs*](https://htdp.org/2026-2-25/Book/). Adapt the method,
-not its expression.
+Extend Ash's direct writing with the method of
+[*How to Design Programs*](https://htdp.org/2026-2-25/Book/), not its wording.
 
-## Voice and vocabulary
+## Separate the two kinds of prose
 
-- Use plain, active language and focused paragraphs. Delete words that add no
-  information.
-- Use `you` for reader actions and observations; use `we` only for genuine
-  shared work.
-- Be calm and exact. Never call an idea easy, obvious, trivial, magical, or
-  intuitive; show the steps that explain it.
-- Use pinned specification terms. Define each at the first example that needs
-  it, then remain consistent.
-- Distinguish information from its Ash representation. Keep facts, decisions,
-  proposals, experiments, and unknowns explicit.
+Learning prose builds a connected reader model; project prose records targets,
+decisions, evidence, state, and exclusions. The root owns the edition target
+and the learning index owns setup and order. Lessons assume both and hide
+administration. Add YAML metadata only for a concrete consumer.
 
-## Shape the explanation
+## Write a learning chapter
 
-- Begin with a concrete problem, its reader value, and an observable success.
-- Move from a worked example to its concept and rule; test the rule with a
-  contrast, boundary, or rejection.
-- Make one conceptual move at a time. Show a limitation before its repair.
-- Ask only questions the reader can answer. Give the answer nearby unless it is
-  a marked exercise.
-- End by naming what the observation established and the next question it
-  enables.
+- Before the first command, give the reader a reason and a working model,
+  perhaps through a familiar idea or earlier chapter. A decorative question
+  followed by an order does neither. Do not open with objectives, status, or
+  project constraints.
+- Shape a conceptual arc: an introduction supplies the model, an exploration
+  lets examples create the need for later examples, and a conclusion gathers
+  the answer and opens the next question. These parts need no explicit heading.
+- Continue earlier chapters and introduce only the next needed idea.
+- Use the tool cycle: edit, predict, run `ash`, inspect, and explain.
+  Weave these actions into the account; do not repeat the cycle as the prose
+  skeleton after every example.
+- Use needed vocabulary in the opening model; name source parts after
+  observation.
+- Make one conceptual move at a time. Show calculations that aid prediction.
+- Make each paragraph a connected move: establish an idea or question, examine
+  evidence, then interpret it or create the next question. Vary sentence length
+  and purpose rather than exposing a template.
+- Ask only questions the reader can answer from the chapter so far. Give the
+  answer nearby unless it is a marked exercise. Use headings for conceptual
+  turns, not for every program or workflow step.
+- Use a contrast or rejection only to answer a reader question. End with
+  practice and the next question.
 
-## Teaching recipe
+Exercises use only introduced concepts and tools. Name what the reader should
+make or explain, not what project coverage it supplies.
 
-Scale the recipe to the unit; adapted algorithms and application cases usually
-need every step.
+## Support a learning assistant
 
-1. State the problem and observable outcome.
-2. Name the information, Ash representation, and invariant.
-3. State the purpose and important type signatures.
-4. Work through representative, boundary, and rejected examples.
-5. Derive the program from the data, operations, and examples.
-6. Run checks; interpret the observations, cost, and limitations.
+The chapter must work without an assistant. Add sparse, product-neutral prompts
+only where dialogue helps. Ground them in the lesson, repository, and observed
+`ash` output. Ask one question at a time, use introduced concepts, and withhold
+solutions until the learner reasons. The CLI observation tests behavior.
 
-Exercises name the expected artifact and knowledge practiced. They require no
-unintroduced syntax, libraries, or domain facts.
+## Use Ash's voice
 
-## Examples and sources
+- Write plain, active sentences. Remove words that add no information.
+- Use `you` for reader actions and `we` only for genuine shared work.
+- Never call an idea easy, obvious, trivial, magical, or intuitive. Explain it.
+- Introduce an Ash term only when the reader needs it, define it through
+  the example, and then use it consistently.
+- Prefer nouns and verbs. State concrete properties instead of praise.
 
-- Before opening an `ash` fence, identify its canonical source and executable
-  check. Otherwise label the material as a draft or pseudocode and do not use
-  an `ash` fence.
-- Explain what each example contributes. Do not use code as decoration.
-- For adapted work, review the license before redistribution. Record its source,
-  edition, contribution, material used, license, Ash-required departures, and
-  whether it is inspired or directly adapted. Write original prose and Ash code
-  by default; preserve ideas or derivations, not protected wording, exercises,
-  or solutions.
+## Keep evidence behind the lesson
 
-## Quick review
+Before using an `ash` fence, identify its canonical source and check. A hidden
+marker may connect them. Explain the example, not its verification machinery.
 
-- Does every claim keep its real authority and version?
-- Does vocabulary match the pinned specification?
+For adapted work, keep permission, source, license, classification, and Ash
+departures in project records. Write original prose and code, with required
+attribution.
+
+## Review
+
+- Does the chapter work without an assistant?
+- Does its opening establish a reason and model before directing the reader?
+- Do examples form an exploration and does the ending gather their answer?
+- Does each paragraph advance the reader's model rather than administer the
+  project?
+- Read the prose aloud. Do repeated imperatives, stock transitions, identical
+  paragraph shapes, or filler make the teaching method sound mechanical?
+- Does vocabulary follow the example that needs it?
+- Can the reader predict, run, and explain each observation?
 - Does every runnable block have canonical, tested source?
-- Does each paragraph advance the reader's model?
-
-Avoid promotional adjectives and vague claims. For example, replace “Ash has a
-powerful modular system” with the established property: “A complete import binds
-the dependency's public namespaces under one uppercase alias.”
+- Do project records retain authority, target, and evidence?

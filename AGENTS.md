@@ -45,9 +45,10 @@ the latest
 [Ash writing guide](https://github.com/dikini/ash-lang/blob/main/docs/project/writing.md).
 Do not import language behavior from `main` into the pinned edition.
 
-Every published view must display both its Ash milestone and resolved commit.
-An upstream canary may test a newer exact commit, but it does not change the
-publication target.
+The repository README declares the edition's Ash milestone and resolved commit.
+Learning pages inherit that target; do not repeat it in every lesson. Plans and
+verification must still name the exact target. An upstream canary may test a
+newer exact commit, but it does not change the publication target.
 
 ## Reconstruct enough context
 
@@ -81,6 +82,13 @@ teaching recipe, and source-adaptation style. The current Ash writing guide
 remains its baseline. This file owns repository authority, executable-example,
 workflow, discovery classification, and verification rules.
 
+`content/learn/` is one sequential self-learning work. Its index owns shared
+setup and reading order. Each lesson continues the reader's model and renders
+only teaching material. Keep project state, targets, governing-source lists,
+evidence records, and migration administration in project documents and checks.
+If a future tool needs page-local metadata, give it a concrete schema and place
+the data in YAML front matter rather than rendered lesson prose.
+
 ## Code and executable examples
 
 Write Ash for the pinned milestone, not from memory and not for
@@ -91,10 +99,11 @@ Write Ash for the pinned milestone, not from memory and not for
   adjacent to their global definitions, and consistent four-space indentation
   inside declarations and branches.
 - Choose names from the problem domain. Keep `main` focused on the observation
-  the unit promises. Remove unrelated language features from small examples.
+  the lesson promises. Remove unrelated language features from small examples.
 - Keep a runnable program in a canonical source file. A displayed runnable
   block must be transcluded from that file or checked for exact agreement with
-  it.
+  it. A hidden source marker may support that check; the lesson need not expose
+  a canonical-source link.
 - Test successful examples for the applicable value, type, standard output,
   and exit status. Test intentional rejections for the stable reason and
   relevant source location on which the explanation depends. Also assert any
@@ -121,7 +130,7 @@ Follow the [ash-doc project workflow](docs/project/workflow.md). Select one
 complete outcome in the [roadmap](docs/project/roadmap.md), obtain approval for
 its bounded design, and use a temporary plan under
 [`docs/plans/`](docs/plans/README.md) owned by that outcome or decision. Create a
-content family or unit only when its prose, canonical code, fixtures, and
+content family or lesson only when its prose, canonical code, fixtures, and
 applicable checks can land together.
 
 Keep project choices behind concrete needs. A new directory layout, renderer,
@@ -133,18 +142,18 @@ bounded design before implementation:
 3. Compare at least two credible approaches and the cost of deferring the
    choice.
 4. Select the smallest replaceable choice that supports the next complete
-   unit.
+   lesson.
 5. State its verification and removal or migration condition.
 6. Obtain project approval, then implement and verify it in one narrow change.
 
-Do not create empty structure for anticipated work. Keep unit prose, programs,
-fixtures, metadata, and checks together once the project accepts a unit layout.
+Do not create empty structure for anticipated work. Keep lesson prose,
+programs, fixtures, and checks together once the project accepts a lesson layout.
 Do not establish a second specification, duplicate every tutorial program in
 `ash-lang`, or add compatibility machinery for old Ash editions.
 
 The repository has one active forward line on `main`. Preserve a published
 edition with an immutable documentation tag. During a future migration, move
-`main` to one exact Ash commit, expose incomplete coverage, and restore units
+`main` to one exact Ash commit, expose incomplete coverage, and restore lessons
 only after their examples pass. Do not backport new work or maintain an old
 edition branch.
 
@@ -180,6 +189,7 @@ Before completing a change:
    status.
 8. Run `git diff --check` and inspect `git status --short` before committing.
 
-The repository selects only the indexed `docs/`, `content/`, `lab/`, and
-`research/` roots. It selects no content-family or unit directories, renderer,
-harness, manifest, dependency, CI service, publication platform, or license.
+The repository selects the indexed `docs/`, `content/`, `lab/`, and `research/`
+roots, the first learning family, and lesson-local source and checks. It selects
+no renderer, shared harness, manifest, CI service, publication platform, or
+license.
