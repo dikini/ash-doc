@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: six connected learning lessons verified; shared lesson
+- Repository state: seven connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,10 +18,11 @@ Active planning records:
 
 ## Verified increment
 
-[*How can several values travel together?*](../../content/learn/values-travel-together/README.md)
-introduces tuples as single values with fixed parts. Its examples construct a
-pair, use tuple patterns in definitions and local bindings, and distinguish a
-tuple input from a curried sequence of inputs.
+[*How can a program define its own data?*](../../content/learn/defining-data/README.md)
+introduces data definitions as a new type together with its possible
+constructors. Its examples distinguish constructors with and without fields
+and show that two separately named types remain distinct despite similar
+fields.
 
 The learning-family check now:
 
@@ -47,18 +48,18 @@ future lessons.
 
 ## Next complete increment
 
-Complete the next learning lesson around the question: How can a program define
-its own data?
+Complete the next learning lesson around the question: How can a function
+handle each form of data?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the first
-data-definition lesson; it does not activate the later entries.
+provisional sequence around this question. This roadmap owns only the
+data-handling lesson; it does not activate the later entries.
 
-The lesson should define one type whose forms carry no fields, then one type
-with a constructor that carries an integer. Explain a data definition as a new
-type together with the ways to construct its values. Include two structurally
-similar but distinct types and a rejected cross-type call to establish nominal
-identity. Defer handling every form to the following lesson.
+The lesson should return to the preceding `Result` definition and handle both
+constructors first with an explicit match. Then present equivalent function
+equations, keeping the explanation about following the data's forms rather
+than offering a syntax survey. Include an omitted constructor as a rejected
+case. Defer self-reference and recursion to the following lesson.
 
 ## Later decisions
 

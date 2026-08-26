@@ -52,3 +52,5 @@ with `ash` to test what it does.
    — make a block's steps visible with local bindings.
 6. [How can several values travel together?](values-travel-together/README.md)
    — construct tuples and name their parts with patterns.
+7. [How can a program define its own data?](defining-data/README.md) — name a
+   new type and the constructors for its possible values.
