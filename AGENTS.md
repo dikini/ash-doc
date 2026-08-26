@@ -9,6 +9,15 @@ the experiment in
 It may discover language, tool, library, diagnostic, and application pressure.
 It cannot define Ash semantics or accept Ash architecture.
 
+## Required writing skill
+
+Before drafting, editing, reviewing, or planning any ash-doc prose, use
+[`writing-ash-documentation`](.agents/skills/writing-ash-documentation/SKILL.md).
+This requirement includes tutorials, research records, project documentation,
+reviews, plans, and commit or pull-request messages. Prefer this project skill
+over general writing guidance; use a general skill only when it adds a
+compatible capability that the project skill does not cover.
+
 ## Authority and target
 
 The first edition targets `modular-ash` at commit
@@ -67,84 +76,10 @@ historical Ash.
 
 ## Writing and teaching style
 
-Apply the current Ash writing guide to all prose, code review, plans, commit
-messages, and agent communication. In particular, use plain language and active
-voice, remove words that add no information, name concrete properties, and
-label facts, decisions, proposals, experiments, and uncertainty by their real
-status.
-
-Ash-doc extends that foundation with teaching techniques derived from a brief
-analysis of the
-[*How to Design Programs* preface](https://htdp.org/2026-2-25/Book/part_preface.html),
-[prologue](https://htdp.org/2026-2-25/Book/part_prologue.html), and
-[function-design material](https://htdp.org/2026-2-25/Book/part_one.html).
-Use the techniques below; do not imitate or copy the book's prose, exercises,
-examples, or distinctive turns of phrase.
-
-### Voice
-
-- Address the reader as `you` when asking them to observe, predict, compare,
-  write, or run something. Name the responsible actor in factual explanations.
-- Use `we` only for work the text and reader genuinely perform together. Do not
-  use it to hide who made a design choice.
-- Sound calm, exact, and encouraging. Treat a mistake as evidence about the
-  reader's model or the program, not as a failure of intelligence.
-- Use humor and analogy sparingly. State where an analogy stops matching the
-  language.
-- Do not call an idea easy, obvious, trivial, magical, or intuitive. Show the
-  small steps that make it understandable.
-
-### Vocabulary
-
-- Introduce a technical term at the first example that needs it. Define it in
-  plain words before relying on it.
-- Use the pinned specification's terms for Ash concepts. Do not alternate among
-  near-synonyms merely for variety.
-- Distinguish the problem-domain information from the Ash data that represents
-  it. State how to interpret the representation.
-- Prefer names that reveal purpose and relationships. Avoid unexplained
-  abbreviations, overloaded metaphors, and adjectives that promise qualities
-  no example tests.
-- Keep nearby concepts visibly distinct: language versus tool behavior,
-  specified behavior versus observation, publication versus laboratory work,
-  and correctness versus machine-specific measurements.
-
-### Exposition
-
-- Start a unit with a concrete problem, the reader's reason for solving it, and
-  the observation that will show success.
-- Move from a worked example to its concept and then to the general rule. Add a
-  contrast or boundary case before claiming the rule is understood.
-- Make one conceptual move at a time. When the next move repairs a limitation,
-  show that limitation with a program or question first.
-- Alternate prose with small examples and observations. Explain what each
-  example contributes; do not use code as decoration.
-- Ask prediction and reflection questions only when the reader has enough
-  information to answer. Supply the answer nearby unless the question is a
-  clearly marked exercise.
-- Keep paragraphs focused. Use short imperatives at action points: predict the
-  value, run the program, compare the reason code, or revise the representation.
-- End a section by connecting the observation to the idea it established and
-  the next question it makes possible.
-
-### Ash teaching recipe
-
-Scale this recipe to the unit. An elementary example may need only a few steps;
-an adapted algorithm or application case needs the complete account.
-
-1. State the problem and the observable outcome.
-2. Identify the relevant information, its Ash representation, and the
-   representation invariant.
-3. State the program's purpose and the important type signatures.
-4. Work through representative, boundary, and rejected examples before hiding
-   them behind an implementation.
-5. Derive the program structure from the data, operations, and examples. Name
-   choices and rejected alternatives when they teach something transferable.
-6. Run executable checks, interpret the observations, and explain cost or
-   limitations at the scale relevant to the lesson.
-
-Exercises must state the expected artifact and the knowledge they practice.
-Avoid exercises that require unintroduced syntax, libraries, or domain facts.
+The required writing skill owns ash-doc's voice, vocabulary, exposition shape,
+teaching recipe, and source-adaptation style. The current Ash writing guide
+remains its baseline. This file owns repository authority, executable-example,
+workflow, discovery classification, and verification rules.
 
 ## Code and executable examples
 
@@ -179,17 +114,6 @@ The repository has not selected a host language, formatter, renderer, or test
 harness. Do not introduce local coding conventions for hypothetical tooling.
 When the project selects a tool, adopt its formatter and linter and record any
 additional rules that evidence requires.
-
-## Source and adaptation integrity
-
-For every adapted unit, record the source, edition, intellectual contribution,
-material used, and applicable license. Review what the license permits before
-redistributing protected expression.
-
-Write original exposition and Ash code by default. Preserve an established
-work's problem-solving idea, invariant, derivation, or comparison—not its
-wording, exercise statement, or solution text. Explain departures required by
-Ash and distinguish inspiration from direct adaptation.
 
 ## Repository workflow
 
@@ -249,6 +173,5 @@ Before completing a change:
    status.
 8. Run `git diff --check` and inspect `git status --short` before committing.
 
-The initial repository contains only `README.md` and `AGENTS.md`. It
-intentionally selects no content directories, renderer, harness, manifest,
-dependency, CI service, publication platform, or license.
+The repository intentionally selects no content directories, renderer, harness,
+manifest, dependency, CI service, publication platform, or license.

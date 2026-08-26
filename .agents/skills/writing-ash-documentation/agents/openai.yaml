@@ -1,0 +1,6 @@
+interface:
+  display_name: "Writing Ash Documentation"
+  short_description: "Write clear, executable Ash documentation"
+  default_prompt: "Use $writing-ash-documentation to draft or revise ash-doc prose."
+policy:
+  allow_implicit_invocation: true

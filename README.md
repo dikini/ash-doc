@@ -90,14 +90,22 @@ techniques visible in
 [*How to Design Programs*, second edition](https://htdp.org/2026-2-25/Book/):
 start from a concrete problem, make intermediate design reasoning visible,
 introduce vocabulary as it becomes useful, and turn examples into checks. The
-local rules for applying that approach live in [AGENTS.md](AGENTS.md).
+project-local
+[`writing-ash-documentation` skill](.agents/skills/writing-ash-documentation/SKILL.md)
+defines that style for writing agents. [AGENTS.md](AGENTS.md) defines the
+repository authority and workflow around it.
 
 ## Working here
 
 Read [AGENTS.md](AGENTS.md) before changing the repository. It defines the
-authority boundary, context-reconstruction workflow, teaching voice, code and
-example discipline, source-integrity rules, migration model, and verification
-requirements.
+authority boundary, context-reconstruction workflow, code and example
+discipline, migration model, and verification requirements.
+
+Writing agents must use the project-local
+[`writing-ash-documentation` skill](.agents/skills/writing-ash-documentation/SKILL.md)
+for tutorials, project prose, reviews, plans, and commit or pull-request
+messages. The skill is available for implicit discovery and explicit use as
+`$writing-ash-documentation`.
 
 This bootstrap intentionally selects no content layout, renderer, harness,
 manifest, dependency, CI service, or publication platform. Establish each
