@@ -1,8 +1,15 @@
 # What is an Ash program?
 
-Begin with a small question: can an Ash program produce the number `42`?
+It is common to think of a program as a list of commands: do this, then do
+that. An Ash source file has a different shape. It contains definitions. Those
+definitions describe expressions, and expressions calculate values.
 
-Create a file named `program.ash` in this directory and enter these two lines:
+A runnable Ash program also needs a place to begin. Ash uses a definition named
+`main`. When you give a source file to `ash`, it evaluates `main ()` and reports
+the resulting value and its type. Our first program keeps that calculation
+small enough to see as a whole.
+
+Open a text editor, enter these two lines, and save them as `program.ash`:
 
 <!-- source: src/01-literal.ash -->
 ```ash
@@ -10,36 +17,34 @@ main : Unit -> Int
 main () = 42
 ```
 
-Before you run it, predict what you will see. Then ask Ash to run the file:
+Now run the file from your terminal:
 
 ```text
 ash program.ash
 ```
 
-Ash responds:
+Ash reports:
 
 ```text
 42 : Int
 ```
 
-You have written an Ash program. The program produces the value `42`, and
-`ash` displays that value with its type, `Int`. `Int` is the type of integer
-values.
+Let us slow down and read the two lines. The second line defines `main`. Its
+right side, `42`, is an *expression*. Evaluating that expression produces the
+value `42`. `ash` reports the value together with its type, `Int`, which is
+the type of integer values.
 
-Now return to the program. The expression to the right of `=` produces the
-result. Here that expression is the integer value `42`.
+The first line is the *signature* of `main`. Read `Unit -> Int` as “takes a
+`Unit` value and produces an `Int` value.” `Unit` has one value, written `()`.
+Because `main` receives `()`, it needs no information before calculating its
+integer result. Together, the signature and definition describe the
+calculation where this program begins.
 
-The first line is a signature. It says what kind of value goes into `main` and
-what kind comes out. Read `Unit -> Int` as “takes `Unit` and produces an
-`Int`.” `Unit` has one value, written `()`. A `main` that takes `()` needs no
-information before it can produce its result.
+## Expressions calculate values
 
-The name `main` tells Ash where this program begins. We will test that claim
-later. First, let us make the result from an expression.
-
-## Calculating a value
-
-Replace the contents of `program.ash` with this program:
+Nothing in our first expression had to be worked out: `42` is already a value.
+An expression may also combine values with an operation. Suppose we still want
+`42`, but want to obtain it by addition. Change the program to this:
 
 <!-- source: src/02-addition.ash -->
 ```ash
@@ -47,18 +52,19 @@ main : Unit -> Int
 main () = 40 + 2
 ```
 
-The expression `40 + 2` combines two integer values. Predict the result, then
-run the program again:
+The right side of `main` is now the expression `40 + 2`. Before running the
+file, work out its value. The same command now reports:
 
 ```text
 ash program.ash
 42 : Int
 ```
 
-The result is still `42 : Int`. This time the expression calculates the value
-instead of naming it directly.
+Both programs produce the same value. In the first, the expression is already
+`42`. In the second, Ash evaluates an addition to produce `42`.
 
-Expressions may contain other expressions. What does this program produce?
+Expressions can contain smaller expressions. Consider what must happen when
+two different arithmetic operations appear together:
 
 <!-- source: src/03-precedence.ash -->
 ```ash
@@ -66,14 +72,9 @@ main : Unit -> Int
 main () = 1 + 2 * 3
 ```
 
-Make a prediction before you run it. Ash displays:
-
-```text
-7 : Int
-```
-
-Multiplication happens before addition. Work from the smaller expression to
-the whole expression:
+What value do you expect? Work through the expression before asking Ash. Since
+multiplication groups more tightly than addition, the calculation proceeds as
+follows:
 
 ```text
 1 + 2 * 3
@@ -81,7 +82,11 @@ the whole expression:
 7
 ```
 
-Parentheses let you choose a different grouping:
+Run the program and Ash reports `7 : Int`. The smaller multiplication
+expression produces `6`; the addition then uses that value to produce `7`.
+
+Suppose we want the addition to happen first instead. Parentheses let us make
+that grouping part of the expression:
 
 <!-- source: src/04-grouping.ash -->
 ```ash
@@ -89,7 +94,8 @@ main : Unit -> Int
 main () = (1 + 2) * 3
 ```
 
-Now the expression in parentheses is calculated first:
+Compare this program with the previous one. Only the grouping has changed, but
+now the calculation is:
 
 ```text
 (1 + 2) * 3
@@ -97,19 +103,21 @@ Now the expression in parentheses is calculated first:
 9
 ```
 
-Replace `program.ash`, predict the result, and run it. Ash displays `9 : Int`.
+The result is `9 : Int`. Parentheses make `1 + 2` the smaller expression that
+Ash evaluates first.
 
-> **With a learning assistant:** Run both programs, then share the calculations
-> and the results from `ash`. Explain why they differ. Ask the assistant to
-> question your explanation one step at a time without giving its own
-> explanation first.
+> **With a learning assistant:** Run both grouping programs. Show the assistant
+> your predictions, the two programs, and the actual results from `ash`. Explain
+> the difference yourself, then ask the assistant to question your explanation
+> one step at a time.
+
+So far, `main` has held the entire calculation. Even the nested examples fit on
+one line. As a calculation grows, we need a way to name a useful part and use
+it inside another expression.
 
 ## Giving a calculation a name
 
-So far, `main` contains the whole calculation. When a calculation has a useful
-role, you can give it a name and use it where it is needed.
-
-The next program names the calculation that adds one:
+The next program names a calculation `increment`. It adds one to an integer:
 
 <!-- source: src/05-function-call.ash -->
 ```ash
@@ -120,27 +128,31 @@ main : Unit -> Int
 main () = increment 41
 ```
 
-Replace `program.ash` with this program. Before you run it, work out what
-`increment 41` should produce.
+The first two lines belong together. The signature `Int -> Int` says that
+`increment` takes an integer and produces an integer. In the definition,
+`number` is a *parameter*: it stands for whichever input `increment` receives.
+The expression `number + 1` describes how the result is calculated.
+
+The last line uses the expression `increment 41`. This is a *function call*,
+and `41` is its *argument*. To understand the call, use `41` wherever the
+definition uses its parameter:
+
+```text
+increment 41
+41 + 1
+42
+```
+
+The call therefore produces `42`, and so does `main`. Running the program
+confirms the calculation:
 
 ```text
 ash program.ash
 42 : Int
 ```
 
-The first line is the signature of `increment`. It says that `increment` takes
-an `Int` and produces an `Int`.
-
-The second line defines the calculation. The name `number` is the parameter. It
-stands for the input while the function calculates `number + 1`.
-
-The expression `increment 41` is a function call. The value `41` is the
-argument: the value supplied for `number`. The call produces `42`, so `main`
-also produces `42`.
-
-## Putting function calls together
-
-Add another named calculation, this time one that doubles an integer:
+Once a calculation has a name, it can take part in another calculation. Add a
+function that doubles an integer, then use both functions in `main`:
 
 <!-- source: src/06-composition.ash -->
 ```ash
@@ -154,30 +166,25 @@ main : Unit -> Int
 main () = double (increment 20)
 ```
 
-The result of `increment 20` becomes the input to `double`. Trace the calls
-from the inner expression outward:
+The parentheses keep `increment 20` together as the argument to `double`.
+Start with that inner call and work outward:
 
 ```text
 double (increment 20)
 double 21
+21 * 2
 42
 ```
 
-Check the calculation by running the program:
+Ash reports `42 : Int`, just as the calculation predicts. Here the result of
+`increment` becomes the input to `double`. Connecting functions in this way is
+called *function composition*.
 
-```text
-ash program.ash
-42 : Int
-```
+## Where does evaluation begin?
 
-Using one function's result as another function's input is function
-composition. The parentheses keep `increment 20` together as the input to
-`double`.
-
-## Why does the program need `main`?
-
-Every program so far has included `main`. To see why, replace `program.ash`
-with a function that has a different name:
+Our latest source file contains three definitions, yet Ash begins with `main`.
+Is `main` merely a name we happened to choose? We can find out by giving the
+same kind of calculation a different name:
 
 <!-- source: src/07-missing-main.ash -->
 ```ash
@@ -185,53 +192,49 @@ answer : Unit -> Int
 answer () = 42
 ```
 
-The definition of `answer` describes a valid calculation, but running the file
-does not produce `42`. Run it:
-
-```text
-ash program.ash
-```
-
-The message from Ash begins with:
+Save this version and run it. Instead of producing `42`, Ash reports a message
+whose first line is:
 
 ```text
 entry.missing-main
 ```
 
-Ash needs a definition named `main` to know where this program begins. It does
-not choose another function merely because that function could produce a
-result.
+The definition of `answer` describes a calculation, but Ash does not guess
+which definition should start the program. It looks for `main` and begins by
+evaluating `main ()`. This is why every working program in the lesson has
+included that name.
 
 ## Exercise: square, then double
 
-Return `program.ash` to the version from “Putting function calls together.”
-Then change it:
+Return to the program that defines `increment` and `double`. We no longer need
+`increment` for this exercise, so replace it with a function that squares an
+integer:
 
-1. Define `square : Int -> Int`. Calculate the square by multiplying the input
-   by itself.
+1. Define `square : Int -> Int`. Multiply its input by itself.
 2. Change `main` so it calls `double (square 3)`.
-3. Predict the result before you run the program.
-4. Run it, then explain the result by working from the inner call outward.
+3. Work from the inner call outward and predict the result.
+4. Run the program and compare the result with your calculation.
 
-When the two calls are connected correctly, `ash` displays:
+When the two functions are connected correctly, Ash reports:
 
 ```text
 18 : Int
 ```
 
-> **With a learning assistant:** Run your program, then show the assistant your
-> program, prediction, and the result from `ash`. Ask it to point to one
-> expression at a time and ask what value that expression produces. Ask for a
-> complete solution only after you have explained your own.
+> **With a learning assistant:** Show the assistant your program, prediction,
+> and actual result from `ash`. Ask it to point to one expression at a time and
+> ask what value that expression produces. Request a complete solution only
+> after you have explained your own.
 
-## The program you built
+## The whole program
 
-An Ash program contains definitions. To run the programs in this lesson, you
-gave `ash` a source file with a definition named `main`. Ash began with
-`main ()`, calculated its expression, and produced a value.
+We can now answer the question in the title. At its simplest, an Ash program is
+one source file containing definitions, including one named `main` where
+evaluation begins. A definition gives a calculation a name. The expression on
+its right determines the value it produces, and function calls let one
+calculation use a value produced by another.
 
-Expressions describe calculations. Functions give calculations names. Function
-calls let one calculation use a value or the result of another calculation.
-
-Each program in this lesson fit in one source file. The next question is how an
-Ash program can use more than one file.
+When you run the file, Ash evaluates `main ()` and reports the resulting value
+and type. Every program here fits in one source file, but Ash programs need not
+stop there. The next question is how a definition in one file can be used from
+another.
