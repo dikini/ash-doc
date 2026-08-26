@@ -1,0 +1,16 @@
+# Plans
+
+This directory contains temporary design and execution records owned by active
+ash-doc work.
+
+A plan:
+
+- starts from an approved roadmap outcome or bounded repository decision;
+- names exact files, observations, commands, and completion conditions;
+- preserves Ash authority and version boundaries;
+- cannot define Ash semantics or permanent repository architecture; and
+- leaves the current tree when its work finishes.
+
+Name a plan `YYYY-MM-DD-short-name.md`. Link it from the work that owns it while
+it is active. Git history retains completed plans; do not maintain a second
+archive or completed-plans index.
