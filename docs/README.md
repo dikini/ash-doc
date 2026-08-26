@@ -7,8 +7,8 @@ does not contain published Ash instruction or define Ash behavior.
   a complete, verified documentation unit.
 - [Roadmap](project/roadmap.md) records the next complete project increment and
   the work it depends on.
-- [Plans](plans/README.md) contains temporary, task-owned design and execution
-  records.
+- [Plans](plans/README.md) contains temporary design and execution records owned
+  by an active roadmap outcome or bounded repository decision.
 
 Published learning material belongs under [`content/`](../content/README.md).
 Executable experiments belong under [`lab/`](../lab/README.md). Source and
