@@ -27,6 +27,28 @@ the edition. `ash-lang/main` has moved beyond this checkpoint. Newer behavior
 must not enter published examples until ash-doc begins an explicit forward
 migration.
 
+## Prepare Ash
+
+The learning path uses the `ash` command-line tool. You need Git and a Rust
+toolchain that includes Cargo. Clone Ash with its Git URL, select the exact
+commit for this edition, and build it:
+
+```text
+git clone git@github.com:dikini/ash-lang.git
+cd ash-lang
+git switch --detach dca16039923475c48025c5f17beadeb6bcb6a4bf
+cargo build --locked
+```
+
+The executable is now `target/debug/ash`. Make the shorter name `ash` available
+in the current terminal:
+
+```text
+export PATH="$PWD/target/debug:$PATH"
+```
+
+Keep this terminal open while you work through the learning path.
+
 ## Learn Ash
 
 Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool
@@ -53,7 +75,7 @@ then follow the question into the applicable chapter:
 - [dynamic semantics](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md)
   for values and evaluation.
 
-You do not need to read the specification before the first unit. Use it when
+You do not need to read the specification before the first lesson. Use it when
 you want to check an explanation, answer a new question, or understand a result
 that surprised you.
 
@@ -81,11 +103,10 @@ The documentation stream will grow through three equal kinds of work:
 - deterministic application slices that test several boundaries together.
 
 Laboratory cases and source research will support those publications without
-being presented as ordinary Ash lessons. The project will choose family and
-unit directories, metadata, executable-example tooling, rendering, and
-automation only when concrete work needs them. The
-[project workflow](docs/project/workflow.md) defines the indexed roots and the
-boundary for creating the first complete unit.
+being presented as ordinary Ash lessons. The project will add lesson
+directories, metadata, executable-example tooling, rendering, and automation
+only when concrete work needs them. The
+[project workflow](docs/project/workflow.md) defines that boundary.
 
 The teaching approach combines Ash's plain, status-conscious writing with
 techniques visible in
@@ -112,7 +133,7 @@ messages. The skill is available for implicit discovery and explicit use as
 Start new work in the [project documentation index](docs/README.md). Use the
 [roadmap](docs/project/roadmap.md) to select one complete outcome and a temporary
 plan under [`docs/plans/`](docs/plans/README.md) to implement it. Create a
-content family or unit only when its prose and applicable executable evidence
+content family or lesson only when its prose and applicable executable evidence
 can land together.
 
 The indexed roots do not select a renderer, harness, manifest, dependency, CI

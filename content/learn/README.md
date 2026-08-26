@@ -6,23 +6,10 @@ teach you more than reading the finished code alone.
 
 ## Before you begin
 
-You need a text editor, a terminal, and the Ash source checkout selected in the
-[repository README](../../README.md). From the root of that Ash checkout, build
-the command-line tool:
-
-```text
-cargo build --locked
-```
-
-The executable is now `target/debug/ash`. To use the shorter command `ash`,
-replace `/path/to/ash-lang` with the full path to your checkout and run:
-
-```text
-export PATH="/path/to/ash-lang/target/debug:$PATH"
-```
-
-This setting lasts for the current terminal. Keep that terminal open while you
-work through a lesson.
+You need a text editor, a terminal, Git, and a Rust toolchain with Cargo. Follow
+[Prepare Ash](../../README.md#prepare-ash) to clone the source selected for this
+edition, build the command-line tool, and make `ash` available in your terminal.
+Keep that terminal open while you work through a lesson.
 
 ## How to work through a lesson
 

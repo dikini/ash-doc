@@ -99,9 +99,10 @@ Now the expression in parentheses is calculated first:
 
 Replace `program.ash`, predict the result, and run it. Ash displays `9 : Int`.
 
-> **With a learning assistant:** Share both calculations and explain why they
-> differ. Ask the assistant to question your explanation one step at a time
-> without giving its own explanation first.
+> **With a learning assistant:** Run both programs, then share the calculations
+> and the results from `ash`. Explain why they differ. Ask the assistant to
+> question your explanation one step at a time without giving its own
+> explanation first.
 
 ## Giving a calculation a name
 
@@ -185,10 +186,15 @@ answer () = 42
 ```
 
 The definition of `answer` describes a valid calculation, but running the file
-does not produce `42`. The message begins with:
+does not produce `42`. Run it:
 
 ```text
 ash program.ash
+```
+
+The message from Ash begins with:
+
+```text
 entry.missing-main
 ```
 
@@ -213,9 +219,10 @@ When the two calls are connected correctly, `ash` displays:
 18 : Int
 ```
 
-> **With a learning assistant:** Show the assistant your program and prediction.
-> Ask it to point to one expression at a time and ask what value that expression
-> produces. Ask for a complete solution only after you have explained your own.
+> **With a learning assistant:** Run your program, then show the assistant your
+> program, prediction, and the result from `ash`. Ask it to point to one
+> expression at a time and ask what value that expression produces. Ask for a
+> complete solution only after you have explained your own.
 
 ## The program you built
 
