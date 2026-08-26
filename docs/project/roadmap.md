@@ -34,6 +34,15 @@ pinned language and tool rules. Compare credible teaching shapes before
 creating a new unit directory. Include accepted and rejected programs, and use
 the second unit to decide whether repeated checks justify shared tooling.
 
+## Active project correction
+
+Revise the learning workflow and first lesson so `content/learn/` forms a
+coherent self-learning core. The approved
+[design](../plans/2026-08-26-learning-core-design.md) and
+[implementation plan](../plans/2026-08-26-learning-core.md) separate rendered
+teaching from project records and adapt the lesson cycle to a text editor, the
+`ash` CLI, and an optional learning assistant.
+
 ## Later decisions
 
 Later work should supply evidence for these choices:
