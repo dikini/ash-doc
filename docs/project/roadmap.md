@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: three connected learning lessons verified; shared lesson
+- Repository state: four connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,10 +18,10 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a function use more than one input?*](../../content/learn/using-more-than-one-input/README.md)
-extends the learner's model of one-input functions. Its examples connect
-chained arrows to calls that supply values from left to right, including a
-partial call whose result is itself a function.
+[*How can a program choose a result?*](../../content/learn/choosing-a-result/README.md)
+adds the first branching calculation. Its examples move from an equality that
+produces `Bool` to a match that supplies one integer expression for each
+possible Boolean value.
 
 The learning-family check now:
 
@@ -47,17 +47,18 @@ future lessons.
 
 ## Next complete increment
 
-Complete the next learning lesson around the question: How can a program choose
-a result?
+Complete the next learning lesson around the question: How can a calculation
+name an intermediate value?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the choice
+provisional sequence around this question. This roadmap owns only the binding
 lesson; it does not activate the later entries.
 
-The lesson should begin with an equality that produces `Bool`, then use that
-value to choose between two integer expressions. It must explain both forms of
-`Bool` and why a match accounts for both, including one rejected match that
-omits a possible form. Keep user-defined data for the later data lessons.
+The lesson should use blocks to turn a nested calculation into named steps.
+Show one local `let`, then several bindings whose later initializers use
+earlier names. Include a rejected forward reference to establish that local
+names become available in source order. Keep recursive local bindings outside
+this lesson.
 
 ## Later decisions
 

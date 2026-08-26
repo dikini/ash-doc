@@ -46,3 +46,5 @@ with `ash` to test what it does.
    connect modules with public definitions and qualified names.
 3. [How can a function use more than one input?](using-more-than-one-input/README.md)
    — read chained arrows, complete calls, and partial calls.
+4. [How can a program choose a result?](choosing-a-result/README.md) — use
+   Boolean values and exhaustive matches to select an expression.

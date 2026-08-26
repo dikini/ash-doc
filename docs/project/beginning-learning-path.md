@@ -49,9 +49,9 @@ directory, reader-facing link, or publication date.
   — **verified.**
   Chained function arrows, function clauses with several inputs, and chained
   calls.
-- **4. How can a program choose a result?** — **next.** `Bool`, integer
-  equality, and exhaustive matching.
-- **5. How can a calculation name an intermediate value?** — **provisional.**
+- **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
+  — **verified.** `Bool`, integer equality, and exhaustive matching.
+- **5. How can a calculation name an intermediate value?** — **next.**
   Blocks, sequential `let` bindings, and scope.
 
 ## Data and structure
