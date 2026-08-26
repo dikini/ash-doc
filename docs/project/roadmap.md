@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: seven connected learning lessons verified; shared lesson
+- Repository state: eight connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,11 +18,10 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a program define its own data?*](../../content/learn/defining-data/README.md)
-introduces data definitions as a new type together with its possible
-constructors. Its examples distinguish constructors with and without fields
-and show that two separately named types remain distinct despite similar
-fields.
+[*How can a function handle each form of data?*](../../content/learn/handling-data-forms/README.md)
+follows the preceding data definition with constructor patterns. Its examples
+connect each form to a match arm or function equation and use coverage to
+expose an omitted form.
 
 The learning-family check now:
 
@@ -49,17 +48,17 @@ future lessons.
 ## Next complete increment
 
 Complete the next learning lesson around the question: How can a function
-handle each form of data?
+follow recursive data?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the
-data-handling lesson; it does not activate the later entries.
+provisional sequence around this question. This roadmap owns only the recursive
+data lesson; it does not activate the later entries.
 
-The lesson should return to the preceding `Result` definition and handle both
-constructors first with an explicit match. Then present equivalent function
-equations, keeping the explanation about following the data's forms rather
-than offering a syntax survey. Include an omitted constructor as a rejected
-case. Defer self-reference and recursion to the following lesson.
+The lesson should define a finite integer list whose non-empty form contains an
+integer and another list. Construct a small value before defining a recursive
+sum that follows the same two forms. Include a rejected function that omits the
+empty form. Keep the explanation grounded in the shrinking data rather than a
+broad account of recursion.
 
 ## Later decisions
 

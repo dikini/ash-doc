@@ -61,9 +61,10 @@ directory, reader-facing link, or publication date.
   — **verified.** Tuples, tuple types, and tuple patterns.
 - **7. [How can a program define its own data?](../../content/learn/defining-data/README.md)**
   — **verified.** Nominal types and constructors.
-- **8. How can a function handle each form of data?** — **next.**
+- **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
+  — **verified.**
   Constructor patterns, equations or matches, and coverage.
-- **9. How can a function follow recursive data?** — **provisional.**
+- **9. How can a function follow recursive data?** — **next.**
   Recursive nominal data and recursive functions.
 
 ## Functional abstraction
