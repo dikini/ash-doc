@@ -85,11 +85,11 @@ for source in "${sources[@]}"; do
     check_displayed_source "$source"
 done
 
-CARGO_TARGET_DIR="$verification_dir/target" \
-    cargo build \
-        --quiet \
-        --locked \
-        --manifest-path "$ash_lang_dir/Cargo.toml"
+(
+    cd "$ash_lang_dir"
+    CARGO_TARGET_DIR="$verification_dir/target" \
+        cargo build --quiet --locked
+)
 readonly ash_bin="$verification_dir/target/debug/ash"
 
 run_accepted() {

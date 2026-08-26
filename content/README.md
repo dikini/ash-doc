@@ -6,7 +6,8 @@ language.
 
 Add a family only when its first approved unit is ready:
 
-- `learn/` for focused tutorials and prerequisite-based learning paths;
+- [`learn/`](learn/README.md) for focused tutorials and prerequisite-based
+  learning paths;
 - `cases/` for structures, algorithms, and techniques adapted from established
   work; and
 - `applications/` for deterministic application slices that exercise several
@@ -15,6 +16,8 @@ Add a family only when its first approved unit is ready:
 A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
 and links to canonical programs, fixtures, and checks kept inside the same unit.
 Create only the internal paths that its examples require.
+
+Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
 and approve its temporary plan. Keep incomplete work in that plan until the
