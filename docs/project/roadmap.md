@@ -29,6 +29,11 @@ guidance, and reading order. Lessons contain educational prose and inherit the
 edition target from the repository root. Project records and checks retain
 state, source, and evidence administration.
 
+An active prose revision is giving the first lesson a connected narrative and
+extending the project writing skill with paragraph-level guidance. See the
+[approved design](../plans/2026-08-26-first-lesson-narrative-design.md) and
+[implementation plan](../plans/2026-08-26-first-lesson-narrative.md).
+
 ## Next complete increment
 
 Evaluate and plan a second learning lesson around the question: How can one Ash
