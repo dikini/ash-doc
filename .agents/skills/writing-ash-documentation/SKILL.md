@@ -16,23 +16,32 @@ Extend Ash's direct writing with the method of
 
 ## Separate the two kinds of prose
 
-Learning prose builds a connected reader model. Project prose records targets,
-sources, decisions, evidence, state, and exclusions. The repository root
-declares the edition target; the learning index owns setup and reading order.
-Lessons assume both and do not render project administration. Put page-local
-metadata in YAML front matter only when a concrete consumer needs it.
+Learning prose builds a connected reader model; project prose records targets,
+decisions, evidence, state, and exclusions. The root owns the edition target
+and the learning index owns setup and order. Lessons assume both and hide
+administration. Add YAML metadata only for a concrete consumer.
 
 ## Write a learning chapter
 
-- Begin with an action, example, or question, not objectives, prerequisites,
-  status, or project constraints.
-- Continue the model established by earlier chapters. Introduce only the next
-  idea the reader needs.
-- Use the current tool cycle: edit, predict, run `ash`, inspect, and explain.
+- Before the first command, give the reader a reason and a working model,
+  perhaps through a familiar idea or earlier chapter. A decorative question
+  followed by an order does neither. Do not open with objectives, status, or
+  project constraints.
+- Shape a conceptual arc: an introduction supplies the model, an exploration
+  lets examples create the need for later examples, and a conclusion gathers
+  the answer and opens the next question. These parts need no explicit heading.
+- Continue earlier chapters and introduce only the next needed idea.
+- Use the tool cycle: edit, predict, run `ash`, inspect, and explain.
+  Weave these actions into the account; do not repeat the cycle as the prose
+  skeleton after every example.
 - Let the reader observe a program before introducing words for its parts.
 - Make one conceptual move at a time. Show calculations that aid prediction.
-- Ask questions the reader can answer. Give the answer nearby unless it is a
-  marked exercise.
+- Make each paragraph a connected move: establish an idea or question, examine
+  evidence, then interpret it or create the next question. Vary sentence length
+  and purpose rather than exposing a template.
+- Ask only questions the reader can answer from the chapter so far. Give the
+  answer nearby unless it is a marked exercise. Use headings for conceptual
+  turns, not for every program or workflow step.
 - Use a contrast or rejection only to answer a reader question. End with
   practice and the next question.
 
@@ -41,26 +50,24 @@ make or explain, not what project coverage it supplies.
 
 ## Support a learning assistant
 
-The chapter must work without an assistant. Use sparse, product-neutral prompts
-only where dialogue helps. Ground the assistant in the lesson, repository, and
-observed `ash` output. Ask one question at a time, use concepts introduced so
-far, and withhold exercise solutions until the learner has reasoned. The CLI
-observation, not the assistant, tests behavior.
+The chapter must work without an assistant. Add sparse, product-neutral prompts
+only where dialogue helps. Ground them in the lesson, repository, and observed
+`ash` output. Ask one question at a time, use introduced concepts, and withhold
+solutions until the learner reasons. The CLI observation tests behavior.
 
 ## Use Ash's voice
 
 - Write plain, active sentences. Remove words that add no information.
 - Use `you` for reader actions and `we` only for genuine shared work.
 - Never call an idea easy, obvious, trivial, magical, or intuitive. Explain it.
-- Introduce a stable Ash term only when the reader needs it, define it through
+- Introduce an Ash term only when the reader needs it, define it through
   the current example, and then use it consistently.
 - Prefer nouns and verbs. State concrete properties instead of praise.
 
 ## Keep evidence behind the lesson
 
 Before using an `ash` fence, identify its canonical source and check. A hidden
-marker may connect them; the reader does not need a visible source link. Explain
-the example, not its verification machinery.
+marker may connect them. Explain the example, not its verification machinery.
 
 For adapted work, keep permission, source, license, classification, and Ash
 departures in project records. Write original prose and code, with required
@@ -69,8 +76,12 @@ attribution.
 ## Review
 
 - Does the chapter work without an assistant?
+- Does its opening establish a reason and model before directing the reader?
+- Do examples form an exploration and does the ending gather their answer?
 - Does each paragraph advance the reader's model rather than administer the
   project?
+- Read the prose aloud. Do repeated imperatives, stock transitions, identical
+  paragraph shapes, or filler make the teaching method sound mechanical?
 - Does vocabulary follow the example that needs it?
 - Can the reader predict, run, and explain each observation?
 - Does every runnable block have canonical, tested source?

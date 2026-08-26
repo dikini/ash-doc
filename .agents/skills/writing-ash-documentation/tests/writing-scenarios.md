@@ -18,6 +18,22 @@ it grounded the assistant only in pasted code, not in the lesson, repository,
 or observed `ash` output. The revised skill must preserve the direct opening
 while correcting those two gaps.
 
+For the narrative-lesson correction, an agent using the current skill opened
+with “Can two lines of Ash produce a value? Create `program.ash`...” It gave the
+reader no model of a program before the question and command. Its remaining
+exploration was a bulleted outline whose repeated instructions carried the
+prose, even though the agent said that each example answered a question from
+the previous one. The revised skill must distinguish a concrete opening from
+an abrupt one and must govern paragraph rhythm as well as conceptual order.
+
+With the revised skill, a fresh agent first explained a program as a source
+file whose definitions describe calculations and said what running the file
+would do. Only then did it invite the reader to save and run the literal
+program. It used each observation to raise the next question, varied the
+prediction and execution prompts, gathered the four examples into one model,
+and opened the need for named calculations. This satisfies the narrative
+scenario without changing the examples or their authority.
+
 ## Tutorial opening
 
 ### Tutorial request
@@ -102,6 +118,25 @@ activity, and introduces vocabulary after an observation creates a need for it.
 The lesson continues a learning sequence and renders no state, target,
 specification inventory, canonical-source link, evidence report, or project
 limitation. Any required page-local metadata uses YAML front matter.
+
+## Narrative lesson
+
+### Narrative-lesson request
+
+Draft an alternative opening and prose outline for the existing first lesson,
+from its introduction through the arithmetic and grouping examples. Keep all
+existing Ash programs. Help a novice answer “What is an Ash program?”
+
+### Narrative-lesson passing condition
+
+The agent discovers and uses `writing-ash-documentation`. It gives the reader
+a reason and a working model before the first command. The exploration uses
+each example to create the question answered by the next, and it closes by
+gathering what the examples established. Paragraphs connect a setup or question
+to concrete evidence and then to an interpretation or transition. Predictions
+and runs remain part of the lesson without becoming a repeated procedural
+skeleton. Sentence purposes vary, and headings mark conceptual turns rather
+than every example. Canonical programs and authority boundaries do not change.
 
 ## Assistant-supported exercise
 
