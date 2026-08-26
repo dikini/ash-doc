@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: nine connected learning lessons verified; shared lesson
+- Repository state: ten connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,10 +18,10 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a function follow recursive data?*](../../content/learn/following-recursive-data/README.md)
-extends the data-driven design method to a finite integer list. Its recursive
-sum follows the self-referential field with progressively smaller values and
-uses the non-recursive form to end the calculation.
+[*How can a function itself be a value?*](../../content/learn/functions-as-values/README.md)
+develops a fact first observed through partial calls. Its examples pass a named
+function, construct an anonymous one, and return a function that remembers an
+earlier input.
 
 The learning-family check now:
 
@@ -47,17 +47,19 @@ future lessons.
 
 ## Next complete increment
 
-Complete the next learning lesson around the question: How can a function
-itself be a value?
+Complete the final beginning lesson around the question: How can one definition
+work with many types?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the
-higher-order function lesson; it does not activate the final entry.
+provisional sequence around this question. This roadmap owns only the final
+beginning lesson.
 
-The lesson should first pass a named function to `apply_twice`, then replace it
-with an anonymous function. Add a function that returns an anonymous function
-which remembers an earlier input, and include a rejected non-function argument.
-Keep polymorphic types for the final lesson so this account remains concrete.
+The lesson should begin with a type-parameterized identity function, then define
+a parameterized `Box`. Complete the path with a public `List<A>` and recursive
+`map` in one module, used through qualified names from another. Include a
+rejected unsaturated `List` type. Explain reuse through independence from a
+particular element type; do not introduce interfaces, constraints, or ad-hoc
+polymorphism.
 
 ## Later decisions
 

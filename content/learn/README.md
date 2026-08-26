@@ -58,3 +58,5 @@ with `ash` to test what it does.
    — follow a data definition with patterns and exhaustive cases.
 9. [How can a function follow recursive data?](following-recursive-data/README.md)
    — let a recursive function follow a self-referential data definition.
+10. [How can a function itself be a value?](functions-as-values/README.md) —
+    receive, construct, and return function values.
