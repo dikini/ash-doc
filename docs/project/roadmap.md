@@ -7,8 +7,8 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: first learning lesson verified; coherent learning core
-  established
+- Repository state: first learning lesson verified; coherent learning core and
+  narrative writing style established
 - Published documentation tag: none
 
 ## Verified increment
@@ -29,10 +29,10 @@ guidance, and reading order. Lessons contain educational prose and inherit the
 edition target from the repository root. Project records and checks retain
 state, source, and evidence administration.
 
-An active prose revision is giving the first lesson a connected narrative and
-extending the project writing skill with paragraph-level guidance. See the
-[approved design](../plans/2026-08-26-first-lesson-narrative-design.md) and
-[implementation plan](../plans/2026-08-26-first-lesson-narrative.md).
+The lesson now introduces a working model before its first command, develops
+that model through connected examples, and gathers the answer at its close.
+The preferred project writing skill carries this paragraph-level guidance into
+future lessons.
 
 ## Next complete increment
 
@@ -53,7 +53,7 @@ Later work should supply evidence for these choices:
    harness;
 2. whether a renderer adds value beyond readable source Markdown;
 3. which reader question should follow the two-module lesson; and
-4. which coverage view becomes useful after several lessons exist; and
+4. which coverage view becomes useful after several lessons exist;
 5. whether lesson entry pages should remain `README.md` for repository browsing
    or become `index.md` for a website, to be decided with the first renderer or
    publication design.
