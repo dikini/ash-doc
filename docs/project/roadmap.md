@@ -11,11 +11,6 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
   narrative writing style established
 - Published documentation tag: none
 
-Active planning records:
-
-- [Beginning learning path design](../plans/2026-08-26-beginning-learning-path-design.md)
-- [Beginning learning path implementation plan](../plans/2026-08-26-beginning-learning-path.md)
-
 ## Verified increment
 
 [*What is an Ash program?*](../../content/learn/what-is-an-ash-program/README.md)
