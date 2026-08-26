@@ -24,6 +24,13 @@ An index defines each root before the first leaf exists. Add a family, unit, lab
 case, or research record only for approved work. Do not create empty leaf
 scaffolds.
 
+## Isolate project work
+
+Create new task worktrees under `.worktrees/` in the repository. The directory
+is ignored by Git; its worktrees and build artifacts remain local. Give each
+worktree its own branch, and perform the complete planning, writing, and
+verification cycle there.
+
 ## Plan one complete unit
 
 Start in the [roadmap](roadmap.md). Name:

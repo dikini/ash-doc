@@ -27,17 +27,17 @@ the edition. `ash-lang/main` has moved beyond this checkpoint. Newer behavior
 must not enter published examples until ash-doc begins an explicit forward
 migration.
 
-## Learn Ash from its source of truth
+## Learn Ash
 
-Begin with the
-[pinned specification overview](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/README.md).
-It introduces the language boundary and includes complete modular programs.
-Then use the
-[pinned `ash` tool guide](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md)
-to build and run a small program.
+Start with [*What is an Ash program?*](content/learn/what-is-an-ash-program/README.md).
+It begins with one source file and one value, then introduces expressions,
+functions, function calls, and composition.
 
-When a question needs more precision, follow it into the applicable
-specification chapter:
+The examples use the
+[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md).
+When you need the precise language rules, begin with the
+[pinned specification overview](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/README.md),
+then follow the question into the applicable chapter:
 
 - [lexical structure](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/lexical-structure.md)
   for source text and tokens;
@@ -52,10 +52,9 @@ specification chapter:
 - [dynamic semantics](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md)
   for values and evaluation.
 
-You do not need to read every chapter before writing a program. Start with one
-observable question, read the sections that govern it, predict the result, and
-run the program. Return to the specification when the observation surprises
-you.
+You do not need to read the specification before the first unit. Use it when
+you want to check an explanation, answer a new question, or understand a result
+that surprised you.
 
 ## Authority
 

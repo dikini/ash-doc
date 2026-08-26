@@ -7,34 +7,41 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: structure bootstrap
+- Repository state: first learning unit verified
 - Published documentation tag: none
+
+## Verified increment
+
+[*What is an Ash program?*](../../content/learn/what-is-an-ash-program/README.md)
+answers the first reader question with one-file programs. Its local check:
+
+- runs every canonical program with the pinned Ash tool;
+- compares each result with the documented observation;
+- checks the rejected program without `main`; and
+- checks every displayed program against its canonical source.
+
+The local Bash check is enough for one unit. Reconsider a shared harness only
+if a second complete unit repeats the same need.
 
 ## Next complete increment
 
-Create and verify the first learning unit,
-[*What Is an Ash Program?*](../plans/2026-08-26-what-is-an-ash-program-design.md).
-Its execution plan must establish:
+Evaluate and plan a second learning unit around the question: How can one Ash
+source module use another?
 
-- one reader question and observable outcome;
-- the smallest prerequisite set;
-- the applicable pinned specification and tool sections;
-- representative, boundary, and rejected examples;
-- canonical source and executable checks needed by the explanation; and
-- deliberate exclusions, including any capability the pinned target cannot
-  express.
-
-Do not create the learning-family or unit directory until that design is
-approved and its prose and evidence can land together.
+The design must establish the smallest useful two-module program, what the
+first unit already taught, the new observable outcome, and the applicable
+pinned language and tool rules. Compare credible teaching shapes before
+creating a new unit directory. Include accepted and rejected programs, and use
+the second unit to decide whether repeated checks justify shared tooling.
 
 ## Later decisions
 
-The first complete unit should supply evidence for the next choices:
+Later work should supply evidence for these choices:
 
-1. whether its source-agreement and execution checks require a shared harness;
+1. whether two units' source-agreement and execution checks require a shared
+   harness;
 2. whether a renderer adds value beyond readable source Markdown;
-3. which second unit tests prerequisite navigation rather than repeating the
-   first unit's structure; and
+3. which reader question should follow the two-module unit; and
 4. which coverage view becomes useful after several units exist.
 
 These are questions, not selected mechanisms. Record a new project choice only
