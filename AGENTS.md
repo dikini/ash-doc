@@ -119,9 +119,10 @@ additional rules that evidence requires.
 
 Follow the [ash-doc project workflow](docs/project/workflow.md). Select one
 complete outcome in the [roadmap](docs/project/roadmap.md), obtain approval for
-its bounded design, and use a temporary task-owned plan under
-[`docs/plans/`](docs/plans/README.md). Create a content family or unit only when
-its prose, canonical code, fixtures, and applicable checks can land together.
+its bounded design, and use a temporary plan under
+[`docs/plans/`](docs/plans/README.md) owned by that outcome or decision. Create a
+content family or unit only when its prose, canonical code, fixtures, and
+applicable checks can land together.
 
 Keep project choices behind concrete needs. A new directory layout, renderer,
 harness, manifest, dependency, CI service, or publication mechanism requires a

@@ -41,9 +41,11 @@ smallest unit that answers the question without relying on unintroduced Ash,
 libraries, or tooling. Record any repository choice that the unit forces and
 the condition under which that choice should be replaced.
 
-After approval, create a task-owned execution plan under [`docs/plans/`](../plans/README.md).
-The plan names exact files, executable observations, verification commands, and
-the order in which prose and evidence become complete.
+After approval, create an execution plan under [`docs/plans/`](../plans/README.md).
+One active roadmap outcome or bounded repository decision owns the plan and
+links it while work remains active. The plan names exact files, executable
+observations, verification commands, and the order in which prose and evidence
+become complete.
 
 ## Materialize the unit
 
@@ -75,9 +77,10 @@ durable reference.
 
 Runnable blocks follow [AGENTS.md](../../AGENTS.md): their canonical source and
 applicable check must exist before the block is presented as executable. Land
-the prose, source, fixtures, and checks in one narrow change. A draft may omit
-code, but it must label fragments as non-executable and cannot join a coherent
-published edition.
+the prose, source, fixtures, and checks in one narrow change. Keep incomplete
+unit work in its plan until the prose and applicable local evidence can land
+together. A complete but unverified unit remains a draft and cannot join a
+coherent published edition.
 
 ## Verify and close the unit
 
@@ -96,9 +99,11 @@ and only project records that still guide forward work.
 ## Route experiments and research
 
 Create `lab/<case>/` when code must answer a bounded design or pressure
-question. A case names its governing Ash design note, immutable executable
-target, comparison criteria, observations, and retention or disposal condition.
-Lab results are evidence, not published instruction.
+question. A versioned pressure case names its pinned specification or tool
+boundary and exact edition target. A design experiment names its governing Ash
+design note and immutable experimental target. Every case records comparison
+criteria, observations, and a retention or disposal condition. Lab results are
+evidence, not published instruction.
 
 Create `research/<source>.md` when the project must evaluate a source or
 technique before planning a unit. A record names the contribution, edition,

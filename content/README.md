@@ -17,7 +17,8 @@ and links to canonical programs, fixtures, and checks kept inside the same unit.
 Create only the internal paths that its examples require.
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
-and approve its temporary plan. A verified unit targets the exact Ash milestone
-and commit recorded in its prose. Material that targets a design experiment or
-does not yet meet the publication boundary belongs in [`lab/`](../lab/README.md),
-not here.
+and approve its temporary plan. Keep incomplete work in that plan until the
+prose and applicable local evidence can land together. A complete but
+unverified unit may enter this root as a draft; a verified unit targets the
+exact Ash milestone and commit recorded in its prose. Material that targets a
+design experiment belongs in [`lab/`](../lab/README.md), not here.
