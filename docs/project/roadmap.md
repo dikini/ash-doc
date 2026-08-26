@@ -12,7 +12,9 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 ## Next complete increment
 
-Select and approve the first learning unit. Its plan must establish:
+Create and verify the first learning unit,
+[*What Is an Ash Program?*](../plans/2026-08-26-what-is-an-ash-program-design.md).
+Its execution plan must establish:
 
 - one reader question and observable outcome;
 - the smallest prerequisite set;
