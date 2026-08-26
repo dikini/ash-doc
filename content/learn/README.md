@@ -44,3 +44,5 @@ with `ash` to test what it does.
    with expressions and functions.
 2. [How can one source file use another?](using-another-source-file/README.md) —
    connect modules with public definitions and qualified names.
+3. [How can a function use more than one input?](using-more-than-one-input/README.md)
+   — read chained arrows, complete calls, and partial calls.
