@@ -1,8 +1,9 @@
 # Beginning learning path
 
-This document connects the first Ash lessons into one provisional learning
-path. It helps contributors decide what a learner needs next. It is not a table
-of contents, a backlog, a publication promise, or a source of Ash semantics.
+This document connects the first Ash lessons into one learning path. It helps
+contributors preserve the path's intended outcome and progression. It is not a
+table of contents, a backlog, a publication promise, or a source of Ash
+semantics.
 
 The path targets `modular-ash` at commit
 `dca16039923475c48025c5f17beadeb6bcb6a4bf`, as declared by the
@@ -73,8 +74,9 @@ directory, reader-facing link, or publication date.
 - **10. [How can a function itself be a value?](../../content/learn/functions-as-values/README.md)**
   — **verified.** Anonymous functions, higher-order functions, and lexical
   capture.
-- **11. How can one definition work with many types?** — **next.** Type
-  parameters, parameterized data, and rank-1 parametric polymorphism.
+- **11. [How can one definition work with many types?](../../content/learn/definitions-for-many-types/README.md)**
+  — **verified.** Type parameters, parameterized data, and rank-1 parametric
+  polymorphism.
 
 ## Maintaining the path
 

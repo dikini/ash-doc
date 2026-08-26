@@ -7,8 +7,8 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: ten connected learning lessons verified; shared lesson
-  checks retained after workflow review
+- Repository state: complete eleven-lesson beginning path verified; whole-path
+  review is next
 - Published documentation tag: none
 
 Active planning records:
@@ -18,15 +18,16 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a function itself be a value?*](../../content/learn/functions-as-values/README.md)
-develops a fact first observed through partial calls. Its examples pass a named
-function, construct an anonymous one, and return a function that remembers an
-earlier input.
+[*How can one definition work with many types?*](../../content/learn/definitions-for-many-types/README.md)
+completes the beginning path with parametric functions and data. Its final
+example combines a public parameterized list, recursive `map`, a function
+value, and a qualified module use without introducing constrained or ad-hoc
+behavior.
 
 The learning-family check now:
 
 - builds the Ash tool once at the pinned commit;
-- runs every canonical program in the learning path;
+- runs every canonical program in all eleven lessons;
 - compares each accepted result with the documented observation;
 - checks rejected programs for their causal diagnostics; and
 - checks every displayed program against its canonical source.
@@ -40,26 +41,26 @@ guidance, and reading order. Lessons contain educational prose and inherit the
 edition target from the repository root. Project records and checks retain
 state, source, and evidence administration.
 
-The lesson now introduces a working model before its first command, develops
-that model through connected examples, and gathers the answer at its close.
-The preferred project writing skill carries this paragraph-level guidance into
+Each lesson introduces a working model before its first command, develops that
+model through connected examples, and gathers the answer at its close. The
+preferred project writing skill carries this paragraph-level guidance into
 future lessons.
 
 ## Next complete increment
 
-Complete the final beginning lesson around the question: How can one definition
-work with many types?
+Review the beginning learning path as one reader experience, from the first
+integer expression through the parameterized list transformation.
 
-The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the final
-beginning lesson.
+The [beginning learning path](beginning-learning-path.md) records the verified
+sequence and intended outcome. This increment reviews the whole path; it does
+not activate a new lesson.
 
-The lesson should begin with a type-parameterized identity function, then define
-a parameterized `Box`. Complete the path with a public `List<A>` and recursive
-`map` in one module, used through qualified names from another. Include a
-rejected unsaturated `List` type. Explain reuse through independence from a
-particular element type; do not introduce interfaces, constraints, or ad-hoc
-polymorphism.
+Read the lessons in order, run the complete learning-family check, and audit
+the transitions, vocabulary, exercises, and optional assistant prompts as one
+connected course. Confirm that each lesson relies only on earlier ideas and
+that the final lesson fulfills the intended outcome. Use concrete reader or
+executable evidence to revise, split, or reorder material; do not add a new
+language topic during the review.
 
 ## Later decisions
 
@@ -78,6 +79,6 @@ when current work crosses its boundary.
 
 Replace completed increments with the next complete outcome. Link active design
 or execution plans while they exist, then remove those links when the plans
-leave the current tree. Keep provisional lesson sequencing in the
+leave the current tree. Keep any provisional lesson sequencing in the
 [beginning learning path](beginning-learning-path.md), not as implied
 publication commitments here or in the reader-facing learning index.

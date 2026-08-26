@@ -60,3 +60,5 @@ with `ash` to test what it does.
    — let a recursive function follow a self-referential data definition.
 10. [How can a function itself be a value?](functions-as-values/README.md) —
     receive, construct, and return function values.
+11. [How can one definition work with many types?](definitions-for-many-types/README.md)
+    — parameterize functions and data, then map over a reusable list.

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly unit_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+readonly learn_root=$(cd "$unit_root/.." && pwd)
+readonly readme="$unit_root/README.md"
+readonly sources=(
+    src/01-identity.ash
+    src/02-box.ash
+    src/lists.ash
+    src/03-list-main.ash
+    src/04-unsaturated-list.ash
+)
+
+# shellcheck source=../../checks/lib.sh
+source "$learn_root/checks/lib.sh"
+
+if [[ $# -ne 1 ]]; then
+    ash_doc_fail "usage: checks/verify.sh /path/to/pinned/ash-lang"
+fi
+
+ash_doc_prepare "$1"
+ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
+ash_doc_run_accepted \
+    "$unit_root" src/01-identity.ash '(42, true) : (Int, Bool)'
+ash_doc_run_accepted \
+    "$unit_root" \
+    src/02-box.ash \
+    '(Box(42), Box(false)) : (Box<Int>, Box<Bool>)'
+ash_doc_run_accepted \
+    "$unit_root" src/03-list-main.ash 'More(42, Empty) : List<Int>'
+ash_doc_run_rejected \
+    "$unit_root" \
+    src/04-unsaturated-list.ash \
+    resolve.type-argument-count \
+    'expected List with 1 type arguments' \
+    1
+ash_doc_finish 5
