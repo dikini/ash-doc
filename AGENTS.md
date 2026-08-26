@@ -117,6 +117,12 @@ additional rules that evidence requires.
 
 ## Repository workflow
 
+Follow the [ash-doc project workflow](docs/project/workflow.md). Select one
+complete outcome in the [roadmap](docs/project/roadmap.md), obtain approval for
+its bounded design, and use a temporary task-owned plan under
+[`docs/plans/`](docs/plans/README.md). Create a content family or unit only when
+its prose, canonical code, fixtures, and applicable checks can land together.
+
 Keep project choices behind concrete needs. A new directory layout, renderer,
 harness, manifest, dependency, CI service, or publication mechanism requires a
 bounded design before implementation:
@@ -173,5 +179,6 @@ Before completing a change:
    status.
 8. Run `git diff --check` and inspect `git status --short` before committing.
 
-The repository intentionally selects no content directories, renderer, harness,
-manifest, dependency, CI service, publication platform, or license.
+The repository selects only the indexed `docs/`, `content/`, `lab/`, and
+`research/` roots. It selects no content-family or unit directories, renderer,
+harness, manifest, dependency, CI service, publication platform, or license.

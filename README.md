@@ -81,9 +81,11 @@ The documentation stream will grow through three equal kinds of work:
 - deterministic application slices that test several boundaries together.
 
 Laboratory cases and source research will support those publications without
-being presented as ordinary Ash lessons. The project will choose directories,
-unit metadata, executable-example tooling, rendering, and automation only when
-the first concrete work needs them.
+being presented as ordinary Ash lessons. The project will choose family and
+unit directories, metadata, executable-example tooling, rendering, and
+automation only when concrete work needs them. The
+[project workflow](docs/project/workflow.md) defines the indexed roots and the
+boundary for creating the first complete unit.
 
 The teaching approach combines Ash's plain, status-conscious writing with
 techniques visible in
@@ -107,7 +109,12 @@ for tutorials, project prose, reviews, plans, and commit or pull-request
 messages. The skill is available for implicit discovery and explicit use as
 `$writing-ash-documentation`.
 
-This bootstrap intentionally selects no content layout, renderer, harness,
-manifest, dependency, CI service, or publication platform. Establish each
-choice from a concrete need and keep the first implementation small enough to
-replace.
+Start new work in the [project documentation index](docs/README.md). Use the
+[roadmap](docs/project/roadmap.md) to select one complete outcome and a temporary
+plan under [`docs/plans/`](docs/plans/README.md) to implement it. Create a
+content family or unit only when its prose and applicable executable evidence
+can land together.
+
+The indexed roots do not select a renderer, harness, manifest, dependency, CI
+service, or publication platform. Establish each choice from a concrete need
+and keep the first implementation small enough to replace.
