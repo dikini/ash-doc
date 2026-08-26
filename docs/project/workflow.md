@@ -33,7 +33,13 @@ verification cycle there.
 
 ## Plan one complete lesson
 
-Start in the [roadmap](roadmap.md). Name:
+Use the [beginning learning path](beginning-learning-path.md) to understand the
+provisional sequence and the [roadmap](roadmap.md) to select the one active
+outcome. A provisional entry creates no lesson directory or reader-facing
+navigation. It enters the roadmap only when the project selects it as the next
+complete increment.
+
+For that increment, name:
 
 - the reader's question and reason for answering it;
 - what the reader already knows, the next idea, and the resulting model;
@@ -145,10 +151,29 @@ immutable commit and identifies the exact Ash target, reader task, source
 tradition, executable observations, blocked boundary, and wider significance.
 Ash owns any resulting design, proposal, or retained regression obligation.
 
+## Three-lesson review
+
+The first three complete lessons confirmed the lesson directory as the useful
+evidence boundary. Each lesson can connect one reader question, one narrative,
+its canonical programs, and its accepted and rejected observations without a
+separate manifest. The learning index remains enough to express reading order.
+
+The second lesson repeated the first lesson's build, execution, diagnostic, and
+source-agreement work. A shared Bash helper now owns those mechanisms, while
+each lesson retains a local check that declares its sources and expected
+observations. The third lesson used the same boundary without requiring a new
+kind of project metadata. Keep this arrangement while the helper can express a
+lesson's evidence directly.
+
+The review did not establish a need for a registry, renderer, or CI service.
+`README.md` remains the lesson entry name for repository browsing; reconsider
+`index.md` with the first concrete publication design, when its behavior can be
+tested rather than predicted.
+
 ## Replacement boundary
 
-This is a pilot workflow. Revisit it when three complete lessons exist, a second
-lesson demonstrates a shared tooling need, or the project begins its first
-publication or forward migration. Adopt a manifest, registry, renderer, shared
-harness, or CI service only when that review names the concrete problem and a
-smaller local convention cannot solve it.
+Revisit this workflow when the shared helper cannot express a complete lesson,
+or when the project begins its first publication or forward migration. Adopt a
+manifest, registry, renderer, expanded harness, or CI service only when that
+review names the concrete problem and a smaller local convention cannot solve
+it.

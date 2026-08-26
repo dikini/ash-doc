@@ -42,3 +42,23 @@ with `ash` to test what it does.
 
 1. [What is an Ash program?](what-is-an-ash-program/README.md) — produce values
    with expressions and functions.
+2. [How can one source file use another?](using-another-source-file/README.md) —
+   connect modules with public definitions and qualified names.
+3. [How can a function use more than one input?](using-more-than-one-input/README.md)
+   — read chained arrows, complete calls, and partial calls.
+4. [How can a program choose a result?](choosing-a-result/README.md) — use
+   Boolean values and exhaustive matches to select an expression.
+5. [How can a calculation name an intermediate value?](naming-intermediate-values/README.md)
+   — make a block's steps visible with local bindings.
+6. [How can several values travel together?](values-travel-together/README.md)
+   — construct tuples and name their parts with patterns.
+7. [How can a program define its own data?](defining-data/README.md) — name a
+   new type and the constructors for its possible values.
+8. [How can a function handle each form of data?](handling-data-forms/README.md)
+   — follow a data definition with patterns and exhaustive cases.
+9. [How can a function follow recursive data?](following-recursive-data/README.md)
+   — let a recursive function follow a self-referential data definition.
+10. [How can a function itself be a value?](functions-as-values/README.md) —
+    receive, construct, and return function values.
+11. [How can one definition work with many types?](definitions-for-many-types/README.md)
+    — parameterize functions and data, then map over a reusable list.
