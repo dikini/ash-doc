@@ -64,12 +64,13 @@ directory, reader-facing link, or publication date.
 - **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
   — **verified.**
   Constructor patterns, equations or matches, and coverage.
-- **9. How can a function follow recursive data?** — **next.**
+- **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
+  — **verified.**
   Recursive nominal data and recursive functions.
 
 ## Functional abstraction
 
-- **10. How can a function itself be a value?** — **provisional.** Anonymous
+- **10. How can a function itself be a value?** — **next.** Anonymous
   functions, higher-order functions, and lexical capture.
 - **11. How can one definition work with many types?** — **provisional.** Type
   parameters, parameterized data, and rank-1 parametric polymorphism.

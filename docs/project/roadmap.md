@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: eight connected learning lessons verified; shared lesson
+- Repository state: nine connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,10 +18,10 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a function handle each form of data?*](../../content/learn/handling-data-forms/README.md)
-follows the preceding data definition with constructor patterns. Its examples
-connect each form to a match arm or function equation and use coverage to
-expose an omitted form.
+[*How can a function follow recursive data?*](../../content/learn/following-recursive-data/README.md)
+extends the data-driven design method to a finite integer list. Its recursive
+sum follows the self-referential field with progressively smaller values and
+uses the non-recursive form to end the calculation.
 
 The learning-family check now:
 
@@ -48,17 +48,16 @@ future lessons.
 ## Next complete increment
 
 Complete the next learning lesson around the question: How can a function
-follow recursive data?
+itself be a value?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the recursive
-data lesson; it does not activate the later entries.
+provisional sequence around this question. This roadmap owns only the
+higher-order function lesson; it does not activate the final entry.
 
-The lesson should define a finite integer list whose non-empty form contains an
-integer and another list. Construct a small value before defining a recursive
-sum that follows the same two forms. Include a rejected function that omits the
-empty form. Keep the explanation grounded in the shrinking data rather than a
-broad account of recursion.
+The lesson should first pass a named function to `apply_twice`, then replace it
+with an anonymous function. Add a function that returns an anonymous function
+which remembers an earlier input, and include a rejected non-function argument.
+Keep polymorphic types for the final lesson so this account remains concrete.
 
 ## Later decisions
 
