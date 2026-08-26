@@ -57,9 +57,9 @@ directory, reader-facing link, or publication date.
 
 ## Data and structure
 
-- **6. How can several values travel together?** — **next.** Tuples,
-  tuple types, and tuple patterns.
-- **7. How can a program define its own data?** — **provisional.** Nominal
+- **6. [How can several values travel together?](../../content/learn/values-travel-together/README.md)**
+  — **verified.** Tuples, tuple types, and tuple patterns.
+- **7. How can a program define its own data?** — **next.** Nominal
   types and constructors.
 - **8. How can a function handle each form of data?** — **provisional.**
   Constructor patterns, equations or matches, and coverage.

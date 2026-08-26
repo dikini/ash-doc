@@ -50,3 +50,5 @@ with `ash` to test what it does.
    Boolean values and exhaustive matches to select an expression.
 5. [How can a calculation name an intermediate value?](naming-intermediate-values/README.md)
    — make a block's steps visible with local bindings.
+6. [How can several values travel together?](values-travel-together/README.md)
+   — construct tuples and name their parts with patterns.

@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: five connected learning lessons verified; shared lesson
+- Repository state: six connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,10 +18,10 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a calculation name an intermediate value?*](../../content/learn/naming-intermediate-values/README.md)
-turns a nested calculation into ordered, named steps. Its examples establish a
-block's final expression, the source-order scope of local bindings, and the
-difference between a local name and a source-level definition.
+[*How can several values travel together?*](../../content/learn/values-travel-together/README.md)
+introduces tuples as single values with fixed parts. Its examples construct a
+pair, use tuple patterns in definitions and local bindings, and distinguish a
+tuple input from a curried sequence of inputs.
 
 The learning-family check now:
 
@@ -47,18 +47,18 @@ future lessons.
 
 ## Next complete increment
 
-Complete the next learning lesson around the question: How can several values
-travel together?
+Complete the next learning lesson around the question: How can a program define
+its own data?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the tuple
-lesson; it does not activate the later entries.
+provisional sequence around this question. This roadmap owns only the first
+data-definition lesson; it does not activate the later entries.
 
-The lesson should begin with a tuple value, then pass a pair to a function and
-use a tuple pattern to name its parts. Reuse the local-binding model from the
-preceding lesson for destructuring. Include a rejected arity mismatch so the
-learner sees that a pair and a triple have different types. Do not present
-tuples as the explanation for the curried calls already taught.
+The lesson should define one type whose forms carry no fields, then one type
+with a constructor that carries an integer. Explain a data definition as a new
+type together with the ways to construct its values. Include two structurally
+similar but distinct types and a rejected cross-type call to establish nominal
+identity. Defer handling every form to the following lesson.
 
 ## Later decisions
 
