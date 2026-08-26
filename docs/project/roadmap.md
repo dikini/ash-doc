@@ -7,7 +7,7 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: four connected learning lessons verified; shared lesson
+- Repository state: five connected learning lessons verified; shared lesson
   checks retained after workflow review
 - Published documentation tag: none
 
@@ -18,10 +18,10 @@ Active planning records:
 
 ## Verified increment
 
-[*How can a program choose a result?*](../../content/learn/choosing-a-result/README.md)
-adds the first branching calculation. Its examples move from an equality that
-produces `Bool` to a match that supplies one integer expression for each
-possible Boolean value.
+[*How can a calculation name an intermediate value?*](../../content/learn/naming-intermediate-values/README.md)
+turns a nested calculation into ordered, named steps. Its examples establish a
+block's final expression, the source-order scope of local bindings, and the
+difference between a local name and a source-level definition.
 
 The learning-family check now:
 
@@ -47,18 +47,18 @@ future lessons.
 
 ## Next complete increment
 
-Complete the next learning lesson around the question: How can a calculation
-name an intermediate value?
+Complete the next learning lesson around the question: How can several values
+travel together?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
-provisional sequence around this question. This roadmap owns only the binding
+provisional sequence around this question. This roadmap owns only the tuple
 lesson; it does not activate the later entries.
 
-The lesson should use blocks to turn a nested calculation into named steps.
-Show one local `let`, then several bindings whose later initializers use
-earlier names. Include a rejected forward reference to establish that local
-names become available in source order. Keep recursive local bindings outside
-this lesson.
+The lesson should begin with a tuple value, then pass a pair to a function and
+use a tuple pattern to name its parts. Reuse the local-binding model from the
+preceding lesson for destructuring. Include a rejected arity mismatch so the
+learner sees that a pair and a triple have different types. Do not present
+tuples as the explanation for the curried calls already taught.
 
 ## Later decisions
 

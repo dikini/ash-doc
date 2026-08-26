@@ -51,12 +51,13 @@ directory, reader-facing link, or publication date.
   calls.
 - **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
   — **verified.** `Bool`, integer equality, and exhaustive matching.
-- **5. How can a calculation name an intermediate value?** — **next.**
+- **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**
+  — **verified.**
   Blocks, sequential `let` bindings, and scope.
 
 ## Data and structure
 
-- **6. How can several values travel together?** — **provisional.** Tuples,
+- **6. How can several values travel together?** — **next.** Tuples,
   tuple types, and tuple patterns.
 - **7. How can a program define its own data?** — **provisional.** Nominal
   types and constructors.

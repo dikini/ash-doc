@@ -48,3 +48,5 @@ with `ash` to test what it does.
    — read chained arrows, complete calls, and partial calls.
 4. [How can a program choose a result?](choosing-a-result/README.md) — use
    Boolean values and exhaustive matches to select an expression.
+5. [How can a calculation name an intermediate value?](naming-intermediate-values/README.md)
+   — make a block's steps visible with local bindings.
