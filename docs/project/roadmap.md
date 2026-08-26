@@ -11,11 +11,6 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
   review is next
 - Published documentation tag: none
 
-Active planning records:
-
-- [Beginning lessons design](../plans/2026-08-26-beginning-lessons-design.md)
-- [Beginning lessons implementation plan](../plans/2026-08-26-beginning-lessons.md)
-
 ## Verified increment
 
 [*How can one definition work with many types?*](../../content/learn/definitions-for-many-types/README.md)
