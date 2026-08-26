@@ -2,8 +2,10 @@
 
 set -euo pipefail
 
-readonly unit_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-readonly learn_root=$(cd "$unit_root/.." && pwd)
+unit_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+readonly unit_root
+learn_root=$(cd "$unit_root/.." && pwd)
+readonly learn_root
 readonly readme="$unit_root/README.md"
 readonly sources=(
     src/01-two-inputs.ash

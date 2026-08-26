@@ -40,7 +40,7 @@ ash_doc_prepare() {
     trap 'rm -rf "$ASH_DOC_VERIFY_DIR"' EXIT
 
     (
-        cd "$ash_lang_dir"
+        cd "$ash_lang_dir" || exit 1
         CARGO_TARGET_DIR="$ASH_DOC_VERIFY_DIR/target" \
             cargo build --quiet --locked
     )
@@ -62,6 +62,13 @@ ash_doc_check_sources() {
     shift 2
 
     [[ -f $check_readme ]] || ash_doc_fail "missing unit README.md"
+
+    local check_expected_blocks=$#
+    local check_actual_blocks
+    check_actual_blocks=$(grep -cx '```ash' "$check_readme" || true)
+    [[ $check_actual_blocks -eq $check_expected_blocks ]] ||
+        ash_doc_fail \
+            "README.md has an unmarked or missing executable Ash block"
 
     local check_source
     for check_source in "$@"; do
@@ -147,7 +154,7 @@ ash_doc_run_accepted() {
 ash_doc_run_rejected() {
     if [[ $# -ne 5 ]]; then
         ash_doc_fail \
-            "ash_doc_run_rejected requires a unit, entry, reason, and evidence"
+            "ash_doc_run_rejected requires a unit, entry, reason, evidence, and status"
     fi
 
     local rejected_unit_root=$1

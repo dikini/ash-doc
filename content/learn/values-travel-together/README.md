@@ -122,7 +122,7 @@ the wrong tuple shape.
 
 Define this function:
 
-```ash
+```text
 sum_and_product : (Int, Int) -> (Int, Int)
 ```
 

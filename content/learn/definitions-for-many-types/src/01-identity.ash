@@ -1,5 +1,5 @@
-id : A -> A
-id value = value
+identity : A -> A
+identity value = value
 
 main : Unit -> (Int, Bool)
-main () = (id 42, id true)
+main () = (identity 42, identity true)

@@ -124,7 +124,7 @@ the expression needs.
 
 Return to the earlier definition:
 
-```ash
+```text
 type Signal =
     Go
     | Stop

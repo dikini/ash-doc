@@ -136,7 +136,7 @@ mistake before any addition can take place.
 
 Define a function with this signature:
 
-```ash
+```text
 multiply_three : Int -> Int -> Int -> Int
 ```
 

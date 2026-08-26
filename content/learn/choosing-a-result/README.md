@@ -102,11 +102,6 @@ choose true 42 0
 The question and the choice are separate expressions. This separation lets
 the same `choose` function work with any calculation that produces a `Bool`.
 
-> **With a learning assistant:** Change the equality so that it produces
-> `false`. Before running the program, show the assistant your expression and
-> trace. Ask it to check one transition at a time, without replacing your
-> trace with its own.
-
 ## Accounting for every value
 
 Since `Bool` has two possible values, a match on `Bool` needs two arms. Consider
@@ -134,11 +129,16 @@ An *exhaustive* match covers every possible form of the value it examines.
 Ash checks this before running the program, so execution cannot arrive at a
 choice with no corresponding expression.
 
+> **With a learning assistant:** Show the assistant the incomplete match and
+> the first diagnostic line. Ask it which `Bool` value the match does not
+> cover. Then explain why that value is possible and what arm would complete
+> the match before asking for feedback.
+
 ## Exercise: keep or double
 
 Define a function with this signature:
 
-```ash
+```text
 keep_or_double : Bool -> Int -> Int
 ```
 

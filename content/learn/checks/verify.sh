@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-readonly learn_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+learn_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+readonly learn_root
 
 # shellcheck source=lib.sh
 source "$learn_root/checks/lib.sh"

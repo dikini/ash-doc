@@ -16,11 +16,11 @@ The identity function returns the value it receives:
 
 <!-- source: src/01-identity.ash -->
 ```ash
-id : A -> A
-id value = value
+identity : A -> A
+identity value = value
 
 main : Unit -> (Int, Bool)
-main () = (id 42, id true)
+main () = (identity 42, identity true)
 ```
 
 The uppercase name `A` in the signature is a type parameter. Read `A -> A` as
@@ -28,9 +28,9 @@ The uppercase name `A` in the signature is a type parameter. Read `A -> A` as
 the body assumes that the value is an integer, a Boolean, or any other
 particular type.
 
-At the first call, `A` is `Int`, so `id 42` has type `Int`. At the second call,
-`A` is `Bool`, so `id true` has type `Bool`. Ash determines those choices from
-the calls; the source expression does not supply type arguments.
+At the first call, `A` is `Int`, so `identity 42` has type `Int`. At the second
+call, `A` is `Bool`, so `identity true` has type `Bool`. Ash determines those
+choices from the calls; the source expression does not supply type arguments.
 
 Running the program reports:
 
@@ -38,8 +38,8 @@ Running the program reports:
 (42, true) : (Int, Bool)
 ```
 
-There is still only one `id` definition. Each use replaces `A` consistently
-through its signature.
+There is still only one `identity` definition. Each use replaces `A`
+consistently through its signature.
 
 ## Data with an element type
 
@@ -173,13 +173,13 @@ resolve.type-argument-count
 
 Writing `keep : List<Int> -> List<Int>` would make this particular function
 integer-specific. Writing `keep : List<A> -> List<A>` would let the unchanged
-structure work for any element type, like `id` and `map`.
+structure work for any element type, like `identity` and `map`.
 
 ## Exercise: change the element type
 
 Keep the `lists.ash` module unchanged. In the entry source, define:
 
-```ash
+```text
 is_42 : Int -> Bool
 is_42 number = number == 42
 ```

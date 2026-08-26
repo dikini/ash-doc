@@ -52,19 +52,17 @@ A block becomes more useful when a later binding uses a value named earlier:
 ```ash
 main : Unit -> Int
 main () = {
-    let start = 20
-    let incremented = start + 1
+    let incremented = 20 + 1
     let doubled = incremented * 2
     doubled
 }
 ```
 
-Read the bindings from top to bottom. When Ash reaches `incremented`, `start`
-already stands for `20`. When it reaches `doubled`, `incremented` already
-stands for `21`:
+Read the bindings from top to bottom. The first binding associates
+`incremented` with `21`. When Ash reaches `doubled`, that earlier name is
+already available:
 
 ```text
-start       = 20
 incremented = 20 + 1 = 21
 doubled     = 21 * 2 = 42
 ```
@@ -108,7 +106,7 @@ it to obtain `answer`.
 
 Rewrite this nested expression as a block:
 
-```ash
+```text
 main : Unit -> Int
 main () = double (increment 20)
 ```

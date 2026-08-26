@@ -138,7 +138,7 @@ one of those inputs must itself be callable.
 
 Define:
 
-```ash
+```text
 apply_three_times : (Int -> Int) -> Int -> Int
 ```
 
