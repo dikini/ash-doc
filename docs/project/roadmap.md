@@ -44,6 +44,10 @@ future lessons.
 Evaluate and plan a second learning lesson around the question: How can one Ash
 source module use another?
 
+The [beginning learning path](beginning-learning-path.md) supplies the
+provisional sequence around this question. This roadmap owns only the module
+lesson; it does not activate the later entries.
+
 The design must establish the smallest useful two-module program, what the
 first lesson already taught, the new observable outcome, and the applicable
 pinned language and tool rules. Compare credible teaching shapes before
@@ -57,7 +61,8 @@ Later work should supply evidence for these choices:
 1. whether two lessons' source-agreement and execution checks require a shared
    harness;
 2. whether a renderer adds value beyond readable source Markdown;
-3. which reader question should follow the two-module lesson; and
+3. whether executable design for the two-module lesson confirms or revises the
+   provisional next question;
 4. which coverage view becomes useful after several lessons exist;
 5. whether lesson entry pages should remain `README.md` for repository browsing
    or become `index.md` for a website, to be decided with the first renderer or
@@ -70,5 +75,6 @@ when current work crosses its boundary.
 
 Replace completed increments with the next complete outcome. Link active design
 or execution plans while they exist, then remove those links when the plans
-leave the current tree. Keep speculative lesson lists in research or discussion,
-not as implied publication commitments here.
+leave the current tree. Keep provisional lesson sequencing in the
+[beginning learning path](beginning-learning-path.md), not as implied
+publication commitments here or in the reader-facing learning index.

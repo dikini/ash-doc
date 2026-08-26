@@ -33,7 +33,13 @@ verification cycle there.
 
 ## Plan one complete lesson
 
-Start in the [roadmap](roadmap.md). Name:
+Use the [beginning learning path](beginning-learning-path.md) to understand the
+provisional sequence and the [roadmap](roadmap.md) to select the one active
+outcome. A provisional entry creates no lesson directory or reader-facing
+navigation. It enters the roadmap only when the project selects it as the next
+complete increment.
+
+For that increment, name:
 
 - the reader's question and reason for answering it;
 - what the reader already knows, the next idea, and the resulting model;
