@@ -53,7 +53,10 @@ Later work should supply evidence for these choices:
    harness;
 2. whether a renderer adds value beyond readable source Markdown;
 3. which reader question should follow the two-module lesson; and
-4. which coverage view becomes useful after several lessons exist.
+4. which coverage view becomes useful after several lessons exist; and
+5. whether lesson entry pages should remain `README.md` for repository browsing
+   or become `index.md` for a website, to be decided with the first renderer or
+   publication design.
 
 These are questions, not selected mechanisms. Record a new project choice only
 when current work crosses its boundary.
