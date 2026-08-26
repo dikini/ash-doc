@@ -1,42 +1,8 @@
 # What is an Ash program?
 
-- State: verified
-- Ash milestone: `modular-ash`
-- Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Reader question: What is an Ash program, and how do I write and run one?
-- Prerequisites: editing a text file, running terminal commands, and a local
-  checkout of the Ash source repository
-- Outcome: write, run, predict, and change a one-file Ash program
-- Adaptation: original Ash exposition and examples
+Begin with a small question: can an Ash program produce the number `42`?
 
-A traditional first program prints a greeting. This Ash milestone has no text
-or program input and output, so we will begin with a result that Ash can
-produce: the number `42`.
-
-By the end, several functions will work together to produce that result. Each
-step is a complete program that you can run.
-
-Use the `ash` executable built from the resolved commit above. From that
-`ash-lang` checkout, run:
-
-```text
-cargo build --locked
-```
-
-The executable is now `target/debug/ash`. To use the shorter `ash` name in this
-unit, replace `/path/to/ash-lang` below with the checkout's full path and run:
-
-```text
-export PATH="/path/to/ash-lang/target/debug:$PATH"
-```
-
-This setting lasts for the current terminal. In the same terminal, change to
-the directory that contains this unit.
-
-## Produce a value
-
-An Ash program is written in files whose names end in `.ash`. Create
-`program.ash` in this unit's directory with this source:
+Create a file named `program.ash` in this directory and enter these two lines:
 
 <!-- source: src/01-literal.ash -->
 ```ash
@@ -44,46 +10,36 @@ main : Unit -> Int
 main () = 42
 ```
 
-The checked source for this step is
-[`src/01-literal.ash`](src/01-literal.ash). Run your file:
+Before you run it, predict what you will see. Then ask Ash to run the file:
 
 ```text
 ash program.ash
 ```
 
-The `ash` tool reports:
+Ash responds:
 
 ```text
 42 : Int
 ```
 
-The output has a value, `42`, and its type, `Int`. `Int` is the type of integer
+You have written an Ash program. The program produces the value `42`, and
+`ash` displays that value with its type, `Int`. `Int` is the type of integer
 values.
 
-The first source line says that `main` has type `Unit -> Int`. Read the arrow as
-“takes `Unit` and produces `Int`.” `Unit` has one value, written `()`. Giving
-`main` that value means the program needs no useful input.
+Now return to the program. The expression to the right of `=` produces the
+result. Here that expression is the integer value `42`.
 
-The second line defines what `main` does with `()`. The expression to the right
-of `=` produces the program's result.
+The first line is a signature. It says what kind of value goes into `main` and
+what kind comes out. Read `Unit -> Int` as “takes `Unit` and produces an
+`Int`.” `Unit` has one value, written `()`. A `main` that takes `()` needs no
+information before it can produce its result.
 
-When you give `ash` a source path, that file is the entry file. Every Ash source
-file is one module. This program has no imports, so its complete program is one
-module. Ash checks that module, finds its local `main`, and evaluates `main ()`.
+The name `main` tells Ash where this program begins. We will test that claim
+later. First, let us make the result from an expression.
 
-The program does not print `42`. The program produces the value. The `ash` tool
-displays that value and its type.
+## Calculating a value
 
-Each next step shows the complete contents of `program.ash`. Replace the file's
-contents before you run the next command. The nearby `src` link points to the
-same source checked by this repository.
-
-## Build an expression
-
-A literal such as `42` is an expression. An operator can combine smaller
-expressions into another expression.
-
-Replace the literal with an addition:
+Replace the contents of `program.ash` with this program:
 
 <!-- source: src/02-addition.ash -->
 ```ash
@@ -91,18 +47,18 @@ main : Unit -> Int
 main () = 40 + 2
 ```
 
-The checked source is [`src/02-addition.ash`](src/02-addition.ash). Before you
-run it, predict the value that `main ()` will produce.
+The expression `40 + 2` combines two integer values. Predict the result, then
+run the program again:
 
 ```text
 ash program.ash
 42 : Int
 ```
 
-The type is still `Int`. Changing the expression changed how Ash reached the
-value, not the kind of value it produced.
+The result is still `42 : Int`. This time the expression calculates the value
+instead of naming it directly.
 
-Now predict this result:
+Expressions may contain other expressions. What does this program produce?
 
 <!-- source: src/03-precedence.ash -->
 ```ash
@@ -110,16 +66,22 @@ main : Unit -> Int
 main () = 1 + 2 * 3
 ```
 
-The checked source is [`src/03-precedence.ash`](src/03-precedence.ash).
-Multiplication happens before addition, so Ash first produces `6` from `2 * 3`,
-then adds `1`:
+Make a prediction before you run it. Ash displays:
 
 ```text
-ash program.ash
 7 : Int
 ```
 
-Parentheses can change that order:
+Multiplication happens before addition. Work from the smaller expression to
+the whole expression:
+
+```text
+1 + 2 * 3
+1 + 6
+7
+```
+
+Parentheses let you choose a different grouping:
 
 <!-- source: src/04-grouping.ash -->
 ```ash
@@ -127,17 +89,26 @@ main : Unit -> Int
 main () = (1 + 2) * 3
 ```
 
-The checked source is [`src/04-grouping.ash`](src/04-grouping.ash). Ash now
-performs the addition first:
+Now the expression in parentheses is calculated first:
 
 ```text
-ash program.ash
-9 : Int
+(1 + 2) * 3
+3 * 3
+9
 ```
 
-## Name a calculation
+Replace `program.ash`, predict the result, and run it. Ash displays `9 : Int`.
 
-A function gives a name to a calculation. Here is a function that adds one:
+> **With a learning assistant:** Share both calculations and explain why they
+> differ. Ask the assistant to question your explanation one step at a time
+> without giving its own explanation first.
+
+## Giving a calculation a name
+
+So far, `main` contains the whole calculation. When a calculation has a useful
+role, you can give it a name and use it where it is needed.
+
+The next program names the calculation that adds one:
 
 <!-- source: src/05-function-call.ash -->
 ```ash
@@ -148,26 +119,27 @@ main : Unit -> Int
 main () = increment 41
 ```
 
-The checked source is
-[`src/05-function-call.ash`](src/05-function-call.ash).
-
-The first line is `increment`'s signature. A signature states the input type and
-the result type. `increment` takes an `Int` and produces an `Int`.
-
-The second line defines the function. `number` is the parameter: the name used
-for the input inside the definition.
-
-The expression `increment 41` calls the function. `41` is the argument supplied
-for `number`. The call produces `42`, which becomes the result of `main`:
+Replace `program.ash` with this program. Before you run it, work out what
+`increment 41` should produce.
 
 ```text
 ash program.ash
 42 : Int
 ```
 
-## Combine function calls
+The first line is the signature of `increment`. It says that `increment` takes
+an `Int` and produces an `Int`.
 
-One function can use the result of another:
+The second line defines the calculation. The name `number` is the parameter. It
+stands for the input while the function calculates `number + 1`.
+
+The expression `increment 41` is a function call. The value `41` is the
+argument: the value supplied for `number`. The call produces `42`, so `main`
+also produces `42`.
+
+## Putting function calls together
+
+Add another named calculation, this time one that doubles an integer:
 
 <!-- source: src/06-composition.ash -->
 ```ash
@@ -181,22 +153,30 @@ main : Unit -> Int
 main () = double (increment 20)
 ```
 
-The checked source is [`src/06-composition.ash`](src/06-composition.ash).
+The result of `increment 20` becomes the input to `double`. Trace the calls
+from the inner expression outward:
 
-Start with the call inside the parentheses. `increment 20` produces `21`. That
-value becomes the argument to `double`, which produces `42`:
+```text
+double (increment 20)
+double 21
+42
+```
+
+Check the calculation by running the program:
 
 ```text
 ash program.ash
 42 : Int
 ```
 
-Passing one function's result to another function is composition. Here,
-parentheses keep the inner call together as the one argument to `double`.
+Using one function's result as another function's input is function
+composition. The parentheses keep `increment 20` together as the input to
+`double`.
 
-## A runnable program needs `main`
+## Why does the program need `main`?
 
-Replace `program.ash` with a function but no `main`:
+Every program so far has included `main`. To see why, replace `program.ash`
+with a function that has a different name:
 
 <!-- source: src/07-missing-main.ash -->
 ```ash
@@ -204,54 +184,47 @@ answer : Unit -> Int
 answer () = 42
 ```
 
-The checked source is [`src/07-missing-main.ash`](src/07-missing-main.ash).
-When you select it as the entry file, Ash rejects it. The first diagnostic line
-names the reason:
+The definition of `answer` describes a valid calculation, but running the file
+does not produce `42`. The message begins with:
 
 ```text
 ash program.ash
 entry.missing-main
 ```
 
-`answer` is a valid function definition, but Ash does not guess which function
-should start the program. The selected entry module must define its own `main`.
+Ash needs a definition named `main` to know where this program begins. It does
+not choose another function merely because that function could produce a
+result.
 
-## Exercise: add `square`
+## Exercise: square, then double
 
-Restore `program.ash` to the contents of
-[`src/06-composition.ash`](src/06-composition.ash).
+Return `program.ash` to the version from “Putting function calls together.”
+Then change it:
 
-1. Define `square : Int -> Int` using multiplication.
-2. Change `main` so that it evaluates `double (square 3)`.
-3. Predict the result, then run the program.
+1. Define `square : Int -> Int`. Calculate the square by multiplying the input
+   by itself.
+2. Change `main` so it calls `double (square 3)`.
+3. Predict the result before you run the program.
+4. Run it, then explain the result by working from the inner call outward.
 
-Your artifact is one complete `.ash` source file. This exercise practices
-function signatures, definitions, multiplication, and nested calls. The
-expected observation is:
+When the two calls are connected correctly, `ash` displays:
 
 ```text
 18 : Int
 ```
 
-## What you established
+> **With a learning assistant:** Show the assistant your program and prediction.
+> Ask it to point to one expression at a time and ask what value that expression
+> produces. Ask for a complete solution only after you have explained your own.
 
-An Ash program starts from the source file you give to `ash`. That entry file
-must define a local `main` that takes `Unit`. Ash checks the program, evaluates
-`main ()`, and the tool displays the resulting value and type.
+## The program you built
 
-The program in this unit has one source module. A larger Ash program can use
-more than one. That leads to the next question: how can one Ash source module
-use another?
+An Ash program contains definitions. To run the programs in this lesson, you
+gave `ash` a source file with a definition named `main`. Ash began with
+`main ()`, calculated its expression, and produced a value.
 
-## Sources
+Expressions describe calculations. Functions give calculations names. Function
+calls let one calculation use a value or the result of another calculation.
 
-Language behavior comes from the specification at the pinned commit:
-
-- [specification overview](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/README.md)
-- [lexical structure](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/lexical-structure.md)
-- [syntax](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md)
-- [static semantics](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md)
-- [dynamic semantics](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md)
-
-Command, output, and failure behavior comes from the pinned
-[`ash` tool guide](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md).
+Each program in this lesson fit in one source file. The next question is how an
+Ash program can use more than one file.
