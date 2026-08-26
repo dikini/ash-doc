@@ -29,9 +29,10 @@ migration.
 
 ## Learn Ash
 
-Start with [*What is an Ash program?*](content/learn/what-is-an-ash-program/README.md).
-It begins with one source file and one value, then introduces expressions,
-functions, function calls, and composition.
+Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool
+setup, the method used throughout the learning path, and the chapters in
+reading order. The first chapter begins with one source file and one value,
+then introduces expressions, functions, function calls, and composition.
 
 The examples use the
 [pinned `ash` tool](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md).
