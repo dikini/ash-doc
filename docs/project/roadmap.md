@@ -7,8 +7,8 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: first learning lesson verified; coherent learning core and
-  narrative writing style established
+- Repository state: two connected learning lessons verified; shared lesson
+  checks established
 - Published documentation tag: none
 
 Active planning records:
@@ -18,16 +18,22 @@ Active planning records:
 
 ## Verified increment
 
-[*What is an Ash program?*](../../content/learn/what-is-an-ash-program/README.md)
-answers the first reader question with one-file programs. Its local check:
+[*How can one source file use another?*](../../content/learn/using-another-source-file/README.md)
+extends the learner's first one-file program across a module boundary. Its
+examples establish complete imports, qualified names, and the distinction
+between public and private definitions.
 
-- runs every canonical program with the pinned Ash tool;
-- compares each result with the documented observation;
-- checks the rejected program without `main`; and
+The learning-family check now:
+
+- builds the Ash tool once at the pinned commit;
+- runs every canonical program in both lessons;
+- compares each accepted result with the documented observation;
+- checks rejected programs for their causal diagnostics; and
 - checks every displayed program against its canonical source.
 
-The local Bash check is enough for one lesson. Reconsider a shared harness only
-if a second complete lesson repeats the same need.
+Two lessons repeated the same source-agreement and execution work, so a small
+shared Bash helper now owns that mechanism. Each lesson keeps a local entry
+point and declares its own cases.
 
 The learning-family index owns setup, study method, optional assistant
 guidance, and reading order. Lessons contain educational prose and inherit the
@@ -41,30 +47,28 @@ future lessons.
 
 ## Next complete increment
 
-Evaluate and plan a second learning lesson around the question: How can one Ash
-source module use another?
+Complete the next learning lesson around the question: How can a function use
+more than one input?
 
 The [beginning learning path](beginning-learning-path.md) supplies the
 provisional sequence around this question. This roadmap owns only the module
 lesson; it does not activate the later entries.
 
-The design must establish the smallest useful two-module program, what the
-first lesson already taught, the new observable outcome, and the applicable
-pinned language and tool rules. Compare credible teaching shapes before
-creating a new lesson directory. Include accepted and rejected programs, and
-use the second lesson to decide whether repeated checks justify shared tooling.
+The lesson should extend the learner's existing model of functions without
+introducing tuples as an explanation for multiple inputs. It must connect
+chained arrows, several parameters, and calls written from left to right.
+Include a partial call that produces a function, reuse that function in a
+definition, and contrast it with a call whose next input has the wrong type.
 
 ## Later decisions
 
 Later work should supply evidence for these choices:
 
-1. whether two lessons' source-agreement and execution checks require a shared
-   harness;
-2. whether a renderer adds value beyond readable source Markdown;
-3. whether executable design for the two-module lesson confirms or revises the
-   provisional next question;
-4. which coverage view becomes useful after several lessons exist;
-5. whether lesson entry pages should remain `README.md` for repository browsing
+1. whether a renderer adds value beyond readable source Markdown;
+2. whether the first three lessons reveal changes needed in the lesson
+   workflow or shared checker;
+3. which coverage view becomes useful after several lessons exist;
+4. whether lesson entry pages should remain `README.md` for repository browsing
    or become `index.md` for a website, to be decided with the first renderer or
    publication design.
 

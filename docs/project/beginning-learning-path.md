@@ -42,9 +42,10 @@ directory, reader-facing link, or publication date.
 - **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)**
   — **verified.** Definitions, expressions, `main`, functions, function calls,
   and composition.
-- **2. How can one source file use another?** — **next.** Modules, complete
-  imports, public declarations, and qualified names.
-- **3. How can a function use more than one input?** — **provisional.**
+- **2. [How can one source file use another?](../../content/learn/using-another-source-file/README.md)**
+  — **verified.** Modules, complete imports, public declarations, and
+  qualified names.
+- **3. How can a function use more than one input?** — **next.**
   Chained function arrows, function clauses with several inputs, and chained
   calls.
 - **4. How can a program choose a result?** — **provisional.** `Bool`, integer

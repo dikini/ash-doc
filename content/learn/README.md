@@ -42,3 +42,5 @@ with `ash` to test what it does.
 
 1. [What is an Ash program?](what-is-an-ash-program/README.md) — produce values
    with expressions and functions.
+2. [How can one source file use another?](using-another-source-file/README.md) —
+   connect modules with public definitions and qualified names.
