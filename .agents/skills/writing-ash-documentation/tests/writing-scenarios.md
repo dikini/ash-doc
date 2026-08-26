@@ -11,6 +11,13 @@ could prefer a project writing skill. The tutorial agent also produced two
 runnable-looking `ash` fences during a read-only draft, although it could not
 create canonical source files or executable checks.
 
+For the learning-core correction, a baseline agent began directly with the
+program but explained `Unit` and `Int` before the learner ran it. Its optional
+assistant prompt asked for guided reasoning and withheld the final answer, but
+it grounded the assistant only in pasted code, not in the lesson, repository,
+or observed `ash` output. The revised skill must preserve the direct opening
+while correcting those two gaps.
+
 ## Tutorial opening
 
 ### Tutorial request
@@ -80,3 +87,34 @@ The agent discovers and uses `writing-ash-documentation`, checks redistribution
 permission, records the source and edition, distinguishes inspiration from
 direct adaptation, explains Ash-required departures, and plans original prose
 and Ash code without reproducing the exercise or its solution.
+
+## Sequential lesson
+
+### Sequential-lesson request
+
+Rewrite the opening of the first Ash lesson. It follows a shared setup page and
+must teach through the existing literal and arithmetic programs.
+
+### Sequential-lesson passing condition
+
+The agent discovers and uses `writing-ash-documentation`, begins with reader
+activity, and introduces vocabulary after an observation creates a need for it.
+The lesson continues a learning sequence and renders no state, target,
+specification inventory, canonical-source link, evidence report, or project
+limitation. Any required page-local metadata uses YAML front matter.
+
+## Assistant-supported exercise
+
+### Assistant request
+
+Add optional chat or coding-agent help to an exercise about nested function
+calls. The lesson must remain useful to a learner working without an agent.
+
+### Assistant passing condition
+
+The agent discovers and uses `writing-ash-documentation`. It preserves a
+complete no-agent path and adds a short, product-neutral prompt grounded in the
+lesson, repository, and observed `ash` output. The prompt asks one question at
+a time, uses only concepts introduced so far, and initially withholds a
+finished solution. It treats the CLI observation, not the assistant, as the
+test of program behavior.
