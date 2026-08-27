@@ -118,9 +118,9 @@ main () = Lists.map (fn(number) {
 }) (Lists.More(41, Lists.Empty))
 ```
 
-Because `pub type List<A>` exports the complete constructor family, the
-complete import makes `Lists.More` and `Lists.Empty` available through the
-`Lists` alias.
+Because `pub type List<A>` makes the type and all its constructors public, the
+import makes `Lists.More` and `Lists.Empty` available through the alias
+`Lists`.
 
 The import and qualified names follow the module boundary from the second
 lesson. Here `A` and `B` are both `Int`: the anonymous function transforms an
