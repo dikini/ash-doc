@@ -641,17 +641,28 @@ disposition are recorded.
   `expected List with 1 type arguments` cause and status `1`. This is the
   smallest negative example for pinned nominal
   [type-argument arity](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#type-and-constructor-scope).
-- **Exercise and assistant prompt — retain.**
+- **Exercise — retain.**
   [*Exercise: change the element type*](../../content/learn/definitions-for-many-types/README.md#exercise-change-the-element-type)
   requires lesson 2's separate module, lesson 4's equality and `Bool`, lessons
   7–9's constructors, patterns, and recursive list, lesson 10's function
   value, and this lesson's `A`/`B` account. The learner must identify
   `A = Int` and `B = Bool`, predict the two-element `List<Bool>`, and trace one
-  call per `More` plus the `Empty` call before running it. The one assistant
-  prompt appears at this course-level recombination and adds a distinct check
-  of the learner's own nested value, decreasing `rest`, and consistent type
-  parameters. It remains explicitly optional and withholds the transformation
-  result.
+  call per `More` plus the `Empty` call before running it. Keeping `lists.ash`
+  unchanged makes the reasoning task an application of the provided generic
+  structure rather than a redesign of `map`.
+- **Assistant prompt before *Supplying every type parameter* — revise
+  locally.** The prompt follows the completed `03-list-main.ash` trace and asks
+  the learner to draw that program's input and output lists, check each smaller
+  `rest`, and reconcile `A` and `B`; those are useful checks of the final
+  recombination. However, its opening says “Before changing `map`,” although no
+  surrounding task asks for such a change and the later exercise explicitly
+  says to keep `lists.ash` unchanged. Challenging the phrase against the
+  index's edit-predict-run-explain method does not supply a missing edit: the
+  observable work is to reason about calls that use `map`, not to alter its
+  equations. A later bounded correction should align the prompt's action and
+  placement with the existing trace or exercise while preserving the
+  unchanged `lists.ash` boundary; it needs no source, check, or structural
+  change.
 - **Closure — retain.**
   [*The beginning model*](../../content/learn/definitions-for-many-types/README.md#the-beginning-model)
   names parametric polymorphism only after the function, data, and `map`
@@ -705,19 +716,21 @@ disposition are recorded.
   order as the project path, and the lesson 10 handoff leads directly into the
   final type-parameter question. The index owns one-time setup and reading
   order; neither final lesson repeats edition administration.
-- **Optional assistant guidance — retain.** The index explicitly says every
-  chapter works without an assistant and limits dialogue to evidence from the
-  lesson, repository, and observed `ash` output. Lesson 10 needs no separate
-  prompt, while lesson 11 uses one only for the learner's complex recursive
-  trace. The runnable sources, explanations, negative boundaries, and exercises
-  remain sufficient without that prompt.
+- **Optional assistant course boundary — retain.** The index explicitly says
+  every chapter works without an assistant and limits dialogue to evidence
+  from the lesson, repository, and observed `ash` output. Lesson 10 needs no
+  separate prompt, and lesson 11 remains complete through its runnable sources,
+  explanations, negative boundary, and exercise. The local action mismatch in
+  lesson 11's prompt requires the revision recorded above, but it neither makes
+  the assistant necessary nor changes the course-level optional boundary.
 - **Structural decision — retain.** The prerequisite graph has no cycle:
   lesson 10 extends the partial-function observation from lesson 3, and lesson
   11 draws only on lessons 2–10 before completing the abstraction. Its staged
   `identity`, `Box`, `List`, and `map` examples keep function and data
   parameterization distinct before recombination. No transition needs a split
-  or reorder, and local revision remains sufficient for the one accepted
-  continuity finding in lesson 5.
+  or reorder. The lesson 5 exercise antecedent and lesson 11 assistant-prompt
+  action are two independent local continuity repairs, not evidence for a
+  structural change.
 
 ### Task 1: Reconfirm the baseline and course contract
 
