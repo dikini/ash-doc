@@ -49,7 +49,26 @@ retain, revise locally, verify against a governing source, consider structural
 change, or route outside ash-doc. Do not propose wording until the evidence and
 disposition are recorded.
 
-No findings recorded yet.
+### Baseline
+
+- Intended outcome: a learner can design, run, and explain a pure multi-file
+  Ash program over data they define; trace values through functions; use
+  patterns and recursion to follow data; and use type parameters when a
+  definition is independent of its element type.
+- Lesson order: programs and functions; modules and complete imports; multiple
+  inputs; choices; local bindings; tuples; nominal data; data forms and
+  patterns; recursive data and functions; functions as values; and parametric
+  functions and data.
+- Excluded topics: interfaces, implementations, constraints, and ad-hoc
+  polymorphism; opaque representation; targeted imports, named roots, and
+  re-exports; advanced recursive initialization; and documentation tooling or
+  publication mechanisms.
+- Review boundary: cross from lesson-local executable verification to the
+  continuity of the eleven lessons as one reader experience. Audit
+  prerequisites, transitions, vocabulary, exercises, assistant prompts, and
+  the final outcome without adding another language topic.
+- Executable baseline: `Verified 11 learning lesson(s) at
+  dca16039923475c48025c5f17beadeb6bcb6a4bf.`
 
 ### Task 1: Reconfirm the baseline and course contract
 
