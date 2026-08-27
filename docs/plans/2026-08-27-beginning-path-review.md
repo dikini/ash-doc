@@ -53,16 +53,26 @@ disposition are recorded.
 
 - Intended outcome: a learner can design, run, and explain a pure multi-file
   Ash program over data they define; trace values through functions; use
-  patterns and recursion to follow data; and use type parameters when a
-  definition is independent of its element type.
-- Lesson order: programs and functions; modules and complete imports; multiple
-  inputs; choices; local bindings; tuples; nominal data; data forms and
-  patterns; recursive data and functions; functions as values; and parametric
-  functions and data.
-- Excluded topics: interfaces, implementations, constraints, and ad-hoc
-  polymorphism; opaque representation; targeted imports, named roots, and
-  re-exports; advanced recursive initialization; and documentation tooling or
-  publication mechanisms.
+  patterns to distinguish data; follow a data definition with recursion; and
+  use type parameters when a definition does not depend on a particular
+  element type.
+- Lesson order:
+
+  1. *What is an Ash program?*
+  2. *How can one source file use another?*
+  3. *How can a function use more than one input?*
+  4. *How can a program choose a result?*
+  5. *How can a calculation name an intermediate value?*
+  6. *How can several values travel together?*
+  7. *How can a program define its own data?*
+  8. *How can a function handle each form of data?*
+  9. *How can a function follow recursive data?*
+  10. *How can a function itself be a value?*
+  11. *How can one definition work with many types?*
+- Excluded topics: interfaces, implementations, constraints, or ad-hoc
+  polymorphism; opaque or hidden representation boundaries; targeted imports,
+  named roots, or re-export details; advanced restrictions on recursive
+  initialization; and documentation tooling and publication mechanisms.
 - Review boundary: cross from lesson-local executable verification to the
   continuity of the eleven lessons as one reader experience. Audit
   prerequisites, transitions, vocabulary, exercises, assistant prompts, and
