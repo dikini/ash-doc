@@ -80,6 +80,243 @@ disposition are recorded.
 - Executable baseline: `Verified 11 learning lesson(s) at
   dca16039923475c48025c5f17beadeb6bcb6a4bf.`
 
+### Lessons 1–5: programs and calculations
+
+#### Lesson 1: *What is an Ash program?*
+
+- **Prerequisites and opening — retain.** The opening before the first
+  `ash program.ash` command assumes only the index setup and contrasts a list
+  of commands with definitions whose expressions calculate values. It then
+  establishes `main ()` as the entry calculation and `value : Type` as the
+  observation. The `01-literal.ash` result is `42 : Int`, exactly as the
+  [lesson verifier](../../content/learn/what-is-an-ash-program/checks/verify.sh)
+  asserts. This model agrees with the pinned specification's
+  [entry contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules)
+  and the pinned tool's
+  [successful-output contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md#successful-output).
+- **Predict, run, and explain — retain.** In
+  [*Expressions calculate values*](../../content/learn/what-is-an-ash-program/README.md#expressions-calculate-values),
+  `02-addition.ash` asks for the value before the run, while
+  `03-precedence.ash` and `04-grouping.ash` pair predictions with explicit
+  calculations and observed `7 : Int` and `9 : Int`. In
+  [*Giving a calculation a name*](../../content/learn/what-is-an-ash-program/README.md#giving-a-calculation-a-name),
+  `05-function-call.ash` and `06-composition.ash` reuse the smaller-expression
+  model to calculate outward before reporting `42 : Int`.
+  `01-literal.ash` appropriately establishes the first observation before
+  asking for predictions. The verifier asserts every displayed result, and the
+  sequence follows pinned
+  [precedence](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#precedence-and-associativity),
+  [application](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application),
+  and
+  [primitive-operation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#primitive-operations)
+  behavior.
+- **Vocabulary at `double (increment 20)` — revise locally.** The passage
+  calls nesting one function call inside another *function composition* after
+  already explaining the observable relationship: the result of `increment`
+  becomes the input to `double`. Challenging the change against later use does
+  not justify the extra term: lesson 5 returns to the same identifier and calls
+  it a nested expression, while the earlier expression and function-call model
+  is the smaller sufficient account. A later edit should remove or narrow the
+  term without changing `06-composition.ash` or its result.
+- **Negative boundary — retain.**
+  [*Where does evaluation begin?*](../../content/learn/what-is-an-ash-program/README.md#where-does-evaluation-begin)
+  changes only `main` to `answer`; the reader runs `07-missing-main.ash`, sees
+  `entry.missing-main`, and explains why an otherwise valid definition is not
+  the entry. The verifier also requires the causal text about no local `main`
+  and status `1`, matching the pinned
+  [program rule](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules)
+  and tool
+  [failure contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md#failures).
+- **Exercise and assistant prompts — retain.**
+  [*Exercise: square, then double*](../../content/learn/what-is-an-ash-program/README.md#exercise-square-then-double)
+  requires only signatures, one-input definitions, calls, multiplication, and
+  inside-out prediction already introduced in this lesson; its expected
+  reasoning is `square 3` to `9`, then `double 9` to `18 : Int`. The grouping
+  prompt asks the learner to defend a comparison, while the exercise prompt
+  asks them to trace one expression at a time. Those are distinct uses of
+  dialogue and both withhold a solution until after the learner reasons.
+- **Handoff — retain.**
+  [*The whole program*](../../content/learn/what-is-an-ash-program/README.md#the-whole-program)
+  gathers definitions, expressions, calls, `main`, and the tool observation,
+  then makes the one-file boundary explicit. That creates the next lesson's
+  question—how one file can use a definition from another—without introducing
+  module vocabulary early.
+
+#### Lesson 2: *How can one source file use another?*
+
+- **Prerequisites and opening — retain.** The opening names lesson 1's
+  one-file definitions and `main` as its starting point, then establishes the
+  new model before `ash main.ash`: two source files remain parts of one program
+  and an import connects their modules. `arithmetic.ash` reuses the earlier
+  `double` call before introducing `pub`; `01-main.ash` then introduces the
+  import path, alias, and qualified call. This agrees with pinned
+  [module paths](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#module-paths-and-identity)
+  and
+  [imports and namespaces](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#imports-and-namespaces).
+- **Positive and negative tool cycle — revise locally.** The unnamed opening
+  passage gives the `42 : Int` result before tracing
+  `Arithmetic.answer ()` through `double 21`; the
+  [*What remains inside a module?*](../../content/learn/using-another-source-file/README.md#what-remains-inside-a-module)
+  passage similarly announces `resolve.unavailable-export` before asking the
+  learner to account for `02-private-main.ash`. The verifier establishes both
+  exact observations and the private-declaration cause. Earlier lesson 1
+  already taught prediction, so a small invitation to predict each outcome is
+  sufficient; the existing private negative case already establishes the
+  boundary and needs no new example. The disposition remains local after that
+  challenge. The cause is governed by pinned
+  [public and private declarations](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations).
+- **Exercise — retain.**
+  [*Exercise: move `square`*](../../content/learn/using-another-source-file/README.md#exercise-move-square)
+  depends on lesson 1's `square`, signatures, calls, prediction, and `main`,
+  plus this lesson's two-file layout, `pub`, import alias, and qualified call.
+  The learner must predict `36 : Int`, then remove `pub` and explain the
+  changed observation as an access boundary between the two modules.
+- **Assistant prompt — retain.** The prompt in
+  [*What remains inside a module?*](../../content/learn/using-another-source-file/README.md#what-remains-inside-a-module)
+  adds a distinct cross-file diagnostic task: locate the import, alias, public
+  declaration, and qualified occurrence before considering a change. The
+  lesson remains complete without it, and the prompt uses only names already
+  introduced.
+- **Handoff — retain.**
+  [*One program, two files*](../../content/learn/using-another-source-file/README.md#one-program-two-files)
+  gathers the module access model, then points out that every function used so
+  far still receives one input. This directly creates the question answered by
+  lesson 3 rather than adding another module feature.
+
+#### Lesson 3: *How can a function use more than one input?*
+
+- **Prerequisites and opening — retain.** The opening recalls lesson 1's
+  one-input `double`, lesson 2's `Arithmetic.answer ()`, and the established
+  function-call model. Before the first run it establishes that each call
+  supplies one input and may leave a function waiting for another. That is the
+  working model needed to read `Int -> Int -> Int`, whose arrows are
+  [right-associative](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#precedence-and-associativity),
+  and application remains unary under pinned
+  [function typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#functions-and-application).
+- **Predict, run, and explain — retain.**
+  [*Supplying two inputs*](../../content/learn/using-more-than-one-input/README.md#supplying-two-inputs)
+  calculates `add 20 22` before the `42 : Int` run;
+  [*Pausing after the first input*](../../content/learn/using-more-than-one-input/README.md#pausing-after-the-first-input)
+  asks what is missing before observing `<function> : Int -> Int`, then
+  `03-reuse-a-partial-call.ash` traces the remembered input before its run.
+  [*Each input keeps its type*](../../content/learn/using-more-than-one-input/README.md#each-input-keeps-its-type)
+  uses `04-wrong-input.ash` to explain `type.argument` from the remaining
+  `Int -> Int` domain. The verifier asserts all four observations, including
+  `expected Int` and status `1`; the function rendering is part of the pinned
+  tool's
+  [successful-output contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md#successful-output).
+- **Exercise — retain.**
+  [*Exercise: multiply three numbers*](../../content/learn/using-more-than-one-input/README.md#exercise-multiply-three-numbers)
+  uses only multiplication, signatures, parameters, calls, and the newly
+  introduced right-associated-arrow model. The learner must account for three
+  inputs, predict both an integer result and the type left after two inputs,
+  then complete and run the call.
+- **No assistant prompt — retain.** The chapter supplies the two-step model,
+  concrete arrow regrouping, a rendered function value, a reusable partial
+  call, and a type rejection. An assistant would not add a distinct task to
+  the existing predict-and-explain sequence, and the exercise remains
+  self-contained.
+- **Handoff — retain.**
+  [*From inputs to decisions*](../../content/learn/using-more-than-one-input/README.md#from-inputs-to-decisions)
+  gathers complete and partial calls, then contrasts every calculation's fixed
+  route with the need to inspect a value. That creates lesson 4's decision
+  question using the expression model already in place.
+
+#### Lesson 4: *How can a program choose a result?*
+
+- **Prerequisites and opening — retain.** The opening depends on the earlier
+  expression-tracing model and lesson 3's multi-input calls. Before the first
+  run, it establishes a two-part decision: an expression produces `true` or
+  `false`, and a `match` supplies one result expression for each value. The
+  later `choose : Bool -> Int -> Int -> Int` therefore adds no new call shape.
+- **Question and choice observations — retain.**
+  [*Asking a question*](../../content/learn/choosing-a-result/README.md#asking-a-question)
+  predicts `20 + 22 == 42` before observing `true : Bool`, then asks for a
+  changed prediction and run with `41`.
+  [*Describing both choices*](../../content/learn/choosing-a-result/README.md#describing-both-choices)
+  traces `02-choose.ash` for `true` and reasons about the `false` alternative;
+  [*Calculating the condition*](../../content/learn/choosing-a-result/README.md#calculating-the-condition)
+  traces the earlier arithmetic expression into `03-calculated-choice.ash`.
+  Challenging the lack of a repeated run command does not justify revision:
+  the equality run establishes the observation, the two traces explain the new
+  match behavior, the exercise runs both routes, and the verifier asserts all
+  three canonical results. This varied sequence avoids turning the tool cycle
+  into a repeated prose template. The calculations agree with pinned
+  [primitive operations](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#primitive-operations)
+  and
+  [match evaluation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+- **Negative boundary — retain.**
+  [*Accounting for every value*](../../content/learn/choosing-a-result/README.md#accounting-for-every-value)
+  starts from the newly established two-value `Bool` model, removes the
+  `false` arm in `04-missing-choice.ash`, and explains
+  `coverage.non-exhaustive` as a pre-execution rejection. The verifier asserts
+  that reason, its stable causal text, and status `1`, matching pinned
+  [match coverage](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#patterns-matches-and-coverage).
+- **Exercise and assistant prompt — retain.**
+  [*Exercise: keep or double*](../../content/learn/choosing-a-result/README.md#exercise-keep-or-double)
+  requires only lesson 3's two-input signatures and calls plus this lesson's
+  `Bool`, equality, match arms, and common `Int` result. The learner predicts
+  both direct Boolean routes and then replaces the condition with a calculated
+  equality. The assistant prompt has distinct value at the negative boundary:
+  it asks the learner to identify and justify the missing value before seeking
+  feedback, without teaching diagnostic presentation as a contract.
+- **Handoff — retain.**
+  [*A complete decision*](../../content/learn/choosing-a-result/README.md#a-complete-decision)
+  gathers Boolean production, exhaustive matching, and the selected result,
+  then identifies the cost of repeating a growing expression when one arm has
+  several steps. This creates lesson 5's local-name question.
+
+#### Lesson 5: *How can a calculation name an intermediate value?*
+
+- **Prerequisites and opening — retain.** The opening returns to lesson 1's
+  exact `double (increment 20)` expression and the smaller-expression model.
+  Before any run, it establishes a block as one expression that can name the
+  ordered route to its one result. This accurately anticipates pinned block
+  [syntax](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#grammar)
+  and left-to-right
+  [local scope](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#local-scope).
+- **Positive observations — retain.**
+  [*Naming one result*](../../content/learn/naming-intermediate-values/README.md#naming-one-result)
+  explains the `01-one-name.ash` binding and final expression, traces each, and
+  then runs the program for `42 : Int`.
+  [*Letting one step use another*](../../content/learn/naming-intermediate-values/README.md#letting-one-step-use-another)
+  makes the dependency in `02-several-names.ash` explicit, predicts `21` then
+  `42`, and asks the run to check the chain. The verifier asserts both results,
+  and pinned
+  [block typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#blocks)
+  and
+  [binding evaluation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#bindings)
+  support the causal account.
+- **Negative boundary — retain.**
+  [*Names appear in order*](../../content/learn/naming-intermediate-values/README.md#names-appear-in-order)
+  changes `03-forward-reference.ash` so `answer` depends on a later local,
+  explains why `later` is not in scope, observes `resolve.unknown-name`, and
+  asks the learner to reorder and rerun. The verifier asserts the stable reason,
+  `not in scope`, and status `1`. The existing negative is the smallest account
+  of ordinary sequential `let`; the pinned
+  [local-scope rule](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#local-scope)
+  also keeps the later recursion topic intentionally out of this lesson.
+- **Exercise prerequisite — revise locally.**
+  [*Exercise: expose the hidden steps*](../../content/learn/naming-intermediate-values/README.md#exercise-expose-the-hidden-steps)
+  appropriately asks the learner to name the intermediate results and preserve
+  `42 : Int`, using only lesson 1's `increment`, `double`, and inside-out trace
+  plus this lesson's sequential bindings. However, “Keep the existing
+  `increment` and `double` definitions” has no local antecedent: all three
+  canonical programs in this lesson define only `main`. Challenging the issue
+  against lesson 1 confirms that the needed definitions already exist there,
+  so the smallest later fix is an explicit pointer back to that earlier
+  program, not a new example or structural change.
+- **No assistant prompt — retain.** The chapter already makes the intermediate
+  values visible in prose calculations, tests the ordering boundary, and gives
+  a bounded rewrite exercise. After the exercise prerequisite is clarified,
+  dialogue would not add a distinct task and the lesson remains independently
+  usable.
+- **Handoff — retain.**
+  [*A calculation with visible steps*](../../content/learn/naming-intermediate-values/README.md#a-calculation-with-visible-steps)
+  gathers blocks, sequential local names, and the final result, then contrasts
+  one name for one value with several values that belong to one step. That
+  directly creates lesson 6's question of how several values travel together.
+
 ### Task 1: Reconfirm the baseline and course contract
 
 **Files:**
