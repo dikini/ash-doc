@@ -118,6 +118,10 @@ main () = Lists.map (fn(number) {
 }) (Lists.More(41, Lists.Empty))
 ```
 
+Because `pub type List<A>` exports the complete constructor family, the
+complete import makes `Lists.More` and `Lists.Empty` available through the
+`Lists` alias.
+
 The import and qualified names follow the module boundary from the second
 lesson. Here `A` and `B` are both `Int`: the anonymous function transforms an
 integer into an integer, and the input list contains `41`.

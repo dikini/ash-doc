@@ -716,18 +716,21 @@ disposition are recorded.
   [complete import](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#imports-and-namespaces)
   exposes the public type and constructors through the alias. Challenging the
   existing observation against the needed causal account shows that the code
-  alone leaves this first feature interaction implicit. A later one-sentence
-  local clarification should connect `pub type` to the qualified constructor
-  uses; it needs no new example, check, or structural change.
+  alone leaves this first feature interaction implicit. The bounded
+  one-sentence clarification connects `pub type` to the qualified constructor
+  uses without a new example, check, or structural change.
 - **Intended outcome test — revise locally.** The final trace lets the reader
   predict the one-element transformation, follow `More(first, rest)` and
   `map transform rest` together to `Empty`, explain the anonymous function as
   the value supplied to `transform`, identify `A` as the input element type
   and `B` as the output element type, and read `Lists.List`, `Lists.map`,
   `Lists.More`, and `Lists.Empty` through the lesson 2 module alias. The local
-  constructor-export clarification recorded above is still needed for a
-  causal explanation of those last two qualified names. Design practice is
-  explicit across four tasks: lesson 2's
+  clarification now supplies a causal explanation of those last two qualified
+  names under pinned
+  [public transparent visibility](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations)
+  and
+  [complete imports](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#imports-and-namespaces).
+  Design practice is explicit across four tasks: lesson 2's
   [*Exercise: move `square`*](../../content/learn/using-another-source-file/README.md#exercise-move-square)
   builds and diagnoses a two-file program; lesson 7's
   [*Exercise: describe a reading*](../../content/learn/defining-data/README.md#exercise-describe-a-reading)
