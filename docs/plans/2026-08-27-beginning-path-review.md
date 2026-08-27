@@ -530,6 +530,195 @@ disposition are recorded.
   would obscure that course-level dependency, so no structural change is
   warranted.
 
+### Lessons 10–11: functional abstraction
+
+#### Lesson 10: *How can a function itself be a value?*
+
+- **Prerequisites and opening — retain.** The opening returns to lesson 3's
+  observable `add 20` result and its remaining `Int -> Int` type. Before
+  `01-named-function.ash`, it extends that model by stating that a function is
+  a value that can be supplied as an input, produced as a result, or associated
+  with a name. That is the smallest bridge from partial application to the
+  function-valued domain in `apply_twice : (Int -> Int) -> Int -> Int`, whose
+  parentheses and right-associated remaining arrows depend only on lesson 3.
+  Pinned
+  [function typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#functions-and-application)
+  treats the supplied `transform` as an ordinary callable value.
+- **Named and anonymous function observations — retain.** In
+  [*Giving a function as an input*](../../content/learn/functions-as-values/README.md#giving-a-function-as-an-input),
+  `01-named-function.ash` calculates the two nested `increment` calls before
+  the reader runs the program and observes `42 : Int`. In
+  [*Writing a function where it is needed*](../../content/learn/functions-as-values/README.md#writing-a-function-where-it-is-needed),
+  `02-anonymous-function.ash` changes only the presentation of that
+  transformation, explains how the expected `Int -> Int` type checks its
+  parameter and result, and predicts the unchanged `42` observation. The
+  shared lesson method supplies the run, and the
+  [lesson verifier](../../content/learn/functions-as-values/checks/verify.sh)
+  asserts both results. The comparison explains the naming choice after the
+  equivalent behavior is visible rather than treating `fn` as a separate call
+  mechanism.
+- **Produced-function observation — retain.** In
+  [*Producing a function*](../../content/learn/functions-as-values/README.md#producing-a-function),
+  `03-remembered-input.ash` first traces `make_adder 20` to the function that
+  retains `20`, then supplies `22` and traces the complete call to `42`. This
+  makes the earlier partial-call model account for a source-written anonymous
+  function and gives the reader observable reasoning before the verifier's
+  `42 : Int` result. The statement that `amount` remains available is governed
+  by pinned lexical
+  [application](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
+  and its
+  [capture derivation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#lexical-capture-v-004).
+- **Negative function-domain boundary — retain.** In
+  [*A function parameter requires a function*](../../content/learn/functions-as-values/README.md#a-function-parameter-requires-a-function),
+  `04-not-a-function.ash` changes only the first argument of `apply_twice` from
+  a function to the integer `2`. The signature lets the reader predict why
+  Ash rejects the call with `type.argument`, and the verifier requires
+  `expected Int -> Int` and status `1`. The example therefore isolates the
+  callable-value boundary without introducing any later abstraction topic.
+- **Exercise and no assistant prompt — retain.**
+  [*Exercise: apply three times*](../../content/learn/functions-as-values/README.md#exercise-apply-three-times)
+  requires only lesson 1's nested calls, lesson 3's function-valued partial
+  result, and this lesson's named and anonymous function inputs. The learner
+  must predict and trace three successive calls in both presentations before
+  checking that each produces the same integer. The lesson already compares
+  those presentations, derives a captured function, and tests the type
+  boundary; an assistant prompt would not add a distinct reasoning task.
+- **Handoff — retain.**
+  [*Calculations as data*](../../content/learn/functions-as-values/README.md#calculations-as-data)
+  gathers receiving, calling, constructing, and returning function values,
+  then identifies the integer-specific parts of `apply_twice` and lesson 9's
+  `IntList`. This creates lesson 11's type-independence question without
+  introducing type-parameter syntax or claiming behavior beyond the pinned
+  rank-1 model.
+
+#### Lesson 11: *How can one definition work with many types?*
+
+- **Prerequisites and opening — retain.** The opening names the exact two
+  limitations left by lessons 9 and 10: `IntList` fixes its element type, and
+  `apply_twice` fixes its transformation to `Int -> Int`. Before
+  `01-identity.ash`, it establishes a type parameter as a name for an
+  unspecified type and the invariant that the definition cannot depend on
+  which type replaces it. Pinned name resolution
+  [implicitly binds](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#global-scope)
+  free uppercase names in global signatures, while pinned
+  [rank-1 inference](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#inference-and-rank-1-restrictions)
+  instantiates each use without source type arguments.
+- **Parameterized-function observation — retain.** In
+  [*One function, different uses*](../../content/learn/definitions-for-many-types/README.md#one-function-different-uses),
+  `01-identity.ash` explains `A -> A`, predicts `A = Int` for `identity 42`
+  and `A = Bool` for `identity true`, then presents the run's
+  `(42, true) : (Int, Bool)` observation. The
+  [lesson verifier](../../content/learn/definitions-for-many-types/checks/verify.sh)
+  asserts that result. The unchanged body is enough to explain both calls, so
+  the example introduces reuse independently of recursive data.
+- **Parameterized-data observation — retain.** In
+  [*Data with an element type*](../../content/learn/definitions-for-many-types/README.md#data-with-an-element-type),
+  `02-box.ash` carries the same `A` model into `type Box<A> = Box(A)`. The
+  constructor calculations identify `Box<Int>` and `Box<Bool>` before the
+  verifier asserts `(Box(42), Box(false)) : (Box<Int>, Box<Bool>)`; the prose
+  then explains why the shared shape does not make those complete types equal.
+  This depends on lesson 7's nominal construction and lesson 6's tuple
+  observation, and agrees with pinned parameterized
+  [constructor typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#tuples-and-constructors).
+- **Reusable-list and `map` observations — retain.** In
+  [*A list that leaves its elements open*](../../content/learn/definitions-for-many-types/README.md#a-list-that-leaves-its-elements-open),
+  `lists.ash` first preserves lesson 9's `Empty | More` shape while replacing
+  the integer field with `A`. The prose reads every part of
+  `map : (A -> B) -> List<A> -> List<B>`, follows both equations, and explains
+  the invariant: `transform` alone changes one element, while the recursive
+  call preserves the list shape over `rest`. Only then does
+  `03-list-main.ash` supply an anonymous `Int -> Int` transformation through a
+  qualified import. The displayed three-step trace predicts
+  `More(42, Empty) : List<Int>`, which the verifier asserts. This sequence
+  recombines function values, constructor equations, and structural recursion
+  only after each was independently established.
+- **Negative saturation boundary — retain.** In
+  [*Supplying every type parameter*](../../content/learn/definitions-for-many-types/README.md#supplying-every-type-parameter),
+  `04-unsaturated-list.ash` contrasts the previously complete `List<Int>` and
+  `List<A>` uses with a bare `List` in `keep : List -> List`. The reader can
+  locate the missing argument from `type List<A>` before observing
+  `resolve.type-argument-count`; the verifier also requires the stable
+  `expected List with 1 type arguments` cause and status `1`. This is the
+  smallest negative example for pinned nominal
+  [type-argument arity](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#type-and-constructor-scope).
+- **Exercise and assistant prompt — retain.**
+  [*Exercise: change the element type*](../../content/learn/definitions-for-many-types/README.md#exercise-change-the-element-type)
+  requires lesson 2's separate module, lesson 4's equality and `Bool`, lessons
+  7–9's constructors, patterns, and recursive list, lesson 10's function
+  value, and this lesson's `A`/`B` account. The learner must identify
+  `A = Int` and `B = Bool`, predict the two-element `List<Bool>`, and trace one
+  call per `More` plus the `Empty` call before running it. The one assistant
+  prompt appears at this course-level recombination and adds a distinct check
+  of the learner's own nested value, decreasing `rest`, and consistent type
+  parameters. It remains explicitly optional and withholds the transformation
+  result.
+- **Closure — retain.**
+  [*The beginning model*](../../content/learn/definitions-for-many-types/README.md#the-beginning-model)
+  names parametric polymorphism only after the function, data, and `map`
+  examples have established its invariant. It then gathers modules,
+  definitions, expressions, functions, data, patterns, `main ()`, and the tool
+  observation as teaching content. Pinned
+  [type erasure](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#type-erasure)
+  supports the claim that the runtime calculation does not inspect type
+  parameters.
+
+### Final reader model and course frame
+
+- **Final program dependency trace — retain.** Every idea in `lists.ash` and
+  `03-list-main.ash` has an earlier teaching dependency: lesson 1 supplies
+  `main`, signatures, expressions, integer addition, calls, and value/type
+  observations; lesson 2 supplies two source modules, `pub`, a complete import,
+  its alias, and qualified use; lesson 3 supplies chained arrows and calls;
+  lesson 7 supplies nominal data and constructors; lesson 8 supplies
+  constructor patterns and one equation per form; lesson 9 supplies the
+  self-referential `rest` field and recursive call; and lesson 10 supplies the
+  function-valued input and anonymous function. Lesson 11 then adds `A` and
+  `B`, first in `identity` and `Box`, before combining them in `List` and
+  `map`. Lesson 6's fixed tuple shape also underlies `More`'s two ordered
+  fields, already applied to recursive data in lesson 9. No final-program idea
+  requires a later lesson.
+- **Intended outcome test — retain.** The final trace lets the reader predict
+  the one-element transformation, follow `More(first, rest)` and
+  `map transform rest` together to `Empty`, explain the anonymous function as
+  the value supplied to `transform`, identify `A` as the input element type
+  and `B` as the output element type, and follow `Lists.List`, `Lists.map`,
+  `Lists.More`, and `Lists.Empty` through the lesson 2 module alias. The
+  exercise then changes `B` from `Int` to `Bool` while preserving list shape.
+  Across the path's earlier exercises, this completes the
+  [intended outcome](../project/beginning-learning-path.md#intended-outcome):
+  design, run, and explain a pure multi-file program over defined data, trace
+  its values, follow patterns and recursion, and use type parameters where the
+  element type is irrelevant.
+- **Excluded-topic boundary — retain.** The final program needs only a public
+  transparent type and public function reached through the complete import
+  model already introduced in lesson 2. Its reuse follows from unconstrained
+  type parameters and ordinary function application; it does not depend on
+  interfaces, implementations, constraints, ad-hoc polymorphism, opacity,
+  targeted or named-root imports, re-exports, recursive initialization, or
+  documentation machinery. The lesson therefore stays inside the
+  [beginning-path exclusions](../project/beginning-learning-path.md#outside-the-beginning-path).
+- **Learning index method and order — retain.**
+  [*How to work through a lesson*](../../content/learn/README.md#how-to-work-through-a-lesson)
+  supplies the shared edit, predict, run, inspect, and explain cycle that the
+  lessons vary rather than repeat mechanically. The
+  [contents](../../content/learn/README.md#contents) list the same eleven-lesson
+  order as the project path, and the lesson 10 handoff leads directly into the
+  final type-parameter question. The index owns one-time setup and reading
+  order; neither final lesson repeats edition administration.
+- **Optional assistant guidance — retain.** The index explicitly says every
+  chapter works without an assistant and limits dialogue to evidence from the
+  lesson, repository, and observed `ash` output. Lesson 10 needs no separate
+  prompt, while lesson 11 uses one only for the learner's complex recursive
+  trace. The runnable sources, explanations, negative boundaries, and exercises
+  remain sufficient without that prompt.
+- **Structural decision — retain.** The prerequisite graph has no cycle:
+  lesson 10 extends the partial-function observation from lesson 3, and lesson
+  11 draws only on lessons 2–10 before completing the abstraction. Its staged
+  `identity`, `Box`, `List`, and `map` examples keep function and data
+  parameterization distinct before recombination. No transition needs a split
+  or reorder, and local revision remains sufficient for the one accepted
+  continuity finding in lesson 5.
+
 ### Task 1: Reconfirm the baseline and course contract
 
 **Files:**
