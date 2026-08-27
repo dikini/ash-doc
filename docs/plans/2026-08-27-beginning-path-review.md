@@ -309,8 +309,12 @@ disposition are recorded.
   `increment` and `double` definitions” has no local antecedent: all three
   canonical programs in this lesson define only `main`. Challenging the issue
   against lesson 1 confirms that the needed definitions already exist there,
-  so the smallest later fix is an explicit pointer back to that earlier
-  program, not a new example or structural change.
+  so the bounded correction points back to that earlier program rather than
+  adding a new example or structural change. The rewrite remains governed by
+  pinned
+  [block typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#blocks)
+  and
+  [binding evaluation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#bindings).
 - **No assistant prompt — retain.** The chapter already makes the intermediate
   values visible in prose calculations, tests the ordering boundary, and gives
   a bounded rewrite exercise. After the exercise prerequisite is clarified,

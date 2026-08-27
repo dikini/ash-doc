@@ -111,7 +111,9 @@ main : Unit -> Int
 main () = double (increment 20)
 ```
 
-Keep the existing `increment` and `double` definitions. In the block:
+Start from the
+[first lesson's program](../what-is-an-ash-program/README.md#giving-a-calculation-a-name),
+and keep its existing `increment` and `double` definitions. In the block:
 
 1. name the result of `increment 20`;
 2. name the result of doubling that value; and
