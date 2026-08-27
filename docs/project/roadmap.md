@@ -48,6 +48,8 @@ integer expression through the parameterized list transformation.
 
 Active design:
 [beginning path review](../plans/2026-08-27-beginning-path-review-design.md).
+Active execution plan:
+[beginning path review plan](../plans/2026-08-27-beginning-path-review.md).
 
 The [beginning learning path](beginning-learning-path.md) records the verified
 sequence and intended outcome. This increment reviews the whole path; it does
