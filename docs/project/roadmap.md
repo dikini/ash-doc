@@ -7,60 +7,46 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: complete eleven-lesson beginning path verified; whole-path
-  review is next
+- Repository state: complete eleven-lesson beginning path verified and
+  reviewed; first repository-source edition publication is next
 - Published documentation tag: none
 
 ## Verified increment
 
-[*How can one definition work with many types?*](../../content/learn/definitions-for-many-types/README.md)
-completes the beginning path with parametric functions and data. Its final
-example combines a public parameterized list, recursive `map`, a function
-value, and a qualified module use without introducing constrained or ad-hoc
-behavior.
+The [beginning learning path](beginning-learning-path.md) passes its whole-path
+review as one reader experience. All eleven lesson checks pass at
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`, every displayed runnable program
+agrees with its canonical source, and the final lesson fulfills the path's
+intended outcome.
 
-The learning-family check now:
-
-- builds the Ash tool once at the pinned commit;
-- runs every canonical program in all eleven lessons;
-- compares each accepted result with the documented observation;
-- checks rejected programs for their causal diagnostics; and
-- checks every displayed program against its canonical source.
-
-Each lesson keeps a local entry point and declares its own cases. A small
-shared Bash helper owns the repeated build, execution, diagnostic, and
-source-agreement mechanisms.
-
-The learning-family index owns setup, study method, optional assistant
-guidance, and reading order. Lessons contain educational prose and inherit the
-edition target from the repository root. Project records and checks retain
-state, source, and evidence administration.
-
-Each lesson introduces a working model before its first command, develops that
-model through connected examples, and gathers the answer at its close. The
-preferred project writing skill carries this paragraph-level guidance into
-future lessons.
+The review made three local continuity repairs: lesson 5 now identifies the
+earlier source used by its exercise; lesson 11's assistant prompt matches the
+reasoning task it supports; and lesson 11 explains why a public transparent
+type's constructors are available through its complete import. No lesson
+split, reorder, new language topic, executable change, or project mechanism
+was warranted.
 
 ## Next complete increment
 
-Review the beginning learning path as one reader experience, from the first
-integer expression through the parameterized list transformation.
+Publish the reviewed beginning learning path as the first repository-source
+ash-doc edition and preserve it with an immutable documentation tag.
 
-Active design:
-[beginning path review](../plans/2026-08-27-beginning-path-review-design.md).
-Active execution plan:
-[beginning path review plan](../plans/2026-08-27-beginning-path-review.md).
+The edition remains bound to `modular-ash` at
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. The future documentation tag will
+identify one verified ash-doc source snapshot; it will not define Ash behavior
+or change the language target.
 
-The [beginning learning path](beginning-learning-path.md) records the verified
-sequence and intended outcome. This increment reviews the whole path; it does
-not activate a new lesson.
+Before creating the tag or changing external state, obtain approval for a
+bounded publication design. Select the smallest source-publication operation
+that gives readers and downstream evidence a durable edition reference, then
+verify the complete learning family, documentation links and structure,
+canonical-source agreement, and the final clean tag target.
 
-Read the lessons in order, run the complete learning-family check, and audit
-the transitions, vocabulary, exercises, and optional assistant prompts as one
-connected course. Confirm that each lesson relies only on earlier ideas and
-that the final lesson fulfills the intended outcome. Use concrete reader or
-executable evidence to revise, split, or reorder material; do not add a new
-language topic during the review.
+This increment does not select a renderer, publication platform, lesson-entry
+rename, manifest, coverage view, CI service, license, new language topic, or
+forward migration. A future presentation may consume the immutable source
+snapshot; a future Ash edition receives a new documentation tag rather than
+moving this one.
 
 ## Later decisions
 
@@ -69,8 +55,8 @@ Later work should supply evidence for these choices:
 1. whether a renderer adds value beyond readable source Markdown;
 2. which coverage view becomes useful after several lessons exist;
 3. whether lesson entry pages should remain `README.md` for repository browsing
-   or become `index.md` for a website, to be decided with the first renderer or
-   publication design.
+   or become `index.md` when a renderer or publication design needs different
+   entry behavior.
 
 These are questions, not selected mechanisms. Record a new project choice only
 when current work crosses its boundary.
