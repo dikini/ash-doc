@@ -663,10 +663,15 @@ disposition are recorded.
   says to keep `lists.ash` unchanged. Challenging the phrase against the
   index's edit-predict-run-explain method does not supply a missing edit: the
   observable work is to reason about calls that use `map`, not to alter its
-  equations. A later bounded correction should align the prompt's action and
-  placement with the existing trace or exercise while preserving the
-  unchanged `lists.ash` boundary; it needs no source, check, or structural
-  change.
+  equations. The bounded correction aligns the prompt with the existing trace
+  while preserving the unchanged `lists.ash` boundary. Its `A` and `B`
+  reasoning follows pinned
+  [global typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules),
+  while the `rest` trace follows pinned
+  [application](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
+  and
+  [constructor and equation matching](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+  It needs no source, check, or structural change.
 - **Closure — retain.**
   [*The beginning model*](../../content/learn/definitions-for-many-types/README.md#the-beginning-model)
   names parametric polymorphism only after the function, data, and `map`

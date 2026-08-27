@@ -141,9 +141,9 @@ This one example brings together the beginning path: a module exports data and
 a function; the data is recursive; the function follows its forms; and another
 function value determines how each element changes.
 
-> **With a learning assistant:** Before changing `map`, draw the input and
-> output list values as nested `More` and `Empty` forms. Ask the assistant to
-> check whether each recursive call follows a smaller `rest`, and whether every
+> **With a learning assistant:** Draw the input and output list values from the
+> program above as nested `More` and `Empty` forms. Ask the assistant to check
+> whether each recursive call follows a smaller `rest`, and whether every
 > occurrence of `A` and `B` in the signature agrees with your two lists.
 
 ## Supplying every type parameter
