@@ -102,28 +102,30 @@ disposition are recorded.
   [*Giving a calculation a name*](../../content/learn/what-is-an-ash-program/README.md#giving-a-calculation-a-name),
   `05-function-call.ash` and `06-composition.ash` reuse the smaller-expression
   model to calculate outward before reporting `42 : Int`.
-  `01-literal.ash` appropriately establishes the first observation before
-  asking for predictions. The verifier asserts every displayed result, and the
+  `01-literal.ash` establishes the first observation before asking for
+  predictions. The verifier asserts every displayed result, and the
   sequence follows pinned
   [precedence](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#precedence-and-associativity),
   [application](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application),
   and
   [primitive-operation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#primitive-operations)
   behavior.
-- **Vocabulary at `double (increment 20)` — revise locally.** The passage
-  calls nesting one function call inside another *function composition* after
-  already explaining the observable relationship: the result of `increment`
-  becomes the input to `double`. Challenging the change against later use does
-  not justify the extra term: lesson 5 returns to the same identifier and calls
-  it a nested expression, while the earlier expression and function-call model
-  is the smaller sufficient account. A later edit should remove or narrow the
-  term without changing `06-composition.ash` or its result.
+- **Vocabulary at the expression `double (increment 20)` — retain.** The
+  passage first explains the observable relationship—the result of `increment`
+  becomes the input to `double`—and then names that connection *function
+  composition*. The
+  [beginning-path record](../project/beginning-learning-path.md#programs-and-calculations)
+  includes composition in lesson 1's verified scope. Lesson 5's description of
+  the same source as a nested expression identifies its syntactic shape; it
+  does not conflict with the project-level vocabulary. Removing the term would
+  update that recorded scope, and the audit found no reader evidence that
+  justifies such a change.
 - **Negative boundary — retain.**
   [*Where does evaluation begin?*](../../content/learn/what-is-an-ash-program/README.md#where-does-evaluation-begin)
-  changes only `main` to `answer`; the reader runs `07-missing-main.ash`, sees
-  `entry.missing-main`, and explains why an otherwise valid definition is not
-  the entry. The verifier also requires the causal text about no local `main`
-  and status `1`, matching the pinned
+  presents a `Unit -> Int` definition under `answer` instead of `main`; the
+  reader runs `07-missing-main.ash`, sees `entry.missing-main`, and explains why
+  an otherwise valid definition is not the entry. The verifier also requires
+  the causal text about no local `main` and status `1`, matching the pinned
   [program rule](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules)
   and tool
   [failure contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md#failures).
@@ -153,17 +155,20 @@ disposition are recorded.
   [module paths](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#module-paths-and-identity)
   and
   [imports and namespaces](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#imports-and-namespaces).
-- **Positive and negative tool cycle — revise locally.** The unnamed opening
-  passage gives the `42 : Int` result before tracing
-  `Arithmetic.answer ()` through `double 21`; the
+- **Positive and negative tool cycle — retain.** The unnamed opening passage
+  directs `ash main.ash`, presents `42 : Int`, and then traces
+  `Arithmetic.answer ()` through `double 21`. The
   [*What remains inside a module?*](../../content/learn/using-another-source-file/README.md#what-remains-inside-a-module)
-  passage similarly announces `resolve.unavailable-export` before asking the
-  learner to account for `02-private-main.ash`. The verifier establishes both
-  exact observations and the private-declaration cause. Earlier lesson 1
-  already taught prediction, so a small invitation to predict each outcome is
-  sufficient; the existing private negative case already establishes the
-  boundary and needs no new example. The disposition remains local after that
-  challenge. The cause is governed by pinned
+  passage directs the run of `02-private-main.ash`, presents
+  `resolve.unavailable-export`, and then explains the private-declaration
+  cause. The shared
+  [lesson method](../../content/learn/README.md#how-to-work-through-a-lesson)
+  already asks the reader to predict every program before running it. As in the
+  varied tool cycle retained for lesson 4, repeating that instruction locally
+  would not solve a distinct reader problem: the positive trace and negative
+  explanation provide the needed comparison, and the assistant prompt supports
+  diagnosis after observation. The verifier establishes both exact outcomes.
+  The private cause is governed by pinned
   [public and private declarations](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations).
 - **Exercise — retain.**
   [*Exercise: move `square`*](../../content/learn/using-another-source-file/README.md#exercise-move-square)
@@ -271,7 +276,7 @@ disposition are recorded.
 - **Prerequisites and opening — retain.** The opening returns to lesson 1's
   exact `double (increment 20)` expression and the smaller-expression model.
   Before any run, it establishes a block as one expression that can name the
-  ordered route to its one result. This accurately anticipates pinned block
+  ordered route to its one result. This model follows pinned block
   [syntax](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#grammar)
   and left-to-right
   [local scope](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#local-scope).
@@ -298,9 +303,9 @@ disposition are recorded.
   also keeps the later recursion topic intentionally out of this lesson.
 - **Exercise prerequisite — revise locally.**
   [*Exercise: expose the hidden steps*](../../content/learn/naming-intermediate-values/README.md#exercise-expose-the-hidden-steps)
-  appropriately asks the learner to name the intermediate results and preserve
-  `42 : Int`, using only lesson 1's `increment`, `double`, and inside-out trace
-  plus this lesson's sequential bindings. However, “Keep the existing
+  asks the learner to name the intermediate results and preserve `42 : Int`,
+  using only lesson 1's `increment`, `double`, and inside-out trace plus this
+  lesson's sequential bindings. However, “Keep the existing
   `increment` and `double` definitions” has no local antecedent: all three
   canonical programs in this lesson define only `main`. Challenging the issue
   against lesson 1 confirms that the needed definitions already exist there,
