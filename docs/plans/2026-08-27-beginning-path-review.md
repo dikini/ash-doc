@@ -322,6 +322,214 @@ disposition are recorded.
   one name for one value with several values that belong to one step. That
   directly creates lesson 6's question of how several values travel together.
 
+### Lessons 6–9: data and structure
+
+#### Lesson 6: *How can several values travel together?*
+
+- **Prerequisites and opening — retain.** The opening recalls lesson 5's local
+  `let` binding and lesson 1's distinction between a value and its type, then
+  establishes the needed model before `01-pair.ash`: a tuple is one value with
+  a fixed number of ordered parts, and commas mark those parts in both the
+  value and type. This is the smallest extension of the earlier expression
+  model and agrees with pinned
+  [tuple typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#tuples-and-constructors).
+- **Construction, patterns, and observations — retain.**
+  [*Making a pair*](../../content/learn/values-travel-together/README.md#making-a-pair)
+  establishes `(42, true) : (Int, Bool)` and contrasts tuple commas with
+  earlier grouping before
+  [*Receiving one pair*](../../content/learn/values-travel-together/README.md#receiving-one-pair)
+  introduces the parameter pattern in `02-pair-input.ash`.
+  `sum_pair (20, 22)` is then calculated to `42`, and
+  [*Naming the parts inside a block*](../../content/learn/values-travel-together/README.md#naming-the-parts-inside-a-block)
+  reuses lesson 5's sequential bindings to trace `pair`, `left`, and `right` in
+  `03-local-pattern.ash`. Thus construction precedes both uses of a tuple
+  pattern. The shared lesson method supplies prediction where the prose varies
+  the local instruction, and the verifier asserts all three displayed
+  observations. Pinned
+  [pattern checking](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#patterns-matches-and-coverage)
+  supports both the function and irrefutable local patterns.
+- **Negative shape boundary — retain.**
+  [*Shape is part of the type*](../../content/learn/values-travel-together/README.md#shape-is-part-of-the-type)
+  changes only the arity of the constructed tuple in
+  `04-triple-is-not-a-pair.ash`. The explanation distinguishes one wrong-shaped
+  input from a missing curried input, directly challenging the interaction
+  with lesson 3. The verifier requires `type.argument`, `expected (Int, Int)`,
+  and status `1`, so the rejection establishes the fixed-arity boundary
+  without teaching diagnostic presentation.
+- **Exercise and no assistant prompt — retain.**
+  [*Exercise: keep two results*](../../content/learn/values-travel-together/README.md#exercise-keep-two-results)
+  requires lesson 1's arithmetic and function definitions, lesson 5's block,
+  and this lesson's tuple construction, tuple signature, and local pattern.
+  The expected reasoning accounts for the input pair, the sum-and-product
+  result pair, each intermediate type, and the final addition before running.
+  The lesson already supplies construction, two pattern positions, a trace,
+  and a negative arity contrast, so an assistant prompt would not add a
+  distinct task to this self-contained exercise.
+- **Handoff — retain.**
+  [*One value, several parts*](../../content/learn/values-travel-together/README.md#one-value-several-parts)
+  gathers fixed structural combinations, then contrasts them with data whose
+  names express meaning and enumerate possible forms. That creates lesson 7's
+  nominal-data question without using constructors or constructor patterns
+  early.
+
+#### Lesson 7: *How can a program define its own data?*
+
+- **Prerequisites and opening — retain.** The opening depends on lesson 1's
+  value-and-type model, lesson 4's idea that a type has possible values, and
+  lesson 6's tuples as unnamed combinations. Before `01-signal.ash`, it
+  establishes a data definition as one new type plus the complete list of
+  subject-named forms its values may take. That model agrees with pinned
+  [nominal declarations and constructor scope](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#type-and-constructor-scope).
+- **Nullary construction and observation — retain.**
+  [*Naming the possible forms*](../../content/learn/defining-data/README.md#naming-the-possible-forms)
+  first reads the complete `Signal` definition, names `Signal`, `Go`, and
+  `Stop` only after the source needs them, then observes `Go : Signal` from
+  `01-signal.ash`. Changing only `main` to `Stop` provides a second prediction
+  and run over the same definition. The verifier asserts the canonical `Go`
+  observation, and pinned
+  [constructor typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#tuples-and-constructors)
+  supports both complete values.
+- **Payload construction and observation — retain.**
+  [*A form that carries a value*](../../content/learn/defining-data/README.md#a-form-that-carries-a-value)
+  places the complete `Result` definition before explaining that `Found`
+  needs one `Int`, `Found(42)` supplies it, and `Missing` is complete without a
+  field. The run of `02-result-with-value.ash` preserves both form and field as
+  `Found(42) : Result`, which the verifier asserts. Although the pinned model
+  treats a payload constructor as an ordinary unary function used through
+  application, calling it a constructor that “needs” a field keeps this lesson
+  on data construction; lesson 10 remains the deliberate place for function
+  values.
+- **Nominal distinction — retain.**
+  [*A new name makes a new type*](../../content/learn/defining-data/README.md#a-new-name-makes-a-new-type)
+  uses `03-distinct-types.ash` to contrast `Score(42)` and `Count(42)` after
+  constructing both forms. The verifier requires `type.argument`, `expected
+  Score`, and status `1`; replacing `Count(42)` with `Score(42)` gives the
+  nearby positive comparison. This is the smallest executable evidence that
+  equal payload shape does not erase nominal identity, as specified by pinned
+  [type equality](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md).
+- **Exercise and no assistant prompt — retain.**
+  [*Exercise: describe a reading*](../../content/learn/defining-data/README.md#exercise-describe-a-reading)
+  uses only the just-introduced type declaration, one payload constructor, one
+  nullary constructor, `main`, and the established prediction-and-run cycle.
+  The learner must predict each constructor-shaped value and the shared
+  `Reading` type, then explain the subject meaning of both forms. Those paired
+  construction and explanation tasks are bounded and need no assistant prompt.
+- **Handoff — retain.**
+  [*Data shaped for the program*](../../content/learn/defining-data/README.md#data-shaped-for-the-program)
+  gathers construction and nominal identity, then asks how a function can
+  handle every already-constructed `Result` form. Constructor patterns are
+  therefore deferred until lesson 8, while the reference to known matches and
+  patterns reconnects to lessons 4 and 6.
+
+#### Lesson 8: *How can a function handle each form of data?*
+
+- **Prerequisites and opening — retain.** The opening names lesson 7's complete
+  `Result` definition and constructed `Found(42)` and `Missing` values. Before
+  `01-match-result.ash`, it establishes the design rule that each constructor
+  leads to one same-shaped pattern and one result expression. This combines
+  lesson 4's exhaustive `match` with lesson 6's shape-matching patterns only
+  after nominal construction has been learned.
+- **Explicit-match observations — retain.**
+  [*Matching the data definition*](../../content/learn/handling-data-forms/README.md#matching-the-data-definition)
+  places `Found(Int) | Missing` beside the two arms of
+  `01-match-result.ash`, explains recognition and field binding, and traces the
+  results for both `Found(42)` and `Missing`. The reader predicts and runs both
+  calls, observing `42 : Int` and `0 : Int`; the verifier asserts the canonical
+  first run. Pinned
+  [match typing and coverage](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#patterns-matches-and-coverage)
+  and
+  [match evaluation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+  support the explanation.
+- **Equational observations — retain.**
+  [*Letting the equations follow the forms*](../../content/learn/handling-data-forms/README.md#letting-the-equations-follow-the-forms)
+  introduces separate equations only after the explicit match has made the
+  constructor-to-result correspondence visible. The two traces for
+  `02-equations.ash` preserve the earlier `42` and `0` reasoning, while the
+  verifier asserts the canonical `42 : Int`. The explanation distinguishes an
+  explicit match inside a larger expression from equations whose whole
+  definition follows the input, rather than presenting a second mechanism
+  without a design reason.
+- **Coverage and multi-field bridge — retain.**
+  [*Following every branch of the definition*](../../content/learn/handling-data-forms/README.md#following-every-branch-of-the-definition)
+  uses the complete `Result` definition as a checklist before removing only
+  the `Missing` equation in `03-missing-constructor.ash`. The verifier requires
+  `coverage.non-exhaustive`, its causal equation-group text, and status `1`,
+  and the prose explains why the rejection does not depend on the value in
+  `main`. The closing sentence about matching the number and order of fields
+  follows lesson 6's tuple-shape boundary and prepares lesson 9's
+  two-field `More`; it does not advance coverage beyond the complete data
+  definition.
+- **Exercise and no assistant prompt — retain.**
+  [*Exercise: respond to a signal*](../../content/learn/handling-data-forms/README.md#exercise-respond-to-a-signal)
+  reuses lesson 7's complete `Signal` definition and requires one equation and
+  one match arm for each constructor. The learner must predict `1` and `0`,
+  preserve those observations across both presentations, and explain how the
+  data definition generates the cases. The side-by-side model, two equivalent
+  presentations, and negative coverage example already support that reasoning,
+  so the absence of an assistant prompt is appropriate.
+- **Handoff — retain.**
+  [*Functions that follow data*](../../content/learn/handling-data-forms/README.md#functions-that-follow-data)
+  gathers patterns and exhaustive handling, then changes one property of the
+  data: a field may have the type currently being defined. That creates lesson
+  9's structural-recursion question from the existing data-guided function
+  method rather than introducing recursion in isolation.
+
+#### Lesson 9: *How can a function follow recursive data?*
+
+- **Prerequisites and opening — retain.** The opening contrasts lesson 7's
+  shallow `Result` forms with data that repeats one shape and explains the
+  `rest` field as another line of integers before `01-int-list.ash`. It depends
+  on nominal forms and fields from lesson 7, multi-field patterns from lessons
+  6 and 8, and lesson 8's rule that a function follows its complete data
+  definition. The new working model is self-reference in the data, not an
+  unexplained recursive function.
+- **Recursive construction before recursive handling — retain.** In
+  [*A finite list of integers*](../../content/learn/following-recursive-data/README.md#a-finite-list-of-integers),
+  `01-int-list.ash` first constructs and expands the two `More` layers down to
+  `Empty`; only after that structure is visible does the reader run it and
+  observe `More(20, More(22, Empty)) : IntList`. The verifier asserts that
+  structural observation, matching pinned
+  [constructor evaluation and observation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+- **Deriving the recursive function — retain.**
+  [*A function with the same shape*](../../content/learn/following-recursive-data/README.md#a-function-with-the-same-shape)
+  begins with lesson 8's one-equation-per-form method. In `02-sum.ash`, the
+  `Empty` form yields `0`, the `More(first, rest)` pattern exposes exactly the
+  fields in the data definition, and only the self-referential `rest` field
+  leads to `sum rest`. The five-line calculation shows each call crossing one
+  layer of the displayed finite value before the run confirms `42 : Int`, as
+  the verifier asserts. Global self-reference is admitted by pinned
+  [global typing](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules).
+  The assistant prompt adds distinct value by checking a learner-created
+  three-element trace for the exact `rest` relationship while leaving the
+  arithmetic and explanation to the learner.
+- **Base form and negative boundary — retain.**
+  [*The ending form still matters*](../../content/learn/following-recursive-data/README.md#the-ending-form-still-matters)
+  challenges the temptation to keep only the visibly recursive equation in
+  `03-missing-empty.ash`. The verifier requires `coverage.non-exhaustive`, its
+  causal equation-group text, and status `1`. The explanation connects the
+  same coverage promise from lesson 8 to the calculation's base result, so
+  `Empty` is both a valid input and the form that ends every finite source
+  value used in this lesson. This account does not claim that all Ash values
+  are acyclic; explicit recursive initialization remains outside the beginning
+  path's selected scope.
+- **Exercise — retain.**
+  [*Exercise: count the integers*](../../content/learn/following-recursive-data/README.md#exercise-count-the-integers)
+  requires only the complete `IntList` definition, constructor patterns,
+  addition, and the just-derived call on `rest`. The learner must derive both
+  equations from the forms, predict empty, one-layer, and two-layer results,
+  and compare `length` with `sum` to isolate the unchanged structural recursion
+  from the changed combining expression. The unused first field still has a
+  place in the known constructor pattern, so no new pattern form is required.
+- **Handoff — retain.**
+  [*Recursion follows self-reference*](../../content/learn/following-recursive-data/README.md#recursion-follows-self-reference)
+  gathers the data-derived recursive call and base form, then contrasts the
+  named calls used so far with functions as receivable and returnable values.
+  Lesson 10 deliberately anchors that new question in lesson 3's observable
+  partial function value, while lesson 11 later recombines function values with
+  this lesson's recursive-list structure in `map`. A stronger local coupling
+  would obscure that course-level dependency, so no structural change is
+  warranted.
+
 ### Task 1: Reconfirm the baseline and course contract
 
 **Files:**
