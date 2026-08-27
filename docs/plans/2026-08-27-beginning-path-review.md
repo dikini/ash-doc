@@ -786,6 +786,14 @@ disposition are recorded.
 
 ### Final verification
 
+- **Immutable review state.** The repository's reviewed `main` snapshot is
+  `a153739a4c0e8ac88e518e3d5596fa982dea8ff0`. The completed content review
+  before Task 6 is
+  `8db979bc83c98afe1abb28ae8263798a1aaf836e`; the result snapshot that records
+  the Task 6 evidence is
+  `52e71ac09c20dfe3f287968186868e363b628b48`. The immutable range for the
+  counts and changed-source review below is therefore
+  `a153739a4c0e8ac88e518e3d5596fa982dea8ff0...52e71ac09c20dfe3f287968186868e363b628b48`.
 - **Executable and shell evidence.** Running
   `content/learn/checks/verify.sh
   /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-modular-pin`
@@ -800,33 +808,60 @@ disposition are recorded.
   Running `python3
   /home/dikini/.codex/skills/.system/skill-creator/scripts/quick_validate.py
   .agents/skills/writing-ash-documentation` reported `Skill is valid!`.
-- **Links and source agreement.** A read-only link audit over the five changed
-  Markdown files resolved all 79 relative-link occurrences and their anchors,
-  including lesson 5's link to *Giving a calculation a name* and the roadmap's
-  two active-plan links. A second audit mapped all 50 pinned `ash-lang` link
-  occurrences to the clean checkout and found every file and anchor at
-  `dca16039923475c48025c5f17beadeb6bcb6a4bf`. Direct comparisons found no
-  change to either revised lesson's hidden source markers. The complete
-  verifier confirmed every displayed Ash block against canonical source, and
-  `git diff --name-only main...HEAD` contained no `.ash` or `.sh` file.
-- **Changed-source and scope review.** `git diff --check main...HEAD` produced
-  no output, and `git status --short --branch` showed a clean branch before
-  this ledger entry. `git diff --stat main...HEAD` reported:
+- **Reproducible link audit and source agreement.** The read-only Ruby audit
+  selected the five changed Markdown paths with `git diff --name-only
+  <immutable-range>` and read every source and relative target with `git show
+  52e71ac09c20dfe3f287968186868e363b628b48:<path>`. It extracted inline
+  Markdown destinations with `\[[^\]]*\]\(([^)]+)\)`. For anchors, it selected
+  Markdown headings, stripped HTML tags, backticks, and `*`, `_`, and `~`
+  markers, lowercased the text, removed characters outside letters, numbers,
+  whitespace, `_`, and `-`, and replaced whitespace runs with `-`. It required
+  every relative target and fragment to exist. For each pinned Ash URL it
+  required the prefix
+  `https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/`,
+  read the file with `git -C <clean-pinned-Ash-repository> show
+  dca16039923475c48025c5f17beadeb6bcb6a4bf:<path>`, and applied the same anchor
+  check. Rerunning that method reported five changed Markdown files, 79
+  relative-link occurrences with valid targets and anchors, and 50 pinned Ash
+  occurrences with the exact commit, files, and anchors. The result includes
+  lesson 5's link to *Giving a calculation a name* and the roadmap's two
+  active-plan links. Direct comparisons found no change to either revised
+  lesson's hidden source markers. The complete verifier confirmed every
+  displayed Ash block against canonical source, and the immutable range
+  contains no `.ash` or `.sh` file.
+- **Changed-source and scope review.** `git diff --stat <immutable-range>`
+  reported:
   `5 files changed, 1325 insertions(+), 5 deletions(-)`.
-  Separately, the complete `git diff main...HEAD` was read as source and
-  contained only the two revised lessons, two active plans, and roadmap.
-  Those hunks add no split, reorder, executable observation, or project
-  mechanism.
+  `git diff --numstat <immutable-range>` separates the lasting lesson work from
+  temporary review administration:
+
+  ```text
+  10  4  content/learn/definitions-for-many-types/README.md
+  3   1  content/learn/naming-intermediate-values/README.md
+  94  0  docs/plans/2026-08-27-beginning-path-review-design.md
+  1213  0  docs/plans/2026-08-27-beginning-path-review.md
+  5   0  docs/project/roadmap.md
+  ```
+
+  The two lasting lesson revisions account for 13 insertions and five
+  deletions. The two temporary plans account for 1,307 insertions, and their
+  active roadmap links account for five more; those 1,312 administrative lines
+  leave the current tree when the review closes. Separately, the complete
+  `git diff <immutable-range>` was read as source. Its hunks add no split,
+  reorder, executable observation, or project mechanism. At execution time,
+  `git diff --check main...HEAD` produced no output, and `git status
+  --short --branch` showed a clean branch before the evidence record changed.
 - **Authority, status, attribution, and license review.** The specification
   overview and cited pinned chapters remain the authority for every recorded
-  language claim; the pinned tool guide remains the authority for command,
-  output, diagnostic, and status claims. In particular, the lesson 11 repair
-  agrees with the pinned public-transparent-type and complete-import rules.
-  Lessons contain only teaching material, while the review's target, evidence,
-  decisions, and temporary status remain in project records. The revisions add
-  original continuity prose and no adapted text, code, or external asset, so
-  they create no new attribution or license obligation and select no project
-  license.
+  language claim; the pinned tool guide remains the authority for Ash
+  invocation, output, diagnostic, and exit-status claims. Git, Bash, Markdown,
+  and skill-validation results are repository verification evidence, not Ash
+  tool authority. In particular, the lesson 11 repair agrees with the pinned
+  public-transparent-type and complete-import rules. Lessons contain only
+  teaching material, while the review's target, evidence, decisions, and
+  temporary status remain in project records. The revisions add original
+  continuity prose and no adapted text, code, or external asset, so they create
+  no new attribution or license obligation and select no project license.
 
 ### Task 1: Reconfirm the baseline and course contract
 
