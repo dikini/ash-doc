@@ -810,13 +810,13 @@ disposition are recorded.
   verifier confirmed every displayed Ash block against canonical source, and
   `git diff --name-only main...HEAD` contained no `.ash` or `.sh` file.
 - **Changed-source and scope review.** `git diff --check main...HEAD` produced
-  no output. `git status --short --branch` showed a clean
-  `docs/beginning-path-review` branch before this ledger entry. The complete
-  `git diff main...HEAD` was read as source: the only files were the approved
-  design and execution plans, the roadmap's active-plan links, lesson 5's
-  exercise context, and lesson 11's assistant-prompt and public-constructor
-  explanations. No split, reorder, executable observation, or project
-  mechanism entered the change.
+  no output, and `git status --short --branch` showed a clean branch before
+  this ledger entry. `git diff --stat main...HEAD` reported:
+  `5 files changed, 1325 insertions(+), 5 deletions(-)`.
+  Separately, the complete `git diff main...HEAD` was read as source and
+  contained only the two revised lessons, two active plans, and roadmap.
+  Those hunks add no split, reorder, executable observation, or project
+  mechanism.
 - **Authority, status, attribution, and license review.** The specification
   overview and cited pinned chapters remain the authority for every recorded
   language claim; the pinned tool guide remains the authority for command,
