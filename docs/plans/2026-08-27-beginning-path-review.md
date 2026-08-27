@@ -676,26 +676,58 @@ disposition are recorded.
 ### Final reader model and course frame
 
 - **Final program dependency trace — retain.** Every idea in `lists.ash` and
-  `03-list-main.ash` has an earlier teaching dependency: lesson 1 supplies
-  `main`, signatures, expressions, integer addition, calls, and value/type
-  observations; lesson 2 supplies two source modules, `pub`, a complete import,
-  its alias, and qualified use; lesson 3 supplies chained arrows and calls;
-  lesson 7 supplies nominal data and constructors; lesson 8 supplies
-  constructor patterns and one equation per form; lesson 9 supplies the
-  self-referential `rest` field and recursive call; and lesson 10 supplies the
-  function-valued input and anonymous function. Lesson 11 then adds `A` and
-  `B`, first in `identity` and `Box`, before combining them in `List` and
-  `map`. Lesson 6's fixed tuple shape also underlies `More`'s two ordered
-  fields, already applied to recursive data in lesson 9. No final-program idea
-  requires a later lesson.
-- **Intended outcome test — retain.** The final trace lets the reader predict
-  the one-element transformation, follow `More(first, rest)` and
+  `03-list-main.ash` has an earlier teaching dependency or explicit staging in
+  lesson 11: lesson 1 supplies `main`, signatures, expressions, integer
+  addition, calls, and value/type observations; lesson 2 supplies two source
+  modules, `pub`, a complete import, its alias, and qualified use; lesson 3
+  supplies chained arrows and calls; lesson 7 supplies nominal data and
+  constructors; lesson 8 supplies constructor patterns and one equation per
+  form; lesson 9 supplies the self-referential `rest` field and recursive call;
+  and lesson 10 supplies the function-valued input and anonymous function.
+  Lesson 11 then adds `A` and `B`, first in `identity` and `Box`, before
+  combining them in `List` and `map`. Lesson 6's fixed tuple shape also
+  underlies `More`'s two ordered fields, already applied to recursive data in
+  lesson 9. The first combination of a public constructor family with a
+  qualified import occurs in lesson 11 and is assessed separately below; no
+  final-program idea requires a later lesson.
+- **Public constructor qualification — revise locally.** Lesson 2's
+  [*One program, two files*](../../content/learn/using-another-source-file/README.md#one-program-two-files)
+  explains `pub`, complete imports, aliases, and qualified access through a
+  public global function. Lesson 7's
+  [*Naming the possible forms*](../../content/learn/defining-data/README.md#naming-the-possible-forms)
+  introduces a constructor family only inside its defining module. Lesson 11
+  is therefore the first crossing of both boundaries: `lists.ash` declares
+  `pub type List<A>`, and `03-list-main.ash` uses `Lists.List`, `Lists.More`,
+  and `Lists.Empty`. The run proves that the names are available, and the prose
+  says that the type and function are public, but it does not state the causal
+  rule that a public transparent type exports its complete constructor set.
+  Pinned
+  [visibility](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations)
+  exports that set, and a pinned
+  [complete import](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#imports-and-namespaces)
+  exposes the public type and constructors through the alias. Challenging the
+  existing observation against the needed causal account shows that the code
+  alone leaves this first feature interaction implicit. A later one-sentence
+  local clarification should connect `pub type` to the qualified constructor
+  uses; it needs no new example, check, or structural change.
+- **Intended outcome test — revise locally.** The final trace lets the reader
+  predict the one-element transformation, follow `More(first, rest)` and
   `map transform rest` together to `Empty`, explain the anonymous function as
   the value supplied to `transform`, identify `A` as the input element type
-  and `B` as the output element type, and follow `Lists.List`, `Lists.map`,
-  `Lists.More`, and `Lists.Empty` through the lesson 2 module alias. The
-  exercise then changes `B` from `Int` to `Bool` while preserving list shape.
-  Across the path's earlier exercises, this completes the
+  and `B` as the output element type, and read `Lists.List`, `Lists.map`,
+  `Lists.More`, and `Lists.Empty` through the lesson 2 module alias. The local
+  constructor-export clarification recorded above is still needed for a
+  causal explanation of those last two qualified names. Design practice is
+  explicit across four tasks: lesson 2's
+  [*Exercise: move `square`*](../../content/learn/using-another-source-file/README.md#exercise-move-square)
+  builds and diagnoses a two-file program; lesson 7's
+  [*Exercise: describe a reading*](../../content/learn/defining-data/README.md#exercise-describe-a-reading)
+  designs a nominal type and its values; lesson 9's
+  [*Exercise: count the integers*](../../content/learn/following-recursive-data/README.md#exercise-count-the-integers)
+  derives a recursive function from the data forms; and lesson 11's
+  [*Exercise: change the element type*](../../content/learn/definitions-for-many-types/README.md#exercise-change-the-element-type)
+  chooses `A = Int` and `B = Bool`, supplies the transformation, and preserves
+  list shape. Together, these exercises establish the design portion of the
   [intended outcome](../project/beginning-learning-path.md#intended-outcome):
   design, run, and explain a pure multi-file program over defined data, trace
   its values, follow patterns and recursion, and use type parameters where the
@@ -728,9 +760,9 @@ disposition are recorded.
   11 draws only on lessons 2–10 before completing the abstraction. Its staged
   `identity`, `Box`, `List`, and `map` examples keep function and data
   parameterization distinct before recombination. No transition needs a split
-  or reorder. The lesson 5 exercise antecedent and lesson 11 assistant-prompt
-  action are two independent local continuity repairs, not evidence for a
-  structural change.
+  or reorder. The lesson 5 exercise antecedent, lesson 11 assistant-prompt
+  action, and lesson 11 public-constructor explanation are three independent
+  local continuity repairs, not evidence for a structural change.
 
 ### Task 1: Reconfirm the baseline and course contract
 
