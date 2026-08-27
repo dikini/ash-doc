@@ -46,6 +46,9 @@ future lessons.
 Review the beginning learning path as one reader experience, from the first
 integer expression through the parameterized list transformation.
 
+Active design:
+[beginning path review](../plans/2026-08-27-beginning-path-review-design.md).
+
 The [beginning learning path](beginning-learning-path.md) records the verified
 sequence and intended outcome. This increment reviews the whole path; it does
 not activate a new lesson.
