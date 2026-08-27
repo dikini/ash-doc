@@ -784,6 +784,50 @@ disposition are recorded.
   action, and lesson 11 public-constructor explanation are three independent
   local continuity repairs, not evidence for a structural change.
 
+### Final verification
+
+- **Executable and shell evidence.** Running
+  `content/learn/checks/verify.sh
+  /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-modular-pin`
+  reported all eleven lesson source-agreement summaries followed by `Verified
+  11 learning lesson(s) at
+  dca16039923475c48025c5f17beadeb6bcb6a4bf.` Running `bash -n
+  content/learn/checks/*.sh content/learn/*/checks/verify.sh` exited with status
+  `0` and no output. The pinned checkout reported that exact commit and no
+  working-tree changes.
+- **Documentation evidence.** Running `markdownlint-cli2 '**/*.md'
+  '#.worktrees/**'` checked 26 Markdown files and reported `0 error(s)`.
+  Running `python3
+  /home/dikini/.codex/skills/.system/skill-creator/scripts/quick_validate.py
+  .agents/skills/writing-ash-documentation` reported `Skill is valid!`.
+- **Links and source agreement.** A read-only link audit over the five changed
+  Markdown files resolved all 79 relative-link occurrences and their anchors,
+  including lesson 5's link to *Giving a calculation a name* and the roadmap's
+  two active-plan links. A second audit mapped all 50 pinned `ash-lang` link
+  occurrences to the clean checkout and found every file and anchor at
+  `dca16039923475c48025c5f17beadeb6bcb6a4bf`. Direct comparisons found no
+  change to either revised lesson's hidden source markers. The complete
+  verifier confirmed every displayed Ash block against canonical source, and
+  `git diff --name-only main...HEAD` contained no `.ash` or `.sh` file.
+- **Changed-source and scope review.** `git diff --check main...HEAD` produced
+  no output. `git status --short --branch` showed a clean
+  `docs/beginning-path-review` branch before this ledger entry. The complete
+  `git diff main...HEAD` was read as source: the only files were the approved
+  design and execution plans, the roadmap's active-plan links, lesson 5's
+  exercise context, and lesson 11's assistant-prompt and public-constructor
+  explanations. No split, reorder, executable observation, or project
+  mechanism entered the change.
+- **Authority, status, attribution, and license review.** The specification
+  overview and cited pinned chapters remain the authority for every recorded
+  language claim; the pinned tool guide remains the authority for command,
+  output, diagnostic, and status claims. In particular, the lesson 11 repair
+  agrees with the pinned public-transparent-type and complete-import rules.
+  Lessons contain only teaching material, while the review's target, evidence,
+  decisions, and temporary status remain in project records. The revisions add
+  original continuity prose and no adapted text, code, or external asset, so
+  they create no new attribution or license obligation and select no project
+  license.
+
 ### Task 1: Reconfirm the baseline and course contract
 
 **Files:**
