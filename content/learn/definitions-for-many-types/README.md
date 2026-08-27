@@ -146,9 +146,11 @@ a function; the data is recursive; the function follows its forms; and another
 function value determines how each element changes.
 
 > **With a learning assistant:** Draw the input and output list values from the
-> program above as nested `More` and `Empty` forms. Ask the assistant to check
-> whether each recursive call follows a smaller `rest`, and whether every
-> occurrence of `A` and `B` in the signature agrees with your two lists.
+> program above as nested `More` and `Empty` forms. First trace and explain how
+> each recursive call follows a smaller `rest`; ask the assistant to question
+> that explanation one step at a time. After you finish the recursion trace,
+> examine one occurrence of `A` or `B` at a time and ask the assistant to check
+> it against your two lists.
 
 ## Supplying every type parameter
 
