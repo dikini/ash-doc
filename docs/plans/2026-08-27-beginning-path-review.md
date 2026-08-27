@@ -382,8 +382,11 @@ disposition are recorded.
   value-and-type model, lesson 4's idea that a type has possible values, and
   lesson 6's tuples as unnamed combinations. Before `01-signal.ash`, it
   establishes a data definition as one new type plus the complete list of
-  subject-named forms its values may take. That model agrees with pinned
-  [nominal declarations and constructor scope](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#type-and-constructor-scope).
+  subject-named forms its values may take. That source-facing model follows
+  the pinned
+  [data-declaration grammar](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#grammar),
+  and its complete list supplies the family used by pinned
+  [coverage](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#patterns-matches-and-coverage).
 - **Nullary construction and observation — retain.**
   [*Naming the possible forms*](../../content/learn/defining-data/README.md#naming-the-possible-forms)
   first reads the complete `Signal` definition, names `Signal`, `Go`, and
@@ -492,8 +495,13 @@ disposition are recorded.
   `01-int-list.ash` first constructs and expands the two `More` layers down to
   `Empty`; only after that structure is visible does the reader run it and
   observe `More(20, More(22, Empty)) : IntList`. The verifier asserts that
-  structural observation, matching pinned
-  [constructor evaluation and observation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+  structural result. Pinned
+  [constructor evaluation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+  governs how the value is built, pinned
+  [observation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#observation)
+  pairs and renders the value with its result type, and the pinned
+  [`ash` successful-output contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md#successful-output)
+  governs the reported output line.
 - **Deriving the recursive function — retain.**
   [*A function with the same shape*](../../content/learn/following-recursive-data/README.md#a-function-with-the-same-shape)
   begins with lesson 8's one-equation-per-form method. In `02-sum.ash`, the
