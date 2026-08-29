@@ -26,6 +26,12 @@ DN-0024 proposed Mini-Ash for the first pilot edition. Project direction
 deliberately replaces that target with the completed Modular Ash checkpoint;
 the note's other experiment boundaries still apply.
 
+A published ash-doc edition uses the exact tag name of its target Ash
+milestone. The tags are repository-local and identify different commits: the
+`ash-lang` tag retains language and tool behavior, while the ash-doc tag retains
+the corresponding documentation source snapshot. Never move or reuse a
+published documentation tag.
+
 Use sources according to the claim you are making:
 
 1. The
@@ -45,10 +51,11 @@ the latest
 [Ash writing guide](https://github.com/dikini/ash-lang/blob/main/docs/project/writing.md).
 Do not import language behavior from `main` into the pinned edition.
 
-The repository README declares the edition's Ash milestone and resolved commit.
-Learning pages inherit that target; do not repeat it in every lesson. Plans and
-verification must still name the exact target. An upstream canary may test a
-newer exact commit, but it does not change the publication target.
+The repository README declares the edition's documentation tag, Ash milestone,
+and resolved commit. Learning pages inherit that target; do not repeat it in
+every lesson. Plans and verification must still name the exact target. An
+upstream canary may test a newer exact commit, but it does not change the
+publication target.
 
 ## Reconstruct enough context
 
@@ -152,10 +159,10 @@ Do not establish a second specification, duplicate every tutorial program in
 `ash-lang`, or add compatibility machinery for old Ash editions.
 
 The repository has one active forward line on `main`. Preserve a published
-edition with an immutable documentation tag. During a future migration, move
-`main` to one exact Ash commit, expose incomplete coverage, and restore lessons
-only after their examples pass. Do not backport new work or maintain an old
-edition branch.
+edition with the immutable tag named by its target Ash milestone. During a
+future migration, move `main` to one exact Ash commit, expose incomplete
+coverage, and restore lessons only after their examples pass. Do not backport
+new work or maintain an old edition branch.
 
 ## Classify discoveries
 

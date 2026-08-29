@@ -1,8 +1,8 @@
 # Ash Documentation
 
 Ash-doc is the external learning and evidence stream for the Ash programming
-language. It will teach Ash through executable programs, adapt durable ideas
-from established programming works, and exercise the language with programs
+language. It teaches Ash through executable programs, adapts durable ideas
+from established programming works, and exercises the language with programs
 that expose real design pressure.
 
 This repository follows the experiment described by
@@ -12,20 +12,23 @@ does not define the language.
 
 ## Initial Ash target
 
-The first documentation edition will target the completed Modular Ash
-milestone:
+The first repository-source documentation edition targets the completed
+Modular Ash milestone:
 
-- milestone tag: `modular-ash`;
-- resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`.
+- documentation tag: `modular-ash`;
+- Ash milestone tag: `modular-ash`;
+- resolved Ash commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`.
 
 DN-0024 proposed Mini-Ash as the pilot's first published target. This project
 deliberately starts at the later Modular Ash checkpoint while retaining the
 note's authority, execution, evidence, and forward-migration boundaries.
 
-The tag and commit together identify the language and tool behavior taught by
-the edition. `ash-lang/main` has moved beyond this checkpoint. Newer behavior
-must not enter published examples until ash-doc begins an explicit forward
-migration.
+The matching tags live in different repositories and identify different
+source commits. The `ash-lang` tag and resolved commit identify the language
+and tool behavior taught by the edition. The ash-doc tag identifies this
+documentation source snapshot. `ash-lang/main` has moved beyond the checkpoint;
+newer behavior must not enter published examples until ash-doc begins an
+explicit forward migration.
 
 ## Prepare Ash
 

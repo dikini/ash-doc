@@ -121,6 +121,19 @@ Before marking a lesson verified:
 Git history retains the plan. The current tree retains the lesson, its
 evidence, and only project records that still guide forward work.
 
+## Preserve a published edition
+
+Every published ash-doc edition uses the exact tag name of the Ash milestone
+it teaches. The tags exist in different repositories and identify different
+commits: the `ash-lang` tag retains the specified language and tool checkpoint,
+while the ash-doc tag retains the corresponding verified documentation source
+snapshot.
+
+Create an annotated ash-doc tag only from the final clean publication commit.
+Never move or reuse a published tag. Future work continues on `main`; a later
+Ash edition receives its own matching-name documentation tag after its intended
+coverage passes at that milestone's resolved commit.
+
 ## Route experiments and research
 
 Create `lab/<case>/` when code must answer a bounded design or pressure
