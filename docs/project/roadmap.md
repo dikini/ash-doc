@@ -42,6 +42,9 @@ that gives readers and downstream evidence a durable edition reference, then
 verify the complete learning family, documentation links and structure,
 canonical-source agreement, and the final clean tag target.
 
+Active design:
+[Modular Ash publication](../plans/2026-08-29-modular-ash-publication-design.md).
+
 This increment does not select a renderer, publication platform, lesson-entry
 rename, manifest, coverage view, CI service, license, new language topic, or
 forward migration. A future presentation may consume the immutable source
