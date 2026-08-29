@@ -8,6 +8,7 @@ content_root=$(cd "$unit_root/../.." && pwd)
 readonly content_root
 readonly readme="$unit_root/README.md"
 readonly library="$unit_root/src/lists.ash"
+readonly fold_entry="$unit_root/src/01-fold.ash"
 readonly sources=(
     src/lists.ash
     src/01-fold.ash
@@ -104,8 +105,9 @@ filter_section=$(ash_doc_section \
 first_section=$(ash_doc_section \
     'pub first_and_visits : List<A> -> (Option<A>, Int)' \
     '')
+fold_entry_source=$(<"$fold_entry")
 readonly fold_section sum_section length_section map_section filter_section
-readonly first_section
+readonly first_section fold_entry_source
 
 ash_doc_assert_phrase_count \
     "$fold_section" 'fold combine base Empty = base' 1 \
@@ -185,6 +187,12 @@ ash_doc_assert_phrase_count \
 ash_doc_assert_phrase_count \
     "$first_section" '(Some(first), visits + 1)' 1 \
     "first_and_visits must count exactly one visit per combiner"
+ash_doc_assert_phrase_count \
+    "$fold_entry_source" 'Lists.sum' 1 \
+    "the fold entry must invoke sum exactly once"
+ash_doc_assert_phrase_count \
+    "$fold_entry_source" 'Lists.length' 1 \
+    "the fold entry must invoke length exactly once"
 
 ash_doc_run_accepted \
     "$unit_root" src/01-fold.ash '(6, 3) : (Int, Int)'
