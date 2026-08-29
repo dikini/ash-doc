@@ -4,9 +4,11 @@ set -euo pipefail
 
 learn_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 readonly learn_root
+content_root=$(cd "$learn_root/.." && pwd)
+readonly content_root
 
-# shellcheck source=lib.sh
-source "$learn_root/checks/lib.sh"
+# shellcheck source=../../checks/lib.sh
+source "$content_root/checks/lib.sh"
 
 if [[ $# -ne 1 ]]; then
     ash_doc_fail "usage: checks/verify.sh /path/to/pinned/ash-lang"

@@ -34,7 +34,7 @@ ash_doc_prepare() {
     fi
 
     ASH_DOC_VERIFY_DIR=$(mktemp -d \
-        "${TMPDIR:-/tmp}/ash-doc-learning.XXXXXX")
+        "${TMPDIR:-/tmp}/ash-doc-content.XXXXXX")
     readonly ASH_DOC_VERIFY_DIR
     export ASH_DOC_VERIFY_DIR
     trap 'rm -rf "$ASH_DOC_VERIFY_DIR"' EXIT
