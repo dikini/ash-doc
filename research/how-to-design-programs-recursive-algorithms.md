@@ -14,6 +14,9 @@ semantics of its teaching languages into Ash?
 - Part II, especially [Designing with Self-Referential Data
   Definitions](https://htdp.org/2026-2-25/Book/part_two.html), for functions
   whose structure follows a data definition.
+- Part III,
+  [Abstraction](https://htdp.org/2026-2-25/Book/part_three.html), for identifying
+  repeated function structure and making the varying operations explicit.
 - Part V, [Generative
   Recursion](https://htdp.org/2026-2-25/Book/part_five.html), for the distinction
   between structurally smaller inputs and newly generated problem states, and

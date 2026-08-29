@@ -64,8 +64,9 @@ replaceable choice that can preserve both sequences.
 
 The roadmap uses three states:
 
-- **next** identifies the one increment with an approved boundary and an
-  active execution plan;
+- **next** identifies the one increment selected for bounded design and then
+  implementation; it authorizes no content before that design is approved and
+  its execution plan is active;
 - **provisional** orders downstream questions without authorizing their
   content directories, source, or tooling; and
 - **verified** identifies content whose prose, canonical programs, and checks
@@ -96,6 +97,14 @@ claim host stack optimization, constant stack space, exact heap bytes, or
 compiler allocation strategy. Those properties would require separate,
 reproducible implementation observations and would remain tool or performance
 evidence rather than language semantics.
+
+The temporary implementation plan sketched the recursive call inside the
+combiner application. Pinned Ash evaluates an application's function before
+its argument, so that expression would partially apply the combiner before
+folding `rest`. The implemented equation instead binds the folded rest before
+evaluating the combiner expression. This preserves the approved requirement
+that the recursive case obtain the result for `rest` before passing both values
+to the combiner, and the local verifier asserts that source relationship.
 
 ## Sources and adaptation
 

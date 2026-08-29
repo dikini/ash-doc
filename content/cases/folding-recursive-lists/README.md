@@ -87,10 +87,12 @@ The equations mirror the datatype:
 
 This definition is commonly called a *right fold* because the result for the
 rest becomes the combiner's second input. `fold` is not special Ash syntax or a
-built-in operation. It is an ordinary recursive, higher-order function checked
-by the same [function-application and global-definition
+built-in operation. It is an ordinary higher-order function checked by the
+[function-application
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#functions-and-application)
-as the functions from the beginning path.
+and placed in recursive scope by the [global-definition
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules)
+used throughout the beginning path.
 
 Each algorithm chooses one replacement for each list form:
 
@@ -106,9 +108,10 @@ The nested anonymous functions in each definition match
 receives the folded rest. `length` does not need the element, but its combiner
 still receives that position because every `More` carries one.
 
-## One traversal, two integer results
+## One traversal definition, two integer results
 
-The first entry gives the same three-element list to `sum` and `length`:
+The first entry gives the same three-element list to `sum` and `length`. Both
+functions reuse the `fold` definition, but each call starts its own traversal:
 
 <!-- source: src/01-fold.ash -->
 ```ash
@@ -150,11 +153,14 @@ The result keeps both predictions together:
 (6, 3) : (Int, Int)
 ```
 
-A list with three `More` forms selects the recursive equation three times, so
-it calls the supplied combiner three times. In general, a list with `n` `More`
-forms causes exactly `n` combiner calls. `Empty` selects the base equation and
-causes no combiner call. Here one combiner call means one complete evaluation
-of `combine first folded_rest`, not each unary application step within it.
+One fold over a list with three `More` forms selects the recursive equation
+three times, so it calls its supplied combiner three times. The complete entry
+runs two folds—one for `sum` and one for `length`—and therefore makes six
+combiner calls. In general, one fold over `n` `More` forms causes exactly `n`
+combiner calls; these two calls together cause `2 * n`. `Empty` selects the
+base equation and causes no combiner call. Here one combiner call means one
+complete evaluation of `combine first folded_rest`, not each unary application
+step within it.
 
 ## Rebuilding or retaining elements
 
