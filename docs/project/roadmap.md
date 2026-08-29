@@ -16,38 +16,34 @@ The current `ash-lang/main` compatibility canary is deferred until an explicit
 forward migration. Every increment below continues to use the exact published
 target.
 
-## Verified
+## Verified increments
 
 The complete eleven-lesson [beginning learning path](beginning-learning-path.md)
 is verified at the resolved commit. Its immutable publication snapshot remains
 available at the repository-local `modular-ash` tag.
 
-## Next: folding recursive lists
+### 1. Folding recursive lists
 
-**Reader question:** How can one recursive traversal define many list
+**Question:** How can one recursive traversal define many list
 algorithms?
 
-Create the Cases family after the complete Learn Ash path. Introduce a strict
-right `fold` over `List<A>` and define `sum`, `length`, `map`, and `filter`
-through it. A counted first-element calculation must show that returning the
-first value does not let an eager right fold avoid traversing the rest.
+The first [Cases](../../content/cases/README.md) chapter defines a strict right
+`fold` over `List<A>` and derives `sum`, `length`, `map`, and `filter` from it.
+Its counted first-element program observes that returning the first value does
+not let an eager right fold avoid traversing the rest.
 
-The case must establish source-level combiner calls, recursive dependency
-depth, and constructed `More` nodes without claiming host stack optimization or
-heap byte counts. Successful programs and one complete `type.argument`
-rejection must run at the exact pin. See the approved
-[design](../plans/2026-08-29-recursive-algorithms-design.md) and active
-[implementation plan](../plans/2026-08-29-folding-recursive-lists.md).
+Five canonical sources and their displayed blocks pass together at the exact
+pin. The checks assert three successful values and types, the complete
+`type.argument` rejection and its causal base argument, and the source
+relationships that make the four operations uses of `fold`. The chapter
+separates combiner calls, recursive dependency depth, and constructed `More`
+nodes from host stack optimization and heap byte counts. The approved
+[recursive-algorithms design](../plans/2026-08-29-recursive-algorithms-design.md)
+continues to govern the path.
 
-## Provisional cases
+## Next: building finite lists with `unfold`
 
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
-
-### 2. Building finite lists with `unfold`
-
-**Question:** How can changing finite state produce recursive data?
+**Reader question:** How can changing finite state produce recursive data?
 
 Introduce `Step<S, A> = Stop | Emit(A, S)` and
 `unfold : (S -> Step<S, A>) -> S -> List<A>`. Use a unary `Natural` seed so
@@ -56,6 +52,16 @@ exact output, counted steps, eager construction of the complete result, the
 additional list constructed by a following `map`, and a complete type
 rejection. Do not introduce lazy or infinite data, a hanging example, or a
 generic fold/build fusion API.
+
+Before implementation, approve a bounded design for this question and add its
+temporary detailed plan. No content directory or source file is authorized by
+promotion alone.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 3. Accumulating list results
 

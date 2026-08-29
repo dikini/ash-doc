@@ -8,8 +8,8 @@ Add a family only when its first approved unit is ready:
 
 - [`learn/`](learn/README.md) for focused tutorials and prerequisite-based
   learning paths;
-- `cases/` for structures, algorithms, and techniques adapted from established
-  work; and
+- [`cases/`](cases/README.md) for structures, algorithms, and techniques
+  adapted from established work; and
 - `applications/` for deterministic application slices that exercise several
   boundaries together.
 
@@ -18,10 +18,13 @@ and links to canonical programs, fixtures, and checks kept inside the same unit.
 Create only the internal paths that its examples require.
 
 Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
+After the complete Learn Ash path, continue with
+[*Design recursive algorithms in Ash*](cases/README.md).
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
 and approve its temporary plan. Keep incomplete work in that plan until the
 prose and applicable local evidence can land together. A complete but
-unverified unit may enter this root as a draft; a verified unit targets the
-exact Ash milestone and commit recorded in its prose. Material that targets a
-design experiment belongs in [`lab/`](../lab/README.md), not here.
+unverified unit may enter this root as a draft; a verified unit inherits the
+exact Ash milestone and commit recorded by the repository edition. Material
+that targets a design experiment belongs in [`lab/`](../lab/README.md), not
+here.

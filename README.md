@@ -82,6 +82,19 @@ You do not need to read the specification before the first lesson. Use it when
 you want to check an explanation, answer a new question, or understand a result
 that surprised you.
 
+## Design recursive algorithms
+
+After completing all eleven Learn Ash lessons, continue with
+[Design recursive algorithms in Ash](content/cases/README.md). This sequential
+Cases path uses the same tool setup and asks how recursive traversal,
+representation, invariants, and source-level costs shape an algorithm.
+
+The first verified case asks
+[how one recursive traversal can define many list
+algorithms](content/cases/folding-recursive-lists/README.md). It defines a
+strict right fold, derives four list operations from it, and makes the fold's
+complete eager traversal observable.
+
 ## Authority
 
 - Language behavior in the first edition comes from the specification at the
