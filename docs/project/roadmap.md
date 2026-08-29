@@ -44,6 +44,8 @@ canonical-source agreement, and the final clean tag target.
 
 Active design:
 [Modular Ash publication](../plans/2026-08-29-modular-ash-publication-design.md).
+Active execution plan:
+[Modular Ash publication plan](../plans/2026-08-29-modular-ash-publication.md).
 
 This increment does not select a renderer, publication platform, lesson-entry
 rename, manifest, coverage view, CI service, license, new language topic, or
