@@ -7,51 +7,46 @@ a curriculum, backlog, publication promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: complete eleven-lesson beginning path verified and
-  reviewed; first repository-source edition publication is next
-- Published documentation tag: none
+- Repository state: first repository-source edition published with its
+  complete eleven-lesson beginning path verified and reviewed
+- Published documentation tag: `modular-ash`
 
 ## Verified increment
 
-The [beginning learning path](beginning-learning-path.md) passes its whole-path
-review as one reader experience. All eleven lesson checks pass at
+The first repository-source edition preserves the reviewed
+[beginning learning path](beginning-learning-path.md) as one immutable source
+snapshot. All eleven lesson checks pass at
 `dca16039923475c48025c5f17beadeb6bcb6a4bf`, every displayed runnable program
 agrees with its canonical source, and the final lesson fulfills the path's
 intended outcome.
 
-The review made three local continuity repairs: lesson 5 now identifies the
-earlier source used by its exercise; lesson 11's assistant prompt matches the
-reasoning task it supports; and lesson 11 explains why a public transparent
-type's constructors are available through its complete import. No lesson
-split, reorder, new language topic, executable change, or project mechanism
-was warranted.
+The ash-doc tag uses the target Ash milestone's `modular-ash` name. The tags
+are repository-local and identify different commits: the `ash-lang` tag
+retains language and tool behavior, while the ash-doc tag retains the
+corresponding documentation source. The documentation tag neither defines Ash
+behavior nor changes the exact publication target.
 
 ## Next complete increment
 
-Publish the reviewed beginning learning path as the first repository-source
-ash-doc edition and preserve it with an immutable documentation tag.
+Run and record the first exact-commit compatibility canary for the complete
+published learning path against one fetchable `ash-lang/main` commit.
 
-The edition remains bound to `modular-ash` at
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. The future documentation tag will
-identify one verified ash-doc source snapshot; it will not define Ash behavior
-or change the language target.
+The canary will test whether the published programs and their promised
+observations remain compatible with that exact newer tool. It will retain
+`modular-ash` at `dca16039923475c48025c5f17beadeb6bcb6a4bf` as the publication
+target and classify each incompatibility as an intentional transition, an Ash
+regression candidate, a documentation assumption, or other downstream
+pressure. A passing canary records compatibility with only the tested commit;
+it does not retarget the edition.
 
-Before creating the tag or changing external state, obtain approval for a
-bounded publication design. Select the smallest source-publication operation
-that gives readers and downstream evidence a durable edition reference, then
-verify the complete learning family, documentation links and structure,
-canonical-source agreement, and the final clean tag target.
+Before adding a canary command or record, obtain approval for a bounded design
+that names the exact fetchable commit, cases, observations, failure
+classification, and retention condition. Select the smallest manual mechanism
+that can run the complete family without weakening its publication-pin check.
 
-Active design:
-[Modular Ash publication](../plans/2026-08-29-modular-ash-publication-design.md).
-Active execution plan:
-[Modular Ash publication plan](../plans/2026-08-29-modular-ash-publication.md).
-
-This increment does not select a renderer, publication platform, lesson-entry
-rename, manifest, coverage view, CI service, license, new language topic, or
-forward migration. A future presentation may consume the immutable source
-snapshot; a future Ash edition receives a new documentation tag rather than
-moving this one.
+This increment does not select a schedule, CI service, renderer, publication
+platform, manifest, expanded shared harness, forward migration, new language
+topic, or new content family.
 
 ## Later decisions
 
