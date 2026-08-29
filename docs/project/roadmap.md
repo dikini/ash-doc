@@ -16,6 +16,21 @@ The current `ash-lang/main` compatibility canary is deferred until an explicit
 forward migration. Every increment below continues to use the exact published
 target.
 
+Every case uses the [pinned eager evaluation
+behavior](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md)
+and lands its prose, complete canonical programs, and checks together. The
+roadmap states mean:
+
+- **next** identifies the one increment ready to enter the execution workflow:
+  approve its bounded design, activate its temporary plan, then implement it;
+- **provisional** orders downstream increments without authorizing their case
+  implementation, content directories, source, or tooling; and
+- **verified** identifies completed content whose prose, programs, and checks
+  pass together.
+
+Promotion to **next** authorizes the design-and-plan work, not a content change
+that bypasses those gates.
+
 ## Verified increments
 
 The complete eleven-lesson [beginning learning path](beginning-learning-path.md)
@@ -50,8 +65,16 @@ Introduce `Step<S, A> = Stop | Emit(A, S)` and
 every executable producer has a structural termination measure. Demonstrate
 exact output, counted steps, eager construction of the complete result, the
 additional list constructed by a following `map`, and a complete type
-rejection. Do not introduce lazy or infinite data, a hanging example, or a
-generic fold/build fusion API.
+rejection. Explain the design danger of a transition without a termination
+measure without running a hanging example. Do not introduce lazy or infinite
+data or a generic fold/build fusion API: the [pinned specification describes
+Modular Ash as
+rank-1](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/README.md#current-ash),
+and the later dictionary operation named `build` constructs an
+invariant-preserving dictionary from a finite list.
+
+Acceptance requires successful finite production, its counted steps, a
+complete type rejection, and an explicit structural termination argument.
 
 Before implementation, approve a bounded design for this question and add its
 temporary detailed plan. No content directory or source file is authorized by
@@ -74,17 +97,23 @@ accumulator algorithm. Explain the accumulator invariant, quadratic versus
 linear work, retained logical state, and tail position without promising
 implementation-level constant stack use.
 
+Acceptance requires both reverse definitions to produce the same list, their
+instrumented work to differ by the stated counts, and executable examples that
+establish the accumulator invariant. Runtime-memory claims remain outside the
+pinned language contract.
+
 ### 4. A dictionary encoded as a list
 
 **Question:** What does lookup cost when a dictionary is a recursive list?
 
 Introduce an association-list `Entry<K, V>` and `Dictionary<K, V>` with
 explicit equality, `empty`, `insert`, `lookup`, and `lookup_counted`. Prepending
-must shadow an older equal key. The case must observe one comparison for the
-newest duplicate key and three comparisons for a missing key after three
-insertions. Contrast selective recursive lookup with an eager whole-list fold,
-and explain linear retrieval, equality cost, persistent sharing, and retained
-old versions.
+must shadow an older equal key. After inserting `(1, 10)`, `(2, 20)`, and
+`(1, 11)`, lookup of `1` must return `Some(11)` after one comparison, while
+lookup of `3` must return `None` after three comparisons. Contrast selective
+recursive lookup with an eager whole-list fold. Explain linear retrieval,
+name the per-key equality cost `E(k)`, and account for persistent sharing and
+memory retained by old dictionary versions.
 
 ### 5. Folding branching data
 
@@ -100,11 +129,12 @@ without visiting both branches.
 
 **Question:** How can an invariant let lookup ignore most of a tree?
 
-Introduce an explicit `Ordering`, comparison function, and counted `lookup` and
-`insert`. Use recursive natural-number keys and state lookup work as
+Introduce `Ordering = Less | Equal | Greater`, pass
+`compare : K -> K -> Ordering` explicitly to `lookup`, `insert`, and
+`lookup_counted`, and use recursive natural-number keys. State lookup work as
 `O(C(k) * h)`. Cover successful and missing lookup, duplicate replacement, a
-manually valid tree, a malformed transparent tree, and ascending insertion that
-produces degenerate height.
+manually valid tree, a malformed transparent tree whose misplaced key exposes
+the invariant, and ascending insertion that produces degenerate height.
 
 ### 7. Abstracting key order
 
@@ -112,10 +142,11 @@ produces degenerate height.
 manually?
 
 Replace explicit comparison parameters with a public `Order<A>` interface, a
-constrained dictionary API, and a public implementation for the example key
-type. Preserve the preceding behavior and cost model. Demonstrate checking-time
-evidence selection, lowering to ordinary calls, and a complete
-`constraint.unsatisfied` rejection.
+constrained `lookup` and `insert` API, and a public implementation for the
+example key type. Preserve the preceding behavior and cost model. Demonstrate
+checking-time evidence selection and lowering to ordinary calls. A complete
+program without an `Order` implementation must be rejected with
+`constraint.unsatisfied`.
 
 ### 8. Protecting the dictionary invariant
 
@@ -124,28 +155,35 @@ trees?
 
 Move the tree behind `pub opaque type Dictionary<K, V>` and expose `empty`,
 `insert`, `lookup`, concrete list-consuming `build`, and `invariant_holds`.
-Reject client construction and matching with `resolve.opaque-constructor`.
-`build` is an invariant-preserving dictionary operation, not a rank-2 producer
-from lazy fold/build fusion.
+Run normal construction and lookup through the public API, then reject separate
+client construction and matching attempts with `resolve.opaque-constructor`.
+`build` must fold a finite list of key/value pairs through `insert`; it is an
+invariant-preserving dictionary operation, not a rank-2 producer from lazy
+fold/build fusion.
 
 ### 9. Guaranteeing logarithmic retrieval
 
 **Question:** How can the representation prevent a search tree from
 degenerating?
 
-First add a source record for the selected persistent red-black-tree tradition
-and its license. Replace the opaque representation without changing the normal
-client API. Explain ordering, root-black, red-parent, and equal-black-height
-invariants; the four insertion balance configurations; root blackening;
-persistent path copying; and `O(C(k) log n)` lookup and insertion. Test every
-prefix of ascending, descending, and rotation-triggering sequences for behavior
-and invariants.
+Before promotion, add a source record for the selected persistent
+red-black-tree tradition and its license. Replace the opaque representation
+without changing the normal client API. Explain ordering, a black root, no red
+parent with a red child, and equal black-height invariants; the four insertion
+balance configurations; root blackening; persistent path copying and subtree
+sharing; and `O(C(k) log n)` lookup and insertion. Account for `O(log n)` newly
+constructed path nodes. Describe this as worst-case logarithmic
+comparison-based retrieval,
+not universal optimality. Test lookup behavior and `invariant_holds` after
+every insertion prefix in ascending, descending, and rotation-triggering
+sequences.
 
 ### 10. Resuming tree traversal
 
 **Question:** How can traversal pause and resume without laziness?
 
-Expose an opaque eager `Iterator<K, V>` with `iterator` and
+Expose an opaque eager `Iterator<K, V>` with
+`iterator : Dictionary<K, V> -> Iterator<K, V>` and
 `next : Iterator<K, V> -> Option<((K, V), Iterator<K, V>)>`. Repeated calls over
 three entries must end with `None`. Explain `O(h)` initialization and state,
 worst-case `O(h)` `next`, and amortized constant work over a complete traversal.
@@ -157,10 +195,11 @@ Do not use thunks, lazy lists, hidden mutation, or infinite-data claims.
 
 Build deterministic depth-first and breadth-first search over one finite cyclic
 graph. Use a list stack for DFS, a two-list amortized queue for BFS, the
-dictionary as a visited set, and explicit counted search state. Both traversals
-must find the target; BFS must return the shortest unweighted path; visited
-tracking must prevent repeated expansion. Compare depth memory with width
-memory and classify any library, tooling, diagnostic, or performance pressure.
+dictionary as a visited set, explicit search state, and a counted frontier
+size. Both traversals must find the target; BFS must return the shortest
+unweighted path; visited tracking must prevent repeated expansion. Compare DFS
+depth memory with BFS width memory and classify any library, tooling,
+diagnostic, or performance pressure.
 
 ## Promotion and verification policy
 
@@ -181,7 +220,12 @@ For every increment:
    unspecified design questions, or library, tool, diagnostic, performance, or
    application pressure.
 8. Remove the completed temporary plan, mark the case **verified**, promote its
-   successor, and reassess the remaining provisional order.
+   successor, and reassess the remaining provisional order while preserving
+   the final goals of balanced dictionaries, explicit iterators, and search
+   frontiers.
+9. Add a focused research or laboratory record only when an observed case
+   supplies material evidence. Any upstream evidence candidate must reference
+   the completed case commit as well as the exact ash-doc and Ash targets.
 
 Final verification for each increment uses a clean Ash checkout at the exact
 resolved commit:
