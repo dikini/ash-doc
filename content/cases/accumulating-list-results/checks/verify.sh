@@ -113,6 +113,22 @@ ash_doc_assert_suffix() {
     [[ $section == *"$expected_suffix" ]] || ash_doc_fail "$claim"
 }
 
+ash_doc_assert_readme_line_once() {
+    if [[ $# -ne 2 ]]; then
+        ash_doc_fail \
+            "ash_doc_assert_readme_line_once requires expected line and claim"
+    fi
+
+    local expected_line=$1
+    local claim=$2
+    local actual_count
+    actual_count=$(grep -Fxc -- "$expected_line" "$readme" || true)
+
+    [[ $actual_count -eq 1 ]] ||
+        ash_doc_fail \
+            "$claim (found $actual_count occurrences, expected 1)"
+}
+
 append_section=$(ash_doc_section \
     'pub append : List<A> -> List<A> -> List<A>' \
     'pub reverse_through_append : List<A> -> List<A>')
@@ -336,17 +352,33 @@ ash_doc_assert_phrase_count \
     "the wrong-initial entry must pass the nonempty list as its initial accumulator"
 
 readonly reversed='More(4, More(3, More(2, More(1, Empty))))'
+readonly same_result_output="($reversed, $reversed) : (List<Int>, List<Int>)"
 readonly counted_output="(($reversed, 6), ($reversed, 4)) : "\
 '((List<Int>, Int), (List<Int>, Int))'
 readonly invariant_output='(More(1, More(2, Empty)), '\
 'More(2, More(1, Empty)), '\
 'More(4, More(3, More(2, More(1, Empty))))) : '\
 '(List<Int>, List<Int>, List<Int>)'
+readonly wrong_initial_output=\
+'More(4, More(3, More(2, More(1, More(99, Empty))))) : List<Int>'
+
+ash_doc_assert_readme_line_once \
+    "$same_result_output" \
+    "README must display the same-result output exactly once"
+ash_doc_assert_readme_line_once \
+    "$counted_output" \
+    "README must display the counted output exactly once"
+ash_doc_assert_readme_line_once \
+    "$invariant_output" \
+    "README must display the invariant output exactly once"
+ash_doc_assert_readme_line_once \
+    "$wrong_initial_output" \
+    "README must display the wrong-initial output exactly once"
 
 ash_doc_run_accepted \
     "$unit_root" \
     src/01-same-result.ash \
-    "($reversed, $reversed) : (List<Int>, List<Int>)"
+    "$same_result_output"
 ash_doc_run_accepted \
     "$unit_root" \
     src/02-counted-work.ash \
@@ -358,6 +390,6 @@ ash_doc_run_accepted \
 ash_doc_run_accepted \
     "$unit_root" \
     src/04-wrong-initial-accumulator.ash \
-    'More(4, More(3, More(2, More(1, More(99, Empty))))) : List<Int>'
+    "$wrong_initial_output"
 
 ash_doc_finish 5

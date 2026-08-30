@@ -139,7 +139,7 @@ ash accumulating-list-results/src/01-same-result.ash
 
 <!-- markdownlint-disable MD013 -->
 ```text
-(More(4, More(3, More(2, More(1, Empty)))), More(4, More(3, More(2, More(1, Empty)))) : (List<Int>, List<Int>)
+(More(4, More(3, More(2, More(1, Empty)))), More(4, More(3, More(2, More(1, Empty))))) : (List<Int>, List<Int>)
 ```
 <!-- markdownlint-enable MD013 -->
 
