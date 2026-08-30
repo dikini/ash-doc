@@ -89,8 +89,8 @@ After completing all eleven Learn Ash lessons, continue with
 Cases path uses the same tool setup and asks how recursive traversal,
 representation, invariants, and source-level costs shape an algorithm.
 
-The three verified cases progress from consumption to production, then retained
-knowledge. [Folding recursive
+The four verified cases progress from consumption to production, retained
+knowledge, then selective retrieval. [Folding recursive
 lists](content/cases/folding-recursive-lists/README.md) consumes a finite list
 through a strict right fold. [Building finite
 lists](content/cases/building-finite-lists/README.md) produces one from finite
@@ -98,7 +98,10 @@ state and exposes the producer's structural termination boundary.
 [Accumulating list
 results](content/cases/accumulating-list-results/README.md) compares repeated
 rebuilding through append with accumulator state that retains knowledge from
-earlier elements, then accounts for their different source work.
+earlier elements, then accounts for their different source work. [A dictionary
+encoded as a list](content/cases/dictionary-as-list/README.md) uses explicit
+equality to compare selective lookup with a strict fold and keeps older
+dictionary versions observable after front insertion.
 
 ## Authority
 
