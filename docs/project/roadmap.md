@@ -248,6 +248,13 @@ for this outcome and link an active temporary implementation plan here. Those
 records must name the exact-pin observations, evidence-selection and cost
 boundaries, verification, independent review, and repository closure.
 
+The [approved bounded
+design](../plans/2026-08-30-abstracting-key-order-design.md) selects one
+lesson-local capability-and-tree module, three behavior-preserving accepted
+entries, and one missing-implementation rejection. It authorizes no content
+directory or source file by itself. Link and activate a temporary implementation
+plan here before materializing the case.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
