@@ -11,6 +11,10 @@ a function that combines one element with the already folded `rest`. The list
 still determines where recursion goes; the two supplied values determine what
 the traversal means for one algorithm.
 
+Every list in this chapter is finite: a chain of `More` values ending in
+`Empty`. The cost statements describe calculations that reach a result; the
+supplied functions in the examples return for every element.
+
 ## Replacing the list forms
 
 The shared module begins with the list from the final Learn Ash lesson. It adds
@@ -153,14 +157,14 @@ The result keeps both predictions together:
 (6, 3) : (Int, Int)
 ```
 
-One fold over a list with three `More` forms selects the recursive equation
-three times, so it calls its supplied combiner three times. The complete entry
-runs two folds—one for `sum` and one for `length`—and therefore makes six
-combiner calls. In general, one fold over `n` `More` forms causes exactly `n`
-combiner calls; these two calls together cause `2 * n`. `Empty` selects the
-base equation and causes no combiner call. Here one combiner call means one
-complete evaluation of `combine first folded_rest`, not each unary application
-step within it.
+One fold over this list selects the recursive equation three times, so it calls
+its supplied combiner three times. The complete entry runs two folds—one for
+`sum` and one for `length`—and therefore makes six combiner calls. For a
+calculation that reaches a result, one fold over a finite list with `n` `More`
+forms completes exactly `n` combiner calls; these two folds together complete
+`2 * n`. `Empty` selects the base equation and causes no combiner call. Here one
+combiner call means one complete evaluation of `combine first folded_rest`, not
+each unary application step within it.
 
 ## Rebuilding or retaining elements
 
@@ -201,11 +205,12 @@ Ash reports:
 (More(42, More(43, More(44, Empty))), More(42, Empty)) : (List<Int>, List<Int>)
 ```
 
-For an input with `n` elements, `map` constructs `n` output `More` values. If
-the predicate retains `r` elements, `filter` constructs `r` output `More`
-values. These counts follow the constructor expressions in the two combiners.
-`filter` still applies its predicate to all `n` input elements because the fold
-calls its combiner `n` times.
+For a completed calculation over a finite input with `n` elements, `map`
+constructs `n` output `More` values. If the predicate retains `r` elements,
+`filter` constructs `r` output `More` values. These counts follow the
+constructor expressions in the two combiners. A completed `filter` still
+applies its predicate to all `n` input elements because the fold calls its
+combiner `n` times.
 The pinned [constructor evaluation
 rule](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
 allocates a constructor cell when a payload constructor is applied. The counts
@@ -251,11 +256,11 @@ rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6b
 make both steps explicit.
 
 Each recursive call therefore depends on the result of the call for `rest`.
-For `n` `More` forms, this right fold creates a linear chain of `n` recursive
-dependencies. Returning only the first value does not make the traversal
-short-circuit. A selective algorithm needs a recursive definition that decides
-whether to follow `rest` before it makes that recursive call; changing only
-this fold's combiner is too late.
+For a finite list with `n` `More` forms, this right fold creates a linear chain
+of `n` recursive dependencies. Returning only the first value does not make the
+traversal short-circuit. A selective algorithm needs a recursive definition
+that decides whether to follow `rest` before it makes that recursive call;
+changing only this fold's combiner is too late.
 
 This is a source-level dependency count. The Ash specification does not promise
 that a host implementation uses or optimizes its native call stack in a
@@ -312,7 +317,7 @@ Then define `keep_all : List<A> -> List<A>` through `fold`. Its result should
 have the same elements and order as its input. Explain why it constructs one
 output `More` per input element even though none of the element values change.
 
-A fold consumes recursive data by replacing each form with a result. The next
-case turns the direction around: how can a changing finite state *produce* a
-recursive list, and what termination argument makes that production safe to
-run eagerly?
+This fold consumes a finite recursive list by replacing each form with a
+result. The next case turns the direction around: how can a changing finite
+state *produce* a recursive list, and what termination argument makes that
+production safe to run eagerly?
