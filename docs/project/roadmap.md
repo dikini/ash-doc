@@ -114,7 +114,13 @@ dictionary versions. Keep heap bytes and collection outside the contract.
 
 Before implementation, approve a bounded design for this question and add its
 temporary detailed plan. No content directory or source file is authorized by
-promotion alone. No dictionary design has been approved.
+promotion alone.
+
+The [association-list dictionary
+design](../plans/2026-08-30-association-list-dictionary-design.md) is approved
+by the 2026-08-30 autonomous remaining-cases request. Its temporary execution
+plan must remain active until the complete case passes and the roadmap promotes
+its successor.
 
 ## Provisional cases
 
