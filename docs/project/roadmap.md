@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  four verified recursive-algorithm cases remain unpublished on `main`
+  five verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -135,28 +135,52 @@ equality interface or law enforcement, evidence selection, ordering, tree,
 balancing, opacity, deletion, in-place update, or lazy, infinite, or cyclic
 data.
 
-## Next: folding branching data
+### 5. Folding branching data
 
 **Question:** How does the data-directed method extend from lists to trees?
 
-Introduce `Tree<A> = Empty | Node(Tree<A>, A, Tree<A>)`, `fold_tree`, `size`,
-and `map_tree`. Compare balanced and skewed trees with the same node count.
-Establish one visit per node and recursive dependency depth proportional to
-height. Show why this strict `fold_tree`, whose combiner receives both already
-evaluated branch results, cannot implement selective search without visiting
-both branches.
+The fifth [Cases](../../content/cases/README.md) chapter extends the
+data-directed fold from one list tail to the two branches of
+`Tree<A> = Empty | Node(Tree<A>, A, Tree<A>)`. Four canonical sources and their
+displayed blocks pass at the exact Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Three exact accepted outputs
+establish size and shape-preserving map behavior, equal three-node counts with
+balanced height `2` and skewed height `3`, and one predicate application for a
+direct root hit versus three applications through the strict whole-tree fold.
+These are one visited node for selective direct search and three visited nodes
+for strict folded search.
 
-Before implementation, approve a bounded design for this question and add its
-temporary detailed plan. No content directory or source file is authorized by
-promotion alone.
+For a finite structural expansion with `n` `Node` encounters, a completed
+`fold_tree` whose required combiner applications return completes exactly `n`
+`Node` combiners. If `h` is the greatest number of `Node` forms on a path from
+the root to `Empty`, the longest source dependency has `h` pending `Node`
+results; counting the active terminal `Empty` call gives `h + 1` simultaneous
+source `fold_tree` calls. These counts do not describe native stack frames.
+`size` performs two primitive integer additions per node. If the transform
+returns for every encountered value, `map_tree` applies it `n` times,
+constructs `n` output `Node` forms, and preserves branch shape. The separate
+unary `maximum` recursion and height construction inside `nodes_and_height`
+are not included in the fold's `n` combiner or `h` pending-result counts.
 
-## Provisional cases
+Direct pre-order search completes when every predicate application at each
+node it enters returns; it imposes no predicate-return condition on unentered
+branches. The completed folded search requires a returning predicate at every
+node in the finite expansion because both branch folds finish before the
+current combiner runs. When a traversal enters both branch fields, as the
+completed strict fold does, a shared acyclic subtree placed in both fields is
+followed and counted through both structural occurrences. A cyclic `Tree`
+value may prevent these functions from returning; the nominal type does not
+establish finiteness.
 
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
+The case intentionally excludes ordering, ordered insertion and lookup,
+duplicate-key policy, balancing, opacity, mutation, laziness, infinite-tree
+claims, and generic tree infrastructure. Its source counts do not establish
+elapsed time, machine instructions, native stack size, tail-call optimization,
+exact heap bytes, garbage collection, pointer identity, physical sharing,
+arbitrary-precision integer bit cost, or compiler representation and
+optimization.
 
-### 6. Searching an ordered tree
+## Next: searching an ordered tree
 
 **Question:** How can an invariant let lookup ignore most of a tree?
 
@@ -168,6 +192,17 @@ under an explicit per-comparison bound `Cmax`. Cover successful and missing
 lookup, duplicate replacement, a manually valid tree, a malformed transparent
 tree whose misplaced key exposes the invariant, and ascending insertion that
 produces degenerate height.
+
+Before creating a content directory or source file, approve a bounded design
+for this outcome and link its temporary implementation plan here. Those
+records must name the exact-pin observations, invariant and cost boundaries,
+verification, independent review, and repository closure.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 7. Abstracting key order
 

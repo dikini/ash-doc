@@ -65,3 +65,7 @@ storage strategy.
    list?](dictionary-as-list/README.md) — use explicit equality for selective
    lookup, contrast its work with a strict fold, and observe older dictionary
    versions retained behind new front entries.
+5. [How does the data-directed method extend from lists to
+   trees?](folding-branching-data/README.md) — fold both branches, compare
+   equal-size trees with different heights, and contrast selective search with
+   whole-tree fold work.
