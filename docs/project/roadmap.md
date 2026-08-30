@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  seven verified recursive-algorithm cases remain unpublished on `main`
+  eight verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -331,61 +331,114 @@ arbitrary-precision bit-cost result. It introduces no opacity, invariant
 enforcement, balancing, deletion, mutation, iteration, or generic tree
 infrastructure.
 
-## Next: protecting the dictionary invariant
+### 8. Protecting the dictionary invariant
 
 **Question:** How can clients use a dictionary without constructing invalid
 trees?
 
-Move the tree behind `pub opaque type Dictionary<K, V>` and expose `empty`,
-`insert`, `lookup`, concrete list-consuming `build`, and `invariant_holds`.
-Run normal construction and lookup through the public API, then reject separate
-client construction and matching attempts with `resolve.opaque-constructor`.
-`build` must use strict `fold_left` through `insert` in input order so later
-equal keys replace earlier ones. It is an invariant-preserving dictionary
-operation, not a rank-2 producer from lazy fold/build fusion.
+The eighth [Cases](../../content/cases/README.md) chapter places the ordered
+tree behind `pub opaque type Dictionary<K, V>`. Importers can name and pass the
+public nominal type, but only the defining module can use `Empty` and `Node` as
+values or patterns. Its public API supplies `empty`, `insert`, `build`,
+`lookup`, and `invariant_holds`; opacity controls constructor access rather
+than proving that the operations preserve their invariant or that the
+representation is secret.
 
-Before creating a content directory or source file, approve a bounded design
-for this outcome and link an active temporary implementation plan here. Those
-records must name the exact-pin observations, opacity and invariant boundaries,
-verification, independent review, and repository closure.
+Six canonical sources and their displayed blocks pass together at Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. The defining module and three
+importing clients complete with empty standard error and status `0`: its
+private `main` observes a deeper malformed tree as `false`, public insertion
+of keys three, one, two, and four observes a valid dictionary with four hits
+and one absence, strict list-consuming `build` replaces the earlier value `20`
+with the later equal value `99`, and a client observes the public empty value
+structurally as `Empty : Dictionary<Natural, Int>`. Separate value and pattern
+attempts to use `Dictionaries.Empty` complete with empty standard output,
+status `1`, and first standard-error line `resolve.opaque-constructor`. Each
+primary label covers the client `Empty` member token, and each related label
+covers the withheld declaration token. Remaining diagnostic prose and byte
+offsets are not contracts.
 
-The [approved bounded
-design](../plans/2026-08-30-protecting-dictionary-invariant-design.md) selects
-one lesson-local opaque dictionary module, one private malformed-invariant
-observation, three accepted client observations, and two separate
-constructor-access rejections. It authorizes no content directory or source
-file before an active implementation plan.
+The public construction argument fixes an `Order<K>` implementation whose
+required comparisons return and satisfy the stated equivalence, reversal,
+transitivity, and substitution premises. Validity is global: both subtrees are
+valid, every left descendant is `Less`, and every right descendant is
+`Greater`. Under those premises, completed `insert` preserves a finite valid
+dictionary, retains the stored representative key on equality, and replaces
+only its value. The private counterexample places key three in the left
+subtree of key two while retaining correct immediate parent-child order, so it
+distinguishes descendant bounds from a local-child check. The defining module
+can still construct malformed values or export a bad operation; opacity is the
+client boundary, not a type-level invariant proof.
 
-The [approved implementation
-plan](../plans/2026-08-30-protecting-dictionary-invariant.md) fixes the six
-canonical sources, RED/GREEN order, nineteen-mutation audit, independent
-reviews, case-9 research gate, repository closure, and local merge. It
-owns the approved work through exact-pin verification and reviewed closure.
+The private strict left fold calls its combiner and therefore `insert` exactly
+`n` times for a finite `n`-entry list. If insertion `j` enters `m_j` existing
+nodes and `C_j(i)` counts all comparison-method applications caused at its
+`i`th visited key, exact comparison sub-work is the double sum of `C_j(i)`,
+with surrounding source work `O(n + sum m_j)`. Unbalanced input can make that
+work quadratic. For completed validation of a finite `n`-node dictionary, let
+`B` count validator-initiated comparisons. `B = 0` for zero or one node; for
+`n > 1`, `n - 1 <= B <= 2n - 2`. If `C_r` counts all method applications in
+validator comparison `r`, exact comparison sub-work is `sum C_r`. Only when
+every `C_r <= Cmax`, with `Cmax >= 1`, may this be summarized as
+`O(B * Cmax)` and therefore `O(n * Cmax)`; surrounding traversal work is
+`O(n)`.
+
+The finite-return claims apply to finite acyclic dictionary spines produced by
+the selected operations from finite prior values and inputs, when their
+required calls return. Defining-module code can create a dictionary-spine
+cycle; generic key or value payloads can cycle independently. Whole-tree
+validation enters both branches, lookup and insertion enter only their
+selected path, a nonreturning comparison can prevent an operation from
+returning, and lookup can return a cyclic value payload without traversing it.
+Final structural observation traverses a returned payload and renders an
+active-path revisit as `<cycle>`. The chapter establishes no runtime pointer
+identity, physical sharing, heap, garbage-collection, native-stack, tail-call,
+or compiler representation claim.
+
+The accepted body tuple match in the private `insert_entry` works around an
+exact-pin `internal.resource.coverage` failure minimized from an equivalent
+tuple-equation form. That failure remains an Ash regression candidate outside
+lesson prose; it does not define language behavior. The case introduces no
+balancing, deletion, mutation, iteration, generic dictionary infrastructure,
+lazy or infinite data, rank-2 fold/build fusion, representation secrecy, or
+ordering-law enforcement.
+
+## Next: guaranteeing logarithmic retrieval
+
+**Question:** How can the representation prevent a search tree from
+degenerating?
+
+Replace the opaque representation without changing the normal client API.
+Explain ordering, a black root, no red parent with a red child, and equal
+black-height invariants; the four insertion balance configurations; root
+blackening; persistent source reconstruction and subtree reuse; and
+logarithmic tree height. Test lookup behavior and `invariant_holds` after every
+insertion prefix in ascending, descending, and rotation-triggering sequences.
+State lookup and insertion as `O(log n)` comparisons and `O(log n)` newly
+constructed path nodes. If comparison cost varies, use
+`O(log n * Cmax)` only under an explicit bound. Attribute the guarantee to the
+opaque API plus invariant-preserving insertion, not to the nominal
+representation alone, and do not claim runtime pointer sharing or universal
+optimality.
+
+The reviewed [persistent red-black insertion source
+record](../../research/persistent-red-black-insertion.md) selects Chris
+Okasaki's four-configuration functional insertion as conceptual inspiration,
+with the MIT-licensed Software Foundations presentation as corroborating
+evidence. The future Ash programs, names, prose, derivations, diagrams, and
+exercises remain original. This research evidence cannot define Ash behavior.
+
+Before creating case content, approve a bounded design for this outcome and
+link an active temporary implementation plan here. Those records must fix the
+exact representation, public API compatibility, executable insertion-prefix
+matrix, invariant and cost arguments, source-adaptation boundary, verification,
+independent review, and repository closure.
 
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
 content directories, source files, or tooling. Promote only one after the
 preceding case verifies and its evidence has been reviewed.
-
-### 9. Guaranteeing logarithmic retrieval
-
-**Question:** How can the representation prevent a search tree from
-degenerating?
-
-Before promotion, add a source record for the selected persistent
-red-black-tree tradition and its license. Replace the opaque representation
-without changing the normal client API. Explain ordering, a black root, no red
-parent with a red child, and equal black-height invariants; the four insertion
-balance configurations; root blackening; persistent path copying and subtree
-reuse; and logarithmic tree height. State lookup and insertion as
-`O(log n)` comparisons and `O(log n)` newly constructed path nodes. If
-comparison cost varies, use `O(log n * Cmax)` under an explicit bound. Describe
-this as worst-case logarithmic comparison-based retrieval, not universal
-optimality. Test lookup behavior and `invariant_holds` after every insertion
-prefix in ascending, descending, and rotation-triggering sequences. Attribute
-the guarantee to the opaque API plus invariant-preserving insertion, not to the
-nominal representation alone.
 
 ### 10. Resuming tree traversal
 

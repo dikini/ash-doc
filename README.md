@@ -89,9 +89,10 @@ After completing all eleven Learn Ash lessons, continue with
 Cases path uses the same tool setup and asks how recursive traversal,
 representation, invariants, and source-level costs shape an algorithm.
 
-The seven verified cases progress from consumption to production, retained
+The eight verified cases progress from consumption to production, retained
 knowledge, selective retrieval, branching traversal, invariant-guided branch
-selection, then checking-time selection of a reusable capability.
+selection, checking-time selection of a reusable capability, then an opaque
+construction boundary.
 [Folding recursive lists](content/cases/folding-recursive-lists/README.md)
 consumes a finite list through a strict right fold. [Building finite
 lists](content/cases/building-finite-lists/README.md) produces one from finite
@@ -112,7 +113,12 @@ lookup, then shows an accepted malformed miss and the degenerate height
 produced by ascending insertion. [Abstracting key
 order](content/cases/abstracting-key-order/README.md) replaces the repeated
 comparator argument with selected `Order` evidence, preserves the tree
-observations, and exposes the missing-implementation boundary.
+observations, and exposes the missing-implementation boundary. [Protecting the
+dictionary
+invariant](content/cases/protecting-dictionary-invariant/README.md) makes the
+dictionary name public while withholding its constructors, then tests the
+public construction routes, whole-tree invariant, and separate value and
+pattern rejection boundaries.
 
 ## Authority
 
