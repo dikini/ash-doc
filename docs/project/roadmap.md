@@ -198,6 +198,12 @@ for this outcome and link its temporary implementation plan here. Those
 records must name the exact-pin observations, invariant and cost boundaries,
 verification, independent review, and repository closure.
 
+The [approved bounded
+design](../plans/2026-08-30-searching-ordered-tree-design.md) selects one
+lesson-local ordered-tree module and three complete executable observations.
+It authorizes no content directory or source file by itself. Link and activate
+a temporary implementation plan here before materializing the case.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
