@@ -154,6 +154,24 @@ Copy the hardened lesson-local section, word-count, phrase-count, and suffix
 helpers from `content/cases/dictionary-as-list/checks/verify.sh`. The section
 helper must fail when its start marker or its nonempty end marker is absent;
 it must not let an empty extraction make a count assertion pass vacuously.
+Add a literal substring helper for multiline entry bindings and call blocks;
+do not pass a string containing newlines to the line-oriented
+`ash_doc_assert_phrase_count` helper:
+
+```bash
+ash_doc_assert_contains() {
+    if [[ $# -ne 3 ]]; then
+        ash_doc_fail \
+            "ash_doc_assert_contains requires source, substring, and claim"
+    fi
+
+    local source=$1
+    local expected=$2
+    local claim=$3
+
+    [[ $source == *"$expected"* ]] || ash_doc_fail "$claim"
+}
+```
 
 Use these exact adjacent section boundaries:
 
@@ -339,9 +357,11 @@ Read the three complete entries into variables. Assert:
   `is_42 value = value == 42`, the exact root-`42` tree with one leaf in each
   branch, and one call of each search with the same `is_42` and `tree` values.
 
-Use exact multiline string comparisons or phrase assertions for each tree
-binding; do not reduce them to counts that would accept a different shape or
-value order.
+Use `ash_doc_assert_contains` for each exact multiline tree binding and call
+block. Do not use `ash_doc_assert_phrase_count` for multiline strings: its
+line-oriented `grep` treats their lines as separate patterns. The surrounding
+word counts reject duplicate bindings and calls; do not reduce the exact
+substrings to counts that would accept a different shape or value order.
 
 Name these exact outputs, require each exactly once inside a README `text`
 fence, and pass the same values to three accepted runs:
