@@ -106,6 +106,10 @@ the 2026-08-30 autonomous remaining-cases request. Its temporary execution plan
 must remain active until the complete case passes and the roadmap promotes its
 successor.
 
+The temporary [implementation
+plan](../plans/2026-08-30-accumulating-list-results.md) owns the approved work
+through exact-pin verification, independent review, and local integration.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
