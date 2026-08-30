@@ -164,7 +164,7 @@ Use `apply_patch` to add
 existing local verifier pattern and source:
 
 ```text
-content/cases/checks/lib.sh
+content/checks/lib.sh
 ```
 
 The script must:
