@@ -77,3 +77,7 @@ storage strategy.
    manually?](abstracting-key-order/README.md) — select ordering evidence
    during checking, preserve the ordered-tree behavior without comparator
    arguments, and reject a lookup whose key type has no implementation.
+8. [How can clients use a dictionary without constructing invalid
+   trees?](protecting-dictionary-invariant/README.md) — expose an opaque
+   dictionary name and invariant-preserving operations while rejecting client
+   construction and pattern matching on its withheld representation.
