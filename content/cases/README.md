@@ -81,3 +81,7 @@ storage strategy.
    trees?](protecting-dictionary-invariant/README.md) — expose an opaque
    dictionary name and invariant-preserving operations while rejecting client
    construction and pattern matching on its withheld representation.
+9. [How can the representation prevent a search tree from
+   degenerating?](guaranteeing-logarithmic-retrieval/README.md) — maintain an
+   opaque persistent red-black representation whose ordering and color
+   invariants bound height while preserving the dictionary API.
