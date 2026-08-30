@@ -395,7 +395,10 @@ Run from the new case directory:
 ASH_DOC_PIN=/home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-modular-pin
 git -C "$ASH_DOC_PIN" rev-parse HEAD
 git -C "$ASH_DOC_PIN" status --short
-cargo build --locked --manifest-path "$ASH_DOC_PIN/Cargo.toml"
+(
+    cd "$ASH_DOC_PIN"
+    cargo build --locked
+)
 "$ASH_DOC_PIN/target/debug/ash" src/01-ordinary-lookup.ash
 "$ASH_DOC_PIN/target/debug/ash" src/02-counted-lookup.ash
 "$ASH_DOC_PIN/target/debug/ash" src/03-selective-and-fold.ash
@@ -405,8 +408,11 @@ cargo build --locked --manifest-path "$ASH_DOC_PIN/Cargo.toml"
 Expected output is exactly the four strings from Task 1. Every command must
 exit `0`, and the four `ash` runs must have empty standard error. `rev-parse`
 must report `dca16039923475c48025c5f17beadeb6bcb6a4bf`; pinned status must be
-empty; the locked build must succeed. If pinned behavior differs, stop and
-classify the difference before changing the lesson contract.
+empty; the locked build must succeed under the checkout's selected Rust
+toolchain. Running Cargo from the pinned checkout is required because Rustup
+selects a directory's toolchain before Cargo resolves an external
+`--manifest-path`. If pinned behavior differs, stop and classify the difference
+before changing the lesson contract.
 
 ### Step 4: Review the canonical programs
 
