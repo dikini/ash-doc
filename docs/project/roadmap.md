@@ -428,11 +428,13 @@ with the MIT-licensed Software Foundations presentation as corroborating
 evidence. The future Ash programs, names, prose, derivations, diagrams, and
 exercises remain original. This research evidence cannot define Ash behavior.
 
-Before creating case content, approve a bounded design for this outcome and
-link an active temporary implementation plan here. Those records must fix the
-exact representation, public API compatibility, executable insertion-prefix
-matrix, invariant and cost arguments, source-adaptation boundary, verification,
-independent review, and repository closure.
+The bounded [guaranteeing logarithmic retrieval
+design](../plans/2026-08-30-guaranteeing-logarithmic-retrieval-design.md) is
+approved. It fixes the representation, public API compatibility, executable
+insertion-prefix matrix, invariant and cost arguments, source-adaptation
+boundary, verification, independent review, and repository closure. Do not
+create case content until an exact temporary implementation plan is approved
+and linked here.
 
 ## Provisional cases
 
