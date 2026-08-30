@@ -18,6 +18,17 @@ The shared module gives each key and value one `Entry<K, V>`. A
 rest of the dictionary. `Option<A>` separates an absent result, `None`, from a
 present result, `Some(A)`.
 
+The pinned [syntax
+grammar](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#grammar)
+provides these parameterized nominal declarations and constructor forms. The
+[type and constructor
+scope](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#type-and-constructor-scope)
+makes `Dictionary` visible in its own `More` payload and binds each constructor
+to its nominal type. Under the static [tuple and constructor
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#tuples-and-constructors),
+applying a payload constructor such as `Entry`, `More`, or `Some` produces a
+value of its declared nominal type.
+
 <!-- source: src/dictionaries.ash -->
 <!-- markdownlint-disable MD013 -->
 ```ash
@@ -73,6 +84,15 @@ lookup_through_fold_counted same_key query dictionary = fold_entries (prefer_cur
 ```
 <!-- markdownlint-enable MD013 -->
 
+Each shared function uses the pinned [equational global
+presentation](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md#global-function-presentations):
+a signature followed by its contiguous clauses. Module-wide [global
+scope](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#global-scope)
+makes recursive functions such as `lookup` and `fold_entries` available in
+their own bodies. The static [global and module
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules)
+check each clause against its declared function scheme.
+
 Start from `Empty` and apply the three insertions used throughout this chapter.
 Expanding only the `insert` equation predicts the complete order:
 
@@ -100,9 +120,16 @@ definitions](https://htdp.org/2026-2-25/Book/part_two.html).
 ## Stop at the first matching key
 
 `lookup` receives equality as an explicit function because `K` can be any type.
-At `Empty`, there is no entry to return. At `More`, lookup applies
-`same_key query key` exactly once. The true arm returns `Some(value)` and has no
-recursive call. Only the false arm follows `rest`. Ash's [dynamic match
+The pinned static [function and application
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#functions-and-application)
+check `same_key query key` against that supplied function type. At `Empty`,
+there is no entry to return. At `More`, lookup applies equality exactly once.
+The static [pattern, match, and coverage
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#patterns-matches-and-coverage)
+require the `Empty` and `More` equations to cover the dictionary and the
+`true` and `false` arms to cover the equality result. The true arm returns
+`Some(value)` and has no recursive call. Only the false arm follows `rest`.
+Ash's [dynamic match
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 evaluate the scrutinee once and enter only the selected arm.
 
