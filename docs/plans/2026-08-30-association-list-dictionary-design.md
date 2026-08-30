@@ -153,14 +153,14 @@ direct lookup while visiting the complete dictionary.
 Every entry uses this explicit integer equality:
 
 ```ash
-same_int : Int -> Int -> Bool
-same_int left right = left == right
+int_equal : Int -> Int -> Bool
+int_equal left right = left == right
 ```
 
 Each builds the current dictionary by inserting `(1, 10)`, `(2, 20)`, and
 `(1, 11)` in that order.
 
-1. `01-lookup.ash` runs ordinary hit and miss:
+1. `01-ordinary-lookup.ash` runs ordinary hit and miss:
 
    ```text
    (Some(11), None) : (Option<Int>, Option<Int>)
@@ -209,7 +209,7 @@ E_q(k_1) + E_q(k_2) + ... + E_q(k_m)
 
 Including constant per-entry inspection and branching, the source account is
 `O(m + sum E_q(k_i))`. Under an explicit uniform equality bound `Emax`, this is
-`O(m * (1 + Emax))`, with worst case `O(n * (1 + Emax))`. For `same_int`, each
+`O(m * (1 + Emax))`, with worst case `O(n * (1 + Emax))`. For `int_equal`, each
 visited entry performs one pinned primitive integer equality. The counted `Int`
 reports equality applications, not elapsed time, machine instructions, or the
 internal work of an arbitrary supplied equality function.
