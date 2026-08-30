@@ -69,3 +69,7 @@ storage strategy.
    trees?](folding-branching-data/README.md) — fold both branches, compare
    equal-size trees with different heights, and contrast selective search with
    whole-tree fold work.
+6. [How can an invariant let lookup ignore most of a
+   tree?](searching-ordered-tree/README.md) — use explicit comparison and a
+   valid global ordering invariant to select one branch, then expose the
+   malformed-tree and unbalanced-insertion boundaries.
