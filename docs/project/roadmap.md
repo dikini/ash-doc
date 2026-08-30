@@ -204,6 +204,12 @@ lesson-local ordered-tree module and three complete executable observations.
 It authorizes no content directory or source file by itself. Link and activate
 a temporary implementation plan here before materializing the case.
 
+The [temporary implementation
+plan](../plans/2026-08-30-searching-ordered-tree.md) owns the approved work
+through exact-pin verification, independent review, and reviewed repository
+closure. No content directory or source file is authorized by these records
+alone.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
