@@ -349,6 +349,13 @@ for this outcome and link an active temporary implementation plan here. Those
 records must name the exact-pin observations, opacity and invariant boundaries,
 verification, independent review, and repository closure.
 
+The [approved bounded
+design](../plans/2026-08-30-protecting-dictionary-invariant-design.md) selects
+one lesson-local opaque dictionary module, one private malformed-invariant
+observation, three accepted client observations, and two separate
+constructor-access rejections. It authorizes no content directory or source
+file before an active implementation plan.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
