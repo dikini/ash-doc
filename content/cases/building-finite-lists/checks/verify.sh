@@ -8,6 +8,8 @@ content_root=$(cd "$unit_root/../.." && pwd)
 readonly content_root
 readonly readme="$unit_root/README.md"
 readonly library="$unit_root/src/lists.ash"
+readonly unfold_entry="$unit_root/src/01-unfold.ash"
+readonly counted_entry="$unit_root/src/02-counted-unfold.ash"
 readonly map_entry="$unit_root/src/03-map-produced-list.ash"
 readonly sources=(
     src/lists.ash
@@ -100,9 +102,11 @@ map_section=$(ash_doc_section \
 repeat_section=$(ash_doc_section \
     'pub repeat_step : Int -> Natural -> Step<Natural, Int>' \
     '')
+unfold_entry_source=$(<"$unfold_entry")
+counted_entry_source=$(<"$counted_entry")
 map_entry_source=$(<"$map_entry")
 readonly unfold_section counted_section map_section repeat_section
-readonly map_entry_source
+readonly unfold_entry_source counted_entry_source map_entry_source
 
 ash_doc_assert_word_count \
     "$unfold_section" unfold 3 \
@@ -166,6 +170,25 @@ ash_doc_assert_phrase_count \
     'repeat_step value Next(rest) = Emit(value, rest)' 1 \
     "repeat_step must continue with the direct rest field"
 
+readonly three_seed='let three = Lists.Next(Lists.Next(Lists.Next(Lists.Zero)))'
+
+ash_doc_assert_phrase_count \
+    "$unfold_entry_source" "$three_seed" 1 \
+    "the unfold entry must use a state with three Next forms"
+ash_doc_assert_phrase_count \
+    "$unfold_entry_source" \
+    'Lists.unfold (Lists.repeat_step 42) three' 1 \
+    "the unfold entry must invoke ordinary unfold exactly once"
+ash_doc_assert_phrase_count \
+    "$counted_entry_source" "$three_seed" 1 \
+    "the counted entry must use a state with three Next forms"
+ash_doc_assert_phrase_count \
+    "$counted_entry_source" \
+    'Lists.unfold_counted (Lists.repeat_step 42) three' 1 \
+    "the counted entry must invoke counted unfold exactly once"
+ash_doc_assert_phrase_count \
+    "$map_entry_source" "$three_seed" 1 \
+    "the map entry must use a state with three Next forms"
 ash_doc_assert_phrase_count \
     "$map_entry_source" \
     'let produced = Lists.unfold (Lists.repeat_step 42) three' 1 \

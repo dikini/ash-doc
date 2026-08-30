@@ -20,10 +20,11 @@ eventually return `Stop`.
 
 ## From a state step to a list form
 
-The shared module defines three recursive representations. `Natural` describes
-the remaining number of emissions. `List<A>` describes the result.
-`Step<S, A>` connects them without choosing either representation: `S` is the
-state type, and `A` is the emitted element type.
+The shared module defines two recursive representations and one step
+representation. `Natural` describes the remaining number of emissions.
+`List<A>` describes the result. `Step<S, A>` connects them without choosing
+either representation: `S` is the state type, and `A` is the emitted element
+type.
 
 <!-- source: src/lists.ash -->
 ```ash
@@ -80,8 +81,9 @@ rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6b
 check the two `Step` arms and make their payload bindings available only in the
 matching arm. The [global-definition
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#globals-and-modules)
-place each function in its own recursive scope. `unfold` is neither special
-syntax nor a built-in list producer.
+make every local global scheme available before any body is checked, so
+`unfold` can refer to itself. It is neither special syntax nor a built-in list
+producer.
 
 The concrete `repeat_step` supplies the missing policy. At `Zero`, it returns
 `Stop`. At `Next(rest)`, it emits the selected integer and uses `rest` as the
@@ -253,10 +255,12 @@ new three-element representation:
 ```
 <!-- markdownlint-enable MD013 -->
 
-The preceding case established the source relationship in `map`: its nonempty
-equation constructs one `More(transform first, mapped_rest)` for every input
-`More`. After this `unfold` constructs three `More` values, `map` constructs
-three additional `More` values. The [dynamic application
+The preceding case established the count: a completed `map` over a finite list
+constructs one output `More` for every input `More`. The direct `map` here
+preserves that source relationship in its nonempty equation,
+`More(transform first, mapped_rest)`. After this `unfold` constructs three
+`More` values, `map` constructs three additional `More` values. The [dynamic
+application
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
 evaluate a constructor's argument before allocating its payload constructor
 cell. Together with the explicit recursive bindings, that rule supports the
@@ -264,8 +268,8 @@ construction order used in this account.
 
 These are counts of constructor expressions completed by these definitions.
 They do not determine exact heap bytes, elapsed time, host stack use, or a
-compiler optimization. The example uses ordinary eager lists; it introduces
-neither lazy or infinite data nor a generic fold/build fusion interface.
+compiler optimization. The example uses ordinary eager lists; it introduces no
+lazy data, infinite data, or generic fold/build fusion interface.
 
 ## One state type throughout the unfold
 
