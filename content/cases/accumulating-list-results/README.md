@@ -84,9 +84,10 @@ reverse_with_accumulator_and_visits list = fold_left_visits prepend Empty 0 list
 The equations for `append` are controlled by its left operand. At `Empty`, the
 function returns `right` unchanged. At `More(first, rest)`, it follows `rest`
 and constructs a new `More` containing `first` after the recursive result is
-available. The source therefore traverses and copies only the left list; it
-does not traverse the right list. This describes these equations and does not
-infer a physical pointer-sharing strategy.
+available. The source therefore inspects the left spine and constructs one new
+`More` for each left-hand `More`; it does not traverse the right list. This
+describes these equations and does not infer a physical pointer-sharing
+strategy.
 
 The [static pattern and equation
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#patterns-matches-and-coverage)
@@ -116,6 +117,19 @@ main () = {
     (Lists.reverse_through_append numbers, Lists.reverse_with_accumulator numbers)
 }
 ```
+
+Before running the entry, predict its first field by expanding the outermost
+append-based step. The reversed rest is `[4, 3, 2]`; append then follows that
+left operand and places the singleton `[1]` on its right:
+
+```text
+reverse_through_append [1, 2, 3, 4]
+=> append [4, 3, 2] [1]
+=> [4, 3, 2, 1]
+```
+
+Predict the same `[4, 3, 2, 1]` target for the accumulator field. Its different
+mechanism becomes the next part of the chapter.
 
 Run it from `content/cases`:
 
@@ -330,9 +344,11 @@ diagnostic or language defect.
 ## What tail position says here
 
 In the nonempty `fold_left` equation, the initializer for `next_accumulated`
-completes first. The recursive `fold_left combine next_accumulated rest`
-application is then the result expression of the block: no later source
-operation waits for that recursive result. The pinned [dynamic application
+completes first under the pinned [dynamic binding
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#bindings).
+The recursive `fold_left combine next_accumulated rest` application is then the
+result expression of the block: no later source operation waits for that
+recursive result. The pinned [dynamic application
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
 describe strict function and argument evaluation; *tail position* here names
 only the recursive application's placement in this source.
@@ -358,11 +374,9 @@ as “accumulated is the sum of the processed prefix,” then trace the same thr
 elements. Keep the exercise about the invariant and named source visits rather
 than runtime timing.
 
-The design method in this chapter is inspired by the existing [recursive
-algorithm research
-record](../../../research/how-to-design-programs-recursive-algorithms.md).
-The prose, programs, and exercises here are original; the record classifies
-the HtDP source as inspiration under its CC BY-NC-ND boundary.
+The method of giving retained knowledge a precise invariant is inspired by
+HtDP's [discussion of
+accumulators](https://htdp.org/2026-2-25/Book/part_six.html).
 
 An accumulator changes what recursion remembers without changing this list
 representation. What does lookup cost when a dictionary is represented as a
