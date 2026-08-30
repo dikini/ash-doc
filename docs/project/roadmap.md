@@ -433,8 +433,10 @@ design](../plans/2026-08-30-guaranteeing-logarithmic-retrieval-design.md) is
 approved. It fixes the representation, public API compatibility, executable
 insertion-prefix matrix, invariant and cost arguments, source-adaptation
 boundary, verification, independent review, and repository closure. Do not
-create case content until an exact temporary implementation plan is approved
-and linked here.
+create case content outside the approved
+[implementation plan](../plans/2026-08-30-guaranteeing-logarithmic-retrieval.md),
+which fixes the exact files, executable observations, mutation checks, review
+order, and closure commands while this outcome remains active.
 
 ## Provisional cases
 
