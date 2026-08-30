@@ -146,9 +146,11 @@ height. Show why this strict `fold_tree`, whose combiner receives both already
 evaluated branch results, cannot implement selective search without visiting
 both branches.
 
-Before implementation, approve a bounded design for this question and add its
-temporary detailed plan. No content directory or source file is authorized by
-promotion alone.
+The [approved bounded
+design](../plans/2026-08-30-folding-branching-data-design.md) selects one
+lesson-local tree module and three complete executable observations. Before
+implementation, add and link its temporary detailed plan. No content directory
+or source file is authorized by the design alone.
 
 ## Provisional cases
 
