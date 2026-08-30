@@ -144,7 +144,9 @@ Assert these causal relationships:
   match, contains exactly one `match same_key query key {`, recursively obtains
   `(found, later_comparisons)` only in the false branch, and returns
   `(found, later_comparisons + 1)`; require exactly four `lookup_counted` and
-  four `same_key` words in this section;
+  four `same_key` words in this section, and assert the complete nonempty
+  equation as the section suffix so the recursive binding remains inside the
+  false arm;
 - `fold_entries` binds `folded_rest` from exactly one recursive call before the
   final `combine entry folded_rest` expression; require exactly four
   `fold_entries` words and four `combine` words, and assert the complete
@@ -514,25 +516,31 @@ never use `git checkout` to discard work. Change both the canonical source and
 its displayed `ash` block when testing a causal source assertion so
 source/block agreement remains green and the intended assertion is reached.
 
-Run these five mutations one at a time:
+Run these six mutations one at a time:
 
 1. In counted lookup only, replace
    `match same_key query key {` with `match true {`. Expect the verifier to fail
    its counted-equality assertion.
-2. In ordinary lookup, replace `false => lookup same_key query rest` with
+2. In both the canonical module and its displayed block, replace counted
+   lookup's nonempty equation with a block that first binds
+   `(found, later_comparisons)` through the unchanged recursive call, then
+   returns the unchanged match and arms. This moves recursion before the match
+   while preserving every existing word count, phrase count, and accepted
+   output. Expect the complete-equation suffix assertion to fail.
+3. In ordinary lookup, replace `false => lookup same_key query rest` with
    `false => None`. Expect the selective-recursion assertion to fail.
-3. In `fold_entries`, replace
+4. In `fold_entries`, replace
    `let folded_rest = fold_entries combine base rest` with
    `let folded_rest = base`. Expect the strict fold-order assertion to fail.
-4. In the retained-version entry, make `newer_dictionary` insert onto
+5. In the retained-version entry, make `newer_dictionary` insert onto
    `first_dictionary` rather than `older_dictionary`. Expect the retained-tail
    assertion to fail.
-5. In README output only, append `!` to the counted transcript line. Expect the
+6. In README output only, append `!` to the counted transcript line. Expect the
    fenced-transcript assertion to fail.
 
 After each red result, restore the exact source text with `apply_patch`, run the
 local verifier again, and require its exact green summary before starting the
-next mutation. End with no mutation diff. Record the five focused failure
+next mutation. End with no mutation diff. Record the six focused failure
 messages for review.
 
 ### Step 4: Review the complete case before commit
