@@ -8,8 +8,8 @@ promise, or source of Ash semantics.
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: the first repository-source edition is published; new
-  recursive-algorithm work remains unpublished on `main`
+- Repository state: the first repository-source edition is published; the
+  verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -56,43 +56,31 @@ nodes from host stack optimization and heap byte counts. The approved
 [recursive-algorithms design](../plans/2026-08-29-recursive-algorithms-design.md)
 continues to govern the path.
 
-## Next: building finite lists with `unfold`
+### 2. Building finite lists with `unfold`
 
-**Reader question:** How can changing finite state produce recursive data?
+**Question:** How can changing finite state produce recursive data?
 
-Introduce `Step<S, A> = Stop | Emit(A, S)` and
-`unfold : (S -> Step<S, A>) -> S -> List<A>`. Use a unary `Natural` seed so
-every executable producer has a structural termination measure. Demonstrate
-exact output, counted steps, eager construction of the complete result, the
-additional list constructed by a following `map`, and a complete type
-rejection. Explain the design danger of a transition without a termination
-measure without running a hanging example. Do not introduce lazy or infinite
-data or a generic fold/build fusion API: the [pinned specification describes
-Modular Ash as
-rank-1](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/README.md#current-ash),
-and the later dictionary operation named `build` constructs an
-invariant-preserving dictionary from a finite list.
+The second [Cases](../../content/cases/README.md) chapter defines
+`Step<S, A> = Stop | Emit(A, S)` and
+`unfold : (S -> Step<S, A>) -> S -> List<A>`. A unary `Natural` seed makes the
+concrete producer's structural termination measure visible. The chapter
+separates that argument from generic `unfold`, which does not establish that an
+arbitrary transition reaches `Stop`.
 
-Acceptance requires successful finite production, its counted steps, a
-complete type rejection, and an explicit structural termination argument.
+Five canonical sources and their displayed blocks pass together at the exact Ash
+commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`. The checks assert three
+successful values and types, the complete `type.argument` rejection and its
+causal Boolean seed, and the source relationships for one transition per
+recursive call, eager recursive-rest binding, structural decrease, and the
+additional list built by a following `map`. For a seed with `n` `Next` forms,
+the terminating producer reports `n + 1` transition applications and
+constructs `n` `More` values before `map` constructs another `n`.
 
-Before implementation, approve a bounded design for this question and add its
-temporary detailed plan. No content directory or source file is authorized by
-promotion alone.
+The case introduces no generic termination guarantee, lazy or infinite data,
+or fold/build fusion API. It retains elapsed time, exact heap bytes, host stack
+behavior, and compiler optimization outside its source-level claims.
 
-The [finite-list unfold design](../plans/2026-08-30-finite-list-unfold-design.md)
-is approved for implementation by the 2026-08-30 autonomous implementation
-request. Its [temporary execution
-plan](../plans/2026-08-30-building-finite-lists.md) must remain active until the
-complete case passes and the roadmap promotes its successor.
-
-## Provisional cases
-
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
-
-### 3. Accumulating list results
+## Next: accumulating list results
 
 **Question:** When should recursion retain knowledge from earlier elements?
 
@@ -107,6 +95,16 @@ Acceptance requires both reverse definitions to produce the same list, their
 instrumented work to differ by the stated counts, and executable examples that
 establish the accumulator invariant. Runtime-memory claims remain outside the
 pinned language contract.
+
+Before implementation, approve a bounded design for this question and add its
+temporary detailed plan. No content directory or source file is authorized by
+promotion alone.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 4. A dictionary encoded as a list
 
