@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  five verified recursive-algorithm cases remain unpublished on `main`
+  six verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -180,31 +180,57 @@ exact heap bytes, garbage collection, pointer identity, physical sharing,
 arbitrary-precision integer bit cost, or compiler representation and
 optimization.
 
-## Next: searching an ordered tree
+### 6. Searching an ordered tree
 
 **Question:** How can an invariant let lookup ignore most of a tree?
 
-Introduce `Ordering = Less | Equal | Greater`, pass
-`compare : K -> K -> Ordering` explicitly to `lookup`, `insert`, and
-`lookup_counted`, and use recursive natural-number keys. State lookup work as
-the sum of `C(query, node_key)` over visited nodes, or as `O(h * Cmax)` only
-under an explicit per-comparison bound `Cmax`. Cover successful and missing
-lookup, duplicate replacement, a manually valid tree, a malformed transparent
-tree whose misplaced key exposes the invariant, and ascending insertion that
-produces degenerate height.
+The sixth [Cases](../../content/cases/README.md) chapter passes an explicit
+comparator to lookup and persistent insertion over a transparent ordered tree.
+Four canonical sources and their displayed blocks produce three exact accepted
+outputs at Ash commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`. A manually
+valid balanced tree gives a successful path and a missing path that each visit
+two nodes and make two top-level comparisons. The recursive Natural comparator
+performs `7` internal applications for the hit and `2` for the miss.
 
-Before creating a content directory or source file, approve a bounded design
-for this outcome and link its temporary implementation plan here. Those
-records must name the exact-pin observations, invariant and cost boundaries,
-verification, independent review, and repository closure.
+Validity requires a global descendant invariant: both subtrees are valid,
+every left key is `Less` than the current key, and every right key is
+`Greater`. The argument fixes a comparator whose required comparisons return,
+whose `Equal` result is the chosen key equivalence, whose reversed strict
+comparisons reverse `Less` and `Greater`, whose strict order is transitive, and
+whose equivalent keys have the same ordering relationship to every other key.
+Under those premises and for a finite valid tree, insertion preserves the
+invariant. Equal-key insertion replaces only the value while retaining the
+stored representative key and both branches; the older `Some(10)` and
+replacement `Some(99)` values remain separately observable. The transparent
+type also accepts a malformed tree with `two` misplaced left of `one`; lookup
+follows the empty right branch and returns `None` for that structurally present
+key.
 
-## Provisional cases
+For a completed lookup on a finite tree whose query and visited keys `k_1`
+through `k_m` are finite unary Naturals, let `C(query, k_i)` count the
+completed `compare_natural` applications for that pair, including the terminal
+equation. Let `h` be the greatest number of `Node` forms on a root-to-`Empty`
+path. Exact comparison sub-work is the sum from `i = 1` to `m` of
+`C(query, k_i)`, surrounding named source work is `O(m)`, and one-branch lookup
+has `m <= h`. Only when `C(query, k_i) <= Cmax` for every visited key, with
+`Cmax >= 1`, may the combined account be summarized as `O(h * Cmax)`.
+Ascending insertion produces the observed three-node right chain, unary height
+`3`, and three-node lookup path, and can generally produce `h = n`. This
+unbalanced representation provides no logarithmic guarantee. Computing
+`height` over both branches and invoking its private unary `maximum` are
+separate work from lookup visits and comparator sub-work.
 
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
+The return claims require a finite entered path and returning comparisons on
+that path; a required nonreturning comparison or reachable constructor-guarded
+cycle may prevent lookup from returning. The case's source counts do not claim
+elapsed time, machine instructions, runtime or native-stack storage, tail-call
+optimization, heap layout or bytes, garbage collection, pointer identity,
+physical sharing, compiler representation or optimization, or
+arbitrary-precision integer bit cost. It introduces no interface, evidence
+selection, opacity, balancing, deletion, mutation, iteration, or generic tree
+infrastructure.
 
-### 7. Abstracting key order
+## Next: abstracting key order
 
 **Question:** How can modules reuse an ordering capability without passing it
 manually?
@@ -216,6 +242,17 @@ successful checking-time evidence selection. Explain the specified lowering to
 ordinary calls from the pinned static semantics, elaboration, and retained
 tests; CLI output cannot isolate that lowering step. A complete program without
 an `Order` implementation must be rejected with `constraint.unsatisfied`.
+
+Before creating a content directory or source file, approve a bounded design
+for this outcome and link an active temporary implementation plan here. Those
+records must name the exact-pin observations, evidence-selection and cost
+boundaries, verification, independent review, and repository closure.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 8. Protecting the dictionary invariant
 
