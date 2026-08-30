@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  three verified recursive-algorithm cases remain unpublished on `main`
+  four verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -98,42 +98,44 @@ names only the recursive application's source placement. The case excludes
 elapsed time, exact heap bytes, host-stack behavior and tail-call optimization,
 compiler optimization, mutation, and a type-level proof of the invariant.
 
-## Next: a dictionary encoded as a list
+### 4. A dictionary encoded as a list
 
 **Question:** What does lookup cost when a dictionary is a recursive list?
 
-Introduce an association-list `Entry<K, V>` and `Dictionary<K, V>` with
-explicit equality, `empty`, `insert`, `lookup`, and `lookup_counted`. Prepending
-must shadow an older equal key. After inserting `(1, 10)`, `(2, 20)`, and
-`(1, 11)`, lookup of `1` must return `Some(11)` after one comparison, while
-lookup of `3` must return `None` after three comparisons. Contrast selective
-recursive lookup with an eager whole-list fold. Explain linear retrieval,
-name the per-key equality cost `E(k)`, and account for one new front node, reuse
-of the previous dictionary value, and the entries reachable through retained
-dictionary versions. Keep heap bytes and collection outside the contract.
+The fourth [Cases](../../content/cases/README.md) chapter represents each
+dictionary as a newest-to-oldest recursive list of entries. Explicit equality
+lets selective lookup return at the first match, so prepending an equal key
+shadows the older entry without removing it.
 
-Before implementation, approve a bounded design for this question and add its
-temporary detailed plan. No content directory or source file is authorized by
-promotion alone.
+Five canonical sources and their displayed blocks pass at the exact Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Four exact accepted observations
+establish ordinary hit and absence, one comparison for a front hit versus
+three for a complete miss, one selective comparison versus three strict-fold
+comparisons for the same hit, and lookup through retained older and newer
+dictionary versions.
 
-The [association-list dictionary
-design](../plans/2026-08-30-association-list-dictionary-design.md) is approved
-by the 2026-08-30 autonomous remaining-cases request. Its temporary execution
-plan must remain active until the complete case passes and the roadmap promotes
-its successor.
+For a fixed query `q`, assume the dictionary is finite and every equality
+application required by the chosen algorithm returns. Under those conditions,
+let `m` be the number of entries direct lookup visits through its first match,
+or the full dictionary length on a miss. If `E_q(k_i)` names the source work of
+equality at visited key `k_i`, direct lookup's account is
+`O(m + sum E_q(k_i))`. Only when `E_q(k_i) <= Emax` for every visited key may
+this be summarized as `O(m * (1 + Emax))`. The strict fold visits every entry
+under the same conditions because it obtains the complete folded tail before
+combining the current entry. Each insertion constructs one `Entry` and one
+front `More`, with the previous dictionary as the tail. Retaining both
+dictionary values leaves the older entries reachable through both version
+chains.
 
-The temporary [implementation
-plan](../plans/2026-08-30-association-list-dictionary.md) owns the approved work
-through exact-pin verification, independent review, and reviewed repository
-closure.
+These are source-level work, construction, and reachability claims. The case
+does not establish elapsed time, machine instructions, host-stack behavior,
+tail-call optimization, exact heap bytes, garbage collection, pointer identity,
+mutation, or compiler representation and optimization. It introduces no
+equality interface or law enforcement, evidence selection, ordering, tree,
+balancing, opacity, deletion, in-place update, or lazy, infinite, or cyclic
+data.
 
-## Provisional cases
-
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
-
-### 5. Folding branching data
+## Next: folding branching data
 
 **Question:** How does the data-directed method extend from lists to trees?
 
@@ -143,6 +145,16 @@ Establish one visit per node and recursive dependency depth proportional to
 height. Show why this strict `fold_tree`, whose combiner receives both already
 evaluated branch results, cannot implement selective search without visiting
 both branches.
+
+Before implementation, approve a bounded design for this question and add its
+temporary detailed plan. No content directory or source file is authorized by
+promotion alone.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 6. Searching an ordered tree
 

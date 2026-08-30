@@ -61,3 +61,7 @@ storage strategy.
 3. [When should recursion retain knowledge from earlier
    elements?](accumulating-list-results/README.md) — use accumulator state to
    avoid repeated append traversal while preserving the same reversed value.
+4. [What does lookup cost when a dictionary is a recursive
+   list?](dictionary-as-list/README.md) — use explicit equality for selective
+   lookup, contrast its work with a strict fold, and observe older dictionary
+   versions retained behind new front entries.
