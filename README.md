@@ -89,11 +89,11 @@ After completing all eleven Learn Ash lessons, continue with
 Cases path uses the same tool setup and asks how recursive traversal,
 representation, invariants, and source-level costs shape an algorithm.
 
-The first verified case asks
-[how one recursive traversal can define many list
-algorithms](content/cases/folding-recursive-lists/README.md). It defines a
-strict right fold, derives four list operations from it, and makes the fold's
-complete eager traversal observable.
+The first two verified cases move in opposite directions. [Folding recursive
+lists](content/cases/folding-recursive-lists/README.md) consumes a finite list
+through a strict right fold. [Building finite
+lists](content/cases/building-finite-lists/README.md) produces one from finite
+state and makes the producer's structural termination boundary observable.
 
 ## Authority
 
