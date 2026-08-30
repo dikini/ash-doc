@@ -510,6 +510,13 @@ entry. Do not use thunks, lazy lists, hidden mutation, or infinite-data claims.
 This promotion authorizes its bounded design and implementation plan; it does
 not authorize case content before those gates approve.
 
+The bounded [resuming tree traversal
+design](../plans/2026-08-30-resuming-tree-traversal-design.md) is approved. It
+fixes the explicit-state representation, public API, executable evidence, work
+account, persistence boundary, source classification, verification, review,
+and closure design. Do not create case content before an implementation plan
+fixes the exact source, output, test-first steps, and completion commands.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
