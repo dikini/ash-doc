@@ -82,8 +82,9 @@ promotion alone.
 
 The [finite-list unfold design](../plans/2026-08-30-finite-list-unfold-design.md)
 is approved for implementation by the 2026-08-30 autonomous implementation
-request. Its temporary execution plan must remain active until the complete
-case passes and the roadmap promotes its successor.
+request. Its [temporary execution
+plan](../plans/2026-08-30-building-finite-lists.md) must remain active until the
+complete case passes and the roadmap promotes its successor.
 
 ## Provisional cases
 
