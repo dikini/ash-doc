@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  verified recursive-algorithm cases remain unpublished on `main`
+  three verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -80,43 +80,25 @@ The case introduces no generic termination guarantee, lazy or infinite data,
 or fold/build fusion API. It retains elapsed time, exact heap bytes, host stack
 behavior, and compiler optimization outside its source-level claims.
 
-## Next: accumulating list results
+### 3. Accumulating list results
 
 **Question:** When should recursion retain knowledge from earlier elements?
 
-Compare `fold_left`, reverse through repeated append, and accumulator reverse.
-Instrumentation over four elements must report six previously built nodes
-revisited by the append-based algorithm and four input nodes visited by the
-accumulator algorithm. Explain the accumulator invariant, quadratic versus
-linear work, retained logical state, and tail position without promising
-implementation-level constant stack use.
+The third [Cases](../../content/cases/README.md) chapter compares reverse through
+repeated append with accumulator reverse. Five canonical sources and their
+displayed blocks pass at the exact Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Four exact accepted observations
+establish the same reverse results, six previously built left-node revisits
+versus four original input visits, an invariant midpoint, and an accepted wrong
+initial accumulator.
 
-Acceptance requires both reverse definitions to produce the same list, their
-instrumented work to differ by the stated counts, and executable examples that
-establish the accumulator invariant. Runtime-memory claims remain outside the
-pinned language contract.
+The source equations derive quadratic append revisits and constructor
+applications versus linear accumulator visits and constructions. Tail position
+names only the recursive application's source placement. The case excludes
+elapsed time, exact heap bytes, host-stack behavior and tail-call optimization,
+compiler optimization, mutation, and a type-level proof of the invariant.
 
-Before implementation, approve a bounded design for this question and add its
-temporary detailed plan. No content directory or source file is authorized by
-promotion alone.
-
-The [accumulating-list-results
-design](../plans/2026-08-30-accumulating-list-results-design.md) is approved by
-the 2026-08-30 autonomous remaining-cases request. Its temporary execution plan
-must remain active until the complete case passes and the roadmap promotes its
-successor.
-
-The temporary [implementation
-plan](../plans/2026-08-30-accumulating-list-results.md) owns the approved work
-through exact-pin verification, independent review, and local integration.
-
-## Provisional cases
-
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
-
-### 4. A dictionary encoded as a list
+## Next: a dictionary encoded as a list
 
 **Question:** What does lookup cost when a dictionary is a recursive list?
 
@@ -129,6 +111,16 @@ recursive lookup with an eager whole-list fold. Explain linear retrieval,
 name the per-key equality cost `E(k)`, and account for one new front node, reuse
 of the previous dictionary value, and the entries reachable through retained
 dictionary versions. Keep heap bytes and collection outside the contract.
+
+Before implementation, approve a bounded design for this question and add its
+temporary detailed plan. No content directory or source file is authorized by
+promotion alone. No dictionary design has been approved.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 5. Folding branching data
 
