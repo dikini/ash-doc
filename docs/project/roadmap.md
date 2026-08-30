@@ -80,6 +80,11 @@ Before implementation, approve a bounded design for this question and add its
 temporary detailed plan. No content directory or source file is authorized by
 promotion alone.
 
+The [finite-list unfold design](../plans/2026-08-30-finite-list-unfold-design.md)
+is approved for implementation by the 2026-08-30 autonomous implementation
+request. Its temporary execution plan must remain active until the complete
+case passes and the roadmap promotes its successor.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
