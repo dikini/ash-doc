@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  eight verified recursive-algorithm cases remain unpublished on `main`
+  nine verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -403,48 +403,100 @@ balancing, deletion, mutation, iteration, generic dictionary infrastructure,
 lazy or infinite data, rank-2 fold/build fusion, representation secrecy, or
 ordering-law enforcement.
 
-## Next: guaranteeing logarithmic retrieval
+### 9. Guaranteeing logarithmic retrieval
 
 **Question:** How can the representation prevent a search tree from
 degenerating?
 
-Replace the opaque representation without changing the normal client API.
-Explain ordering, a black root, no red parent with a red child, and equal
-black-height invariants; the four insertion balance configurations; root
-blackening; persistent source reconstruction and subtree reuse; and
-logarithmic tree height. Test lookup behavior and `invariant_holds` after every
-insertion prefix in ascending, descending, and rotation-triggering sequences.
-State lookup and insertion as `O(log n)` comparisons and `O(log n)` newly
-constructed path nodes. If comparison cost varies, use
-`O(log n * Cmax)` only under an explicit bound. Attribute the guarantee to the
-opaque API plus invariant-preserving insertion, not to the nominal
-representation alone, and do not claim runtime pointer sharing or universal
-optimality.
+The ninth [Cases](../../content/cases/README.md) chapter retains the public
+`Ordering`, `Natural`, `Option`, `List`, `Order`, `empty`, `lookup`, `insert`,
+`build`, and `invariant_holds` API while replacing the hidden representation
+with `pub opaque type Dictionary<K, V>` nodes that carry a private `Color`.
+The defining module alone can construct or inspect those nodes. Its operations
+maintain global key order, prohibit a red node from having a red child, give
+both branches of every node equal black-height, and blacken every nonempty
+public root. Opacity prevents client construction; the operation proofs, not
+the nominal type alone, establish preservation.
+
+Three canonical sources and their displayed blocks pass together at Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. The complete dictionary source
+observes its valid private fixture as `true` and its deep ordering, red-root,
+red-child, and unequal-black-height fixtures as four `false` values. The prefix
+matrix checks the empty state and every insertion prefix of ascending,
+descending, left-left, left-right, right-left, and right-right sequences; every
+invariant, new association, retained association, fixed absence, and final
+association observation is `true`. The persistence source observes the exact
+old, replaced, extended, and independently built structures, four `true`
+invariants, and lookups `(Some(20), Some(99), Some(99), None, Some(30),
+Some(30))`. These finite executions exercise each repair orientation and the
+public boundary; they do not prove the general invariant or height arguments.
+
+Absent insertion first constructs one red leaf. On the path back, four
+left/right configurations normalize two consecutive red links into one red
+middle node with two black children, retaining all three ordered key-value
+associations and the four surrounding subtrees. The reconstruction preserves
+their common black-height; final root blackening establishes the separate
+public-root condition. Equal insertion retains the stored representative key
+and both branches while replacing only its value. `build` uses a strict left
+fold, so later equal entries replace earlier values. Older dictionary values
+remain separately observable after replacement and extension.
+
+If a finite valid dictionary has `n` nodes, height `h`, and root-to-empty
+black-height `q`, the color conditions give `h <= 2(q - 1)` and the minimum-node
+argument gives `n >= 2^(q - 1) - 1`; therefore
+`h <= 2 log2(n + 1)`. A completed lookup visits at most `h` nodes. If its
+visited comparisons make a total of `C` completed `compare` method
+applications, its surrounding source work is `O(h)` and its exact comparison
+sub-work is `C`. Only when every visited comparison is bounded by `Cmax`, with
+`Cmax >= 1`, may the combined account be summarized as
+`O(log(n + 1) * Cmax)`.
+
+For an absent insertion that enters `m` existing nodes, performs `r` repairs,
+and blackens a red root when `b = 1`, the source constructs
+`m + 1 + 2r + b <= 3m + 2` new `Node` forms. Equal replacement at depth `m`
+constructs exactly `m` nodes. These are persistent source-construction counts:
+unentered subtrees are reused as source values, but the chapter claims no
+runtime pointer identity or physical sharing. `invariant_holds` performs one
+ordering pass and one color/black-height pass. Each pass visits every node
+once and performs a bounded number of named source operations per node; the
+second pass returns either `Invalid` or a black-height summary. This
+source-linear account excludes the bit cost of arbitrary-precision `Int`
+equality and addition.
+
+The ordering proof fixes one selected `Order<K>` implementation whose required
+comparisons return and satisfy the stated equivalence, reversal, transitivity,
+and substitution premises; the interface itself does not encode those laws.
+Return claims require finite entered structure and returning required calls.
+Whole-tree validation enters both branches, lookup and insertion enter only a
+selected path, a reachable constructor-guarded cycle may prevent return, and a
+cyclic value payload may be returned without traversal. Final structural
+observation can render an active-path revisit as `<cycle>`, but it establishes
+no pointer or heap property.
 
 The reviewed [persistent red-black insertion source
 record](../../research/persistent-red-black-insertion.md) selects Chris
 Okasaki's four-configuration functional insertion as conceptual inspiration,
 with the MIT-licensed Software Foundations presentation as corroborating
-evidence. The future Ash programs, names, prose, derivations, diagrams, and
-exercises remain original. This research evidence cannot define Ash behavior.
+evidence. The Ash programs, names, prose, derivations, diagrams, and exercises
+are original rather than direct adaptations. This research tradition cannot
+define Ash behavior.
 
-The bounded [guaranteeing logarithmic retrieval
-design](../plans/2026-08-30-guaranteeing-logarithmic-retrieval-design.md) is
-approved. It fixes the representation, public API compatibility, executable
-insertion-prefix matrix, invariant and cost arguments, source-adaptation
-boundary, verification, independent review, and repository closure. Do not
-create case content outside the approved
-[implementation plan](../plans/2026-08-30-guaranteeing-logarithmic-retrieval.md),
-which fixes the exact files, executable observations, mutation checks, review
-order, and closure commands while this outcome remains active.
+The exact-pin equation-level tuple-pattern `internal.resource.coverage`
+failure inherited from case 8 remains an Ash regression candidate; the source
+retains its accepted body match without teaching the workaround. A separate
+exact-pin client-owned implementation of an imported public interface fails
+with `evidence.validation.unknown-identity`; the completed case uses the
+module-owned `Order<Natural>` fact and does not present the failure as language
+behavior.
 
-## Provisional cases
+The case establishes no elapsed-time, machine-instruction, native-stack,
+tail-call, exact-heap-byte, garbage-collection, mutation, pointer-identity,
+physical-sharing, compiler-representation, compiler-optimization, universal
+optimality, deletion, lazy or infinite-data, or arbitrary-precision integer
+bit-cost result. It introduces no generic dictionary infrastructure or
+ordering-law enforcement.
 
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
-
-### 10. Resuming tree traversal
+## Next: resuming tree traversal
 
 **Question:** How can traversal pause and resume without laziness?
 
@@ -455,6 +507,14 @@ three entries must end with `None`. Explain `O(h)` initialization and state,
 worst-case `O(h)` `next`, and `O(n + h)` frame operations over one complete
 linear traversal, which gives amortized constant frame work per produced
 entry. Do not use thunks, lazy lists, hidden mutation, or infinite-data claims.
+This promotion authorizes its bounded design and implementation plan; it does
+not authorize case content before those gates approve.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 11. Implementing a persistent FIFO frontier
 
