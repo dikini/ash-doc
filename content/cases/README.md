@@ -73,3 +73,7 @@ storage strategy.
    tree?](searching-ordered-tree/README.md) — use explicit comparison and a
    valid global ordering invariant to select one branch, then expose the
    malformed-tree and unbalanced-insertion boundaries.
+7. [How can modules reuse an ordering capability without passing it
+   manually?](abstracting-key-order/README.md) — select ordering evidence
+   during checking, preserve the ordered-tree behavior without comparator
+   arguments, and reject a lookup whose key type has no implementation.
