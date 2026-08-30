@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  nine verified recursive-algorithm cases remain unpublished on `main`
+  ten verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -496,39 +496,108 @@ optimality, deletion, lazy or infinite-data, or arbitrary-precision integer
 bit-cost result. It introduces no generic dictionary infrastructure or
 ordering-law enforcement.
 
-## Next: resuming tree traversal
+### 10. Resuming tree traversal
 
 **Question:** How can traversal pause and resume without laziness?
 
-Expose an opaque eager `Iterator<K, V>` with
+The tenth [Cases](../../content/cases/README.md) chapter extends the opaque
+persistent red-black dictionary with a private `FrameStack<K, V>` and a public
+opaque `Iterator<K, V>`. Its public API is
 `iterator : Dictionary<K, V> -> Iterator<K, V>` and
-`next : Iterator<K, V> -> Option<((K, V), Iterator<K, V>)>`. Repeated calls over
-three entries must end with `None`. Explain `O(h)` initialization and state,
-worst-case `O(h)` `next`, and `O(n + h)` frame operations over one complete
-linear traversal, which gives amortized constant frame work per produced
-entry. Do not use thunks, lazy lists, hidden mutation, or infinite-data claims.
-This promotion authorizes its bounded design and implementation plan; it does
-not authorize case content before those gates approve.
+`next : Iterator<K, V> -> Option<((K, V), Iterator<K, V>)>`. Importers can name,
+retain, and pass iterator values, while only the defining module can construct
+or inspect the `Iterator`, `NoFrame`, and `MoreFrame` representation.
 
-The bounded [resuming tree traversal
-design](../plans/2026-08-30-resuming-tree-traversal-design.md) is approved. It
-fixes the explicit-state representation, public API, executable evidence, work
-account, persistence boundary, source classification, verification, review,
-and closure design. Do not create case content before an implementation plan
-fixes the exact source, output, test-first steps, and completion commands.
+Five canonical sources and their displayed blocks pass together at Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`: `dictionaries.ash`,
+`01-sequence.ash`, `02-retained-state.ash`, `03-opaque-pattern.ash`, and
+`04-opaque-construction.ash`. The two accepted entries complete with empty
+standard error and status `0`, producing these exact observations:
 
-The active [implementation
-plan](../plans/2026-08-30-resuming-tree-traversal.md) fixes those files,
-observations, mutation-sensitivity checks, sequential reviews, closure, and
-local merge commands while this outcome remains active.
+<!-- markdownlint-disable MD013 -->
+```text
+(true, More((Next(Zero), 10), More((Next(Next(Zero)), 20), More((Next(Next(Next(Zero))), 30), End)))) : (Bool, List<(Natural, Int)>)
+Replay(Iterator(MoreFrame(Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty), NoFrame)), Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame))), Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame)))) : ReplayObservation
+```
+<!-- markdownlint-enable MD013 -->
 
-## Provisional cases
+The first output establishes the immediate empty state and the complete
+increasing sequence `one`, `two`, `three`, followed by exhaustion. The second
+retains the state after `one` and calls `next` from it twice; both replays
+produce `two` and independently prepare an equivalent state for `three`.
+Structural observation renders the private `Iterator`, `MoreFrame`, and `Node`
+forms, but those spellings provide no source constructor binding or access.
+The pattern and value entries each write empty standard output, exit with
+status `1`, and begin standard error with `resolve.opaque-constructor`. Their
+primary labels cover, respectively, the client `Dictionaries.Iterator` member
+in a pattern and the distinct member in a local value initializer; each related
+label covers the withheld declaration. Offsets and remaining diagnostic prose
+are not contracts.
 
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
+`iterator` runs `push_left` from the root with `NoFrame`, eagerly saving only
+the initial left spine. Every `MoreFrame` retains the next key and value, its
+unentered right subtree, and the remaining ancestor frames. A successful
+`next` pops that frame, produces the association, and runs `push_left` over the
+saved right subtree to prepare the returned iterator. An exhausted `next`
+selects `NoFrame` and returns `None`. Neither operation requires `Order<K>` or
+calls `compare`. Under the inherited valid dictionary invariant, this
+structural in-order traversal produces increasing keys; it neither validates
+nor sorts, so a malformed defining-module value can produce an out-of-order
+sequence.
 
-### 11. Implementing a persistent FIFO frontier
+Let `d` be the number of nodes on one left-spine descent. A completed
+`push_left` performs exactly `d + 1` helper applications, including the
+terminal `Empty`, and constructs exactly `d` frames. With dictionary height
+`h`, initialization has `d <= h`, constructs at most `h` frames and one
+iterator wrapper, and uses `O(h)` explicit frame work and state. A successful
+`next` performs one pop and `d_i` pushes for its saved right subtree, so its
+exact frame work is `1 + d_i <= h`; it also constructs one new iterator
+wrapper and one `Some`. One call therefore has worst-case `O(h)` frame work,
+while exhausted `next` constructs `None` without a frame push or pop.
+
+Across one complete linear traversal of a finite `n`-node dictionary, every
+node enters one frame and leaves one frame: exactly `n` pushes, `n` pops, and
+`2n` frame operations including initialization. For `n = 0`, the traversal and
+final `None` move no frame. For `n > 0`, distributing `2n` frame operations
+over `n` produced associations gives amortized constant frame work, while one
+step retains its `O(h)` worst case. The complete sequence is within
+`O(n + h)`. This account applies to one linear history of returned states;
+retaining an older iterator and resuming it again can repeat a right-subtree
+left descent, as the replay does, so no amortized bound covers an arbitrary
+branching history.
+
+Case 9 established `h <= 2 log2(n + 1)` for a finite valid red-black
+dictionary under its ordering and balance premises. With those premises,
+initialization and one worst-case `next` use `O(log(n + 1))` explicit frame
+work; a complete traversal still produces all `n` associations and remains
+linear. The `O(h)` state claim counts only the iterator's own frames. Each
+frame retains existing keys, values, subtrees, and remaining stack values, so
+much or all of the original dictionary may remain transitively reachable; the
+claim is not a bound on all reachable source data or runtime bytes.
+
+Return claims apply to finite acyclic dictionary spines reached through
+completed public operations and to iterators produced from them. An initial
+left-edge cycle can prevent `iterator` from returning; a cycle in a saved right
+subtree can permit earlier results before the `next` that enters it fails to
+return. Cyclic key or value payloads can be returned without traversal, and a
+later structural observation may render an active-path revisit as `<cycle>`.
+The counts cover named source applications, frame pushes and pops, and
+constructor applications; they do not establish elapsed time, machine
+instructions, native-stack behavior, tail-call optimization, runtime storage
+or bytes, heap layout, pointer identity, physical sharing, garbage collection,
+or compiler representation and optimization. The case introduces no laziness,
+infinite traversal, hidden mutation, generator, coroutine, stream, reverse
+step, cursor update, deletion, generic zipper, new ordering or balance proof,
+or ordering-law enforcement.
+
+The frame stack and account are an original local derivation from the case-9
+tree equations and the path's existing eager recursive-algorithm method. The
+case selects no new external source and makes no new adaptation; the existing
+recursive-algorithm, strictness, and persistent red-black insertion records
+retain their prior scope and classifications. These observations remain
+ash-doc evidence and do not define Ash semantics.
+
+## Next: implementing a persistent FIFO frontier
 
 **Question:** How can two lists preserve queue order while avoiding a full
 rebuild on every operation?
@@ -540,6 +609,15 @@ amortized constant enqueue/dequeue only over one linear sequence of queue
 states; retaining and resuming older versions can repeat reversal work. Use
 source-level representation and operation counts, not elapsed-time or runtime
 memory claims.
+
+This promotion authorizes only a bounded design and an implementation plan.
+Approve both before creating case-11 content, source, checks, or tooling.
+
+## Provisional cases
+
+The remaining case expresses the current downstream dependency. It authorizes
+no content directory, source file, or tooling. Promote it only after the FIFO
+frontier case verifies and its evidence has been reviewed.
 
 ### 12. Choosing a search frontier
 
