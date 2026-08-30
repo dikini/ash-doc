@@ -255,6 +255,12 @@ entries, and one missing-implementation rejection. It authorizes no content
 directory or source file by itself. Link and activate a temporary implementation
 plan here before materializing the case.
 
+The [temporary implementation
+plan](../plans/2026-08-30-abstracting-key-order.md) defines the exact five
+sources, RED/GREEN sequence, mutation audit, independent reviews, and local
+merge boundary. It owns the approved work through exact-pin verification,
+independent review, and reviewed repository closure.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
