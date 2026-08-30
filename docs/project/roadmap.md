@@ -148,9 +148,12 @@ both branches.
 
 The [approved bounded
 design](../plans/2026-08-30-folding-branching-data-design.md) selects one
-lesson-local tree module and three complete executable observations. Before
-implementation, add and link its temporary detailed plan. No content directory
-or source file is authorized by the design alone.
+lesson-local tree module and three complete executable observations. The
+temporary [implementation
+plan](../plans/2026-08-30-folding-branching-data.md) owns the approved work
+through exact-pin verification, independent review, and reviewed repository
+closure. No content directory or source file is authorized by these records
+alone.
 
 ## Provisional cases
 

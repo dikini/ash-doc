@@ -172,9 +172,11 @@ will remain on one physical line.
 
 `fold_tree` mirrors the two forms. `Empty` returns `base`. The `Node` equation
 binds `folded_left`, binds `folded_right`, then evaluates the complete
-`combine folded_left value folded_right` application. Because an equational
-combiner with three patterns enters its body only after all three curried
-arguments arrive, both branch results are values before that body runs.
+`combine folded_left value folded_right` application. Because each binding
+initializer completes before the following block remainder, both
+branch results are values before evaluation of that complete curried
+application begins. The supplied combiner may itself use either global or
+anonymous function presentations.
 
 `size` replaces `Empty` with `0` and each `Node` with the two branch sizes plus
 one. `map_tree` replaces `Empty` with `Empty` and each `Node` with one `Node`
