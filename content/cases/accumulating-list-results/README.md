@@ -347,8 +347,10 @@ In the nonempty `fold_left` equation, the initializer for `next_accumulated`
 completes first under the pinned [dynamic binding
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#bindings).
 The recursive `fold_left combine next_accumulated rest` application is then the
-result expression of the block: no later source operation waits for that
-recursive result. The pinned [dynamic application
+result expression of the block under the pinned [static block
+rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#blocks):
+no later source operation waits for that recursive result. The pinned [dynamic
+application
 rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
 describe strict function and argument evaluation; *tail position* here names
 only the recursive application's placement in this source.
