@@ -613,6 +613,14 @@ memory claims.
 This promotion authorizes only a bounded design and an implementation plan.
 Approve both before creating case-11 content, source, checks, or tooling.
 
+The approved bounded
+[design](../plans/2026-08-31-implementing-persistent-fifo-frontier-design.md)
+and focused [source
+record](../../research/persistent-paired-list-queue.md) fix the selected eager
+representation, observations, work boundary, and adaptation classification.
+They authorize the implementation plan but no content before that plan is
+separately approved.
+
 ## Provisional cases
 
 The remaining case expresses the current downstream dependency. It authorizes
