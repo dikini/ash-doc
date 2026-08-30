@@ -85,3 +85,7 @@ storage strategy.
    degenerating?](guaranteeing-logarithmic-retrieval/README.md) — maintain an
    opaque persistent red-black representation whose ordering and color
    invariants bound height while preserving the dictionary API.
+10. [How can traversal pause and resume without
+    laziness?](resuming-tree-traversal/README.md) — use an opaque eager iterator
+    whose private frames retain unfinished in-order work, then distinguish one
+    step's worst-case cost from one linear traversal's amortized frame work.
