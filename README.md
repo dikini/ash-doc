@@ -89,11 +89,11 @@ After completing all eleven Learn Ash lessons, continue with
 Cases path uses the same tool setup and asks how recursive traversal,
 representation, invariants, and source-level costs shape an algorithm.
 
-The ten verified cases progress from consumption to production, retained
+The eleven verified cases progress from consumption to production, retained
 knowledge, selective retrieval, branching traversal, invariant-guided branch
 selection, checking-time selection of a reusable capability, then an opaque
 construction boundary, a height-preserving representation, and explicit
-resumable traversal state.
+resumable traversal state, followed by a persistent paired-list frontier.
 [Folding recursive lists](content/cases/folding-recursive-lists/README.md)
 consumes a finite list through a strict right fold. [Building finite
 lists](content/cases/building-finite-lists/README.md) produces one from finite
@@ -127,7 +127,11 @@ height. [Resuming tree
 traversal](content/cases/resuming-tree-traversal/README.md) exposes an opaque
 eager iterator whose private frames retain unfinished in-order work, then
 separates one step's worst-case cost from the amortized frame work of one
-linear traversal.
+linear traversal. [A persistent FIFO
+frontier](content/cases/implementing-persistent-fifo-frontier/README.md) splits
+queue order between a front and reversed rear, accounts for one eager
+transfer over a linear successor history that starts from empty, and shows why
+retained older states can repeat that transfer.
 
 ## Authority
 

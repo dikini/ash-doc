@@ -89,3 +89,9 @@ storage strategy.
     laziness?](resuming-tree-traversal/README.md) — use an opaque eager iterator
     whose private frames retain unfinished in-order work, then distinguish one
     step's worst-case cost from one linear traversal's amortized frame work.
+11. [How can two lists preserve queue
+    order?](implementing-persistent-fifo-frontier/README.md) — split logical
+    order between a front and reversed rear, perform one eager transfer when
+    removal needs it, and limit amortized list-node work to a linear successor
+    history that starts from empty because retained states can repeat the
+    transfer.

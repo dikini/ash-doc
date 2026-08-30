@@ -1,15 +1,15 @@
 # Roadmap
 
-The roadmap names ash-doc's next complete increment and keeps later cases in a
-provisional order. It is a planning view, not a curriculum, publication
-promise, or source of Ash semantics.
+The roadmap names ash-doc's next complete increment and records verified
+increments. It is a planning view, not a curriculum, publication promise, or
+source of Ash semantics.
 
 ## Current edition
 
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  ten verified recursive-algorithm cases remain unpublished on `main`
+  eleven verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -597,29 +597,94 @@ recursive-algorithm, strictness, and persistent red-black insertion records
 retain their prior scope and classifications. These observations remain
 ash-doc evidence and do not define Ash semantics.
 
-## Next: implementing a persistent FIFO frontier
+### 11. Implementing a persistent FIFO frontier
 
 **Question:** How can two lists preserve queue order while avoiding a full
 rebuild on every operation?
 
-Introduce an eager persistent `Queue<A>` with front and rear lists, `empty`,
-`enqueue`, and `dequeue`. A deterministic operation sequence must preserve FIFO
-order and expose the one rear-list reversal. Count list-node work and explain
-amortized constant enqueue/dequeue only over one linear sequence of queue
-states; retaining and resuming older versions can repeat reversal work. Use
-source-level representation and operation counts, not elapsed-time or runtime
-memory claims.
+The eleventh [Cases](../../content/cases/README.md) chapter crosses from an
+explicit LIFO iterator stack to a persistent FIFO frontier. Instead of
+appending through one growing forward list, it represents logical queue order
+as `front ++ reverse(rear)`, where `front` is already in removal order and
+`rear` is in reverse insertion order.
 
-This promotion authorizes only a bounded design and an implementation plan.
-Approve both before creating case-11 content, source, checks, or tooling.
+Three canonical sources and their displayed blocks pass together at exact Ash
+commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`: `queues.ash`,
+`01-sequence.ash`, and `02-retained-state.ash`. Both entries complete with
+empty standard error and status `0`, producing these exact observations:
 
-## Provisional cases
+<!-- markdownlint-disable MD013 -->
+```text
+(None, Queue(End, More(3, More(2, More(1, End)))), 1, Queue(More(2, More(3, End)), End), More(2, More(3, End))) : (Option<(Int, Queue<Int>)>, Queue<Int>, Int, Queue<Int>, List<Int>)
+(Some(1, Queue(More(2, More(3, End)), End)), Some(1, Queue(More(2, More(3, End)), End))) : (Option<(Int, Queue<Int>)>, Option<(Int, Queue<Int>)>)
+```
+<!-- markdownlint-enable MD013 -->
 
-The remaining case expresses the current downstream dependency. It authorizes
-no content directory, source file, or tooling. Promote it only after the FIFO
-frontier case verifies and its evidence has been reviewed.
+The first output establishes empty removal, the retained pre-transfer state,
+the oldest value, the returned successor, and the remaining FIFO sequence.
+The second calls `dequeue` twice from the same retained `ready` state and
+establishes two equivalent structural results, each reached through its own
+complete rear transfer. Structural rendering does not establish pointer
+identity, physical sharing, allocation behavior, or memoization.
 
-### 12. Choosing a search frontier
+`empty` constructs `Queue(End, End)`. `enqueue` prepends one `More` to the
+rear. `dequeue` returns `None` from an empty pair, removes the first front node
+when one exists, and otherwise eagerly reverses the complete rear, clears it,
+and removes from the new front. Every finite front-and-rear pair has a logical
+meaning under the representation relationship. This selected variant does not
+maintain a stronger nonempty-front invariant: the front may be empty while the
+rear is nonempty.
+
+One list-node unit is one selected or constructed `More`. Reversing a rear of
+length `m > 0` applies `reverse_into` `m + 1` times, selects `m` rear nodes,
+constructs `m` front nodes, and then selects the first new front node. The
+transfer therefore costs `2m + 1` list-node units and gives one `dequeue` a
+linear worst case. Along one finite linear successor history that starts from
+`empty`, with `e` enqueues and `d` successful dequeues, each rear node
+transfers at most once, so total list-node work is at most `3e + d`. This
+supports amortized constant list-node work per operation only on that one
+history; it does not make an individual eager transfer constant.
+
+Starting at `empty` ensures that the counted `e` includes every enqueue that
+constructed a transferable rear node. Restarting the counters at the populated
+`ready` state would report `e = 0` and `d = 1` while still performing the
+three-node transfer's `7` units. That suffix omits its enqueue prefix and is
+not a history to which the stated bound applies.
+
+Retaining the older empty-front `ready` state changes the account. Each future
+started from that state still sees the complete rear and repeats its reversal.
+The linear-history account cannot pay for arbitrary branches through a
+persistent version graph.
+
+Public histories that start with `empty` and use finite sequences of
+`enqueue` and returned successors build finite acyclic queue-list spines. A
+cyclic payload can pass through the queue because its equations need not enter
+the payload. Opacity prevents clients from constructing or matching the queue
+representation, but the defining module could construct a cyclic front that
+yields indefinitely or a cyclic rear whose reversal does not return. The
+source-level reuse and list-node counts do not establish elapsed time, machine
+instructions, host-stack behavior, runtime storage or bytes, allocation
+count, heap layout, pointer identity, physical sharing, garbage collection,
+or compiler representation and optimization.
+
+The permanent [source
+record](../../research/persistent-paired-list-queue.md) retains the source
+selection and adaptation classification. The case selects Okasaki's 1995
+transfer-on-dequeue paired-list queue and its recorded lineage as conceptual
+inspiration. Its Ash code, examples, derivations, prose, and exercises are
+original rather than adapted expression.
+
+The local, Learn, and Cases verifiers pass at the exact pin, as do five focused
+pinned tests for strict constructor-tuple entry, defining-module access to an
+opaque constructor, an imported transparent parameterized constructor,
+rank-one polymorphism, and its exact CLI observation. The repository contains
+`11 Learn / 11 Cases / 50 Case sources`. These observations remain ash-doc
+evidence and do not define Ash semantics.
+
+## Next: choosing a search frontier
+
+Design and implementation plan approval are required before Case 12 content,
+source, checks, or tooling.
 
 **Question:** How does frontier representation change a search algorithm?
 
