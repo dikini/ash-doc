@@ -517,6 +517,11 @@ account, persistence boundary, source classification, verification, review,
 and closure design. Do not create case content before an implementation plan
 fixes the exact source, output, test-first steps, and completion commands.
 
+The active [implementation
+plan](../plans/2026-08-30-resuming-tree-traversal.md) fixes those files,
+observations, mutation-sensitivity checks, sequential reviews, closure, and
+local merge commands while this outcome remains active.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no

@@ -193,7 +193,7 @@ generator, mutation, or runtime iterator service is involved.
 ## Executable evidence
 
 The implementation plan will fix the exact source and output, but the bounded
-case owns four canonical files:
+case owns five canonical files:
 
 ```text
 content/cases/resuming-tree-traversal/src/dictionaries.ash
