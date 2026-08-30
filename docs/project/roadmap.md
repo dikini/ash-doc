@@ -356,6 +356,12 @@ observation, three accepted client observations, and two separate
 constructor-access rejections. It authorizes no content directory or source
 file before an active implementation plan.
 
+The [approved implementation
+plan](../plans/2026-08-30-protecting-dictionary-invariant.md) fixes the six
+canonical sources, RED/GREEN order, nineteen-mutation audit, independent
+reviews, case-9 research gate, repository closure, and local merge. It
+owns the approved work through exact-pin verification and reviewed closure.
+
 ## Provisional cases
 
 The following order expresses current dependencies. These entries authorize no
