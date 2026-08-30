@@ -621,6 +621,13 @@ representation, observations, work boundary, and adaptation classification.
 They authorize the implementation plan but no content before that plan is
 separately approved.
 
+The approved [implementation
+plan](../plans/2026-08-31-implementing-persistent-fifo-frontier.md) fixes the
+test-first file sequence, exact prototype evidence, mutation audit, sequential
+reviews, closure, local merge, and cleanup commands. Independent specification,
+workflow, and adversarial plan-quality reviews approved it on 2026-08-31. It
+authorizes only the bounded Case 11 content and evidence described above.
+
 ## Provisional cases
 
 The remaining case expresses the current downstream dependency. It authorizes
