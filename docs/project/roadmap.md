@@ -9,7 +9,7 @@ promise, or source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  verified recursive-algorithm cases remain unpublished on `main`
+  three verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -80,33 +80,25 @@ The case introduces no generic termination guarantee, lazy or infinite data,
 or fold/build fusion API. It retains elapsed time, exact heap bytes, host stack
 behavior, and compiler optimization outside its source-level claims.
 
-## Next: accumulating list results
+### 3. Accumulating list results
 
 **Question:** When should recursion retain knowledge from earlier elements?
 
-Compare `fold_left`, reverse through repeated append, and accumulator reverse.
-Instrumentation over four elements must report six previously built nodes
-revisited by the append-based algorithm and four input nodes visited by the
-accumulator algorithm. Explain the accumulator invariant, quadratic versus
-linear work, retained logical state, and tail position without promising
-implementation-level constant stack use.
+The third [Cases](../../content/cases/README.md) chapter compares reverse through
+repeated append with accumulator reverse. Five canonical sources and their
+displayed blocks pass at the exact Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Four exact accepted observations
+establish the same reverse results, six previously built left-node revisits
+versus four original input visits, an invariant midpoint, and an accepted wrong
+initial accumulator.
 
-Acceptance requires both reverse definitions to produce the same list, their
-instrumented work to differ by the stated counts, and executable examples that
-establish the accumulator invariant. Runtime-memory claims remain outside the
-pinned language contract.
+The source equations derive quadratic append revisits and constructor
+applications versus linear accumulator visits and constructions. Tail position
+names only the recursive application's source placement. The case excludes
+elapsed time, exact heap bytes, host-stack behavior and tail-call optimization,
+compiler optimization, mutation, and a type-level proof of the invariant.
 
-Before implementation, approve a bounded design for this question and add its
-temporary detailed plan. No content directory or source file is authorized by
-promotion alone.
-
-## Provisional cases
-
-The following order expresses current dependencies. These entries authorize no
-content directories, source files, or tooling. Promote only one after the
-preceding case verifies and its evidence has been reviewed.
-
-### 4. A dictionary encoded as a list
+## Next: a dictionary encoded as a list
 
 **Question:** What does lookup cost when a dictionary is a recursive list?
 
@@ -116,8 +108,19 @@ must shadow an older equal key. After inserting `(1, 10)`, `(2, 20)`, and
 `(1, 11)`, lookup of `1` must return `Some(11)` after one comparison, while
 lookup of `3` must return `None` after three comparisons. Contrast selective
 recursive lookup with an eager whole-list fold. Explain linear retrieval,
-name the per-key equality cost `E(k)`, and account for persistent sharing and
-memory retained by old dictionary versions.
+name the per-key equality cost `E(k)`, and account for one new front node, reuse
+of the previous dictionary value, and the entries reachable through retained
+dictionary versions. Keep heap bytes and collection outside the contract.
+
+Before implementation, approve a bounded design for this question and add its
+temporary detailed plan. No content directory or source file is authorized by
+promotion alone. No dictionary design has been approved.
+
+## Provisional cases
+
+The following order expresses current dependencies. These entries authorize no
+content directories, source files, or tooling. Promote only one after the
+preceding case verifies and its evidence has been reviewed.
 
 ### 5. Folding branching data
 
@@ -126,8 +129,9 @@ memory retained by old dictionary versions.
 Introduce `Tree<A> = Empty | Node(Tree<A>, A, Tree<A>)`, `fold_tree`, `size`,
 and `map_tree`. Compare balanced and skewed trees with the same node count.
 Establish one visit per node and recursive dependency depth proportional to
-height, and show why a general eager fold cannot implement selective search
-without visiting both branches.
+height. Show why this strict `fold_tree`, whose combiner receives both already
+evaluated branch results, cannot implement selective search without visiting
+both branches.
 
 ### 6. Searching an ordered tree
 
@@ -136,9 +140,11 @@ without visiting both branches.
 Introduce `Ordering = Less | Equal | Greater`, pass
 `compare : K -> K -> Ordering` explicitly to `lookup`, `insert`, and
 `lookup_counted`, and use recursive natural-number keys. State lookup work as
-`O(C(k) * h)`. Cover successful and missing lookup, duplicate replacement, a
-manually valid tree, a malformed transparent tree whose misplaced key exposes
-the invariant, and ascending insertion that produces degenerate height.
+the sum of `C(query, node_key)` over visited nodes, or as `O(h * Cmax)` only
+under an explicit per-comparison bound `Cmax`. Cover successful and missing
+lookup, duplicate replacement, a manually valid tree, a malformed transparent
+tree whose misplaced key exposes the invariant, and ascending insertion that
+produces degenerate height.
 
 ### 7. Abstracting key order
 
@@ -148,9 +154,10 @@ manually?
 Replace explicit comparison parameters with a public `Order<A>` interface, a
 constrained `lookup` and `insert` API, and a public implementation for the
 example key type. Preserve the preceding behavior and cost model. Demonstrate
-checking-time evidence selection and lowering to ordinary calls. A complete
-program without an `Order` implementation must be rejected with
-`constraint.unsatisfied`.
+successful checking-time evidence selection. Explain the specified lowering to
+ordinary calls from the pinned static semantics, elaboration, and retained
+tests; CLI output cannot isolate that lowering step. A complete program without
+an `Order` implementation must be rejected with `constraint.unsatisfied`.
 
 ### 8. Protecting the dictionary invariant
 
@@ -161,9 +168,9 @@ Move the tree behind `pub opaque type Dictionary<K, V>` and expose `empty`,
 `insert`, `lookup`, concrete list-consuming `build`, and `invariant_holds`.
 Run normal construction and lookup through the public API, then reject separate
 client construction and matching attempts with `resolve.opaque-constructor`.
-`build` must fold a finite list of key/value pairs through `insert`; it is an
-invariant-preserving dictionary operation, not a rank-2 producer from lazy
-fold/build fusion.
+`build` must use strict `fold_left` through `insert` in input order so later
+equal keys replace earlier ones. It is an invariant-preserving dictionary
+operation, not a rank-2 producer from lazy fold/build fusion.
 
 ### 9. Guaranteeing logarithmic retrieval
 
@@ -175,12 +182,14 @@ red-black-tree tradition and its license. Replace the opaque representation
 without changing the normal client API. Explain ordering, a black root, no red
 parent with a red child, and equal black-height invariants; the four insertion
 balance configurations; root blackening; persistent path copying and subtree
-sharing; and `O(C(k) log n)` lookup and insertion. Account for `O(log n)` newly
-constructed path nodes. Describe this as worst-case logarithmic
-comparison-based retrieval,
-not universal optimality. Test lookup behavior and `invariant_holds` after
-every insertion prefix in ascending, descending, and rotation-triggering
-sequences.
+reuse; and logarithmic tree height. State lookup and insertion as
+`O(log n)` comparisons and `O(log n)` newly constructed path nodes. If
+comparison cost varies, use `O(log n * Cmax)` under an explicit bound. Describe
+this as worst-case logarithmic comparison-based retrieval, not universal
+optimality. Test lookup behavior and `invariant_holds` after every insertion
+prefix in ascending, descending, and rotation-triggering sequences. Attribute
+the guarantee to the opaque API plus invariant-preserving insertion, not to the
+nominal representation alone.
 
 ### 10. Resuming tree traversal
 
@@ -190,20 +199,39 @@ Expose an opaque eager `Iterator<K, V>` with
 `iterator : Dictionary<K, V> -> Iterator<K, V>` and
 `next : Iterator<K, V> -> Option<((K, V), Iterator<K, V>)>`. Repeated calls over
 three entries must end with `None`. Explain `O(h)` initialization and state,
-worst-case `O(h)` `next`, and amortized constant work over a complete traversal.
-Do not use thunks, lazy lists, hidden mutation, or infinite-data claims.
+worst-case `O(h)` `next`, and `O(n + h)` frame operations over one complete
+linear traversal, which gives amortized constant frame work per produced
+entry. Do not use thunks, lazy lists, hidden mutation, or infinite-data claims.
 
-### 11. Choosing a search frontier
+### 11. Implementing a persistent FIFO frontier
+
+**Question:** How can two lists preserve queue order while avoiding a full
+rebuild on every operation?
+
+Introduce an eager persistent `Queue<A>` with front and rear lists, `empty`,
+`enqueue`, and `dequeue`. A deterministic operation sequence must preserve FIFO
+order and expose the one rear-list reversal. Count list-node work and explain
+amortized constant enqueue/dequeue only over one linear sequence of queue
+states; retaining and resuming older versions can repeat reversal work. Use
+source-level representation and operation counts, not elapsed-time or runtime
+memory claims.
+
+### 12. Choosing a search frontier
 
 **Question:** How does frontier representation change a search algorithm?
 
 Build deterministic depth-first and breadth-first search over one finite cyclic
 graph. Use a list stack for DFS, a two-list amortized queue for BFS, the
 dictionary as a visited set, explicit search state, and a counted frontier
-size. Both traversals must find the target; BFS must return the shortest
-unweighted path; visited tracking must prevent repeated expansion. Compare DFS
-depth memory with BFS width memory and classify any library, tooling,
-diagnostic, or performance pressure.
+size represented by a recursive `Natural`. Both traversals must find the
+target; FIFO order and marking vertices when enqueued must make BFS return the
+shortest unweighted path; visited tracking must prevent repeated expansion.
+Measure maximum pending-frontier entries in the example. State general DFS
+stack bounds in terms of branching and depth and BFS bounds in terms of
+frontier width, while accounting separately for retained paths and the visited
+dictionary. Keep runtime-memory claims outside the language contract and
+classify any library, tooling, diagnostic, performance, or application
+pressure.
 
 ## Promotion and verification policy
 
