@@ -117,10 +117,12 @@ for unavailable_index in "${!unavailable_slots[@]}"; do
 done
 
 slot_eleven=$(read_slot 11)
-[[ $slot_eleven != *'](implementing-persistent-fifo-frontier/README.md)'* ]] ||
-    ash_doc_fail "Cases index slot 11 must not expose an active destination"
-[[ $(grep -Fo '**Pending migration**' <<< "$slot_eleven" | wc -l) -eq 1 ]] ||
-    ash_doc_fail "Cases index slot 11 must carry one pending label"
+[[ $(grep -Foc \
+    '](implementing-persistent-fifo-frontier/README.md)' \
+    <<< "$slot_eleven") -eq 1 ]] ||
+    ash_doc_fail "Cases index slot 11 must retain its active destination"
+[[ $slot_eleven != *'**Pending migration**'* ]] ||
+    ash_doc_fail "Cases index slot 11 must not carry a pending label"
 
 active_case_count=${#verifiers[@]}
 indexed_case_count=$(grep -Ec '^[0-9]+\. \[' "$index")

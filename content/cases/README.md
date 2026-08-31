@@ -87,7 +87,10 @@ storage strategy.
 10. **Unavailable at this target** — [failure
     evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#tree-iterator)
     — How can traversal pause and resume without laziness?
-11. **Pending migration** — How can two lists preserve queue order?
+11. [How can two lists preserve queue
+    order?](implementing-persistent-fifo-frontier/README.md) — split logical
+    order between a front and reversed rear, transfer eagerly only when
+    removal needs it, and bound list-node work along one successor history.
 12. **Unavailable at this target** — [failure
     evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#search-frontier)
     — How does frontier representation change a search algorithm?

@@ -9,7 +9,7 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and eight verified recursive-algorithm Cases active
+  Learn path and nine verified recursive-algorithm Cases active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
@@ -93,12 +93,10 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains eight verified Cases and 39 canonical sources at the Lib Ash commit.
+contains nine verified Cases and 42 canonical sources at the Lib Ash commit.
 Cases 9, 10, and 12 are unavailable at this target because every numbered
-entry reaches the retained dependency-summary authentication failure. Case 11
-has clean two-pin compatibility and remains the next independent restoration.
-All four remain historical material below, with immutable prose, programs, and
-checks available in the
+entry reaches the retained dependency-summary authentication failure. Their
+immutable prose, programs, and checks remain available in the
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
 
 [recursive-cases]: https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/README.md
@@ -762,20 +760,21 @@ ash-doc evidence and do not define Ash semantics.
 **Question:** How can two lists preserve queue order while avoiding a full
 rebuild on every operation?
 
-**Migration state:** Pending migration. The two numbered entries both exit `0`
+**Migration state:** Active at Lib Ash. The two numbered entries both exit `0`
 with empty standard error at the predecessor and Lib Ash pins, and their
-standard outputs are byte-identical across those pins. Its three-source
-chapter is the next independent restoration; it is not active navigation in
-this transitional state.
+standard outputs are byte-identical across those pins. The active chapter
+reconstructs its needed LIFO model without requiring unavailable Case 10 and
+links the unavailable Case 12 comparison to its retained failure evidence.
 
-The eleventh [historical Cases][recursive-cases] chapter crosses from an
-explicit LIFO iterator stack to a persistent FIFO frontier. Instead of
-appending through one growing forward list, it represents logical queue order
-as `front ++ reverse(rear)`, where `front` is already in removal order and
-`rear` is in reverse insertion order.
+The active
+[eleventh Cases chapter](../../content/cases/implementing-persistent-fifo-frontier/README.md)
+crosses from an explicit LIFO iterator stack to a persistent FIFO frontier.
+Instead of appending through one growing forward list, it represents logical
+queue order as `front ++ reverse(rear)`, where `front` is already in removal
+order and `rear` is in reverse insertion order.
 
 Three canonical sources and their displayed blocks pass together at exact Ash
-commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`: `queues.ash`,
+commit `d1e323d23390cdad03202ee3df76cd9100556e1d`: `queues.ash`,
 `01-sequence.ash`, and `02-retained-state.ash`. Both entries complete with
 empty standard error and status `0`, producing these exact observations:
 
@@ -840,12 +839,15 @@ transfer-on-dequeue paired-list queue and its recorded lineage as conceptual
 inspiration. Its Ash code, examples, derivations, prose, and exercises are
 original rather than adapted expression.
 
-The local, Learn, and Cases verifiers pass at the exact pin, as do five focused
-pinned tests for strict constructor-tuple entry, defining-module access to an
-opaque constructor, an imported transparent parameterized constructor,
-rank-one polymorphism, and its exact CLI observation. The repository contains
-`11 Learn / 11 Cases / 50 Case sources`. These observations remain ash-doc
-evidence and do not define Ash semantics.
+The local, nine-Case, and eleven-Learn verifiers pass at the exact Lib Ash pin,
+and the eight-entry migration lab retains the three unavailable gaps. The
+migration changed target links, navigation, and only the opening and handoff
+needed to cross those gaps. It preserved the paired-list representation,
+transfer schedule, invariant, source-level cost account, canonical Ash,
+verifier, and observations. Explicit implementation selection, explicit kinds,
+method-local type parameters, and relational interfaces do not strengthen this
+concrete queue question, so the Case received no feature retrofit. These
+observations remain ash-doc evidence and do not define Ash semantics.
 
 ### 12. Choosing a search frontier
 
@@ -958,11 +960,12 @@ not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
-`11 Learn / 8 Cases / 43 Learn sources / 39 Case sources`.
+`11 Learn / 9 Cases / 43 Learn sources / 42 Case sources`.
 Cases migration remains the one **next** outcome. Outcome 2 is incomplete:
-Cases 9, 10, and 12 are unavailable with linked upstream evidence, while the
-independently compatible Case 11 may continue to migration next. No ash-doc
-`lib-ash` tag may be created in this state.
+Cases 9, 10, and 12 are unavailable with linked upstream evidence. All
+currently implementable Cases are active, but the migration still requires its
+integration reviews and closure change. No ash-doc `lib-ash` tag may be created
+in this state.
 
 ## Promotion and verification policy
 

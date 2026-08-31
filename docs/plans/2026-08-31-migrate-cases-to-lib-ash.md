@@ -89,7 +89,7 @@ channel.
 
 The eight internal failures are every numbered entry in Cases 9, 10, and 12.
 The permanent lab now retains all eight exact triggering entries. Cases 9, 10,
-and 12 remain explicit gaps; Case 11 passes independently and may migrate
+and 12 remain explicit gaps; Case 11 passes independently and is now restored
 without claiming that the Cases outcome is complete.
 
 ## Bounded design
@@ -144,7 +144,7 @@ has run.
 | 8. Protecting invariant | 6 sources | 2 selectors/nav | Selection + opacity |
 | 9. Red-black tree | 3 / 2 accepted | 2 status-2 auth | Deferred |
 | 10. Iterator | 5 / 2 accepted + 2 rejected | 4 status-2 auth | Deferred |
-| 11. FIFO frontier | 3 / 2 exact | Next restoration | None |
+| 11. FIFO frontier | 3 / 2 exact | Links/prose/navigation | None |
 | 12. Graph search | 3 / 2 accepted | 2 status-2 auth | Deferred |
 
 For Case 1, all five sources have byte-identical status, standard output, and
@@ -265,6 +265,21 @@ is pending migration. Case 11's two numbered entries retain byte-identical
 accepted observations at both pins and form the next independent restoration.
 Outcome 2 remains incomplete, later implementable work may continue, and no
 ash-doc `lib-ash` tag may be created.
+
+For Case 11, the predecessor verifier passes three canonical sources and two
+accepted entries. Direct comparison establishes byte-identical status,
+standard output, and standard error at both exact pins. The migration retains
+all Ash source, observations, and verifier content; it changes target links,
+reconstructs the minimum LIFO frame model in-page, and links unavailable Cases
+10 and 12 through their historical chapters and exact failure evidence. After
+the directory introduced a ninth active verifier, the revised twelve-slot
+contract failed because slot 11 still lacked its active destination. Linking
+the Case removed the pending label and passed both the exact slot contract and
+the secondary nine-verifier/nine-link count. Explicit implementation selection,
+explicit kinds, method-local type parameters, and relational interfaces do not
+strengthen this concrete paired-list queue question, so the Case received no
+feature retrofit. The active tree is now `9 Cases / 42 Case sources`; Cases 9,
+10, and 12 remain unavailable with evidence, and Outcome 2 remains incomplete.
 
 ## Shared rules for every restoration
 
