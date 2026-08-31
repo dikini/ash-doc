@@ -21,9 +21,9 @@ compatible capability that the project skill does not cover.
 ## Authority and target
 
 The active work is an unpublished migration to `lib-ash` at commit
-`d1e323d23390cdad03202ee3df76cd9100556e1d`. Only the verified prefix restored
-under `content/learn/` belongs to the active documentation stream during this
-migration.
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Only the verified prefixes restored
+under `content/learn/` and `content/cases/` belong to the active documentation
+stream during this migration.
 
 The immutable predecessor targets `modular-ash` at commit
 `dca16039923475c48025c5f17beadeb6bcb6a4bf`. It remains historical evidence and

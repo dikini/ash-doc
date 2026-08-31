@@ -128,7 +128,7 @@ has run.
 
 | Case | Baseline | Minimal migration | Enhancement assessment |
 | --- | --- | --- | --- |
-| 1. Folding recursive lists | pending | pending | pending |
+| 1. Folding recursive lists | 5 unchanged | Links/navigation | None |
 | 2. Building finite lists | pending | pending | pending |
 | 3. Accumulating list results | pending | pending | pending |
 | 4. Dictionary as a list | pending | pending | pending |
@@ -140,6 +140,16 @@ has run.
 | 10. Resuming tree traversal | pending | pending | pending |
 | 11. Persistent FIFO frontier | pending | pending | pending |
 | 12. Choosing a search frontier | pending | pending | pending |
+
+For Case 1, all five sources have byte-identical status, standard output, and
+standard error at both exact pins. The migration changed only target links and
+active family navigation; Ash source, observations, and verifiers remain
+unchanged. Before the index linked the restored Case, the navigation gate
+failed at one active verifier and zero indexed Cases; after the link, it passed
+at one and one. Explicit implementation selection, method-local type
+parameters, and relational interfaces do not serve the concrete fold question.
+An explicitly kinded higher-kinded fold would change that question, so the
+Case received no enhancement.
 
 ## Shared rules for every restoration
 
@@ -206,6 +216,7 @@ changed verifier. Confirm displayed Ash agrees exactly with its canonical source
 
 **Files:**
 
+- Modify: `AGENTS.md`
 - Restore: `content/cases/folding-recursive-lists/`
 - Restore and trim: `content/cases/README.md`
 - Restore: `content/cases/checks/verify.sh`

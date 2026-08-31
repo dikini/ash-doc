@@ -9,16 +9,17 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path active
+  Learn path and a verified one-Case recursive-algorithm prefix active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
 Active teaching and verification use the [pinned Lib Ash evaluation
 behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-The retained Cases record below describes historical work at the predecessor
-target and links its immutable `recursive-1` snapshot; it does not make those
-Cases active. The roadmap states mean:
+The first Cases record below describes active work at the Lib Ash target. The
+later records describe historical work at the predecessor and link its
+immutable `recursive-1` snapshot; they do not make those later Cases active.
+The roadmap states mean:
 
 - **next** identifies the one increment ready to enter the execution workflow:
   approve its bounded design, activate its temporary plan, then implement it;
@@ -86,11 +87,12 @@ failures as permanent executable
 The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
-The twelve Cases below remain historical material verified at the Modular Ash
+The active [recursive-algorithm Cases](../../content/cases/README.md) path now
+contains one verified Case and five canonical sources at the Lib Ash commit.
+Cases 2 through 12 below remain historical material verified at the Modular Ash
 predecessor. Their immutable prose, programs, and checks remain available in
 the
-[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833);
-no Case belongs to the active content tree yet.
+[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
 
 [recursive-cases]: https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/README.md
 
@@ -99,19 +101,26 @@ no Case belongs to the active content tree yet.
 **Question:** How can one recursive traversal define many list
 algorithms?
 
-The first [historical Cases][recursive-cases] chapter defines a strict right
-`fold` over `List<A>` and derives `sum`, `length`, `map`, and `filter` from it.
-Its counted first-element program observes that returning the first value does
-not let an eager right fold avoid traversing the rest.
+The active [first Cases chapter](../../content/cases/folding-recursive-lists/README.md)
+defines a strict right `fold` over `List<A>` and derives `sum`, `length`, `map`,
+and `filter` from it. Its counted first-element program observes that returning
+the first value does not let an eager right fold avoid traversing the rest.
 
-Five canonical sources and their displayed blocks pass together at the exact
-pin. The checks assert three successful values and types, the complete
+Five canonical sources and their displayed blocks pass together at exact Lib
+Ash commit `d1e323d23390cdad03202ee3df76cd9100556e1d`. The checks assert three
+successful values and types, the complete
 `type.argument` rejection and its causal base argument, and the source
 relationships that make the four operations uses of `fold`. The chapter
 separates combiner calls, recursive dependency depth, and constructed `More`
 nodes from host stack optimization and heap byte counts. The approved
 [recursive-algorithms design](../plans/2026-08-29-recursive-algorithms-design.md)
 continues to govern the path.
+
+The migration changed only target links and active navigation. Explicit
+implementation selection, method-local type parameters, and relational
+interfaces do not improve this concrete traversal question; a higher-kinded
+fold would ask a different abstraction question, so this Case received no
+feature retrofit.
 
 ### 2. Building finite lists with `unfold`
 
@@ -841,9 +850,10 @@ executable evidence subordinate to the pinned specification and tool; they do
 not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
-The active migration tree contains `11 Learn / 0 Cases / 43 Learn sources`.
-Cases migration is the one next outcome; its bounded design and temporary plan
-must pass before a historical Case returns to the active tree.
+The active migration tree contains
+`11 Learn / 1 Case / 43 Learn sources / 5 Case sources`. Cases migration remains
+the one **next** outcome; its approved plan restores each later historical Case
+only after that Case passes its complete evidence at the active target.
 
 ## Promotion and verification policy
 
