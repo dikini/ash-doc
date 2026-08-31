@@ -33,11 +33,10 @@ The roadmap states mean:
 Promotion to **next** authorizes the design-and-plan work, not a content change
 that bypasses those gates.
 
-## Next: migrate Cases to `lib-ash`
+## Blocked residual: complete Cases 9, 10, and 12
 
-**Question:** How can the existing recursive-algorithm Cases preserve their
-problems, invariants, derivations, and source-level cost accounts at the exact
-`lib-ash` target?
+**Question:** When can the three compiler-blocked Cases regain their historical
+teaching promises under one exact edition target?
 
 The approved
 [Lib Ash documentation milestone design](../plans/2026-08-31-lib-ash-documentation-milestone-design.md)
@@ -45,28 +44,36 @@ selects a staged forward migration ending in an immutable ash-doc `lib-ash`
 tag. The target is the annotated `ash-lang` tag `lib-ash`, resolved to exact
 commit `d1e323d23390cdad03202ee3df76cd9100556e1d`.
 
-The next bounded outcome migrates the twelve historical Cases in reading
-order. Each Case must first regain its existing promise at the new pin, then
-receive a separate assessment of whether a Lib Ash feature clarifies the same
-algorithmic question or strengthens its evidence. The active
-[Cases migration implementation plan](../plans/2026-08-31-migrate-cases-to-lib-ash.md)
-selects exact per-Case comparison, explicit implementation-selection
-migrations, permanent evidence for all blocked entries, and restoration of
-later independently executable Cases with visible gaps. This plan is approved
-under the standing Lib Ash milestone authorization and the roadmap's promotion
-of Cases to **next**.
+Every independently executable Case has migrated. All eight numbered entries
+from Cases 9, 10, and 12 instead fail during dependency-summary admission at
+the exact target. Their source, predecessor observations, and target failures
+remain in the permanent
+[upstream evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md).
+The family index keeps all three gaps visible.
 
-## Provisional `lib-ash` outcomes
+Outcome 2 remains incomplete, and final publication remains blocked. Resuming
+these Cases requires a fresh bounded plan under a separately authorized exact
+edition target. A later upstream fix cannot change the immutable `lib-ash`
+evidence or silently retarget only these Cases; every active page and check
+must move together if project authority selects another target.
 
-After all currently implementable Cases migrate and every failure has a complete
-report, review the migrated paths before promoting the new **Design library
-abstractions in Ash** family. Its proposed five-lesson sequence covers explicit
-implementation selection, public capability facades, explicit kinds and
-higher-kinded parameters, method-local type parameters, and relational
-determination. It assumes Learn rather than the blocked Cases, so it may proceed
-while Cases 9, 10, and 12 await separately authorized upstream resolution.
-Provisional status authorizes no new content directory, canonical source,
-verifier, or shared tooling.
+## Next: design library abstractions in Ash
+
+**Question:** How can a reader design reusable source libraries with the new
+abstraction mechanisms completed at `lib-ash`?
+
+The new **Design library abstractions in Ash** family assumes the completed
+Learn path rather than the blocked Cases. Its proposed five-lesson sequence
+covers explicit implementation selection, public capability facades, explicit
+kinds and higher-kinded parameters, method-local type parameters, and
+relational determination.
+
+This promotion authorizes its bounded design and temporary implementation plan,
+not a content directory, canonical source, verifier, or shared tooling. The
+design must retain one exact target, compare credible teaching approaches, and
+select the smallest layout and verification needed for the first complete
+lesson. The library plan and a future Cases-resumption plan may not be active
+together.
 
 ## Verified increments
 
@@ -961,11 +968,10 @@ not define Ash semantics or accept an Ash mechanism.
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
 `11 Learn / 9 Cases / 43 Learn sources / 42 Case sources`.
-Cases migration remains the one **next** outcome. Outcome 2 is incomplete:
-Cases 9, 10, and 12 are unavailable with linked upstream evidence. All
-currently implementable Cases are active, but the migration still requires its
-integration reviews and closure change. No ash-doc `lib-ash` tag may be created
-in this state.
+All currently implementable Cases are verified. Cases 9, 10, and 12 remain
+**blocked residual** work with linked upstream evidence, so Outcome 2 and final
+publication remain incomplete. Designing the library-abstraction family is the
+one **next** outcome. No ash-doc `lib-ash` tag may be created in this state.
 
 ## Promotion and verification policy
 
