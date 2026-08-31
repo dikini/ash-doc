@@ -129,7 +129,7 @@ has run.
 | Case | Baseline | Minimal migration | Enhancement assessment |
 | --- | --- | --- | --- |
 | 1. Folding recursive lists | 5 unchanged | Links/navigation | None |
-| 2. Building finite lists | pending | pending | pending |
+| 2. Building finite lists | 5 byte-identical | Links/navigation | None |
 | 3. Accumulating list results | pending | pending | pending |
 | 4. Dictionary as a list | pending | pending | pending |
 | 5. Folding branching data | pending | pending | pending |
@@ -150,6 +150,16 @@ at one and one. Explicit implementation selection, method-local type
 parameters, and relational interfaces do not serve the concrete fold question.
 An explicitly kinded higher-kinded fold would change that question, so the
 Case received no enhancement.
+
+For Case 2, all five sources have byte-identical status, standard output, and
+standard error at both exact pins. The migration changed only target links and
+active family navigation; Ash source, observations, and verifiers remain
+unchanged. Before the index linked the restored Case, the navigation gate
+failed at two active verifiers and one indexed Case; after the link, it passed
+at two and two. Explicit implementation selection, method-local type
+parameters, and relational interfaces do not improve the concrete state
+transition and decreasing-integer measure. Explicit kinds would add syntax
+without strengthening finite production, so the Case received no enhancement.
 
 ## Shared rules for every restoration
 
@@ -248,8 +258,8 @@ git -c commit.gpgSign=false commit -m "docs: restore recursive-list-fold Case"
 
 ## Task 2: Restore Case 2, building finite lists
 
-**Files:** restore `content/cases/building-finite-lists/`; modify the Cases index,
-roadmap, and this plan.
+**Files:** restore `content/cases/building-finite-lists/`; modify `README.md`,
+`content/README.md`, the Cases index, roadmap, and this plan.
 
 Expect five canonical sources with byte-identical observations at both pins.
 Keep the concrete state transition and decreasing integer measure. Explicit kinds

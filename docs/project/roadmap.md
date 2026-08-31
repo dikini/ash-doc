@@ -9,15 +9,15 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and a verified one-Case recursive-algorithm prefix active
+  Learn path and a verified two-Case recursive-algorithm prefix active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
 Active teaching and verification use the [pinned Lib Ash evaluation
 behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-The first Cases record below describes active work at the Lib Ash target. The
-later records describe historical work at the predecessor and link its
+The first two Cases records below describe active work at the Lib Ash target.
+The later records describe historical work at the predecessor and link its
 immutable `recursive-1` snapshot; they do not make those later Cases active.
 The roadmap states mean:
 
@@ -88,8 +88,8 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains one verified Case and five canonical sources at the Lib Ash commit.
-Cases 2 through 12 below remain historical material verified at the Modular Ash
+contains two verified Cases and ten canonical sources at the Lib Ash commit.
+Cases 3 through 12 below remain historical material verified at the Modular Ash
 predecessor. Their immutable prose, programs, and checks remain available in
 the
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
@@ -126,15 +126,16 @@ feature retrofit.
 
 **Question:** How can changing finite state produce recursive data?
 
-The second [historical Cases][recursive-cases] chapter defines
+The active [second Cases chapter](../../content/cases/building-finite-lists/README.md)
+defines
 `Step<S, A> = Stop | Emit(A, S)` and
 `unfold : (S -> Step<S, A>) -> S -> List<A>`. A unary `Natural` seed makes the
 concrete producer's structural termination measure visible. The chapter
 separates that argument from generic `unfold`, which does not establish that an
 arbitrary transition reaches `Stop`.
 
-Five canonical sources and their displayed blocks pass together at the exact Ash
-commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`. The checks assert three
+Five canonical sources and their displayed blocks pass together at exact Lib
+Ash commit `d1e323d23390cdad03202ee3df76cd9100556e1d`. The checks assert three
 successful values and types, the complete `type.argument` rejection and its
 causal Boolean seed, and the source relationships for one transition per
 recursive call, eager recursive-rest binding, structural decrease, and the
@@ -142,9 +143,15 @@ additional list built by a following `map`. For a seed with `n` `Next` forms,
 the terminating producer reports `n + 1` transition applications and
 constructs `n` `More` values before `map` constructs another `n`.
 
-The case introduces no generic termination guarantee, lazy or infinite data,
+The Case introduces no generic termination guarantee, lazy or infinite data,
 or fold/build fusion API. It retains elapsed time, exact heap bytes, host stack
 behavior, and compiler optimization outside its source-level claims.
+
+The migration changed only target links and active navigation. Explicit
+implementation selection, method-local type parameters, and relational
+interfaces do not improve this concrete transition question. Explicit kinds
+would add syntax without strengthening finite production, so this Case received
+no feature retrofit.
 
 ### 3. Accumulating list results
 

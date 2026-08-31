@@ -55,3 +55,6 @@ storage strategy.
 1. [How can one recursive traversal define many list
    algorithms?](folding-recursive-lists/README.md) — separate a list traversal
    from the operations supplied to a strict right fold.
+2. [How can changing finite state produce a recursive
+   list?](building-finite-lists/README.md) — use a transition and a structural
+   measure to produce a complete eager list.
