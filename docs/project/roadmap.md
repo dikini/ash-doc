@@ -9,22 +9,24 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and a verified six-Case recursive-algorithm prefix active
+  Learn path and six verified recursive-algorithm Cases active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
 Active teaching and verification use the [pinned Lib Ash evaluation
 behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-The first six Cases records below describe active work at the Lib Ash target.
-The later records describe historical work at the predecessor and link its
-immutable `recursive-1` snapshot; they do not make those later Cases active.
+Each Case record below states whether it is active at Lib Ash, blocked there, or
+historical at the predecessor.
 The roadmap states mean:
 
 - **next** identifies the one increment ready to enter the execution workflow:
   approve its bounded design, activate its temporary plan, then implement it;
 - **provisional** orders downstream increments without authorizing their case
   implementation, content directories, source, or tooling; and
+- **blocked residual** identifies required work that cannot execute at the
+  current exact target after its failure evidence and all independent units
+  have completed review; and
 - **verified** identifies completed content whose prose, programs, and checks
   pass together.
 
@@ -48,20 +50,23 @@ order. Each Case must first regain its existing promise at the new pin, then
 receive a separate assessment of whether a Lib Ash feature clarifies the same
 algorithmic question or strengthens its evidence. The active
 [Cases migration implementation plan](../plans/2026-08-31-migrate-cases-to-lib-ash.md)
-selects the longest verified sequential prefix, exact per-Case comparison,
-explicit implementation-selection migrations, the upstream failure gate, and
-partial-prefix integration without claiming Outcome 2 complete. This plan is
-approved under the standing Lib Ash milestone authorization and the roadmap's
-promotion of Cases to **next**; it authorizes no library-family content.
+selects exact per-Case comparison, explicit implementation-selection
+migrations, permanent evidence for all blocked entries, and restoration of
+later independently executable Cases with visible gaps. This plan is approved
+under the standing Lib Ash milestone authorization and the roadmap's promotion
+of Cases to **next**.
 
 ## Provisional `lib-ash` outcomes
 
-After Cases migration closes, review both migrated paths before promoting the
-new **Design library abstractions in Ash** family. Its proposed five-lesson
-sequence covers explicit implementation selection, public capability facades,
-explicit kinds and higher-kinded parameters, method-local type parameters, and
-relational determination. Provisional status authorizes no new content
-directory, canonical source, verifier, or shared tooling.
+After all currently implementable Cases migrate and every failure has a complete
+report, review the migrated paths before promoting the new **Design library
+abstractions in Ash** family. Its proposed five-lesson sequence covers explicit
+implementation selection, public capability facades, explicit kinds and
+higher-kinded parameters, method-local type parameters, and relational
+determination. It assumes Learn rather than the blocked Cases, so it may proceed
+while Cases 9, 10, and 12 await separately authorized upstream resolution.
+Provisional status authorizes no new content directory, canonical source,
+verifier, or shared tooling.
 
 ## Verified increments
 
@@ -918,9 +923,12 @@ For a future increment:
 7. Classify discoveries as ash-doc corrections, Ash regression candidates,
    unspecified design questions, or library, tool, diagnostic, performance, or
    application pressure.
-8. Remove the completed temporary plan, mark the case **verified**, and promote
-   a successor only after selecting it as a new bounded outcome. Otherwise
-   leave **next** empty.
+8. Remove a temporary plan only after its bounded work passes closure review.
+   Mark completed content **verified**. If retained compiler failures prevent
+   the larger outcome from closing, carry only those units as **blocked
+   residual** work that requires a fresh authorized plan. Promote a successor
+   only after selecting it as a new bounded outcome; otherwise leave **next**
+   empty.
 9. Add a focused research or laboratory record only when an observed case
    supplies material evidence. Any upstream evidence candidate must reference
    the completed case commit as well as the exact ash-doc and Ash targets.

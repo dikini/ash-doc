@@ -101,6 +101,31 @@ review, and closure. Completing one outcome does not automatically authorize
 the next; the roadmap promotes the successor only after reviewing the evidence
 just obtained.
 
+### Continue across retained compiler failures
+
+Project direction on 2026-08-31 authorizes work to continue after a compiler
+failure once the complete failure is retained as permanent evidence. A failure
+blocks only the affected lesson or Case: later units that execute independently
+at the same exact target may migrate, and a downstream outcome whose declared
+prerequisites pass may begin. Navigation must keep every resulting gap visible;
+it may not imply that the missing unit passed or that the sequence is complete.
+
+This continuation changes execution order, not authority or completion. Outcome
+2 remains incomplete while Cases 9, 10, and 12 fail. Outcome 3 may proceed
+because it assumes the completed Learn path rather than the Cases. Final
+publication and the ash-doc `lib-ash` tag remain blocked until every required
+Case passes at one authorized exact Ash target. Because the current `lib-ash`
+tag is immutable, a later upstream fix cannot silently change this evidence or
+retarget only the failed Cases; any target change must move every active page
+and check together.
+
+The current Cases implementation plan closes after it migrates every
+implementable Case and retains every failure. The roadmap then carries Cases 9,
+10, and 12 as residual blocked work and may promote Outcome 3 as the sole active
+outcome. Resuming those Cases requires a fresh bounded plan under a separately
+authorized exact edition target; the library plan and the resumption plan are
+never active together.
+
 ### Outcome 1: migrate Learn
 
 Migrate `content/learn/` in reading order. Each lesson first preserves its
@@ -228,7 +253,9 @@ A legitimate teaching migration may independently change the triggering
 source, but the original failure remains documented. If an unexpected compiler
 failure blocks required behavior at the exact tag, the affected unit and final
 publication remain blocked until upstream supplies a separately authorized
-resolution. Ash-doc does not prescribe that resolution.
+resolution. Independently executable units and downstream outcomes whose
+declared prerequisites pass may continue under the decision above. Ash-doc does
+not prescribe the upstream resolution.
 
 ## Initial executable observations
 

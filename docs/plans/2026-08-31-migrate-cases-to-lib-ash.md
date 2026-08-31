@@ -3,18 +3,19 @@
 > **For Codex:** REQUIRED SUB-SKILL: Use
 > `superpowers:subagent-driven-development` to execute this plan task by task.
 
-**Goal:** Restore the longest sequential prefix of the twelve recursive-algorithm
-Cases that preserves its predecessor teaching promises at exact Lib Ash commit
-`d1e323d23390cdad03202ee3df76cd9100556e1d`, and retain the first upstream
-compiler blocker without weakening a Case to conceal it.
+**Goal:** Restore every recursive-algorithm Case that preserves its predecessor
+teaching promise at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`, retain all compiler-blocked entries
+without weakening a Case to conceal them, and expose the resulting gaps.
 
 **Architecture:** Re-run every Case at the immutable predecessor before restoring
 it. Add one verified Case and its navigation in each commit. Cases 1 through 6
 retain their Ash sources; Cases 7 and 8 add the explicit implementation-selection
-imports required by Lib Ash. Case 9 stops the active prefix when dependency-
-summary admission reaches the body-free authentication failure already retained
-under `lab/lib-ash-migration/`. The observation locates a boundary; it does not
-attribute the compiler's internal cause.
+imports required by Lib Ash. Cases 9, 10, and 12 retain complete failure reports
+when dependency-summary admission reaches body-free authentication. Case 11
+passes independently and returns to the numbered path with explicit unavailable
+entries around it. The observation locates a boundary; it does not attribute the
+compiler's internal cause.
 
 **Tech Stack:** Markdown, Ash at two exact commits, Bash lesson verifiers,
 Markdownlint, ShellCheck, Git worktrees.
@@ -63,11 +64,16 @@ A clean two-pin audit over all 41 numbered predecessor entries established:
 
 | Classification | Entries | Result |
 | --- | ---: | --- |
-| Byte-identical observation | 28 | Same status, stdout, and stderr. |
+| Raw byte-identical observation | 28 | Same channels before migration. |
 | Required explicit selection | 5 | An `impl Order` import restores success. |
 | Internal compiler failure | 8 | Summary authentication fails. |
 
-No other output or diagnostic difference occurred.
+No other difference occurred in that raw two-pin audit. Twenty-seven of the 28
+raw byte-identical entries require no source migration. The remaining entry is
+Case 7 entry 04: its raw rejection looks the same at both pins, but it must gain
+an explicit selector so its causal boundary remains the absence of
+`Order<Int>`, not an empty implementation-selection channel. Its migrated
+diagnostic locations are re-established rather than claimed byte-identical.
 
 Before migration, each of the five selector entries exits `1`, writes no
 standard output, and begins standard error with `constraint.unsatisfied`. Each
@@ -83,18 +89,19 @@ channel.
 
 The eight internal failures are every numbered entry in Cases 9, 10, and 12.
 The existing lab retains one representative entry from each Case. Task 9 expands
-that record to all eight exact triggering entries before prefix integration.
-Case 11 passes but cannot be published ahead of blocked Cases 9 and 10 without
-breaking the selected reading order.
+that record to all eight exact triggering entries before Case 11 returns. Cases
+9, 10, and 12 remain explicit gaps; Case 11 passes independently and may migrate
+without claiming that the Cases outcome is complete.
 
 ## Bounded design
 
-### Restore passing Cases and skip directly to later ones
+### Restore passing Cases and expose gaps
 
-This would maximize active file count by publishing Case 11 while Cases 9 and 10
-remain absent. It would break the sequential representation development: Case 11
-is positioned after the iterator work and before Case 12's frontier comparison.
-The family index would no longer describe one coherent path.
+The selected approach restores Case 11 after retaining all failures and marks
+Cases 9, 10, and 12 as unavailable at the exact target. It lets readers use
+every verified Case, but the family index must make the interrupted sequence and
+missing prerequisites plain rather than presenting nine links as a complete
+prefix.
 
 ### Expose private representation names
 
@@ -103,23 +110,23 @@ compiler pass. It also exposes names that the predecessor Case deliberately
 withheld, changes the access model, and conceals a failure of behavior specified
 at Lib Ash. This is not a documentation migration.
 
-### Restore the verified sequential prefix
+### Stop at the verified sequential prefix
 
-The selected approach restores Cases 1 through 8 in order, with only Cases 7 and
-8 receiving legitimate source migration. It stops before Case 9, retains the
-existing upstream evidence, keeps Cases 10 through 12 historical, and reports
-the exact incomplete state on `main`. This preserves one forward line and makes
-all active material trustworthy.
+This would keep Case 11 historical solely because earlier independent Cases
+fail. It preserves a contiguous prefix, but withholds an implementable program
+and prevents the migration from continuing after a documented compiler failure.
 
-Deferring the prefix would leave 31 passing numbered entries and eight complete
-Cases unavailable even though their compatibility is known. Restoring it costs
-no new harness or content layout and provides the strongest honest progress
-possible at the pinned commit.
+The selected approach restores Cases 1 through 8 and Case 11, retains all eight
+failures, and keeps every gap visible in numeric order. Deferring passing work
+would leave 33 accepted numbered observations and nine complete Cases
+unavailable even though their compatibility is known. Restoring them costs no
+new harness or content layout and separates compiler ownership from ash-doc
+progress.
 
-The choice is removed when all twelve Cases pass in reading order at the exact
-target. It must be revisited if Ash supplies a separately authorized resolution
-for the retained regression or if project authority changes the edition target.
-Ash-doc does not design either change.
+The gap treatment is removed when all twelve Cases pass in reading order at one
+authorized exact target. It must be revisited if Ash supplies a separately
+authorized resolution for the retained regression or if project authority
+changes the edition target. Ash-doc does not design either change.
 
 ## Migration record
 
@@ -238,7 +245,9 @@ test "$active_case_count" -eq "$indexed_case_count"
 ```
 
 Expected RED before the new link: active exceeds indexed by one. Expected GREEN
-after the link: both equal the restored prefix length.
+after the link: both equal the number of restored Cases. Unavailable numbered
+entries are plain text rather than Markdown links, so they do not satisfy this
+gate.
 
 For every Case, record:
 
@@ -436,7 +445,7 @@ import dictionaries (impl Order)
 
 Commit: `docs: migrate opaque-dictionary Case to lib-ash`.
 
-## Task 9: Apply the upstream blocker at Case 9
+## Task 9: Retain every compiler-blocked entry
 
 **Files:**
 
@@ -493,15 +502,27 @@ git -c commit.gpgSign=false commit \
 1. Confirm the affected private types remain part of each Case's hidden
    representation. Do not make them `pub opaque`, edit ash-lang, or propose a
    compiler fix.
-2. Leave Cases 9 through 12 absent. Update current navigation and the roadmap to
-   say the active Cases prefix is 8 Cases/39 canonical sources and is blocked at
-   Case 9 by the linked upstream evidence.
+2. Leave Cases 9, 10, and 12 absent. In the Cases index, retain their numeric
+   positions as plain-text unavailable entries, each with a link to the failure
+   report after its label. Retain slot 11 as plain-text **Pending migration** in
+   this transitional commit. Slots 1 through 8 remain active links. Do not count
+   an unavailable or pending entry as active navigation. Update current
+   navigation and the roadmap to say 8 Cases/39 canonical sources are active and
+   that the three gaps are blocked by linked upstream evidence.
 3. Fill migration rows 9, 10, and 12 with their exact blocker classification.
-   Record Case 11's clean compatibility result but its intentional reading-order
-   hold; do not restore it.
-4. State that Outcome 2 is incomplete, the library-family outcome remains
-   provisional under the approved sequence, and no `lib-ash` documentation tag
-   may be created.
+   Record Case 11's clean compatibility result and its next independent
+   restoration; do not restore it in the failure-evidence commit.
+4. State that Outcome 2 is incomplete, later implementable work may continue,
+   and no `lib-ash` documentation tag may be created.
+
+Before editing the index, extend the family verifier to enforce the navigation
+contract and run it RED. It must extract exactly twelve numbered slots in
+strict numeric order; require active Case destinations for slots 1 through 8;
+require no active destinations for Cases 9, 10, 11, or 12; require
+**Unavailable at this target** labels in slots 9, 10, and 12; require a
+**Pending migration** label in slot 11; and require exactly one failure-report
+link in each unavailable slot. After the index edit, run it GREEN. The existing
+active-link count remains a secondary assertion, not the proof of slot state.
 
 Run:
 
@@ -526,40 +547,96 @@ Run all shell syntax, repository-aware ShellCheck, Markdownlint, relative-link,
 source-agreement, and `git diff --check` gates. Perform authority, instructional,
 and whole-branch reviews over the complete Cases branch.
 
-Commit: `docs: retain lib-ash Cases migration blocker`.
+Commit: `docs: record blocked lib-ash Cases`.
 
-## Task 10: Integrate the verified prefix without closing Outcome 2
+## Task 10: Restore Case 11 across explicit gaps
 
-Fast-forward the clean Cases branch into local `main` only after Task 9's three
-reviews approve and the complete Learn/Cases/lab verification passes. Re-run the
-same closure commands from merged `main`, then remove the completed feature
-worktree and branch.
+**Files:** restore `content/cases/implementing-persistent-fifo-frontier/`;
+modify the Cases index, roadmap, and this plan.
 
-Keep this temporary plan in the current tree because the Cases outcome remains
-active. Do not promote the library family, delete the plan, create the ash-doc
-`lib-ash` tag, or push.
+1. Run the predecessor verifier; expect three canonical sources and two
+   accepted numbered entries.
+2. Restore the exact Case and update pinned specification and tool links from
+   Modular Ash to Lib Ash. Do not change Ash source, observation, or verifier:
+   both entries have byte-identical status, stdout, and stderr at the two pins.
+   Adapt the opening so it reconstructs the minimum needed LIFO model in-page:
+   front-added unfinished frames remove the newest retained work first. Link the
+   unavailable historical iterator and its failure evidence without presenting
+   Case 10 as an active prerequisite. Replace the final handoff with an explicit
+   note that the Case 12 LIFO/FIFO graph-search comparison is unavailable at this
+   target, linked to its failure evidence. No relative link may target an absent
+   content directory.
+3. Before linking Case 11, run the navigation gate. Expected RED: nine active
+   verifiers and eight numbered links. Add the Case 11 link in its numeric
+   position after the plain unavailable entries for Cases 9 and 10 and before
+   the plain unavailable entry for Case 12. Expected GREEN: nine and nine.
+   Update the family verifier first so its exact twelve-slot contract expects
+   Case 11's active destination and no **Pending migration** label. Run it RED
+   before the index edit and GREEN afterward. It must continue to require the
+   unavailable labels and evidence links for slots 9, 10, and 12.
+4. Preserve the persistent two-list queue, transfer schedule, representation
+   invariant, and retained-version cost account. Explicit implementation
+   selection, explicit kinds, method-local type parameters, and relational
+   interfaces do not strengthen this concrete queue question, so record no
+   enhancement.
+5. Run the local verifier, the complete nine-Case family verifier, Learn, the
+   eight-entry failure lab, Markdown and shell checks, source agreement,
+   relative links, `git diff --check`, and `git status --short`.
+6. Obtain authority/specification review, instructional/workflow review, and a
+   whole-branch review.
+
+Commit: `docs: restore persistent FIFO frontier Case`.
+
+## Task 11: Integrate all implementable Cases and close this plan
+
+After Task 10's three reviews approve and its complete Learn/Cases/lab
+verification passes, update the roadmap to carry Cases 9, 10, and 12 as
+**blocked residual** work, promote the library-family design as the sole next
+outcome, and remove this temporary plan in the same narrow closure change. That
+change is a distinct commit:
+
+```bash
+git add docs/project/roadmap.md \
+  docs/plans/2026-08-31-migrate-cases-to-lib-ash.md
+git -c commit.gpgSign=false commit \
+  -m "docs: close implementable lib-ash Cases migration"
+```
+
+Because the plan removes itself, stage its deletion rather than its old path.
+At that closure commit's HEAD, rerun the complete 11-Learn, nine-Case, and
+eight-entry lab verification; every shell, Markdown, relative-link,
+source-agreement, exact-target, whitespace, and clean-status gate; then repeat
+authority/specification, instructional/workflow, and whole-branch reviews.
+Only after all three approve may the branch merge into `main` and receive the
+same post-merge verification. Then remove the completed feature worktree and
+branch. Do not create library content before its separate plan is approved; do
+not create the ash-doc `lib-ash` tag or push.
 
 The next continuation begins only after a separately authorized project change
 makes Case 9's dependency-summary admission boundary executable under one exact
 edition target. The declared Lib Ash commit is immutable, so a later compiler
 fix alone cannot change this evidence or silently retarget the edition. Any
 authorized retargeting must move every active page and check together. Then
-restore Cases 9 through 12 in order, reassess each Case, close Outcome 2, delete
-this plan, and independently review the decision to promote the library family.
+use a fresh, separately authorized Cases-resumption plan to restore Cases 9, 10,
+and 12 in order, reassess each Case, and close Outcome 2. The library plan and
+the future resumption plan must not be active together.
 
 ## Completion conditions
 
-The partial-prefix execution is complete when:
+The currently implementable execution is complete when:
 
-- Cases 1 through 8 and all 39 canonical sources pass at exact Lib Ash;
-- the family index exposes only that verified prefix;
+- Cases 1 through 8 plus Case 11 and all 42 canonical sources pass at exact Lib
+  Ash;
+- the family index exposes nine verified Cases and three plain unavailable gaps
+  in numeric order;
 - Cases 7 and 8 teach and verify explicit implementation selection without
   weakening the negative or opacity boundaries;
 - all eight failing entries from Cases 9, 10, and 12 have passing permanent
   compiler-failure evidence and remain inactive content;
-- Case 11 remains historical solely to preserve reading order;
-- Learn, the active Cases prefix, and the lab pass together from clean `main`;
+- Case 11 retains its predecessor promise and exact observations;
+- Learn, the nine active Cases, and the lab pass together from clean `main`;
 - the roadmap names the exact incomplete state and upstream blocker; and
-- no library family, publication tag, push, or upstream Ash change occurs.
+- this temporary plan leaves the integrated tree; and
+- no publication tag, push, or upstream Ash change occurs.
 
 The full Cases outcome remains incomplete until all twelve Cases pass in order.
