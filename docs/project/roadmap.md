@@ -49,11 +49,12 @@ method-local type parameters, or relational interfaces provide a concrete
 teaching or verification benefit. Unexpected compiler failures become
 permanent executable upstream evidence; ash-doc does not solve them.
 
-The implementation plan must define the migration-state cutover, exact
-per-lesson baseline comparison, active-navigation rule, verifier changes,
-failure-record boundary, enhancement decision record, aggregate regression
-gate, reviews, and local integration. This design authorizes planning, not
-content changes.
+The temporary
+[Learn migration implementation plan](../plans/2026-08-31-migrate-learn-to-lib-ash.md)
+fixes the migration-state cutover, exact per-lesson baseline comparison,
+active-navigation rule, verifier changes, failure-record boundary, enhancement
+decision record, aggregate regression gate, reviews, and local integration.
+The plan authorizes no Cases or library-family implementation.
 
 ## Provisional `lib-ash` outcomes
 
