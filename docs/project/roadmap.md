@@ -45,10 +45,13 @@ commit `d1e323d23390cdad03202ee3df76cd9100556e1d`.
 The next bounded outcome migrates the twelve historical Cases in reading
 order. Each Case must first regain its existing promise at the new pin, then
 receive a separate assessment of whether a Lib Ash feature clarifies the same
-algorithmic question or strengthens its evidence. The next work is to approve
-a bounded Cases design and activate its temporary implementation plan. This
-promotion authorizes that design-and-plan work; it does not restore a Case or
-create the library family before those gates pass.
+algorithmic question or strengthens its evidence. The active
+[Cases migration implementation plan](../plans/2026-08-31-migrate-cases-to-lib-ash.md)
+selects the longest verified sequential prefix, exact per-Case comparison,
+explicit implementation-selection migrations, the upstream failure gate, and
+partial-prefix integration without claiming Outcome 2 complete. This plan is
+approved under the standing Lib Ash milestone authorization and the roadmap's
+promotion of Cases to **next**; it authorizes no library-family content.
 
 ## Provisional `lib-ash` outcomes
 
