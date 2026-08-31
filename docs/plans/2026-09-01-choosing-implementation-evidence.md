@@ -420,6 +420,29 @@ worktree and branch.
 Do not create an ash-doc `lib-ash` tag, push, change Ash, or start lesson 2
 content before its own bounded plan is approved.
 
+## Execution record
+
+Implementation followed the approved RED/GREEN sequence at exact Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`:
+
+- the inventory named missing `equality.ash`, `01-selected.ash`, and
+  `02-name-only.ash` in order before the three-file inventory passed;
+- the equality structure, selected import, and name-only import checks each
+  failed against an empty source before its canonical source was added;
+- canonical observations then passed with `true : Bool` for the selected entry
+  and the complete causal `constraint.unsatisfied` boundary for the name-only
+  entry;
+- source agreement failed with `missing unit README.md` before all three exact
+  marked blocks and their lesson prose were added, then passed; and
+- family navigation failed at one active verifier and zero indexed links before
+  the single lesson link was added, then passed at one and one.
+
+The inventory's first implementation compared a pedagogically ordered declared
+list with a lexically sorted filesystem list. Its expected RED exposed that
+ash-doc verifier mistake. The corrected check sorts a separate expected set
+while retaining library-first order for displayed-source checks. This is an
+ash-doc correction, not an Ash language, tool, or diagnostic discovery.
+
 ## Completion conditions
 
 This lesson increment is complete when:

@@ -19,8 +19,9 @@ milestone:
 - resolved Ash commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`;
 - repository state: unpublished migration; and
 - active content: the complete verified eleven-lesson path under
-  `content/learn/`, plus nine verified Cases and three explicit unavailable
-  slots under `content/cases/`.
+  `content/learn/`, nine verified Cases and three explicit unavailable slots
+  under `content/cases/`, and one verified library-abstraction lesson under
+  `content/libraries/`.
 
 There is no ash-doc `lib-ash` publication tag yet. The published
 `modular-ash` documentation tag and Ash commit
@@ -82,6 +83,14 @@ then follow the question into the applicable chapter:
 You do not need to read the specification before the first lesson. Use it when
 you want to check an explanation, answer a new question, or understand a result
 that surprised you.
+
+## Design library abstractions
+
+After Learn Ash, begin
+[Design library abstractions in Ash](content/libraries/README.md). Its first
+verified lesson separates importing a constrained definition by name from
+explicitly selecting the public implementation evidence that definition needs.
+Later lessons in the planned family are not active content yet.
 
 ## Design recursive algorithms
 

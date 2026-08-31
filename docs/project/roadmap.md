@@ -9,7 +9,8 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and nine verified recursive-algorithm Cases active
+  Learn path, nine verified recursive-algorithm Cases, and one verified
+  library-abstraction lesson active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
@@ -57,35 +58,32 @@ edition target. A later upstream fix cannot change the immutable `lib-ash`
 evidence or silently retarget only these Cases; every active page and check
 must move together if project authority selects another target.
 
-## Next: design library abstractions in Ash
+## Next: forward a capability through a facade
 
-**Question:** How can a reader design reusable source libraries with the new
-abstraction mechanisms completed at `lib-ash`?
+**Question:** How can a facade forward a capability without redefining it?
 
-The new **Design library abstractions in Ash** family assumes the completed
-Learn path rather than the blocked Cases. Its proposed five-lesson sequence
-covers explicit implementation selection, public capability facades, explicit
-kinds and higher-kinded parameters, method-local type parameters, and
-relational determination.
+The first **Design library abstractions in Ash** lesson now establishes that a
+targeted name item and an `impl Interface` item are independent channels. The
+second lesson will ask how a facade publicly re-exports both a capability name
+and its implementation authorization route without creating a forwarding
+declaration or new implementation identity.
 
-This promotion authorizes its bounded design and temporary implementation plan,
-not a content directory, canonical source, verifier, or shared tooling. The
-design must retain one exact target, compare credible teaching approaches, and
-select the smallest layout and verification needed for the first complete
-lesson. The library plan and a future Cases-resumption plan may not be active
-together.
+This promotion authorizes only bounded lesson design and a temporary
+implementation plan. It does not authorize lesson-2 content, canonical source,
+or tooling. That work must preserve the exact target, build on the first
+lesson's vocabulary, and keep the library plan separate from a future
+Cases-resumption plan.
 
 The approved
 [library abstractions learning-path design](../plans/2026-09-01-library-abstractions-design.md)
-selects five cumulative lessons and bounds the first complete increment to
-explicit implementation selection. It creates no content until its temporary
-lesson plan is approved.
+selects the public capability facade as lesson 2 and fixes its intended
+names-plus-implementation success and names-only `constraint.unsatisfied`
+boundary.
 
 The approved active
 [explicit implementation-selection lesson plan](../plans/2026-09-01-choosing-implementation-evidence.md)
-specifies the three canonical sources, selected success, name-only rejection,
-family activation, and closure gates. Its two independent reviews authorize the
-first complete library lesson and no later lesson content.
+remains only as the first lesson's implementation and closure record. It
+authorizes no facade content and leaves the tree after reviewed closure.
 
 ## Verified increments
 
@@ -104,6 +102,14 @@ ordinary function domain requires kind `Type`; the shared rejection helper now
 retains the expected and found kinds along with the causal source evidence.
 That explicit kind boundary improves the existing lesson without introducing a
 separate higher-kinded abstraction.
+
+The active
+[library-abstraction path](../../content/libraries/README.md) contains one
+verified lesson and three canonical sources at the exact Lib Ash commit. Its
+selected client observes `true : Bool`; its otherwise identical name-only
+client reports `constraint.unsatisfied` because importing `same` selects no
+`Equal<Int>` implementation fact. The checks derive and retain the causal
+source ranges for the call, import, constrained declaration, and interface.
 
 The migration also retained all eight unexpected imported-summary compiler
 failures from three Cases as permanent executable
@@ -978,12 +984,16 @@ executable evidence subordinate to the pinned specification and tool; they do
 not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
-The active migration tree contains
-`11 Learn / 9 Cases / 43 Learn sources / 42 Case sources`.
+The active migration tree contains:
+
+- `11 Learn lessons / 43 sources`;
+- `9 Cases / 42 sources`; and
+- `1 library lesson / 3 sources`.
+
 All currently implementable Cases are verified. Cases 9, 10, and 12 remain
 **blocked residual** work with linked upstream evidence, so Outcome 2 and final
-publication remain incomplete. Designing the library-abstraction family is the
-one **next** outcome. No ash-doc `lib-ash` tag may be created in this state.
+publication remain incomplete. Designing the public capability-facade lesson is
+the one **next** outcome. No ash-doc `lib-ash` tag may be created in this state.
 
 ## Promotion and verification policy
 

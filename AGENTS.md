@@ -21,11 +21,10 @@ compatible capability that the project skill does not cover.
 ## Authority and target
 
 The active work is an unpublished migration to `lib-ash` at commit
-`d1e323d23390cdad03202ee3df76cd9100556e1d`. Only complete verified units
-restored under `content/learn/` and `content/cases/` and linked as active in
-their family indexes belong to the active documentation stream during this
-migration. An unavailable numbered Case remains historical evidence, not an
-active unit.
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Only complete verified units under
+an indexed content family and linked as active from that family index belong to
+the active documentation stream during this migration. An unavailable numbered
+Case remains historical evidence, not an active unit.
 
 The immutable predecessor targets `modular-ash` at commit
 `dca16039923475c48025c5f17beadeb6bcb6a4bf`. It remains historical evidence and
