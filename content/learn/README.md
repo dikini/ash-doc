@@ -55,3 +55,5 @@ with `ash` to test what it does.
    patterns.
 7. [How can a program define its own data?](defining-data/README.md) — name a
    new type and the constructors for its possible values.
+8. [How can a function handle each form of data?](handling-data-forms/README.md)
+   — follow a data definition with patterns and exhaustive cases.
