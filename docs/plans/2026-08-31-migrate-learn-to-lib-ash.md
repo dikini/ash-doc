@@ -1190,7 +1190,7 @@ verifier migration separately from the decision not to add a new abstraction.
 ```bash
 bash -n content/checks/lib.sh \
     content/learn/definitions-for-many-types/checks/verify.sh
-shellcheck content/checks/lib.sh \
+shellcheck --source-path=SCRIPTDIR content/checks/lib.sh \
     content/learn/definitions-for-many-types/checks/verify.sh
 bash content/learn/definitions-for-many-types/checks/verify.sh \
     /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin
