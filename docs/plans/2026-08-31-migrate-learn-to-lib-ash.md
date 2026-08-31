@@ -97,6 +97,28 @@ leaves the final tree.
 | 10. Functions as values | pending | pending | pending |
 | 11. Definitions for many types | pending | pending | pending |
 
+### Execution note: exact comparison baseline
+
+On 2026-08-31, execution verified the signed annotated `ash-lang` tag
+`lib-ash` with tag object
+`3173abcf54ec512dcf1b1bf10713faf312917f5e`, peeled commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`, and a good signature from key
+`45568F3F6EF041E37DF0131443089CA4D73C4C22`. The clean detached Lib Ash
+checkout builds with its declared Rust 1.97.1 toolchain.
+
+The clean detached predecessor documentation checkout resolves `recursive-1`
+to `fa870a280c76278361db658ff3952cf18f2b7833`. Against the clean Modular Ash
+checkout at `dca16039923475c48025c5f17beadeb6bcb6a4bf`, its aggregate verifiers
+reported `Verified 11 learning lesson(s)` and `Verified 12 case(s)`.
+
+The first Lib Ash build command used `--manifest-path` while the caller's
+working directory was ash-doc. Rustup therefore selected the caller's Rust
+1.94.0 instead of the pinned checkout's `rust-toolchain.toml` and Cargo rejected
+the package's declared Rust 1.97.1 minimum. Running Cargo from inside the exact
+Ash checkout selected Rust 1.97.1 and passed. The plan now enters each Ash
+checkout before building; this was a local invocation error, not an Ash
+compiler failure.
+
 Expected enhancement decisions are not foregone conclusions. The initial
 canary suggests that lessons 1 through 10 need no new library abstraction
 because those concepts are outside their established questions. Lesson 11
@@ -175,14 +197,17 @@ git -C /home/dikini/Projects/ash-lang worktree add --detach \
 Then run:
 
 ```bash
+git -C /home/dikini/Projects/ash-lang verify-tag --raw lib-ash
 git -C /home/dikini/Projects/ash-lang rev-parse lib-ash^{tag}
 git -C /home/dikini/Projects/ash-lang rev-parse lib-ash^{}
 git -C /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin \
     rev-parse HEAD
 git -C /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin \
     status --short
-cargo build --quiet --locked --manifest-path \
-    /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin/Cargo.toml
+(
+    cd /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin
+    cargo build --quiet --locked
+)
 ```
 
 Expected: the tag object is `3173abcf54ec512dcf1b1bf10713faf312917f5e`;
@@ -218,8 +243,7 @@ bash \
 
 Expected: exact predecessor commit
 `fa870a280c76278361db658ff3952cf18f2b7833`, a clean tree, then `Verified 11
-learning lesson(s)` and `Verified 12 recursive-algorithm case(s)` at the
-Modular Ash commit.
+learning lesson(s)` and `Verified 12 case(s)` at the Modular Ash commit.
 
 #### Step 4: Record the observed checkout identities
 
@@ -379,10 +403,16 @@ check_checkout() {
 check_checkout "$modular_dir" "$modular_pin"
 check_checkout "$lib_dir" "$lib_pin"
 
-CARGO_TARGET_DIR="$verify_dir/modular-target" \
-    cargo build --quiet --locked --manifest-path "$modular_dir/Cargo.toml"
-CARGO_TARGET_DIR="$verify_dir/lib-target" \
-    cargo build --quiet --locked --manifest-path "$lib_dir/Cargo.toml"
+(
+    cd "$modular_dir"
+    CARGO_TARGET_DIR="$verify_dir/modular-target" \
+        cargo build --quiet --locked
+)
+(
+    cd "$lib_dir"
+    CARGO_TARGET_DIR="$verify_dir/lib-target" \
+        cargo build --quiet --locked
+)
 
 readonly modular_ash="$verify_dir/modular-target/debug/ash"
 readonly lib_ash="$verify_dir/lib-target/debug/ash"
@@ -823,6 +853,9 @@ expected result is no enhancement unless the executed evidence disproves the
 initial assessment: each feature would introduce a later abstraction without
 simplifying the current code, strengthening its current invariant, or making
 its promised boundary more direct. Do not add a feature merely to mention it.
+If an enhancement is warranted, record the concrete benefit but do not edit the
+lesson for it in this restoration task. Complete the minimal migration commit,
+then execute Task 5A as a separate reviewed change.
 
 #### Step 5: Run local, aggregate, prose, and navigation checks
 
@@ -853,6 +886,57 @@ git add content/learn/<lesson> content/learn/README.md \
     docs/plans/2026-08-31-migrate-learn-to-lib-ash.md
 git commit -m "<commit subject>"
 ```
+
+### Task 5A: Land any warranted Learn enhancement separately
+
+This conditional task runs immediately after the minimal migration of a lesson
+whose assessment names a concrete benefit. It does not run for a no-change
+assessment.
+
+**Files:**
+
+- Modify: only the already migrated lesson's prose, canonical source, and local
+  verifier needed by the accepted enhancement
+- Modify: `docs/plans/2026-08-31-migrate-learn-to-lib-ash.md`
+
+#### Step 1: Fix the enhancement boundary before editing
+
+Record the unchanged reader question, the exact `lib-ash` feature, the concrete
+benefit, the governing specification section, and the positive and negative
+observation that will prove the improvement. If the enhancement changes the
+reader question or introduces an unearned prerequisite, reject it from the
+beginning path and retain it for the future library family instead.
+
+#### Step 2: Write and run the smallest failing evidence check
+
+Add the source-agreement or executable assertion that the proposed enhancement
+requires before editing its teaching source or prose. Run the local verifier.
+Expected RED: the new assertion fails for the specific missing source relation,
+value, type, reason, channel, or status.
+
+#### Step 3: Implement only the accepted enhancement
+
+Change the minimum canonical source, displayed block, prose, and verifier needed
+to answer the existing reader question better. Do not add adjacent `lib-ash`
+features or general library infrastructure.
+
+#### Step 4: Verify and review the separate change
+
+Run the lesson-local verifier, full Learn aggregate, Markdownlint over every
+changed Markdown file, the relative-link check, and `git diff --check`. Review
+the diff first for specification compliance and then for instructional quality.
+Fix every Critical or Important finding and rerun affected checks.
+
+#### Step 5: Commit only the enhancement
+
+```bash
+git add content/learn/<lesson> \
+    docs/plans/2026-08-31-migrate-learn-to-lib-ash.md
+git commit -m "docs: strengthen <lesson concept> with lib-ash"
+```
+
+Expected: the commit follows, rather than contains, the minimal migration and
+changes no other lesson or project state.
 
 ### Task 6: Migrate the polymorphism lesson and kind rejection
 
@@ -887,6 +971,44 @@ git restore --source=recursive-1 -- \
 ```
 
 Then run its unchanged verifier at Lib Ash.
+
+First observe the compiler directly without relying on the old verifier:
+
+```bash
+(
+    set -euo pipefail
+    kind_observation_dir=$(mktemp -d \
+        "${TMPDIR:-/tmp}/ash-doc-kind-observation.XXXXXX")
+    readonly kind_observation_dir
+    trap 'rm -rf -- "$kind_observation_dir"' EXIT
+    readonly kind_stdout="$kind_observation_dir/stdout"
+    readonly kind_stderr="$kind_observation_dir/stderr"
+    if /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin/target/debug/ash \
+        content/learn/definitions-for-many-types/src/04-unsaturated-list.ash \
+        > "$kind_stdout" 2> "$kind_stderr"; then
+        kind_status=0
+    else
+        kind_status=$?
+    fi
+    readonly kind_status
+    test "$kind_status" -eq 1
+    test ! -s "$kind_stdout"
+    test "$(sed -n '1p' "$kind_stderr")" = kind.expected-type
+    grep -Fq 'this function domain must have kind Type' "$kind_stderr"
+    grep -Fq 'expected Type' "$kind_stderr"
+    grep -Fq 'found Type -> Type' "$kind_stderr"
+)
+```
+
+Expected: every assertion passes and the temporary observation directory is
+removed by the trap.
+
+Now run the unchanged lesson verifier:
+
+```bash
+bash content/learn/definitions-for-many-types/checks/verify.sh \
+    /home/dikini/.config/superpowers/worktrees/ash-lang/ash-doc-lib-pin
+```
 
 Expected RED: `src/04-unsaturated-list.ash` still exits `1` with empty standard
 output, but its first reason is `kind.expected-type`, not
