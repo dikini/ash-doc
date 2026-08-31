@@ -77,3 +77,7 @@ storage strategy.
    manually?](abstracting-key-order/README.md) — replace repeated comparator
    arguments with an `Order<K>` requirement and explicitly select the
    implementation evidence used by each client.
+8. [How can clients use a dictionary without constructing invalid
+   trees?](protecting-dictionary-invariant/README.md) — keep `Dictionary`
+   nameable while hiding its constructors, and combine that opacity with
+   explicitly selected ordering evidence.

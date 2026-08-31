@@ -9,7 +9,7 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and seven verified recursive-algorithm Cases active
+  Learn path and eight verified recursive-algorithm Cases active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
@@ -93,8 +93,8 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains seven verified Cases and 33 canonical sources at the Lib Ash commit.
-Cases 8 through 12 below remain historical material verified at the
+contains eight verified Cases and 39 canonical sources at the Lib Ash commit.
+Cases 9 through 12 below remain historical material verified at the
 Modular Ash predecessor. Their immutable prose, programs, and checks remain
 available in
 the
@@ -461,16 +461,18 @@ strengthen that question, so the Case received no other feature retrofit.
 **Question:** How can clients use a dictionary without constructing invalid
 trees?
 
-The eighth [historical Cases][recursive-cases] chapter places the ordered
-tree behind `pub opaque type Dictionary<K, V>`. Importers can name and pass the
+The active
+[eighth Cases chapter](../../content/cases/protecting-dictionary-invariant/README.md)
+places the ordered tree behind `pub opaque type Dictionary<K, V>`. Importers
+can name and pass the
 public nominal type, but only the defining module can use `Empty` and `Node` as
 values or patterns. Its public API supplies `empty`, `insert`, `build`,
 `lookup`, and `invariant_holds`; opacity controls constructor access rather
 than proving that the operations preserve their invariant or that the
 representation is secret.
 
-Six canonical sources and their displayed blocks pass together at Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. The defining module and three
+Six canonical sources and their displayed blocks pass together at exact Lib
+Ash commit `d1e323d23390cdad03202ee3df76cd9100556e1d`. The defining module and three
 importing clients complete with empty standard error and status `0`: its
 private `main` observes a deeper malformed tree as `false`, public insertion
 of keys three, one, two, and four observes a valid dictionary with four hits
@@ -482,6 +484,15 @@ status `1`, and first standard-error line `resolve.opaque-constructor`. Each
 primary label covers the client `Empty` member token, and each related label
 covers the withheld declaration token. Remaining diagnostic prose and byte
 offsets are not contracts.
+
+The public-API and build clients use a complete import for qualified names and
+a separate `impl Order` item for implementation evidence. The selector binds
+no name and reveals no dictionary constructor; opacity and evidence selection
+remain independent static boundaries. It neither re-exports the selected facts
+nor makes them transitively available, and it creates no runtime implementation
+lookup. The observation and
+two rejected constructor clients need no ordering evidence and receive no
+selector.
 
 The public construction argument fixes an `Order<K>` implementation whose
 required comparisons return and satisfy the stated equivalence, reversal,
@@ -527,6 +538,14 @@ lesson prose; it does not define language behavior. The case introduces no
 balancing, deletion, mutation, iteration, generic dictionary infrastructure,
 lazy or infinite data, rank-2 fold/build fusion, representation secrecy, or
 ordering-law enforcement.
+
+The migration adds explicit `impl Order` selection only to the two clients
+that call constrained operations. It retains the library, observation client,
+opacity rejections, and algorithmic accounts. Explicit selection strengthens
+the Case's existing composition of an ordering capability with opaque
+representation access. Explicit kinds, method-local type parameters, and
+relational determination do not strengthen that question, so it received no
+other feature retrofit.
 
 ### 9. Guaranteeing logarithmic retrieval
 
@@ -910,7 +929,7 @@ not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
-`11 Learn / 7 Cases / 43 Learn sources / 33 Case sources`.
+`11 Learn / 8 Cases / 43 Learn sources / 39 Case sources`.
 Cases migration remains
 the one **next** outcome; its approved plan restores each later historical Case
 only after that Case passes its complete evidence at the active target.

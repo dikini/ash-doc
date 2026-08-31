@@ -142,7 +142,7 @@ has run.
 | 5. Folding branching data | 4 sources / 3 exact | Links/navigation | None |
 | 6. Searching an ordered tree | 4 sources / 3 exact | Links/navigation | None |
 | 7. Abstracting key order | 5 sources | Selectors/navigation | Selection |
-| 8. Protecting the dictionary invariant | pending | pending | pending |
+| 8. Protecting invariant | 6 sources | 2 selectors/nav | Selection + opacity |
 | 9. Guaranteeing logarithmic retrieval | pending | pending | pending |
 | 10. Resuming tree traversal | pending | pending | pending |
 | 11. Persistent FIFO frontier | pending | pending | pending |
@@ -230,6 +230,25 @@ Before the index linked the migrated Case, the navigation gate failed at seven
 active verifiers and six indexed Cases; after the link, it passed at seven and
 seven. Explicit selection improves the same capability-abstraction question
 under Lib Ash's independent name and implementation channels. Explicit kinds,
+method-local type parameters, and relational determination do not strengthen
+that question, so the Case received no other feature retrofit.
+
+For Case 8, the predecessor's six canonical sources establish four accepted
+observations and two `resolve.opaque-constructor` rejections. At Lib Ash before
+source migration, entries 01 and 02 rejected with `constraint.unsatisfied`
+because their qualified imports selected names but no implementation facts;
+entry 03 remained accepted, and entries 04 and 05 retained their opacity
+rejections. Entries 01 and 02 now add exactly one
+`import dictionaries (impl Order)`; no other source changes. Their accepted
+outputs are byte-identical to the predecessor. The defining module and entry
+03 retain their accepted observations. Both opacity cases still exit `1` with
+empty standard output and `resolve.opaque-constructor` first; their primary
+labels cover client `Empty` bytes `126..131`, and their related labels cover
+the withheld declaration bytes `240..245`. Before the index linked the
+migrated Case, the navigation gate failed at eight active verifiers and seven
+indexed Cases; after the link, it passed at eight and eight. Explicit evidence
+selection composes with the Case's existing opacity question without exposing
+constructors or creating runtime or transitive availability. Explicit kinds,
 method-local type parameters, and relational determination do not strengthen
 that question, so the Case received no other feature retrofit.
 
