@@ -80,11 +80,6 @@ selects the public capability facade as lesson 2 and fixes its intended
 names-plus-implementation success and names-only `constraint.unsatisfied`
 boundary.
 
-The approved active
-[explicit implementation-selection lesson plan](../plans/2026-09-01-choosing-implementation-evidence.md)
-remains only as the first lesson's implementation and closure record. It
-authorizes no facade content and leaves the tree after reviewed closure.
-
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
