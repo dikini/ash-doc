@@ -70,8 +70,9 @@ directory, reader-facing link, or publication date.
 
 ## Functional abstraction
 
-- **10. How can a function itself be a value?** — **migration-pending.**
-  Anonymous functions, higher-order functions, and lexical capture.
+- **10. [How can a function itself be a value?](../../content/learn/functions-as-values/README.md)**
+  — **verified.** Anonymous functions, higher-order functions, and lexical
+  capture.
 - **11. How can one definition work with many types?** —
   **migration-pending.** Type parameters, parameterized data, and rank-1
   parametric polymorphism.
