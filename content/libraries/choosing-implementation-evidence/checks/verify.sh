@@ -168,6 +168,14 @@ run_name_only_rejection() {
     local interface_start=${interface_matches[0]%%:*}
     local interface_end=$(( ${implementation_matches[0]%%:*} - 2 ))
 
+    local related_lines=()
+    mapfile -t related_lines < <(
+        LC_ALL=C grep -F 'related: source ' "$rejected_stderr" || true
+    )
+    [[ ${#related_lines[@]} -eq 3 ]] ||
+        ash_doc_fail \
+            "src/02-name-only.ash must report exactly three related labels"
+
     LC_ALL=C grep -Fxq \
         "related: source 0 $imported_same_start..$imported_same_end: this import made the declaration available" \
         "$rejected_stderr" ||

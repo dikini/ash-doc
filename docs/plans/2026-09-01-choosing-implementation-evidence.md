@@ -443,6 +443,12 @@ ash-doc verifier mistake. The corrected check sorts a separate expected set
 while retaining library-first order for displayed-source checks. This is an
 ash-doc correction, not an Ash language, tool, or diagnostic discovery.
 
+Authority review found that presence checks for the three expected related
+labels would still admit an extra label exposing the unselected implementation.
+A controlled fourth-label mutation failed before the verifier was tightened to
+require exactly the call's three specified related labels; the unmodified
+diagnostic then passed. This closes the lesson's claimed causal boundary.
+
 ## Completion conditions
 
 This lesson increment is complete when:
