@@ -58,3 +58,6 @@ storage strategy.
 2. [How can changing finite state produce a recursive
    list?](building-finite-lists/README.md) — use a transition and a structural
    measure to produce a complete eager list.
+3. [When should recursion retain knowledge from earlier
+   elements?](accumulating-list-results/README.md) — use accumulator state to
+   avoid repeated append traversal while preserving the same reversed value.

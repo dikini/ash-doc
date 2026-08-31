@@ -9,14 +9,14 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and a verified two-Case recursive-algorithm prefix active
+  Learn path and a verified three-Case recursive-algorithm prefix active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
 Active teaching and verification use the [pinned Lib Ash evaluation
 behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-The first two Cases records below describe active work at the Lib Ash target.
+The first three Cases records below describe active work at the Lib Ash target.
 The later records describe historical work at the predecessor and link its
 immutable `recursive-1` snapshot; they do not make those later Cases active.
 The roadmap states mean:
@@ -88,9 +88,10 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains two verified Cases and ten canonical sources at the Lib Ash commit.
-Cases 3 through 12 below remain historical material verified at the Modular Ash
-predecessor. Their immutable prose, programs, and checks remain available in
+contains three verified Cases and fifteen canonical sources at the Lib Ash
+commit. Cases 4 through 12 below remain historical material verified at the
+Modular Ash predecessor. Their immutable prose, programs, and checks remain
+available in
 the
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
 
@@ -157,10 +158,12 @@ no feature retrofit.
 
 **Question:** When should recursion retain knowledge from earlier elements?
 
-The third [historical Cases][recursive-cases] chapter compares reverse through
+The active
+[third Cases chapter](../../content/cases/accumulating-list-results/README.md)
+compares reverse through
 repeated append with accumulator reverse. Five canonical sources and their
-displayed blocks pass at the exact Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Four exact accepted observations
+displayed blocks pass at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Four exact accepted observations
 establish the same reverse results, six previously built left-node revisits
 versus four original input visits, an invariant midpoint, and an accepted wrong
 initial accumulator.
@@ -170,6 +173,12 @@ applications versus linear accumulator visits and constructions. Tail position
 names only the recursive application's source placement. The case excludes
 elapsed time, exact heap bytes, host-stack behavior and tail-call optimization,
 compiler optimization, mutation, and a type-level proof of the invariant.
+
+The migration changed only target links and active navigation. Explicit
+implementation selection, explicit kinds, method-local type parameters, and
+relational interfaces do not strengthen the concrete append-versus-accumulator
+comparison or its retained-state account, so this Case received no feature
+retrofit.
 
 ### 4. A dictionary encoded as a list
 
@@ -858,7 +867,8 @@ not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
-`11 Learn / 1 Case / 43 Learn sources / 5 Case sources`. Cases migration remains
+`11 Learn / 3 Cases / 43 Learn sources / 15 Case sources`.
+Cases migration remains
 the one **next** outcome; its approved plan restores each later historical Case
 only after that Case passes its complete evidence at the active target.
 
