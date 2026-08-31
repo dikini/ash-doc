@@ -1,10 +1,11 @@
 # Imported body-free summaries fail authentication
 
-Three recursive-algorithm entries that compile and run at the exact
-`modular-ash` checkpoint fail when their entry modules admit an already checked
-dependency's body-free summary at exact `lib-ash`. Each Lib Ash invocation
-exits with status `2`, writes nothing to standard output, and begins standard
-error with `resolve.internal-state`.
+Eight numbered entries from three recursive-algorithm Cases reach ordinary
+accepted or rejected observations at the exact `modular-ash` checkpoint, then
+fail when their entry modules admit an already checked dependency's body-free
+summary at exact `lib-ash`. Each Lib Ash invocation exits with status `2`,
+writes nothing to standard output, and begins standard error with
+`resolve.internal-state`.
 
 This is compiler evidence, not a lesson or a statement that Ash should expose
 this failure. The exact `lib-ash`
@@ -43,13 +44,14 @@ bash lab/lib-ash-migration/body-free-summary-authentication/checks/verify.sh \
 ```
 
 The verifier builds both exact checkouts with their pinned Rust toolchain,
-authenticates each copied source and predecessor output, and retains only the
-stable Lib Ash status, channels, reason, and causal-label relationship. As a
-control, it also runs each dependency file directly at Lib Ash. The search and
-iterator libraries reach the `entry.missing-main` contract, while the red-black
-library's own `main` succeeds. The status-2 failures therefore arise later,
-when an importer admits the compiler-produced summary, rather than while the
-dependency body is checked.
+authenticates all eight copied entries and their predecessor observations, and
+retains only the stable Lib Ash status, channels, reason, and causal-label
+relationship. As a control, it also runs each dependency file directly at Lib
+Ash. The search and iterator libraries reach the `entry.missing-main`
+contract, while the red-black library's own `main` succeeds. The status-2
+failures therefore arise later, when an importer admits the compiler-produced
+summary, rather than while the dependency body is checked. That boundary does
+not identify the compiler's private cause.
 
 The rendered spans and the phrase “a dependency summary failed body-free
 authentication” below are exact-pin observations retained for reproduction.
@@ -61,46 +63,55 @@ asserts the stable reason, channel, status, and causal import byte range.
 The original [search-frontier Case](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/choosing-a-search-frontier/README.md)
 asks how LIFO and FIFO frontiers change path choice while one graph-search
 transition remains fixed. This record retains its exact
-[`searches.ash`](search-frontier/searches.ash) dependency and
-[`main.ash`](search-frontier/main.ash) found-path entry.
+[`searches.ash`](search-frontier/searches.ash) dependency,
+[`main.ash`](search-frontier/main.ash) found-path entry, and
+[`02-unreachable-cycle.ash`](search-frontier/02-unreachable-cycle.ash)
+exhaustion entry.
 Their immutable originals are
-[`searches.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/choosing-a-search-frontier/src/searches.ash)
+[`searches.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/choosing-a-search-frontier/src/searches.ash),
+[`01-found-paths.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/choosing-a-search-frontier/src/01-found-paths.ash),
 and
-[`01-found-paths.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/choosing-a-search-frontier/src/01-found-paths.ash).
+[`02-unreachable-cycle.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/choosing-a-search-frontier/src/02-unreachable-cycle.ash).
 The Case's [source record](../../../research/graph-search-frontiers.md) selects
 Pat Morin's *Open Data Structures* graph-traversal account as conceptual
 inspiration, not direct adaptation, under the source's CC BY 2.5 Canada
 license boundary.
 
-At the predecessor commit, the entry exits `0`, writes no standard error, and
-writes standard output with SHA-256
-`254dc0d711ed8246b920f1be8b642af6d57a0aaa312a2d944de06fb570aea329`.
-The immutable Case displays and explains that complete value and type. At Lib
-Ash, the complete standard error is:
+At the predecessor commit, both entries exit `0` and write no standard error.
+Their respective standard-output SHA-256 values are
+`254dc0d711ed8246b920f1be8b642af6d57a0aaa312a2d944de06fb570aea329`
+and
+`bf32aeed3acf3194789234d517395cfd9b8b991d86d4122dc8d5ca8b620793a3`.
+The immutable Case displays and explains both complete values and types. At
+Lib Ash, each entry's complete standard error is:
 
 ```text
 resolve.internal-state
 primary: source 0 0..27: a dependency summary failed body-free authentication
 ```
 
-The primary span covers `import searches as Searches`. The failure blocks the
-Case before either traversal result can be observed. The dependency exports no
-interface-backed obligation, so this example also shows that the failure family
-is not limited to a missing implementation selector. It matters beyond graph
-search because an ordinary multi-file program can cross the same imported
-summary boundary.
+The primary span covers `import searches as Searches`. The failures block both
+the found-path comparison and the unreachable cyclic-graph comparison before
+either traversal result can be observed. The dependency exports no
+interface-backed obligation, so these entries also show that the failure
+family is not limited to a missing implementation selector. They matter beyond
+graph search because an ordinary multi-file program can cross the same
+imported-summary boundary.
 
 ## Red-black dictionary
 
 The original [red-black dictionary Case](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/guaranteeing-logarithmic-retrieval/README.md)
 asks how a hidden colored representation prevents an ordered search tree from
 degenerating. This record retains its exact
-[`dictionaries.ash`](red-black-dictionary/dictionaries.ash) dependency and
-[`main.ash`](red-black-dictionary/main.ash) prefix-matrix entry.
+[`dictionaries.ash`](red-black-dictionary/dictionaries.ash) dependency,
+[`main.ash`](red-black-dictionary/main.ash) prefix-matrix entry, and
+[`02-build-and-persistence.ash`](red-black-dictionary/02-build-and-persistence.ash)
+build-and-persistence entry.
 Their immutable originals are
-[`dictionaries.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/guaranteeing-logarithmic-retrieval/src/dictionaries.ash)
+[`dictionaries.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/guaranteeing-logarithmic-retrieval/src/dictionaries.ash),
+[`01-prefix-matrix.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/guaranteeing-logarithmic-retrieval/src/01-prefix-matrix.ash),
 and
-[`01-prefix-matrix.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/guaranteeing-logarithmic-retrieval/src/01-prefix-matrix.ash).
+[`02-build-and-persistence.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/guaranteeing-logarithmic-retrieval/src/02-build-and-persistence.ash).
 Its [source record](../../../research/persistent-red-black-insertion.md) selects
 Chris Okasaki's four-configuration functional insertion as conceptual
 inspiration and excludes direct source adaptation. Andrew W. Appel's
@@ -108,79 +119,104 @@ inspiration and excludes direct source adaptation. Andrew W. Appel's
 structure under the record's separate MIT boundary; the Case directly adapts
 neither source.
 
-At the predecessor commit, the entry exits `0`, writes no standard error, and
-writes standard output with SHA-256
-`fbcad839ed0fcb98b146df63d4f478e191c38fe91083fb4b6c2e699b0777c2e1`.
-The immutable Case retains the complete matrix. At Lib Ash, the complete
-standard error is:
+At the predecessor commit, both entries exit `0` and write no standard error.
+Their respective standard-output SHA-256 values are
+`fbcad839ed0fcb98b146df63d4f478e191c38fe91083fb4b6c2e699b0777c2e1`
+and
+`5167ead84003a8a4124c8ced8b198b50e3d261e91f5cc6966c2538c492ce4974`.
+The immutable Case retains the complete prefix matrix and
+build-and-persistence observation. At Lib Ash, each entry's complete standard
+error is:
 
 ```text
 resolve.internal-state
 primary: source 0 0..35: a dependency summary failed body-free authentication
 ```
 
-The primary span covers `import dictionaries as Dictionaries`. The failure
-blocks the prefix-by-prefix invariant and lookup observations. Under the exact
-import rules, that complete import selects names but no implementation facts.
-This retained entry lacks a separate `impl Order` selector, so removing the
-internal failure would not by itself preserve predecessor success: ordinary
-checking must still apply the `lib-ash` implementation-selection rules. The
-internal failure is a regression candidate because it occurs first and masks
-that specified source-level result. The masking matters to any library client
-whose dependency summary carries constrained public operations, not only to
-red-black dictionaries.
+The primary span covers `import dictionaries as Dictionaries`. The failures
+block both the prefix-by-prefix invariant and lookup observations and the
+persistent-version observations. Under the exact import rules, that complete
+import selects names but no implementation facts. Both retained entries lack a
+separate `impl Order` selector, so removing the internal failure would not by
+itself preserve predecessor success: ordinary checking must still apply the
+`lib-ash` implementation-selection rules. The internal failure is a regression
+candidate because it occurs first and masks that specified source-level result.
+The masking matters to any library client whose dependency summary carries
+constrained public operations, not only to red-black dictionaries.
 
 ## Tree iterator
 
 The original [tree-iterator Case](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/README.md)
 asks how explicit immutable frames let eager traversal pause and resume. This
 record retains its exact
-[`dictionaries.ash`](tree-iterator/dictionaries.ash) dependency and
-[`main.ash`](tree-iterator/main.ash) complete-sequence entry.
+[`dictionaries.ash`](tree-iterator/dictionaries.ash) dependency and all four
+numbered entries: the [`main.ash`](tree-iterator/main.ash) complete sequence,
+[`02-retained-state.ash`](tree-iterator/02-retained-state.ash),
+[`03-opaque-pattern.ash`](tree-iterator/03-opaque-pattern.ash), and
+[`04-opaque-construction.ash`](tree-iterator/04-opaque-construction.ash).
 Their immutable originals are
-[`dictionaries.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/dictionaries.ash)
+[`dictionaries.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/dictionaries.ash),
+[`01-sequence.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/01-sequence.ash),
+[`02-retained-state.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/02-retained-state.ash),
+[`03-opaque-pattern.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/03-opaque-pattern.ash),
 and
-[`01-sequence.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/01-sequence.ash).
+[`04-opaque-construction.ash`](https://github.com/dikini/ash-doc/blob/recursive-1/content/cases/resuming-tree-traversal/src/04-opaque-construction.ash).
 The iterator Case selects no new external source; it extends the retained
 recursive-algorithm, strictness, and persistent red-black records with an
 original explicit-frame derivation.
 
-At the predecessor commit, the entry exits `0`, writes no standard error, and
-writes standard output with SHA-256
-`190662c1447e5c5d9d5ae34d0e9dc95d0a157c6dfbf628656baa648a02166c45`.
-The immutable Case retains the complete sequence. At Lib Ash, the complete
-standard error is:
+At the predecessor commit, the sequence and retained-state entries exit `0`,
+write no standard error, and produce standard-output SHA-256 values
+`190662c1447e5c5d9d5ae34d0e9dc95d0a157c6dfbf628656baa648a02166c45`
+and
+`d724b406730669aee7aaaae1413d119b8783190d0b9e8ce95455fbd500d9fe0c`.
+The pattern and construction entries instead retain the Case's intended
+opacity boundary: each exits `1`, writes no standard output, and begins
+standard error with `resolve.opaque-constructor`. Their primary `Iterator`
+member spans are respectively source `0` bytes `230..238` and `103..111`; both
+related labels cover the withheld constructor declaration at source `1` bytes
+`523..549`. At Lib Ash, each of the four entries instead has this complete
+standard error:
 
 ```text
 resolve.internal-state
 primary: source 0 0..35: a dependency summary failed body-free authentication
 ```
 
-The primary span covers `import dictionaries as Dictionaries`. The failure
-blocks the eager iterator and ordered-sequence observations. This complete
-import also selects no `Order` implementation fact, so the same distinction
-applies: the internal failure masks the later specified implementation-
-selection result rather than promising predecessor success. It matters beyond
+The primary span covers `import dictionaries as Dictionaries`. The failures
+block the eager iterator and retained-state observations and replace the two
+ordinary opacity rejections. This complete import also selects no `Order`
+implementation fact, so the same distinction applies to the accepted entries:
+the internal failure masks the later specified implementation-selection result
+rather than promising predecessor success. For the two opacity entries, it
+masks the predecessor's stable source-access result. It matters beyond
 iteration because clients cannot reach ordinary checking feedback for public
 APIs whose summaries combine opaque types, constraints, and reusable values.
 
 ## Classification and retention
 
-All three exact sources pass at the predecessor and reach a compiler-internal
-failure at the migration target. The search entry is blocked before its
-otherwise ordinary qualified calls can be checked. The two dictionary clients
-are blocked before their missing explicit implementation selection can receive
-the specified source-level judgment. In each case, the earlier internal result
-is an Ash implementation regression candidate. The shared observation family
-does not prove that the three programs have one internal cause. Ash-doc does
-not modify `ash-lang`, move the tag, prescribe a fix, or restructure these
-retained sources to hide the failure.
+Six exact entries pass at the predecessor, while the two iterator constructor
+entries retain their intended status-1 opacity rejections. All eight reach a
+compiler-internal failure at the migration target. The search entries are
+blocked before their otherwise ordinary qualified calls can be checked. The
+four accepted dictionary clients are blocked before their missing explicit
+implementation selection can receive the specified source-level judgment; the
+two rejected clients are blocked before their opacity judgment. In each case,
+the earlier internal result is an Ash implementation regression candidate. The
+shared observation family does not prove that the eight programs have one
+internal cause. In particular, it does not attribute the failure to a private
+declaration. Ash-doc does not modify `ash-lang`, move the tag, prescribe a fix,
+expose a private type, or restructure these retained sources to hide the
+failure.
 
-This outcome retains the three complete original triggers rather than claiming
-a minimized reproducer. Minimization may become useful during upstream Ash
-investigation, but it is not needed to attribute the current failure to the
-import boundary and could discard the distinct reader tasks that make the
-evidence significant.
+This outcome retains the eight complete original triggers rather than claiming
+a minimized reproducer. The exact libraries keep `Color`, `BalanceCheck`,
+`FrameStack`, and the search support representations private as the historical
+Cases designed them. Their presence is part of the copied context, not evidence
+that any one private declaration caused the compiler failure. Minimization may
+become useful during upstream Ash investigation, but it is not needed to
+locate the current failure at dependency-summary admission and could discard
+the distinct reader tasks that make the evidence significant.
 
 The copied source remains permanent migration evidence. Retain this case until
 an authorized upstream resolution and a later ash-doc plan explicitly replace

@@ -12,4 +12,5 @@ It cannot define Ash semantics or prescribe an upstream implementation change.
 ## Cases
 
 - [Imported body-free summaries fail authentication](body-free-summary-authentication/README.md)
-  retains three status-2 compiler failures found in recursive-algorithm Cases.
+  retains all eight status-2 compiler failures found in three
+  recursive-algorithm Cases.
