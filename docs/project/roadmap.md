@@ -80,6 +80,12 @@ selects the public capability facade as lesson 2 and fixes its intended
 names-plus-implementation success and names-only `constraint.unsatisfied`
 boundary.
 
+The approved active
+[capability-evidence facade lesson plan](../plans/2026-09-01-forwarding-capability-evidence.md)
+specifies the two one-line facades, five canonical sources, two-hop success,
+names-only rejection, and closure gates. Its two independent reviews authorize
+this complete lesson and no later lesson content.
+
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
