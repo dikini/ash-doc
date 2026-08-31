@@ -9,14 +9,14 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and a verified three-Case recursive-algorithm prefix active
+  Learn path and a verified five-Case recursive-algorithm prefix active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
 Active teaching and verification use the [pinned Lib Ash evaluation
 behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-The first three Cases records below describe active work at the Lib Ash target.
+The first five Cases records below describe active work at the Lib Ash target.
 The later records describe historical work at the predecessor and link its
 immutable `recursive-1` snapshot; they do not make those later Cases active.
 The roadmap states mean:
@@ -88,8 +88,8 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains three verified Cases and fifteen canonical sources at the Lib Ash
-commit. Cases 4 through 12 below remain historical material verified at the
+contains five verified Cases and 24 canonical sources at the Lib Ash commit.
+Cases 6 through 12 below remain historical material verified at the
 Modular Ash predecessor. Their immutable prose, programs, and checks remain
 available in
 the
@@ -230,11 +230,13 @@ feature retrofit.
 
 **Question:** How does the data-directed method extend from lists to trees?
 
-The fifth [historical Cases][recursive-cases] chapter extends the
+The active
+[fifth Cases chapter](../../content/cases/folding-branching-data/README.md)
+extends the
 data-directed fold from one list tail to the two branches of
 `Tree<A> = Empty | Node(Tree<A>, A, Tree<A>)`. Four canonical sources and their
-displayed blocks pass at the exact Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Three exact accepted outputs
+displayed blocks pass at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Three exact accepted outputs
 establish size and shape-preserving map behavior, equal three-node counts with
 balanced height `2` and skewed height `3`, and one predicate application for a
 direct root hit versus three applications through the strict whole-tree fold.
@@ -270,6 +272,12 @@ elapsed time, machine instructions, native stack size, tail-call optimization,
 exact heap bytes, garbage collection, pointer identity, physical sharing,
 arbitrary-precision integer bit cost, or compiler representation and
 optimization.
+
+The migration changed only target links and active navigation. Explicit
+implementation selection, explicit kinds, method-local type parameters, and
+relational interfaces do not strengthen this tree-specific fold and search
+contrast. A generic fold abstraction would change the question's altitude, so
+this Case received no feature retrofit.
 
 ### 6. Searching an ordered tree
 
