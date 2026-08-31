@@ -119,11 +119,11 @@ run_name_only_rejection() {
 
     local primary_lines=()
     mapfile -t primary_lines < <(
-        LC_ALL=C grep -F 'primary: source 0 ' "$rejected_stderr" || true
+        LC_ALL=C grep -F 'primary: source ' "$rejected_stderr" || true
     )
     [[ ${#primary_lines[@]} -eq 1 ]] ||
         ash_doc_fail \
-            "src/02-name-only.ash must report one primary source-0 label"
+            "src/02-name-only.ash must report exactly one primary label"
     [[ ${primary_lines[0]} == \
         "primary: source 0 $call_start..$call_end:"* ]] ||
         ash_doc_fail \

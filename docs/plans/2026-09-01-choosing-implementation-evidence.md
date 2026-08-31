@@ -449,6 +449,11 @@ A controlled fourth-label mutation failed before the verifier was tightened to
 require exactly the call's three specified related labels; the unmodified
 diagnostic then passed. This closes the lesson's claimed causal boundary.
 
+Instructional review found the corresponding primary-label check counted only
+source-0 labels. A controlled extra source-1 primary failed before the verifier
+was tightened to require exactly one primary label globally and its exact
+source-0 call range. The unmodified diagnostic then passed.
+
 ## Completion conditions
 
 This lesson increment is complete when:
