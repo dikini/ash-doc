@@ -95,3 +95,8 @@ storage strategy.
     removal needs it, and limit amortized list-node work to a linear successor
     history that starts from empty because retained states can repeat the
     transfer.
+12. [How does frontier representation change a search
+    algorithm?](choosing-a-search-frontier/README.md) — hold one shared search
+    transition fixed, let LIFO return a longer path and FIFO return the
+    shortest path, guard the cycle by marking before addition, and account for
+    logical pending entries separately.

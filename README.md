@@ -89,11 +89,13 @@ After completing all eleven Learn Ash lessons, continue with
 Cases path uses the same tool setup and asks how recursive traversal,
 representation, invariants, and source-level costs shape an algorithm.
 
-The eleven verified cases progress from consumption to production, retained
+The twelve verified cases progress from consumption to production, retained
 knowledge, selective retrieval, branching traversal, invariant-guided branch
 selection, checking-time selection of a reusable capability, then an opaque
 construction boundary, a height-preserving representation, and explicit
-resumable traversal state, followed by a persistent paired-list frontier.
+resumable traversal state, followed by a persistent paired-list frontier and a
+shared graph-search transition whose stack and queue frontiers change path
+choice and pending-state accounting.
 [Folding recursive lists](content/cases/folding-recursive-lists/README.md)
 consumes a finite list through a strict right fold. [Building finite
 lists](content/cases/building-finite-lists/README.md) produces one from finite
@@ -131,7 +133,11 @@ linear traversal. [A persistent FIFO
 frontier](content/cases/implementing-persistent-fifo-frontier/README.md) splits
 queue order between a front and reversed rear, accounts for one eager
 transfer over a linear successor history that starts from empty, and shows why
-retained older states can repeat that transfer.
+retained older states can repeat that transfer. [Choosing a search
+frontier](content/cases/choosing-a-search-frontier/README.md) holds one search
+transition fixed, lets LIFO return a longer path while FIFO returns the
+shortest path, guards a graph cycle by marking before addition, and keeps its
+logical pending-state account separate from retained paths and visited data.
 
 ## Authority
 
