@@ -36,8 +36,9 @@ ash_doc_run_rejected \
     "$unit_root" \
     src/04-unsaturated-list.ash \
     kind.expected-type \
-    'this function domain must have kind Type' \
+    'primary: source 0 56..60: this function domain must have kind Type' \
     1 \
+    'related: source 0 0..47: the found kind is fixed by this declaration' \
     'expected Type' \
     'found Type -> Type'
 ash_doc_finish 5

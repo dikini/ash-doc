@@ -95,7 +95,7 @@ leaves the final tree.
 | 8. Handling data forms | All three exact predecessor observations are unchanged at `lib-ash`. | Active-prefix navigation only; canonical lesson source, prose, verifier, and observations are unchanged, and the lesson contains no pinned specification or tool links to update. | None: implementation selection, explicit kinds, method-local parameters, and relational interfaces would introduce later abstractions without simplifying constructor-pattern handling, strengthening the data-definition and exhaustive-coverage invariant, or making the lesson's promised data-form boundary more direct. |
 | 9. Following recursive data | All three exact predecessor observations are unchanged at `lib-ash`. | Active-prefix navigation only; canonical lesson source, prose, verifier, and observations are unchanged, and the lesson contains no pinned specification or tool links to update. | None: implementation selection, explicit kinds, method-local parameters, and relational interfaces would introduce later abstractions without simplifying structural recursion, strengthening its smaller-rest and stopping-form invariant, or making the lesson's recursive-data boundary more direct. |
 | 10. Functions as values | All four exact predecessor observations are unchanged at `lib-ash`. | Active-prefix navigation only; canonical lesson source, prose, verifier, and observations are unchanged, and the lesson contains no pinned specification or tool links to update. | None: implementation selection, explicit kinds, method-local parameters, and relational interfaces would introduce later abstractions without simplifying higher-order functions or lexical capture, strengthening the function-valued input boundary, or making the lesson's promised functional-abstraction boundary more direct. |
-| 11. Definitions for many types | All three accepted predecessor observations retain their values, types, status, and channels at `lib-ash`; the specified rejection retains status `1` and empty standard output but changes its first reason from `resolve.type-argument-count` to `kind.expected-type`. | Preserve all five canonical sources; revise the lesson to explain the explicit kind boundary, and extend the shared rejection helper to retain multiple causal evidence phrases while preserving every existing caller. | No new abstraction: the explicit kinds already improve the existing rejection account through `List : Type -> Type`, `List<Int> : Type`, and the ordinary-value-position invariant; a reusable higher-kinded example would change the beginner lesson's question and belongs in the later library path. |
+| 11. Definitions for many types | All three accepted predecessor observations retain their values, types, status, and channels at `lib-ash`; the specified rejection retains status `1` and empty standard output but changes its first reason from `resolve.type-argument-count` to `kind.expected-type`. | Preserve all five canonical sources; revise the lesson to explain the explicit kind boundary, and extend the shared rejection helper to retain the exact primary source location, the causal related declaration, and structured expected and found kinds while preserving every existing caller. | No new abstraction: the explicit kinds already improve the existing rejection account through `List : Type -> Type`, `List<Int> : Type`, and the ordinary-value-position invariant; a reusable higher-kinded example would change the beginner lesson's question and belongs in the later library path. |
 
 ### Execution note: exact comparison baseline
 
@@ -1099,7 +1099,12 @@ First observe the compiler directly without relying on the old verifier:
     test "$kind_status" -eq 1
     test ! -s "$kind_stdout"
     test "$(sed -n '1p' "$kind_stderr")" = kind.expected-type
-    grep -Fq 'this function domain must have kind Type' "$kind_stderr"
+    grep -Fq \
+        'primary: source 0 56..60: this function domain must have kind Type' \
+        "$kind_stderr"
+    grep -Fq \
+        'related: source 0 0..47: the found kind is fixed by this declaration' \
+        "$kind_stderr"
     grep -Fq 'expected Type' "$kind_stderr"
     grep -Fq 'found Type -> Type' "$kind_stderr"
 )
@@ -1120,7 +1125,8 @@ output, but its first reason is `kind.expected-type`, not
 `resolve.type-argument-count`. Standard error includes:
 
 ```text
-this function domain must have kind Type
+primary: source 0 56..60: this function domain must have kind Type
+related: source 0 0..47: the found kind is fixed by this declaration
 expected Type
 found Type -> Type
 ```
@@ -1138,8 +1144,9 @@ ash_doc_run_rejected \
     "$unit_root" \
     src/04-unsaturated-list.ash \
     kind.expected-type \
-    'this function domain must have kind Type' \
+    'primary: source 0 56..60: this function domain must have kind Type' \
     1 \
+    'related: source 0 0..47: the found kind is fixed by this declaration' \
     'expected Type' \
     'found Type -> Type'
 ```
@@ -1163,7 +1170,7 @@ Do not change status, standard-output, or first-reason behavior.
 #### Step 5: Teach the existing kind boundary
 
 Keep `src/04-unsaturated-list.ash` byte-identical to the predecessor. In the
-lesson's existing “Supplying every type parameter” discussion, explain:
+lesson's existing “When a complete type is required” discussion, explain:
 
 - `List` is a type constructor with kind `Type -> Type`;
 - function parameter and result positions require a type of kind `Type`;

@@ -152,7 +152,7 @@ function value determines how each element changes.
 > examine one occurrence of `A` or `B` at a time and ask the assistant to check
 > it against your two lists.
 
-## Supplying every type parameter
+## When a complete type is required
 
 `List` by itself does not yet describe the type of a value. It is a *type
 constructor*: applying it to an element type constructs a complete list type.
