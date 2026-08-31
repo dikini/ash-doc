@@ -152,7 +152,7 @@ ash_doc_run_accepted() {
 }
 
 ash_doc_run_rejected() {
-    if [[ $# -ne 5 ]]; then
+    if [[ $# -lt 5 ]]; then
         ash_doc_fail \
             "ash_doc_run_rejected requires a unit, entry, reason, evidence, and status"
     fi
@@ -162,6 +162,7 @@ ash_doc_run_rejected() {
     local rejected_reason=$3
     local rejected_evidence=$4
     local rejected_expected_status=$5
+    shift 5
     local rejected_stdout
     local rejected_stderr
     local rejected_status
@@ -184,6 +185,13 @@ ash_doc_run_rejected() {
         ash_doc_fail "$rejected_entry did not report $rejected_reason"
     grep -Fq "$rejected_evidence" "$rejected_stderr" ||
         ash_doc_fail "$rejected_entry did not retain its causal evidence"
+
+    local rejected_additional_evidence
+    for rejected_additional_evidence in "$@"; do
+        grep -Fq "$rejected_additional_evidence" "$rejected_stderr" ||
+            ash_doc_fail \
+                "$rejected_entry did not retain causal evidence: $rejected_additional_evidence"
+    done
 }
 
 ash_doc_finish() {

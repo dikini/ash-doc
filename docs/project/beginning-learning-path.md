@@ -73,9 +73,9 @@ directory, reader-facing link, or publication date.
 - **10. [How can a function itself be a value?](../../content/learn/functions-as-values/README.md)**
   — **verified.** Anonymous functions, higher-order functions, and lexical
   capture.
-- **11. How can one definition work with many types?** —
-  **migration-pending.** Type parameters, parameterized data, and rank-1
-  parametric polymorphism.
+- **11. [How can one definition work with many types?](../../content/learn/definitions-for-many-types/README.md)**
+  — **verified.** Type parameters, parameterized data, and rank-1 parametric
+  polymorphism.
 
 ## Maintaining the path
 

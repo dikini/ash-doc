@@ -61,3 +61,5 @@ with `ash` to test what it does.
    — follow a self-reference with a recursive function and a stopping form.
 10. [How can a function itself be a value?](functions-as-values/README.md) —
     receive, construct, and return function values.
+11. [How can one definition work with many types?](definitions-for-many-types/README.md)
+    — reuse functions and data definitions through type parameters.
