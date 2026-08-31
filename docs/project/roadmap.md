@@ -9,7 +9,7 @@ source of Ash semantics.
 - Ash milestone: `modular-ash`
 - Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 - Repository state: the first repository-source edition is published; the
-  eleven verified recursive-algorithm cases remain unpublished on `main`
+  twelve verified recursive-algorithm cases remain unpublished on `main`
 - Published documentation tag: immutable `modular-ash`
 
 The current `ash-lang/main` compatibility canary is deferred until an explicit
@@ -30,6 +30,9 @@ roadmap states mean:
 
 Promotion to **next** authorizes the design-and-plan work, not a content change
 that bypasses those gates.
+
+No outcome is currently **next** or **provisional**. Selecting another
+increment requires a new bounded outcome before either state applies.
 
 ## Verified increments
 
@@ -681,45 +684,119 @@ rank-one polymorphism, and its exact CLI observation. The repository contains
 `11 Learn / 11 Cases / 50 Case sources`. These observations remain ash-doc
 evidence and do not define Ash semantics.
 
-## Next: choosing a search frontier
-
-The bounded design is approved. Implementation plan approval is required
-before Case 12 content, source, checks, or tooling.
+### 12. Choosing a search frontier
 
 **Question:** How does frontier representation change a search algorithm?
 
-Build deterministic depth-first and breadth-first search over one finite cyclic
-graph. Use a list stack for DFS, a two-list amortized queue for BFS, the
-dictionary as a visited set, explicit search state, and a counted frontier
-size represented by a recursive `Natural`. Both traversals must find the
-target; FIFO order and marking vertices when enqueued must make BFS return the
-shortest unweighted path; visited tracking must prevent repeated expansion.
-Measure maximum pending-frontier entries in the example. State general DFS
-stack bounds in terms of branching and depth and BFS bounds in terms of
-frontier width, while accounting separately for retained paths and the visited
-dictionary. Keep runtime-memory claims outside the language contract and
-classify any library, tooling, diagnostic, performance, or application
-pressure.
+The twelfth [Cases](../../content/cases/README.md) chapter holds one search
+transition fixed while ordinary add and remove functions select a LIFO list
+stack or FIFO paired-list queue. Three canonical sources pass together at
+exact Ash commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`:
+`searches.ash`, `01-found-paths.ash`, and `02-unreachable-cycle.ash`.
 
-The approved bounded
-[design](../plans/2026-08-31-choosing-a-search-frontier-design.md) and focused
-[source record](../../research/graph-search-frontiers.md) fix the generic
-search transition, graph, observations, work boundaries, and adaptation
-classification. They authorize the implementation plan but no content before
-that plan is separately approved.
+The two entries complete with status `0`, empty standard error, and one exact
+standard-output line each:
 
-The approved temporary
-[implementation plan](../plans/2026-08-31-choosing-a-search-frontier.md)
-fixes the canonical files, exact observations, verifier-first sequence,
-mutation matrix, review order, and local merge boundary. It authorizes that
-bounded work without selecting shared graph or collection infrastructure.
+<!-- markdownlint-disable MD013 -->
+```text
+(Found(More(Start, More(LongOne, More(LongTwo, More(Goal, End)))), 3, Next(Next(Zero))), Found(More(Start, More(Short, More(Goal, End))), 5, Next(Next(Next(Next(Zero)))))) : (SearchResult, SearchResult)
+(Missing(7, Next(Next(Zero))), Missing(7, Next(Next(Next(Next(Zero)))))) : (SearchResult, SearchResult)
+```
+<!-- markdownlint-enable MD013 -->
+
+The first result records the longer DFS path
+`Start -> LongOne -> LongTwo -> Goal`, three completed non-target expansions,
+and peak pending count two. BFS returns the shorter
+`Start -> Short -> Goal`, after five completed non-target expansions and with
+peak pending count four. When `Isolated` is the target, both searches exhaust
+the seven reachable vertices and return `Missing(7, ...)`, retaining their
+respective peaks of two and four.
+
+Each pending `Work(current, reverse_predecessors)` value retains the path that
+led to its vertex. The five-field
+`SearchState(frontier, visited, pending, maximum, expanded)` keeps frontier
+representation, visited dictionary, logical pending count, greatest pending
+count, and completed non-target expansions together. Both wrappers mark the
+start before its initial addition. Scheduling an unseen neighbor looks it up
+in the current threaded dictionary, inserts it, extends its reverse path, adds
+its work, increments the logical count, retains the greater maximum, and
+recurses from that complete successor state. Removal decrements the count
+before testing the target; a target match constructs the forward path and does
+not count the target as expanded.
+
+Those relationships schedule each vertex at most once, so the finite
+`LongTwo -> Start` graph cycle cannot repeat expansion. When no earlier target
+match returns, including when the target is unreachable, the engine exhausts
+the finitely many distinct scheduled vertices. These relationships do not by
+themselves establish a shortest path. FIFO removal keeps first-discovery paths
+in nondecreasing directed-edge distance, and scheduling extends a retained path
+by one edge.
+Together with mark-before-add retaining the first discovered path, that layer
+order proves that the first target removed by BFS has minimum edge length. The
+longer DFS result is the negative case: the same visited timing under LIFO
+removal does not prove shortestness.
+
+The reported maximum counts only logical frontier entries. Reverse-path
+`More` forms, dictionary `Entry` and list nodes, and equality comparisons have
+separate source-work accounts. The paired-list queue retains the preceding
+case's list-node bound only for one linear history of returned successors that
+starts from empty; retaining and resuming an older state leaves that account.
+Constructing and comparing the recursive `Natural` measurements is also
+separate source work. For `b >= 1` and DFS discovery-tree edge depth `d`, the
+logical stack holds at most `1 + d(b - 1)` pending entries; the `b = 0`
+initial state is the separate one-entry case. During BFS layer `i`, pending
+entries are at most `L_i + L_(i + 1)`, and therefore at most `2W` when `W` is
+the greatest layer size.
+
+The first pinned prototype placed four `match` expressions around an inner
+block. At the exact target it returned status `2`, wrote no standard output,
+and began standard error with `internal.resource.structural-depth` followed by
+limit `128`. A four-match prototype without the inner block passed; restoring
+the block reproduced the rejection. Moving the removal result into the
+exhaustive `continue_search` helper produced the accepted source without
+changing the transition. This remains pinned tool/resource evidence, not Ash
+language truth, a runtime-stack claim, or a broader diagnostic-layout
+contract.
+
+The permanent [source
+record](../../research/graph-search-frontiers.md) identifies Pat Morin's *Open
+Data Structures (in pseudocode)*, edition 0.1G beta, section 12.3, under CC BY
+2.5 Canada as conceptual inspiration. The Case replaces its indexed adjacency
+and mutable discovered array with an equation-defined graph and persistent
+list dictionary, retains reverse paths rather than predecessor indices, and
+marks DFS on addition rather than removal. Its original graph, Ash code,
+observations, derivations, prose, and exercises do not import the source's
+`O(V + E)` runtime theorem.
+
+Closure verification with both temporary plans retained reran the lesson-local
+verifier and the full 11-Learn and 12-Case aggregators at the exact pin. The
+local verifier passed both exact observations and checked displayed-source
+agreement plus the causal transition relationships. Shell syntax, ShellCheck,
+all 45 current Markdown files, 124 relative links, and the whitespace diff
+also passed. A 68-mutation audit made every targeted source or prose change
+fail with its intended first verifier message, restored the copied source
+between mutations, and ended green.
+
+The Case excludes weighted search, priority frontiers, mutable arrays,
+recursive Ash data cycles, nonreturning adjacency or equality, a generic
+termination theorem, and claims about elapsed time, machine instructions,
+native-stack behavior, runtime storage, allocation, sharing, garbage
+collection, or compiler optimization. The structural-depth finding is retained
+as tool/resource pressure. The remaining observations are ash-doc learning and
+executable evidence subordinate to the pinned specification and tool; they do
+not define Ash semantics or accept an Ash mechanism.
+
+The repository contains `11 Learn / 12 Cases / 53 Case sources`. All twelve
+Cases are verified and remain unpublished on `main`. The recursive-algorithms
+roadmap has no outstanding Case. A future increment requires a new bounded
+outcome rather than implicit promotion.
 
 ## Promotion and verification policy
 
-For every increment:
+For a future increment:
 
-1. Promote only one provisional increment to **next** and give it an approved
-   bounded design before implementation.
+1. Select one bounded outcome, promote only that outcome to **next**, and give
+   it an approved bounded design before implementation.
 2. Add its temporary detailed plan only after promotion.
 3. Keep every displayed Ash program complete, canonical, and automatically
    invoked.
@@ -732,10 +809,9 @@ For every increment:
 7. Classify discoveries as ash-doc corrections, Ash regression candidates,
    unspecified design questions, or library, tool, diagnostic, performance, or
    application pressure.
-8. Remove the completed temporary plan, mark the case **verified**, promote its
-   successor, and reassess the remaining provisional order while preserving
-   the final goals of balanced dictionaries, explicit iterators, and search
-   frontiers.
+8. Remove the completed temporary plan, mark the case **verified**, and promote
+   a successor only after selecting it as a new bounded outcome. Otherwise
+   leave **next** empty.
 9. Add a focused research or laboratory record only when an observed case
    supplies material evidence. Any upstream evidence candidate must reference
    the completed case commit as well as the exact ash-doc and Ash targets.
