@@ -57,3 +57,5 @@ with `ash` to test what it does.
    new type and the constructors for its possible values.
 8. [How can a function handle each form of data?](handling-data-forms/README.md)
    — follow a data definition with patterns and exhaustive cases.
+9. [How can a function follow recursive data?](following-recursive-data/README.md)
+   — follow a self-reference with a recursive function and a stopping form.

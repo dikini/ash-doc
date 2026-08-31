@@ -65,8 +65,8 @@ directory, reader-facing link, or publication date.
   — **verified.** Nominal types and constructors.
 - **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
   — **verified.** Constructor patterns, equations or matches, and coverage.
-- **9. How can a function follow recursive data?** — **migration-pending.**
-  Recursive nominal data and recursive functions.
+- **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
+  — **verified.** Recursive nominal data and recursive functions.
 
 ## Functional abstraction
 
