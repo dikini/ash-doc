@@ -136,3 +136,11 @@ whole-branch review. Fast-forward local `main`, run the library aggregate plus
 repository cleanliness/count checks, and remove the worktree and branch.
 
 Do not modify Ash, tag, push, create lesson-4 content, or resume blocked Cases.
+
+## Execution record
+
+The verifier named both missing sources before inventory passed. Positive and
+negative checks each rejected an empty source before its program was added.
+The exact observations then passed, source agreement rejected the missing
+README before prose passed, and family navigation rejected three verifiers
+against two links before this lesson was indexed.

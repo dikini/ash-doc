@@ -29,3 +29,6 @@ For each boundary, use the same cycle:
 2. [Forward capability evidence](forwarding-capability-evidence/README.md)
    — carry public names and implementation authorization through a facade
    without redefining the capability.
+3. [Accept a type constructor](accepting-type-constructors/README.md)
+   — use an explicit function kind when an abstraction applies a type
+   constructor to different element types.

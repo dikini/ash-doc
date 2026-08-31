@@ -10,8 +10,8 @@ The unpublished Lib Ash migration currently contains three active families:
   learning path;
 - [`cases/`](cases/README.md) for nine verified recursive-algorithm Cases and
   three unavailable slots in numeric order; and
-- [`libraries/`](libraries/README.md) for two verified lessons about choosing
-  and forwarding implementation evidence across source-library boundaries.
+- [`libraries/`](libraries/README.md) for three verified lessons about choosing
+  and forwarding evidence and accepting type constructors.
 
 A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
 and links to canonical programs, fixtures, and checks kept inside the same unit.
