@@ -683,8 +683,8 @@ evidence and do not define Ash semantics.
 
 ## Next: choosing a search frontier
 
-Design and implementation plan approval are required before Case 12 content,
-source, checks, or tooling.
+The bounded design is approved. Implementation plan approval is required
+before Case 12 content, source, checks, or tooling.
 
 **Question:** How does frontier representation change a search algorithm?
 
@@ -700,6 +700,13 @@ frontier width, while accounting separately for retained paths and the visited
 dictionary. Keep runtime-memory claims outside the language contract and
 classify any library, tooling, diagnostic, performance, or application
 pressure.
+
+The approved bounded
+[design](../plans/2026-08-31-choosing-a-search-frontier-design.md) and focused
+[source record](../../research/graph-search-frontiers.md) fix the generic
+search transition, graph, observations, work boundaries, and adaptation
+classification. They authorize the implementation plan but no content before
+that plan is separately approved.
 
 ## Promotion and verification policy
 
