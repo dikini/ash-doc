@@ -75,6 +75,12 @@ select the smallest layout and verification needed for the first complete
 lesson. The library plan and a future Cases-resumption plan may not be active
 together.
 
+The approved
+[library abstractions learning-path design](../plans/2026-09-01-library-abstractions-design.md)
+selects five cumulative lessons and bounds the first complete increment to
+explicit implementation selection. It creates no content until its temporary
+lesson plan is approved.
+
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
