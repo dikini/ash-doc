@@ -69,3 +69,7 @@ storage strategy.
    trees?](folding-branching-data/README.md) — fold both branches, compare
    equal-size trees with different heights, and contrast selective search with
    whole-tree fold work.
+6. [How can an invariant let lookup ignore most of a
+   tree?](searching-ordered-tree/README.md) — pass an explicit comparator to
+   ordered lookup and insertion, state the descendant invariant, and observe
+   why an unbalanced tree provides no logarithmic guarantee.

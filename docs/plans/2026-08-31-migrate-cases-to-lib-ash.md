@@ -133,7 +133,7 @@ has run.
 | 3. Accumulating list results | 4 exact entries | Links/navigation | None |
 | 4. Dictionary as a list | 5 sources / 4 exact | Links/navigation | None |
 | 5. Folding branching data | 4 sources / 3 exact | Links/navigation | None |
-| 6. Searching an ordered tree | pending | pending | pending |
+| 6. Searching an ordered tree | 4 sources / 3 exact | Links/navigation | None |
 | 7. Abstracting key order | pending | pending | pending |
 | 8. Protecting the dictionary invariant | pending | pending | pending |
 | 9. Guaranteeing logarithmic retrieval | pending | pending | pending |
@@ -195,6 +195,18 @@ passed at five and five. Explicit implementation selection, explicit kinds,
 method-local type parameters, and relational interfaces do not strengthen the
 tree-specific fold and search contrast. A generic fold abstraction would
 change the question's altitude, so the Case received no enhancement.
+
+For Case 6, all four canonical sources and displayed blocks pass at both exact
+pins. The three numbered entries retain byte-identical status, standard
+output, and standard error. The migration changed only target links and active
+family navigation; Ash source, observations, and verifiers remain unchanged.
+Before the index linked the restored Case, the navigation gate failed at six
+active verifiers and five indexed Cases; after the link, it passed at six and
+six. Explicit comparator passing remains because it is the deliberate baseline
+that Case 7 abstracts through `Order`. Explicit kinds, method-local type
+parameters, and relational interfaces do not strengthen the ordered lookup
+invariant, comparator-work account, or unbalanced-height boundary, so the Case
+received no enhancement.
 
 ## Shared rules for every restoration
 

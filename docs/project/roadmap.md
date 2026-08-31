@@ -9,14 +9,14 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and a verified five-Case recursive-algorithm prefix active
+  Learn path and a verified six-Case recursive-algorithm prefix active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
 Active teaching and verification use the [pinned Lib Ash evaluation
 behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-The first five Cases records below describe active work at the Lib Ash target.
+The first six Cases records below describe active work at the Lib Ash target.
 The later records describe historical work at the predecessor and link its
 immutable `recursive-1` snapshot; they do not make those later Cases active.
 The roadmap states mean:
@@ -88,8 +88,8 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains five verified Cases and 24 canonical sources at the Lib Ash commit.
-Cases 6 through 12 below remain historical material verified at the
+contains six verified Cases and 28 canonical sources at the Lib Ash commit.
+Cases 7 through 12 below remain historical material verified at the
 Modular Ash predecessor. Their immutable prose, programs, and checks remain
 available in
 the
@@ -283,11 +283,14 @@ this Case received no feature retrofit.
 
 **Question:** How can an invariant let lookup ignore most of a tree?
 
-The sixth [historical Cases][recursive-cases] chapter passes an explicit
-comparator to lookup and persistent insertion over a transparent ordered tree.
-Four canonical sources and their displayed blocks produce three exact accepted
-outputs at Ash commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`. A manually
-valid balanced tree gives a successful path and a missing path that each visit
+The active
+[sixth Cases chapter](../../content/cases/searching-ordered-tree/README.md)
+passes an explicit comparator to lookup and persistent insertion over a
+transparent ordered tree.
+Four canonical sources and their displayed blocks pass at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Three byte-identical accepted
+outputs retain the predecessor observations. A manually valid balanced tree
+gives a successful path and a missing path that each visit
 two nodes and make two top-level comparisons. The recursive Natural comparator
 performs `7` internal applications for the hit and `2` for the miss.
 
@@ -328,6 +331,13 @@ physical sharing, compiler representation or optimization, or
 arbitrary-precision integer bit cost. It introduces no interface, evidence
 selection, opacity, balancing, deletion, mutation, iteration, or generic tree
 infrastructure.
+
+The migration changed only target links and active navigation. Explicit
+comparator passing remains because it is the deliberate baseline that the
+next Case abstracts through `Order`. Explicit kinds, method-local type
+parameters, and relational interfaces do not strengthen this Case's ordered
+lookup invariant, comparator-work account, or unbalanced-height boundary, so
+it received no feature retrofit.
 
 ### 7. Abstracting key order
 
@@ -884,7 +894,7 @@ not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
-`11 Learn / 4 Cases / 43 Learn sources / 20 Case sources`.
+`11 Learn / 6 Cases / 43 Learn sources / 28 Case sources`.
 Cases migration remains
 the one **next** outcome; its approved plan restores each later historical Case
 only after that Case passes its complete evidence at the active target.
