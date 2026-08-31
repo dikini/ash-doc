@@ -79,6 +79,11 @@ selects explicit higher-kinded parameters as lesson 3 and fixes its intended
 `Some(42) : Option<Int>` success and omitted-kind `kind.not-applicable`
 boundary.
 
+The approved active
+[type-constructor lesson plan](../plans/2026-09-01-accepting-type-constructors.md)
+specifies two parallel programs, their exact kind boundary, family activation,
+and closure. Combined review authorizes this lesson and no later content.
+
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
