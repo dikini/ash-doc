@@ -5,11 +5,11 @@ contributors preserve the path's intended outcome and progression. It is not a
 table of contents, a backlog, a publication promise, or a source of Ash
 semantics.
 
-The path targets `modular-ash` at commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`, as declared by the
-[repository](../../README.md#initial-ash-target). Language details come from
-the specification at that commit. The [project roadmap](roadmap.md) owns the
-one next complete increment. The
+The active path targets `lib-ash` at commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`, as declared by the
+[repository](../../README.md#unpublished-lib-ash-migration). Language details
+come from the specification at that commit. The [project roadmap](roadmap.md)
+owns the one next complete increment. The
 [learning index](../../content/learn/README.md) lists only lessons that readers
 can use now.
 
@@ -31,6 +31,8 @@ lessons before it instead of offering a broad tour of language features.
 Each entry has one state:
 
 - **verified**: the lesson, canonical programs, and applicable checks exist;
+- **migration-pending**: an immutable predecessor exists, but the lesson has
+  not returned to the active path at the new target;
 - **next**: the roadmap owns this question as the next complete increment; or
 - **provisional**: the question helps explain the path but has not entered
   lesson design.
@@ -43,40 +45,35 @@ directory, reader-facing link, or publication date.
 - **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)**
   — **verified.** Definitions, expressions, `main`, functions, function calls,
   and composition.
-- **2. [How can one source file use another?](../../content/learn/using-another-source-file/README.md)**
-  — **verified.** Modules, complete imports, public declarations, and
-  qualified names.
-- **3. [How can a function use more than one input?](../../content/learn/using-more-than-one-input/README.md)**
-  — **verified.**
+- **2. How can one source file use another?** — **migration-pending.** Modules,
+  complete imports, public declarations, and qualified names.
+- **3. How can a function use more than one input?** — **migration-pending.**
   Chained function arrows, function clauses with several inputs, and chained
   calls.
-- **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
-  — **verified.** `Bool`, integer equality, and exhaustive matching.
-- **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**
-  — **verified.**
+- **4. How can a program choose a result?** — **migration-pending.** `Bool`,
+  integer equality, and exhaustive matching.
+- **5. How can a calculation name an intermediate value?** —
+  **migration-pending.**
   Blocks, sequential `let` bindings, and scope.
 
 ## Data and structure
 
-- **6. [How can several values travel together?](../../content/learn/values-travel-together/README.md)**
-  — **verified.** Tuples, tuple types, and tuple patterns.
-- **7. [How can a program define its own data?](../../content/learn/defining-data/README.md)**
-  — **verified.** Nominal types and constructors.
-- **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
-  — **verified.**
+- **6. How can several values travel together?** — **migration-pending.**
+  Tuples, tuple types, and tuple patterns.
+- **7. How can a program define its own data?** — **migration-pending.** Nominal
+  types and constructors.
+- **8. How can a function handle each form of data?** — **migration-pending.**
   Constructor patterns, equations or matches, and coverage.
-- **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
-  — **verified.**
+- **9. How can a function follow recursive data?** — **migration-pending.**
   Recursive nominal data and recursive functions.
 
 ## Functional abstraction
 
-- **10. [How can a function itself be a value?](../../content/learn/functions-as-values/README.md)**
-  — **verified.** Anonymous functions, higher-order functions, and lexical
-  capture.
-- **11. [How can one definition work with many types?](../../content/learn/definitions-for-many-types/README.md)**
-  — **verified.** Type parameters, parameterized data, and rank-1 parametric
-  polymorphism.
+- **10. How can a function itself be a value?** — **migration-pending.**
+  Anonymous functions, higher-order functions, and lexical capture.
+- **11. How can one definition work with many types?** —
+  **migration-pending.** Type parameters, parameterized data, and rank-1
+  parametric polymorphism.
 
 ## Maintaining the path
 

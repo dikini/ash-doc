@@ -10,25 +10,23 @@ This repository follows the experiment described by
 That design note is informative. This repository explains and tests Ash; it
 does not define the language.
 
-## Initial Ash target
+## Unpublished Lib Ash migration
 
-The first repository-source documentation edition targets the completed
-Modular Ash milestone:
+The active documentation stream is migrating to the completed `lib-ash`
+milestone:
 
-- documentation tag: `modular-ash`;
-- Ash milestone tag: `modular-ash`;
-- resolved Ash commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`.
+- Ash milestone tag: `lib-ash`;
+- resolved Ash commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`;
+- repository state: unpublished migration; and
+- active content: only the verified prefix restored under `content/learn/`.
 
-DN-0024 proposed Mini-Ash as the pilot's first published target. This project
-deliberately starts at the later Modular Ash checkpoint while retaining the
-note's authority, execution, evidence, and forward-migration boundaries.
-
-The matching tags live in different repositories and identify different
-source commits. The `ash-lang` tag and resolved commit identify the language
-and tool behavior taught by the edition. The ash-doc tag identifies this
-documentation source snapshot. `ash-lang/main` has moved beyond the checkpoint;
-newer behavior must not enter published examples until ash-doc begins an
-explicit forward migration.
+There is no ash-doc `lib-ash` publication tag yet. The published
+`modular-ash` documentation tag and Ash commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf` remain the immutable predecessor;
+they do not govern active migration work. The matching tags live in different
+repositories and identify different source commits: an `ash-lang` tag retains
+language and tool behavior, while an ash-doc tag retains the corresponding
+documentation snapshot.
 
 ## Prepare Ash
 
@@ -39,7 +37,7 @@ commit for this edition, and build it:
 ```text
 git clone git@github.com:dikini/ash-lang.git
 cd ash-lang
-git switch --detach dca16039923475c48025c5f17beadeb6bcb6a4bf
+git switch --detach d1e323d23390cdad03202ee3df76cd9100556e1d
 cargo build --locked
 ```
 
@@ -55,100 +53,55 @@ Keep this terminal open while you work through the learning path.
 ## Learn Ash
 
 Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool
-setup, the method used throughout the learning path, and the chapters in
-reading order. The first chapter begins with one source file and one value,
-then introduces expressions, functions, function calls, and composition.
+setup, the method used throughout the learning path, and the verified active
+prefix in reading order. The currently restored first chapter begins with one
+source file and one value, then introduces expressions, functions, function
+calls, and composition.
 
 The examples use the
-[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md).
+[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md).
 When you need the precise language rules, begin with the
-[pinned specification overview](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/README.md),
+[pinned specification overview](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/README.md),
 then follow the question into the applicable chapter:
 
-- [lexical structure](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/lexical-structure.md)
+- [lexical structure](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/lexical-structure.md)
   for source text and tokens;
-- [syntax](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/syntax.md)
+- [syntax](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/syntax.md)
   for modules, declarations, expressions, and patterns;
-- [name resolution](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md)
+- [name resolution](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md)
   for modules, imports, scope, and identity;
-- [static semantics](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md)
+- [static semantics](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md)
   for typing and checked programs;
-- [elaboration](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/elaboration.md)
+- [elaboration](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/elaboration.md)
   for the connection between checked source and typed Core; and
-- [dynamic semantics](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md)
+- [dynamic semantics](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md)
   for values and evaluation.
 
 You do not need to read the specification before the first lesson. Use it when
 you want to check an explanation, answer a new question, or understand a result
 that surprised you.
 
-## Design recursive algorithms
+## Historical recursive-algorithm Cases
 
-After completing all eleven Learn Ash lessons, continue with
-[Design recursive algorithms in Ash](content/cases/README.md). This sequential
-Cases path uses the same tool setup and asks how recursive traversal,
-representation, invariants, and source-level costs shape an algorithm.
-
-The twelve verified cases progress from consumption to production, retained
-knowledge, selective retrieval, branching traversal, invariant-guided branch
-selection, checking-time selection of a reusable capability, then an opaque
-construction boundary, a height-preserving representation, and explicit
-resumable traversal state, followed by a persistent paired-list frontier and a
-shared graph-search transition whose stack and queue frontiers change path
-choice and pending-state accounting.
-[Folding recursive lists](content/cases/folding-recursive-lists/README.md)
-consumes a finite list through a strict right fold. [Building finite
-lists](content/cases/building-finite-lists/README.md) produces one from finite
-state and exposes the producer's structural termination boundary.
-[Accumulating list
-results](content/cases/accumulating-list-results/README.md) compares repeated
-rebuilding through append with accumulator state that retains knowledge from
-earlier elements, then accounts for their different source work. [A dictionary
-encoded as a list](content/cases/dictionary-as-list/README.md) uses explicit
-equality to compare selective lookup with a strict fold and keeps older
-dictionary versions observable after front insertion. [Folding branching
-data](content/cases/folding-branching-data/README.md) extends the fold to two
-tree branches, separates equal node counts from different dependency depths,
-and contrasts direct selective search with whole-tree folding. [Searching an
-ordered tree](content/cases/searching-ordered-tree/README.md) uses a valid
-global ordering invariant and explicit comparison to justify one-branch
-lookup, then shows an accepted malformed miss and the degenerate height
-produced by ascending insertion. [Abstracting key
-order](content/cases/abstracting-key-order/README.md) replaces the repeated
-comparator argument with selected `Order` evidence, preserves the tree
-observations, and exposes the missing-implementation boundary. [Protecting the
-dictionary
-invariant](content/cases/protecting-dictionary-invariant/README.md) makes the
-dictionary name public while withholding its constructors, then tests the
-public construction routes, whole-tree invariant, and separate value and
-pattern rejection boundaries. [Guaranteeing logarithmic
-retrieval](content/cases/guaranteeing-logarithmic-retrieval/README.md) replaces
-the hidden tree with a persistent red-black representation, derives its four
-insertion repairs, and connects its maintained invariants to logarithmic
-height. [Resuming tree
-traversal](content/cases/resuming-tree-traversal/README.md) exposes an opaque
-eager iterator whose private frames retain unfinished in-order work, then
-separates one step's worst-case cost from the amortized frame work of one
-linear traversal. [A persistent FIFO
-frontier](content/cases/implementing-persistent-fifo-frontier/README.md) splits
-queue order between a front and reversed rear, accounts for one eager
-transfer over a linear successor history that starts from empty, and shows why
-retained older states can repeat that transfer. [Choosing a search
-frontier](content/cases/choosing-a-search-frontier/README.md) holds one search
-transition fixed, lets LIFO return a longer path while FIFO returns the
-shortest path, guards a graph cycle by marking before addition, and keeps its
-logical pending-state account separate from retained paths and visited data.
+The twelve predecessor Cases are not active content during this migration.
+Their complete prose, canonical programs, and checks remain available in the
+immutable
+[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases).
+Migrating that path is the next documentation outcome after all eleven Learn
+lessons have returned to the active prefix.
 
 ## Authority
 
-- Language behavior in the first edition comes from the specification at the
-  pinned Modular Ash commit.
+- Language behavior in active material comes from the specification at the
+  pinned Lib Ash commit.
 - `ash` invocation, output, and failures come from the tool guide and executable
   at the same commit.
 - Ash project status and possible future behavior come from current `ash-lang`
   artifacts, read according to their stated authority.
 - Explanations and learning paths belong to this repository and remain
-  subordinate to the pinned specification and tool behavior.
+  subordinate to the pinned specification and tool behavior. Historical
+  material retains the authority and target declared by its immutable
+  snapshot.
 
 An example, test, tutorial, laboratory result, or repository convention cannot
 create Ash semantics. Design notes explore possibilities. Historical Ash is

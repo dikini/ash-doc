@@ -4,22 +4,21 @@ The roadmap names ash-doc's next complete increment and records verified
 increments. It is a planning view, not a curriculum, publication promise, or
 source of Ash semantics.
 
-## Current edition
+## Current migration target
 
-- Ash milestone: `modular-ash`
-- Resolved commit: `dca16039923475c48025c5f17beadeb6bcb6a4bf`
-- Repository state: the first repository-source edition is published; the
-  twelve verified recursive-algorithm cases remain unpublished on `main`
-- Published documentation tag: immutable `modular-ash`
+- Ash milestone: `lib-ash`
+- Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
+- Repository state: unpublished forward migration with only the verified Learn
+  prefix active
+- Published `lib-ash` documentation tag: none
+- Immutable predecessor: `modular-ash` at Ash commit
+  `dca16039923475c48025c5f17beadeb6bcb6a4bf`
 
-The current `ash-lang/main` compatibility canary is deferred until an explicit
-forward migration. Every increment below continues to use the exact published
-target.
-
-Every case uses the [pinned eager evaluation
-behavior](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md)
-and lands its prose, complete canonical programs, and checks together. The
-roadmap states mean:
+Active teaching and verification use the [pinned Lib Ash evaluation
+behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
+The retained Cases record below describes historical work at the predecessor
+target and links its immutable `recursive-1` snapshot; it does not make those
+Cases active. The roadmap states mean:
 
 - **next** identifies the one increment ready to enter the execution workflow:
   approve its bounded design, activate its temporary plan, then implement it;
@@ -72,16 +71,21 @@ directory, canonical source, verifier, or shared tooling.
 
 ## Verified increments
 
-The complete eleven-lesson [beginning learning path](beginning-learning-path.md)
-is verified at the resolved commit. Its immutable publication snapshot remains
-available at the repository-local `modular-ash` tag.
+The active [beginning learning path](beginning-learning-path.md) currently
+contains one verified lesson with seven exact observations at the Lib Ash
+commit. The complete eleven-lesson path and the twelve Cases below were
+verified at the Modular Ash predecessor. Their immutable documentation source
+remains available in the
+[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
+
+[recursive-cases]: https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/README.md
 
 ### 1. Folding recursive lists
 
 **Question:** How can one recursive traversal define many list
 algorithms?
 
-The first [Cases](../../content/cases/README.md) chapter defines a strict right
+The first [historical Cases][recursive-cases] chapter defines a strict right
 `fold` over `List<A>` and derives `sum`, `length`, `map`, and `filter` from it.
 Its counted first-element program observes that returning the first value does
 not let an eager right fold avoid traversing the rest.
@@ -99,7 +103,7 @@ continues to govern the path.
 
 **Question:** How can changing finite state produce recursive data?
 
-The second [Cases](../../content/cases/README.md) chapter defines
+The second [historical Cases][recursive-cases] chapter defines
 `Step<S, A> = Stop | Emit(A, S)` and
 `unfold : (S -> Step<S, A>) -> S -> List<A>`. A unary `Natural` seed makes the
 concrete producer's structural termination measure visible. The chapter
@@ -123,7 +127,7 @@ behavior, and compiler optimization outside its source-level claims.
 
 **Question:** When should recursion retain knowledge from earlier elements?
 
-The third [Cases](../../content/cases/README.md) chapter compares reverse through
+The third [historical Cases][recursive-cases] chapter compares reverse through
 repeated append with accumulator reverse. Five canonical sources and their
 displayed blocks pass at the exact Ash commit
 `dca16039923475c48025c5f17beadeb6bcb6a4bf`. Four exact accepted observations
@@ -141,7 +145,7 @@ compiler optimization, mutation, and a type-level proof of the invariant.
 
 **Question:** What does lookup cost when a dictionary is a recursive list?
 
-The fourth [Cases](../../content/cases/README.md) chapter represents each
+The fourth [historical Cases][recursive-cases] chapter represents each
 dictionary as a newest-to-oldest recursive list of entries. Explicit equality
 lets selective lookup return at the first match, so prepending an equal key
 shadows the older entry without removing it.
@@ -178,7 +182,7 @@ data.
 
 **Question:** How does the data-directed method extend from lists to trees?
 
-The fifth [Cases](../../content/cases/README.md) chapter extends the
+The fifth [historical Cases][recursive-cases] chapter extends the
 data-directed fold from one list tail to the two branches of
 `Tree<A> = Empty | Node(Tree<A>, A, Tree<A>)`. Four canonical sources and their
 displayed blocks pass at the exact Ash commit
@@ -223,7 +227,7 @@ optimization.
 
 **Question:** How can an invariant let lookup ignore most of a tree?
 
-The sixth [Cases](../../content/cases/README.md) chapter passes an explicit
+The sixth [historical Cases][recursive-cases] chapter passes an explicit
 comparator to lookup and persistent insertion over a transparent ordered tree.
 Four canonical sources and their displayed blocks produce three exact accepted
 outputs at Ash commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`. A manually
@@ -274,7 +278,7 @@ infrastructure.
 **Question:** How can modules reuse an ordering capability without passing it
 manually?
 
-The seventh [Cases](../../content/cases/README.md) chapter replaces explicit
+The seventh [historical Cases][recursive-cases] chapter replaces explicit
 comparator value arguments with a public one-method `Order<A>` interface, a
 public `Order<Natural>` implementation, and explicit `where Order<K>`
 requirements on `lookup`, `insert`, and `lookup_counted`; their source value
@@ -375,7 +379,7 @@ infrastructure.
 **Question:** How can clients use a dictionary without constructing invalid
 trees?
 
-The eighth [Cases](../../content/cases/README.md) chapter places the ordered
+The eighth [historical Cases][recursive-cases] chapter places the ordered
 tree behind `pub opaque type Dictionary<K, V>`. Importers can name and pass the
 public nominal type, but only the defining module can use `Empty` and `Node` as
 values or patterns. Its public API supplies `empty`, `insert`, `build`,
@@ -447,7 +451,7 @@ ordering-law enforcement.
 **Question:** How can the representation prevent a search tree from
 degenerating?
 
-The ninth [Cases](../../content/cases/README.md) chapter retains the public
+The ninth [historical Cases][recursive-cases] chapter retains the public
 `Ordering`, `Natural`, `Option`, `List`, `Order`, `empty`, `lookup`, `insert`,
 `build`, and `invariant_holds` API while replacing the hidden representation
 with `pub opaque type Dictionary<K, V>` nodes that carry a private `Color`.
@@ -539,7 +543,7 @@ ordering-law enforcement.
 
 **Question:** How can traversal pause and resume without laziness?
 
-The tenth [Cases](../../content/cases/README.md) chapter extends the opaque
+The tenth [historical Cases][recursive-cases] chapter extends the opaque
 persistent red-black dictionary with a private `FrameStack<K, V>` and a public
 opaque `Iterator<K, V>`. Its public API is
 `iterator : Dictionary<K, V> -> Iterator<K, V>` and
@@ -641,7 +645,7 @@ ash-doc evidence and do not define Ash semantics.
 **Question:** How can two lists preserve queue order while avoiding a full
 rebuild on every operation?
 
-The eleventh [Cases](../../content/cases/README.md) chapter crosses from an
+The eleventh [historical Cases][recursive-cases] chapter crosses from an
 explicit LIFO iterator stack to a persistent FIFO frontier. Instead of
 appending through one growing forward list, it represents logical queue order
 as `front ++ reverse(rear)`, where `front` is already in removal order and
@@ -724,7 +728,7 @@ evidence and do not define Ash semantics.
 
 **Question:** How does frontier representation change a search algorithm?
 
-The twelfth [Cases](../../content/cases/README.md) chapter holds one search
+The twelfth [historical Cases][recursive-cases] chapter holds one search
 transition fixed while ordinary add and remove functions select a LIFO list
 stack or FIFO paired-list queue. Three canonical sources pass together at
 exact Ash commit `dca16039923475c48025c5f17beadeb6bcb6a4bf`:
@@ -822,10 +826,10 @@ as tool/resource pressure. The remaining observations are ash-doc learning and
 executable evidence subordinate to the pinned specification and tool; they do
 not define Ash semantics or accept an Ash mechanism.
 
-The repository contains `11 Learn / 12 Cases / 53 Case sources`. All twelve
-Cases are verified and remain unpublished on `main`. The recursive-algorithms
-roadmap has no outstanding Case. A future increment requires a new bounded
-outcome rather than implicit promotion.
+The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
+The active migration tree contains `1 Learn / 0 Cases / 7 Learn sources`.
+Learn migration remains the one next outcome; Cases migration follows only
+after the full Learn path is restored and verified.
 
 ## Promotion and verification policy
 
@@ -838,7 +842,8 @@ For a future increment:
    invoked.
 4. Assert exact values, types, output, and exit status for successes; assert a
    stable reason and causal source location for intentional rejections.
-5. Run all Learn and Cases checks before closure.
+5. Run every active Learn check before closure. Run the Cases aggregate only
+   after Cases have returned to the active tree.
 6. Review time, comparison, allocation, recursion-depth, and retained-state
    claims as source-level properties unless a separate implementation record
    establishes more.
@@ -858,7 +863,6 @@ resolved commit:
 ```text
 bash -n <changed verification scripts>
 bash content/learn/checks/verify.sh <clean pinned ash-lang checkout>
-bash content/cases/checks/verify.sh <clean pinned ash-lang checkout>
 git diff --check
 git status --short
 ```

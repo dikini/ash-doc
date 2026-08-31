@@ -4,22 +4,21 @@ This root contains material intended for a coherent, version-pinned Ash
 documentation edition. Content explains and tests Ash; it does not define the
 language.
 
-Add a family only when its first approved unit is ready:
+The unpublished Lib Ash migration currently contains one active family:
 
-- [`learn/`](learn/README.md) for focused tutorials and prerequisite-based
-  learning paths;
-- [`cases/`](cases/README.md) for structures, algorithms, and techniques
-  adapted from established work; and
-- `applications/` for deterministic application slices that exercise several
-  boundaries together.
+- [`learn/`](learn/README.md) for the verified prefix of the focused beginning
+  learning path.
 
 A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
 and links to canonical programs, fixtures, and checks kept inside the same unit.
 Create only the internal paths that its examples require.
 
 Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
-After the complete Learn Ash path, continue with
-[*Design recursive algorithms in Ash*](cases/README.md).
+The predecessor [*Design recursive algorithms in
+Ash*](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases)
+path remains available at the immutable `recursive-1` snapshot. It is
+historical material until a later migration restores and verifies it at the
+active target.
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
 and approve its temporary plan. Keep incomplete work in that plan until the

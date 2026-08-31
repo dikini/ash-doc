@@ -85,7 +85,7 @@ leaves the final tree.
 
 | Lesson | Baseline at `lib-ash` | Minimal migration | Enhancement assessment |
 | --- | --- | --- | --- |
-| 1. What is an Ash program? | pending | pending | pending |
+| 1. What is an Ash program? | All seven exact predecessor observations are unchanged at `lib-ash`. | Target and link administration only; canonical lesson source, prose, and verifier are unchanged. | None: implementation selection, kinds, method-local parameters, and relational interfaces do not answer the first program-and-value question. |
 | 2. Using another source file | pending | pending | pending |
 | 3. Using more than one input | pending | pending | pending |
 | 4. Choosing a result | pending | pending | pending |
@@ -133,6 +133,25 @@ Direct Lib Ash controls also established that both libraries without local
 `main` reached `entry.missing-main` and that the red-black library's local
 `main` succeeded. The internal failures therefore arise when the importing
 entries admit the already checked dependency summaries.
+
+### Execution note: first active Learn prefix
+
+On 2026-08-31, the lesson 1 verifier rejected the exact Lib Ash checkout with
+status `1` because the shared helper still expected
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. After the active target changed
+to `d1e323d23390cdad03202ee3df76cd9100556e1d` and the unverified content left
+the active tree, the lesson-local verifier reported seven canonical sources
+and displayed blocks at the new pin. The aggregate reported one learning
+lesson at the same pin; the active tree contained exactly one lesson verifier
+and no `content/cases/` directory.
+
+All six accepted value-and-type observations and the `entry.missing-main`
+rejection retained their predecessor status and channel behavior. Lesson 1's
+canonical source, prose, and local verifier did not change. The migration
+changed only target and navigation administration. Explicit implementation
+selection, kinds, method-local parameters, and relational interfaces add no
+answer to this lesson's first program-and-value question, so it receives no
+Lib Ash enhancement.
 
 Expected enhancement decisions are not foregone conclusions. The initial
 canary suggests that lessons 1 through 10 need no new library abstraction

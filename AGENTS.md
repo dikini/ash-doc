@@ -20,11 +20,16 @@ compatible capability that the project skill does not cover.
 
 ## Authority and target
 
-The first edition targets `modular-ash` at commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`.
-DN-0024 proposed Mini-Ash for the first pilot edition. Project direction
-deliberately replaces that target with the completed Modular Ash checkpoint;
-the note's other experiment boundaries still apply.
+The active work is an unpublished migration to `lib-ash` at commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Only the verified prefix restored
+under `content/learn/` belongs to the active documentation stream during this
+migration.
+
+The immutable predecessor targets `modular-ash` at commit
+`dca16039923475c48025c5f17beadeb6bcb6a4bf`. It remains historical evidence and
+does not govern active material. DN-0024 proposed Mini-Ash for the first pilot
+edition; the project's version choices retain the note's other experiment
+boundaries.
 
 A published ash-doc edition uses the exact tag name of its target Ash
 milestone. The tags are repository-local and identify different commits: the
@@ -35,10 +40,10 @@ published documentation tag.
 Use sources according to the claim you are making:
 
 1. The
-   [specification at the pinned commit](https://github.com/dikini/ash-lang/tree/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec)
-   is the only authority for language behavior in published material.
+   [specification at the pinned commit](https://github.com/dikini/ash-lang/tree/d1e323d23390cdad03202ee3df76cd9100556e1d/spec)
+   is the only authority for language behavior in active material.
 2. The pinned implementation, its tests, and the
-   [pinned tool guide](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md)
+   [pinned tool guide](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md)
    govern tool behavior and executable observations.
 3. Accepted architectural decisions in `ash-lang` govern the non-language
    choices within their scope and retained version.
@@ -51,11 +56,11 @@ the latest
 [Ash writing guide](https://github.com/dikini/ash-lang/blob/main/docs/project/writing.md).
 Do not import language behavior from `main` into the pinned edition.
 
-The repository README declares the edition's documentation tag, Ash milestone,
-and resolved commit. Learning pages inherit that target; do not repeat it in
-every lesson. Plans and verification must still name the exact target. An
-upstream canary may test a newer exact commit, but it does not change the
-publication target.
+The repository README declares the migration state, Ash milestone, resolved
+commit, and immutable predecessor. Learning pages inherit the active target;
+do not repeat it in every lesson. Plans and verification must still name the
+exact target. An upstream canary may test a newer exact commit, but it does not
+change the active migration target.
 
 ## Reconstruct enough context
 
