@@ -312,6 +312,31 @@ git -c commit.gpgSign=false commit \
   -m "docs: teach capability evidence facades"
 ```
 
+## Execution record
+
+Implementation followed the approved RED/GREEN order at the exact target:
+
+- the inventory named all five missing sources in declared order before the
+  empty five-file inventory passed;
+- byte comparison rejected the empty equality source before lesson 1's exact
+  source was added;
+- each facade assertion rejected its empty source before the corresponding
+  one-line public import was added;
+- the forwarded-entry assertion rejected its empty source before exact
+  `true : Bool` observation passed;
+- the complete names-only relationship and diagnostic checks rejected its
+  empty source before the exact `constraint.unsatisfied` observation passed;
+- controlled extra-primary and extra-related labels each failed their global
+  cardinality checks before the unmodified diagnostic passed;
+- source agreement rejected the missing README before all five exact displayed
+  blocks and lesson prose passed; and
+- family navigation rejected two verifiers against one link before lesson 2
+  was indexed.
+
+ShellCheck exposed a split quoted assignment in the lesson-1 source path. The
+path was rewritten as one quoted assignment and all executable observations
+remained green. This is an ash-doc verifier correction, not an Ash discovery.
+
 ## Task 6: Verify, review, close, and integrate
 
 From clean implementation HEAD run:

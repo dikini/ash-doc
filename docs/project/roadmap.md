@@ -9,8 +9,8 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path, nine verified recursive-algorithm Cases, and one verified
-  library-abstraction lesson active
+  Learn path, nine verified recursive-algorithm Cases, and two verified
+  library-abstraction lessons active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
@@ -58,33 +58,31 @@ edition target. A later upstream fix cannot change the immutable `lib-ash`
 evidence or silently retarget only these Cases; every active page and check
 must move together if project authority selects another target.
 
-## Next: forward a capability through a facade
+## Next: accept a type constructor
 
-**Question:** How can a facade forward a capability without redefining it?
+**Question:** How can an abstraction accept a type constructor?
 
-The first **Design library abstractions in Ash** lesson now establishes that a
-targeted name item and an `impl Interface` item are independent channels. The
-second lesson will ask how a facade publicly re-exports both a capability name
-and its implementation authorization route without creating a forwarding
-declaration or new implementation identity.
+The first two **Design library abstractions in Ash** lessons establish direct
+implementation selection and a two-hop public facade route. The third lesson
+will move from completed types such as `Int` to explicit function kinds and a
+parameter `F : Type -> Type` that can accept `Option`.
 
 This promotion authorizes only bounded lesson design and a temporary
-implementation plan. It does not authorize lesson-2 content, canonical source,
-or tooling. That work must preserve the exact target, build on the first
-lesson's vocabulary, and keep the library plan separate from a future
+implementation plan. It does not authorize lesson-3 content, canonical source,
+or tooling. That work must preserve the exact target, build on the first two
+lessons' vocabulary, and keep the library plan separate from a future
 Cases-resumption plan.
 
 The approved
 [library abstractions learning-path design](../plans/2026-09-01-library-abstractions-design.md)
-selects the public capability facade as lesson 2 and fixes its intended
-names-plus-implementation success and names-only `constraint.unsatisfied`
+selects explicit higher-kinded parameters as lesson 3 and fixes its intended
+`Some(42) : Option<Int>` success and omitted-kind `kind.not-applicable`
 boundary.
 
 The approved active
 [capability-evidence facade lesson plan](../plans/2026-09-01-forwarding-capability-evidence.md)
-specifies the two one-line facades, five canonical sources, two-hop success,
-names-only rejection, and closure gates. Its two independent reviews authorize
-this complete lesson and no later lesson content.
+remains only as lesson 2's implementation and closure record. It authorizes no
+type-constructor lesson content and leaves the tree after reviewed closure.
 
 ## Verified increments
 
@@ -105,12 +103,13 @@ That explicit kind boundary improves the existing lesson without introducing a
 separate higher-kinded abstraction.
 
 The active
-[library-abstraction path](../../content/libraries/README.md) contains one
-verified lesson and three canonical sources at the exact Lib Ash commit. Its
-selected client observes `true : Bool`; its otherwise identical name-only
-client reports `constraint.unsatisfied` because importing `same` selects no
-`Equal<Int>` implementation fact. The checks derive and retain the causal
-source ranges for the call, import, constrained declaration, and interface.
+[library-abstraction path](../../content/libraries/README.md) contains two
+verified lessons and eight canonical sources at the exact Lib Ash commit. The
+first separates a constrained name from direct implementation selection. The
+second preserves that equality source byte-for-byte, then proves a two-hop
+facade authorization route with `true : Bool`. Its names-only counterpart
+reports `constraint.unsatisfied` with exactly one primary and three related
+labels retaining the original declaration identities.
 
 The migration also retained all eight unexpected imported-summary compiler
 failures from three Cases as permanent executable
@@ -989,12 +988,12 @@ The active migration tree contains:
 
 - `11 Learn lessons / 43 sources`;
 - `9 Cases / 42 sources`; and
-- `1 library lesson / 3 sources`.
+- `2 library lessons / 8 sources`.
 
 All currently implementable Cases are verified. Cases 9, 10, and 12 remain
 **blocked residual** work with linked upstream evidence, so Outcome 2 and final
-publication remain incomplete. Designing the public capability-facade lesson is
-the one **next** outcome. No ash-doc `lib-ash` tag may be created in this state.
+publication remain incomplete. Designing the type-constructor lesson is the one
+**next** outcome. No ash-doc `lib-ash` tag may be created in this state.
 
 ## Promotion and verification policy
 

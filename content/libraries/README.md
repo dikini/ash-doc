@@ -26,3 +26,6 @@ For each boundary, use the same cycle:
 1. [Choose implementation evidence](choosing-implementation-evidence/README.md)
    — separate an imported constrained name from the public implementation fact
    that satisfies its concrete requirement.
+2. [Forward capability evidence](forwarding-capability-evidence/README.md)
+   — carry public names and implementation authorization through a facade
+   without redefining the capability.

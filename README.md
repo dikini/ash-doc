@@ -20,7 +20,7 @@ milestone:
 - repository state: unpublished migration; and
 - active content: the complete verified eleven-lesson path under
   `content/learn/`, nine verified Cases and three explicit unavailable slots
-  under `content/cases/`, and one verified library-abstraction lesson under
+  under `content/cases/`, and two verified library-abstraction lessons under
   `content/libraries/`.
 
 There is no ash-doc `lib-ash` publication tag yet. The published
@@ -87,10 +87,10 @@ that surprised you.
 ## Design library abstractions
 
 After Learn Ash, begin
-[Design library abstractions in Ash](content/libraries/README.md). Its first
-verified lesson separates importing a constrained definition by name from
-explicitly selecting the public implementation evidence that definition needs.
-Later lessons in the planned family are not active content yet.
+[Design library abstractions in Ash](content/libraries/README.md). Its first two
+verified lessons separate importing a constrained definition by name from
+selecting its implementation evidence, then carry both channels through a
+public facade. Later lessons in the planned family are not active content yet.
 
 ## Design recursive algorithms
 
