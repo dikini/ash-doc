@@ -184,13 +184,15 @@ retrofit.
 
 **Question:** What does lookup cost when a dictionary is a recursive list?
 
-The fourth [historical Cases][recursive-cases] chapter represents each
+The active
+[fourth Cases chapter](../../content/cases/dictionary-as-list/README.md)
+represents each
 dictionary as a newest-to-oldest recursive list of entries. Explicit equality
 lets selective lookup return at the first match, so prepending an equal key
 shadows the older entry without removing it.
 
-Five canonical sources and their displayed blocks pass at the exact Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Four exact accepted observations
+Five canonical sources and their displayed blocks pass at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Four exact accepted observations
 establish ordinary hit and absence, one comparison for a front hit versus
 three for a complete miss, one selective comparison versus three strict-fold
 comparisons for the same hit, and lookup through retained older and newer
@@ -216,6 +218,13 @@ mutation, or compiler representation and optimization. It introduces no
 equality interface or law enforcement, evidence selection, ordering, tree,
 balancing, opacity, deletion, in-place update, or lazy, infinite, or cyclic
 data.
+
+The migration changed only target links and active navigation. Explicit
+equality remains because replacing it with an `Equal` interface would
+introduce implementation selection before the later ordering-abstraction
+Case. Explicit kinds, method-local type parameters, and relational interfaces
+do not strengthen this list-dictionary cost question, so this Case received no
+feature retrofit.
 
 ### 5. Folding branching data
 
@@ -867,7 +876,7 @@ not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
-`11 Learn / 3 Cases / 43 Learn sources / 15 Case sources`.
+`11 Learn / 4 Cases / 43 Learn sources / 20 Case sources`.
 Cases migration remains
 the one **next** outcome; its approved plan restores each later historical Case
 only after that Case passes its complete evidence at the active target.

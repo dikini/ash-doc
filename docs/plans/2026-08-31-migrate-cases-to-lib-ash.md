@@ -131,7 +131,7 @@ has run.
 | 1. Folding recursive lists | 5 unchanged | Links/navigation | None |
 | 2. Building finite lists | 5 byte-identical | Links/navigation | None |
 | 3. Accumulating list results | 4 exact entries | Links/navigation | None |
-| 4. Dictionary as a list | pending | pending | pending |
+| 4. Dictionary as a list | 5 sources / 4 exact | Links/navigation | None |
 | 5. Folding branching data | pending | pending | pending |
 | 6. Searching an ordered tree | pending | pending | pending |
 | 7. Abstracting key order | pending | pending | pending |
@@ -172,6 +172,18 @@ implementation selection, explicit kinds, method-local type parameters, and
 relational interfaces do not strengthen the concrete repeated-append versus
 accumulator comparison or its retained-state account, so the Case received no
 enhancement.
+
+For Case 4, all five canonical sources and displayed blocks pass at both exact
+pins. The four numbered entries remain accepted with byte-identical status,
+standard output, and standard error. The migration changed only target links
+and active family navigation; Ash source, observations, and verifiers remain
+unchanged. Before the index linked the restored Case, the navigation gate
+failed at four active verifiers and three indexed Cases; after the link, it
+passed at four and four. Explicit equality remains because an `Equal`
+interface would pull implementation selection ahead of its established place
+and weaken the sequence. Explicit kinds, method-local type parameters, and
+relational interfaces do not strengthen the list-dictionary lookup, work, or
+retained-version account, so the Case received no enhancement.
 
 ## Shared rules for every restoration
 
