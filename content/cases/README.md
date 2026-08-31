@@ -73,3 +73,7 @@ storage strategy.
    tree?](searching-ordered-tree/README.md) — pass an explicit comparator to
    ordered lookup and insertion, state the descendant invariant, and observe
    why an unbalanced tree provides no logarithmic guarantee.
+7. [How can modules reuse an ordering capability without passing it
+   manually?](abstracting-key-order/README.md) — replace repeated comparator
+   arguments with an `Order<K>` requirement and explicitly select the
+   implementation evidence used by each client.

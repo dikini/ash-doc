@@ -141,7 +141,7 @@ has run.
 | 4. Dictionary as a list | 5 sources / 4 exact | Links/navigation | None |
 | 5. Folding branching data | 4 sources / 3 exact | Links/navigation | None |
 | 6. Searching an ordered tree | 4 sources / 3 exact | Links/navigation | None |
-| 7. Abstracting key order | pending | pending | pending |
+| 7. Abstracting key order | 5 sources | Selectors/navigation | Selection |
 | 8. Protecting the dictionary invariant | pending | pending | pending |
 | 9. Guaranteeing logarithmic retrieval | pending | pending | pending |
 | 10. Resuming tree traversal | pending | pending | pending |
@@ -214,6 +214,24 @@ that Case 7 abstracts through `Order`. Explicit kinds, method-local type
 parameters, and relational interfaces do not strengthen the ordered lookup
 invariant, comparator-work account, or unbalanced-height boundary, so the Case
 received no enhancement.
+
+For Case 7, the predecessor's five canonical sources establish three accepted
+entries and one `constraint.unsatisfied` rejection. At Lib Ash before source
+migration, entries 01 through 03 rejected with `constraint.unsatisfied`
+because the qualified import selected names but no implementation facts;
+entry 04 retained its rejection. Each numbered entry now adds exactly one
+`import ordered_trees (impl Order)` beside the qualified import. The first
+three outputs are byte-identical to their predecessor observations. Entry 04
+still exits `1` with empty standard output and `constraint.unsatisfied` first;
+its primary label covers the shifted `Trees.lookup` bytes `173..185`, and
+related labels retain the constrained declaration, exact qualified name
+import, and `Order` interface relationships. The library source is unchanged.
+Before the index linked the migrated Case, the navigation gate failed at seven
+active verifiers and six indexed Cases; after the link, it passed at seven and
+seven. Explicit selection improves the same capability-abstraction question
+under Lib Ash's independent name and implementation channels. Explicit kinds,
+method-local type parameters, and relational determination do not strengthen
+that question, so the Case received no other feature retrofit.
 
 ## Shared rules for every restoration
 

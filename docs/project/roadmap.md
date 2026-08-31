@@ -9,7 +9,7 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path and six verified recursive-algorithm Cases active
+  Learn path and seven verified recursive-algorithm Cases active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
@@ -93,8 +93,8 @@ The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
-contains six verified Cases and 28 canonical sources at the Lib Ash commit.
-Cases 7 through 12 below remain historical material verified at the
+contains seven verified Cases and 33 canonical sources at the Lib Ash commit.
+Cases 8 through 12 below remain historical material verified at the
 Modular Ash predecessor. Their immutable prose, programs, and checks remain
 available in
 the
@@ -349,13 +349,15 @@ it received no feature retrofit.
 **Question:** How can modules reuse an ordering capability without passing it
 manually?
 
-The seventh [historical Cases][recursive-cases] chapter replaces explicit
+The active
+[seventh Cases chapter](../../content/cases/abstracting-key-order/README.md)
+replaces explicit
 comparator value arguments with a public one-method `Order<A>` interface, a
 public `Order<Natural>` implementation, and explicit `where Order<K>`
 requirements on `lookup`, `insert`, and `lookup_counted`; their source value
 types contain no comparator argument. Five canonical sources and their
-displayed blocks pass together at Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. The three accepted entries retain
+displayed blocks pass together at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. The three accepted entries retain
 the preceding tree constructions and produce these exact outputs with empty
 standard error and status `0`:
 
@@ -368,40 +370,42 @@ standard error and status `0`:
 <!-- markdownlint-enable MD013 -->
 
 At an imported Natural call, ordinary typing determines `K`. Under the pinned
-[public declaration
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations),
-the direct dependency's public Natural implementation is available and
-supplies the matching concrete evidence. Inside each constrained recursive
+[import
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#imports-and-namespaces),
+the complete import binds qualified names but no implementation facts; the
+separate `impl Order` item explicitly selects the dependency's public Natural
+implementation. Inside each constrained recursive
 global, the declared abstract requirement supplies both the method occurrence
 and recursive constrained occurrence. The recursive Natural method uses
 exact-current evidence. These selection relationships follow the pinned
 [constraint satisfaction and checked-evidence
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence).
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence).
 CLI output establishes only each complete program's acceptance and result; it
 cannot expose the selected identity or generated Core. The specified
 [interface-evidence
-lowering](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/elaboration.md#interface-evidence-lowering),
+lowering](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/elaboration.md#interface-evidence-lowering),
 supported by three focused retained tests, produces ordinary Core evidence
 binders and applications before source value arguments. The identities erase
 before evaluation. Under the pinned [generated interface-evidence
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#generated-interface-evidence),
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#generated-interface-evidence),
 the evaluator uses ordinary functions and applications, so this mechanism
 introduces no runtime implementation registry, registration, interface
 lookup, or interface-specific dispatch.
 
-A fourth complete entry fixes `K = Int` at `Trees.lookup`, while the direct
-dependency provides only `Order<Natural>`. It is rejected during checking with
+A fourth complete entry selects the same public `Order` facts and then fixes
+`K = Int` at `Trees.lookup`. The selected environment provides only
+`Order<Natural>`, so checking rejects the call with
 empty standard output, first standard-error line `constraint.unsatisfied`, and
 status `1`; the primary causal label covers the constrained `Trees.lookup`
 occurrence. The pinned [failure
-contract](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md#failures)
+contract](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md#failures)
 governs those channels and status. Colors, offsets, gutters, and remaining
 diagnostic prose are not contracts.
 
 The interface changes how comparison is supplied, not the algorithm's
 premises. Its method-only declaration states a comparison type but encodes no
 ordering laws under the pinned [interface
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#interfaces-and-constrained-schemes).
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#interfaces-and-constrained-schemes).
 Fix one implementation whose required comparisons return, whose
 `Equal` result is the chosen key equivalence, whose reversed strict
 comparisons reverse `Less` and `Greater`, whose strict order is transitive,
@@ -425,7 +429,7 @@ with `Cmax >= 1`, may the combined account be summarized as
 Core work outside those named counts.
 
 Under the pinned [public and opaque declaration
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations),
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#public-private-and-opaque-declarations),
 the transparent representation still accepts a malformed tree that contains
 the queried key in the wrong branch and returns `None`. Ascending insertion
 still produces a right chain with `h = n`, so the interface adds no balancing
@@ -434,9 +438,9 @@ separate private unary `maximum` work. A lookup return claim requires a finite
 entered path and returning comparisons; a required nonreturning comparison or
 a reachable constructor-guarded cycle may prevent return under the pinned
 [static recursive block-group
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#recursive-block-groups)
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#recursive-block-groups)
 and dynamic [recursive binding
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#recursive-bindings).
+rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#recursive-bindings).
 
 The case establishes no zero-overhead, identical-Core, elapsed-time,
 machine-instruction, native-stack, heap-byte, garbage-collection,
@@ -444,6 +448,13 @@ pointer-identity, physical-sharing, compiler-optimization, or
 arbitrary-precision bit-cost result. It introduces no opacity, invariant
 enforcement, balancing, deletion, mutation, iteration, or generic tree
 infrastructure.
+
+The migration adds one explicit `impl Order` selector to each client while
+retaining the library source and every algorithmic observation. This is a
+warranted improvement to the Case's capability-abstraction question because
+Lib Ash makes name imports and implementation selection independent. Explicit
+kinds, method-local type parameters, and relational determination do not
+strengthen that question, so the Case received no other feature retrofit.
 
 ### 8. Protecting the dictionary invariant
 
@@ -899,7 +910,7 @@ not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
-`11 Learn / 6 Cases / 43 Learn sources / 28 Case sources`.
+`11 Learn / 7 Cases / 43 Learn sources / 33 Case sources`.
 Cases migration remains
 the one **next** outcome; its approved plan restores each later historical Case
 only after that Case passes its complete evidence at the active target.
