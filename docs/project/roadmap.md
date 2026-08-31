@@ -8,8 +8,8 @@ source of Ash semantics.
 
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
-- Repository state: unpublished forward migration with only the verified Learn
-  prefix active
+- Repository state: unpublished forward migration with the complete verified
+  Learn path active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
   `dca16039923475c48025c5f17beadeb6bcb6a4bf`
@@ -30,10 +30,11 @@ Cases active. The roadmap states mean:
 Promotion to **next** authorizes the design-and-plan work, not a content change
 that bypasses those gates.
 
-## Next: migrate Learn to `lib-ash`
+## Next: migrate Cases to `lib-ash`
 
-**Question:** How can the existing Learn path preserve its teaching promises
-while the complete documentation stream moves to one exact `lib-ash` target?
+**Question:** How can the existing recursive-algorithm Cases preserve their
+problems, invariants, derivations, and source-level cost accounts at the exact
+`lib-ash` target?
 
 The approved
 [Lib Ash documentation milestone design](../plans/2026-08-31-lib-ash-documentation-milestone-design.md)
@@ -41,26 +42,15 @@ selects a staged forward migration ending in an immutable ash-doc `lib-ash`
 tag. The target is the annotated `ash-lang` tag `lib-ash`, resolved to exact
 commit `d1e323d23390cdad03202ee3df76cd9100556e1d`.
 
-The first bounded outcome migrates the eleven Learn lessons in reading order.
-Each lesson must first regain its existing promise at the new pin, then receive
-a separate assessment of whether explicit implementation selection, kinds,
-method-local type parameters, or relational interfaces provide a concrete
-teaching or verification benefit. Unexpected compiler failures become
-permanent executable upstream evidence; ash-doc does not solve them.
-
-The temporary
-[Learn migration implementation plan](../plans/2026-08-31-migrate-learn-to-lib-ash.md)
-fixes the migration-state cutover, exact per-lesson baseline comparison,
-active-navigation rule, verifier changes, failure-record boundary, enhancement
-decision record, aggregate regression gate, reviews, and local integration.
-The plan authorizes no Cases or library-family implementation.
+The next bounded outcome migrates the twelve historical Cases in reading
+order. Each Case must first regain its existing promise at the new pin, then
+receive a separate assessment of whether a Lib Ash feature clarifies the same
+algorithmic question or strengthens its evidence. The next work is to approve
+a bounded Cases design and activate its temporary implementation plan. This
+promotion authorizes that design-and-plan work; it does not restore a Case or
+create the library family before those gates pass.
 
 ## Provisional `lib-ash` outcomes
-
-After Learn migration closes, review its evidence before promoting the Cases
-migration. That outcome will apply the same minimal-migration-then-enhancement
-sequence while preserving each algorithmic question, invariant, and
-source-level cost account.
 
 After Cases migration closes, review both migrated paths before promoting the
 new **Design library abstractions in Ash** family. Its proposed five-lesson
@@ -71,12 +61,33 @@ directory, canonical source, verifier, or shared tooling.
 
 ## Verified increments
 
-The active [beginning learning path](beginning-learning-path.md) currently
-contains one verified lesson with seven exact observations at the Lib Ash
-commit. The complete eleven-lesson path and the twelve Cases below were
-verified at the Modular Ash predecessor. Their immutable documentation source
-remains available in the
-[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
+The active [beginning learning path](beginning-learning-path.md) contains all
+eleven lessons and 43 canonical sources verified at exact Lib Ash commit
+`d1e323d23390cdad03202ee3df76cd9100556e1d`. Lessons 1 through 10 retained
+their predecessor source, prose, verifier, and observations; their migration
+needed only target and active-navigation administration. Explicit
+implementation selection, kinds, method-local type parameters, and relational
+interfaces would not simplify or strengthen those lessons' established
+questions, so none received a feature retrofit.
+
+Lesson 11 retained all five canonical sources and accepted observations. Its
+specified rejection now explains that `List` has kind `Type -> Type`, while an
+ordinary function domain requires kind `Type`; the shared rejection helper now
+retains the expected and found kinds along with the causal source evidence.
+That explicit kind boundary improves the existing lesson without introducing a
+separate higher-kinded abstraction.
+
+The migration also retained three unexpected imported-summary compiler
+failures as permanent executable
+[upstream evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md).
+The lab records exact observations across both Ash pins and does not propose an
+Ash fix.
+
+The twelve Cases below remain historical material verified at the Modular Ash
+predecessor. Their immutable prose, programs, and checks remain available in
+the
+[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833);
+no Case belongs to the active content tree yet.
 
 [recursive-cases]: https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/README.md
 
@@ -827,9 +838,9 @@ executable evidence subordinate to the pinned specification and tool; they do
 not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
-The active migration tree contains `1 Learn / 0 Cases / 7 Learn sources`.
-Learn migration remains the one next outcome; Cases migration follows only
-after the full Learn path is restored and verified.
+The active migration tree contains `11 Learn / 0 Cases / 43 Learn sources`.
+Cases migration is the one next outcome; its bounded design and temporary plan
+must pass before a historical Case returns to the active tree.
 
 ## Promotion and verification policy
 

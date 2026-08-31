@@ -18,7 +18,8 @@ milestone:
 - Ash milestone tag: `lib-ash`;
 - resolved Ash commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`;
 - repository state: unpublished migration; and
-- active content: only the verified prefix restored under `content/learn/`.
+- active content: the complete verified eleven-lesson path under
+  `content/learn/`.
 
 There is no ash-doc `lib-ash` publication tag yet. The published
 `modular-ash` documentation tag and Ash commit
@@ -53,10 +54,10 @@ Keep this terminal open while you work through the learning path.
 ## Learn Ash
 
 Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool
-setup, the method used throughout the learning path, and the verified active
-prefix in reading order. The currently restored first chapter begins with one
-source file and one value, then introduces expressions, functions, function
-calls, and composition.
+setup, the method used throughout the learning path, and all eleven verified
+chapters in reading order. The path begins with one source file and one value,
+then builds through functions, modules, choices, local bindings, structured and
+recursive data, functions as values, and definitions parameterized by types.
 
 The examples use the
 [pinned `ash` tool](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md).
@@ -87,8 +88,9 @@ The twelve predecessor Cases are not active content during this migration.
 Their complete prose, canonical programs, and checks remain available in the
 immutable
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases).
-Migrating that path is the next documentation outcome after all eleven Learn
-lessons have returned to the active prefix.
+Migrating that path is the next documentation outcome. It requires its own
+bounded design and implementation plan before any Case returns to active
+content.
 
 ## Authority
 

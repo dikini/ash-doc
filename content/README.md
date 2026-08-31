@@ -6,7 +6,7 @@ language.
 
 The unpublished Lib Ash migration currently contains one active family:
 
-- [`learn/`](learn/README.md) for the verified prefix of the focused beginning
+- [`learn/`](learn/README.md) for the complete verified eleven-lesson beginning
   learning path.
 
 A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
@@ -17,8 +17,8 @@ Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
 The predecessor [*Design recursive algorithms in
 Ash*](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases)
 path remains available at the immutable `recursive-1` snapshot. It is
-historical material until a later migration restores and verifies it at the
-active target.
+historical material until the next bounded migration restores and verifies it
+at the active target.
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
 and approve its temporary plan. Keep incomplete work in that plan until the
