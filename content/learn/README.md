@@ -48,3 +48,5 @@ with `ash` to test what it does.
    — supply chained inputs, pause at a partial call, and read function arrows.
 4. [How can a program choose a result?](choosing-a-result/README.md) — use
    integer equality, Boolean values, and exhaustive matching to select a result.
+5. [How can a calculation name an intermediate value?](naming-intermediate-values/README.md)
+   — make a block's steps visible with local bindings.

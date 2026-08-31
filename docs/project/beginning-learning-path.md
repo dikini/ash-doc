@@ -53,8 +53,8 @@ directory, reader-facing link, or publication date.
   inputs, and chained calls.
 - **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
   — **verified.** `Bool`, integer equality, and exhaustive matching.
-- **5. How can a calculation name an intermediate value?** —
-  **migration-pending.**
+- **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**
+  — **verified.**
   Blocks, sequential `let` bindings, and scope.
 
 ## Data and structure
