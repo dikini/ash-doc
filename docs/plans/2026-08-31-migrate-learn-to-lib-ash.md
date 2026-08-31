@@ -119,6 +119,21 @@ Ash checkout selected Rust 1.97.1 and passed. The plan now enters each Ash
 checkout before building; this was a local invocation error, not an Ash
 compiler failure.
 
+### Execution note: retained imported-summary failures
+
+The Task 3 RED command failed because its verifier did not yet exist. After the
+six sources were copied byte-for-byte and the lab record and verifier were
+added, Bash syntax, ShellCheck, Markdownlint, and `git diff --check` passed.
+The executable comparison reported `Verified 3 imported-summary failures` from
+exact Modular Ash to exact Lib Ash. Each predecessor entry returned status `0`
+with its authenticated output, while each Lib Ash entry returned status `2`,
+empty standard output, `resolve.internal-state`, and a causal import label for
+`a dependency summary failed body-free authentication`.
+Direct Lib Ash controls also established that both libraries without local
+`main` reached `entry.missing-main` and that the red-black library's local
+`main` succeeded. The internal failures therefore arise when the importing
+entries admit the already checked dependency summaries.
+
 Expected enhancement decisions are not foregone conclusions. The initial
 canary suggests that lessons 1 through 10 need no new library abstraction
 because those concepts are outside their established questions. Lesson 11
@@ -332,12 +347,14 @@ Modular Ash checkout and the clean Lib Ash checkout. It must:
 1. assert both exact commits and clean worktrees;
 2. build each with `cargo build --quiet --locked` into a temporary target;
 3. assert every copied source hash above;
-4. run each `main.ash` with the predecessor binary and assert status `0`, empty
+4. run each dependency directly at Lib Ash and prove that it reaches either
+   its successful `main` or the later `entry.missing-main` contract;
+5. run each `main.ash` with the predecessor binary and assert status `0`, empty
    standard error, and the exact standard-output SHA-256 below;
-5. run each entry with the Lib Ash binary and assert status `2`, empty standard
+6. run each entry with the Lib Ash binary and assert status `2`, empty standard
    output, first standard-error line `resolve.internal-state`, and the phrase
    `a dependency summary failed body-free authentication`; and
-6. print one success line naming all three observations and both commits.
+7. print one success line naming all three observations and both commits.
 
 The predecessor output hashes include the command's trailing newline:
 
@@ -426,6 +443,53 @@ assert_hash() {
         fail "$file has hash $actual, expected $expected"
 }
 
+assert_dependency_reaches_entry_contract() {
+    local label=$1
+    local directory=$2
+    local library_file=$3
+    local dependency_stdout="$verify_dir/$label.dependency.stdout"
+    local dependency_stderr="$verify_dir/$label.dependency.stderr"
+    local status
+
+    if "$lib_ash" "$case_root/$directory/$library_file" \
+        > "$dependency_stdout" 2> "$dependency_stderr"; then
+        status=0
+    else
+        status=$?
+    fi
+    [[ $status -eq 1 ]] ||
+        fail "$label dependency status is $status, expected 1"
+    [[ ! -s $dependency_stdout ]] ||
+        fail "$label dependency wrote unexpected standard output"
+    [[ $(sed -n '1p' "$dependency_stderr") == entry.missing-main ]] ||
+        fail "$label dependency did not reach the entry contract"
+}
+
+assert_dependency_runs() {
+    local label=$1
+    local directory=$2
+    local library_file=$3
+    local output_hash=$4
+    local dependency_stdout="$verify_dir/$label.dependency.stdout"
+    local dependency_stderr="$verify_dir/$label.dependency.stderr"
+    local status
+    local actual_output_hash
+
+    if "$lib_ash" "$case_root/$directory/$library_file" \
+        > "$dependency_stdout" 2> "$dependency_stderr"; then
+        status=0
+    else
+        status=$?
+    fi
+    [[ $status -eq 0 ]] ||
+        fail "$label dependency status is $status, expected 0"
+    [[ ! -s $dependency_stderr ]] ||
+        fail "$label dependency wrote unexpected standard error"
+    actual_output_hash=$(sha256sum "$dependency_stdout" | cut -d' ' -f1)
+    [[ $actual_output_hash == "$output_hash" ]] ||
+        fail "$label dependency output changed"
+}
+
 run_case() {
     local label=$1
     local directory=$2
@@ -433,15 +497,19 @@ run_case() {
     local library_hash=$4
     local entry_hash=$5
     local output_hash=$6
+    local import_line=$7
     local modular_stdout="$verify_dir/$label.modular.stdout"
     local modular_stderr="$verify_dir/$label.modular.stderr"
     local lib_stdout="$verify_dir/$label.lib.stdout"
     local lib_stderr="$verify_dir/$label.lib.stderr"
     local status
     local actual_output_hash
+    local import_end=${#import_line}
 
     assert_hash "$case_root/$directory/$library_file" "$library_hash"
     assert_hash "$case_root/$directory/main.ash" "$entry_hash"
+    [[ $(sed -n '1p' "$case_root/$directory/main.ash") == "$import_line" ]] ||
+        fail "$label no longer retains its causal import"
 
     if "$modular_ash" "$case_root/$directory/main.ash" \
         > "$modular_stdout" 2> "$modular_stderr"; then
@@ -469,11 +537,24 @@ run_case() {
         fail "$label lib-ash wrote standard output"
     [[ $(sed -n '1p' "$lib_stderr") == resolve.internal-state ]] ||
         fail "$label lib-ash did not report resolve.internal-state"
-    grep -Fq \
-        'a dependency summary failed body-free authentication' \
+    grep -Eq "^primary: source [0-9]+ 0\\.\\.$import_end: a dependency summary failed body-free authentication$" \
         "$lib_stderr" ||
-        fail "$label lib-ash did not retain summary-authentication evidence"
+        fail "$label lib-ash did not retain its causal import label"
 }
+
+assert_dependency_reaches_entry_contract \
+    search-frontier \
+    search-frontier \
+    searches.ash
+assert_dependency_runs \
+    red-black-dictionary \
+    red-black-dictionary \
+    dictionaries.ash \
+    6c159135693e2dff8d81dc97fb60fafcebfeb9b0c09cb4deebec4757e4a716fc
+assert_dependency_reaches_entry_contract \
+    tree-iterator \
+    tree-iterator \
+    dictionaries.ash
 
 run_case \
     search-frontier \
@@ -481,24 +562,29 @@ run_case \
     searches.ash \
     d40dfbd8feb871bf2bd81dd156446d874b4ac41deab6c99f93a7bdaaf95bfb7b \
     98bdc800729e2ca6fdb0ce8b885455b5e8b48d69b9bb5d31c8f7d6b74f95d692 \
-    254dc0d711ed8246b920f1be8b642af6d57a0aaa312a2d944de06fb570aea329
+    254dc0d711ed8246b920f1be8b642af6d57a0aaa312a2d944de06fb570aea329 \
+    'import searches as Searches'
 run_case \
     red-black-dictionary \
     red-black-dictionary \
     dictionaries.ash \
     9406176b03322ce58d415b08064ccb8adf05bb0529a2280b9c4f71255e03105d \
     eb56359bf329db9cf8e0c35ecad85efd9c39129b1da59f8024d577703d45282e \
-    fbcad839ed0fcb98b146df63d4f478e191c38fe91083fb4b6c2e699b0777c2e1
+    fbcad839ed0fcb98b146df63d4f478e191c38fe91083fb4b6c2e699b0777c2e1 \
+    'import dictionaries as Dictionaries'
 run_case \
     tree-iterator \
     tree-iterator \
     dictionaries.ash \
     229205c9dfde2592a5a0305ba214a172253f9577d0e99a22808e13193c2c0eff \
     fac3de5c89b93a159b22e764a36be2ea18358ba3a2666298c42bcaf501d500c0 \
-    190662c1447e5c5d9d5ae34d0e9dc95d0a157c6dfbf628656baa648a02166c45
+    190662c1447e5c5d9d5ae34d0e9dc95d0a157c6dfbf628656baa648a02166c45 \
+    'import dictionaries as Dictionaries'
 
-printf 'Verified 3 imported-summary failures from %s to %s.\n' \
-    "$modular_pin" "$lib_pin"
+printf 'Verified 3 imported-summary failures (%s) from %s to %s.\n' \
+    'search-frontier, red-black-dictionary, tree-iterator' \
+    "$modular_pin" \
+    "$lib_pin"
 ```
 
 #### Step 3: Implement the verifier and make it pass
@@ -506,7 +592,7 @@ printf 'Verified 3 imported-summary failures from %s to %s.\n' \
 Use `mktemp -d` plus a trap for all outputs and build artifacts. Capture status
 with an `if` statement so `set -e` does not erase the observation. Use
 `sha256sum` for source and predecessor-output agreement, `sed -n '1p'` for the
-stable first reason, and `grep -Fq` for causal evidence.
+stable first reason, and `grep -Eq` for causal import-range evidence.
 
 Run the command from Step 2 again.
 
