@@ -8,8 +8,8 @@ The unpublished Lib Ash migration currently contains two active families:
 
 - [`learn/`](learn/README.md) for the complete verified eleven-lesson beginning
   learning path; and
-- [`cases/`](cases/README.md) for the verified sequential prefix of the
-  recursive-algorithm Cases.
+- [`cases/`](cases/README.md) for eight verified recursive-algorithm Cases,
+  three unavailable slots, and one pending slot in numeric order.
 
 A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
 and links to canonical programs, fixtures, and checks kept inside the same unit.
@@ -17,10 +17,11 @@ Create only the internal paths that its examples require.
 
 Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md),
 then continue into [*Design recursive algorithms in Ash*](cases/README.md).
-Cases not yet restored remain available as historical material in the immutable
+Cases 9, 10, and 12 link retained compiler-failure evidence from that index;
+Case 11 is the next independent migration. All four remain available as
+historical material in the immutable
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases)
-until the bounded migration restores and verifies each one at the active
-target.
+until a bounded migration restores and verifies each one at the active target.
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
 and approve its temporary plan. Keep incomplete work in that plan until the

@@ -86,18 +86,19 @@ retains the expected and found kinds along with the causal source evidence.
 That explicit kind boundary improves the existing lesson without introducing a
 separate higher-kinded abstraction.
 
-The migration also retained three unexpected imported-summary compiler
-failures as permanent executable
+The migration also retained all eight unexpected imported-summary compiler
+failures from three Cases as permanent executable
 [upstream evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md).
 The lab records exact observations across both Ash pins and does not propose an
 Ash fix.
 
 The active [recursive-algorithm Cases](../../content/cases/README.md) path now
 contains eight verified Cases and 39 canonical sources at the Lib Ash commit.
-Cases 9 through 12 below remain historical material verified at the
-Modular Ash predecessor. Their immutable prose, programs, and checks remain
-available in
-the
+Cases 9, 10, and 12 are unavailable at this target because every numbered
+entry reaches the retained dependency-summary authentication failure. Case 11
+has clean two-pin compatibility and remains the next independent restoration.
+All four remain historical material below, with immutable prose, programs, and
+checks available in the
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833).
 
 [recursive-cases]: https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/README.md
@@ -552,6 +553,13 @@ other feature retrofit.
 **Question:** How can the representation prevent a search tree from
 degenerating?
 
+**Migration state:** Unavailable at this target. Both numbered entries exit
+`2` with empty standard output and `resolve.internal-state` before ordinary
+client checking. Their exact sources, predecessor outputs, import ranges, and
+body-free authentication observations remain in the
+[red-black failure evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#red-black-dictionary).
+The active content directory remains absent.
+
 The ninth [historical Cases][recursive-cases] chapter retains the public
 `Ordering`, `Natural`, `Option`, `List`, `Order`, `empty`, `lookup`, `insert`,
 `build`, and `invariant_holds` API while replacing the hidden representation
@@ -643,6 +651,14 @@ ordering-law enforcement.
 ### 10. Resuming tree traversal
 
 **Question:** How can traversal pause and resume without laziness?
+
+**Migration state:** Unavailable at this target. All four numbered entries
+exit `2` with empty standard output and `resolve.internal-state` before
+ordinary client checking. At the predecessor, two are accepted and two retain
+their intended `resolve.opaque-constructor` rejections. Their exact sources and
+two-pin observations remain in the
+[iterator failure evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#tree-iterator).
+The active content directory remains absent.
 
 The tenth [historical Cases][recursive-cases] chapter extends the opaque
 persistent red-black dictionary with a private `FrameStack<K, V>` and a public
@@ -746,6 +762,12 @@ ash-doc evidence and do not define Ash semantics.
 **Question:** How can two lists preserve queue order while avoiding a full
 rebuild on every operation?
 
+**Migration state:** Pending migration. The two numbered entries both exit `0`
+with empty standard error at the predecessor and Lib Ash pins, and their
+standard outputs are byte-identical across those pins. Its three-source
+chapter is the next independent restoration; it is not active navigation in
+this transitional state.
+
 The eleventh [historical Cases][recursive-cases] chapter crosses from an
 explicit LIFO iterator stack to a persistent FIFO frontier. Instead of
 appending through one growing forward list, it represents logical queue order
@@ -828,6 +850,13 @@ evidence and do not define Ash semantics.
 ### 12. Choosing a search frontier
 
 **Question:** How does frontier representation change a search algorithm?
+
+**Migration state:** Unavailable at this target. Both numbered entries exit
+`2` with empty standard output and `resolve.internal-state` before ordinary
+client checking. Their exact sources, predecessor outputs, import ranges, and
+body-free authentication observations remain in the
+[search-frontier failure evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#search-frontier).
+The active content directory remains absent.
 
 The twelfth [historical Cases][recursive-cases] chapter holds one search
 transition fixed while ordinary add and remove functions select a LIFO list
@@ -930,9 +959,10 @@ not define Ash semantics or accept an Ash mechanism.
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
 The active migration tree contains
 `11 Learn / 8 Cases / 43 Learn sources / 39 Case sources`.
-Cases migration remains
-the one **next** outcome; its approved plan restores each later historical Case
-only after that Case passes its complete evidence at the active target.
+Cases migration remains the one **next** outcome. Outcome 2 is incomplete:
+Cases 9, 10, and 12 are unavailable with linked upstream evidence, while the
+independently compatible Case 11 may continue to migration next. No ash-doc
+`lib-ash` tag may be created in this state.
 
 ## Promotion and verification policy
 

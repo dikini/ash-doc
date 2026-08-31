@@ -81,3 +81,13 @@ storage strategy.
    trees?](protecting-dictionary-invariant/README.md) — keep `Dictionary`
    nameable while hiding its constructors, and combine that opacity with
    explicitly selected ordering evidence.
+9. **Unavailable at this target** — [failure
+   evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#red-black-dictionary)
+   — How can the representation prevent a search tree from degenerating?
+10. **Unavailable at this target** — [failure
+    evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#tree-iterator)
+    — How can traversal pause and resume without laziness?
+11. **Pending migration** — How can two lists preserve queue order?
+12. **Unavailable at this target** — [failure
+    evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#search-frontier)
+    — How does frontier representation change a search algorithm?

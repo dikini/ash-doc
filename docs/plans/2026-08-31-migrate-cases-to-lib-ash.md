@@ -88,9 +88,8 @@ the absence of `Order<Int>`, rather than the absence of a selected implementatio
 channel.
 
 The eight internal failures are every numbered entry in Cases 9, 10, and 12.
-The existing lab retains one representative entry from each Case. Task 9 expands
-that record to all eight exact triggering entries before Case 11 returns. Cases
-9, 10, and 12 remain explicit gaps; Case 11 passes independently and may migrate
+The permanent lab now retains all eight exact triggering entries. Cases 9, 10,
+and 12 remain explicit gaps; Case 11 passes independently and may migrate
 without claiming that the Cases outcome is complete.
 
 ## Bounded design
@@ -143,10 +142,10 @@ has run.
 | 6. Searching an ordered tree | 4 sources / 3 exact | Links/navigation | None |
 | 7. Abstracting key order | 5 sources | Selectors/navigation | Selection |
 | 8. Protecting invariant | 6 sources | 2 selectors/nav | Selection + opacity |
-| 9. Guaranteeing logarithmic retrieval | pending | pending | pending |
-| 10. Resuming tree traversal | pending | pending | pending |
-| 11. Persistent FIFO frontier | pending | pending | pending |
-| 12. Choosing a search frontier | pending | pending | pending |
+| 9. Red-black tree | 3 / 2 accepted | 2 status-2 auth | Deferred |
+| 10. Iterator | 5 / 2 accepted + 2 rejected | 4 status-2 auth | Deferred |
+| 11. FIFO frontier | 3 / 2 exact | Next restoration | None |
+| 12. Graph search | 3 / 2 accepted | 2 status-2 auth | Deferred |
 
 For Case 1, all five sources have byte-identical status, standard output, and
 standard error at both exact pins. The migration changed only target links and
@@ -251,6 +250,21 @@ selection composes with the Case's existing opacity question without exposing
 constructors or creating runtime or transitive availability. Explicit kinds,
 method-local type parameters, and relational determination do not strengthen
 that question, so the Case received no other feature retrofit.
+
+For Cases 9, 10, and 12, the permanent lab now retains all eight numbered
+entries with exact source hashes and two-pin observations. Six entries are
+accepted at the predecessor; Case 10 entries 03 and 04 instead retain status
+`1`, empty standard output, `resolve.opaque-constructor`, their exact client
+locations, and the causal withheld declaration. At Lib Ash, every entry exits
+`2`, writes empty standard output, begins with `resolve.internal-state`, and
+labels its exact import with body-free dependency-summary authentication. The
+three Case content directories remain absent. The Cases index now exposes
+all twelve slots in strict order: slots 1 through 8 are active, slots 9, 10,
+and 12 are unavailable with one exact failure-evidence link each, and slot 11
+is pending migration. Case 11's two numbered entries retain byte-identical
+accepted observations at both pins and form the next independent restoration.
+Outcome 2 remains incomplete, later implementable work may continue, and no
+ash-doc `lib-ash` tag may be created.
 
 ## Shared rules for every restoration
 

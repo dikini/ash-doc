@@ -19,7 +19,8 @@ milestone:
 - resolved Ash commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`;
 - repository state: unpublished migration; and
 - active content: the complete verified eleven-lesson path under
-  `content/learn/` and the verified sequential prefix under `content/cases/`.
+  `content/learn/`, plus eight verified Cases and four explicit later slots
+  under `content/cases/`.
 
 There is no ash-doc `lib-ash` publication tag yet. The published
 `modular-ash` documentation tag and Ash commit
@@ -85,12 +86,13 @@ that surprised you.
 ## Design recursive algorithms
 
 Continue with [Design recursive algorithms in Ash](content/cases/README.md).
-Its verified sequential prefix derives recursive algorithms from explicit
-representations and accounts for the source work and dependency structure.
+Its eight verified Cases derive recursive algorithms from explicit
+representations and account for the source work and dependency structure.
 
-Cases not yet restored remain historical while the migration proceeds. Their
-complete predecessor prose, canonical programs, and checks remain available
-in the immutable
+Cases 9, 10, and 12 are unavailable at this target and link their retained
+compiler-failure evidence from the numbered path. Case 11 remains pending as
+the next independent restoration. Complete predecessor prose, canonical
+programs, and checks for these four slots remain available in the immutable
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases).
 Each Case returns to the active path only after its complete evidence passes at
 the pinned Lib Ash commit.
