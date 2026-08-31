@@ -86,7 +86,7 @@ leaves the final tree.
 | Lesson | Baseline at `lib-ash` | Minimal migration | Enhancement assessment |
 | --- | --- | --- | --- |
 | 1. What is an Ash program? | All seven exact predecessor observations are unchanged at `lib-ash`. | Target and link administration only; canonical lesson source, prose, and verifier are unchanged. | None: implementation selection, kinds, method-local parameters, and relational interfaces do not answer the first program-and-value question. |
-| 2. Using another source file | pending | pending | pending |
+| 2. Using another source file | All three exact predecessor observations are unchanged at `lib-ash`. | Active-prefix navigation only; canonical lesson source, prose, verifier, and observations are unchanged, and the lesson contains no pinned specification or tool links to update. | None: implementation selection, explicit kinds, method-local parameters, and relational interfaces would introduce later abstractions without simplifying this complete-import lesson, strengthening its public/private invariant, or making its promised module boundary more direct. |
 | 3. Using more than one input | pending | pending | pending |
 | 4. Choosing a result | pending | pending | pending |
 | 5. Naming intermediate values | pending | pending | pending |

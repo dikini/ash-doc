@@ -45,8 +45,9 @@ directory, reader-facing link, or publication date.
 - **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)**
   — **verified.** Definitions, expressions, `main`, functions, function calls,
   and composition.
-- **2. How can one source file use another?** — **migration-pending.** Modules,
-  complete imports, public declarations, and qualified names.
+- **2. [How can one source file use another?](../../content/learn/using-another-source-file/README.md)**
+  — **verified.** Modules, complete imports, public declarations, and qualified
+  names.
 - **3. How can a function use more than one input?** — **migration-pending.**
   Chained function arrows, function clauses with several inputs, and chained
   calls.
