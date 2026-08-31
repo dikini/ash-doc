@@ -59,8 +59,8 @@ directory, reader-facing link, or publication date.
 
 ## Data and structure
 
-- **6. How can several values travel together?** — **migration-pending.**
-  Tuples, tuple types, and tuple patterns.
+- **6. [How can several values travel together?](../../content/learn/values-travel-together/README.md)**
+  — **verified.** Tuples, tuple types, and tuple patterns.
 - **7. How can a program define its own data?** — **migration-pending.** Nominal
   types and constructors.
 - **8. How can a function handle each form of data?** — **migration-pending.**

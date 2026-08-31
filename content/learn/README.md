@@ -50,3 +50,6 @@ with `ash` to test what it does.
    integer equality, Boolean values, and exhaustive matching to select a result.
 5. [How can a calculation name an intermediate value?](naming-intermediate-values/README.md)
    — make a block's steps visible with local bindings.
+6. [How can several values travel together?](values-travel-together/README.md) —
+   keep fixed collections of typed values together with tuples and tuple
+   patterns.
