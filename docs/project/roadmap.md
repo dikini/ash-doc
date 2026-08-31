@@ -708,6 +708,12 @@ search transition, graph, observations, work boundaries, and adaptation
 classification. They authorize the implementation plan but no content before
 that plan is separately approved.
 
+The approved temporary
+[implementation plan](../plans/2026-08-31-choosing-a-search-frontier.md)
+fixes the canonical files, exact observations, verifier-first sequence,
+mutation matrix, review order, and local merge boundary. It authorizes that
+bounded work without selecting shared graph or collection infrastructure.
+
 ## Promotion and verification policy
 
 For every increment:
