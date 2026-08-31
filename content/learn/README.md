@@ -46,3 +46,5 @@ with `ash` to test what it does.
    connect modules through imports, public declarations, and qualified names.
 3. [How can a function use more than one input?](using-more-than-one-input/README.md)
    — supply chained inputs, pause at a partial call, and read function arrows.
+4. [How can a program choose a result?](choosing-a-result/README.md) — use
+   integer equality, Boolean values, and exhaustive matching to select a result.

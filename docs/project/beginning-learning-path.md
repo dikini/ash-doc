@@ -51,8 +51,8 @@ directory, reader-facing link, or publication date.
 - **3. [How can a function use more than one input?](../../content/learn/using-more-than-one-input/README.md)**
   — **verified.** Chained function arrows, function clauses with several
   inputs, and chained calls.
-- **4. How can a program choose a result?** — **migration-pending.** `Bool`,
-  integer equality, and exhaustive matching.
+- **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
+  — **verified.** `Bool`, integer equality, and exhaustive matching.
 - **5. How can a calculation name an intermediate value?** —
   **migration-pending.**
   Blocks, sequential `let` bindings, and scope.
