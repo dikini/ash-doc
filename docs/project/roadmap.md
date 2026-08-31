@@ -79,11 +79,6 @@ selects explicit higher-kinded parameters as lesson 3 and fixes its intended
 `Some(42) : Option<Int>` success and omitted-kind `kind.not-applicable`
 boundary.
 
-The approved active
-[capability-evidence facade lesson plan](../plans/2026-09-01-forwarding-capability-evidence.md)
-remains only as lesson 2's implementation and closure record. It authorizes no
-type-constructor lesson content and leaves the tree after reviewed closure.
-
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
