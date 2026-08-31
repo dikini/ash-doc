@@ -53,3 +53,5 @@ with `ash` to test what it does.
 6. [How can several values travel together?](values-travel-together/README.md) —
    keep fixed collections of typed values together with tuples and tuple
    patterns.
+7. [How can a program define its own data?](defining-data/README.md) — name a
+   new type and the constructors for its possible values.

@@ -61,8 +61,8 @@ directory, reader-facing link, or publication date.
 
 - **6. [How can several values travel together?](../../content/learn/values-travel-together/README.md)**
   — **verified.** Tuples, tuple types, and tuple patterns.
-- **7. How can a program define its own data?** — **migration-pending.** Nominal
-  types and constructors.
+- **7. [How can a program define its own data?](../../content/learn/defining-data/README.md)**
+  — **verified.** Nominal types and constructors.
 - **8. How can a function handle each form of data?** — **migration-pending.**
   Constructor patterns, equations or matches, and coverage.
 - **9. How can a function follow recursive data?** — **migration-pending.**
