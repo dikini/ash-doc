@@ -31,8 +31,43 @@ roadmap states mean:
 Promotion to **next** authorizes the design-and-plan work, not a content change
 that bypasses those gates.
 
-No outcome is currently **next** or **provisional**. Selecting another
-increment requires a new bounded outcome before either state applies.
+## Next: migrate Learn to `lib-ash`
+
+**Question:** How can the existing Learn path preserve its teaching promises
+while the complete documentation stream moves to one exact `lib-ash` target?
+
+The approved
+[Lib Ash documentation milestone design](../plans/2026-08-31-lib-ash-documentation-milestone-design.md)
+selects a staged forward migration ending in an immutable ash-doc `lib-ash`
+tag. The target is the annotated `ash-lang` tag `lib-ash`, resolved to exact
+commit `d1e323d23390cdad03202ee3df76cd9100556e1d`.
+
+The first bounded outcome migrates the eleven Learn lessons in reading order.
+Each lesson must first regain its existing promise at the new pin, then receive
+a separate assessment of whether explicit implementation selection, kinds,
+method-local type parameters, or relational interfaces provide a concrete
+teaching or verification benefit. Unexpected compiler failures become
+permanent executable upstream evidence; ash-doc does not solve them.
+
+The implementation plan must define the migration-state cutover, exact
+per-lesson baseline comparison, active-navigation rule, verifier changes,
+failure-record boundary, enhancement decision record, aggregate regression
+gate, reviews, and local integration. This design authorizes planning, not
+content changes.
+
+## Provisional `lib-ash` outcomes
+
+After Learn migration closes, review its evidence before promoting the Cases
+migration. That outcome will apply the same minimal-migration-then-enhancement
+sequence while preserving each algorithmic question, invariant, and
+source-level cost account.
+
+After Cases migration closes, review both migrated paths before promoting the
+new **Design library abstractions in Ash** family. Its proposed five-lesson
+sequence covers explicit implementation selection, public capability facades,
+explicit kinds and higher-kinded parameters, method-local type parameters, and
+relational determination. Provisional status authorizes no new content
+directory, canonical source, verifier, or shared tooling.
 
 ## Verified increments
 
