@@ -81,6 +81,12 @@ selects five cumulative lessons and bounds the first complete increment to
 explicit implementation selection. It creates no content until its temporary
 lesson plan is approved.
 
+The approved active
+[explicit implementation-selection lesson plan](../plans/2026-09-01-choosing-implementation-evidence.md)
+specifies the three canonical sources, selected success, name-only rejection,
+family activation, and closure gates. Its two independent reviews authorize the
+first complete library lesson and no later lesson content.
+
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
