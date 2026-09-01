@@ -79,11 +79,6 @@ selects method-local type parameters as lesson 4 and fixes its intended
 `(Box(true), Box(42)) : (Box<Bool>, Box<Int>)` success and missing-parameter
 `interface.method-parameter` boundary.
 
-The approved active
-[type-constructor lesson plan](../plans/2026-09-01-accepting-type-constructors.md)
-remains only as lesson 3's implementation and closure record. It authorizes no
-method-local-parameter content and leaves the tree after reviewed closure.
-
 ## Verified increments
 
 The active [beginning learning path](beginning-learning-path.md) contains all
