@@ -35,3 +35,6 @@ For each boundary, use the same cycle:
 4. [Give a method local type parameters](giving-method-local-type-parameters/README.md)
    — instantiate one interface method at unrelated element types while
    retaining one complete implementation requirement.
+5. [Let one interface argument determine another](determining-interface-results/README.md)
+   — use one total forward edge to complete an interface obligation before
+   implementation selection.
