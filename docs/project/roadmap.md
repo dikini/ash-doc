@@ -74,6 +74,10 @@ or tooling. That work must preserve the exact target, build on the first four
 lessons' vocabulary, and keep the library plan separate from a future
 Cases-resumption plan.
 
+The active
+[implementation plan](../plans/2026-09-01-relational-determination.md)
+materializes this one approved outcome.
+
 The approved
 [library abstractions learning-path design](../plans/2026-09-01-library-abstractions-design.md)
 selects relational determination as lesson 5 and fixes its intended
@@ -993,9 +997,9 @@ The active migration tree contains:
 
 All currently implementable Cases are verified. Cases 9, 10, and 12 remain
 **blocked residual** work with linked upstream evidence, so Outcome 2 and final
-publication remain incomplete. Designing the relational-determination lesson
-is the one **next** outcome. No ash-doc `lib-ash` tag may be created in this
-state.
+publication remain incomplete. Implementing the relational-determination
+lesson is the one **next** outcome. No ash-doc `lib-ash` tag may be created in
+this state.
 
 ## Promotion and verification policy
 
