@@ -32,3 +32,6 @@ For each boundary, use the same cycle:
 3. [Accept a type constructor](accepting-type-constructors/README.md)
    — use an explicit function kind when an abstraction applies a type
    constructor to different element types.
+4. [Give a method local type parameters](giving-method-local-type-parameters/README.md)
+   — instantiate one interface method at unrelated element types while
+   retaining one complete implementation requirement.
