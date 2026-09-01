@@ -9,7 +9,7 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path, nine verified recursive-algorithm Cases, and four verified
+  Learn path, nine verified recursive-algorithm Cases, and five verified
   library-abstraction lessons active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
@@ -58,30 +58,16 @@ edition target. A later upstream fix cannot change the immutable `lib-ash`
 evidence or silently retarget only these Cases; every active page and check
 must move together if project authority selects another target.
 
-## Next: let one interface argument determine another
+## No next implementable increment at this target
 
-**Question:** How can one known interface argument determine another?
+The five-lesson **Design library abstractions in Ash** path is complete. Every
+Learn lesson and independently executable Case is also complete at the exact
+target. No other approved content outcome can proceed independently of the
+three blocked Cases.
 
-The first four **Design library abstractions in Ash** lessons establish
-implementation routing, explicit constructor kinds, and method-local
-instantiation. The fifth lesson will add one total forward determination edge
-so a known key can determine the rest of a complete interface application
-before evidence selection.
-
-This promotion authorizes only bounded lesson design and a temporary
-implementation plan. It does not authorize lesson-5 content, canonical source,
-or tooling. That work must preserve the exact target, build on the first four
-lessons' vocabulary, and keep the library plan separate from a future
-Cases-resumption plan.
-
-The active
-[implementation plan](../plans/2026-09-01-relational-determination.md)
-materializes this one approved outcome.
-
-The approved
-[library abstractions learning-path design](../plans/2026-09-01-library-abstractions-design.md)
-selects relational determination as lesson 5 and fixes its intended
-`42 : Int` success and unresolved-dependent `constraint.ambiguous` boundary.
+The roadmap therefore leaves **next** empty. A later upstream fix requires one
+coordinated exact edition target and a fresh bounded Cases-resumption plan; it
+cannot silently change only the failed Cases or the publication tag.
 
 ## Verified increments
 
@@ -102,8 +88,8 @@ That explicit kind boundary improves the existing lesson without introducing a
 separate higher-kinded abstraction.
 
 The active
-[library-abstraction path](../../content/libraries/README.md) contains four
-verified lessons and fourteen canonical sources at the exact Lib Ash commit. The
+[library-abstraction path](../../content/libraries/README.md) contains five
+verified lessons and seventeen canonical sources at the exact Lib Ash commit. The
 first separates a constrained name from direct implementation selection. The
 second preserves that equality source byte-for-byte, then proves a two-hop
 facade authorization route with `true : Bool`. Its names-only counterpart
@@ -114,7 +100,11 @@ explicit `F : Type -> Type` with an omitted-kind `F`, observing
 uses one selected `Functor<Box>` fact for `map` occurrences at `Int -> Bool`
 and `Bool -> Int`, observing `(Box(true), Box(42))`, while an omitted method
 parameter list reports `interface.method-parameter` with the method signature
-and interface binder as its causal source relationship.
+and interface binder as its causal source relationship. The fifth uses one
+total `Key -> Result` edge and selected `Measure<Bool, Unit>` evidence to
+observe `42 : Int`; its name-only counterpart remains incomplete and reports
+`constraint.ambiguous` with the call, import, method, and interface source
+relationships.
 
 The migration also retained all eight unexpected imported-summary compiler
 failures from three Cases as permanent executable
@@ -993,13 +983,12 @@ The active migration tree contains:
 
 - `11 Learn lessons / 43 sources`;
 - `9 Cases / 42 sources`; and
-- `4 library lessons / 14 sources`.
+- `5 library lessons / 17 sources`.
 
 All currently implementable Cases are verified. Cases 9, 10, and 12 remain
 **blocked residual** work with linked upstream evidence, so Outcome 2 and final
-publication remain incomplete. Implementing the relational-determination
-lesson is the one **next** outcome. No ash-doc `lib-ash` tag may be created in
-this state.
+publication remain incomplete. There is no independently implementable
+**next** outcome. No ash-doc `lib-ash` tag may be created in this state.
 
 ## Promotion and verification policy
 

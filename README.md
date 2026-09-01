@@ -20,7 +20,7 @@ milestone:
 - repository state: unpublished migration; and
 - active content: the complete verified eleven-lesson path under
   `content/learn/`, nine verified Cases and three explicit unavailable slots
-  under `content/cases/`, and four verified library-abstraction lessons under
+  under `content/cases/`, and five verified library-abstraction lessons under
   `content/libraries/`.
 
 There is no ash-doc `lib-ash` publication tag yet. The published
@@ -88,10 +88,10 @@ that surprised you.
 
 After Learn Ash, begin
 [Design library abstractions in Ash](content/libraries/README.md). Its first
-four verified lessons choose implementation evidence, carry it through a
-public facade, use explicit function kinds for type constructors, and give an
-interface method local type parameters. The final lesson in the planned family
-is not active content yet.
+five verified lessons choose implementation evidence, carry it through a
+public facade, use explicit function kinds for type constructors, give an
+interface method local type parameters, and let one interface argument
+determine another. This planned path is complete.
 
 ## Design recursive algorithms
 
