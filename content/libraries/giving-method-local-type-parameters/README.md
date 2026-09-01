@@ -126,10 +126,10 @@ signature, and its related label points to the declared interface parameter
 declared set. These binding rules come from
 [method parameter resolution](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#type-parameters-and-declaration-binding).
 
-This is rank-1 method polymorphism at an interface boundary. Each use receives
-ordinary concrete method types; source code cannot store an uninstantiated
-method scheme in a value, write `forall`, or pass a polymorphic method as an
-ordinary argument.
+This is rank-1 method polymorphism at an interface boundary. Each occurrence
+instantiates the method scheme to a monotype; source code cannot store an
+uninstantiated method scheme in a value, write `forall`, or pass a polymorphic
+method as an ordinary argument.
 
 ## Practice: separate the two parameter roles
 

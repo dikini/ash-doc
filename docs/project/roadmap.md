@@ -9,7 +9,7 @@ source of Ash semantics.
 - Ash milestone: `lib-ash`
 - Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
 - Repository state: unpublished forward migration with the complete verified
-  Learn path, nine verified recursive-algorithm Cases, and three verified
+  Learn path, nine verified recursive-algorithm Cases, and four verified
   library-abstraction lessons active
 - Published `lib-ash` documentation tag: none
 - Immutable predecessor: `modular-ash` at Ash commit
@@ -58,30 +58,26 @@ edition target. A later upstream fix cannot change the immutable `lib-ash`
 evidence or silently retarget only these Cases; every active page and check
 must move together if project authority selects another target.
 
-## Next: give a method local type parameters
+## Next: let one interface argument determine another
 
-**Question:** How can one method work at unrelated element types?
+**Question:** How can one known interface argument determine another?
 
-The first three **Design library abstractions in Ash** lessons establish
-implementation routing and an explicit `F : Type -> Type` parameter. The
-fourth lesson will give an interface method its own `A` and `B` parameters so
-one implementation can use that method at unrelated element types.
+The first four **Design library abstractions in Ash** lessons establish
+implementation routing, explicit constructor kinds, and method-local
+instantiation. The fifth lesson will add one total forward determination edge
+so a known key can determine the rest of a complete interface application
+before evidence selection.
 
 This promotion authorizes only bounded lesson design and a temporary
-implementation plan. It does not authorize lesson-4 content, canonical source,
-or tooling. That work must preserve the exact target, build on the first three
+implementation plan. It does not authorize lesson-5 content, canonical source,
+or tooling. That work must preserve the exact target, build on the first four
 lessons' vocabulary, and keep the library plan separate from a future
 Cases-resumption plan.
 
-The active
-[implementation plan](../plans/2026-09-01-method-local-type-parameters.md)
-materializes this one approved outcome.
-
 The approved
 [library abstractions learning-path design](../plans/2026-09-01-library-abstractions-design.md)
-selects method-local type parameters as lesson 4 and fixes its intended
-`(Box(true), Box(42)) : (Box<Bool>, Box<Int>)` success and missing-parameter
-`interface.method-parameter` boundary.
+selects relational determination as lesson 5 and fixes its intended
+`42 : Int` success and unresolved-dependent `constraint.ambiguous` boundary.
 
 ## Verified increments
 
@@ -102,15 +98,19 @@ That explicit kind boundary improves the existing lesson without introducing a
 separate higher-kinded abstraction.
 
 The active
-[library-abstraction path](../../content/libraries/README.md) contains three
-verified lessons and ten canonical sources at the exact Lib Ash commit. The
+[library-abstraction path](../../content/libraries/README.md) contains four
+verified lessons and fourteen canonical sources at the exact Lib Ash commit. The
 first separates a constrained name from direct implementation selection. The
 second preserves that equality source byte-for-byte, then proves a two-hop
 facade authorization route with `true : Bool`. Its names-only counterpart
 reports `constraint.unsatisfied` with exactly one primary and three related
 labels retaining the original declaration identities. The third contrasts an
 explicit `F : Type -> Type` with an omitted-kind `F`, observing
-`Some(42) : Option<Int>` and `kind.not-applicable` respectively.
+`Some(42) : Option<Int>` and `kind.not-applicable` respectively. The fourth
+uses one selected `Functor<Box>` fact for `map` occurrences at `Int -> Bool`
+and `Bool -> Int`, observing `(Box(true), Box(42))`, while an omitted method
+parameter list reports `interface.method-parameter` with the method signature
+and interface binder as its causal source relationship.
 
 The migration also retained all eight unexpected imported-summary compiler
 failures from three Cases as permanent executable
@@ -989,11 +989,11 @@ The active migration tree contains:
 
 - `11 Learn lessons / 43 sources`;
 - `9 Cases / 42 sources`; and
-- `3 library lessons / 10 sources`.
+- `4 library lessons / 14 sources`.
 
 All currently implementable Cases are verified. Cases 9, 10, and 12 remain
 **blocked residual** work with linked upstream evidence, so Outcome 2 and final
-publication remain incomplete. Implementing the method-local-parameter lesson
+publication remain incomplete. Designing the relational-determination lesson
 is the one **next** outcome. No ash-doc `lib-ash` tag may be created in this
 state.
 
