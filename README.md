@@ -18,7 +18,7 @@ human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
 All eleven Learn lessons, twelve recursive-algorithm Cases, five library
-lessons, and three effects lessons are verified at this exact target. The
+lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
 unpublished; no ash-doc `diag-ash` publication tag has been created.
@@ -104,10 +104,11 @@ that surprised you.
 
 After Learn Ash, begin
 [Working with effects and scoped resources](content/effects/README.md). The
-first three verified lessons introduce requests and handlers, follow effects
-through calls and returned functions, and preserve callback requirements with
-row parameters. Each chapter connects working programs with complete
-diagnostic explanations.
+twelve verified lessons develop requests and rows, handler selection,
+resumption and discard, scoped cells, resource dependencies, cleanup, hooks,
+and native buffers. A final calculation combines policy, state, early stopping,
+and cleanup. Each chapter connects working programs with complete diagnostic
+explanations.
 
 ## Design library abstractions
 

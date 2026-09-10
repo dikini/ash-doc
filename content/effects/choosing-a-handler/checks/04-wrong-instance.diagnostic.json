@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "effect.handler-missing-input",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "handled_effect",
+      "path": "src/04-wrong-instance.ash",
+      "byte_start": 110,
+      "byte_end": 119,
+      "facts": []
+    }
+  ]
+}

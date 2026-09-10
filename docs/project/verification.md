@@ -20,7 +20,7 @@ Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
 The four aggregates cover eleven Learn lessons / 43 sources, twelve Cases /
-53 sources, five library lessons / 17 sources, and three effects lessons / 14
+53 sources, five library lessons / 17 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -29,7 +29,9 @@ Rejection checks request `--message-format json`. Each lesson's
 `checks/<entry>.diagnostic.json` records the expected diagnostic data, including
 reason, responsibility, facts, label order, source paths, and byte ranges.
 The comparison parses JSON and normalizes only the absolute checkout prefix;
-it does not assert human wording. Read changed expectations against the source
+it does not assert human wording. Compiler-owned virtual paths such as
+`@builtin.cell` remain unchanged in fixtures and comparisons. Read changed
+expectations against the source
 and specification before accepting them. Never regenerate expectations merely
 to make a failing check pass.
 
@@ -39,10 +41,10 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 28 captures: eleven Learn, seven Cases, five Libraries, and five
-in Effects. Effects checks cover an unhandled entry, an omitted caller effect,
-an effectful callback supplied to a pure parameter, an unknown row union, and
-a callback that violates a row-tail exclusion. Labels retain each
+There are 44 captures: eleven Learn, seven Cases, five Libraries, and 21
+in Effects. Effects checks cover row contracts, exact handler selection,
+continuation use, provider evidence, resource escape, cleanup completion and
+context, hook qualification, and the final entry contract. Labels retain each
 explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the

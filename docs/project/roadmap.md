@@ -19,16 +19,16 @@ All content is verified at this baseline:
   53 sources.
 - [Library abstractions](../../content/libraries/README.md): five lessons,
   17 sources.
-- [Effects and scoped resources](../../content/effects/README.md): three lessons,
-  14 sources.
+- [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
+  71 sources.
 
 The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 28 demonstrated rejections through complete
+The active edition now teaches all 44 demonstrated rejections through complete
 English human messages: eleven in Learn, seven in Cases, five in Libraries,
-and five in Effects.
+and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
@@ -55,9 +55,10 @@ Continue that foundation through three connected strands:
 - **Library abstractions:** generic implementations, nominal wrappers, and
   scoped exact evidence, extending the existing library path.
 
-E1–E3 are **verified** and form the active effects path. All other entries remain
-**provisional**. Their identifiers express curricular relationships, not task
-identifiers or delivery batches. No further delivery increment is selected.
+E1–E12 are **verified** and form the complete effects path. The local-function
+and library-continuation entries remain **provisional**. Their identifiers
+express curricular relationships, not task identifiers or delivery batches.
+No further delivery increment is selected.
 
 ### Teaching approach
 
@@ -132,6 +133,8 @@ polymorphic.
 
 ### E4. Which handler answers a request?
 
+**State: verified.** [Read the lesson](../../content/effects/choosing-a-handler/README.md).
+
 Nest handlers and move a request between handled bodies and operation clauses.
 Then distinguish parameterized instances and APIs with equal spellings from
 different modules. Reuse the module knowledge from Learn.
@@ -142,6 +145,8 @@ Contrast handling the intended instance with handling a different one. Explain
 that constructing a closure under a handler does not capture that handler.
 
 ### E5. What happens when a handler resumes a calculation?
+
+**State: verified.** [Read the lesson](../../content/effects/resuming-a-calculation/README.md).
 
 Trace the work before a request, the suspended remainder, and the result of
 `resume`. Extend the API to several operations and explain complete clause
@@ -155,6 +160,8 @@ small examples. Do not introduce resource ownership yet.
 
 ### E6. How can a handler stop a calculation early?
 
+**State: verified.** [Read the lesson](../../content/effects/stopping-a-calculation/README.md).
+
 Use a resource-free list calculation that can finish with an ordinary result
 or stop with a domain-defined outcome. Introduce `discard` as consumption of
 the suspended continuation without resuming its calculation.
@@ -166,6 +173,8 @@ has further obligations when scopes own completion; E9 develops those cases.
 Do not imply that discard is universally pure.
 
 ### E7. How can a calculation keep scoped mutable state?
+
+**State: verified.** [Read the lesson](../../content/effects/counting-with-a-cell/README.md).
 
 Count processed elements with a scoped cell and compare the result with a
 pure accumulator. Explain acquisition, reusable access, reading, writing, and
@@ -183,6 +192,8 @@ ordinary completion first; escape and abandonment follow in E8 and E9.
 
 ### E8. Why can a result leave a resource scope while access cannot?
 
+**State: verified.** [Read the lesson](../../content/effects/keeping-access-in-scope/README.md).
+
 Return a copied count, then consider returning a handle or a closure that
 retains access. Compare separate acquisitions and transport through a tuple or
 data constructor.
@@ -193,6 +204,8 @@ including why hiding access inside a closure does not make it safe. Include
 request payload transport to connect resource lifetimes with E4's handlers.
 
 ### E9. How can work run when a scope finishes?
+
+**State: verified.** [Read the lesson](../../content/effects/running-cleanup/README.md).
 
 Introduce `cleanup` through normal completion: retain an action, run the body,
 invoke the action, and preserve the body's result. Use an enclosing cell to
@@ -207,6 +220,8 @@ No source-cleanup guarantee is implied for internal termination or exhaustion.
 
 ### E10. How can several scopes transform one publication?
 
+**State: verified.** [Read the lesson](../../content/effects/transforming-publications/README.md).
+
 Declare an effect with one endomorphic `publish` operation, establish a hook,
 and register transformations. Predict outer-to-inner transformation order,
 callback effects, and the separate chain established by a nested exact root.
@@ -219,6 +234,8 @@ arbitrary removal mechanism.
 
 ### E11. How can acquiring a resource fail?
 
+**State: verified.** [Read the lesson](../../content/effects/acquiring-a-buffer/README.md).
+
 Use a small byte calculation with a scoped native buffer. Explain acquisition
 outcomes before entering the body, checked access, and release. Choose small
 deterministic success and failure observations permitted by the fixed API.
@@ -229,6 +246,8 @@ explain why those wrappers remain distinct and apply the lifetime model from
 cells. This chapter introduces neither source pointers nor general FFI.
 
 ### E12. How do these boundaries fit together?
+
+**State: verified.** [Read the lesson](../../content/effects/combining-effects-and-scopes/README.md).
 
 Compose an effectful scoring policy, scoped counting, early stopping, and
 cleanup in one complete finite-list calculation. Derive it from earlier
@@ -252,9 +271,9 @@ anonymous-function binding used at different types with an annotated binding
 and an application that returns a function.
 
 The reader can explain the boundary of local generalization and why ordinary
-value positions remain rank-1. Keep initial observations pure; E3 later
-extends the same account to eligible row parameters. Generalization does not
-create new interface requirements.
+value positions remain rank-1. Keep initial observations pure, then connect
+eligible row parameters with the global row-polymorphic helpers already
+taught in E3. Generalization does not create new interface requirements.
 
 ### F2. How can local definitions refer to one another?
 
@@ -380,8 +399,8 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E3 are complete. E4 is the next curricular question; it remains provisional
-until selected for delivery. Later delivery groupings and dates are undecided.
+E1–E12 are complete. F1–F2 and L1–L3 remain provisional until selected for
+delivery. Later delivery groupings and dates are undecided.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording

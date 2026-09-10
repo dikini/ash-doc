@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/04-missing-provider.ash",
+      "byte_start": 102,
+      "byte_end": 111,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "@builtin.cell",
+      "byte_start": 142,
+      "byte_end": 176,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/04-missing-provider.ash",
+      "byte_start": 0,
+      "byte_end": 28,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "@builtin.cell",
+      "byte_start": 114,
+      "byte_end": 222,
+      "facts": []
+    }
+  ]
+}

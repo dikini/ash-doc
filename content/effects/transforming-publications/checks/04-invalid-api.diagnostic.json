@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "type.hook-api",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "hook_api",
+      "path": "src/04-invalid-api.ash",
+      "byte_start": 81,
+      "byte_end": 98,
+      "facts": []
+    }
+  ]
+}

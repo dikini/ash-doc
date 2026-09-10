@@ -15,7 +15,9 @@ if actual.get("schema_version") != 1:
     sys.exit("expected diagnostic schema version 1")
 # Only checkout location varies; preserve every semantic field and label order.
 for label in actual["labels"]:
-    label["path"] = str(Path(label["path"]).relative_to(unit_path))
+    # Compiler-owned builtin locations are virtual, not checkout paths.
+    if not label["path"].startswith("@builtin."):
+        label["path"] = str(Path(label["path"]).relative_to(unit_path))
 if actual != expected:
     print("".join(difflib.unified_diff(
         json.dumps(expected, ensure_ascii=False, indent=2).splitlines(True),

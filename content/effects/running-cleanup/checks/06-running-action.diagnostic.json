@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "reason": "effect.discard-unsafe",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "completion_owner",
+      "kind": "completion-owner",
+      "value": "cleanup"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "discard",
+      "path": "src/06-running-action.ash",
+      "byte_start": 264,
+      "byte_end": 271,
+      "facts": [
+        {
+          "name": "completion_owner",
+          "kind": "completion-owner",
+          "value": "cleanup"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "capturing_request",
+      "path": "src/06-running-action.ash",
+      "byte_start": 112,
+      "byte_end": 131,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "cleanup_action",
+      "path": "src/06-running-action.ash",
+      "byte_start": 169,
+      "byte_end": 208,
+      "facts": []
+    }
+  ]
+}

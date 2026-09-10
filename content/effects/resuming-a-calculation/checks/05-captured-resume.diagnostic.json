@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "effect.resume-capture",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "continuation_capture",
+      "path": "src/05-captured-resume.ash",
+      "byte_start": 176,
+      "byte_end": 220,
+      "facts": []
+    }
+  ]
+}

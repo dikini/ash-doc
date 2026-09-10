@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "reason": "effect.cleanup-context",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "discard",
+      "path": "src/04-removed-handler.ash",
+      "byte_start": 506,
+      "byte_end": 513,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "cleanup_action",
+      "path": "src/04-removed-handler.ash",
+      "byte_start": 279,
+      "byte_end": 374,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "abandoned_handler",
+      "path": "src/04-removed-handler.ash",
+      "byte_start": 272,
+      "byte_end": 436,
+      "facts": []
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "type.resource-escape",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "escaping_dependency",
+      "path": "src/06-payload-escape.ash",
+      "byte_start": 248,
+      "byte_end": 285,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "resource_acquisition",
+      "path": "src/06-payload-escape.ash",
+      "byte_start": 108,
+      "byte_end": 294,
+      "facts": []
+    }
+  ]
+}

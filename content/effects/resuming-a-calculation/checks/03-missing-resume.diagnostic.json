@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "effect.resume-not-consumed",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "continuation_usage",
+      "path": "src/03-missing-resume.ash",
+      "byte_start": 140,
+      "byte_end": 141,
+      "facts": []
+    }
+  ]
+}

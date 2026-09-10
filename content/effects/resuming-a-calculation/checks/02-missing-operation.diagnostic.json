@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "effect.handler-coverage",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "coverage_failure",
+      "kind": "handler-coverage-failure",
+      "value": "clause-count"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "handler_coverage",
+      "path": "src/02-missing-operation.ash",
+      "byte_start": 98,
+      "byte_end": 174,
+      "facts": [
+        {
+          "name": "coverage_failure",
+          "kind": "handler-coverage-failure",
+          "value": "clause-count"
+        }
+      ]
+    }
+  ]
+}

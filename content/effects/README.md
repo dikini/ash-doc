@@ -32,3 +32,27 @@ explain the command prompt, English messages, and displayed source paths.
 3. [How can a reusable function preserve its caller's effects?](preserving-callback-effects/README.md)
    — give a callback's effect row a parameter and explain known effects beside
    an open tail.
+4. [Which handler answers a request?](choosing-a-handler/README.md)
+   — trace nested handlers, exact effect instances, and later closure calls.
+5. [What happens when a handler resumes a calculation?](resuming-a-calculation/README.md)
+   — separate operation answers from results and consume continuations once.
+6. [How can a handler stop a calculation early?](stopping-a-calculation/README.md)
+   — compare pure outcomes, resumption, and discard on a finite list.
+7. [How can a calculation keep scoped mutable state?](counting-with-a-cell/README.md)
+   — use acquired cell access and compare it with a pure accumulator.
+8. [Why can a result leave a resource scope while access cannot?](keeping-access-in-scope/README.md)
+   — follow dependencies through handles, closures, tuples, and requests.
+9. [How can work run when a scope finishes?](running-cleanup/README.md)
+   — trace cleanup on normal completion and checked abandonment.
+10. [How can several scopes transform one publication?](transforming-publications/README.md)
+   — use hook roots and registrations with checked callback lifetimes.
+11. [How can acquiring a resource fail?](acquiring-a-buffer/README.md)
+   — distinguish acquisition outcomes from checked buffer operations.
+12. [How do these boundaries fit together?](combining-effects-and-scopes/README.md)
+   — combine policy, state, early stopping, and cleanup in one calculation.
+
+Before the scoped-cell chapter, read the existing
+[implementation-evidence lesson](../libraries/choosing-implementation-evidence/README.md).
+It supplies the interface vocabulary used by resource providers. The effects
+chapters otherwise follow in order and introduce the concepts each later
+chapter needs.

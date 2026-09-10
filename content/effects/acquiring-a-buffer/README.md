@@ -1,0 +1,246 @@
+# How can acquiring a resource fail?
+
+A cell scope begins with an integer value. A native buffer must first acquire
+space for a requested number of bytes. That acquisition can fail before its
+body starts. The result therefore records whether acquisition and the body
+completed successfully.
+
+The buffer API also returns ordinary outcomes for checked reads and writes.
+We will keep those outcomes separate: acquiring a buffer successfully does
+not guarantee that every operation on it succeeds.
+
+## Read an initially zero byte
+
+`01-zeroed-bytes.ash` acquires four bytes and reads index zero:
+
+<!-- source: src/01-zeroed-bytes.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
+main () = resource native_buffer<R> bytes = 4 {
+    Buffer.read (bytes, 0)
+}
+```
+
+`@builtin.native_buffer` supplies the fixed buffer API. Like a cell, an acquired
+buffer has a handle, an exact provider relation, an operation interpreter, and
+one scope owning release. Its bytes start at zero. Run this file from the
+lesson's `src` directory:
+
+```text
+$ ash 01-zeroed-bytes.ash
+Success(Success(0)) : Outcome<Outcome<Int>>
+```
+
+The inner `Success(0)` is the read outcome. The outer `Success` says acquisition
+succeeded and the body returned that value normally. The buffer is released
+before that outer successful result is returned.
+
+`Buffer.Outcome<A>` has ordinary constructors `Success(A)` and
+`Failure(Error)`. Its errors include `InvalidLength`, `AllocationFailed`,
+`InvalidIndex`, and `InvalidByte`. Code must match the outcomes it needs; these
+constructors do not throw exceptions or automatically stop surrounding work.
+
+## Check the write before using its result
+
+`02-write-and-read.ash` writes one byte, then reads the same position:
+
+<!-- source: src/02-write-and-read.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
+main () = resource native_buffer<R> bytes = 4 {
+    match Buffer.write (bytes, 1, 42) {
+        Buffer.Success(()) => Buffer.read (bytes, 1)
+        Buffer.Failure(error) => Buffer.Failure error
+    }
+}
+```
+
+The successful write returns `Unit`. Its match then reads index one. If the
+write failed, the other branch would return that error instead:
+
+```text
+$ ash 02-write-and-read.ash
+Success(Success(42)) : Outcome<Outcome<Int>>
+```
+
+The body chooses an ordinary outcome, and acquisition wraps that body result.
+These wrappers answer different questions and are not flattened.
+
+## Acquisition failure skips the body
+
+A length must be positive and within the provider's addressable bound.
+`03-acquisition-failure.ash` requests zero bytes and uses a cell to record
+whether the body runs:
+
+<!-- source: src/03-acquisition-failure.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+import @builtin.cell as Cell
+
+main : Unit -> (Buffer.Outcome<Int>, Int)
+main () = resource cell<C> entered = 0 {
+    let result = resource native_buffer<R> bytes = 0 {
+        let ignored = Cell.write (entered, 1)
+        42
+    }
+    (result, Cell.read entered)
+}
+```
+
+No buffer is acquired. The body does not write to `entered`, and the result is
+an acquisition failure rather than a successful acquisition containing a body
+failure:
+
+```text
+$ ash 03-acquisition-failure.ash
+(Failure(InvalidLength), 0) : (Outcome<Int>, Int)
+```
+
+A valid length can also fail because allocation is unavailable. The program
+must be able to handle `AllocationFailed`; this example uses invalid length
+because it gives a deterministic observation. A provider requirement grants
+access inside a successful acquisition, not a promise that allocation always
+succeeds.
+
+## Check indices and byte values
+
+For a length of two, the valid indices are zero and one.
+`04-invalid-index.ash` attempts to read index two:
+
+<!-- source: src/04-invalid-index.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
+main () = resource native_buffer<R> bytes = 2 {
+    Buffer.read (bytes, 2)
+}
+```
+
+```text
+$ ash 04-invalid-index.ash
+Success(Failure(InvalidIndex)) : Outcome<Outcome<Int>>
+```
+
+Acquisition succeeded and the body ran, but the read returned an error.
+Changing the index to one gives a valid read of the initially zero byte.
+
+A byte value must be between zero and 255. `05-invalid-byte.ash` records both
+the write outcome and a later read in ordinary data:
+
+<!-- source: src/05-invalid-byte.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+type Checked = Checked(Buffer.Outcome<Unit>, Buffer.Outcome<Int>)
+
+main : Unit -> Buffer.Outcome<Checked>
+main () = resource native_buffer<R> bytes = 2 {
+    let written = Buffer.write (bytes, 0, 256)
+    Checked(written, Buffer.read (bytes, 0))
+}
+```
+
+```text
+$ ash 05-invalid-byte.ash
+Success(Checked(Failure(InvalidByte), Success(0))) : Outcome<Checked>
+```
+
+`Checked` is our data constructor for the two observations. The invalid write
+leaves the byte unchanged, so the later read still returns zero. Use a value
+within the byte range to make the write succeed. Numeric bounds are checked
+when operations run; the `Int` type does not prove them in advance.
+
+## Keep nested acquisition outcomes distinct
+
+`06-nested-acquisition.ash` acquires an outer buffer successfully, then tries
+to acquire an invalid inner one:
+
+<!-- source: src/06-nested-acquisition.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
+main () = resource native_buffer<R> outer = 1 {
+    resource native_buffer<S> inner = 0 {
+        Buffer.length outer
+    }
+}
+```
+
+```text
+$ ash 06-nested-acquisition.ash
+Success(Failure(InvalidLength)) : Outcome<Outcome<Int>>
+```
+
+The inner body does not run. The outer body returns the inner failure as an
+ordinary value, then the outer scope releases its buffer and wraps that value
+in `Success`. Its shape resembles a failed read in an acquired buffer, but
+its cause is the inner acquisition. Follow the expression producing each
+outcome rather than guessing from the constructor alone.
+
+## A success wrapper cannot export access
+
+The lifetime rules from cells still apply. `07-handle-escape.ash` tries to
+return a buffer handle from its owner:
+
+<!-- source: src/07-handle-escape.ash -->
+```ash
+import @builtin.native_buffer as Buffer
+
+main : Unit -> Int
+main () = {
+    let leaked = resource native_buffer<R> bytes = 2 {
+        bytes
+    }
+    0
+}
+```
+<!-- diagnostic: src/07-handle-escape.ash -->
+<!-- markdownlint-disable MD013 -->
+```text
+$ ash --message-format human --locale en 07-handle-escape.ash
+This value or computation depends on a resource that would be out of scope.
+  --> /path/to/ash-doc/content/effects/acquiring-a-buffer/src/07-handle-escape.ash:6:9
+6 |         bytes
+  |         ^ This value or computation depends on a resource that would be out of scope.
+  --> /path/to/ash-doc/content/effects/acquiring-a-buffer/src/07-handle-escape.ash:5:18
+5 |     let leaked = resource native_buffer<R> bytes = 2 {
+  |                  ^ This resource is acquired here and must remain within its scope.
+6 |         bytes
+  | ^ This resource is acquired here and must remain within its scope.
+7 |     }
+  | ^ This resource is acquired here and must remain within its scope.
+reason: type.resource-escape
+```
+<!-- markdownlint-enable MD013 -->
+
+The returned handle would depend on the closed acquisition, even inside its
+success wrapper. The labels connect the escaping value to the owner. Return
+copied data, such as a read outcome, while keeping all handle access inside
+the resource body.
+
+The [buffer rules][buffers] define these outcomes, dependencies, and release
+boundaries. This provider introduces no source pointers, manual release, or
+general foreign-function interface.
+
+## Practice: identify which operation failed
+
+1. Give `03-acquisition-failure.ash` a valid small length. Predict the outcome
+   and the `entered` count before running.
+2. Change the index in `04-invalid-index.ash` to the last valid position.
+3. Use `255` in `05-invalid-byte.ash`. Predict both stored outcomes.
+4. Give the inner acquisition in `06-nested-acquisition.ash` a valid length.
+   Explain which buffer its body measures and predict the nested result.
+
+Acquisition outcomes describe entry into a resource body. Read and write
+outcomes describe operations within it. Both remain ordinary typed values,
+while access belongs to a live owner. The final lesson will put requests,
+state, early stopping, and cleanup together in one finite-list calculation.
+
+[buffers]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-native-buffers
