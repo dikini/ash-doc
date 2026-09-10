@@ -42,3 +42,5 @@ For each boundary, use the same cycle:
 5. [Let one interface argument determine another](determining-interface-results/README.md)
    — use one total forward edge to complete an interface obligation before
    implementation selection.
+6. [How can an implementation depend on its element's behavior?](requiring-element-behavior/README.md)
+   — derive container behavior from explicit element prerequisites.

@@ -18,7 +18,9 @@ example from the learning-path directory:
 cd /path/to/ash-doc/content/learn
 ```
 
-The diagnostic commands below use those files even when the exploration asks
+The first eleven lessons use that shared directory for diagnostic commands.
+The two continuation chapters state their own lesson-local `src` directory.
+The diagnostic commands use checked-in files even when the exploration asks
 you to edit your own `program.ash` or `main.ash`. Follow the shared
 [diagnostic reading notes](../../README.md#read-a-diagnostic) for the prompt,
 English output, and source-path convention.
@@ -75,6 +77,13 @@ with `ash` to test what it does.
     receive, construct, and return function values.
 11. [How can one definition work with many types?](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
+
+12. [When can a local function work at several types?](generalizing-local-functions/README.md)
+    — distinguish local generalization from a fixed function value.
+
+13. [How can local definitions refer to one another?](defining-local-recursion/README.md)
+    — use annotated recursive groups and distinguish guarded construction
+    from forcing unfinished data.
 
 ## Continue learning
 

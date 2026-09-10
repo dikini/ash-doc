@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.unknown-name",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "odd"
+    },
+    {
+      "name": "lookup_scope",
+      "kind": "lookup-scope",
+      "value": "term"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "unresolved_name",
+      "path": "src/04-sequential-forward.ash",
+      "byte_start": 193,
+      "byte_end": 196,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "odd"
+        }
+      ]
+    }
+  ]
+}

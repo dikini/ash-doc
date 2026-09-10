@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "recursion.unguarded-use",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "recursive_use",
+      "path": "src/07-forced-reference.ash",
+      "byte_start": 141,
+      "byte_end": 151,
+      "facts": []
+    }
+  ]
+}

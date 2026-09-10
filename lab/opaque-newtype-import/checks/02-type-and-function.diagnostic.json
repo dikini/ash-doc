@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.internal-state",
+  "responsibility": "compiler",
+  "facts": [
+    {
+      "name": "cause",
+      "kind": "resolver-internal-cause",
+      "value": "work-state"
+    },
+    {
+      "name": "state_part",
+      "kind": "resolver-state-part",
+      "value": "imported-nominal-metadata"
+    },
+    {
+      "name": "state_problem",
+      "kind": "resolver-state-problem",
+      "value": "mismatch"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "resolution_site",
+      "path": "src/02-type-and-function.ash",
+      "byte_start": 24,
+      "byte_end": 29,
+      "facts": [
+        {
+          "name": "cause",
+          "kind": "resolver-internal-cause",
+          "value": "work-state"
+        }
+      ]
+    }
+  ]
+}

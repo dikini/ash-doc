@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "impl.orphan",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "implementation_key",
+      "path": "src/06-foreign-owner.ash",
+      "byte_start": 49,
+      "byte_end": 64,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selected_foreign_interface",
+      "path": "src/06-foreign-owner.ash",
+      "byte_start": 49,
+      "byte_end": 54,
+      "facts": []
+    }
+  ]
+}

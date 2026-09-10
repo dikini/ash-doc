@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/02-missing-prerequisite.ash",
+      "byte_start": 94,
+      "byte_end": 98,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/equality.ash",
+      "byte_start": 124,
+      "byte_end": 128,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/02-missing-prerequisite.ash",
+      "byte_start": 17,
+      "byte_end": 21,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/equality.ash",
+      "byte_start": 0,
+      "byte_end": 53,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "implementation_import",
+      "path": "src/02-missing-prerequisite.ash",
+      "byte_start": 23,
+      "byte_end": 53,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selected_implementation",
+      "path": "src/boxes.ash",
+      "byte_start": 62,
+      "byte_end": 162,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selected_method",
+      "path": "src/boxes.ash",
+      "byte_start": 109,
+      "byte_end": 160,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/equality.ash",
+      "byte_start": 0,
+      "byte_end": 53,
+      "facts": []
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "reason": "recursion.unsafe-root",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "recursive_initializer",
+      "path": "src/06-unsafe-root.ash",
+      "byte_start": 90,
+      "byte_end": 95,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "recursive_group",
+      "path": "src/06-unsafe-root.ash",
+      "byte_start": 66,
+      "byte_end": 95,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "member_annotation",
+      "path": "src/06-unsafe-root.ash",
+      "byte_start": 82,
+      "byte_end": 87,
+      "facts": []
+    }
+  ]
+}

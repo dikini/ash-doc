@@ -17,7 +17,7 @@ This repository targets **`diag-ash`** at Ash commit
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All eleven Learn lessons, twelve recursive-algorithm Cases, five library
+All thirteen Learn lessons, twelve recursive-algorithm Cases, six library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -25,6 +25,10 @@ unpublished; no ash-doc `diag-ash` publication tag has been created.
 
 **Code, prose, and checks target Diag Ash.** Remove obsolete evidence and
 records from the working tree; Git retains earlier states.
+
+The selected library continuation has an upstream compiler blocker; the
+[regression handoff](lab/opaque-newtype-import/README.md) records it. Its
+unverified lessons remain outside active navigation.
 
 ## Prepare Ash
 
@@ -72,10 +76,11 @@ messages on standard error, leave standard output empty, and exit with status
 ## Learn Ash
 
 Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool
-setup, the method used throughout the learning path, and all eleven verified
+setup, the method used throughout the learning path, and all thirteen verified
 chapters in reading order. The path begins with one source file and one value,
 then builds through functions, modules, choices, local bindings, structured and
 recursive data, functions as values, and definitions parameterized by types.
+The continuation develops local generalization and annotated recursive groups.
 
 The examples use the
 [pinned `ash` tool](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/tools/ash.md).
@@ -113,11 +118,12 @@ explanations.
 ## Design library abstractions
 
 After Learn Ash, begin
-[Design library abstractions in Ash](content/libraries/README.md). Its first
-five verified lessons choose implementation evidence, carry it through a
-public facade, use explicit function kinds for type constructors, give an
-interface method local type parameters, and let one interface argument
-determine another. This path is complete.
+[Design library abstractions in Ash](content/libraries/README.md). Its six
+verified lessons choose implementation evidence, carry it through a public
+facade, use explicit function kinds for type constructors, give an interface
+method local type parameters, let one interface argument determine another,
+and derive generic container behavior from element prerequisites. The selected
+newtype and scoped-evidence continuation remains in progress.
 
 ## Design recursive algorithms
 

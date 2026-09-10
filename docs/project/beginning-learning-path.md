@@ -75,6 +75,18 @@ directory, reader-facing link, or publication date.
   — **verified.** Type parameters, parameterized data, and rank-1 parametric
   polymorphism.
 
+## Local-function continuation
+
+The following verified chapters extend the beginning path in the same family:
+
+- **12. [When can a local function work at several types?](../../content/learn/generalizing-local-functions/README.md)**
+  — **verified.** Eligible local generalization, captured types, monomorphic
+  bindings, and the rank-1 boundary. The effect-row connection is optional
+  until the reader has studied E3.
+- **13. [How can local definitions refer to one another?](../../content/learn/defining-local-recursion/README.md)**
+  — **verified.** Annotated recursive groups, mutual scope, safe initialization,
+  and bounded observations of guarded cyclic data.
+
 ## Maintaining the path
 
 Executable lesson design may show that one question needs two lessons or that
@@ -96,7 +108,7 @@ The beginning path does not teach:
 - interfaces, implementations, constraints, or ad-hoc polymorphism;
 - opaque or hidden representation boundaries;
 - targeted imports, named roots, or re-export details;
-- advanced restrictions on recursive initialization; or
+- effects and resource ownership; or
 - documentation tooling and publication mechanisms.
 
 These subjects require a later learning stage or a concrete project need.

@@ -14,11 +14,11 @@ earlier language foundation.
 
 All content is verified at this baseline:
 
-- [Learn Ash](../../content/learn/README.md): eleven lessons, 43 sources.
+- [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
 - [Recursive algorithms](../../content/cases/README.md): twelve Cases,
   53 sources.
-- [Library abstractions](../../content/libraries/README.md): five lessons,
-  17 sources.
+- [Library abstractions](../../content/libraries/README.md): six lessons,
+  25 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
   71 sources.
 
@@ -26,8 +26,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 44 demonstrated rejections through complete
-English human messages: eleven in Learn, seven in Cases, five in Libraries,
+The active edition now teaches all 53 demonstrated rejections through complete
+English human messages: sixteen in Learn, seven in Cases, nine in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -55,10 +55,12 @@ Continue that foundation through three connected strands:
 - **Library abstractions:** generic implementations, nominal wrappers, and
   scoped exact evidence, extending the existing library path.
 
-E1–E12 are **verified** and form the complete effects path. The local-function
-and library-continuation entries remain **provisional**. Their identifiers
+E1–E12, F1–F2, and L1 are **verified**. L2 is blocked by an upstream compiler
+regression. L3 has passed focused checks in the continuation worktree and
+awaits its L2 prerequisite before entering active navigation. Their identifiers
 express curricular relationships, not task identifiers or delivery batches.
-No further delivery increment is selected.
+F1–F2 and L1–L3 are selected for sequential delivery under the
+[continuation plan](../plans/2026-09-10-functions-and-libraries.md).
 
 ### Teaching approach
 
@@ -266,6 +268,8 @@ making effects a prerequisite for learning local function behavior.
 
 ### F1. When can a local function work at several types?
 
+**State: verified.** [Read the lesson](../../content/learn/generalizing-local-functions/README.md).
+
 Revisit anonymous functions and type parameters. Compare an eligible local
 anonymous-function binding used at different types with an annotated binding
 and an application that returns a function.
@@ -276,6 +280,8 @@ eligible row parameters with the global row-polymorphic helpers already
 taught in E3. Generalization does not create new interface requirements.
 
 ### F2. How can local definitions refer to one another?
+
+**State: verified.** [Read the lesson](../../content/learn/defining-local-recursion/README.md).
 
 Continue from sequential bindings and global recursion. Introduce annotated
 `let rec` groups through local recursive functions, then mutual references.
@@ -296,6 +302,8 @@ reuse it after its concepts have been introduced.
 
 ### L1. How can an implementation depend on its element's behavior?
 
+**State: verified.** [Read the lesson](../../content/libraries/requiring-element-behavior/README.md).
+
 Extend a concrete interface implementation to a nominal container whose
 implementation requires behavior for its element type. Trace prerequisite
 evidence from an imported constrained use to the selected implementation.
@@ -308,6 +316,11 @@ re-teaching the existing determination lesson.
 
 ### L2. How can a wrapper give an existing representation a distinct meaning?
 
+**State: blocked by a compiler regression.** The
+[opaque-newtype import handoff](../../lab/opaque-newtype-import/README.md)
+records the current failure. The complete-import client and source rejection
+remain required; L2 is not in active navigation.
+
 Compare ordinary nominal data with a module `newtype`. Construct and match the
 wrapper explicitly, then give it interface behavior distinct from its
 representation. Revisit public and opaque boundaries where useful.
@@ -318,6 +331,10 @@ lowering. A runtime-cost explanation must use appropriate pinned evidence;
 printed values alone do not demonstrate allocation behavior.
 
 ### L3. How can one lexical scope supply its own exact behavior?
+
+**State: drafted and locally checked; awaiting L2.** Its nine canonical sources,
+prose, and four captured rejections are in the continuation worktree. The
+chapter stays outside active navigation until its prerequisite is complete.
 
 Introduce a local `newtype`, first by consuming it within its scope and then
 by returning an identity-free result. Supply methods through sequential
@@ -399,8 +416,9 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12 are complete. F1–F2 and L1–L3 remain provisional until selected for
-delivery. Later delivery groupings and dates are undecided.
+E1–E12, F1–F2, and L1 are complete. The selected L2–L3 delivery remains
+active until the opaque-newtype regression is fixed at the declared baseline
+and the complete continuation passes final verification.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording

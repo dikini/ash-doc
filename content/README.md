@@ -8,13 +8,13 @@ All four families are verified at the current Diag Ash target declared by the
 [repository](../README.md#current-edition-diag-ash). Code, prose, and
 checks share that exact baseline:
 
-- [`learn/`](learn/README.md) for the complete verified eleven-lesson beginning
-  learning path;
+- [`learn/`](learn/README.md) for thirteen verified lessons covering the beginning
+  path, local generalization, and local recursion;
 - [`cases/`](cases/README.md) for twelve verified recursive-algorithm Cases in
   numeric order;
-- [`libraries/`](libraries/README.md) for five verified lessons about choosing
+- [`libraries/`](libraries/README.md) for six verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic
-  and relational interface methods; and
+  and relational interface methods, with generic element prerequisites; and
 - [`effects/`](effects/README.md) for twelve verified lessons on effects, control,
   scoped resources, cleanup, hooks, and their composition.
 

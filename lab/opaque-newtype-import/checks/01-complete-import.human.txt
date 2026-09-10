@@ -1,0 +1,5 @@
+The compiler's name-resolution state contains conflicting information for nominal metadata from imported routes.
+  --> /path/to/ash-doc/lab/opaque-newtype-import/src/01-complete-import.ash:1:1
+1 | import tickets as Tickets
+  | ^ The compiler's name-resolution state contains conflicting information for nominal metadata from imported routes.
+reason: resolve.internal-state

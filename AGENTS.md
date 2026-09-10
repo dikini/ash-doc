@@ -23,7 +23,7 @@ compatible capability that the project skill does not cover.
 The current edition and all new work target `diag-ash` at Ash commit
 `40c964c69c007ba81ec6bdbac34e31ad24fec9c7`. This cumulative checkpoint includes
 diagnostics, migration repairs, effects and resources, library abstractions,
-and modules. All eleven Learn lessons, twelve Cases, five library lessons,
+and modules. All thirteen Learn lessons, twelve Cases, six library lessons,
 and twelve effects lessons are verified; the
 [verification guide](docs/project/verification.md) names their baseline checks.
 Publication has not occurred.
@@ -192,6 +192,15 @@ When text and its source of truth disagree:
 - return an unspecified semantic question to Ash design or proposal work; and
 - retain library, tooling, diagnostic, performance, and application pressure
   as evidence without presenting it as a language obligation.
+
+When a lesson discovers a compiler regression, document it for an upstream
+agent in a minimal, executable lab case. Include the exact baseline, expected
+specified behavior, actual output and status, passing controls, affected lesson,
+a bounded investigation prompt, and the condition for removing the case.
+Preserve the intended lesson boundary; do not weaken it or teach a workaround
+as the complete outcome. Continue unaffected documentation work. Compiler
+repairs belong upstream and require separate authorization; discovering the
+regression does not authorize changing ash-lang or moving its checkpoint.
 
 An upstream evidence candidate identifies the ash-doc case and exact commits,
 the reader or user task, its source tradition, executable observations, the

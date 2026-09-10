@@ -159,6 +159,20 @@ When an observation conflicts with an expectation:
 - retain library, tooling, diagnostic, performance, and application pressure as
   evidence without presenting it as an Ash obligation.
 
+For compiler regressions, prepare an upstream-agent handoff as the default
+response. Retain a minimal current-baseline case under `lab/`, with reproducible
+commands, complete diagnostics, expected specified behavior, passing controls,
+and the lesson it blocks. The case includes a ready-to-use prompt that asks
+for an upstream regression test and repair while preserving the relevant
+semantic and access boundaries. It must distinguish observed facts from a
+suspected cause.
+
+Continue unaffected lessons, but keep the blocked outcome incomplete. Do not
+replace its promised boundary with a narrower example merely because that
+example passes. Do not modify ash-lang or move its tag as part of documenting
+the failure. After an upstream fix and an authorized baseline update, rerun the
+unchanged failing examples, migrate the edition, and remove superseded evidence.
+
 An upstream evidence candidate links the complete ash-doc context at an
 immutable commit and identifies the exact Ash target, reader task, source
 tradition, executable observations, blocked boundary, and wider significance.

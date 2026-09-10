@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "impl.overlap",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "implementation_head",
+      "path": "src/05-overlap.ash",
+      "byte_start": 175,
+      "byte_end": 183,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "earlier_implementation",
+      "path": "src/05-overlap.ash",
+      "byte_start": 74,
+      "byte_end": 87,
+      "facts": []
+    }
+  ]
+}

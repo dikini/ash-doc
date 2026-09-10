@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "impl.prerequisite-not-decreasing",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "prerequisite",
+      "path": "src/04-no-decrease.ash",
+      "byte_start": 101,
+      "byte_end": 114,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "implementation_head",
+      "path": "src/04-no-decrease.ash",
+      "byte_start": 81,
+      "byte_end": 94,
+      "facts": []
+    }
+  ]
+}

@@ -19,8 +19,8 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover eleven Learn lessons / 43 sources, twelve Cases /
-53 sources, five library lessons / 17 sources, and twelve effects lessons / 71
+The four aggregates cover thirteen Learn lessons / 57 sources, twelve Cases /
+53 sources, six library lessons / 25 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -41,7 +41,7 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 44 captures: eleven Learn, seven Cases, five Libraries, and 21
+There are 53 active captures: sixteen Learn, seven Cases, nine Libraries, and 21
 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each
@@ -66,6 +66,24 @@ captured answers into exercises that ask readers to discover a failure.
 The opaque dictionary and iterator rejections preserve their source-access
 boundaries. The ordering and library lessons reject missing implementation
 evidence. Successful dictionary clients explicitly select `impl Order`.
+
+The selected L2–L3 continuation remains outside the active inventory. Its
+worktree retains an intentionally failing L2 verifier until the opaque-newtype
+import regression is repaired. The
+[lab handoff](../../lab/opaque-newtype-import/README.md) has its own verifier,
+which asserts the current compiler failure and passing controls. A passing lab
+check confirms the regression; it does not establish lesson completion.
+
+When finishing L2, also run the pinned compiler's focused allocation test from
+its checkout. This tests the heap claim that source output alone cannot prove:
+
+```text
+cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell
+```
+
+The test builds a validated wrap around an ordinary constructor and checks that
+only the representation's constructor cell is allocated. Keep this evidence
+separate from the lesson's source observations.
 
 ## Review the rest
 

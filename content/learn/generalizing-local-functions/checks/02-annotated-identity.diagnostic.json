@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "reason": "type.argument",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "Int"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "Bool"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "argument",
+      "path": "src/02-annotated-identity.ash",
+      "byte_start": 130,
+      "byte_end": 134,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "Bool"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "function_domain",
+      "path": "src/02-annotated-identity.ash",
+      "byte_start": 121,
+      "byte_end": 129,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "Int"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "application",
+      "path": "src/02-annotated-identity.ash",
+      "byte_start": 121,
+      "byte_end": 134,
+      "facts": []
+    }
+  ]
+}
