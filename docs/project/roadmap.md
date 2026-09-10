@@ -363,10 +363,6 @@ The intended order and current state are:
 <!-- markdownlint-enable MD013 -->
 
 All seven Cases retain their intended comparisons at the current baseline.
-The compiler repair permits the four recursive programs without source changes.
-The parent-path transcript uses the tool's constructor formatting: a tuple
-payload prints within the constructor's parentheses. This corrects a derived
-transcript mistake; it changes no result, type, or program.
 
 Prerequisites are Learn's foundation and the relevant effects lessons:
 requests, resumption, cells, discard for bounded search, and native buffers for

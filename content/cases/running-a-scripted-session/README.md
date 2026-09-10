@@ -113,5 +113,5 @@ For practice, change the second script to send, start, send, then close. Predict
 its transcript before editing the script function. Keeping `transition` pure
 also lets you examine individual command/state pairs separately.
 
-Continue with [a bounded byte message](../reading-a-bounded-message/README.md),
-where an input handler must account for running out of available data.
+Continue with [bounding search work](../bounding-search-work/README.md),
+where a handler decides whether a calculation may take another step.
