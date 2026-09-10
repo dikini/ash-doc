@@ -196,11 +196,9 @@ $ ash 04-known-effect.ash
 43 : Int
 ```
 
-Under the specified contract, `score` would not be a valid callback here:
-it requires the `Bonus` instance excluded from `R`. A helper intended to share
-that known effect with its callback would need to state it in the callback's
-row as well. The current compiler's enforcement of this substitution boundary
-is unresolved; this draft does not claim a verified rejection for that call.
+The tail's exclusion also limits which callbacks this helper accepts. A
+callback that itself requests `Bonus` cannot supply that tail. We will examine
+that call after checking why the known member is needed in the result row.
 
 ## Do not guess what an unknown tail contains
 
@@ -252,6 +250,63 @@ requests. The type checker also needs enough information about open tails;
 it cannot assume facts about an unconstrained tail merely because one
 particular call uses a pure callback.
 
+## Respect the tail's exclusion at a call
+
+Now try the bonus-requesting `score` as the callback to `add_bonus`.
+`06-excluded-callback.ash` gives the helper the correct result row, but supplies
+a callback that conflicts with its tail:
+
+<!-- source: src/06-excluded-callback.ash -->
+```ash
+effect Bonus {
+    amount : Unit -> Int
+}
+
+add_bonus<R : EffectRow> : (Int -> Int ! {| R}, Int) -> Int ! {Bonus | R}
+add_bonus (function, value) = (function value) + (perform Bonus.amount ())
+
+score : Int -> Int ! {Bonus}
+score points = points + (perform Bonus.amount ())
+
+main : Unit -> Int
+main () = handle (add_bonus (score, 40)) with Bonus {
+    amount ignored => resume 2
+}
+```
+
+`score` requires `{Bonus}`. Matching that callback against `Int -> Int ! {| R}`
+would put `Bonus` into `R`. But the helper's result row `{Bonus | R}` already
+requires that `R` exclude the same `Bonus` instance. The call is rejected:
+
+<!-- diagnostic: src/06-excluded-callback.ash -->
+<!-- markdownlint-disable MD013 -->
+```text
+$ ash --message-format human --locale en 06-excluded-callback.ash
+This computation requires an effect excluded from the row tail. An effect written before a row tail cannot also occur in that tail with the same type arguments.
+  --> /path/to/ash-doc/content/effects/preserving-callback-effects/src/06-excluded-callback.ash:12:29
+12 | main () = handle (add_bonus (score, 40)) with Bonus {
+   |                             ^ This computation requires an effect excluded from the row tail. An effect written before a row tail cannot also occur in that tail with the same type arguments.
+  --> /path/to/ash-doc/content/effects/preserving-callback-effects/src/06-excluded-callback.ash:5:28
+5 | add_bonus<R : EffectRow> : (Int -> Int ! {| R}, Int) -> Int ! {Bonus | R}
+  |                            ^ This type is required here.
+reason: effect.row-exclusion
+```
+<!-- markdownlint-enable MD013 -->
+
+The first label points at the supplied callback and its starting value. The
+related label points at the helper's required callback type. The message
+explains why matching them fails: the known effect cannot also occur in the
+tail with the same type arguments.
+
+Use the pure `increment` callback from `04-known-effect.ash` to satisfy this
+contract. Its empty row fits `R`, leaving only the helper's own `Bonus`
+request. If the helper is intended to share `Bonus` with its callback, its
+callback contract must include that known effect explicitly as well.
+
+This is a restriction on substituting a row into a contract. It does not mean
+that a calculation can request a given effect only once: `apply_twice` already
+requested the bonus twice using one effect-row member.
+
 ## Practice: preserve the callback's contract
 
 1. In a copy of `03-open-row.ash`, make `apply_twice` call its callback three
@@ -273,4 +328,4 @@ So far each successful effectful calculation has used one handler for
 `Bonus`. Next we can ask which handler receives a request when handlers are
 nested or when a program uses different effect instances.
 
-[rows]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#computation-types-and-effect-rows
+[rows]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#computation-types-and-effect-rows

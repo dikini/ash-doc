@@ -38,7 +38,7 @@ call to `neighbors LongTwo` still returns one finite list whose first element
 is `Start` and whose second is `Goal`. No list node points back to an earlier
 list node. The cycle belongs to the graph relation, not to a cyclic Ash value.
 This distinction follows the pinned [structural observation
-rule](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#observation):
+rule](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md#observation):
 `<cycle>` concerns a repeated location on an active value-rendering path, not
 a pair of equations that name one another's vertices.
 
@@ -117,15 +117,15 @@ Marking a vertex before adding its work prevents repeated scheduling; it does no
 The dictionary is a front-inserted list of entries. Its failed equality branch
 continues through the older entries, so a lookup observes the complete retained
 dictionary. The pinned [match and coverage
-rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#patterns-matches-and-coverage)
+rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#patterns-matches-and-coverage)
 check the constructor cases. The pinned [binding
-rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#bindings)
+rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md#bindings)
 evaluate each initializer before its successor binding, which supports the
 source-order state derivation above.
 
 Only the frontier operations vary. `search` receives an add function and a
 remove function over one type `F`. The pinned [rank-1 global
-model](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#globals-and-modules)
+model](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#globals-and-modules)
 instantiates that type at each wrapper. `depth_first` supplies `stack_add` and
 `stack_remove` over `List<Work>`. `breadth_first` supplies `queue_add` and
 `queue_remove` over `Queue<Work>`. The stack prepends and removes at the front.
@@ -135,7 +135,7 @@ its front, transferring a reversed rear when necessary.
 Here is the complete dependency module. Its public boundary contains the four
 public data types and two search wrappers. The support types and helpers remain
 private under the pinned [declaration visibility
-rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#public-private-and-opaque-declarations).
+rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/name-resolution.md#public-private-and-opaque-declarations).
 
 <!-- markdownlint-disable MD013 -->
 <!-- source: src/searches.ash -->
@@ -382,10 +382,10 @@ ash choosing-a-search-frontier/src/01-found-paths.ash
 <!-- markdownlint-enable MD013 -->
 
 The result matches the trace. The pinned [`ash` success
-contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/tools/ash.md#successful-output)
 supplies one standard-output line and status `0`; the structural spelling
 comes from the pinned [observation
-rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#observation).
+rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md#observation).
 
 ## Explain why only FIFO proves shortestness
 

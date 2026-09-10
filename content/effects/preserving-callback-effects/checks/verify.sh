@@ -21,6 +21,7 @@ readonly sources=(
     src/03-open-row.ash
     src/04-known-effect.ash
     src/05-unknown-union.ash
+    src/06-excluded-callback.ash
 )
 mapfile -t actual_sources < <(
     find "$unit_root/src" -type f -name '*.ash' -printf 'src/%f\n' |
@@ -38,4 +39,7 @@ ash_doc_check_human "$unit_root" src/02-pure-contract.ash "$unit_root/src"
 ash_doc_run_rejected "$unit_root" src/05-unknown-union.ash 1
 ash_doc_check_human "$unit_root" src/05-unknown-union.ash "$unit_root/src"
 
-ash_doc_finish 5
+ash_doc_run_rejected "$unit_root" src/06-excluded-callback.ash 1
+ash_doc_check_human "$unit_root" src/06-excluded-callback.ash "$unit_root/src"
+
+ash_doc_finish 6

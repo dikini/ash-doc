@@ -6,19 +6,19 @@ from established programming works, and exercises the language with programs
 that expose real design pressure.
 
 This repository follows the experiment described by
-[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 That design note is informative. This repository explains and tests Ash; it
 does not define the language.
 
 ## Current edition: Diag Ash
 
 This repository targets **`diag-ash`** at Ash commit
-`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. It is the cumulative Ash checkpoint:
+`40c964c69c007ba81ec6bdbac34e31ad24fec9c7`. It is the cumulative Ash checkpoint:
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
 All eleven Learn lessons, twelve recursive-algorithm Cases, five library
-lessons, and two effects lessons are verified at this exact target. The
+lessons, and three effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
 unpublished; no ash-doc `diag-ash` publication tag has been created.
@@ -35,7 +35,7 @@ commit for this edition, and build it:
 ```text
 git clone git@github.com:dikini/ash-lang.git
 cd ash-lang
-git switch --detach 9231b21228c5ccacbbee0cc0da60b380e5d2dc59
+git switch --detach 40c964c69c007ba81ec6bdbac34e31ad24fec9c7
 cargo build --locked
 ```
 
@@ -78,22 +78,22 @@ then builds through functions, modules, choices, local bindings, structured and
 recursive data, functions as values, and definitions parameterized by types.
 
 The examples use the
-[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md).
+[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/tools/ash.md).
 When you need the precise language rules, begin with the
-[pinned specification overview](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/README.md),
+[pinned specification overview](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/README.md),
 then follow the question into the applicable chapter:
 
-- [lexical structure](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/lexical-structure.md)
+- [lexical structure](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/lexical-structure.md)
   for source text and tokens;
-- [syntax](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/syntax.md)
+- [syntax](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/syntax.md)
   for modules, declarations, expressions, and patterns;
-- [name resolution](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md)
+- [name resolution](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/name-resolution.md)
   for modules, imports, scope, and identity;
-- [static semantics](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md)
+- [static semantics](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md)
   for typing and checked programs;
-- [elaboration](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/elaboration.md)
+- [elaboration](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/elaboration.md)
   for the connection between checked source and typed Core; and
-- [dynamic semantics](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md)
+- [dynamic semantics](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md)
   for values and evaluation.
 
 You do not need to read the specification before the first lesson. Use it when
@@ -104,9 +104,10 @@ that surprised you.
 
 After Learn Ash, begin
 [Working with effects and scoped resources](content/effects/README.md). The
-first two verified lessons introduce requests and handlers, then follow
-effects through calls and returned functions. Each chapter connects working
-programs with complete diagnostic explanations.
+first three verified lessons introduce requests and handlers, follow effects
+through calls and returned functions, and preserve callback requirements with
+row parameters. Each chapter connects working programs with complete
+diagnostic explanations.
 
 ## Design library abstractions
 

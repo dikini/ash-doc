@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "effect.row-exclusion",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "excluded_effect_requirement",
+      "path": "src/06-excluded-callback.ash",
+      "byte_start": 320,
+      "byte_end": 331,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "expected_type",
+      "path": "src/06-excluded-callback.ash",
+      "byte_start": 70,
+      "byte_end": 95,
+      "facts": []
+    }
+  ]
+}

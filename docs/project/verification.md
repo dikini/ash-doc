@@ -1,7 +1,7 @@
 # Verify the documentation
 
 Every active program, language claim, and tool observation targets Ash
-`diag-ash`, commit `9231b21228c5ccacbbee0cc0da60b380e5d2dc59`.
+`diag-ash`, commit `40c964c69c007ba81ec6bdbac34e31ad24fec9c7`.
 
 ## Run the content checks
 
@@ -20,7 +20,7 @@ Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
 The four aggregates cover eleven Learn lessons / 43 sources, twelve Cases /
-53 sources, five library lessons / 17 sources, and two effects lessons / eight
+53 sources, five library lessons / 17 sources, and three effects lessons / 14
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -39,13 +39,15 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 25 captures: eleven Learn, seven Cases, five Libraries, and two
-in Effects. Effects checks cover an unhandled entry and a caller whose
-contract omits an effect. Labels retain each explanation's source boundary.
+There are 28 captures: eleven Learn, seven Cases, five Libraries, and five
+in Effects. Effects checks cover an unhandled entry, an omitted caller effect,
+an effectful callback supplied to a pure parameter, an unknown row union, and
+a callback that violates a row-tail exclusion. Labels retain each
+explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's
-[format controls](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#diagnostic-formats-and-locales)
+[format controls](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/tools/ash.md#diagnostic-formats-and-locales)
 select English human output. Its `src/presentation.rs::write_human` emits plain
 text without terminal styling, so no unsupported color flag is used. The
 comparison rejects ANSI output and JSON fallback. It replaces only the
@@ -62,16 +64,6 @@ captured answers into exercises that ask readers to discover a failure.
 The opaque dictionary and iterator rejections preserve their source-access
 boundaries. The ordering and library lessons reject missing implementation
 evidence. Successful dictionary clients explicitly select `impl Order`.
-
-## Reproduce the active regression candidate
-
-The [row-tail exclusion case](../../lab/effect-row-tail-exclusion/README.md)
-records unexpected acceptance at a generic call. Its verifier reproduces the
-current behavior; it does not establish conformance to the specification:
-
-```text
-bash lab/effect-row-tail-exclusion/checks/verify.sh /path/to/diag-ash
-```
 
 ## Review the rest
 

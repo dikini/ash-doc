@@ -29,3 +29,6 @@ explain the command prompt, English messages, and displayed source paths.
 2. [What does an effectful function promise?](following-effect-contracts/README.md)
    — follow effects through calls and distinguish requesting now from
    returning a function that requests later.
+3. [How can a reusable function preserve its caller's effects?](preserving-callback-effects/README.md)
+   — give a callback's effect row a parameter and explain known effects beside
+   an open tail.

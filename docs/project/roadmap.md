@@ -8,7 +8,7 @@ a delivery schedule, publication promise, or source of Ash semantics.
 ## Current baseline
 
 Ash-doc targets `diag-ash` at
-`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. This cumulative checkpoint includes
+`40c964c69c007ba81ec6bdbac34e31ad24fec9c7`. This cumulative checkpoint includes
 diagnostics, effects and resources, library abstractions, modules, and the
 earlier language foundation.
 
@@ -19,16 +19,16 @@ All content is verified at this baseline:
   53 sources.
 - [Library abstractions](../../content/libraries/README.md): five lessons,
   17 sources.
-- [Effects and scoped resources](../../content/effects/README.md): two lessons,
-  eight sources.
+- [Effects and scoped resources](../../content/effects/README.md): three lessons,
+  14 sources.
 
 The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 25 demonstrated rejections through complete
+The active edition now teaches all 28 demonstrated rejections through complete
 English human messages: eleven in Learn, seven in Cases, five in Libraries,
-and two in Effects.
+and five in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
@@ -55,10 +55,9 @@ Continue that foundation through three connected strands:
 - **Library abstractions:** generic implementations, nominal wrappers, and
   scoped exact evidence, extending the existing library path.
 
-E1 and E2 are **verified** and form the active effects path. E3 is **in progress**
-and remains a draft because of the row-tail exclusion mismatch below. All
-other entries remain **provisional**. These identifiers express curricular
-relationships, not task identifiers or delivery batches.
+E1–E3 are **verified** and form the active effects path. All other entries remain
+**provisional**. Their identifiers express curricular relationships, not task
+identifiers or delivery batches. No further delivery increment is selected.
 
 ### Teaching approach
 
@@ -115,9 +114,7 @@ one new abstraction to introduce.
 
 ### E3. How can a reusable function preserve its caller's effects?
 
-**State: in progress; draft.** The [execution plan](../plans/2026-09-10-effect-contracts.md)
-owns the remaining work. The [regression candidate](../../lab/effect-row-tail-exclusion/README.md)
-records a mismatch between specified row exclusions and generic-call checking.
+**State: verified.** [Read the lesson](../../content/effects/preserving-callback-effects/README.md).
 
 Revisit a higher-order function from Learn with pure and effectful callbacks.
 Introduce open rows, row parameters, and the `EffectRow` kind because the
@@ -341,19 +338,19 @@ baseline. These sections govern the proposed boundaries:
 - [Specification overview][overview], [local nominal scope][nominals], and
   [scoped exact evidence][evidence]: L2 and L3.
 
-[rows]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#computation-types-and-effect-rows
-[effects]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#effects
-[cells]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[buffers]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-native-buffers
-[cleanup]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-cleanup-actions
-[hooks]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#synchronous-typed-hooks
-[blocks]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#blocks
-[rank1]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#inference-and-rank-1-restrictions
-[recursion]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#recursive-block-groups
-[implementations]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#implementations
-[overview]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/README.md
-[nominals]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#local-nominal-scope
-[evidence]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-exact-evidence
+[rows]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[buffers]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-native-buffers
+[cleanup]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-cleanup-actions
+[hooks]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#synchronous-typed-hooks
+[blocks]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#blocks
+[rank1]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#inference-and-rank-1-restrictions
+[recursion]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#recursive-block-groups
+[implementations]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#implementations
+[overview]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/README.md
+[nominals]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-exact-evidence
 
 ## Evidence and completion expectations
 
@@ -383,12 +380,8 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1 and E2 are complete. E3's examples and prose are drafted, but the compiler
-accepts a callback whose effect the specified row-tail exclusion forbids. Its
-working examples do not establish that excluded-instantiation boundary. The
-lesson remains outside active navigation pending upstream resolution or an
-explicit decision to teach the known limitation. Later delivery groupings
-and dates are undecided.
+E1–E3 are complete. E4 is the next curricular question; it remains provisional
+until selected for delivery. Later delivery groupings and dates are undecided.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording
