@@ -46,7 +46,7 @@ them for its public summary. A later client reaches the original declarations
 through those spellings: re-export preserves each defining identity rather
 than creating a forwarding declaration. But ordinary name items select no
 implementation facts. These are separate rules in Ash's
-[imports and namespaces](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#imports-and-namespaces).
+[imports and namespaces](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#imports-and-namespaces).
 
 Use that facade from `02-names-only.ash`:
 
@@ -99,7 +99,7 @@ primary label on the `same` call. Its related labels identify the client's
 import and the original `same` and `Equal` declarations in `equality.ash`.
 There is no facade-owned copy to identify, and the unselected implementation is
 not exposed. The
-[constraint-selection rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+[constraint-selection rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 make an eligible concrete obligation with no available source
 `constraint.unsatisfied`.
 
@@ -149,9 +149,9 @@ original implementation, and its method compares the two integers.
 This routing is static. A public import does not construct a runtime facade
 object, register an implementation, or arrange dynamic dispatch. After Ash
 validates the selected route, it
-[lowers evidence to ordinary Core functions and applications](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/elaboration.md#interface-evidence-lowering).
+[lowers evidence to ordinary Core functions and applications](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md#interface-evidence-lowering).
 The evaluator performs
-[no runtime interface lookup](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#generated-interface-evidence).
+[no runtime interface lookup](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#generated-interface-evidence).
 
 The representation cost is one additional import hop and an explicit selector
 at each boundary that forwards or consumes the capability. The invariant is

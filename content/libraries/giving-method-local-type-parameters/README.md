@@ -40,7 +40,7 @@ no separate interface requirement.
 occurrences retain the same `Functor<F>` requirement. Ash freshens the complete
 interface vector and then the method's ordered parameters at each occurrence,
 as specified by the
-[interface method typing rule](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#interfaces-and-constrained-schemes).
+[interface method typing rule](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes).
 
 Supply one implementation in `carrier.ash`:
 
@@ -90,9 +90,9 @@ each element-type pair. The method's type operations and the selected interface
 evidence are static. After checking, generated evidence lowers to ordinary
 functions and erased type operations, not runtime type inspection or dynamic
 interface lookup. The boundary is described by Ash's
-[interface evidence lowering](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/elaboration.md#interface-evidence-lowering)
+[interface evidence lowering](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md#interface-evidence-lowering)
 and
-[generated evidence evaluation](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#generated-interface-evidence).
+[generated evidence evaluation](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#generated-interface-evidence).
 
 ## An omitted list binds no local types
 
@@ -130,7 +130,7 @@ names `A` and `B`. The diagnostic's primary label covers the complete `map`
 signature, and its related label points to the declared interface parameter
 `F`. Adding `<A, B>` makes the method type's non-interface variables an ordered
 declared set. These binding rules come from
-[method parameter resolution](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#type-binder-identity-and-scope).
+[method parameter resolution](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#type-binder-identity-and-scope).
 
 This is rank-1 method polymorphism at an interface boundary. Each occurrence
 instantiates the method scheme to a monotype; source code cannot store an

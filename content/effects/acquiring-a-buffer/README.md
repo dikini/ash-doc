@@ -243,4 +243,4 @@ outcomes describe operations within it. Both remain ordinary typed values,
 while access belongs to a live owner. The final lesson will put requests,
 state, early stopping, and cleanup together in one finite-list calculation.
 
-[buffers]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-native-buffers
+[buffers]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-native-buffers

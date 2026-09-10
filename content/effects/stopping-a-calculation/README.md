@@ -270,4 +270,4 @@ We can now trace a request, continue its waiting work, or stop that work and
 return a chosen outcome. The next question is how a calculation can keep
 mutable state whose access and release belong to one scope.
 
-[effects]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#effects
+[effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects

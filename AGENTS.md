@@ -5,7 +5,7 @@
 
 Ash-doc is a separate, version-pinned learning and evidence stream governed by
 the experiment in
-[DN-0024](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 It may discover language, tool, library, diagnostic, and application pressure.
 It cannot define Ash semantics or accept Ash architecture.
 
@@ -21,7 +21,7 @@ compatible capability that the project skill does not cover.
 ## Authority and target
 
 The current edition and all new work target `diag-ash` at Ash commit
-`38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`. This cumulative checkpoint includes
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. This cumulative checkpoint includes
 diagnostics, migration repairs, effects and resources, library abstractions,
 and modules. All thirteen Learn lessons, twenty Cases, eight library lessons,
 and twelve effects lessons are verified; the
@@ -45,9 +45,9 @@ published documentation tag.
 
 Use sources according to the claim you are making:
 
-1. The [Diag Ash specification](https://github.com/dikini/ash-lang/tree/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec)
+1. The [Diag Ash specification](https://github.com/dikini/ash-lang/tree/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec)
    governs current work and all active material.
-2. The [Diag Ash tool guide](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md),
+2. The [Diag Ash tool guide](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md),
    implementation, and tests at that commit govern new tool observations.
    Remove observations that no longer describe this baseline.
 3. Accepted architectural decisions in `ash-lang` govern the non-language
@@ -58,7 +58,7 @@ Use sources according to the claim you are making:
 
 Use the pinned Ash checkpoint for project process, future pressure, and
 the
-[Ash writing guide](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/project/writing.md).
+[Ash writing guide](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/project/writing.md).
 Do not import language behavior from `main` into the pinned edition.
 
 The repository README declares the current target, verification and

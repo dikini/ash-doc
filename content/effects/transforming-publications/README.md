@@ -299,4 +299,4 @@ scopes. Their order, callback context, and completion obligations determine
 what a publication does. Next we will use the same resource-lifetime model
 with a provider whose acquisition can fail before its body begins.
 
-[hooks]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#synchronous-typed-hooks
+[hooks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#synchronous-typed-hooks

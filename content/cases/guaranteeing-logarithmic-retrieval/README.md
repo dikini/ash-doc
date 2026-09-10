@@ -39,7 +39,7 @@ in repair without making red nodes invalid everywhere.
 
 The opaque declaration still controls only source access. Importers can name
 `Dictionary<K, V>`, but cannot name its constructors under Ash's
-[public and opaque declaration rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#public-private-and-opaque-declarations).
+[public and opaque declaration rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations).
 The defining module can construct any of its forms, including invalid ones.
 Neither the nominal type nor `Order<K>` proves these representation laws.
 
@@ -49,7 +49,7 @@ balance pass returns either `Invalid` or the common black-height. It binds both
 child summaries before comparing them, just as the ordering pass binds both
 recursive results before combining them. Ash bindings evaluate their
 initializers before continuing under the pinned
-[binding rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#bindings),
+[binding rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings),
 so a completed validation enters both branches in both passes. A final check
 tests only the top-level root color.
 
@@ -102,7 +102,7 @@ unchanged into the new constructors, and the in-order sequence remains first,
 middle, last. The source expresses this shared result in `restore_three`; four
 nested `restore` patterns only select which fields supply it. Pattern selection
 follows Ash's exhaustive
-[pattern and match rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#patterns-matches-and-coverage).
+[pattern and match rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#patterns-matches-and-coverage).
 
 The transient candidate differs from a recursively consistent tree only at
 the red-red edge, so the four surrounding subtrees have one common
@@ -686,7 +686,7 @@ dictionaries have the same structure and associations because the finite build
 applies public insertion in input order.
 
 `Red`, `Black`, `Node`, and `Empty` appear because Ash's
-[observation rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#observation)
+[observation rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation)
 render nominal data structurally. That output does not export the private color
 type or either opaque dictionary constructor. It gives client source no new
 name to construct or match.
@@ -788,7 +788,7 @@ comparisons return and satisfy the premises already used for ordered trees:
 `Less` and `Greater`, strict order is transitive, and equivalent keys relate to
 every other key in the same way. The interface requirement supplies checked
 comparison evidence under Ash's
-[constrained-scheme rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#interfaces-and-constrained-schemes);
+[constrained-scheme rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes);
 it does not encode those laws.
 
 The return and height claims apply to finite valid dictionary spines produced
@@ -797,7 +797,7 @@ comparison that does not return can prevent lookup, insertion, build, or
 ordering validation from returning. Code in the defining module can still
 construct an invalid value, a constructor-guarded cyclic spine, or a bad public
 operation. The static
-[recursive block-group rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#recursive-block-groups)
+[recursive block-group rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups)
 admit guarded recursive data; opacity and red-black checks do not turn
 finiteness into a type proposition.
 

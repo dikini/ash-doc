@@ -354,4 +354,4 @@ aggregates, or request payloads. Ordinary copies can travel farther. Next we
 will use a still-live resource to observe work that must run when a scope
 finishes, including when a handler abandons its body.
 
-[cells]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies

@@ -31,7 +31,7 @@ same pair = equal pair
 behavior accepts two values of that type and produces a boolean. The
 implementation supplies the complete method set for `Equal<Int>`; it does not
 introduce an ordinary source name for the implementation itself. These are the
-[interface and implementation forms](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#interfaces-and-constrained-schemes)
+[interface and implementation forms](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes)
 that the checker verifies.
 
 The signature of `same` keeps its dependency explicit:
@@ -106,9 +106,9 @@ unsatisfied obligation at the call and relates it to the imported `same`
 item, the declaration that introduced the requirement, and the owning
 `Equal` interface. It does not expose the public but unselected implementation
 as though that fact were ambient. This behavior follows the separate
-[name and implementation import channels](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#imports-and-namespaces)
+[name and implementation import channels](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#imports-and-namespaces)
 and the rules for an
-[unsatisfied evidence obligation](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence).
+[unsatisfied evidence obligation](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence).
 
 ## Select the required fact
 
@@ -145,10 +145,10 @@ That order matters. `impl Equal` does not choose a result by inspecting the
 values at runtime. Checking first determines the complete interface
 application and then selects evidence from the facts explicitly available in
 the client module. After validation, Ash
-[lowers selected evidence to ordinary Core functions and applications](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/elaboration.md#interface-evidence-lowering).
+[lowers selected evidence to ordinary Core functions and applications](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md#interface-evidence-lowering).
 Imports, implementation identities, and checking registries do not become
 runtime operations; evaluation performs
-[no runtime interface lookup](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#generated-interface-evidence).
+[no runtime interface lookup](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#generated-interface-evidence).
 
 The cost of this boundary is one explicit requirement on the library
 definition and one explicit selection channel at the client. In return, the

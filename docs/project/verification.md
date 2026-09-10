@@ -1,7 +1,7 @@
 # Verify the documentation
 
 Every active program, language claim, and tool observation targets Ash
-`diag-ash`, commit `38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`.
+`diag-ash`, commit `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
 
 ## Run the content checks
 
@@ -49,7 +49,7 @@ explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's
-[format controls](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md#diagnostic-formats-and-locales)
+[format controls](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#diagnostic-formats-and-locales)
 select English human output. Its `src/presentation.rs::write_human` emits plain
 text without terminal styling, so no unsupported color flag is used. The
 comparison rejects ANSI output and JSON fallback. It replaces only the
@@ -78,13 +78,6 @@ cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell
 The test builds a validated wrap around an ordinary constructor and checks that
 only the representation's constructor cell is allocated. Keep this evidence
 separate from the lesson's source observations.
-
-The [repeated hook pipeline case](../../lab/repeated-hook-pipeline/README.md)
-separately checks combined-entry type-work exhaustion and its passing controls:
-
-```text
-bash lab/repeated-hook-pipeline/checks/verify.sh /path/to/diag-ash
-```
 
 ## Review the rest
 
