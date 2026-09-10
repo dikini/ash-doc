@@ -23,6 +23,7 @@ when its retention condition requires it.
 Source selection, licensing, and adaptation questions without an executable
 Ash experiment belong in [`research/`](../research/README.md).
 
-No laboratory case is active at the current baseline. Remove a case when
-its question is resolved and its retention condition has ended; Git retains
-prior evidence.
+Active case: [Effect Cases exhaust type-checking work](effect-cases-type-work/README.md).
+It retains four blocked lesson drafts, a reduced failure, passing controls, and
+an upstream-agent handoff at the current baseline. Remove it after the repair,
+authorized baseline migration, and lesson promotion described in the case.

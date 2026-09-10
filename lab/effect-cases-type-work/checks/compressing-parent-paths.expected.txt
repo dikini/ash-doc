@@ -1,0 +1,1 @@
+(Success(Success((Root(0, 4, 0), Root(0, 4, 0)))), Success(Success((Root(0, 4, 3), Root(0, 2, 1))))) : (Outcome<Outcome<(Lookup, Lookup)>>, Outcome<Outcome<(Lookup, Lookup)>>)

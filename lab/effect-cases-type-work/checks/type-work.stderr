@@ -1,0 +1,2 @@
+The compiler ran out of resources for type checking and type construction.
+reason: internal.resource.type-work

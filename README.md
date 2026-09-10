@@ -17,7 +17,7 @@ This repository targets **`diag-ash`** at Ash commit
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All thirteen Learn lessons, twelve recursive-algorithm Cases, eight library
+All thirteen Learn lessons, fifteen algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -122,11 +122,12 @@ derive generic container behavior from element prerequisites, wrap existing
 representations with new nominal types, and supply exact behavior in local
 scopes.
 
-## Design recursive algorithms
+## Explore algorithms and effects
 
-Continue with [Design recursive algorithms in Ash](content/cases/README.md).
-Its twelve verified Cases derive recursive algorithms from explicit
-representations and account for the source work and dependency structure.
+Continue with [Explore algorithms and effects in Ash](content/cases/README.md).
+The first twelve Cases derive recursive algorithms from explicit
+representations and account for their work. Three short effect Cases then
+illustrate dependency injection, scripted sessions, and bounded byte input.
 
 ## Authority
 

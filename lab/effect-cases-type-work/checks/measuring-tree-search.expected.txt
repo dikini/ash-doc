@@ -1,0 +1,1 @@
+((Found(30), 2), (Found(30), 3), (Missing, 0)) : ((Result, Int), (Result, Int), (Result, Int))

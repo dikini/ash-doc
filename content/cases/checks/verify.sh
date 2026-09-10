@@ -41,8 +41,8 @@ mapfile -t numbered_slots < <(
     ' "$index"
 )
 readonly numbered_slots
-[[ ${#numbered_slots[@]} -eq 12 ]] ||
-    ash_doc_fail "Cases index must expose exactly twelve numbered slots"
+[[ ${#numbered_slots[@]} -eq 15 ]] ||
+    ash_doc_fail "Cases index must expose exactly fifteen numbered slots"
 
 for slot_index in "${!numbered_slots[@]}"; do
     expected_slot=$((slot_index + 1))
@@ -83,8 +83,11 @@ readonly active_destinations=(
     resuming-tree-traversal
     implementing-persistent-fifo-frontier
     choosing-a-search-frontier
+    supplying-order-prices
+    running-a-scripted-session
+    reading-a-bounded-message
 )
-for slot in {1..12}; do
+for slot in {1..15}; do
     slot_source=$(read_slot "$slot")
     destination=${active_destinations[$((slot - 1))]}
     [[ $(grep -Foc "]($destination/README.md)" <<< "$slot_source") -eq 1 ]] ||

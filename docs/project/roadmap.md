@@ -15,8 +15,8 @@ earlier language foundation.
 All content is verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
-- [Recursive algorithms](../../content/cases/README.md): twelve Cases,
-  53 sources.
+- [Algorithms and effects](../../content/cases/README.md): fifteen Cases,
+  56 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -56,8 +56,8 @@ Continue that foundation through three connected strands:
   scoped exact evidence, extending the existing library path.
 
 E1–E12, F1–F2, and L1–L3 are **verified**. Their identifiers express curricular
-relationships, not task identifiers or delivery batches. No further delivery
-increment is selected.
+relationships, not task identifiers or delivery batches. The current effect
+Cases outcome is partially delivered, with four examples blocked upstream.
 
 ### Teaching approach
 
@@ -338,6 +338,52 @@ local implementation search. Compare an escaping identity with a closure that
 legitimately captures and unwraps a local value. Keep effects out of the first
 example; combine the strands only after their individual boundaries are clear.
 
+## Apply effects in short Cases
+
+The approved continuation illustrates one concept per Case with a small Ash
+program and sufficient explanation to predict its output. Use the existing
+layout and checks. The programs are original illustrations; they introduce no
+shared application framework or new repository tooling. Follow-up exercises
+stay within concepts already introduced. They are not deep treatments of
+algorithms, protocol design, or dependency-injection architecture.
+
+The intended order and current state are:
+
+<!-- markdownlint-disable MD013 -->
+| Case | Concept | State |
+| --- | --- | --- |
+| Number tree leaves | Replace explicit counter threading with `Fresh.next` and scoped state. | Blocked |
+| Measure tree search | Count comparisons through a handler while keeping ordering fixed. | Blocked |
+| [Supply order prices](../../content/cases/supplying-order-prices/README.md) | Select regular, promotional, or unavailable dependency responses. | Verified |
+| [Run a scripted session](../../content/cases/running-a-scripted-session/README.md) | Keep domain transitions pure; supply commands and collect replies. | Verified |
+| Bound search work | Request before expansion; distinguish exhaustion from absence. | Blocked |
+| Compress parent paths | Use a scoped parent buffer; compare repeated lookup reads and writes. | Blocked |
+| [Read a bounded message](../../content/cases/reading-a-bounded-message/README.md) | Decode a byte length prefix through a checked cursor. | Verified |
+
+<!-- markdownlint-enable MD013 -->
+
+The [current lab case](../../lab/effect-cases-type-work/README.md) owns the four
+blocked drafts, their intended outputs, a reduced type-work failure, and the
+[upstream-agent handoff](../../lab/effect-cases-type-work/upstream-agent.md).
+The [remaining execution plan](../plans/2026-09-10-effect-cases.md) is blocked
+on that upstream repair and an authorized migration. The drafts are not indexed
+as active lessons. The three independent verified Cases
+follow the pure Cases now; restore the intended order when the blocked drafts
+verify after an authorized baseline migration.
+
+Prerequisites are Learn's foundation and the relevant effects lessons:
+requests, resumption, cells, discard for bounded search, and native buffers for
+parent paths and messages. Earlier tree and frontier Cases provide context for
+those algorithms. The effect, cell, and buffer specification sections below
+govern their contracts and scope boundaries.
+
+Completion requires unchanged intended comparisons at the declared baseline,
+short prose, displayed-source agreement, and applicable output checks. Runtime
+unavailable, refused, truncated, and exhausted outcomes provide the negative
+comparisons; static rejections need not repeat the effects path. Keep broader
+union–find operations, general session infrastructure, external I/O, timing
+claims, and asymptotic analysis outside these examples.
+
 ## Prerequisites and governing sources
 
 The dependencies above describe reading order, not delivery commitments:
@@ -347,7 +393,7 @@ The dependencies above describe reading order, not delivery commitments:
 - F1 precedes generalized-local examples in E3.
 - The existing implementation-evidence lesson precedes E7's provider bridge.
 - The existing library path precedes L1, then L2 and L3.
-- Existing Cases provide optional pure comparisons; completing all twelve is
+- The first twelve Cases provide optional pure comparisons; completing them is
   not a prerequisite for entering the effects path.
 
 Language claims and future examples must use the specification at the current
@@ -408,7 +454,8 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, and L1–L3 are complete. No further delivery is selected.
+E1–E12, F1–F2, and L1–L3 are complete. Three short effect Cases are verified;
+four retain their intended programs as blocked drafts in the current lab case.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording

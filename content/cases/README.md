@@ -1,8 +1,8 @@
-# Design recursive algorithms in Ash
+# Explore algorithms and effects in Ash
 
 The [Learn Ash path](../learn/README.md) builds the language model needed here:
 modules, functions, patterns, recursive data, higher-order functions, and
-parameterized definitions. Complete its eleven lessons before beginning these
+parameterized definitions. Complete its first eleven lessons before beginning these
 cases. Keep the same `ash` executable available through the
 [shared setup](../../README.md#prepare-ash).
 
@@ -11,6 +11,11 @@ right value. Each chapter begins with a recursive representation, makes an
 algorithmic choice visible in complete Ash programs, and then accounts for the
 work and retained data caused by that choice. Later cases change the
 representation when an operation or invariant demands it.
+
+The short effect Cases at the end apply the
+[effects path](../effects/README.md) to replaceable dependencies, scripted
+sessions, and checked byte input. Each isolates one concept in a small program;
+its introduction names the relevant effects prerequisites.
 
 ## How to work through a case
 
@@ -102,3 +107,12 @@ storage strategy.
     transition fixed, let LIFO return a longer path and FIFO return the
     shortest path, guard the cycle by marking before addition, and account for
     logical pending entries separately.
+13. [How can an order request its prices and
+    discount?](supplying-order-prices/README.md) — run one calculation under
+    regular, promotional, and unavailable responses.
+14. [How can a session use scripted input and collect its
+    replies?](running-a-scripted-session/README.md) — keep domain transitions
+    pure while a handler supplies commands and builds the transcript.
+15. [How can a decoder request bytes from bounded
+    storage?](reading-a-bounded-message/README.md) — separate parsing from a
+    scoped cursor, and distinguish truncation from acquisition failure.

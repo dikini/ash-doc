@@ -1,0 +1,1 @@
+((Exhausted, 0), (Exhausted, 2), (Found(30), 3), (Missing, 3)) : ((Result, Int), (Result, Int), (Result, Int), (Result, Int))

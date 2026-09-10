@@ -19,8 +19,8 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 57 sources, twelve Cases /
-53 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
+The four aggregates cover thirteen Learn lessons / 57 sources, fifteen Cases /
+56 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -78,6 +78,14 @@ cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell
 The test builds a validated wrap around an ordinary constructor and checks that
 only the representation's constructor cell is allocated. Keep this evidence
 separate from the lesson's source observations.
+
+The current [effect Cases regression candidate](../../lab/effect-cases-type-work/README.md)
+retains four blocked drafts outside the active content stream. Its separate
+check verifies five type-work failures and two passing controls:
+
+```text
+bash lab/effect-cases-type-work/checks/verify.sh /path/to/diag-ash
+```
 
 ## Review the rest
 
