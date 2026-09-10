@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "effect.row-union-ambiguous",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "row_failure",
+      "kind": "effect-row-failure",
+      "value": "union"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "effect_row",
+      "path": "src/05-unknown-union.ash",
+      "byte_start": 141,
+      "byte_end": 185,
+      "facts": [
+        {
+          "name": "row_failure",
+          "kind": "effect-row-failure",
+          "value": "union"
+        }
+      ]
+    }
+  ]
+}

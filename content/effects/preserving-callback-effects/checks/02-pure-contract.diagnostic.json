@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "reason": "type.argument",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "(Int -> Int, Int)"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "(Int -> Int ! {<effect:1:0:0>}, Int)"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "argument",
+      "path": "src/02-pure-contract.ash",
+      "byte_start": 270,
+      "byte_end": 281,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "(Int -> Int ! {<effect:1:0:0>}, Int)"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "function_domain",
+      "path": "src/02-pure-contract.ash",
+      "byte_start": 137,
+      "byte_end": 154,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "(Int -> Int, Int)"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "application",
+      "path": "src/02-pure-contract.ash",
+      "byte_start": 257,
+      "byte_end": 282,
+      "facts": []
+    }
+  ]
+}
