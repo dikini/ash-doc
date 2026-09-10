@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "coverage.non-exhaustive",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "uncovered_value",
+      "kind": "code",
+      "value": "Missing"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "coverage",
+      "path": "src/03-missing-constructor.ash",
+      "byte_start": 44,
+      "byte_end": 108,
+      "facts": [
+        {
+          "name": "uncovered_value",
+          "kind": "code",
+          "value": "Missing"
+        }
+      ]
+    }
+  ]
+}

@@ -23,9 +23,6 @@ when its retention condition requires it.
 Source selection, licensing, and adaptation questions without an executable
 Ash experiment belong in [`research/`](../research/README.md).
 
-## Versioned migration evidence
-
-The [Lib Ash migration cases](lib-ash-migration/README.md) retain compiler and
-tool observations found while moving one documentation edition between two
-exact Ash milestones. They are upstream evidence, not active teaching pages or
-desired language behavior.
+No laboratory case is active at the current baseline. Remove a case when
+its question is resolved and its retention condition has ended; Git retains
+prior evidence.

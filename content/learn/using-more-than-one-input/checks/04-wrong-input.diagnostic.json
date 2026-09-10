@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "reason": "type.argument",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "Int"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "Bool"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "argument",
+      "path": "src/04-wrong-input.ash",
+      "byte_start": 91,
+      "byte_end": 95,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "Bool"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "function_domain",
+      "path": "src/04-wrong-input.ash",
+      "byte_start": 13,
+      "byte_end": 16,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "Int"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "application",
+      "path": "src/04-wrong-input.ash",
+      "byte_start": 84,
+      "byte_end": 95,
+      "facts": []
+    }
+  ]
+}

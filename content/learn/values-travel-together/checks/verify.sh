@@ -27,10 +27,5 @@ ash_doc_run_accepted \
     "$unit_root" src/01-pair.ash '(42, true) : (Int, Bool)'
 ash_doc_run_accepted "$unit_root" src/02-pair-input.ash '42 : Int'
 ash_doc_run_accepted "$unit_root" src/03-local-pattern.ash '42 : Int'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-triple-is-not-a-pair.ash \
-    type.argument \
-    'expected (Int, Int)' \
-    1
+ash_doc_run_rejected "$unit_root" src/04-triple-is-not-a-pair.ash 1
 ash_doc_finish 4

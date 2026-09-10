@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "reason": "interface.method-parameter",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "parameter_failure",
+      "kind": "method-parameter-failure",
+      "value": "implicit-binders"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "method_type",
+      "path": "src/02-missing-method-parameters.ash",
+      "byte_start": 42,
+      "byte_end": 70,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "interface_parameter",
+      "path": "src/02-missing-method-parameters.ash",
+      "byte_start": 18,
+      "byte_end": 19,
+      "facts": []
+    }
+  ]
+}

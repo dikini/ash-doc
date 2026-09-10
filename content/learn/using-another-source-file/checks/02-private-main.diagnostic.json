@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.unavailable-export",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "double"
+    },
+    {
+      "name": "access",
+      "kind": "name-access",
+      "value": "private"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "inaccessible_name",
+      "path": "src/02-private-main.ash",
+      "byte_start": 73,
+      "byte_end": 79,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "double"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "inaccessible_declaration",
+      "path": "src/arithmetic.ash",
+      "byte_start": 0,
+      "byte_end": 6,
+      "facts": []
+    }
+  ]
+}

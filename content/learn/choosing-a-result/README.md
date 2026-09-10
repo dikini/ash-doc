@@ -130,7 +130,7 @@ Ash checks this before running the program, so execution cannot arrive at a
 choice with no corresponding expression.
 
 > **With a learning assistant:** Show the assistant the incomplete match and
-> the first diagnostic line. Ask it which `Bool` value the match does not
+> the diagnostic reason and source labels. Ask it which `Bool` value the match does not
 > cover. Then explain why that value is possible and what arm would complete
 > the match before asking for feedback.
 

@@ -93,9 +93,9 @@ This definition is commonly called a *right fold* because the result for the
 rest becomes the combiner's second input. `fold` is not special Ash syntax or a
 built-in operation. It is an ordinary higher-order function checked by the
 [function-application
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#functions-and-application)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#functions-and-application)
 and placed in recursive scope by the [global-definition
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#globals-and-modules)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#globals-and-modules)
 used throughout the beginning path.
 
 Each algorithm chooses one replacement for each list form:
@@ -212,7 +212,7 @@ constructor expressions in the two combiners. A completed `filter` still
 applies its predicate to all `n` input elements because the fold calls its
 combiner `n` times.
 The pinned [constructor evaluation
-rule](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#application)
+rule](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#application)
 allocates a constructor cell when a payload constructor is applied. The counts
 describe the output `More` cells attributable to these functions, not an exact
 number of heap bytes.
@@ -250,9 +250,9 @@ The result follows from Ash's strict binding and application order. The
 `folded_rest` binding evaluates its initializer before the block continues, so
 the recursive fold becomes a value before `combine first folded_rest` is
 evaluated. The [dynamic binding
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#bindings)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#bindings)
 and [application
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#application)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#application)
 make both steps explicit.
 
 Each recursive call therefore depends on the result of the call for `rest`.
@@ -301,7 +301,7 @@ type.argument
 Its structured evidence points to the `0` argument and records `expected Bool`
 and `found Int`. The rejection is an instance of the static rule that checks an
 [application argument against the function's
-domain](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#functions-and-application).
+domain](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#functions-and-application).
 The reason, types, source location, empty standard output, and status are the
 stable observations used here; diagnostic layout and colors are not part of
 the lesson's contract.

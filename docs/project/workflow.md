@@ -5,7 +5,7 @@ in a coherent learning sequence. Its directory is the evidence boundary that
 connects the prose, canonical programs, observations, and checks.
 
 This workflow adapts the experimental model in
-[DN-0024](https://github.com/dikini/ash-lang/blob/main/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 That note remains informative. This policy governs ash-doc project work; it
 cannot define Ash semantics or accept Ash architecture.
 
@@ -164,24 +164,17 @@ immutable commit and identifies the exact Ash target, reader task, source
 tradition, executable observations, blocked boundary, and wider significance.
 Ash owns any resulting design, proposal, or retained regression obligation.
 
-## Three-lesson review
+## Verification tools
 
-The first three complete lessons confirmed the lesson directory as the useful
-evidence boundary. Each lesson can connect one reader question, one narrative,
-its canonical programs, and its accepted and rejected observations without a
-separate manifest. The learning index remains enough to express reading order.
+Each lesson directory connects its question, prose, canonical programs, and
+observations. The family index owns reading order. A shared Bash helper owns
+the compiler pin, build, execution, and displayed-source comparison; a small
+Python helper compares structured diagnostic records. Each lesson retains
+its own source-specific checks and expected observations. See the
+[verification guide](verification.md) for commands and coverage.
 
-The second lesson repeated the first lesson's build, execution, diagnostic, and
-source-agreement work. A shared Bash helper now owns those mechanisms, while
-each lesson retains a local check that declares its sources and expected
-observations. The third lesson used the same boundary without requiring a new
-kind of project metadata. Keep this arrangement while the helper can express a
-lesson's evidence directly.
-
-The review did not establish a need for a registry, renderer, or CI service.
-`README.md` remains the lesson entry name for repository browsing; reconsider
-`index.md` with the first concrete publication design, when its behavior can be
-tested rather than predicted.
+`README.md` remains the lesson entry for repository browsing. Add a registry,
+renderer, or CI service only when a concrete outcome needs it.
 
 ## Replacement boundary
 

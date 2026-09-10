@@ -181,7 +181,7 @@ main () = keep Empty
 The signature of `keep` puts bare `List` in both an ordinary function parameter
 and result position. Ash reports `kind.expected-type`: those positions expect
 `Type`, but bare `List` has kind `Type -> Type`. The
-[kind rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#kinds-monotypes-and-schemes)
+[kind rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#kinds-monotypes-and-schemes)
 derive both kinds and require ordinary function domains and results to have
 kind `Type`.
 

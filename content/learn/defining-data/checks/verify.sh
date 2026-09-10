@@ -24,10 +24,5 @@ ash_doc_prepare "$1"
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_run_accepted "$unit_root" src/01-signal.ash 'Go : Signal'
 ash_doc_run_accepted "$unit_root" src/02-result-with-value.ash 'Found(42) : Result'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/03-distinct-types.ash \
-    type.argument \
-    'expected Score' \
-    1
+ash_doc_run_rejected "$unit_root" src/03-distinct-types.ash 1
 ash_doc_finish 3

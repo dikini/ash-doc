@@ -93,7 +93,7 @@ main : Unit -> Int
 main () = Arithmetic.double 21
 ```
 
-Run the file again. Ash rejects the call, beginning its report with:
+Run the file again. Ash rejects the call, reporting this reason code:
 
 ```text
 resolve.unavailable-export
@@ -106,7 +106,7 @@ Instead, make public the definitions another module needs and leave supporting
 calculations inside their own module.
 
 > **With a learning assistant:** If an imported name is rejected, show the
-> assistant both source files and the first diagnostic line. Ask it to point to
+> assistant both source files and the diagnostic reason and source labels. Ask it to point to
 > the import, alias, public declaration, and qualified call before it suggests
 > a change.
 

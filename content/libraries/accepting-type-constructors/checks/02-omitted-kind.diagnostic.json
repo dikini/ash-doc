@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "reason": "kind.not-applicable",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected_kind",
+      "kind": "kind-pattern",
+      "value": "Type -> _"
+    },
+    {
+      "name": "found_kind",
+      "kind": "kind",
+      "value": "Type"
+    },
+    {
+      "name": "expectation_shape",
+      "kind": "kind-expectation",
+      "value": "function"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "kind_mismatch",
+      "path": "src/02-omitted-kind.ash",
+      "byte_start": 54,
+      "byte_end": 58,
+      "facts": [
+        {
+          "name": "found_kind",
+          "kind": "kind",
+          "value": "Type"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "found_kind_declaration",
+      "path": "src/02-omitted-kind.ash",
+      "byte_start": 46,
+      "byte_end": 47,
+      "facts": [
+        {
+          "name": "kind",
+          "kind": "kind",
+          "value": "Type"
+        }
+      ]
+    }
+  ]
+}

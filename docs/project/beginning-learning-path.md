@@ -5,9 +5,9 @@ contributors preserve the path's intended outcome and progression. It is not a
 table of contents, a backlog, a publication promise, or a source of Ash
 semantics.
 
-The active path targets `lib-ash` at commit
-`d1e323d23390cdad03202ee3df76cd9100556e1d`, as declared by the
-[repository](../../README.md#planned-migration-to-diag-ash). Language details
+The active path targets `diag-ash` at commit
+`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`, as declared by the
+[repository](../../README.md#current-edition-diag-ash). Language details
 come from the specification at that commit. The [project roadmap](roadmap.md)
 owns the one next complete increment. The
 [learning index](../../content/learn/README.md) lists only lessons that readers
@@ -31,8 +31,6 @@ lessons before it instead of offering a broad tour of language features.
 Each entry has one state:
 
 - **verified**: the lesson, canonical programs, and applicable checks exist;
-- **migration-pending**: an immutable predecessor exists, but the lesson has
-  not returned to the active path at the new target;
 - **next**: the roadmap owns this question as the next complete increment; or
 - **provisional**: the question helps explain the path but has not entered
   lesson design.

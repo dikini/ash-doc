@@ -1,4 +1,5 @@
 import dictionaries as Dictionaries
+import dictionaries (impl Order)
 
 main : Unit -> (
     (

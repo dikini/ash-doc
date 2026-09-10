@@ -32,13 +32,5 @@ ash_doc_run_accepted \
     '(Box(42), Box(false)) : (Box<Int>, Box<Bool>)'
 ash_doc_run_accepted \
     "$unit_root" src/03-list-main.ash 'More(42, Empty) : List<Int>'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-unsaturated-list.ash \
-    kind.expected-type \
-    'primary: source 0 56..60: this function domain must have kind Type' \
-    1 \
-    'related: source 0 0..47: the found kind is fixed by this declaration' \
-    'expected Type' \
-    'found Type -> Type'
+ash_doc_run_rejected "$unit_root" src/04-unsaturated-list.ash 1
 ash_doc_finish 5

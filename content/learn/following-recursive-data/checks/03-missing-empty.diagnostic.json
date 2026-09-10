@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "coverage.non-exhaustive",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "uncovered_value",
+      "kind": "code",
+      "value": "Empty"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "coverage",
+      "path": "src/03-missing-empty.ash",
+      "byte_start": 51,
+      "byte_end": 112,
+      "facts": [
+        {
+          "name": "uncovered_value",
+          "kind": "code",
+          "value": "Empty"
+        }
+      ]
+    }
+  ]
+}

@@ -30,7 +30,7 @@ the new front. The paper credits the paired-list technique's earlier lineage
 to Hood and Melville, Gries, and Burton; ash-doc does not claim the technique
 as Okasaki's invention.
 
-The paper gives two boundaries that are essential to the planned case. Along
+The paper gives two boundaries that are essential to the case. Along
 one sequence counted from an empty queue, a rear list of length `m` is reversed
 only after the operations that put those `m` elements there, so the occasional
 linear reversal has constant amortized cost. One reversal can still make an
@@ -41,7 +41,7 @@ not give a constant amortized bound over an arbitrary persistent version graph.
 
 The remainder of the paper develops lazy incremental queues with stronger
 worst-case behavior. That mechanism is evidence for the selected boundary,
-not part of the planned eager Ash case.
+not part of the eager Ash case.
 
 ## Corroborating analysis
 
@@ -59,7 +59,7 @@ The dissertation distinguishes a single logical history from multiple logical
 futures. That vocabulary sharpens the case's limit: the eager implementation
 may be analyzed along one linear chain counted from `empty`, while work
 repeated by calling an operation again on an older state must be counted
-again. The planned case will use its own plain-language account rather than
+again. The case uses its own plain-language account rather than
 copying the dissertation's formal framework.
 
 ## Alternatives considered
@@ -80,10 +80,10 @@ it rebuilds a growing path on every operation of one kind.
 Okasaki's later construction in the selected paper uses lazy lists and
 incremental work to improve individual-operation bounds. It is a credible
 queue design in a language with the required lazy and memoizing behavior.
-Pinned Modular Ash instead evaluates ordinary applications and constructors
+Pinned Diag Ash instead evaluates ordinary applications and constructors
 eagerly and supplies no selected lazy-list mechanism.
 
-The planned case therefore will not translate that construction, encode
+The case does not translate that construction, encode
 thunks, or imply memoization. A stricter worst-case queue would be a different
 case with a different representation and proof burden.
 
@@ -125,18 +125,18 @@ runtime contract.
 
 ## Ash-specific departures
 
-The planned queue will use complete strict nominal lists, an opaque nominal
+The queue uses complete strict nominal lists, an opaque nominal
 queue, exhaustive equations, and an `Option` result instead of an exception or
-partial removal. `empty` will be a function from `Unit` because a pinned Ash
+partial removal. `empty` is a function from `Unit` because a pinned Ash
 module contains declarations rather than an evaluated module value.
 
 Every language claim must come from the
-[pinned specification](https://github.com/dikini/ash-lang/tree/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec),
+[pinned specification](https://github.com/dikini/ash-lang/tree/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec),
 and every command observation must follow the pinned
 [`ash` tool
-guide](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md).
-The target is `modular-ash` at
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Neither the selected sources nor
+guide](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md).
+The target is `diag-ash` at
+`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. Neither the selected sources nor
 current `ash-lang/main` can add behavior to that edition.
 
 ## Deliberate exclusions
@@ -152,7 +152,6 @@ The source relationship excludes:
 - a claim that opacity proves a representation invariant; and
 - copied figures, programs, proofs, exercises, or teaching order.
 
-This record is sufficient to plan case 11 because it fixes the source
-tradition, transferable causal model, persistence limit, adaptation class,
-rights boundary, Ash departures, and excluded claims. The bounded design,
-canonical programs, and executable checks must establish the actual Ash case.
+This record owns source attribution, adaptation boundaries, and excluded
+claims. The canonical programs and checks in the corresponding Case establish
+its behavior at the repository baseline.

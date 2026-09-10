@@ -193,7 +193,7 @@ answer () = 42
 ```
 
 Save this version and run it. Instead of producing `42`, Ash reports a message
-whose first line is:
+with this reason code:
 
 ```text
 entry.missing-main

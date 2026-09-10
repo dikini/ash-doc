@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.opaque-constructor",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "Iterator"
+    },
+    {
+      "name": "access",
+      "kind": "name-access",
+      "value": "opaque-constructor"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "inaccessible_name",
+      "path": "src/04-opaque-construction.ash",
+      "byte_start": 103,
+      "byte_end": 111,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "Iterator"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "inaccessible_declaration",
+      "path": "src/dictionaries.ash",
+      "byte_start": 523,
+      "byte_end": 549,
+      "facts": []
+    }
+  ]
+}

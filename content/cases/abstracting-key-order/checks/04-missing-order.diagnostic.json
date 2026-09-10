@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/04-missing-order.ash",
+      "byte_start": 173,
+      "byte_end": 185,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/ordered_trees.ash",
+      "byte_start": 478,
+      "byte_end": 484,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/04-missing-order.ash",
+      "byte_start": 0,
+      "byte_end": 29,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/ordered_trees.ash",
+      "byte_start": 224,
+      "byte_end": 283,
+      "facts": []
+    }
+  ]
+}

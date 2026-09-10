@@ -33,7 +33,7 @@ insertion from:
   gives chapter DOI `10.1017/CBO9780511530104.004` and online publication on
   17 September 2009.
 
-The paper supplies the smallest causal model needed by the planned case. A
+The paper supplies the smallest causal model needed by the case. A
 binary-search ordering directs lookup and insertion into one branch. No red
 node has a red parent, and every path from the root to an empty node contains
 the same number of black nodes. Empty nodes count as black. Together these
@@ -89,7 +89,7 @@ Trees*](https://sedgewick.io/wp-content/themes/sedgewick/papers/2008LLRB.pdf),
 2008, is a credible alternative tradition. It adds a rule that red links lean
 left and expresses repair through rotations and color flips after recursive
 calls. That extra invariant reduces symmetric source cases, but it no longer
-answers the planned case through Okasaki's four configurations. Its published
+answers the case through Okasaki's four configurations. Its published
 example is also a mutable Java symbol table rather than a persistent functional
 construction.
 
@@ -164,32 +164,32 @@ sharing, heap allocation counts, or garbage-collection behavior.
 
 ## Ash-specific departures
 
-Okasaki's paper implements a set in Haskell. The planned Ash case instead needs
+Okasaki's paper implements a set in Haskell. The Ash case instead needs
 a dictionary with key-value entries and later-equal replacement while keeping
-the existing public client API. Its programs will follow the pinned dynamic
+the existing public client API. Its programs follow the pinned dynamic
 [application
-rules](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/dynamic-semantics.md#application)
-and use only forms supported by the pinned Modular Ash edition.
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#application)
+and use only forms supported by the pinned Diag Ash edition.
 
 The case must derive preservation from its own ordering equations, balance
 equations, and explicit ordering-law premises. An `Order<K>` interface
 requirement follows the pinned [interfaces and constrained
-schemes](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#interfaces-and-constrained-schemes)
+schemes](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#interfaces-and-constrained-schemes)
 and [constraint satisfaction and checked
-evidence](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+evidence](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 rules; those rules do not prove that the comparison forms a total order.
 Likewise, a nominal dictionary declaration does not prove the red-black
 invariant. The guarantee comes from the pinned [public opaque declaration
-boundary](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec/name-resolution.md#public-private-and-opaque-declarations)
+boundary](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#public-private-and-opaque-declarations)
 together with the selected invariant-preserving public operations.
 
 All language claims must come from the
-[pinned specification](https://github.com/dikini/ash-lang/tree/dca16039923475c48025c5f17beadeb6bcb6a4bf/spec),
+[pinned specification](https://github.com/dikini/ash-lang/tree/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec),
 and all command observations must follow the pinned
 [`ash` tool
-guide](https://github.com/dikini/ash-lang/blob/dca16039923475c48025c5f17beadeb6bcb6a4bf/docs/tools/ash.md).
-The target remains `modular-ash` at
-`dca16039923475c48025c5f17beadeb6bcb6a4bf`. Neither the sources in this
+guide](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md).
+The target remains `diag-ash` at
+`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. Neither the sources in this
 record nor current `ash-lang/main` can add behavior to that edition.
 
 ## Deliberate exclusions
@@ -208,7 +208,6 @@ The source relationship excludes:
   comparison-based retrieval; and
 - copied source programs, figures, proofs, exercises, or teaching order.
 
-This record is sufficient to plan case 9 because it fixes the source tradition,
-transferable causal model, adaptation class, rights boundary, Ash departures,
-and excluded claims. It remains research evidence. The future bounded design,
-canonical programs, and executable checks must establish the actual Ash case.
+This record owns source attribution, adaptation boundaries, and excluded
+claims. The canonical programs and checks in the corresponding Case establish
+its behavior at the repository baseline.

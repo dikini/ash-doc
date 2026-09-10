@@ -196,108 +196,6 @@ ash_doc_assert_text_first_line_count() {
             "$claim (found $actual_count occurrences, expected $expected_count)"
 }
 
-ash_doc_run_opaque_rejection() {
-    if [[ $# -ne 2 ]]; then
-        ash_doc_fail \
-            "ash_doc_run_opaque_rejection requires a unit and entry"
-    fi
-
-    local rejected_unit_root=$1
-    local rejected_entry=$2
-    local rejected_source="$rejected_unit_root/$rejected_entry"
-    local rejected_stdout
-    local rejected_stderr
-    local rejected_status
-    rejected_stdout=$(mktemp "$ASH_DOC_VERIFY_DIR/stdout.XXXXXX")
-    rejected_stderr=$(mktemp "$ASH_DOC_VERIFY_DIR/stderr.XXXXXX")
-
-    if "$ASH_DOC_ASH_BIN" "$rejected_source" \
-        > "$rejected_stdout" 2> "$rejected_stderr"; then
-        rejected_status=0
-    else
-        rejected_status=$?
-    fi
-
-    [[ $rejected_status -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry exited with status $rejected_status, expected 1"
-    [[ ! -s $rejected_stdout ]] ||
-        ash_doc_fail "$rejected_entry wrote unexpected standard output"
-    [[ $(sed -n '1p' "$rejected_stderr") == 'resolve.opaque-constructor' ]] ||
-        ash_doc_fail \
-            "$rejected_entry did not report resolve.opaque-constructor first"
-
-    local qualified_spelling=Dictionaries.Empty
-    local qualified_matches=()
-    mapfile -t qualified_matches < <(
-        LC_ALL=C grep -aboF "$qualified_spelling" "$rejected_source" || true
-    )
-    [[ ${#qualified_matches[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry must contain one byte-identifiable Dictionaries.Empty occurrence"
-
-    local qualified_start=${qualified_matches[0]%%:*}
-    local qualifier_length
-    qualifier_length=$(LC_ALL=C printf '%s' 'Dictionaries.' | wc -c)
-    local member_length
-    member_length=$(LC_ALL=C printf '%s' 'Empty' | wc -c)
-    local member_start=$((qualified_start + qualifier_length))
-    local member_end=$((member_start + member_length))
-
-    local dictionary_marker='pub opaque type Dictionary<K, V> ='
-    local node_marker='| Node(Dictionary<K, V>, K, V, Dictionary<K, V>)'
-    local dictionary_markers=()
-    local node_markers=()
-    mapfile -t dictionary_markers < <(
-        LC_ALL=C grep -aboF "$dictionary_marker" "$library" || true
-    )
-    mapfile -t node_markers < <(
-        LC_ALL=C grep -aboF "$node_marker" "$library" || true
-    )
-    [[ ${#dictionary_markers[@]} -eq 1 && ${#node_markers[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "the opaque Dictionary declaration must have one byte-identifiable constructor family"
-
-    local dictionary_start=${dictionary_markers[0]%%:*}
-    local node_start=${node_markers[0]%%:*}
-    local empty_matches=()
-    local empty_match
-    while IFS= read -r empty_match; do
-        local empty_start=${empty_match%%:*}
-        if [[ $empty_start -gt $dictionary_start && $empty_start -lt $node_start ]]; then
-            empty_matches+=("$empty_start")
-        fi
-    done < <(LC_ALL=C grep -aboF 'Empty' "$library" || true)
-    [[ ${#empty_matches[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "the opaque Dictionary declaration must contain one byte-identifiable Empty token"
-
-    local declaration_start=${empty_matches[0]}
-    local declaration_end=$((declaration_start + member_length))
-    local primary_prefix="primary: source 0 $member_start..$member_end:"
-    local related_prefix="related: source 1 $declaration_start..$declaration_end:"
-    local primary_lines=()
-    local related_lines=()
-    mapfile -t primary_lines < <(
-        LC_ALL=C grep -F 'primary: source 0 ' "$rejected_stderr" || true
-    )
-    mapfile -t related_lines < <(
-        LC_ALL=C grep -F 'related: source 1 ' "$rejected_stderr" || true
-    )
-    [[ ${#primary_lines[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry must report one primary source-0 diagnostic label"
-    [[ ${primary_lines[0]} == "$primary_prefix"* ]] ||
-        ash_doc_fail \
-            "$rejected_entry primary label did not cover exactly the Empty member token"
-    [[ ${#related_lines[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry must report one related source-1 diagnostic label"
-    [[ ${related_lines[0]} == "$related_prefix"* ]] ||
-        ash_doc_fail \
-            "$rejected_entry related label did not cover exactly the withheld Empty declaration token"
-}
-
 library_source=$(<"$library")
 public_api_source=$(<"$public_api_entry")
 build_source=$(<"$build_entry")
@@ -526,12 +424,8 @@ ash_doc_run_accepted \
     "$unit_root" \
     src/03-observe.ash \
     "$observe_output"
-ash_doc_run_opaque_rejection \
-    "$unit_root" \
-    src/04-construct.ash
-ash_doc_run_opaque_rejection \
-    "$unit_root" \
-    src/05-match.ash
+ash_doc_run_rejected "$unit_root" src/04-construct.ash 1
+ash_doc_run_rejected "$unit_root" src/05-match.ash 1
 
 [[ -f $readme ]] || ash_doc_fail "missing unit README.md"
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"

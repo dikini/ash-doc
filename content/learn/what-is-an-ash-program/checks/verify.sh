@@ -33,11 +33,6 @@ ash_doc_run_accepted "$unit_root" src/03-precedence.ash '7 : Int'
 ash_doc_run_accepted "$unit_root" src/04-grouping.ash '9 : Int'
 ash_doc_run_accepted "$unit_root" src/05-function-call.ash '42 : Int'
 ash_doc_run_accepted "$unit_root" src/06-composition.ash '42 : Int'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/07-missing-main.ash \
-    entry.missing-main \
-    'this entry module declares no local main' \
-    1
+ash_doc_run_rejected "$unit_root" src/07-missing-main.ash 1
 
 ash_doc_finish 7

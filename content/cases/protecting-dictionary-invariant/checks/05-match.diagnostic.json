@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.opaque-constructor",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "Empty"
+    },
+    {
+      "name": "access",
+      "kind": "name-access",
+      "value": "opaque-constructor"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "inaccessible_name",
+      "path": "src/05-match.ash",
+      "byte_start": 126,
+      "byte_end": 131,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "Empty"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "inaccessible_declaration",
+      "path": "src/dictionaries.ash",
+      "byte_start": 240,
+      "byte_end": 245,
+      "facts": []
+    }
+  ]
+}

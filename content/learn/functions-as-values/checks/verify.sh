@@ -26,10 +26,5 @@ ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_run_accepted "$unit_root" src/01-named-function.ash '42 : Int'
 ash_doc_run_accepted "$unit_root" src/02-anonymous-function.ash '42 : Int'
 ash_doc_run_accepted "$unit_root" src/03-remembered-input.ash '42 : Int'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-not-a-function.ash \
-    type.argument \
-    'expected Int -> Int' \
-    1
+ash_doc_run_rejected "$unit_root" src/04-not-a-function.ash 1
 ash_doc_finish 4

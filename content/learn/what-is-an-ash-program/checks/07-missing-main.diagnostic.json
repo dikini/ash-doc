@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "entry.missing-main",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "entry_module",
+      "path": "src/07-missing-main.ash",
+      "byte_start": 0,
+      "byte_end": 36,
+      "facts": []
+    }
+  ]
+}

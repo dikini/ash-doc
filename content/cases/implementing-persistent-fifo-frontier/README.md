@@ -3,9 +3,8 @@
 An unfinished computation can retain work in a list of frames. If each new
 frame is added at the front and the next step removes from that front, the
 newest retained work leaves first: last-in, first-out order. The
-[historical iterator case](https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/resuming-tree-traversal/README.md)
-developed that stack model, but it is
-[unavailable at this target](../../../lab/lib-ash-migration/body-free-summary-authentication/README.md#tree-iterator).
+[iterator case](../resuming-tree-traversal/README.md) developed that stack
+model.
 This chapter needs only the front-add, front-remove relationship. A traversal
 that needs the earliest retained item first instead needs first-in, first-out
 order: a queue rather than a stack.
@@ -57,7 +56,7 @@ The defining module makes `Option<A>` and `List<A>` transparent so clients can
 match their constructors. It makes `Queue<A>` opaque: clients can name, retain,
 and pass queues, but cannot construct or match `Queue` directly. These are the
 pinned rules for [public transparent and opaque
-declarations](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#public-private-and-opaque-declarations).
+declarations](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#public-private-and-opaque-declarations).
 The three public queue operations are `empty`, `enqueue`, and `dequeue`.
 `reverse_into` remains private.
 
@@ -85,9 +84,9 @@ That gives three removal equations in source order:
 
 Ash checks constructor patterns and complete equation coverage under its
 pinned [pattern, match, and coverage
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#patterns-matches-and-coverage).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#patterns-matches-and-coverage).
 At evaluation, equations use the same source-order selection as pinned
-[constructor matching](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+[constructor matching](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#tuples-constructors-and-matches).
 
 Here is the complete dependency module:
 
@@ -129,17 +128,17 @@ dequeue Queue(End, rear) = {
 
 This module has no `main`; the two entries below import it. Its signatures use
 the pinned [rank-1 global
-model](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#globals-and-modules),
+model](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#globals-and-modules),
 in which each free type parameter is instantiated at a use, and its payload
 constructors have ordinary function types under the static [tuple and constructor
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#tuples-and-constructors).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#tuples-and-constructors).
 
 In the transfer equation, the initializer of `front` completes before the
 following block result under the dynamic [binding
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#bindings).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#bindings).
 The following `dequeue` call then evaluates its queue argument before entering
 the function under strict [application
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#application).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#application).
 
 The transfer is eager and complete before `dequeue` returns.
 
@@ -151,7 +150,7 @@ this source.
 The first entry imports the transparent support constructors and the three
 queue operations through the qualified `Queues` namespace, following the
 pinned [import and namespace
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#imports-and-namespaces).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#imports-and-namespaces).
 Its `drain` function repeatedly uses only the successor returned by
 `dequeue`.
 
@@ -218,10 +217,10 @@ ash implementing-persistent-fifo-frontier/src/01-sequence.ash
 The five result fields confirm the prediction in order: empty removal,
 pre-transfer state, oldest value, returned successor, and FIFO drain. Success
 uses one standard-output line and status `0` under the pinned [`ash`
-contract](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md#successful-output).
+contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#successful-output).
 
 The line spells `Queue`, `More`, and `End` because successful
-[observation](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#observation)
+[observation](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#observation)
 renders nominal data structurally. Opacity restricts constructor access in
 client source; it neither conceals structural output nor proves that the queue
 equations preserve the logical sequence.
@@ -282,7 +281,7 @@ eager transfer constant.
 ## Resume the same older queue twice
 
 The `ready` binding remains in scope for both tuple elements under the pinned
-[binding rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#bindings).
+[binding rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#bindings).
 The second entry retains one empty-front queue with the rear `3, 2, 1`, then
 uses that same binding as the argument to two calls. Predict two identical
 results. Each call must independently reverse the complete rear, return `1`,
@@ -344,9 +343,9 @@ the list and queue constructors, not the element's internal structure.
 Opacity does not constrain what the defining module itself could construct.
 Pinned Ash admits constructor-guarded recursive data under its static
 [recursive block-group
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#recursive-block-groups)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#recursive-block-groups)
 and dynamic [recursive binding
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#recursive-bindings).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#recursive-bindings).
 A defining module could form a cyclic front that yields values across
 successors indefinitely, or a cyclic rear whose reversal does not return.
 The nominal `Queue` type alone establishes neither finiteness nor totality.
@@ -376,10 +375,7 @@ garbage collection, and compiler optimization.
    rear nodes. Explain why the reversal is counted three times rather than
    once.
 
-The [historical graph-search case](https://github.com/dikini/ash-doc/blob/fa870a280c76278361db658ff3952cf18f2b7833/content/cases/choosing-a-search-frontier/README.md)
-compares this FIFO queue with a LIFO list stack while holding one search
-transition fixed. That comparison is unavailable at this target because both
-entries encounter the retained
-[dependency-summary authentication failure](../../../lab/lib-ash-migration/body-free-summary-authentication/README.md#search-frontier).
-The queue representation, equations, and cost boundary established here remain
-available without that later comparison.
+The [graph-search case](../choosing-a-search-frontier/README.md) compares this
+FIFO queue with a LIFO list stack while holding one search transition fixed.
+The queue representation, equations, and cost boundary established here supply
+that comparison's FIFO frontier.

@@ -4,7 +4,7 @@ The [Learn Ash path](../learn/README.md) builds the language model needed here:
 modules, functions, patterns, recursive data, higher-order functions, and
 parameterized definitions. Complete its eleven lessons before beginning these
 cases. Keep the same `ash` executable available through the
-[shared setup](../../README.md#prepare-the-verified-baseline).
+[shared setup](../../README.md#prepare-ash).
 
 The Cases path asks what changes when a program must do more than produce the
 right value. Each chapter begins with a recursive representation, makes an
@@ -81,16 +81,20 @@ storage strategy.
    trees?](protecting-dictionary-invariant/README.md) — keep `Dictionary`
    nameable while hiding its constructors, and combine that opacity with
    explicitly selected ordering evidence.
-9. **Unavailable at this target** — [failure
-   evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#red-black-dictionary)
-   — How can the representation prevent a search tree from degenerating?
-10. **Unavailable at this target** — [failure
-    evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#tree-iterator)
-    — How can traversal pause and resume without laziness?
+9. [How can the representation prevent a search tree from
+   degenerating?](guaranteeing-logarithmic-retrieval/README.md) — maintain an
+   opaque persistent red-black representation whose ordering and color
+   invariants bound height while preserving the dictionary API.
+10. [How can traversal pause and resume without
+    laziness?](resuming-tree-traversal/README.md) — use an opaque eager iterator
+    whose private frames retain unfinished in-order work, then distinguish one
+    step's worst-case cost from one linear traversal's amortized frame work.
 11. [How can two lists preserve queue
     order?](implementing-persistent-fifo-frontier/README.md) — split logical
     order between a front and reversed rear, transfer eagerly only when
     removal needs it, and bound list-node work along one successor history.
-12. **Unavailable at this target** — [failure
-    evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md#search-frontier)
-    — How does frontier representation change a search algorithm?
+12. [How does frontier representation change a search
+    algorithm?](choosing-a-search-frontier/README.md) — hold one shared search
+    transition fixed, let LIFO return a longer path and FIFO return the
+    shortest path, guard the cycle by marking before addition, and account for
+    logical pending entries separately.

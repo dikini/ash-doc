@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.ambiguous",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/02-name-only.ash",
+      "byte_start": 59,
+      "byte_end": 66,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/measurement.ash",
+      "byte_start": 61,
+      "byte_end": 81,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/02-name-only.ash",
+      "byte_start": 20,
+      "byte_end": 27,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/measurement.ash",
+      "byte_start": 0,
+      "byte_end": 83,
+      "facts": []
+    }
+  ]
+}

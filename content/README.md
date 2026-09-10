@@ -4,15 +4,13 @@ This root contains material intended for a coherent, version-pinned Ash
 documentation edition. Content explains and tests Ash; it does not define the
 language.
 
-The [planned edition](../docs/plans/2026-09-10-diag-ash-migration.md) targets
-`diag-ash`. Content cutover is pending; the three families below retain their
-last verified Lib Ash baseline as historical evidence. All migration work
-targets Diag Ash:
+All three families are verified at the current Diag Ash target declared by the
+[repository](../README.md#current-edition-diag-ash). Code, prose, and
+checks share that exact baseline:
 
 - [`learn/`](learn/README.md) for the complete verified eleven-lesson beginning
   learning path;
-- [`cases/`](cases/README.md) for nine verified recursive-algorithm Cases and
-  three unavailable slots in numeric order; and
+- [`cases/`](cases/README.md) for twelve verified recursive-algorithm Cases in numeric order; and
 - [`libraries/`](libraries/README.md) for five verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic
   and relational interface methods.
@@ -24,11 +22,8 @@ Create only the internal paths that its examples require.
 Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
 After the complete Learn path, continue with
 [*Design library abstractions in Ash*](libraries/README.md) or
-[*Design recursive algorithms in Ash*](cases/README.md). Cases 9, 10, and 12
-link retained compiler-failure evidence from that index; all three remain
-available as historical material in the immutable
-[`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases)
-until a bounded migration restores and verifies each one at the active target.
+[*Design recursive algorithms in Ash*](cases/README.md). The [verification guide](../docs/project/verification.md) names the checks
+for every family.
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)
 and approve its temporary plan. Keep incomplete work in that plan until the

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/02-names-only.ash",
+      "byte_start": 63,
+      "byte_end": 67,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/equality.ash",
+      "byte_start": 124,
+      "byte_end": 128,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/02-names-only.ash",
+      "byte_start": 26,
+      "byte_end": 30,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/equality.ash",
+      "byte_start": 0,
+      "byte_end": 53,
+      "facts": []
+    }
+  ]
+}

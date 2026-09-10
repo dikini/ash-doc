@@ -27,10 +27,5 @@ ash_doc_run_accepted \
     src/01-int-list.ash \
     'More(20, More(22, Empty)) : IntList'
 ash_doc_run_accepted "$unit_root" src/02-sum.ash '42 : Int'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/03-missing-empty.ash \
-    coverage.non-exhaustive \
-    'these equation clauses do not cover every argument' \
-    1
+ash_doc_run_rejected "$unit_root" src/03-missing-empty.ash 1
 ash_doc_finish 3

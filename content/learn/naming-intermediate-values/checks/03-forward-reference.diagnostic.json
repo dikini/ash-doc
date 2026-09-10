@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.unknown-name",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "later"
+    },
+    {
+      "name": "lookup_scope",
+      "kind": "lookup-scope",
+      "value": "term"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "unresolved_name",
+      "path": "src/03-forward-reference.ash",
+      "byte_start": 48,
+      "byte_end": 53,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "later"
+        }
+      ]
+    }
+  ]
+}

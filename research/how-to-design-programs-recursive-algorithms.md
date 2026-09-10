@@ -51,7 +51,7 @@ Only then is an order-of-growth summary useful.
 Accumulator design contributes a later comparison. An accumulator represents
 knowledge retained from earlier steps, so its meaning must be stated as an
 invariant rather than inferred from an optimized-looking function body. That
-distinction supports the planned comparison between append-based and
+distinction supports the comparison between append-based and
 accumulator-based reverse.
 
 ## Adaptation classification and license
@@ -71,12 +71,12 @@ broader reuse rights.
 ## Ash-specific departures
 
 HtDP's examples and teaching languages do not govern Ash. An ash-doc case must
-derive every language claim from the pinned Modular Ash specification and every
+derive every language claim from the pinned Diag Ash specification and every
 command observation from the pinned tool. In particular:
 
 - Ash uses nominal parameterized data and exhaustive equational definitions;
 - Ash applications and tuples evaluate strictly;
-- the planned fold is an ordinary rank-1 higher-order Ash function;
+- the fold is an ordinary rank-1 higher-order Ash function;
 - cost statements count source-level calls, comparisons, and constructed
   representation nodes; and
 - host stack behavior, heap byte counts, and compiler optimizations remain

@@ -58,10 +58,10 @@ the recursive fold of `rest` becomes a value before the second combiner
 application enters its body. Even a combiner that returns the current first
 element therefore cannot prevent traversal of the complete finite list.
 
-Ash also has rank-1 polymorphism. The path will use concrete ordinary functions
-whose types the pinned checker accepts. It will not propose a rank-2 `build`
-encoding. The later dictionary operation named `build` will fold a finite list
-through `insert`; it will not denote the producer abstraction used by lazy
+Ash also has rank-1 polymorphism. The path uses concrete ordinary functions
+whose types the pinned checker accepts. It does not use a rank-2 `build`
+encoding. The later dictionary operation named `build` folds a finite list
+through `insert`; it does not denote the producer abstraction used by lazy
 fold/build fusion.
 
 ## Deliberate exclusions

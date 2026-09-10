@@ -229,29 +229,6 @@ ash_doc_run_accepted \
     "$unit_root" \
     src/03-map-produced-list.ash \
     "$mapped_output"
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-seed.ash \
-    type.argument \
-    'this argument does not match the function domain' \
-    1
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-seed.ash \
-    type.argument \
-    'expected Natural' \
-    1
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-seed.ash \
-    type.argument \
-    'found Bool' \
-    1
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-seed.ash \
-    type.argument \
-    'primary: source 0 100..104:' \
-    1
+ash_doc_run_rejected "$unit_root" src/04-wrong-seed.ash 1
 
 ash_doc_finish 5

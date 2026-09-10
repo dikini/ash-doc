@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "reason": "type.argument",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "Bool"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "Int"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "argument",
+      "path": "src/04-wrong-combiner.ash",
+      "byte_start": 137,
+      "byte_end": 138,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "Int"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "function_domain",
+      "path": "src/lists.ash",
+      "byte_start": 102,
+      "byte_end": 106,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "Bool"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "application",
+      "path": "src/04-wrong-combiner.ash",
+      "byte_start": 120,
+      "byte_end": 138,
+      "facts": []
+    }
+  ]
+}

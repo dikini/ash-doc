@@ -202,29 +202,6 @@ ash_doc_run_accepted \
     '(More(42, More(43, More(44, Empty))), More(42, Empty)) : (List<Int>, List<Int>)'
 ash_doc_run_accepted \
     "$unit_root" src/03-eager-fold.ash '(Some(42), 3) : (Option<Int>, Int)'
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-combiner.ash \
-    type.argument \
-    'this argument does not match the function domain' \
-    1
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-combiner.ash \
-    type.argument \
-    'expected Bool' \
-    1
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-combiner.ash \
-    type.argument \
-    'found Int' \
-    1
-ash_doc_run_rejected \
-    "$unit_root" \
-    src/04-wrong-combiner.ash \
-    type.argument \
-    'primary: source 0 137..138:' \
-    1
+ash_doc_run_rejected "$unit_root" src/04-wrong-combiner.ash 1
 
 ash_doc_finish 5

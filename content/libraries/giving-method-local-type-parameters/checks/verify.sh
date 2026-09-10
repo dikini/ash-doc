@@ -64,63 +64,6 @@ ash_doc_run_accepted \
 [[ $(grep -Foc 'map<A, B>' "$rejected_source" || true) -eq 0 ]] ||
     ash_doc_fail "the rejected method must not declare A or B"
 
-run_missing_parameter_rejection() {
-    local rejected_stdout rejected_stderr rejected_status
-    rejected_stdout=$(mktemp "$ASH_DOC_VERIFY_DIR/stdout.XXXXXX")
-    rejected_stderr=$(mktemp "$ASH_DOC_VERIFY_DIR/stderr.XXXXXX")
-    if "$ASH_DOC_ASH_BIN" "$rejected_source" \
-        > "$rejected_stdout" 2> "$rejected_stderr"; then
-        rejected_status=0
-    else
-        rejected_status=$?
-    fi
-
-    [[ $rejected_status -eq 1 ]] ||
-        ash_doc_fail "the missing-parameter source must exit with status 1"
-    [[ ! -s $rejected_stdout ]] ||
-        ash_doc_fail "the missing-parameter source must write empty stdout"
-    [[ $(sed -n '1p' "$rejected_stderr") == 'interface.method-parameter' ]] ||
-        ash_doc_fail "the rejection must report interface.method-parameter"
-
-    local method_marker='map : (A -> B, F<A>) -> F<B>'
-    local method_matches=()
-    mapfile -t method_matches < <(
-        LC_ALL=C grep -aboF "$method_marker" "$rejected_source" || true
-    )
-    [[ ${#method_matches[@]} -eq 1 ]] ||
-        ash_doc_fail "the rejected source must contain one method signature"
-    local method_start=${method_matches[0]%%:*}
-    local method_end=$((method_start + ${#method_marker}))
-
-    local interface_marker='interface Functor<F : Type -> Type>'
-    local interface_matches=()
-    mapfile -t interface_matches < <(
-        LC_ALL=C grep -aboF "$interface_marker" "$rejected_source" || true
-    )
-    [[ ${#interface_matches[@]} -eq 1 ]] ||
-        ash_doc_fail "the rejected source must contain one Functor declaration"
-    local parameter_start=$(( ${interface_matches[0]%%:*} + 18 ))
-    local parameter_end=$((parameter_start + 1))
-
-    local primary_lines=() related_lines=()
-    mapfile -t primary_lines < <(
-        LC_ALL=C grep -F 'primary: source ' "$rejected_stderr" || true
-    )
-    mapfile -t related_lines < <(
-        LC_ALL=C grep -F 'related: source ' "$rejected_stderr" || true
-    )
-    [[ ${#primary_lines[@]} -eq 1 ]] ||
-        ash_doc_fail "the rejection must retain one primary cause"
-    [[ ${primary_lines[0]} == \
-        "primary: source 0 $method_start..$method_end:"* ]] ||
-        ash_doc_fail "the primary label must cover the complete map signature"
-    [[ ${#related_lines[@]} -eq 1 ]] ||
-        ash_doc_fail "the rejection must retain one related declaration"
-    [[ ${related_lines[0]} == \
-        "related: source 0 $parameter_start..$parameter_end:"* ]] ||
-        ash_doc_fail "the related label must cover Functor's F parameter"
-}
-
-run_missing_parameter_rejection
+ash_doc_run_rejected "$unit_root" src/02-missing-method-parameters.ash 1
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_finish 4

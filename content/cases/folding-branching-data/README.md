@@ -28,9 +28,9 @@ The shared module starts with three transparent types. `Tree<A>` and
 `Option<A>` are parameterized. `Tree<A>` has an ending form and a form
 containing two smaller trees. `Natural` provides visible unary heights later,
 and `Option<A>` separates a found value from an absent one. The pinned [syntax
-grammar](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/syntax.md#grammar)
+grammar](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/syntax.md#grammar)
 provides the declarations and constructor patterns. The [type and constructor
-scope](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#type-and-constructor-scope)
+scope](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#type-and-constructor-scope)
 makes `Tree` visible in its own `Node` payload and associates every constructor
 with its nominal type.
 
@@ -139,27 +139,27 @@ completes `fold_tree combine base left`. The second then completes
 `fold_tree combine base right`. Only after both initializers have returned
 does evaluation of the complete curried expression
 `combine folded_left value folded_right` begin. Ash's [sequential binding
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#bindings)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#bindings)
 and strict [application
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#application)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#application)
 establish that order.
 
 `fold_tree` is an ordinary rank-1 Ash function, not built-in fold syntax. Its
 signature implicitly quantifies `A` and `B`, and its two exhaustive equations
 replace the two constructors. The pinned [global function
-presentation](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/syntax.md#global-function-presentations),
+presentation](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/syntax.md#global-function-presentations),
 module-wide [global
-scope](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#global-scope),
+scope](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#global-scope),
 static [function and application
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#functions-and-application)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#functions-and-application)
 and [global and module
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#globals-and-modules)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#globals-and-modules)
 check that definition. Its equations cover `Empty` and `Node` under the static
 [pattern and coverage
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#patterns-matches-and-coverage).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#patterns-matches-and-coverage).
 The imported entries use the public types, constructors, and functions through
 Ash's [import
-namespace](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/name-resolution.md#imports-and-namespaces).
+namespace](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/name-resolution.md#imports-and-namespaces).
 
 Before counting any completed fold, fix its boundary. A tree has a *finite
 structural expansion* when following both fields of every encountered `Node`
@@ -209,11 +209,11 @@ ash folding-branching-data/src/01-size-and-map.ash
 The observed pair contains the predicted size and mapped tree. Its type says
 that the first field is an `Int` and the second is a `Tree<Int>`. The pinned
 [constructor and tuple typing
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#tuples-and-constructors)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#tuples-and-constructors)
 check those forms, while structural
-[observation](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#observation)
+[observation](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#observation)
 and the tool's [successful-output
-contract](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#successful-output)
 account for the exact line, empty standard error, and status `0`.
 
 For a finite structural expansion with `n` `Node` encounters, `size` performs
@@ -221,9 +221,9 @@ two primitive integer additions per node, or `2 * n` additions. This names
 source operations; it does not measure the internal bit work of
 arbitrary-precision integer addition. The pinned static [primitive operation
 typing
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#primitive-operations)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#primitive-operations)
 and dynamic [evaluation
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#primitive-operations)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#primitive-operations)
 define the additions and the `Int` result.
 
 Assume in addition that `transform` returns at every encountered value.
@@ -285,9 +285,9 @@ ash folding-branching-data/src/02-balanced-and-skewed.ash
 
 The two `(Int, Natural)` fields confirm equal node counts and different unary
 heights. The complete tuple is printed structurally under the same pinned
-[observation](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#observation)
+[observation](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#observation)
 and [successful-output
-contract](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md#successful-output).
+contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#successful-output).
 
 For a completed `fold_tree` over these premises, the `Node` equation completes
 its combiner exactly `n` times. Along a deepest path, `h` `Node` results are
@@ -312,10 +312,10 @@ work. We therefore do not replace this source account with a single claim that
 the complete measurement takes linear work.
 
 Sequential tuple destructuring in the combiner follows the static [block
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#blocks).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#blocks).
 The three `maximum` equations cover the two unary constructors under the
 static [pattern, match, and coverage
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#patterns-matches-and-coverage).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#patterns-matches-and-coverage).
 
 ## Search before folding or after it
 
@@ -325,7 +325,7 @@ value first. A current hit avoids both branches. After a current mismatch, it
 searches left; a left hit avoids right, and only left absence enters the right
 recursive call. Ash evaluates the match scrutinee once and enters only its
 selected arm under the pinned dynamic [match
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#tuples-constructors-and-matches).
 
 Folded search separates evaluation order from result priority.
 `choose_counted` prefers a current match, then a found left result, then the
@@ -374,14 +374,14 @@ ash folding-branching-data/src/03-selective-and-fold.ash
 
 The two `(Option<Int>, Int)` fields confirm equal selected values and different
 predicate counts. The pinned static [primitive-operation
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#primitive-operations)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#primitive-operations)
 require the two operands of `==` to be `Int` and give the expression type
 `Bool`. The dynamic [integer-equality
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#primitive-operations)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#primitive-operations)
 produce `true` exactly when the two integer values are equal. The exact
 structural line follows the pinned
 [successful-output
-contract](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md#successful-output).
+contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#successful-output).
 
 For direct search, assume every predicate application required along its chosen
 control path returns. Let `m` be the number of nodes visited through and
@@ -398,15 +398,15 @@ The finite-expansion premise is about paths through fields, not physical
 identity. If the same acyclic subtree value is placed in both fields of a node,
 these traversals follow and count it once through each structural occurrence.
 Ash's pinned dynamic [structural observation
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#observation)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#observation)
 render shared acyclic data in full at each occurrence; they do not reveal
 pointer identity or physical sharing.
 
 Ash can admit constructor-guarded recursive data under its static [recursive
 block-group
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/static-semantics.md#recursive-block-groups)
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#recursive-block-groups)
 and dynamic [recursive binding
-rules](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md#recursive-bindings).
+rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/dynamic-semantics.md#recursive-bindings).
 A cyclic `Tree` value may prevent these functions from returning. The nominal
 `Tree` type therefore does not establish finiteness, and this chapter makes no
 claim about infinite-tree traversal.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly ash_doc_expected_pin=d1e323d23390cdad03202ee3df76cd9100556e1d
+readonly ash_doc_expected_pin=9231b21228c5ccacbbee0cc0da60b380e5d2dc59
 
 ash_doc_fail() {
     printf 'verify: %s\n' "$1" >&2
@@ -152,46 +152,35 @@ ash_doc_run_accepted() {
 }
 
 ash_doc_run_rejected() {
-    if [[ $# -lt 5 ]]; then
-        ash_doc_fail \
-            "ash_doc_run_rejected requires a unit, entry, reason, evidence, and status"
+    if [[ $# -ne 3 ]]; then
+        ash_doc_fail "ash_doc_run_rejected requires a unit, entry, and status"
     fi
 
     local rejected_unit_root=$1
     local rejected_entry=$2
-    local rejected_reason=$3
-    local rejected_evidence=$4
-    local rejected_expected_status=$5
-    shift 5
-    local rejected_stdout
-    local rejected_stderr
-    local rejected_status
+    local rejected_expected_status=$3
+    local rejected_stdout rejected_stderr rejected_status
+    local rejected_stem=${rejected_entry##*/}
+    rejected_stem=${rejected_stem%.ash}
     rejected_stdout=$(mktemp "$ASH_DOC_VERIFY_DIR/stdout.XXXXXX")
     rejected_stderr=$(mktemp "$ASH_DOC_VERIFY_DIR/stderr.XXXXXX")
 
-    if "$ASH_DOC_ASH_BIN" "$rejected_unit_root/$rejected_entry" \
+    if "$ASH_DOC_ASH_BIN" --message-format json \
+        "$rejected_unit_root/$rejected_entry" \
         > "$rejected_stdout" 2> "$rejected_stderr"; then
         rejected_status=0
     else
         rejected_status=$?
     fi
-
     [[ $rejected_status -eq $rejected_expected_status ]] ||
-        ash_doc_fail \
-            "$rejected_entry exited with status $rejected_status, expected $rejected_expected_status"
+        ash_doc_fail "$rejected_entry exited with status $rejected_status, expected $rejected_expected_status"
     [[ ! -s $rejected_stdout ]] ||
         ash_doc_fail "$rejected_entry wrote unexpected standard output"
-    [[ $(sed -n '1p' "$rejected_stderr") == "$rejected_reason" ]] ||
-        ash_doc_fail "$rejected_entry did not report $rejected_reason"
-    grep -Fq "$rejected_evidence" "$rejected_stderr" ||
-        ash_doc_fail "$rejected_entry did not retain its causal evidence"
-
-    local rejected_additional_evidence
-    for rejected_additional_evidence in "$@"; do
-        grep -Fq "$rejected_additional_evidence" "$rejected_stderr" ||
-            ash_doc_fail \
-                "$rejected_entry did not retain causal evidence: $rejected_additional_evidence"
-    done
+    python3 "$(dirname "${BASH_SOURCE[0]}")/diagnostic.py" \
+        "$rejected_stderr" \
+        "$rejected_unit_root/checks/$rejected_stem.diagnostic.json" \
+        "$rejected_unit_root" ||
+        ash_doc_fail "$rejected_entry did not retain its expected diagnostic"
 }
 
 ash_doc_finish() {

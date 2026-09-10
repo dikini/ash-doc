@@ -122,7 +122,7 @@ main : Unit -> Int
 main () = add 20 true
 ```
 
-Ash rejects the program with a message whose first line is:
+Ash rejects the program with a message with this reason code:
 
 ```text
 type.argument

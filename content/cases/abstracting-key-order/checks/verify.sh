@@ -213,105 +213,6 @@ ash_doc_assert_file_exact() {
     fi
 }
 
-ash_doc_add_implementation_selector() {
-    if [[ $# -ne 1 ]]; then
-        ash_doc_fail \
-            "ash_doc_add_implementation_selector requires one predecessor source"
-    fi
-
-    awk -v selector='import ordered_trees (impl Order)' '
-        NR == 1 {
-            print
-            print selector
-            next
-        }
-        { print }
-    ' <<< "$1"
-}
-
-ash_doc_run_missing_order() {
-    if [[ $# -ne 2 ]]; then
-        ash_doc_fail \
-            "ash_doc_run_missing_order requires a unit and entry"
-    fi
-
-    local rejected_unit_root=$1
-    local rejected_entry=$2
-    local rejected_source="$rejected_unit_root/$rejected_entry"
-    local rejected_stdout
-    local rejected_stderr
-    local rejected_status
-    rejected_stdout=$(mktemp "$ASH_DOC_VERIFY_DIR/stdout.XXXXXX")
-    rejected_stderr=$(mktemp "$ASH_DOC_VERIFY_DIR/stderr.XXXXXX")
-
-    if "$ASH_DOC_ASH_BIN" "$rejected_source" \
-        > "$rejected_stdout" 2> "$rejected_stderr"; then
-        rejected_status=0
-    else
-        rejected_status=$?
-    fi
-
-    [[ $rejected_status -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry exited with status $rejected_status, expected 1"
-    [[ ! -s $rejected_stdout ]] ||
-        ash_doc_fail "$rejected_entry wrote unexpected standard output"
-    [[ $(sed -n '1p' "$rejected_stderr") == 'constraint.unsatisfied' ]] ||
-        ash_doc_fail \
-            "$rejected_entry did not report constraint.unsatisfied first"
-
-    local lookup_spelling=Trees.lookup
-    local lookup_matches=()
-    mapfile -t lookup_matches < <(
-        LC_ALL=C grep -aboF "$lookup_spelling" "$rejected_source" || true
-    )
-    [[ ${#lookup_matches[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry must contain one byte-identifiable Trees.lookup occurrence"
-
-    local lookup_start=${lookup_matches[0]%%:*}
-    local lookup_length
-    lookup_length=$(LC_ALL=C printf '%s' "$lookup_spelling" | wc -c)
-    local lookup_end=$((lookup_start + lookup_length))
-    local primary_prefix="primary: source 0 $lookup_start..$lookup_end:"
-    local primary_lines=()
-    mapfile -t primary_lines < <(
-        LC_ALL=C grep -F 'primary: source 0 ' "$rejected_stderr" || true
-    )
-    [[ ${#primary_lines[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry must report one primary source-0 diagnostic label"
-    [[ ${primary_lines[0]} == "$primary_prefix"* ]] ||
-        ash_doc_fail \
-            "$rejected_entry primary label did not cover exactly Trees.lookup"
-
-    LC_ALL=C grep -Eq \
-        '^related: source [0-9]+ [0-9]+\.\.[0-9]+: this declaration introduced the interface obligation$' \
-        "$rejected_stderr" ||
-        ash_doc_fail \
-            "$rejected_entry did not retain the constrained declaration label"
-    local name_import_matches=()
-    mapfile -t name_import_matches < <(
-        LC_ALL=C grep -aboF "$name_import" "$rejected_source" || true
-    )
-    [[ ${#name_import_matches[@]} -eq 1 ]] ||
-        ash_doc_fail \
-            "$rejected_entry must contain one byte-identifiable name import"
-
-    local name_import_start=${name_import_matches[0]%%:*}
-    local name_import_length
-    name_import_length=$(LC_ALL=C printf '%s' "$name_import" | wc -c)
-    local name_import_end=$((name_import_start + name_import_length))
-    local related_import="related: source 0 $name_import_start..$name_import_end: this import made the declaration available"
-    LC_ALL=C grep -Fxq "$related_import" "$rejected_stderr" ||
-        ash_doc_fail \
-            "$rejected_entry did not relate the obligation to its exact name import"
-    LC_ALL=C grep -Eq \
-        '^related: source [0-9]+ [0-9]+\.\.[0-9]+: this interface declaration participates in the failing selection$' \
-        "$rejected_stderr" ||
-        ash_doc_fail "$rejected_entry did not retain the Order interface label"
-}
-
 library_source=$(<"$library")
 lookup_entry_source=$(<"$lookup_entry")
 replacement_entry_source=$(<"$replacement_entry")
@@ -596,34 +497,22 @@ ash_doc_assert_phrase_count \
     "$missing_order_entry_source" "$implementation_selector" 1 \
     "the missing-order entry must select available Order facts before proving Order<Int> is absent"
 
-readonly expected_lookup_entry=$'import ordered_trees as Trees\n\nmain : Unit -> ((Trees.Option<Int>, Int), (Trees.Option<Int>, Int))\nmain () = {\n    let one = Trees.Next(Trees.Zero)\n    let two = Trees.Next(one)\n    let three = Trees.Next(two)\n    let valid = Trees.Node(\n        Trees.Node(Trees.Empty, one, 10, Trees.Empty),\n        two,\n        20,\n        Trees.Node(Trees.Empty, three, 30, Trees.Empty)\n    )\n    (\n        Trees.lookup_counted three valid,\n        Trees.lookup_counted Trees.Zero valid\n    )\n}'
-readonly expected_replacement_entry=$'import ordered_trees as Trees\n\nmain : Unit -> (Trees.Option<Int>, Trees.Option<Int>, Trees.Option<Int>)\nmain () = {\n    let one = Trees.Next(Trees.Zero)\n    let two = Trees.Next(one)\n    let with_two = Trees.insert two 20 Trees.Empty\n    let original = Trees.insert one 10 with_two\n    let replaced = Trees.insert one 99 original\n    let malformed = Trees.Node(\n        Trees.Node(Trees.Empty, two, 20, Trees.Empty),\n        one,\n        10,\n        Trees.Empty\n    )\n    (\n        Trees.lookup one original,\n        Trees.lookup one replaced,\n        Trees.lookup two malformed\n    )\n}'
-readonly expected_ascending_entry=$'import ordered_trees as Trees\n\nmain : Unit -> (Trees.Tree<Trees.Natural, Int>, Trees.Natural, (Trees.Option<Int>, Int))\nmain () = {\n    let one = Trees.Next(Trees.Zero)\n    let two = Trees.Next(one)\n    let three = Trees.Next(two)\n    let after_one = Trees.insert one 10 Trees.Empty\n    let after_two = Trees.insert two 20 after_one\n    let after_three = Trees.insert three 30 after_two\n    (\n        after_three,\n        Trees.height after_three,\n        Trees.lookup_counted three after_three\n    )\n}'
-readonly expected_missing_order_entry=$'import ordered_trees as Trees\n\nmain : Unit -> Trees.Option<Int>\nmain () = {\n    let tree = Trees.Node(Trees.Empty, 1, 10, Trees.Empty)\n    Trees.lookup 1 tree\n}'
-expected_migrated_lookup_entry=$(ash_doc_add_implementation_selector \
-    "$expected_lookup_entry")
-expected_migrated_replacement_entry=$(ash_doc_add_implementation_selector \
-    "$expected_replacement_entry")
-expected_migrated_ascending_entry=$(ash_doc_add_implementation_selector \
-    "$expected_ascending_entry")
-expected_migrated_missing_order_entry=$(ash_doc_add_implementation_selector \
-    "$expected_missing_order_entry")
-readonly expected_migrated_lookup_entry
-readonly expected_migrated_replacement_entry
-readonly expected_migrated_ascending_entry
-readonly expected_migrated_missing_order_entry
+readonly expected_lookup_entry=$'import ordered_trees as Trees\nimport ordered_trees (impl Order)\n\nmain : Unit -> ((Trees.Option<Int>, Int), (Trees.Option<Int>, Int))\nmain () = {\n    let one = Trees.Next(Trees.Zero)\n    let two = Trees.Next(one)\n    let three = Trees.Next(two)\n    let valid = Trees.Node(\n        Trees.Node(Trees.Empty, one, 10, Trees.Empty),\n        two,\n        20,\n        Trees.Node(Trees.Empty, three, 30, Trees.Empty)\n    )\n    (\n        Trees.lookup_counted three valid,\n        Trees.lookup_counted Trees.Zero valid\n    )\n}'
+readonly expected_replacement_entry=$'import ordered_trees as Trees\nimport ordered_trees (impl Order)\n\nmain : Unit -> (Trees.Option<Int>, Trees.Option<Int>, Trees.Option<Int>)\nmain () = {\n    let one = Trees.Next(Trees.Zero)\n    let two = Trees.Next(one)\n    let with_two = Trees.insert two 20 Trees.Empty\n    let original = Trees.insert one 10 with_two\n    let replaced = Trees.insert one 99 original\n    let malformed = Trees.Node(\n        Trees.Node(Trees.Empty, two, 20, Trees.Empty),\n        one,\n        10,\n        Trees.Empty\n    )\n    (\n        Trees.lookup one original,\n        Trees.lookup one replaced,\n        Trees.lookup two malformed\n    )\n}'
+readonly expected_ascending_entry=$'import ordered_trees as Trees\nimport ordered_trees (impl Order)\n\nmain : Unit -> (Trees.Tree<Trees.Natural, Int>, Trees.Natural, (Trees.Option<Int>, Int))\nmain () = {\n    let one = Trees.Next(Trees.Zero)\n    let two = Trees.Next(one)\n    let three = Trees.Next(two)\n    let after_one = Trees.insert one 10 Trees.Empty\n    let after_two = Trees.insert two 20 after_one\n    let after_three = Trees.insert three 30 after_two\n    (\n        after_three,\n        Trees.height after_three,\n        Trees.lookup_counted three after_three\n    )\n}'
+readonly expected_missing_order_entry=$'import ordered_trees as Trees\nimport ordered_trees (impl Order)\n\nmain : Unit -> Trees.Option<Int>\nmain () = {\n    let tree = Trees.Node(Trees.Empty, 1, 10, Trees.Empty)\n    Trees.lookup 1 tree\n}'
 
 ash_doc_assert_file_exact \
-    "$lookup_entry" "$expected_migrated_lookup_entry" \
+    "$lookup_entry" "$expected_lookup_entry" \
     "the lookup entry must retain its exact complete source"
 ash_doc_assert_file_exact \
-    "$replacement_entry" "$expected_migrated_replacement_entry" \
+    "$replacement_entry" "$expected_replacement_entry" \
     "the replacement and malformed entry must retain its exact complete source"
 ash_doc_assert_file_exact \
-    "$ascending_entry" "$expected_migrated_ascending_entry" \
+    "$ascending_entry" "$expected_ascending_entry" \
     "the ascending entry must retain its exact complete source"
 ash_doc_assert_file_exact \
-    "$missing_order_entry" "$expected_migrated_missing_order_entry" \
+    "$missing_order_entry" "$expected_missing_order_entry" \
     "the missing-order entry must retain its exact complete source"
 
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
@@ -663,8 +552,6 @@ ash_doc_run_accepted \
     "$unit_root" \
     src/03-ascending.ash \
     "$ascending_output"
-ash_doc_run_missing_order \
-    "$unit_root" \
-    src/04-missing-order.ash
+ash_doc_run_rejected "$unit_root" src/04-missing-order.ash 1
 
 ash_doc_finish 5

@@ -1,4 +1,5 @@
 import dictionaries as Dictionaries
+import dictionaries (impl Order)
 
 collect : Dictionaries.Iterator<K, V> -> Dictionaries.List<(K, V)>
 collect current = match Dictionaries.next current {

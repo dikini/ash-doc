@@ -27,7 +27,7 @@ layer order to shortest paths in an unweighted graph. The section also
 describes an explicit-stack depth-first search and notes that exact traversal
 depends on adjacency order.
 
-Those ideas support the planned comparison:
+Those ideas support the comparison:
 
 - a frontier holds discovered work that has not yet been expanded;
 - a queue removes the earliest added work and a stack removes the latest;
@@ -38,11 +38,11 @@ Those ideas support the planned comparison:
 
 The source's algorithms and performance theorem assume its own graph and
 array representations. They are not Ash semantics and are not executable
-evidence for the planned case.
+evidence for the case.
 
 ## Material Ash departures
 
-The planned case deliberately changes the source presentation and several
+The case deliberately changes the source presentation and several
 representations:
 
 - The source uses adjacency structures indexed by integer vertex numbers. The
@@ -159,24 +159,6 @@ The source relationship excludes:
   allocation counts, pointer identity, physical sharing, garbage collection,
   or compiler optimization.
 
-This record is sufficient for the bounded Case 12 design because it fixes the
-source, edition, license, transferable ideas, material departures, and claims
-that must remain outside the Ash lesson.
-
-## Historical pinned-tool observation
-
-The first executable prototype at Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf` placed four `match`
-expressions around an inner block in the search loop. The pinned tool rejected
-that source with status `2`, empty standard output, first standard-error line
-`internal.resource.structural-depth`, and reported limit `128`. A minimized
-prototype with the same four nested matches and no inner block completed,
-while adding the inner block reproduced the rejection. Moving the outer
-frontier-removal result into the exhaustive `continue_search` helper produced
-the accepted Case 12 source without changing the planned transition.
-
-This is a historical prototype observation about the pinned tool's resource
-boundary, not Ash language semantics, a diagnostic-layout contract, or a
-runtime stack claim. The disposable reproductions are verified once more at
-closure and then removed; this record and the retained plan commit preserve
-the observation and its classification.
+This record owns source attribution, adaptation boundaries, and excluded
+claims. The canonical programs and checks in the corresponding Case establish
+its behavior at the repository baseline.
