@@ -7,8 +7,8 @@ does not contain published Ash instruction or define Ash behavior.
   a complete, verified documentation unit.
 - [Beginning learning path](project/beginning-learning-path.md) connects the
   provisional reader questions that shape the early learning sequence.
-- [Roadmap](project/roadmap.md) records the next complete project increment and
-  the work it depends on.
+- [Roadmap](project/roadmap.md) records the full learning continuation, its
+  prerequisites, and the delivery outcome when one is selected.
 - [Verification](project/verification.md) gives the baseline checks.
 - [Plans](plans/README.md) contains temporary design and execution records owned
   by an active roadmap outcome or bounded repository decision.

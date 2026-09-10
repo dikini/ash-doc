@@ -1,7 +1,9 @@
 # Roadmap
 
-The roadmap records the current baseline and the next complete increment. It
-is not a curriculum, publication promise, or source of Ash semantics.
+The roadmap records the current baseline, the intended continuation of the
+learning paths, and the selected delivery outcome when one exists. The learning
+sequence is provisional: it establishes reader outcomes and dependencies, not
+a delivery schedule, publication promise, or source of Ash semantics.
 
 ## Current baseline
 
@@ -28,11 +30,353 @@ Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
 
-## Next increment
+## Curriculum direction
 
-No further content increment is selected. The documentation is unpublished;
-no ash-doc `diag-ash` publication tag exists. Publication tooling and additional
-learning topics require their own bounded outcome.
+The next learning stage asks: how can a reader design a calculation that
+requests behavior, explain the effects in its contract, and keep control and
+resource access within their scopes?
+
+The existing Learn path supplies functions, nominal data, pattern matching,
+recursion, closures, and type parameters. The library path supplies interface
+requirements, explicit implementation imports, higher kinds, method parameters,
+and determination. The Cases supply experience deriving pure algorithms and
+explaining their invariants and costs. Verification at the current baseline
+does not imply that these paths teach every feature of that baseline.
+
+Continue that foundation through three connected strands:
+
+- **Effects and scoped resources:** requests, computation contracts, handlers,
+  continuation control, resource lifetimes, cleanup, and hooks.
+- **Local functions and recursion:** local generalization and explicit recursive
+  groups, extending the existing account of functions and bindings.
+- **Library abstractions:** generic implementations, nominal wrappers, and
+  scoped exact evidence, extending the existing library path.
+
+All entries below are **provisional**. Their identifiers express curricular
+relationships, not task identifiers or delivery batches. No lesson is selected
+for implementation. No new reader-facing family or lesson directory exists.
+
+### Teaching approach
+
+Use a small calculation over a finite list as the recurring effects example.
+Begin with an explicit argument supplying a scoring rule or configuration.
+Introduce a request when the reader needs to separate that calculation from
+how the required value is supplied. Later versions count processed elements,
+stop early, and transform published values within scopes. Preserve a pure
+version when it helps explain the same observable result.
+
+Prefer this connected path to scattered additions in the beginning lessons:
+the latter would interrupt their established progression. A large application
+would introduce control, ownership, and library machinery before the reader
+could explain each boundary. Reuse a problem only while it serves the next
+question; native buffers can use a separate small byte calculation.
+
+The progression is requests, contracts, control, ownership, and composition.
+Introduce the smallest complete handler in E1, including its required resume;
+E5 later develops the continuation model in detail. Teach a closed row with
+the first effectful signature rather than leaving its notation unexplained.
+
+## Effects and scoped resources
+
+E1 follows the complete [Learn path](../../content/learn/README.md). E2 through
+E12 follow in order. The additional bridges below are conceptual prerequisites,
+not requirements to complete every library lesson or algorithm Case.
+
+### E1. How can a calculation request a value from its caller's context?
+
+Start from an ordinary configuration argument and introduce one effect
+operation, a request with `perform`, and a complete handler that resumes with
+a fixed value. Change the handler while retaining the calculation.
+
+The reader can distinguish declaring an API, requesting an operation, and
+supplying its interpretation. They can read the first closed effect row and
+explain why the complete entry produces its result. Compare the handled
+program with a request left outward at the entry boundary. Leave multiple
+operations, open rows, and abandonment for later chapters.
+
+### E2. What does an effectful function promise?
+
+Follow the request through several ordinary calls and a returned function.
+Distinguish a value type from computation effects, and constructing a function
+from calling it. Explain where latent effects belong on chained arrows.
+
+The reader can trace requirements from a request through callers and explain
+why the entry computation must have an empty row. Compare a correct contract
+with one that omits a required effect. Use closed rows so the next chapter has
+one new abstraction to introduce.
+
+### E3. How can a reusable function preserve its caller's effects?
+
+Revisit a higher-order function from Learn with pure and effectful callbacks.
+Introduce open rows, row parameters, and the `EffectRow` kind because the
+function must preserve the callback's requirements.
+
+The reader can distinguish ordinary type parameters from row parameters and
+explain a reusable effectful contract. Compare an appropriately parameterized
+contract with a falsely pure callback contract. Explain row exclusions and
+ambiguous unions through a small example when needed to show the boundary of
+inference. Row order is not an execution order.
+
+Use explicitly signed global helpers first. Complete F1 before examples rely
+on generalized local callbacks; do not silently treat every local binding as
+polymorphic.
+
+### E4. Which handler answers a request?
+
+Nest handlers and move a request between handled bodies and operation clauses.
+Then distinguish parameterized instances and APIs with equal spellings from
+different modules. Reuse the module knowledge from Learn.
+
+The reader can identify the exact instance a handler removes, trace the
+nearest matching handler, and explain which clause effects remain outward.
+Contrast handling the intended instance with handling a different one. Explain
+that constructing a closure under a handler does not capture that handler.
+
+### E5. What happens when a handler resumes a calculation?
+
+Trace the work before a request, the suspended remainder, and the result of
+`resume`. Extend the API to several operations and explain complete clause
+coverage. Separate the operation's result from the handled calculation's
+result.
+
+The reader can explain the continuation's scope and its consumption exactly
+once on each normally completing clause path. Compare a valid resumption with
+missing consumption, repeated consumption, or attempted capture, using separate
+small examples. Do not introduce resource ownership yet.
+
+### E6. How can a handler stop a calculation early?
+
+Use a resource-free list calculation that can finish with an ordinary result
+or stop with a domain-defined outcome. Introduce `discard` as consumption of
+the suspended continuation without resuming its calculation.
+
+The reader can identify skipped work and explain why `discard` returns `Unit`
+while the clause must still produce the handler's result. Compare this with
+ordinary propagation of an outcome through pure calls. State that safe discard
+has further obligations when scopes own completion; E9 develops those cases.
+Do not imply that discard is universally pure.
+
+### E7. How can a calculation keep scoped mutable state?
+
+Count processed elements with a scoped cell and compare the result with a
+pure accumulator. Explain acquisition, reusable access, reading, writing, and
+scope-owned release.
+
+Before this chapter, use the existing
+[implementation-evidence lesson](../../content/libraries/choosing-implementation-evidence/README.md)
+as a bridge. Then explain how acquisition supplies the sealed provider
+relation and interpreter; ordinary implementation selection does not create
+resource authority.
+
+The reader can trace repeated access to one live cell, distinguish access from
+release ownership, and explain which effects acquisition discharges. Use
+ordinary completion first; escape and abandonment follow in E8 and E9.
+
+### E8. Why can a result leave a resource scope while access cannot?
+
+Return a copied count, then consider returning a handle or a closure that
+retains access. Compare separate acquisitions and transport through a tuple or
+data constructor.
+
+The reader can follow retained resource dependencies beyond visible result
+types. They can explain valid use within a live owner and a rejected escape,
+including why hiding access inside a closure does not make it safe. Include
+request payload transport to connect resource lifetimes with E4's handlers.
+
+### E9. How can work run when a scope finishes?
+
+Introduce `cleanup` through normal completion: retain an action, run the body,
+invoke the action, and preserve the body's result. Use an enclosing cell to
+make ordering observable without introducing external I/O.
+
+Then revisit early stopping and explain which owned actions execute, which
+resources remain live, and which handlers are available at closing positions.
+The reader can distinguish safe abandonment from skipping required completion
+or relying on a removed interpreter. Separate the normal-completion,
+abandonment-order, and rejected-context examples so each has one causal point.
+No source-cleanup guarantee is implied for internal termination or exhaustion.
+
+### E10. How can several scopes transform one publication?
+
+Declare an effect with one endomorphic `publish` operation, establish a hook,
+and register transformations. Predict outer-to-inner transformation order,
+callback effects, and the separate chain established by a nested exact root.
+
+The reader can distinguish registration context from publication context and
+explain registration lifetime across normal return, capture, resume, and owned
+abandonment. Compare a qualifying API with a nonqualifying one, then connect
+retained callback access to E8. Registration introduces no escaping token or
+arbitrary removal mechanism.
+
+### E11. How can acquiring a resource fail?
+
+Use a small byte calculation with a scoped native buffer. Explain acquisition
+outcomes before entering the body, checked access, and release. Choose small
+deterministic success and failure observations permitted by the fixed API.
+
+The reader can distinguish acquisition failure, a successful acquisition whose
+body returns a domain outcome, and nested acquisition outcomes. They can
+explain why those wrappers remain distinct and apply the lifetime model from
+cells. This chapter introduces neither source pointers nor general FFI.
+
+### E12. How do these boundaries fit together?
+
+Compose an effectful scoring policy, scoped counting, early stopping, and
+cleanup in one complete finite-list calculation. Derive it from earlier
+versions rather than presenting a finished application without explanation.
+
+The reader can account for the result, outward row, handler selection,
+continuation consumption, cleanup order, and resource lifetimes. Use one
+boundary change at a time to challenge that account. Hooks and buffers are
+extensions only where the problem creates a reason to use them; the final
+example need not contain every syntax form.
+
+## Local functions and recursion
+
+These chapters follow the beginning path and support the other strands without
+making effects a prerequisite for learning local function behavior.
+
+### F1. When can a local function work at several types?
+
+Revisit anonymous functions and type parameters. Compare an eligible local
+anonymous-function binding used at different types with an annotated binding
+and an application that returns a function.
+
+The reader can explain the boundary of local generalization and why ordinary
+value positions remain rank-1. Keep initial observations pure; E3 later
+extends the same account to eligible row parameters. Generalization does not
+create new interface requirements.
+
+### F2. How can local definitions refer to one another?
+
+Continue from sequential bindings and global recursion. Introduce annotated
+`let rec` groups through local recursive functions, then mutual references.
+Explain which names enter scope together and why initialization must be safe.
+
+The reader can distinguish a recursive group from sequential `let` bindings
+and predict accepted delayed uses and rejected forcing uses. Develop guarded
+cyclic nominal data as a separate final exploration, connected to the Cases'
+finite-data assumptions. Constructor guarding is not general laziness, and a
+cycle does not establish termination of a traversal.
+
+## Continuing library abstractions
+
+These chapters continue the existing five-lesson
+[library path](../../content/libraries/README.md). L1 through L3 follow in order.
+The effects path does not require completing this strand; later synthesis may
+reuse it after its concepts have been introduced.
+
+### L1. How can an implementation depend on its element's behavior?
+
+Extend a concrete interface implementation to a nominal container whose
+implementation requires behavior for its element type. Trace prerequisite
+evidence from an imported constrained use to the selected implementation.
+
+The reader can explain generic heads, explicit prerequisites, ownership,
+overlap restrictions, and the structural decrease required of nonground
+prerequisites. Choose separate small rejections for missing evidence and an
+inadmissible implementation. Connect determination to selection keys without
+re-teaching the existing determination lesson.
+
+### L2. How can a wrapper give an existing representation a distinct meaning?
+
+Compare ordinary nominal data with a module `newtype`. Construct and match the
+wrapper explicitly, then give it interface behavior distinct from its
+representation. Revisit public and opaque boundaries where useful.
+
+The reader can explain nominal distinction, the lack of implicit coercion or
+inherited implementation evidence, and allocation-free wrapping after checked
+lowering. A runtime-cost explanation must use appropriate pinned evidence;
+printed values alone do not demonstrate allocation behavior.
+
+### L3. How can one lexical scope supply its own exact behavior?
+
+Introduce a local `newtype`, first by consuming it within its scope and then
+by returning an identity-free result. Supply methods through sequential
+`with` evidence whose selection key contains that active local nominal.
+
+The reader can explain following-scope availability, capture of preceding
+ordinary values, identity escape restrictions, and why exact evidence is not
+local implementation search. Compare an escaping identity with a closure that
+legitimately captures and unwraps a local value. Keep effects out of the first
+example; combine the strands only after their individual boundaries are clear.
+
+## Prerequisites and governing sources
+
+The dependencies above describe reading order, not delivery commitments:
+
+- Learn precedes F1, F2, and E1.
+- E1 through E12 form the principal effects sequence.
+- F1 precedes generalized-local examples in E3.
+- The existing implementation-evidence lesson precedes E7's provider bridge.
+- The existing library path precedes L1, then L2 and L3.
+- Existing Cases provide optional pure comparisons; completing all twelve is
+  not a prerequisite for entering the effects path.
+
+Language claims and future examples must use the specification at the current
+baseline. These sections govern the proposed boundaries:
+
+- [Computation types and effect rows][rows]: E1–E3, including row kinds,
+  exact instances, exclusions, and inference boundaries.
+- [Effects][effects]: E1–E6 and the control model reused by later chapters.
+- [Scoped cells and resource dependencies][cells] and
+  [scoped native buffers][buffers]: E7, E8, and E11.
+- [Scoped cleanup actions][cleanup] and [synchronous typed hooks][hooks]:
+  E9, E10, and their interactions in E12.
+- [Blocks][blocks], [rank-1 restrictions][rank1], and
+  [recursive block groups][recursion]: F1 and F2.
+- [Implementations][implementations]: L1.
+- [Specification overview][overview], [local nominal scope][nominals], and
+  [scoped exact evidence][evidence]: L2 and L3.
+
+[rows]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[buffers]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-native-buffers
+[cleanup]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-cleanup-actions
+[hooks]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#synchronous-typed-hooks
+[blocks]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#blocks
+[rank1]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#inference-and-rank-1-restrictions
+[recursion]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#recursive-block-groups
+[implementations]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#implementations
+[overview]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/README.md
+[nominals]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#scoped-exact-evidence
+
+## Evidence and completion expectations
+
+Every eventual chapter must join a connected explanation with canonical
+programs, positive observations, relevant rejections, and discovery exercises.
+Use the edit, predict, run, inspect, and explain cycle without making it a
+repeated prose template. Introduce vocabulary when the example needs it.
+
+Capture complete human diagnostics from the pinned tool and explain the
+causal source labels and correction. Keep exact transcript agreement separate
+from semantic JSON checks. Preserve unanswered observations in discovery
+exercises. The [verification guide](verification.md) governs the existing
+mechanism; this roadmap selects no new tooling.
+
+Each chapter is complete only when its reader can explain the promised
+boundary and its prose, canonical code, observations, and checks agree.
+E12 additionally requires a coherent account of interacting boundaries.
+A compiler regression or unresolved semantic question leaves the affected
+material incomplete and follows the project's discovery classification.
+
+## Scope and delivery state
+
+This roadmap covers the proposed continuation, not an exhaustive reference
+manual. Named module roots, broader command-line usage, and remaining syntax
+reference details can motivate later bounded work. External I/O, concurrency,
+general FFI, and new language mechanisms are not assumed by these examples.
+Historical Ash remains reference evidence only; all planned code and prose
+teach the cumulative current baseline.
+
+Delivery will be considered separately. No batch, date, first implementation
+increment, content-family layout, or publication mechanism is selected here.
+The documentation remains unpublished; no ash-doc `diag-ash` publication tag
+exists. Refine chapter boundaries when executable design exposes a dependency
+or an overloaded question, and replace superseded wording rather than keeping
+parallel roadmaps.
 
 ## Selecting work
 
