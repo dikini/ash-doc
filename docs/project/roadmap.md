@@ -24,9 +24,16 @@ records leave the working tree; Git retains earlier states.
 
 ## Next increment
 
-No further content increment is selected. The documentation is unpublished;
-no ash-doc `diag-ash` publication tag exists. Publication tooling and additional
-learning topics require their own bounded outcome.
+The approved increment is to teach every demonstrated rejection through its
+complete English human diagnostic at the exact baseline above. Readers should
+connect the explanation and source labels to the cause and correction, with
+reason codes serving as secondary identifiers. Audit all active lessons and
+project guidance, preserve exercises and semantic JSON checks, and add only
+lesson-local transcript agreement through the existing helpers. The
+[execution plan](../plans/2026-09-10-human-diagnostics.md) owns the work.
+
+The documentation is unpublished; no ash-doc `diag-ash` publication tag exists.
+Publication tooling and additional learning topics require their own outcome.
 
 ## Selecting work
 
