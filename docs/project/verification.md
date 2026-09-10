@@ -11,6 +11,7 @@ Use a clean Ash checkout at that exact commit. From ash-doc, run:
 bash content/learn/checks/verify.sh /path/to/diag-ash
 bash content/cases/checks/verify.sh /path/to/diag-ash
 bash content/libraries/checks/verify.sh /path/to/diag-ash
+bash content/effects/checks/verify.sh /path/to/diag-ash
 ```
 
 The shared Bash helper checks the compiler pin, builds the executable with
@@ -18,9 +19,10 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The three aggregates cover eleven Learn lessons / 43 sources, twelve Cases /
-53 sources, and five library lessons / 17 sources. They check successful
-values, types, stdout, stderr, and exit status; agreement between displayed
+The four aggregates cover eleven Learn lessons / 43 sources, twelve Cases /
+53 sources, five library lessons / 17 sources, and one effects lesson / four
+sources. They check successful values, types, stdout, stderr, and exit status;
+agreement between displayed
 and canonical code; and the source properties each Case teaches.
 
 Rejection checks request `--message-format json`. Each lesson's
@@ -37,7 +39,9 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 23 captures: eleven Learn, seven Cases, and five Libraries.
+There are 24 captures: eleven Learn, seven Cases, five Libraries, and one
+in Effects. The effects rejection checks the local entry declaration whose row
+still requires `Bonus`; its primary label identifies that declaration.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's

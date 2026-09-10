@@ -17,8 +17,8 @@ This repository targets **`diag-ash`** at Ash commit
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All eleven Learn lessons, twelve recursive-algorithm Cases, and five library
-lessons are verified at this exact target. The
+All eleven Learn lessons, twelve recursive-algorithm Cases, five library
+lessons, and the first effects lesson are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
 unpublished; no ash-doc `diag-ash` publication tag has been created.
@@ -99,6 +99,14 @@ then follow the question into the applicable chapter:
 You do not need to read the specification before the first lesson. Use it when
 you want to check an explanation, answer a new question, or understand a result
 that surprised you.
+
+## Work with effects and scoped resources
+
+After Learn Ash, begin
+[Working with effects and scoped resources](content/effects/README.md). The
+first verified lesson introduces an effect request, a closed effect row, and
+a handler that supplies the requested value. It compares two handlers and
+explains the rejection of an entry that leaves its effect unhandled.
 
 ## Design library abstractions
 

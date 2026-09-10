@@ -75,3 +75,9 @@ with `ash` to test what it does.
     receive, construct, and return function values.
 11. [How can one definition work with many types?](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
+
+## Continue learning
+
+[Working with effects and scoped resources](../effects/README.md) begins with
+one new question: how can a calculation request a value that a surrounding
+handler supplies? It builds on the functions and signatures used in this path.

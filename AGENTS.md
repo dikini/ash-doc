@@ -23,9 +23,10 @@ compatible capability that the project skill does not cover.
 The current edition and all new work target `diag-ash` at Ash commit
 `9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. This cumulative checkpoint includes
 diagnostics, migration repairs, effects and resources, library abstractions,
-and modules. All eleven Learn lessons, twelve Cases, and five library lessons
-have migrated; the [verification guide](docs/project/verification.md)
-names their baseline checks. Publication has not occurred.
+and modules. All eleven Learn lessons, twelve Cases, five library lessons,
+and the first effects lesson are verified; the
+[verification guide](docs/project/verification.md) names their baseline checks.
+Publication has not occurred.
 
 **Code, prose, and checks always target the declared baseline.** Remove
 obsolete evidence, completed plans, and superseded records from the working
@@ -218,6 +219,6 @@ Before completing a change:
 8. Run `git diff --check` and inspect `git status --short` before committing.
 
 The repository selects the indexed `docs/`, `content/`, `lab/`, and `research/`
-roots, three content families, and lesson-local source and checks with shared
+roots, four content families, and lesson-local source and checks with shared
 verification helpers. It selects no renderer, manifest, CI service, publication
 platform, or license.

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "entry.main-effects",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "entry_main",
+      "path": "src/04-unhandled.ash",
+      "byte_start": 123,
+      "byte_end": 127,
+      "facts": []
+    }
+  ]
+}
