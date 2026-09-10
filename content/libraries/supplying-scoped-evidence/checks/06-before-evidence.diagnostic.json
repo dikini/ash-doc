@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/06-before-evidence.ash",
+      "byte_start": 224,
+      "byte_end": 231,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/06-before-evidence.ash",
+      "byte_start": 57,
+      "byte_end": 64,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/06-before-evidence.ash",
+      "byte_start": 0,
+      "byte_end": 55,
+      "facts": []
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "evidence.missing-local-key",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "evidence_key",
+      "path": "src/05-no-local-key.ash",
+      "byte_start": 187,
+      "byte_end": 203,
+      "facts": []
+    }
+  ]
+}

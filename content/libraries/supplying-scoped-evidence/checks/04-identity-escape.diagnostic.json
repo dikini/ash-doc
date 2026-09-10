@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "type.local-nominal-escape",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "escaping_dependency",
+      "path": "src/04-identity-escape.ash",
+      "byte_start": 94,
+      "byte_end": 103,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "local_nominal_scope",
+      "path": "src/04-identity-escape.ash",
+      "byte_start": 59,
+      "byte_end": 85,
+      "facts": []
+    }
+  ]
+}

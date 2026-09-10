@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "evidence.duplicate",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "evidence_key",
+      "path": "src/07-duplicate-evidence.ash",
+      "byte_start": 264,
+      "byte_end": 280,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "earlier_evidence",
+      "path": "src/07-duplicate-evidence.ash",
+      "byte_start": 190,
+      "byte_end": 206,
+      "facts": []
+    }
+  ]
+}
