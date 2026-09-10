@@ -10,7 +10,7 @@ checks share that exact baseline:
 
 - [`learn/`](learn/README.md) for thirteen verified lessons covering the beginning
   path, local generalization, and local recursion;
-- [`cases/`](cases/README.md) for fifteen verified algorithm and effect Cases in
+- [`cases/`](cases/README.md) for nineteen verified algorithm and effect Cases in
   numeric order;
 - [`libraries/`](libraries/README.md) for eight verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic

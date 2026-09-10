@@ -1,17 +1,15 @@
 # Measure tree-search comparisons
 
-Draft blocked by the [upstream case](../../README.md); this is not an active
-lesson. The intended output below is derived, not an observed transcript.
-
-An ordered lookup needs comparisons. Handle `Compare.keys` by applying the
-same pure ordering and incrementing a scoped counter. The lookup algorithm
+An ordered lookup needs comparisons. After [ordered tree search](../searching-ordered-tree/README.md)
+and [scoped cells](../../effects/counting-with-a-cell/README.md),
+you can count them by handling `Compare.keys` with the same pure ordering and
+a counter increment. The lookup algorithm
 carries only its comparison requirement; the handler owns the measurement.
 
 The balanced tree and chain contain the same three keys and values. Searching
 for `High` should find 30 after two and three comparisons respectively. An
 empty tree needs no comparisons. These counts measure this program's comparison
-requests, not elapsed time or a general complexity guarantee. Follow-up: change
-the query to `Low` and predict how the two shapes change the count.
+requests, not elapsed time or a general complexity guarantee.
 
 <!-- source: src/main.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -78,10 +76,24 @@ main () = {
 ```
 <!-- markdownlint-enable MD013 -->
 
-Expected after an upstream repair:
+Run the program from the Cases directory:
+
+```text
+ash measuring-tree-search/src/main.ash
+```
+
+The result is:
 
 <!-- markdownlint-disable MD013 -->
 ```text
 ((Found(30), 2), (Found(30), 3), (Missing, 0)) : ((Result, Int), (Result, Int), (Result, Int))
 ```
 <!-- markdownlint-enable MD013 -->
+
+The balanced tree visits `Middle`, then `High`; the chain visits `Low`,
+`Middle`, then `High`. Each visited node makes one comparison request. The
+empty tree returns `Missing` before any request, so its counter stays at zero.
+
+Change the query to `Low` and predict how the two shapes change the count.
+The handler supplies a fixed ordering while measuring its use. In the next
+Case, changing the supplied responses changes the calculation's result.

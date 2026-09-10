@@ -348,5 +348,5 @@ keep selection coherent, and the method explains the actual calculation.
 Next we will give one existing representation a new nominal meaning without
 allocating an ordinary constructor wrapper.
 
-[implementations]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#implementations
-[selection]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
+[implementations]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#implementations
+[selection]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence

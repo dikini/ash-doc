@@ -319,8 +319,8 @@ runtime representation. Explicit construction, patterns, and evidence keep
 the intended interpretation visible. The next chapter brings that nominal
 distinction into one local scope and supplies exact behavior for it there.
 
-[overview]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md#current-ash
-[evidence]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
-[execution]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#tuples-constructors-and-matches
-[lowering]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/elaboration.md#explicit-rank-1-operations
-[allocation-test]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/src/eval/machine.rs#L6306
+[overview]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/README.md#current-ash
+[evidence]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
+[execution]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#tuples-constructors-and-matches
+[lowering]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/elaboration.md#explicit-rank-1-operations
+[allocation-test]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/src/eval/machine.rs#L6306

@@ -1,7 +1,7 @@
 # Verify the documentation
 
 Every active program, language claim, and tool observation targets Ash
-`diag-ash`, commit `57eec5bbadae885e49c323e0a05e7a01b9ce8a36`.
+`diag-ash`, commit `38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`.
 
 ## Run the content checks
 
@@ -19,8 +19,8 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 57 sources, fifteen Cases /
-56 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
+The four aggregates cover thirteen Learn lessons / 57 sources, nineteen Cases /
+60 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -49,7 +49,7 @@ explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's
-[format controls](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md#diagnostic-formats-and-locales)
+[format controls](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md#diagnostic-formats-and-locales)
 select English human output. Its `src/presentation.rs::write_human` emits plain
 text without terminal styling, so no unsupported color flag is used. The
 comparison rejects ANSI output and JSON fallback. It replaces only the
@@ -78,14 +78,6 @@ cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell
 The test builds a validated wrap around an ordinary constructor and checks that
 only the representation's constructor cell is allocated. Keep this evidence
 separate from the lesson's source observations.
-
-The current [effect Cases regression candidate](../../lab/effect-cases-type-work/README.md)
-retains four blocked drafts outside the active content stream. Its separate
-check verifies five type-work failures and two passing controls:
-
-```text
-bash lab/effect-cases-type-work/checks/verify.sh /path/to/diag-ash
-```
 
 ## Review the rest
 

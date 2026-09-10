@@ -228,5 +228,5 @@ We can now describe a particular effectful function accurately. The next
 question is how a reusable helper can call functions with different effects
 without fixing its contract to `Bonus`.
 
-[rows]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#computation-types-and-effect-rows
-[functions]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#functions-and-application
+[rows]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#computation-types-and-effect-rows
+[functions]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#functions-and-application

@@ -6,18 +6,18 @@ from established programming works, and exercises the language with programs
 that expose real design pressure.
 
 This repository follows the experiment described by
-[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 That design note is informative. This repository explains and tests Ash; it
 does not define the language.
 
 ## Current edition: Diag Ash
 
 This repository targets **`diag-ash`** at Ash commit
-`57eec5bbadae885e49c323e0a05e7a01b9ce8a36`. It is the cumulative Ash checkpoint:
+`38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`. It is the cumulative Ash checkpoint:
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All thirteen Learn lessons, fifteen algorithm and effect Cases, eight library
+All thirteen Learn lessons, nineteen algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -35,7 +35,7 @@ commit for this edition, and build it:
 ```text
 git clone git@github.com:dikini/ash-lang.git
 cd ash-lang
-git switch --detach 57eec5bbadae885e49c323e0a05e7a01b9ce8a36
+git switch --detach 38e3478589b77133caa8e4f16ccc0ef1ad2b6c26
 cargo build --locked
 ```
 
@@ -79,22 +79,22 @@ recursive data, functions as values, and definitions parameterized by types.
 The continuation develops local generalization and annotated recursive groups.
 
 The examples use the
-[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md).
+[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md).
 When you need the precise language rules, begin with the
-[pinned specification overview](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md),
+[pinned specification overview](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/README.md),
 then follow the question into the applicable chapter:
 
-- [lexical structure](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/lexical-structure.md)
+- [lexical structure](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/lexical-structure.md)
   for source text and tokens;
-- [syntax](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/syntax.md)
+- [syntax](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/syntax.md)
   for modules, declarations, expressions, and patterns;
-- [name resolution](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md)
+- [name resolution](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md)
   for modules, imports, scope, and identity;
-- [static semantics](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md)
+- [static semantics](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md)
   for typing and checked programs;
-- [elaboration](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/elaboration.md)
+- [elaboration](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/elaboration.md)
   for the connection between checked source and typed Core; and
-- [dynamic semantics](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md)
+- [dynamic semantics](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md)
   for values and evaluation.
 
 You do not need to read the specification before the first lesson. Use it when
@@ -126,8 +126,9 @@ scopes.
 
 Continue with [Explore algorithms and effects in Ash](content/cases/README.md).
 The first twelve Cases derive recursive algorithms from explicit
-representations and account for their work. Three short effect Cases then
-illustrate dependency injection, scripted sessions, and bounded byte input.
+representations and account for their work. Seven short effect Cases then
+illustrate scoped numbering and measurement, dependency injection, scripted
+sessions, search budgets, parent-path compression, and bounded byte input.
 
 ## Authority
 

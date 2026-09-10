@@ -1,10 +1,8 @@
 # Compress parent paths
 
-Draft blocked by the [upstream case](../../README.md); this is not an active
-lesson. The intended output below is derived, not an observed transcript.
-
 Union–find represents a set by a root reached through parent links. This
-example isolates its lookup step: four buffer entries describe the parent
+example follows [native buffers](../../effects/acquiring-a-buffer/README.md)
+and isolates its lookup step: four buffer entries describe the parent
 chain `3 → 2 → 1 → 0`, with zero as its own parent. The buffer starts at zero;
 the two checked writes establish the remaining links. Valid parent links and
 an acyclic path to a self-parent are assumptions of this fixed input.
@@ -20,9 +18,9 @@ its own buffer.
 
 These source-operation counts illustrate the tradeoff for this chain. They
 make no timing or amortized-complexity claim. Every access failure propagates
-as ordinary `Outcome` data. A later extension can add a union operation that
-links roots while preserving the forest invariant; a complete disjoint-set
-library and general integer storage are outside this example.
+as ordinary `Outcome` data. The outer `Outcome` reports acquisition; the inner
+one reports initialization or lookup. Successful acquisition does not hide an
+access failure.
 
 <!-- source: src/main.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -89,10 +87,25 @@ main () = (run false, run true)
 ```
 <!-- markdownlint-enable MD013 -->
 
-Expected after an upstream repair:
+Run the program from the Cases directory:
+
+```text
+ash compressing-parent-paths/src/main.ash
+```
+
+The result is:
 
 <!-- markdownlint-disable MD013 -->
 ```text
-(Success(Success((Root(0, 4, 0), Root(0, 4, 0)))), Success(Success((Root(0, 4, 3), Root(0, 2, 1))))) : (Outcome<Outcome<(Lookup, Lookup)>>, Outcome<Outcome<(Lookup, Lookup)>>)
+(Success(Success(Root(0, 4, 0), Root(0, 4, 0))), Success(Success(Root(0, 4, 3), Root(0, 2, 1)))) : (Outcome<Outcome<(Lookup, Lookup)>>, Outcome<Outcome<(Lookup, Lookup)>>)
 ```
 <!-- markdownlint-enable MD013 -->
+
+The first lookup follows `3 → 2 → 1 → 0`. Compression then writes `0` into
+entries `1`, `2`, and `3`, so the next lookup follows only `3 → 0`. It still
+writes entry `3` on return, even though that parent is already `0`. Without
+compression, both lookups follow the original four-entry chain.
+
+Predict the counts if entry `3` initially points directly to `0`, then change
+that one initialization write and run again. The next Case uses checked buffer
+access to supply a decoder's byte requests.

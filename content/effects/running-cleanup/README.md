@@ -336,4 +336,4 @@ clause continues. Both paths must respect the resources and handlers available
 at closing. Next we will use scoped handlers to transform publications through
 several registered functions.
 
-[cleanup]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-cleanup-actions
+[cleanup]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-cleanup-actions

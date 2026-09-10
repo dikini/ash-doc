@@ -1,9 +1,9 @@
 # Bound search work
 
-Draft blocked by the [upstream case](../../README.md); this is not an active
-lesson. The intended output below is derived, not an observed transcript.
-
-A search can ask permission before expanding each nonempty node. `search`
+A search can ask permission before expanding each nonempty node. This combines
+[frontier search](../choosing-a-search-frontier/README.md),
+[scoped cells](../../effects/counting-with-a-cell/README.md), and
+[early stopping](../../effects/stopping-a-calculation/README.md). `search`
 keeps a depth-first frontier; `Work.expand` separates that traversal from the
 policy deciding whether another expansion is allowed. Empty trees are skipped
 without consuming the budget.
@@ -12,8 +12,9 @@ The handler counts admitted expansions in its own cell. At the limit it
 consumes the continuation with `discard` and returns `Exhausted`. The earlier
 writes remain visible, so the result includes work already admitted. Exhaustion
 means the search was stopped; `Missing` means the frontier was fully examined.
-The finite acyclic tree needs no visited set. Follow-up: change the budget or
-child order and predict whether the target is reached before exhaustion.
+The finite acyclic tree needs no visited set. This policy assumes a nonnegative
+budget: the counter starts at zero and increases by one until it equals the
+limit.
 
 <!-- source: src/main.ash -->
 ```ash
@@ -70,10 +71,27 @@ main () = {
 }
 ```
 
-Expected after an upstream repair:
+Run the program from the Cases directory:
+
+```text
+ash bounding-search-work/src/main.ash
+```
+
+The result is:
 
 <!-- markdownlint-disable MD013 -->
 ```text
 ((Exhausted, 0), (Exhausted, 2), (Found(30), 3), (Missing, 3)) : ((Result, Int), (Result, Int), (Result, Int), (Result, Int))
 ```
 <!-- markdownlint-enable MD013 -->
+
+The nonempty nodes are admitted in order `10`, `20`, `30`. A zero budget
+stops before testing the first value; a budget of two admits the first two
+nodes but stops before the target. Three permits the target comparison. With
+the same budget, the absent query finishes the frontier and returns `Missing`.
+The
+count includes each admitted node even when it contains the answer.
+
+Change the budget or child order and predict whether the target is reached
+before exhaustion. This policy limits expansions before they happen; the next
+Case changes stored links to reduce work on a later lookup.

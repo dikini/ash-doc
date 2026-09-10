@@ -19,13 +19,13 @@ rest of the dictionary. `Option<A>` separates an absent result, `None`, from a
 present result, `Some(A)`.
 
 The pinned [syntax
-grammar](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/syntax.md#grammar)
+grammar](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/syntax.md#grammar)
 provides these parameterized nominal declarations and constructor forms. The
 [type and constructor
-scope](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md#type-and-constructor-scope)
+scope](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#type-and-constructor-scope)
 makes `Dictionary` visible in its own `More` payload and binds each constructor
 to its nominal type. Under the static [tuple and constructor
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#tuples-and-constructors),
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#tuples-and-constructors),
 applying a payload constructor such as `Entry`, `More`, or `Some` produces a
 value of its declared nominal type.
 
@@ -85,12 +85,12 @@ lookup_through_fold_counted same_key query dictionary = fold_entries (prefer_cur
 <!-- markdownlint-enable MD013 -->
 
 Each shared function uses the pinned [equational global
-presentation](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/syntax.md#global-function-presentations):
+presentation](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/syntax.md#global-function-presentations):
 a signature followed by its contiguous clauses. Module-wide [global
-scope](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md#global-scope)
+scope](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#global-scope)
 makes recursive functions such as `lookup` and `fold_entries` available in
 their own bodies. The static [global and module
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#globals-and-modules)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#globals-and-modules)
 check each clause against its declared function scheme.
 
 Start from `Empty` and apply the three insertions used throughout this chapter.
@@ -107,9 +107,9 @@ general property of Ash data.
 Each `insert` evaluates one `Entry(key, value)` constructor application and one
 front `More(entry, dictionary)` constructor application. The complete previous
 dictionary is the new `More` tail. The pinned dynamic [application
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#application)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#application)
 and [constructor
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 govern those evaluations. The construction account names source operations; it
 does not yet make a claim about physical storage.
 
@@ -121,16 +121,16 @@ definitions](https://htdp.org/2026-2-25/Book/part_two.html).
 
 `lookup` receives equality as an explicit function because `K` can be any type.
 The pinned static [function and application
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#functions-and-application)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#functions-and-application)
 check `same_key query key` against that supplied function type. At `Empty`,
 there is no entry to return. At `More`, lookup applies equality exactly once.
 The static [pattern, match, and coverage
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#patterns-matches-and-coverage)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#patterns-matches-and-coverage)
 require the `Empty` and `More` equations to cover the dictionary and the
 `true` and `false` arms to cover the equality result. The true arm returns
 `Some(value)` and has no recursive call. Only the false arm follows `rest`.
 Ash's [dynamic match
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 evaluate the scrutinee once and enter only the selected arm.
 
 The first complete entry defines integer equality and asks for the newest key
@@ -177,9 +177,9 @@ both outcomes with `Option<Int>`.
 
 The definition of `int_equal` uses Ash's primitive integer equality. The
 pinned static [primitive operation
-rule](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#primitive-operations)
+rule](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#primitive-operations)
 requires two `Int` operands and produces `Bool`; the dynamic [integer equality
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#primitive-operations)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#primitive-operations)
 produce `true` exactly when those integer values are equal.
 
 ## Count the comparisons that lookup enters
@@ -272,7 +272,7 @@ The direct function can stop because its recursive call occurs only after a
 mismatch. `fold_entries` makes a different dependency. In its `More` equation,
 the `folded_rest` binding completes the fold of the complete tail before
 `combine entry folded_rest` runs. The pinned [dynamic binding
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#bindings)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#bindings)
 evaluate a binding initializer before extending the environment and continuing
 with the block.
 
@@ -382,11 +382,11 @@ reachable through `older_dictionary`.
 This is a source-level construction and reachability account. It does not
 establish object or pointer identity, exact heap bytes, garbage-collection or
 liveness behavior, or a compiler representation. The pinned [observation
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#observation)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#observation)
 render tuples and constructors structurally; the output does not expose those
 implementation choices. Each complete line follows the tool's
 [successful-output
-contract](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md#successful-output):
+contract](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md#successful-output):
 one value, its checked type, and a newline.
 
 ## Practice: change the front

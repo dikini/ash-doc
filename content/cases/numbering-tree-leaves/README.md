@@ -1,18 +1,17 @@
 # Number a tree’s leaves
 
-Draft blocked by the [upstream case](../../README.md); this is not an active
-lesson. The intended output below is derived, not an observed transcript.
-
-Number the leaves from left to right. The pure version returns both the
+A tree traversal can number leaves from left to right by carrying the next
+unused number. This Case follows [scoped cells](../../effects/counting-with-a-cell/README.md)
+and the earlier [tree traversal](../folding-branching-data/README.md).
+The pure version returns both the
 rebuilt tree and the next unused number, passing the left result's counter
 into the right traversal. The effectful version requests each number through
 `Fresh.next`; its handler owns a scoped counter.
 
-The intended comparison is the same tree labeled from zero by both versions,
+The comparison is the same tree labeled from zero by both versions,
 then a fresh run starting at ten. Explicit left and right bindings preserve the
 visit order. The counter and its handle stay within `number`; the rebuilt tree
-contains only copied integers. Follow-up: change the traversal order and predict
-which leaves receive each number.
+contains only copied integers.
 
 <!-- source: src/main.ash -->
 ```ash
@@ -60,10 +59,25 @@ main () = {
 }
 ```
 
-Expected after an upstream repair:
+Run the program from the Cases directory:
+
+```text
+ash numbering-tree-leaves/src/main.ash
+```
+
+The result is:
 
 <!-- markdownlint-disable MD013 -->
 ```text
 (Fork(Leaf(0), Fork(Leaf(1), Leaf(2))), Fork(Leaf(0), Fork(Leaf(1), Leaf(2))), Fork(Leaf(10), Fork(Leaf(11), Leaf(12)))) : (Tree, Tree, Tree)
 ```
 <!-- markdownlint-enable MD013 -->
+
+The first two trees agree: each traversal visits three leaves and assigns
+`0`, `1`, then `2`. The final tree begins at `10` because each call to `number`
+acquires its own counter. The request changes how the next number is supplied;
+the explicit left and right bindings still determine traversal order.
+
+Change the traversal to visit the right subtree first and predict which leaf
+receives each number. Then restore it. The next Case uses a handler to measure
+a traversal while preserving its result.

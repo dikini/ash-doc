@@ -42,7 +42,7 @@ The parameter `A` omits an annotation, so its kind is `Type`. Applying `F` to
 `A` consumes that input and leaves the completed type `F<A>`. Both the domain
 and result of `keep` are therefore valid value types. These relationships
 follow Ash's rules for
-[kinds, monotypes, and schemes](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#kinds-monotypes-and-schemes).
+[kinds, monotypes, and schemes](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#kinds-monotypes-and-schemes).
 
 Run the program:
 
@@ -112,7 +112,7 @@ Kind arrows associate to the right. `Type -> Type -> Type` therefore means
 constructor waiting for one more. Parentheses are needed for a parameter that
 instead accepts a one-argument constructor, such as
 `(Type -> Type) -> Type`. The exact forms come from Ash's
-[kind grammar](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/syntax.md#grammar).
+[kind grammar](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/syntax.md#grammar).
 
 ## Practice: follow the remaining kind
 
