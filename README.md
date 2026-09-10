@@ -17,7 +17,7 @@ This repository targets **`diag-ash`** at Ash commit
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All thirteen Learn lessons, nineteen algorithm and effect Cases, eight library
+All thirteen Learn lessons, twenty algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -126,9 +126,10 @@ scopes.
 
 Continue with [Explore algorithms and effects in Ash](content/cases/README.md).
 The first twelve Cases derive recursive algorithms from explicit
-representations and account for their work. Seven short effect Cases then
+representations and account for their work. Eight short effect Cases then
 illustrate scoped numbering and measurement, dependency injection, scripted
-sessions, search budgets, parent-path compression, and bounded byte input.
+sessions, search budgets, parent-path compression, bounded byte input, and
+hook pipelines controlled by ordinary handlers.
 
 ## Authority
 

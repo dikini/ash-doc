@@ -19,8 +19,8 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 57 sources, nineteen Cases /
-60 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
+The four aggregates cover thirteen Learn lessons / 57 sources, twenty Cases /
+64 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -78,6 +78,13 @@ cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell
 The test builds a validated wrap around an ordinary constructor and checks that
 only the representation's constructor cell is allocated. Keep this evidence
 separate from the lesson's source observations.
+
+The [repeated hook pipeline case](../../lab/repeated-hook-pipeline/README.md)
+separately checks combined-entry type-work exhaustion and its passing controls:
+
+```text
+bash lab/repeated-hook-pipeline/checks/verify.sh /path/to/diag-ash
+```
 
 ## Review the rest
 

@@ -14,7 +14,8 @@ representation when an operation or invariant demands it.
 
 The short effect Cases at the end apply the
 [effects path](../effects/README.md) to scoped state, replaceable dependencies,
-scripted sessions, search budgets, and checked byte storage. Each isolates one
+scripted sessions, search budgets, checked byte storage, and hook pipelines.
+Each isolates one
 concept in a small program; its introduction names the relevant effects
 prerequisites.
 
@@ -129,3 +130,7 @@ storage strategy.
 19. [How can a decoder request bytes from bounded
     storage?](reading-a-bounded-message/README.md) — separate parsing from a
     scoped cursor, and distinguish truncation from acquisition failure.
+20. [Who controls the next pipeline
+    step?](controlling-a-hook-pipeline/README.md) — combine local hook
+    transformations with ordinary policy and trace handlers; connect the
+    synchronous pipeline to reactive composition.

@@ -23,4 +23,6 @@ when its retention condition requires it.
 Source selection, licensing, and adaptation questions without an executable
 Ash experiment belong in [`research/`](../research/README.md).
 
-No active lab cases.
+Active: [Repeated hook pipeline calls exhaust type work](repeated-hook-pipeline/README.md).
+The three separate lesson entries pass; their combined entry is retained for
+upstream investigation at the current baseline.

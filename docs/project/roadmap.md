@@ -15,8 +15,8 @@ earlier language foundation.
 All content is verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
-- [Algorithms and effects](../../content/cases/README.md): nineteen Cases,
-  60 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty Cases,
+  64 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -377,6 +377,22 @@ comparisons; static rejections need not repeat the effects path. Keep broader
 union–find operations, general session infrastructure, external I/O, timing
 claims, and asymptotic analysis outside these examples.
 
+## Hook pipeline Case
+
+**Verified.** [Who controls the next pipeline step?](../../content/cases/controlling-a-hook-pipeline/README.md)
+combines three registered transformations with ordinary policy and trace
+operations. Separate entries show permitted processing, rejection before later
+stages, and omitted enrichment. The source, transformations, and consumer form
+a bounded reactive-programming analogy; publication is synchronous, callbacks
+form a chain, and discard is not an event filter.
+
+Prerequisites are E10 hooks, E6 discard, and the scripted session's trace
+handler. The pinned hook and effect rules below govern callback context, rows,
+and continuation ownership. This is original teaching code and prose; it adds
+no framework or tooling. A combined-entry type-work failure is retained in the
+[current lab case](../../lab/repeated-hook-pipeline/README.md) for upstream;
+the three promised separate observations pass.
+
 ## Prerequisites and governing sources
 
 The dependencies above describe reading order, not delivery commitments:
@@ -447,7 +463,8 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, L1–L3, and all seven short effect Cases are complete.
+E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
+Case are complete.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording

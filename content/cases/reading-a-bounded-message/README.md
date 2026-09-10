@@ -102,3 +102,7 @@ As an exercise, try a prefix of one with capacity three and explain which byte
 is left unread. A reasonable follow-up is a second handler that supplies a fixed
 sequence directly, leaving `decode` unchanged. Add richer message fields only
 when they illustrate another concept.
+
+Continue with [a hook pipeline](../controlling-a-hook-pipeline/README.md), where
+registered callbacks transform a value and ordinary handlers control whether
+processing continues.

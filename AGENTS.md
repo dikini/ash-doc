@@ -23,7 +23,7 @@ compatible capability that the project skill does not cover.
 The current edition and all new work target `diag-ash` at Ash commit
 `38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`. This cumulative checkpoint includes
 diagnostics, migration repairs, effects and resources, library abstractions,
-and modules. All thirteen Learn lessons, nineteen Cases, eight library lessons,
+and modules. All thirteen Learn lessons, twenty Cases, eight library lessons,
 and twelve effects lessons are verified; the
 [verification guide](docs/project/verification.md) names their baseline checks.
 Publication has not occurred.
