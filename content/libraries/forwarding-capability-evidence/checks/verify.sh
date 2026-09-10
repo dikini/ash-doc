@@ -125,6 +125,7 @@ cmp -s "$normalized_forwarded" "$name_only_source" ||
         "the entries must differ only by facade path and impl Equal selector"
 
 ash_doc_run_rejected "$unit_root" src/02-names-only.ash 1
+ash_doc_check_human "$unit_root" src/02-names-only.ash "$unit_root/src"
 
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_finish 5

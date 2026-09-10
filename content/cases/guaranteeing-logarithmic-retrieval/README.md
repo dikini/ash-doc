@@ -77,7 +77,7 @@ grandparent. The new red child can also be on either side of its parent. These
 two choices produce exactly four orientations:
 
 | Orientation | Insertion order |
-|---|---|
+| --- | --- |
 | left-left | `3, 2, 1` |
 | left-right | `3, 1, 2` |
 | right-left | `1, 3, 2` |

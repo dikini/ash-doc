@@ -109,14 +109,30 @@ main () = sum_pair (20, 21, 22)
 ```
 
 The call supplies one value of type `(Int, Int, Int)`, but `sum_pair` requires
-one value of type `(Int, Int)`. Ash rejects the call with a message beginning:
+one value of type `(Int, Int)`. Run this version from `content/learn`:
 
+<!-- diagnostic: src/04-triple-is-not-a-pair.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-type.argument
+$ ash --message-format human --locale en values-travel-together/src/04-triple-is-not-a-pair.ash
+This function argument must have type `(Int, Int)`, but has type `(Int, Int, Int)`.
+  --> /path/to/ash-doc/content/learn/values-travel-together/src/04-triple-is-not-a-pair.ash:5:20
+5 | main () = sum_pair (20, 21, 22)
+  |                    ^ This has type `(Int, Int, Int)`.
+  --> /path/to/ash-doc/content/learn/values-travel-together/src/04-triple-is-not-a-pair.ash:1:12
+1 | sum_pair : (Int, Int) -> Int
+  |            ^ This function requires an argument of type `(Int, Int)`.
+  --> /path/to/ash-doc/content/learn/values-travel-together/src/04-triple-is-not-a-pair.ash:5:11
+5 | main () = sum_pair (20, 21, 22)
+  |           ^ This is the containing function application.
+reason: type.argument
 ```
+<!-- markdownlint-enable MD013 -->
 
-There is no missing second call and no extra curried input. The one input has
-the wrong tuple shape.
+The first label identifies the triple, and the signature label identifies the
+pair required by `sum_pair`. There is no missing second call and no extra
+curried input. The one input has the wrong tuple shape. Supplying `(20, 22)`
+restores the two-field input and produces `42 : Int`.
 
 ## Exercise: keep two results
 

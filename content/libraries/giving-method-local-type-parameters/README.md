@@ -107,16 +107,22 @@ interface Functor<F : Type -> Type> {
 
 Run:
 
+<!-- diagnostic: src/02-missing-method-parameters.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash 02-missing-method-parameters.ash
+$ ash --message-format human --locale en 02-missing-method-parameters.ash
+Method type parameters must be explicitly declared in the method's parameter list.
+  --> /path/to/ash-doc/content/libraries/giving-method-local-type-parameters/src/02-missing-method-parameters.ash:2:5
+2 |     map : (A -> B, F<A>) -> F<B>
+  |     ^ Method type parameters must be explicitly declared in the method's parameter list.
+  --> /path/to/ash-doc/content/libraries/giving-method-local-type-parameters/src/02-missing-method-parameters.ash:1:19
+1 | interface Functor<F : Type -> Type> {
+  |                   ^ An interface parameter is declared here.
+reason: interface.method-parameter
 ```
+<!-- markdownlint-enable MD013 -->
 
-Ash exits with status `1`, writes no standard output, and begins standard error
-with:
-
-```text
-interface.method-parameter
-```
+Ash exits with status `1` and writes this message on standard error.
 
 An omitted method parameter list is not an inference request: it binds no
 method-local type parameters. The signature therefore contains the unlisted

@@ -31,14 +31,45 @@ it does not assert human wording. Read changed expectations against the source
 and specification before accepting them. Never regenerate expectations merely
 to make a failing check pass.
 
+Human transcript checks supplement those semantic assertions. Each affected
+lesson calls `ash_doc_check_human` in its own `checks/verify.sh` with its entry
+and working directory. The helper reruns that entry with
+`--message-format human --locale en`, requires status `1` and empty stdout,
+and compares complete stderr with the marked `text` fence in its README.
+The fence includes the command, so agreement also checks the invocation.
+There are 23 captures: eleven Learn, seven Cases, and five Libraries.
+
+The shared [reading notes](../../README.md#read-a-diagnostic) document the
+working-directory and path conventions. The pinned tool's
+[format controls](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#diagnostic-formats-and-locales)
+select English human output. Its `src/presentation.rs::write_human` emits plain
+text without terminal styling, so no unsupported color flag is used. The
+comparison rejects ANSI output and JSON fallback. It replaces only the
+canonical absolute ash-doc prefix with `/path/to/ash-doc/`; source lines,
+explanations, label order, repeated multiline labels, notes, and reason lines
+remain intact. No separate expected-transcript files are needed.
+
+Transcript agreement is evidence for this documentation edition, not a promise
+that wording, layout, or localization is immutable Ash semantics. On a future
+baseline change, inspect fresh output and its teaching explanation together;
+retain the structured checks for the actual semantic boundary. Do not insert
+captured answers into exercises that ask readers to discover a failure.
+
 The opaque dictionary and iterator rejections preserve their source-access
 boundaries. The ordering and library lessons reject missing implementation
 evidence. Successful dictionary clients explicitly select `impl Order`.
 
 ## Review the rest
 
-Run shell syntax checks and ShellCheck on changed verifiers. Check Markdown
-structure, relative links and pinned specification anchors, source attribution,
+From the repository root, run Markdown lint and shell checks:
+
+```sh
+git ls-files -z '*.md' | xargs -0 markdownlint
+git ls-files -z '*.sh' | xargs -0 -n1 bash -n
+git ls-files -z '*.sh' | xargs -0 shellcheck -x -P SCRIPTDIR
+```
+
+Also check relative links and pinned specification anchors, source attribution,
 and the accuracy of explanations. Finish with `git diff --check` and inspect
 `git status --short`.
 

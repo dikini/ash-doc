@@ -183,6 +183,36 @@ ash_doc_run_rejected() {
         ash_doc_fail "$rejected_entry did not retain its expected diagnostic"
 }
 
+ash_doc_check_human() {
+    if [[ $# -ne 3 ]]; then
+        ash_doc_fail "ash_doc_check_human requires a unit, entry, and working directory"
+    fi
+
+    local human_unit_root=$1 human_entry=$2 human_cwd=$3
+    local human_argument human_stdout human_stderr human_status
+    human_argument=$(python3 -c \
+        'import os, sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))' \
+        "$human_unit_root/$human_entry" "$human_cwd")
+    human_stdout=$(mktemp "$ASH_DOC_VERIFY_DIR/human-stdout.XXXXXX")
+    human_stderr=$(mktemp "$ASH_DOC_VERIFY_DIR/human-stderr.XXXXXX")
+
+    if (
+        cd "$human_cwd" || exit 1
+        "$ASH_DOC_ASH_BIN" --message-format human --locale en "$human_argument"
+    ) > "$human_stdout" 2> "$human_stderr"; then
+        human_status=0
+    else
+        human_status=$?
+    fi
+    [[ $human_status -eq 1 ]] ||
+        ash_doc_fail "$human_entry human capture exited $human_status, expected 1"
+    [[ ! -s $human_stdout ]] ||
+        ash_doc_fail "$human_entry human capture wrote unexpected standard output"
+    python3 "$(dirname "${BASH_SOURCE[0]}")/human.py" \
+        "$human_stderr" "$human_unit_root" "$human_entry" "$human_argument" ||
+        ash_doc_fail "$human_entry displayed human transcript differs"
+}
+
 ash_doc_finish() {
     if [[ $# -ne 1 ]]; then
         ash_doc_fail "ash_doc_finish requires a source count"

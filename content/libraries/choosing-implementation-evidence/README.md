@@ -69,16 +69,32 @@ Before running it, predict whether the public `Equal<Int>` implementation in
 
 Run the entry from this lesson's `src` directory:
 
+<!-- diagnostic: src/02-name-only.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash 02-name-only.ash
+$ ash --message-format human --locale en 02-name-only.ash
+No available evidence satisfies this interface requirement.
+  --> /path/to/ash-doc/content/libraries/choosing-implementation-evidence/src/02-name-only.ash:4:11
+4 | main () = same((21, 21))
+  |           ^ No available evidence satisfies this interface requirement.
+  --> /path/to/ash-doc/content/libraries/choosing-implementation-evidence/src/equality.ash:9:5
+9 | pub same : (A, A) -> Bool where Equal<A>
+  |     ^ This declaration introduced the interface requirement.
+  --> /path/to/ash-doc/content/libraries/choosing-implementation-evidence/src/02-name-only.ash:1:18
+1 | import equality (same)
+  |                  ^ This import made the declaration available.
+  --> /path/to/ash-doc/content/libraries/choosing-implementation-evidence/src/equality.ash:1:1
+1 | pub interface Equal<A> {
+  | ^ This interface participates in the failing evidence selection.
+2 |     equal : (A, A) -> Bool
+  | ^ This interface participates in the failing evidence selection.
+3 | }
+  | ^ This interface participates in the failing evidence selection.
+reason: constraint.unsatisfied
 ```
+<!-- markdownlint-enable MD013 -->
 
-Ash rejects it with status `1`, writes no standard output, and begins standard
-error with:
-
-```text
-constraint.unsatisfied
-```
+Ash exits with status `1` and writes this message on standard error.
 
 The import made the spelling `same` available, so name resolution reached the
 call and its constrained scheme. Ordinary typing also fixed `A` to `Int` from
@@ -151,7 +167,8 @@ Work in copies of the three sources so the observations above remain intact.
    fact.
 3. Replace `impl Equal` with the ordinary name item `Equal`. The interface name
    is now available in the client, but is its implementation fact available?
-   Predict the first diagnostic reason and check it.
+   Predict what the message will explain and where its labels will point,
+   then check it.
 
 When you explain each result, keep the four roles separate: the interface
 names required behavior, the implementation supplies that behavior for

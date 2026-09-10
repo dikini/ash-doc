@@ -11,6 +11,18 @@ You need a text editor, a terminal, Git, and a Rust toolchain with Cargo. Follow
 edition, build the command-line tool, and make `ash` available in your terminal.
 Keep that terminal open while you work through a lesson.
 
+To compare a rejection with its displayed message, run the named checked-in
+example from the learning-path directory:
+
+```text
+cd /path/to/ash-doc/content/learn
+```
+
+The diagnostic commands below use those files even when the exploration asks
+you to edit your own `program.ash` or `main.ash`. Follow the shared
+[diagnostic reading notes](../../README.md#read-a-diagnostic) for the prompt,
+English output, and source-path convention.
+
 ## How to work through a lesson
 
 Use the same cycle for each program:

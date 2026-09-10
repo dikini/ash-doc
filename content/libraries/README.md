@@ -11,13 +11,17 @@ Use the `ash` command prepared by the repository's
 `src` directory. Change into that directory before running an entry file, so
 its sibling library imports resolve from the same program directory.
 
+The [diagnostic reading notes](../../README.md#read-a-diagnostic) explain the
+shell prompt, English output, and source-path convention. Rejection commands
+also run from the lesson's `src` directory.
+
 For each boundary, use the same cycle:
 
 1. Read the library source and identify what it promises to clients.
 2. Predict whether the client has the names, types, and implementation evidence
    its call requires.
-3. Run the complete entry and observe its value and type or its first stable
-   rejection reason.
+3. Run the complete entry and inspect its value and type or the complete
+   diagnostic explanation and source labels.
 4. Explain the result through the declarations and imports that caused it.
 5. Change one boundary in a copy, predict again, and compare the observation.
 

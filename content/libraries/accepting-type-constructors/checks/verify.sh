@@ -48,5 +48,6 @@ cmp -s "$normalized_explicit" "$omitted_source" ||
     ash_doc_fail "the programs must differ only by F's kind annotation"
 
 ash_doc_run_rejected "$unit_root" src/02-omitted-kind.ash 1
+ash_doc_check_human "$unit_root" src/02-omitted-kind.ash "$unit_root/src"
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_finish 2

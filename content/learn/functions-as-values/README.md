@@ -125,14 +125,32 @@ main () = apply_twice 2 40
 ```
 
 The value `2` has type `Int`, but the first part of the signature requires
-`Int -> Int`. Ash rejects the call with a message beginning:
+`Int -> Int`. Run this version from `content/learn`:
 
+<!-- diagnostic: src/04-not-a-function.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-type.argument
+$ ash --message-format human --locale en functions-as-values/src/04-not-a-function.ash
+This function argument must have type `Int -> Int`, but has type `Int`.
+  --> /path/to/ash-doc/content/learn/functions-as-values/src/04-not-a-function.ash:5:23
+5 | main () = apply_twice 2 40
+  |                       ^ This has type `Int`.
+  --> /path/to/ash-doc/content/learn/functions-as-values/src/04-not-a-function.ash:1:15
+1 | apply_twice : (Int -> Int) -> Int -> Int
+  |               ^ This function requires an argument of type `Int -> Int`.
+  --> /path/to/ash-doc/content/learn/functions-as-values/src/04-not-a-function.ash:5:11
+5 | main () = apply_twice 2 40
+  |           ^ This is the containing function application.
+reason: type.argument
 ```
+<!-- markdownlint-enable MD013 -->
 
-The function's signature tells us not only how many inputs remain, but whether
-one of those inputs must itself be callable.
+The labels connect the integer argument `2` to the function input
+`Int -> Int` in the signature, then show the containing call. Replacing `2`
+with the earlier `increment` function supplies a callable value of that type.
+With `40` as its input, applying the increment twice produces `42`. The
+signature tells us not only how many inputs remain, but whether one of those
+inputs must itself be callable.
 
 ## Exercise: apply three times
 

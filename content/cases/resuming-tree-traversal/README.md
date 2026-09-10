@@ -475,10 +475,8 @@ not memoize that deferred source work.
 
 First try to inspect the iterator with a constructor pattern. The importer may
 name `Dictionaries.Iterator<...>`, but the `Dictionaries.Iterator` occurrence
-in this match arm should be rejected during name resolution. It should write
-no standard output, report reason `resolve.opaque-constructor` on standard error,
-and exit with status `1` under the tool's
-[failure contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#failures).
+in this match arm should be rejected during name resolution. The type name
+is public, but the constructor that would expose the frame stack is withheld.
 
 <!-- markdownlint-disable MD013 -->
 <!-- source: src/03-opaque-pattern.ash -->
@@ -497,20 +495,26 @@ main () = {
 
 Run the rejected entry:
 
+<!-- diagnostic: src/03-opaque-pattern.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash resuming-tree-traversal/src/03-opaque-pattern.ash
+$ ash --message-format human --locale en resuming-tree-traversal/src/03-opaque-pattern.ash
+The constructor `Iterator` belongs to an opaque type and is not accessible here.
+  --> /path/to/ash-doc/content/cases/resuming-tree-traversal/src/03-opaque-pattern.ash:7:22
+7 |         Dictionaries.Iterator(ignored_stack) => 1
+  |                      ^ This name is not accessible here.
+  --> /path/to/ash-doc/content/cases/resuming-tree-traversal/src/dictionaries.ash:35:5
+35 |     Iterator(FrameStack<K, V>)
+   |     ^ The inaccessible declaration is here.
+reason: resolve.opaque-constructor
 ```
+<!-- markdownlint-enable MD013 -->
 
-The diagnostic reports this reason code:
-
-```text
-resolve.opaque-constructor
-```
-
-The primary label marks the `Iterator` member in the client pattern. A related
-label identifies its withheld declaration in `dictionaries.ash`. These causal
-locations explain the rejection; rendered wording and layout are not a language
-contract.
+The message explains that `Iterator` belongs to an opaque type. The first
+label marks the member in the client pattern, and the related label identifies
+its withheld declaration in `dictionaries.ash`. The constructor exists, but it
+is unavailable in this module. Use `Dictionaries.next` to observe the next
+association through the public API, as in the accepted sequence.
 
 Now use the same unavailable constructor as a value. A constructor is an
 ordinary term before it is applied, so binding `Dictionaries.Iterator` should
@@ -533,20 +537,26 @@ main () = {
 
 Run the second rejected entry:
 
+<!-- diagnostic: src/04-opaque-construction.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash resuming-tree-traversal/src/04-opaque-construction.ash
+$ ash --message-format human --locale en resuming-tree-traversal/src/04-opaque-construction.ash
+The constructor `Iterator` belongs to an opaque type and is not accessible here.
+  --> /path/to/ash-doc/content/cases/resuming-tree-traversal/src/04-opaque-construction.ash:5:36
+5 |     let unavailable = Dictionaries.Iterator
+  |                                    ^ This name is not accessible here.
+  --> /path/to/ash-doc/content/cases/resuming-tree-traversal/src/dictionaries.ash:35:5
+35 |     Iterator(FrameStack<K, V>)
+   |     ^ The inaccessible declaration is here.
+reason: resolve.opaque-constructor
 ```
+<!-- markdownlint-enable MD013 -->
 
-The diagnostic reports this reason code:
-
-```text
-resolve.opaque-constructor
-```
-
-This rejection identifies the distinct `Iterator` member in the local
-initializer. Together the two runs separate pattern access from value access.
-The constructor is unavailable in both positions even though successful
-structural output can spell its name.
+This rejection labels `Iterator` in the local initializer and returns to the
+same hidden declaration. Use `Dictionaries.iterator` to obtain the initial
+state from a dictionary, then retain states returned by `next`. Together the
+two runs show that the constructor is unavailable in both patterns and values,
+even though successful structural output can spell its name.
 
 ## Count the explicit pending work
 

@@ -164,36 +164,6 @@ ash_doc_assert_text_line_once() {
             "$claim (found $actual_count occurrences, expected 1)"
 }
 
-ash_doc_assert_text_first_line_once() {
-    if [[ $# -ne 2 ]]; then
-        ash_doc_fail \
-            "ash_doc_assert_text_first_line_once requires expected line and claim"
-    fi
-
-    local expected_line=$1
-    local claim=$2
-    local actual_count
-    actual_count=$(
-        awk -v expected="$expected_line" '
-            $0 == "```text" {
-                first = 1
-                next
-            }
-            first {
-                if ($0 == expected) {
-                    count += 1
-                }
-                first = 0
-            }
-            END { print count + 0 }
-        ' "$readme"
-    )
-
-    [[ $actual_count -eq 1 ]] ||
-        ash_doc_fail \
-            "$claim (found $actual_count occurrences, expected 1)"
-}
-
 ash_doc_assert_file_exact() {
     if [[ $# -ne 3 ]]; then
         ash_doc_fail \
@@ -531,9 +501,6 @@ ash_doc_assert_text_line_once \
 ash_doc_assert_text_line_once \
     "$ascending_output" \
     "README must display the ascending insertion output exactly once"
-ash_doc_assert_text_first_line_once \
-    'constraint.unsatisfied' \
-    "README must begin one diagnostic transcript with constraint.unsatisfied"
 grep -Fxq \
     "The \`Order<Int>\` obligation belongs to the \`Trees.lookup\` occurrence." \
     "$readme" ||
@@ -553,5 +520,6 @@ ash_doc_run_accepted \
     src/03-ascending.ash \
     "$ascending_output"
 ash_doc_run_rejected "$unit_root" src/04-missing-order.ash 1
+ash_doc_check_human "$unit_root" src/04-missing-order.ash "$unit_root/.."
 
 ash_doc_finish 5

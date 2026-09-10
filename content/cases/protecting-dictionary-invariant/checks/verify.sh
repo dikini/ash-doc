@@ -165,37 +165,6 @@ ash_doc_assert_text_line_once() {
             "$claim (found $actual_count occurrences, expected 1)"
 }
 
-ash_doc_assert_text_first_line_count() {
-    if [[ $# -ne 3 ]]; then
-        ash_doc_fail \
-            "ash_doc_assert_text_first_line_count requires line, count, and claim"
-    fi
-
-    local expected_line=$1
-    local expected_count=$2
-    local claim=$3
-    local actual_count
-    actual_count=$(
-        awk -v expected="$expected_line" '
-            $0 == "```text" {
-                first = 1
-                next
-            }
-            first {
-                if ($0 == expected) {
-                    count += 1
-                }
-                first = 0
-            }
-            END { print count + 0 }
-        ' "$readme"
-    )
-
-    [[ $actual_count -eq $expected_count ]] ||
-        ash_doc_fail \
-            "$claim (found $actual_count occurrences, expected $expected_count)"
-}
-
 library_source=$(<"$library")
 public_api_source=$(<"$public_api_entry")
 build_source=$(<"$build_entry")
@@ -425,7 +394,9 @@ ash_doc_run_accepted \
     src/03-observe.ash \
     "$observe_output"
 ash_doc_run_rejected "$unit_root" src/04-construct.ash 1
+ash_doc_check_human "$unit_root" src/04-construct.ash "$unit_root/.."
 ash_doc_run_rejected "$unit_root" src/05-match.ash 1
+ash_doc_check_human "$unit_root" src/05-match.ash "$unit_root/.."
 
 [[ -f $readme ]] || ash_doc_fail "missing unit README.md"
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
@@ -442,8 +413,5 @@ ash_doc_assert_text_line_once \
 ash_doc_assert_text_line_once \
     "$observe_output" \
     "README must display the opaque structural observation exactly once"
-ash_doc_assert_text_first_line_count \
-    'resolve.opaque-constructor' 2 \
-    "README must begin two diagnostic transcripts with resolve.opaque-constructor"
 
 ash_doc_finish 6

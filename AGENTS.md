@@ -62,8 +62,9 @@ Do not import language behavior from `main` into the pinned edition.
 
 The repository README declares the current target, verification and
 publication state, and verification commands. Learning pages inherit
-their declared content target; do not repeat it in every lesson. Plans and verification must still name the
-exact target. An upstream canary may test a newer exact commit, but it does not
+their declared content target; do not repeat it in every lesson. Plans and
+verification must still name the exact target. An upstream canary may test a
+newer exact commit, but it does not
 change the active migration target.
 
 ## Reconstruct enough context
@@ -125,7 +126,13 @@ Write Ash for the pinned milestone, not from memory and not for
   relevant source location on which the explanation depends. Also assert any
   causal source relationship that the explanation teaches.
 - Present the smallest negative example that still establishes the boundary.
-  Do not teach incidental diagnostic prose, colors, or layout as a contract.
+- Show the complete captured human message when providing a failure
+  observation, alongside its reproducible command. Explain how the words and
+  source labels identify the cause and how the correction addresses it. Keep
+  reason codes secondary, except where comparing classifications matters.
+- Preserve discovery exercises: do not supply an observation the reader is
+  asked to discover. Do not teach diagnostic wording or layout as a language
+  contract. Transcript agreement records this exact edition's presentation.
 - Label pseudocode, transcripts, future Ash, and incomplete fragments as
   non-executable. Do not place them in an `ash` fence.
 - Keep tests deterministic and hermetic. Use checked-in inputs and controlled
@@ -135,19 +142,20 @@ Write Ash for the pinned milestone, not from memory and not for
 Execution is necessary but insufficient. Explain the representation,
 invariant, derivation, and cost when they carry the idea being taught.
 
-Verification uses lesson-local Bash scripts, a shared Bash helper, and a
-small Python standard-library JSON comparison. Run ShellCheck for Bash and
-Markdown lint for prose. Keep tooling changes tied to a concrete check; no
-renderer or publication platform is selected.
+Verification uses lesson-local Bash scripts, a shared Bash helper, and
+small Python standard-library comparisons for JSON and human transcripts. Keep
+semantic JSON checks separate from exact-edition human agreement. Run
+ShellCheck for Bash and Markdown lint for prose. Keep tooling changes tied to a
+concrete check; no renderer or publication platform is selected.
 
 ## Repository workflow
 
 Follow the [ash-doc project workflow](docs/project/workflow.md). Select one
 complete outcome in the [roadmap](docs/project/roadmap.md), obtain approval for
 its bounded design, and use a temporary plan under
-[`docs/plans/`](docs/plans/README.md) owned by that outcome or decision. Create a
-content family or lesson only when its prose, canonical code, fixtures, and
-applicable checks can land together.
+[`docs/plans/`](docs/plans/README.md) owned by that outcome or decision.
+Create a content family or lesson only when its prose, canonical code, fixtures,
+and applicable checks can land together.
 
 Keep project choices behind concrete needs. A new directory layout, renderer,
 harness, manifest, dependency, CI service, or publication mechanism requires a
@@ -200,7 +208,10 @@ Before completing a change:
    claim against the pinned tool behavior.
 4. Run every affected executable example against its declared exact Ash target.
 5. Confirm that displayed code agrees with its canonical source and that
-   positive and negative observations assert the promised boundary.
+   positive and negative observations assert the promised boundary. Compare
+   every displayed human diagnostic with a complete pinned-tool capture using
+   explicit human format and English locale, with only the documented checkout
+   prefix normalized.
 6. Review attribution, adaptation notes, and license constraints.
 7. Confirm that facts, proposals, experiments, and unknowns retain their actual
    status.

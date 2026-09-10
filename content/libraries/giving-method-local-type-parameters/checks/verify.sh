@@ -65,5 +65,6 @@ ash_doc_run_accepted \
     ash_doc_fail "the rejected method must not declare A or B"
 
 ash_doc_run_rejected "$unit_root" src/02-missing-method-parameters.ash 1
+ash_doc_check_human "$unit_root" src/02-missing-method-parameters.ash "$unit_root/src"
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_finish 4

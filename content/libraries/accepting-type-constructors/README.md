@@ -80,29 +80,29 @@ main () = keep(Some(42))
 
 The only change is the removal of `: Type -> Type`. Run it:
 
+<!-- diagnostic: src/02-omitted-kind.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash 02-omitted-kind.ash
+$ ash --message-format human --locale en 02-omitted-kind.ash
+The applied type has kind `Type` and cannot take type arguments.
+  --> /path/to/ash-doc/content/libraries/accepting-type-constructors/src/02-omitted-kind.ash:5:14
+5 | keep<F, A> : F<A> -> F<A>
+  |              ^ Found kind `Type` here.
+  --> /path/to/ash-doc/content/libraries/accepting-type-constructors/src/02-omitted-kind.ash:5:6
+5 | keep<F, A> : F<A> -> F<A>
+  |      ^ This declaration fixes the kind as `Type`.
+reason: kind.not-applicable
 ```
+<!-- markdownlint-enable MD013 -->
 
-Ash exits with status `1`, writes no standard output, and begins standard error
-with:
-
-```text
-kind.not-applicable
-```
+Ash exits with status `1` and writes this message on standard error.
 
 An omitted declaration kind is fixed to `Type`; Ash does not infer a function
 kind from later use. The primary label covers the first `F<A>` application,
-while the related label points back to the declaration of `F`. The report
-retains the boundary directly:
+while the related label points back to the declaration of `F`. The diagnostic
+explains that the applied type has kind `Type` and cannot take type arguments.
 
-```text
-expected Type -> _
-found Type
-```
-
-The underscore means that applying a type requires some function kind; the
-result kind is not the problem yet. The declared `F` has kind `Type`, so it
+Applying a type requires a function kind. The declared `F` has kind `Type`, so it
 cannot accept `A`. Adding the annotation changes the declaration, not a runtime
 operation. Kind annotations and type arguments are checked statically and do
 not become values.

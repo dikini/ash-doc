@@ -96,16 +96,32 @@ main () = measure(true)
 
 Run:
 
+<!-- diagnostic: src/02-name-only.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash 02-name-only.ash
+$ ash --message-format human --locale en 02-name-only.ash
+The types in this interface requirement are not sufficiently determined to select evidence.
+  --> /path/to/ash-doc/content/libraries/determining-interface-results/src/02-name-only.ash:4:11
+4 | main () = measure(true)
+  |           ^ The types in this interface requirement are not sufficiently determined to select evidence.
+  --> /path/to/ash-doc/content/libraries/determining-interface-results/src/measurement.ash:2:5
+2 |     measure : Key -> Int
+  |     ^ This declaration introduced the interface requirement.
+  --> /path/to/ash-doc/content/libraries/determining-interface-results/src/02-name-only.ash:1:21
+1 | import measurement (measure)
+  |                     ^ This import made the declaration available.
+  --> /path/to/ash-doc/content/libraries/determining-interface-results/src/measurement.ash:1:1
+1 | pub interface Measure<Key, Result> where Key -> Result {
+  | ^ This interface participates in the failing evidence selection.
+2 |     measure : Key -> Int
+  | ^ This interface participates in the failing evidence selection.
+3 | }
+  | ^ This interface participates in the failing evidence selection.
+reason: constraint.ambiguous
 ```
+<!-- markdownlint-enable MD013 -->
 
-Ash exits with status `1`, writes no standard output, and begins standard error
-with:
-
-```text
-constraint.ambiguous
-```
+Ash exits with status `1` and writes this message on standard error.
 
 The call still fixes the key to `Bool`, but no selected implementation source
 is available to determine `Result`. The obligation therefore remains

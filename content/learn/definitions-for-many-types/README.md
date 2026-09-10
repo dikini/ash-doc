@@ -179,8 +179,30 @@ main () = keep Empty
 ```
 
 The signature of `keep` puts bare `List` in both an ordinary function parameter
-and result position. Ash reports `kind.expected-type`: those positions expect
-`Type`, but bare `List` has kind `Type -> Type`. The
+and result position. Run this version from `content/learn`:
+
+<!-- diagnostic: src/04-unsaturated-list.ash -->
+<!-- markdownlint-disable MD013 -->
+```text
+$ ash --message-format human --locale en definitions-for-many-types/src/04-unsaturated-list.ash
+This position requires a complete value type (kind `Type`), but has kind `Type -> Type`.
+  --> /path/to/ash-doc/content/learn/definitions-for-many-types/src/04-unsaturated-list.ash:5:8
+5 | keep : List -> List
+  |        ^ Found kind `Type -> Type` here.
+  --> /path/to/ash-doc/content/learn/definitions-for-many-types/src/04-unsaturated-list.ash:1:1
+1 | type List<A> =
+  | ^ This declaration fixes the kind as `Type -> Type`.
+2 |     Empty
+  | ^ This declaration fixes the kind as `Type -> Type`.
+3 |     | More(A, List<A>)
+  | ^ This declaration fixes the kind as `Type -> Type`.
+reason: kind.expected-type
+```
+<!-- markdownlint-enable MD013 -->
+
+The message marks the first bare `List` in `keep` and relates its function kind
+to the declaration `type List<A>`. The parameter position needs a complete
+value type; applying `List` to an element type supplies one. The
 [kind rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#kinds-monotypes-and-schemes)
 derive both kinds and require ordinary function domains and results to have
 kind `Type`.

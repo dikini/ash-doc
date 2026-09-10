@@ -230,5 +230,6 @@ ash_doc_run_accepted \
     src/03-map-produced-list.ash \
     "$mapped_output"
 ash_doc_run_rejected "$unit_root" src/04-wrong-seed.ash 1
+ash_doc_check_human "$unit_root" src/04-wrong-seed.ash "$unit_root/.."
 
 ash_doc_finish 5

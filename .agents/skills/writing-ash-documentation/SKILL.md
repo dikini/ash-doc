@@ -43,8 +43,17 @@ administration. Add YAML metadata only for a concrete consumer.
 - Ask only questions the reader can answer from the chapter so far. Give the
   answer nearby unless it is a marked exercise. Use headings for conceptual
   turns, not for every program or workflow step.
-- Use a contrast or rejection only to answer a reader question. End with
-  practice and the next question.
+- Use a contrast or rejection only to answer a reader question. Show the
+  actual complete human diagnostic beside its command when the lesson provides
+  the observation. Connect its explanation and source labels to the cause and
+  correction; a reason code alone does not teach the failure. Codes remain
+  useful secondary identifiers when comparing classifications.
+- Capture with explicit human format, English locale, a stated working
+  directory, and plain output. Normalize only the documented checkout prefix;
+  never invent or shorten a transcript. Keep exact-edition transcript agreement
+  separate from semantic JSON checks and from the language contract.
+- Keep discovery exercises intact: do not disclose the result or diagnostic
+  the reader is asked to discover. End with practice and the next question.
 
 Exercises use only introduced concepts and tools. Name what the reader should
 make or explain, not what project coverage it supplies.
@@ -85,5 +94,8 @@ attribution.
   paragraph shapes, or filler make the teaching method sound mechanical?
 - Does vocabulary follow the example that needs it?
 - Can the reader predict, run, and explain each observation?
+- Does every provided rejection observation show the complete actual human
+  message and explain its causal labels and correction, while exercises retain
+  the observations the reader must discover?
 - Does every runnable block have canonical, tested source?
 - Do project records retain authority, target, and evidence?

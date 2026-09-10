@@ -296,20 +296,30 @@ function domain.
 
 Run the rejected entry:
 
+<!-- diagnostic: src/04-wrong-seed.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash building-finite-lists/src/04-wrong-seed.ash
+$ ash --message-format human --locale en building-finite-lists/src/04-wrong-seed.ash
+This function argument must have type `Natural`, but has type `Bool`.
+  --> /path/to/ash-doc/content/cases/building-finite-lists/src/04-wrong-seed.ash:4:47
+4 | main () = Lists.unfold (Lists.repeat_step 42) true
+  |                                               ^ This has type `Bool`.
+  --> /path/to/ash-doc/content/cases/building-finite-lists/src/lists.ash:13:5
+13 | pub unfold : (S -> Step<S, A>) -> S -> List<A>
+   |     ^ This function requires an argument of type `Natural`.
+  --> /path/to/ash-doc/content/cases/building-finite-lists/src/04-wrong-seed.ash:4:11
+4 | main () = Lists.unfold (Lists.repeat_step 42) true
+  |           ^ This is the containing function application.
+reason: type.argument
 ```
+<!-- markdownlint-enable MD013 -->
 
-The command writes no standard output, exits with status `1`, and begins its
-diagnostic with:
-
-```text
-type.argument
-```
-
-Its structured evidence points to `true` and records `expected Natural` and
-`found Bool`. The reason, types, causal source location, empty standard output,
-and status establish the boundary. Diagnostic colors and layout do not.
+The first label identifies the Boolean seed; the next relates its required
+`Natural` type to `unfold`'s signature. The containing-application label keeps
+that mismatch attached to the call. Replace `true` with `Lists.Zero` to
+produce an empty list, or with a finite chain of `Lists.Next` forms to produce
+that many copies of `42`. The seed then has the same state type that
+`repeat_step` receives and returns.
 
 ## Practice: produce the decreasing states
 

@@ -91,12 +91,23 @@ main () = {
 ```
 
 When Ash checks `later + 2`, no binding for `later` is in reach. The following
-line cannot supply a name backward in the source. Ash rejects the program with
-a message beginning:
+line cannot supply a name backward in the source. Run this version from
+`content/learn`:
 
+<!-- diagnostic: src/03-forward-reference.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-resolve.unknown-name
+$ ash --message-format human --locale en naming-intermediate-values/src/03-forward-reference.ash
+No term named `later` is in scope.
+  --> /path/to/ash-doc/content/learn/naming-intermediate-values/src/03-forward-reference.ash:3:18
+3 |     let answer = later + 2
+  |                  ^ This name could not be resolved here.
+reason: resolve.unknown-name
 ```
+<!-- markdownlint-enable MD013 -->
+
+The message names `later` and labels its use in `answer`'s initializer. It is
+that use, before the binding, that cannot be resolved.
 
 Move `let later = 40` above the binding for `answer`, then run the program
 again. The revised order mirrors the dependency: first obtain `later`, then use

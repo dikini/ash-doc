@@ -169,8 +169,10 @@ Ash owns any resulting design, proposal, or retained regression obligation.
 Each lesson directory connects its question, prose, canonical programs, and
 observations. The family index owns reading order. A shared Bash helper owns
 the compiler pin, build, execution, and displayed-source comparison; a small
-Python helper compares structured diagnostic records. Each lesson retains
-its own source-specific checks and expected observations. See the
+Python helper compares structured diagnostic records. A separate small Python
+comparison checks complete displayed human transcripts against captures for the
+exact edition, without treating their wording as a language contract. Each
+lesson retains its own source-specific checks and expected observations. See the
 [verification guide](verification.md) for commands and coverage.
 
 `README.md` remains the lesson entry for repository browsing. Add a registry,

@@ -192,12 +192,29 @@ answer : Unit -> Int
 answer () = 42
 ```
 
-Save this version and run it. Instead of producing `42`, Ash reports a message
-with this reason code:
+Run the saved example from `content/learn`. Instead of producing `42`, Ash
+explains why it cannot begin:
 
+<!-- diagnostic: src/07-missing-main.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-entry.missing-main
+$ ash --message-format human --locale en what-is-an-ash-program/src/07-missing-main.ash
+The entry module must define its own `main`; importing one is not enough.
+  --> /path/to/ash-doc/content/learn/what-is-an-ash-program/src/07-missing-main.ash:1:1
+1 | answer : Unit -> Int
+  | ^ This is the entry module.
+2 | answer () = 42
+  | ^ This is the entry module.
+reason: entry.missing-main
 ```
+<!-- markdownlint-enable MD013 -->
+
+The first sentence names what is missing: the entry module must define its
+own `main`. The source labels cover this file's `answer` definition and identify
+it as the entry module. Nothing in those lines is named `main`. The sentence
+also mentions imports; we will meet those in the next chapter. For this
+one-file program, rename both occurrences of `answer` to `main` to give Ash
+its starting definition.
 
 The definition of `answer` describes a calculation, but Ash does not guess
 which definition should start the program. It looks for `main` and begins by

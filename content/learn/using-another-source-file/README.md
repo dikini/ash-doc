@@ -93,21 +93,36 @@ main : Unit -> Int
 main () = Arithmetic.double 21
 ```
 
-Run the file again. Ash rejects the call, reporting this reason code:
+Run the saved version from `content/learn` to see which declaration the call
+cannot access:
 
+<!-- diagnostic: src/02-private-main.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-resolve.unavailable-export
+$ ash --message-format human --locale en using-another-source-file/src/02-private-main.ash
+The declaration `double` is private to its defining module.
+  --> /path/to/ash-doc/content/learn/using-another-source-file/src/02-private-main.ash:4:22
+4 | main () = Arithmetic.double 21
+  |                      ^ This name is not accessible here.
+  --> /path/to/ash-doc/content/learn/using-another-source-file/src/arithmetic.ash:1:1
+1 | double : Int -> Int
+  | ^ The inaccessible declaration is here.
+reason: resolve.unavailable-export
 ```
+<!-- markdownlint-enable MD013 -->
 
-The import succeeded. The problem is the member after `Arithmetic`: the
-imported module did not make `double` public. Adding `pub` to every definition
+The message names `double` as private. Its first label marks the inaccessible
+member in the call; the second takes us to `double`'s declaration in
+`arithmetic.ash`, where there is no `pub`. The import succeeded, but it did not
+make that helper public. Restore `Arithmetic.answer ()` to use the module's
+public calculation. Adding `pub` to every definition
 would remove that boundary, but it would also make the distinction useless.
 Instead, make public the definitions another module needs and leave supporting
 calculations inside their own module.
 
 > **With a learning assistant:** If an imported name is rejected, show the
-> assistant both source files and the diagnostic reason and source labels. Ask it to point to
-> the import, alias, public declaration, and qualified call before it suggests
+> assistant both source files and the complete diagnostic. Ask it to connect
+> the message and labels to the import, alias, declaration, and call before it suggests
 > a change.
 
 ## Exercise: move `square`

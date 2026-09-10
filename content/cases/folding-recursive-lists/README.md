@@ -288,23 +288,31 @@ main () = Lists.fold wrong 0 (Lists.More(42, Lists.Empty))
 The type of `wrong` fixes `A` as `Int` and `B` as `Bool`. Predict which argument
 cannot meet the resulting fold type, then run:
 
+<!-- diagnostic: src/04-wrong-combiner.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash folding-recursive-lists/src/04-wrong-combiner.ash
+$ ash --message-format human --locale en folding-recursive-lists/src/04-wrong-combiner.ash
+This function argument must have type `Bool`, but has type `Int`.
+  --> /path/to/ash-doc/content/cases/folding-recursive-lists/src/04-wrong-combiner.ash:7:28
+7 | main () = Lists.fold wrong 0 (Lists.More(42, Lists.Empty))
+  |                            ^ This has type `Int`.
+  --> /path/to/ash-doc/content/cases/folding-recursive-lists/src/lists.ash:9:5
+9 | pub fold : (A -> B -> B) -> B -> List<A> -> B
+  |     ^ This function requires an argument of type `Bool`.
+  --> /path/to/ash-doc/content/cases/folding-recursive-lists/src/04-wrong-combiner.ash:7:11
+7 | main () = Lists.fold wrong 0 (Lists.More(42, Lists.Empty))
+  |           ^ This is the containing function application.
+reason: type.argument
 ```
+<!-- markdownlint-enable MD013 -->
 
-The command exits with status `1` and begins its diagnostic with:
-
-```text
-type.argument
-```
-
-Its structured evidence points to the `0` argument and records `expected Bool`
-and `found Int`. The rejection is an instance of the static rule that checks an
+The message identifies `0` as an `Int` and points back to `fold`'s required
+`Bool` input. `wrong` fixed the shared result type before that base was
+supplied. Replace `0` with `false` to make the base and combiner agree; this
+one-element fold then returns `true`. The rejection follows the rule that
+checks an
 [application argument against the function's
 domain](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#functions-and-application).
-The reason, types, source location, empty standard output, and status are the
-stable observations used here; diagnostic layout and colors are not part of
-the lesson's contract.
 
 ## Practice: choose the two replacements
 

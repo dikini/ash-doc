@@ -48,6 +48,27 @@ export PATH="$PWD/target/debug:$PATH"
 
 Keep this terminal open while you work through the learning path.
 
+## Read a diagnostic
+
+When a lesson shows a rejected program, its transcript includes the command
+and the complete English message. A leading `$` marks the shell prompt; do not
+type it. `--message-format human --locale en` selects that presentation
+explicitly. This compiler's human renderer emits plain text without terminal
+color; it has no color option to set.
+
+Ash prints canonical absolute source paths. In the displayed messages, only
+the checkout prefix is replaced by `/path/to/ash-doc/`. Your terminal will show
+your checkout's actual location. The remainder of each path, source excerpt,
+label, and message is unchanged. Run the named checked-in example from the
+working directory given by its learning path to compare the message directly.
+A copy saved with another filename will naturally show that name instead.
+
+Read the explanation first, then follow its source labels back to the program.
+The `reason:` line gives a secondary identifier for the kind of failure; it is
+not a replacement for the explanation. These source rejections write their
+messages on standard error, leave standard output empty, and exit with status
+`1`.
+
 ## Learn Ash
 
 Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool

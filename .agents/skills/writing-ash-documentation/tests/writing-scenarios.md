@@ -3,44 +3,12 @@
 These scenarios test discovery, retrieval, and application. Run them with a
 fresh agent from the repository root without naming the skill in the request.
 
-## Baseline
-
-Before this skill existed, three agents found the relevant rules by combining
-`AGENTS.md`, the Ash writing guide, source artifacts, and other skills. None
-could prefer a project writing skill. The tutorial agent also produced two
-runnable-looking `ash` fences during a read-only draft, although it could not
-create canonical source files or executable checks.
-
-For the learning-core correction, a baseline agent began directly with the
-program but explained `Unit` and `Int` before the learner ran it. Its optional
-assistant prompt asked for guided reasoning and withheld the final answer, but
-it grounded the assistant only in pasted code, not in the lesson, repository,
-or observed `ash` output. The revised skill must place a working model before
-the first command, keep detailed vocabulary after observation, and ground the
-assistant in actual evidence.
-
-For the narrative-lesson correction, an agent using the current skill opened
-with “Can two lines of Ash produce a value? Create `program.ash`...” It gave the
-reader no model of a program before the question and command. Its remaining
-exploration was a bulleted outline whose repeated instructions carried the
-prose, even though the agent said that each example answered a question from
-the previous one. The revised skill must distinguish a concrete opening from
-an abrupt one and must govern paragraph rhythm as well as conceptual order.
-
-With the revised skill, a fresh agent first explained a program as a source
-file whose definitions describe calculations and said what running the file
-would do. Only then did it invite the reader to save and run the literal
-program. It used each observation to raise the next question, varied the
-prediction and execution prompts, gathered the four examples into one model,
-and opened the need for named calculations. This satisfies the narrative
-scenario without changing the examples or their authority.
-
 ## Tutorial opening
 
 ### Tutorial request
 
 Draft the opening of a learning unit that teaches private complete imports at
-the pinned Modular Ash milestone. Include a short plan and a sample opening.
+the pinned Diag Ash milestone. Include a short plan and a sample opening.
 
 ### Tutorial passing condition
 
@@ -69,7 +37,7 @@ sentence with a concrete property supported by the pinned specification.
 ### Review request
 
 A change adds a tutorial that presents `ash-lang/main` behavior as part of the
-pinned `modular-ash` edition. Write a concise review finding and a commit-message
+pinned `diag-ash` edition. Write a concise review finding and a commit-message
 subject for the correction.
 
 ### Review passing condition
@@ -155,3 +123,21 @@ lesson, repository, and observed `ash` output. The prompt asks one question at
 a time, uses only concepts introduced so far, and initially withholds a
 finished solution. It treats the CLI observation, not the assistant, as the
 test of program behavior.
+
+## Diagnostic teaching
+
+### Diagnostic request
+
+Revise a rejection observation that displays only `type.argument`. Keep the
+canonical example and its semantic checks, and preserve the following exercise
+that asks the reader to discover a different mismatch.
+
+### Diagnostic passing condition
+
+The agent captures the complete pinned human message with explicit English
+locale and a stated working directory, preserves every line except the
+checkout prefix, and displays it alongside the command. The explanation
+connects the argument and required-type labels to the correction. The reason
+code remains secondary. Lesson-local agreement checks supplement unchanged
+semantic JSON checks. The exercise still withholds its observation, and the
+prose does not claim that message wording defines Ash semantics.

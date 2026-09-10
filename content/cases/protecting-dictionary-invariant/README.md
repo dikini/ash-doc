@@ -444,24 +444,27 @@ Predict rejection during name resolution. The type annotation may name
 
 Run the entry:
 
+<!-- diagnostic: src/04-construct.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash protecting-dictionary-invariant/src/04-construct.ash
+$ ash --message-format human --locale en protecting-dictionary-invariant/src/04-construct.ash
+The constructor `Empty` belongs to an opaque type and is not accessible here.
+  --> /path/to/ash-doc/content/cases/protecting-dictionary-invariant/src/04-construct.ash:4:24
+4 | main () = Dictionaries.Empty
+  |                        ^ This name is not accessible here.
+  --> /path/to/ash-doc/content/cases/protecting-dictionary-invariant/src/dictionaries.ash:19:5
+19 |     Empty
+   |     ^ The inaccessible declaration is here.
+reason: resolve.opaque-constructor
 ```
+<!-- markdownlint-enable MD013 -->
 
-The diagnostic reports this reason code:
-
-```text
-resolve.opaque-constructor
-```
-
-The stable observation is status `1`, empty standard output, diagnostic
-reason `resolve.opaque-constructor`, a primary label on the
-`Empty` member token in the client, and a related label on its withheld
-declaration in `dictionaries.ash`. Rendered wording and layout are not the
-teaching contract. The tool's
-[failure
-contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#failures)
-assigns source rejection to standard error with status `1`.
+The message names `Empty` as a constructor of an opaque type. Its first label
+marks the member in the client, and its related label shows the withheld
+constructor declaration. Both locations matter: `Empty` exists, but this
+module cannot access it. Obtain a value through `Dictionaries.empty()` as the
+accepted client does; that public function can use the constructor inside its
+own module.
 
 Now try the same constructor spelling as a pattern.
 
@@ -487,18 +490,25 @@ rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e
 
 Run the entry:
 
+<!-- diagnostic: src/05-match.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash protecting-dictionary-invariant/src/05-match.ash
+$ ash --message-format human --locale en protecting-dictionary-invariant/src/05-match.ash
+The constructor `Empty` belongs to an opaque type and is not accessible here.
+  --> /path/to/ash-doc/content/cases/protecting-dictionary-invariant/src/05-match.ash:4:22
+4 | inspect Dictionaries.Empty = 0
+  |                      ^ This name is not accessible here.
+  --> /path/to/ash-doc/content/cases/protecting-dictionary-invariant/src/dictionaries.ash:19:5
+19 |     Empty
+   |     ^ The inaccessible declaration is here.
+reason: resolve.opaque-constructor
 ```
+<!-- markdownlint-enable MD013 -->
 
-The diagnostic reports this reason code:
-
-```text
-resolve.opaque-constructor
-```
-
-This complete program also exits with status `1`, writes no standard output,
-and identifies the inaccessible `Empty` pattern occurrence.
+The same explanation now labels `Empty` in the pattern and relates it to the
+same hidden declaration. Moving the name from a value to a pattern does not
+make it accessible. Use the public dictionary operations to ask about a value
+instead of inspecting its hidden representation.
 
 Return to the accepted observation and predict its result. The client obtains
 the dictionary through `empty`, so the program checks and evaluates even though

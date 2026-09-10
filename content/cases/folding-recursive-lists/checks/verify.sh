@@ -203,5 +203,6 @@ ash_doc_run_accepted \
 ash_doc_run_accepted \
     "$unit_root" src/03-eager-fold.ash '(Some(42), 3) : (Option<Int>, Int)'
 ash_doc_run_rejected "$unit_root" src/04-wrong-combiner.ash 1
+ash_doc_check_human "$unit_root" src/04-wrong-combiner.ash "$unit_root/.."
 
 ash_doc_finish 5

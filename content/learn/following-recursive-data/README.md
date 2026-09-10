@@ -112,13 +112,26 @@ main () = sum Empty
 
 But every finite list eventually contains `Empty`, and `Empty` is itself a
 valid `IntList`. Without its equation, the recursive call has nowhere to stop.
-Ash rejects the incomplete definition with:
+Run this version from `content/learn` to see where the promise is incomplete:
 
+<!-- diagnostic: src/03-missing-empty.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-coverage.non-exhaustive
+$ ash --message-format human --locale en following-recursive-data/src/03-missing-empty.ash
+These cases do not cover every possible input; for example, `Empty` is not covered.
+  --> /path/to/ash-doc/content/learn/following-recursive-data/src/03-missing-empty.ash:5:1
+5 | sum : IntList -> Int
+  | ^ These cases do not cover every possible input; for example, `Empty` is not covered.
+6 | sum More(first, rest) = first + sum rest
+  | ^ These cases do not cover every possible input; for example, `Empty` is not covered.
+reason: coverage.non-exhaustive
 ```
+<!-- markdownlint-enable MD013 -->
 
-Coverage checks the same promise as before: `sum : IntList -> Int` must handle
+The message names `Empty` and labels the incomplete `sum` definition.
+Restoring `sum Empty = 0` supplies the ending result that the `More` equation
+needs when it follows `rest`. Coverage checks the same promise as before:
+`sum : IntList -> Int` must handle
 every `IntList`. With recursive data, the non-recursive form also provides the
 result from which the longer cases can be calculated.
 

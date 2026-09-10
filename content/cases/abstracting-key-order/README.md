@@ -410,32 +410,44 @@ provide no `Order<Int>`. Predict rejection before evaluation.
 
 Run the entry:
 
-```text
-ash abstracting-key-order/src/04-missing-order.ash
-```
-
+<!-- diagnostic: src/04-missing-order.ash -->
 <!-- markdownlint-disable MD013 -->
-The diagnostic reports this reason code:
-
 ```text
-constraint.unsatisfied
+$ ash --message-format human --locale en abstracting-key-order/src/04-missing-order.ash
+No available evidence satisfies this interface requirement.
+  --> /path/to/ash-doc/content/cases/abstracting-key-order/src/04-missing-order.ash:7:5
+7 |     Trees.lookup 1 tree
+  |     ^ No available evidence satisfies this interface requirement.
+  --> /path/to/ash-doc/content/cases/abstracting-key-order/src/ordered_trees.ash:29:5
+29 | pub lookup : K -> Tree<K, V> -> Option<V> where Order<K>
+   |     ^ This declaration introduced the interface requirement.
+  --> /path/to/ash-doc/content/cases/abstracting-key-order/src/04-missing-order.ash:1:1
+1 | import ordered_trees as Trees
+  | ^ This import made the declaration available.
+  --> /path/to/ash-doc/content/cases/abstracting-key-order/src/ordered_trees.ash:18:1
+18 | pub interface Order<A> {
+   | ^ This interface participates in the failing evidence selection.
+19 |     compare : A -> A -> Ordering
+   | ^ This interface participates in the failing evidence selection.
+20 | }
+   | ^ This interface participates in the failing evidence selection.
+reason: constraint.unsatisfied
 ```
 <!-- markdownlint-enable MD013 -->
 
 The `Order<Int>` obligation belongs to the `Trees.lookup` occurrence.
+The message labels that occurrence and says no available evidence satisfies
+the requirement. The related labels trace it
+through `lookup`'s constrained signature and the client's import to the
+`Order` interface. The `1` key fixes this call's requirement to `Order<Int>`,
+while the selected implementation supplies only `Order<Natural>`.
 
-That causal location matters more than the rendered offsets or prose. The
-stable observation is empty standard output, status `1`, diagnostic reason
-`constraint.unsatisfied`, and a primary label covering the constrained
-`Trees.lookup` occurrence. Related labels connect the failure to the imported
-declaration and `Order` interface. The pinned [selection
+Use Natural keys, as in the accepted entries, to match the selected fact.
+Keeping integer keys would instead require a public `Order<Int>`
+implementation selected by this client. The pinned [selection
 rules](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
-assign an unsatisfied obligation to its constrained occurrence, while the
-tool's [failure
-contract](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md#failures)
-defines the channels and status. Colors, gutters, byte offsets, and the
-remaining diagnostic presentation are not contracts. Because checking rejects
-the program, evaluation never attempts to find an implementation.
+require evidence for the complete application. This failure is classified as
+`constraint.unsatisfied`; checking stops before evaluation can begin.
 
 ## Retain the algorithm's premises
 
@@ -508,7 +520,7 @@ compiler optimization, or storage strategy.
    the resulting obligation.
 3. In a copy of the first entry, replace the Natural query and tree keys with
    `Int` values while retaining the constrained lookup. Predict the output
-   channel, first reason, and status before running it.
+   message, source labels, and status before running it.
 
 Selected evidence removes the repeated comparator argument, but the
 transparent tree still lets a client construct a value that violates the

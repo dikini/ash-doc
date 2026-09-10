@@ -33,4 +33,5 @@ ash_doc_run_accepted \
 ash_doc_run_accepted \
     "$unit_root" src/03-list-main.ash 'More(42, Empty) : List<Int>'
 ash_doc_run_rejected "$unit_root" src/04-unsaturated-list.ash 1
+ash_doc_check_human "$unit_root" src/04-unsaturated-list.ash "$unit_root/.."
 ash_doc_finish 5

@@ -106,13 +106,26 @@ main : Unit -> Int
 main () = value_or_zero Missing
 ```
 
-Ash rejects this program with a message beginning:
+Run this version from `content/learn`. Which form has no equation?
 
+<!-- diagnostic: src/03-missing-constructor.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-coverage.non-exhaustive
+$ ash --message-format human --locale en handling-data-forms/src/03-missing-constructor.ash
+These cases do not cover every possible input; for example, `Missing` is not covered.
+  --> /path/to/ash-doc/content/learn/handling-data-forms/src/03-missing-constructor.ash:5:1
+5 | value_or_zero : Result -> Int
+  | ^ These cases do not cover every possible input; for example, `Missing` is not covered.
+6 | value_or_zero Found(value) = value
+  | ^ These cases do not cover every possible input; for example, `Missing` is not covered.
+reason: coverage.non-exhaustive
 ```
+<!-- markdownlint-enable MD013 -->
 
-The problem exists whether or not `main` happens to construct `Missing`. The
+The message names `Missing` and labels the incomplete `value_or_zero`
+definition. Restoring `value_or_zero Missing = 0` gives that form its own
+result. The problem exists whether or not `main` happens to construct
+`Missing`. The
 signature says that `value_or_zero` accepts any `Result`, and the data
 definition says that `Missing` is one. The equations must keep that promise.
 

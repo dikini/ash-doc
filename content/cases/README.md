@@ -20,6 +20,10 @@ Start in this directory so the commands in each chapter match your shell:
 cd /path/to/ash-doc/content/cases
 ```
 
+The [diagnostic reading notes](../../README.md#read-a-diagnostic) explain the
+shell prompt, English output, and source-path convention used in rejection
+transcripts. Run those commands from this same Cases directory.
+
 Use the same cycle for each observation:
 
 1. **Edit** a complete program or make a separate copy for an exercise.

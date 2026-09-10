@@ -10,7 +10,8 @@ checks share that exact baseline:
 
 - [`learn/`](learn/README.md) for the complete verified eleven-lesson beginning
   learning path;
-- [`cases/`](cases/README.md) for twelve verified recursive-algorithm Cases in numeric order; and
+- [`cases/`](cases/README.md) for twelve verified recursive-algorithm Cases in
+  numeric order; and
 - [`libraries/`](libraries/README.md) for five verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic
   and relational interface methods.
@@ -22,7 +23,8 @@ Create only the internal paths that its examples require.
 Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
 After the complete Learn path, continue with
 [*Design library abstractions in Ash*](libraries/README.md) or
-[*Design recursive algorithms in Ash*](cases/README.md). The [verification guide](../docs/project/verification.md) names the checks
+[*Design recursive algorithms in Ash*](cases/README.md). The
+[verification guide](../docs/project/verification.md) names the checks
 for every family.
 
 Before creating a unit, follow the [project workflow](../docs/project/workflow.md)

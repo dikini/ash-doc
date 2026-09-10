@@ -25,4 +25,5 @@ ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
 ash_doc_run_accepted "$unit_root" src/01-match-result.ash '42 : Int'
 ash_doc_run_accepted "$unit_root" src/02-equations.ash '42 : Int'
 ash_doc_run_rejected "$unit_root" src/03-missing-constructor.ash 1
+ash_doc_check_human "$unit_root" src/03-missing-constructor.ash "$unit_root/.."
 ash_doc_finish 3

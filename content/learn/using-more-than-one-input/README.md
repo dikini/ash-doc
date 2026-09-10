@@ -122,15 +122,32 @@ main : Unit -> Int
 main () = add 20 true
 ```
 
-Ash rejects the program with a message with this reason code:
+Run this version from `content/learn` and compare the two types in the message:
 
+<!-- diagnostic: src/04-wrong-input.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-type.argument
+$ ash --message-format human --locale en using-more-than-one-input/src/04-wrong-input.ash
+This function argument must have type `Int`, but has type `Bool`.
+  --> /path/to/ash-doc/content/learn/using-more-than-one-input/src/04-wrong-input.ash:5:18
+5 | main () = add 20 true
+  |                  ^ This has type `Bool`.
+  --> /path/to/ash-doc/content/learn/using-more-than-one-input/src/04-wrong-input.ash:1:14
+1 | add : Int -> Int -> Int
+  |              ^ This function requires an argument of type `Int`.
+  --> /path/to/ash-doc/content/learn/using-more-than-one-input/src/04-wrong-input.ash:5:11
+5 | main () = add 20 true
+  |           ^ This is the containing function application.
+reason: type.argument
 ```
+<!-- markdownlint-enable MD013 -->
 
+The message compares the required `Int` with the supplied `Bool`. Its first
+label points into the `true` argument, its next identifies the required input
+in `add`'s signature, and the final label places the mismatch in the call.
 The first call step is sound: `20` is an `Int`. The next step tries to give the
-waiting `Int -> Int` function a `Bool`. The signature lets us locate the
-mistake before any addition can take place.
+waiting `Int -> Int` function a `Bool`. Replacing `true` with `22` supplies the
+integer that the remaining arrow requires and restores `42 : Int`.
 
 ## Exercise: multiply three numbers
 

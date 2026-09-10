@@ -22,18 +22,17 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
+The active edition now teaches all 23 demonstrated rejections through complete
+English human messages: eleven in Learn, seven in Cases, and five in Libraries.
+Each transcript includes the command, source excerpts, causal labels, and
+reason line. Lesson-local capture checks supplement the retained semantic JSON
+checks. Discovery exercises keep their unanswered observations.
+
 ## Next increment
 
-The approved increment is to teach every demonstrated rejection through its
-complete English human diagnostic at the exact baseline above. Readers should
-connect the explanation and source labels to the cause and correction, with
-reason codes serving as secondary identifiers. Audit all active lessons and
-project guidance, preserve exercises and semantic JSON checks, and add only
-lesson-local transcript agreement through the existing helpers. The
-[execution plan](../plans/2026-09-10-human-diagnostics.md) owns the work.
-
-The documentation is unpublished; no ash-doc `diag-ash` publication tag exists.
-Publication tooling and additional learning topics require their own outcome.
+No further content increment is selected. The documentation is unpublished;
+no ash-doc `diag-ash` publication tag exists. Publication tooling and additional
+learning topics require their own bounded outcome.
 
 ## Selecting work
 

@@ -149,28 +149,6 @@ ash_doc_assert_text_line_once() {
         ash_doc_fail "$2 (found $actual_count occurrences, expected 1)"
 }
 
-ash_doc_assert_text_first_line_count() {
-    if [[ $# -ne 3 ]]; then
-        ash_doc_fail "ash_doc_assert_text_first_line_count requires line, count, and claim"
-    fi
-
-    local actual_count
-    actual_count=$(
-        awk -v expected="$1" '
-            $0 == "```text" { first = 1; next }
-            first {
-                if ($0 == expected) {
-                    count += 1
-                }
-                first = 0
-            }
-            END { print count + 0 }
-        ' "$readme"
-    )
-    [[ $actual_count -eq $2 ]] ||
-        ash_doc_fail "$3 (found $actual_count occurrences, expected $2)"
-}
-
 library_source=$(<"$library")
 sequence_source=$(<"$sequence_entry")
 retained_source=$(<"$retained_entry")
@@ -298,7 +276,9 @@ readonly retained_output='Replay(Iterator(MoreFrame(Next(Next(Zero)), 20, Node(B
 ash_doc_run_accepted "$unit_root" src/01-sequence.ash "$sequence_output"
 ash_doc_run_accepted "$unit_root" src/02-retained-state.ash "$retained_output"
 ash_doc_run_rejected "$unit_root" src/03-opaque-pattern.ash 1
+ash_doc_check_human "$unit_root" src/03-opaque-pattern.ash "$unit_root/.."
 ash_doc_run_rejected "$unit_root" src/04-opaque-construction.ash 1
+ash_doc_check_human "$unit_root" src/04-opaque-construction.ash "$unit_root/.."
 
 [[ -f $readme ]] || ash_doc_fail "missing unit README.md"
 ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
@@ -308,8 +288,5 @@ ash_doc_assert_text_line_once \
 ash_doc_assert_text_line_once \
     "$retained_output" \
     "README must display the retained-state output exactly once"
-ash_doc_assert_text_first_line_count \
-    'resolve.opaque-constructor' 2 \
-    "README must begin two diagnostic transcripts with resolve.opaque-constructor"
 
 ash_doc_finish 5

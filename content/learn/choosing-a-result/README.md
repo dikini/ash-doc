@@ -118,20 +118,34 @@ main : Unit -> Int
 main () = choose false 42
 ```
 
-There is no expression to use when `condition` is `false`. Ash rejects the
-program, beginning its message with:
+There is no expression to use when `condition` is `false`. Run this version
+from `content/learn` and look for that missing choice:
 
+<!-- diagnostic: src/04-missing-choice.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-coverage.non-exhaustive
+$ ash --message-format human --locale en choosing-a-result/src/04-missing-choice.ash
+These cases do not cover every possible input; for example, `false` is not covered.
+  --> /path/to/ash-doc/content/learn/choosing-a-result/src/04-missing-choice.ash:2:27
+2 | choose condition number = match condition {
+  |                           ^ These cases do not cover every possible input; for example, `false` is not covered.
+3 |     true => number
+  | ^ These cases do not cover every possible input; for example, `false` is not covered.
+4 | }
+  | ^ These cases do not cover every possible input; for example, `false` is not covered.
+reason: coverage.non-exhaustive
 ```
+<!-- markdownlint-enable MD013 -->
 
-An *exhaustive* match covers every possible form of the value it examines.
-Ash checks this before running the program, so execution cannot arrive at a
-choice with no corresponding expression.
+The message supplies `false` as an input the cases miss and labels the
+incomplete `match`. Add an arm such as `false => 0` to give that input a
+result. An *exhaustive* match covers every possible form of the value it
+examines. Ash checks this before running the program, so execution cannot
+arrive at a choice with no corresponding expression.
 
 > **With a learning assistant:** Show the assistant the incomplete match and
-> the diagnostic reason and source labels. Ask it which `Bool` value the match does not
-> cover. Then explain why that value is possible and what arm would complete
+> the complete diagnostic. Ask how the named missing value connects to the
+> labelled match. Then explain why that value is possible and what arm would complete
 > the match before asking for feedback.
 
 ## Exercise: keep or double

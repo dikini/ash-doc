@@ -66,16 +66,32 @@ this client?
 
 Run the entry from this lesson's `src` directory:
 
+<!-- diagnostic: src/02-names-only.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-ash 02-names-only.ash
+$ ash --message-format human --locale en 02-names-only.ash
+No available evidence satisfies this interface requirement.
+  --> /path/to/ash-doc/content/libraries/forwarding-capability-evidence/src/02-names-only.ash:4:11
+4 | main () = same((21, 21))
+  |           ^ No available evidence satisfies this interface requirement.
+  --> /path/to/ash-doc/content/libraries/forwarding-capability-evidence/src/equality.ash:9:5
+9 | pub same : (A, A) -> Bool where Equal<A>
+  |     ^ This declaration introduced the interface requirement.
+  --> /path/to/ash-doc/content/libraries/forwarding-capability-evidence/src/02-names-only.ash:1:27
+1 | import names_only_facade (same)
+  |                           ^ This import made the declaration available.
+  --> /path/to/ash-doc/content/libraries/forwarding-capability-evidence/src/equality.ash:1:1
+1 | pub interface Equal<A> {
+  | ^ This interface participates in the failing evidence selection.
+2 |     equal : (A, A) -> Bool
+  | ^ This interface participates in the failing evidence selection.
+3 | }
+  | ^ This interface participates in the failing evidence selection.
+reason: constraint.unsatisfied
 ```
+<!-- markdownlint-enable MD013 -->
 
-Ash exits with status `1`, writes no standard output, and begins standard
-error with:
-
-```text
-constraint.unsatisfied
-```
+Ash exits with status `1` and writes this message on standard error.
 
 Typing the integer pair fixes the call's requirement to `Equal<Int>`, but no
 implementation item supplied a candidate. The diagnostic places its sole

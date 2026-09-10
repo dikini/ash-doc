@@ -95,15 +95,32 @@ Both constructors carry one integer. Nevertheless, `Score(42)` has type
 the program cares about.
 
 `keep_score` requires a `Score`. Giving it `Count(42)` does not become sound
-merely because the value inside is an integer. Ash rejects the program with a
-message beginning:
+merely because the value inside is an integer. Run this version from
+`content/learn`:
 
+<!-- diagnostic: src/03-distinct-types.ash -->
+<!-- markdownlint-disable MD013 -->
 ```text
-type.argument
+$ ash --message-format human --locale en defining-data/src/03-distinct-types.ash
+This function argument must have type `Score`, but has type `Count`.
+  --> /path/to/ash-doc/content/learn/defining-data/src/03-distinct-types.ash:8:22
+8 | main () = keep_score (Count(42))
+  |                      ^ This has type `Count`.
+  --> /path/to/ash-doc/content/learn/defining-data/src/03-distinct-types.ash:4:14
+4 | keep_score : Score -> Score
+  |              ^ This function requires an argument of type `Score`.
+  --> /path/to/ash-doc/content/learn/defining-data/src/03-distinct-types.ash:8:11
+8 | main () = keep_score (Count(42))
+  |           ^ This is the containing function application.
+reason: type.argument
 ```
+<!-- markdownlint-enable MD013 -->
 
-Replace `Count(42)` with `Score(42)` and the call produces `Score(42) : Score`.
-The constructor tells Ash which data definition created the value.
+The message names both nominal types. The argument label points into
+`Count(42)`, while the signature label identifies `Score` as the required
+input. Replace `Count(42)` with `Score(42)` and the call produces
+`Score(42) : Score`. The constructor tells Ash which data definition created
+the value; changing only its contained integer could not repair this mismatch.
 
 ## Exercise: describe a reading
 

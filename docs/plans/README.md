@@ -15,5 +15,4 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-The active [human diagnostics plan](2026-09-10-human-diagnostics.md) belongs to
-the roadmap. Completed plans remain in Git history.
+No implementation plan is active. Completed plans remain in Git history.
