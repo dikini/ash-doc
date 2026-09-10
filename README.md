@@ -6,18 +6,18 @@ from established programming works, and exercises the language with programs
 that expose real design pressure.
 
 This repository follows the experiment described by
-[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 That design note is informative. This repository explains and tests Ash; it
 does not define the language.
 
 ## Current edition: Diag Ash
 
 This repository targets **`diag-ash`** at Ash commit
-`40c964c69c007ba81ec6bdbac34e31ad24fec9c7`. It is the cumulative Ash checkpoint:
+`57eec5bbadae885e49c323e0a05e7a01b9ce8a36`. It is the cumulative Ash checkpoint:
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All thirteen Learn lessons, twelve recursive-algorithm Cases, six library
+All thirteen Learn lessons, twelve recursive-algorithm Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -25,10 +25,6 @@ unpublished; no ash-doc `diag-ash` publication tag has been created.
 
 **Code, prose, and checks target Diag Ash.** Remove obsolete evidence and
 records from the working tree; Git retains earlier states.
-
-The selected library continuation has an upstream compiler blocker; the
-[regression handoff](lab/opaque-newtype-import/README.md) records it. Its
-unverified lessons remain outside active navigation.
 
 ## Prepare Ash
 
@@ -39,7 +35,7 @@ commit for this edition, and build it:
 ```text
 git clone git@github.com:dikini/ash-lang.git
 cd ash-lang
-git switch --detach 40c964c69c007ba81ec6bdbac34e31ad24fec9c7
+git switch --detach 57eec5bbadae885e49c323e0a05e7a01b9ce8a36
 cargo build --locked
 ```
 
@@ -83,22 +79,22 @@ recursive data, functions as values, and definitions parameterized by types.
 The continuation develops local generalization and annotated recursive groups.
 
 The examples use the
-[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/tools/ash.md).
+[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md).
 When you need the precise language rules, begin with the
-[pinned specification overview](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/README.md),
+[pinned specification overview](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md),
 then follow the question into the applicable chapter:
 
-- [lexical structure](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/lexical-structure.md)
+- [lexical structure](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/lexical-structure.md)
   for source text and tokens;
-- [syntax](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/syntax.md)
+- [syntax](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/syntax.md)
   for modules, declarations, expressions, and patterns;
-- [name resolution](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/name-resolution.md)
+- [name resolution](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md)
   for modules, imports, scope, and identity;
-- [static semantics](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md)
+- [static semantics](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md)
   for typing and checked programs;
-- [elaboration](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/elaboration.md)
+- [elaboration](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/elaboration.md)
   for the connection between checked source and typed Core; and
-- [dynamic semantics](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md)
+- [dynamic semantics](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md)
   for values and evaluation.
 
 You do not need to read the specification before the first lesson. Use it when
@@ -118,12 +114,13 @@ explanations.
 ## Design library abstractions
 
 After Learn Ash, begin
-[Design library abstractions in Ash](content/libraries/README.md). Its six
+[Design library abstractions in Ash](content/libraries/README.md). Its eight
 verified lessons choose implementation evidence, carry it through a public
 facade, use explicit function kinds for type constructors, give an interface
 method local type parameters, let one interface argument determine another,
-and derive generic container behavior from element prerequisites. The selected
-newtype and scoped-evidence continuation remains in progress.
+derive generic container behavior from element prerequisites, wrap existing
+representations with new nominal types, and supply exact behavior in local
+scopes.
 
 ## Design recursive algorithms
 

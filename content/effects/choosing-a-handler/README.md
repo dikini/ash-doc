@@ -259,5 +259,5 @@ and type arguments determine what matches. We can now follow a request to its
 clause. Next we will follow what happens when that clause resumes the waiting
 calculation.
 
-[effects]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#effects
-[rows]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#effects
+[rows]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#computation-types-and-effect-rows

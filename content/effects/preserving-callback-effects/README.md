@@ -328,4 +328,4 @@ So far each successful effectful calculation has used one handler for
 `Bonus`. Next we can ask which handler receives a request when handlers are
 nested or when a program uses different effect instances.
 
-[rows]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#computation-types-and-effect-rows
+[rows]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#computation-types-and-effect-rows

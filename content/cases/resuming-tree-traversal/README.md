@@ -70,7 +70,7 @@ association remains and produces `None`. `MoreFrame` produces its key-value
 pair and calls `push_left` on the saved right subtree with the remaining
 ancestors. The returned iterator is already fully prepared when `next`
 returns. Ash evaluates function arguments before application under its strict
-[application rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md#application),
+[application rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#application),
 and constructor arguments are ordinary strict data.
 
 Here is the complete defining module. It retains the balanced dictionary from
@@ -444,7 +444,7 @@ main () = {
 <!-- markdownlint-enable MD013 -->
 
 The prediction includes private forms because Ash's structural
-[observation rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md#observation)
+[observation rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#observation)
 render nominal values even when their constructors are unavailable to the
 entry module. Run the client:
 
@@ -460,7 +460,7 @@ Replay(Iterator(MoreFrame(Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Nex
 
 `Iterator`, `MoreFrame`, `Node`, and their fields are visible in the output.
 That observation supplies no constructor binding to client source. Ash's
-[opaque declaration rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/name-resolution.md#public-private-and-opaque-declarations)
+[opaque declaration rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md#public-private-and-opaque-declarations)
 export the iterator type name while withholding its constructor, independent
 of how the tool renders a resulting value.
 
@@ -631,7 +631,7 @@ These return and traversal claims apply to finite acyclic dictionary spines
 reached through completed public operations and to iterator states produced
 from them. A defining module can construct malformed or constructor-guarded
 cyclic spines despite opacity under Ash's static
-[recursive block-group rules](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#recursive-block-groups).
+[recursive block-group rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#recursive-block-groups).
 An initial left-edge cycle can prevent `iterator` from returning. A cycle in a
 saved right subtree may permit earlier results and then prevent the `next` call
 that enters it from returning. The spine premise does not require acyclic keys

@@ -42,4 +42,6 @@ ash_doc_run_rejected "$unit_root" src/02-no-coercion.ash 1
 ash_doc_check_human "$unit_root" src/02-no-coercion.ash "$unit_root/src"
 ash_doc_run_rejected "$unit_root" src/05-no-inherited-evidence.ash 1
 ash_doc_check_human "$unit_root" src/05-no-inherited-evidence.ash "$unit_root/src"
-ash_doc_fail "L2 is incomplete: opaque-constructor capture awaits the fixed baseline"
+ash_doc_run_rejected "$unit_root" src/07-hidden-constructor.ash 1
+ash_doc_check_human "$unit_root" src/07-hidden-constructor.ash "$unit_root/src"
+ash_doc_finish 9

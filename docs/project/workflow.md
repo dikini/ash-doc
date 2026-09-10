@@ -5,7 +5,7 @@ in a coherent learning sequence. Its directory is the evidence boundary that
 connects the prose, canonical programs, observations, and checks.
 
 This workflow adapts the experimental model in
-[DN-0024](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 That note remains informative. This policy governs ash-doc project work; it
 cannot define Ash semantics or accept Ash architecture.
 

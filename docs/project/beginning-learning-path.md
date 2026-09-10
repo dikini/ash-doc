@@ -6,7 +6,7 @@ table of contents, a backlog, a publication promise, or a source of Ash
 semantics.
 
 The active path targets `diag-ash` at commit
-`40c964c69c007ba81ec6bdbac34e31ad24fec9c7`, as declared by the
+`57eec5bbadae885e49c323e0a05e7a01b9ce8a36`, as declared by the
 [repository](../../README.md#current-edition-diag-ash). Language details
 come from the specification at that commit. The [project roadmap](roadmap.md)
 owns the one next complete increment. The

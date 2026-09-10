@@ -18,7 +18,7 @@ readonly sources=(
 readonly library_hash=d40dfbd8feb871bf2bd81dd156446d874b4ac41deab6c99f93a7bdaaf95bfb7b
 readonly found_hash=98bdc800729e2ca6fdb0ce8b885455b5e8b48d69b9bb5d31c8f7d6b74f95d692
 readonly missing_hash=f1ff38eeceed2e155d6edfad4859af2851ab64521dcbfb8b44ac69d5021c21db
-readonly expected_pin=40c964c69c007ba81ec6bdbac34e31ad24fec9c7
+readonly expected_pin=57eec5bbadae885e49c323e0a05e7a01b9ce8a36
 readonly found_output='(Found(More(Start, More(LongOne, More(LongTwo, More(Goal, End)))), 3, Next(Next(Zero))), Found(More(Start, More(Short, More(Goal, End))), 5, Next(Next(Next(Next(Zero)))))) : (SearchResult, SearchResult)'
 readonly missing_output='(Missing(7, Next(Next(Zero))), Missing(7, Next(Next(Next(Next(Zero)))))) : (SearchResult, SearchResult)'
 

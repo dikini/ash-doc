@@ -12,9 +12,10 @@ checks share that exact baseline:
   path, local generalization, and local recursion;
 - [`cases/`](cases/README.md) for twelve verified recursive-algorithm Cases in
   numeric order;
-- [`libraries/`](libraries/README.md) for six verified lessons about choosing
+- [`libraries/`](libraries/README.md) for eight verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic
-  and relational interface methods, with generic element prerequisites; and
+  and relational interface methods, generic element prerequisites, newtypes,
+  and scoped exact evidence; and
 - [`effects/`](effects/README.md) for twelve verified lessons on effects, control,
   scoped resources, cleanup, hooks, and their composition.
 

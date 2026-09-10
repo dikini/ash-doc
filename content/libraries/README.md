@@ -44,3 +44,7 @@ For each boundary, use the same cycle:
    implementation selection.
 6. [How can an implementation depend on its element's behavior?](requiring-element-behavior/README.md)
    — derive container behavior from explicit element prerequisites.
+7. [How can a wrapper give an existing representation a distinct meaning?](wrapping-a-representation/README.md)
+   — use explicit newtype conversions and nominal interface behavior.
+8. [How can one lexical scope supply its own exact behavior?](supplying-scoped-evidence/README.md)
+   — combine local nominal types with sequential exact method evidence.

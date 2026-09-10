@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.opaque-constructor",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "Ticket"
+    },
+    {
+      "name": "access",
+      "kind": "name-access",
+      "value": "opaque-constructor"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "inaccessible_name",
+      "path": "src/07-hidden-constructor.ash",
+      "byte_start": 75,
+      "byte_end": 81,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "Ticket"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "inaccessible_declaration",
+      "path": "src/tickets.ash",
+      "byte_start": 28,
+      "byte_end": 39,
+      "facts": []
+    }
+  ]
+}

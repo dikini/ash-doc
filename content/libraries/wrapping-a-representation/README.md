@@ -209,9 +209,16 @@ main : Unit -> Int
 main () = Tickets.number (Tickets.issue 42)
 ```
 
-The declared contract is to obtain a ticket from `issue` and read its integer
-through `number`. Constructor access is a separate boundary. This second
-client attempts to cross it directly:
+The client obtains a ticket from `issue` and reads its integer through `number`:
+
+```text
+$ ash 06-opaque-client.ash
+42 : Int
+```
+
+The complete import makes the public operations and type name available.
+Constructor access is a separate boundary. This second client attempts to
+cross it directly:
 
 <!-- source: src/07-hidden-constructor.ash -->
 ```ash
@@ -220,6 +227,26 @@ import tickets as Tickets
 main : Unit -> Tickets.Ticket
 main () = Tickets.Ticket(42)
 ```
+
+<!-- diagnostic: src/07-hidden-constructor.ash -->
+<!-- markdownlint-disable MD013 -->
+```text
+$ ash --message-format human --locale en 07-hidden-constructor.ash
+The constructor `Ticket` belongs to an opaque type and is not accessible here.
+  --> /path/to/ash-doc/content/libraries/wrapping-a-representation/src/07-hidden-constructor.ash:4:19
+4 | main () = Tickets.Ticket(42)
+  |                   ^ This name is not accessible here.
+  --> /path/to/ash-doc/content/libraries/wrapping-a-representation/src/tickets.ash:1:29
+1 | pub opaque newtype Ticket = Ticket(Int)
+  |                             ^ The inaccessible declaration is here.
+reason: resolve.opaque-constructor
+```
+<!-- markdownlint-enable MD013 -->
+
+The message identifies the constructor use and the declaration that makes it
+opaque. Replace `Tickets.Ticket(42)` with `Tickets.issue 42` to construct through
+the public operation. The result may retain type `Tickets.Ticket`; the hidden
+constructor is what the client cannot use.
 
 The [module visibility rules][overview] allow the type in `main`'s signature
 while withholding the expression constructor. A client must use `issue`, not
@@ -292,8 +319,8 @@ runtime representation. Explicit construction, patterns, and evidence keep
 the intended interpretation visible. The next chapter brings that nominal
 distinction into one local scope and supplies exact behavior for it there.
 
-[overview]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/README.md#current-ash
-[evidence]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
-[execution]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/dynamic-semantics.md#tuples-constructors-and-matches
-[lowering]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/elaboration.md#explicit-rank-1-operations
-[allocation-test]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/src/eval/machine.rs#L6306
+[overview]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md#current-ash
+[evidence]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
+[execution]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#tuples-constructors-and-matches
+[lowering]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/elaboration.md#explicit-rank-1-operations
+[allocation-test]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/src/eval/machine.rs#L6306

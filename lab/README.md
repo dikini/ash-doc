@@ -23,8 +23,6 @@ when its retention condition requires it.
 Source selection, licensing, and adaptation questions without an executable
 Ash experiment belong in [`research/`](../research/README.md).
 
-The [opaque newtype import case](opaque-newtype-import/README.md) records a
-current compiler regression blocking L2's opaque client. Its
-[agent handoff](opaque-newtype-import/README.md#upstream-agent-prompt) defines
-the expected repair and evidence. Remove the case after the updated baseline
-resolves it; Git retains prior evidence.
+No laboratory case is active at the current baseline. Remove a case when
+its question is resolved and its retention condition has ended; Git retains
+prior evidence.

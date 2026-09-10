@@ -15,5 +15,4 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-The [functions and libraries plan](2026-09-10-functions-and-libraries.md)
-owns the selected F1–F2 and L1–L3 continuation.
+There is no active execution plan.

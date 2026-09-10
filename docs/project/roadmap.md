@@ -8,7 +8,7 @@ a delivery schedule, publication promise, or source of Ash semantics.
 ## Current baseline
 
 Ash-doc targets `diag-ash` at
-`40c964c69c007ba81ec6bdbac34e31ad24fec9c7`. This cumulative checkpoint includes
+`57eec5bbadae885e49c323e0a05e7a01b9ce8a36`. This cumulative checkpoint includes
 diagnostics, effects and resources, library abstractions, modules, and the
 earlier language foundation.
 
@@ -17,8 +17,8 @@ All content is verified at this baseline:
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
 - [Recursive algorithms](../../content/cases/README.md): twelve Cases,
   53 sources.
-- [Library abstractions](../../content/libraries/README.md): six lessons,
-  25 sources.
+- [Library abstractions](../../content/libraries/README.md): eight lessons,
+  43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
   71 sources.
 
@@ -26,8 +26,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 53 demonstrated rejections through complete
-English human messages: sixteen in Learn, seven in Cases, nine in Libraries,
+The active edition now teaches all 60 demonstrated rejections through complete
+English human messages: sixteen in Learn, seven in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -55,12 +55,9 @@ Continue that foundation through three connected strands:
 - **Library abstractions:** generic implementations, nominal wrappers, and
   scoped exact evidence, extending the existing library path.
 
-E1–E12, F1–F2, and L1 are **verified**. L2 is blocked by an upstream compiler
-regression. L3 has passed focused checks in the continuation worktree and
-awaits its L2 prerequisite before entering active navigation. Their identifiers
-express curricular relationships, not task identifiers or delivery batches.
-F1–F2 and L1–L3 are selected for sequential delivery under the
-[continuation plan](../plans/2026-09-10-functions-and-libraries.md).
+E1–E12, F1–F2, and L1–L3 are **verified**. Their identifiers express curricular
+relationships, not task identifiers or delivery batches. No further delivery
+increment is selected.
 
 ### Teaching approach
 
@@ -295,7 +292,7 @@ cycle does not establish termination of a traversal.
 
 ## Continuing library abstractions
 
-These chapters continue the existing five-lesson
+These chapters continue the opening five lessons of the
 [library path](../../content/libraries/README.md). L1 through L3 follow in order.
 The effects path does not require completing this strand; later synthesis may
 reuse it after its concepts have been introduced.
@@ -316,10 +313,7 @@ re-teaching the existing determination lesson.
 
 ### L2. How can a wrapper give an existing representation a distinct meaning?
 
-**State: blocked by a compiler regression.** The
-[opaque-newtype import handoff](../../lab/opaque-newtype-import/README.md)
-records the current failure. The complete-import client and source rejection
-remain required; L2 is not in active navigation.
+**State: verified.** [Read the lesson](../../content/libraries/wrapping-a-representation/README.md).
 
 Compare ordinary nominal data with a module `newtype`. Construct and match the
 wrapper explicitly, then give it interface behavior distinct from its
@@ -332,9 +326,7 @@ printed values alone do not demonstrate allocation behavior.
 
 ### L3. How can one lexical scope supply its own exact behavior?
 
-**State: drafted and locally checked; awaiting L2.** Its nine canonical sources,
-prose, and four captured rejections are in the continuation worktree. The
-chapter stays outside active navigation until its prerequisite is complete.
+**State: verified.** [Read the lesson](../../content/libraries/supplying-scoped-evidence/README.md).
 
 Introduce a local `newtype`, first by consuming it within its scope and then
 by returning an identity-free result. Supply methods through sequential
@@ -374,19 +366,19 @@ baseline. These sections govern the proposed boundaries:
 - [Specification overview][overview], [local nominal scope][nominals], and
   [scoped exact evidence][evidence]: L2 and L3.
 
-[rows]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#computation-types-and-effect-rows
-[effects]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#effects
-[cells]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[buffers]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-native-buffers
-[cleanup]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-cleanup-actions
-[hooks]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#synchronous-typed-hooks
-[blocks]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#blocks
-[rank1]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#inference-and-rank-1-restrictions
-[recursion]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#recursive-block-groups
-[implementations]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#implementations
-[overview]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/README.md
-[nominals]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#local-nominal-scope
-[evidence]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-exact-evidence
+[rows]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[buffers]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-native-buffers
+[cleanup]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-cleanup-actions
+[hooks]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#synchronous-typed-hooks
+[blocks]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#blocks
+[rank1]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#inference-and-rank-1-restrictions
+[recursion]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#recursive-block-groups
+[implementations]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#implementations
+[overview]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md
+[nominals]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-exact-evidence
 
 ## Evidence and completion expectations
 
@@ -416,9 +408,7 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, and L1 are complete. The selected L2–L3 delivery remains
-active until the opaque-newtype regression is fixed at the declared baseline
-and the complete continuation passes final verification.
+E1–E12, F1–F2, and L1–L3 are complete. No further delivery is selected.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording

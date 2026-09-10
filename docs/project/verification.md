@@ -1,7 +1,7 @@
 # Verify the documentation
 
 Every active program, language claim, and tool observation targets Ash
-`diag-ash`, commit `40c964c69c007ba81ec6bdbac34e31ad24fec9c7`.
+`diag-ash`, commit `57eec5bbadae885e49c323e0a05e7a01b9ce8a36`.
 
 ## Run the content checks
 
@@ -20,7 +20,7 @@ Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
 The four aggregates cover thirteen Learn lessons / 57 sources, twelve Cases /
-53 sources, six library lessons / 25 sources, and twelve effects lessons / 71
+53 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -41,15 +41,15 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 53 active captures: sixteen Learn, seven Cases, nine Libraries, and 21
-in Effects. Effects checks cover row contracts, exact handler selection,
+There are 60 active captures: sixteen Learn, seven Cases, sixteen Libraries,
+and 21 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each
 explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's
-[format controls](https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/docs/tools/ash.md#diagnostic-formats-and-locales)
+[format controls](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md#diagnostic-formats-and-locales)
 select English human output. Its `src/presentation.rs::write_human` emits plain
 text without terminal styling, so no unsupported color flag is used. The
 comparison rejects ANSI output and JSON fallback. It replaces only the
@@ -67,15 +67,9 @@ The opaque dictionary and iterator rejections preserve their source-access
 boundaries. The ordering and library lessons reject missing implementation
 evidence. Successful dictionary clients explicitly select `impl Order`.
 
-The selected L2–L3 continuation remains outside the active inventory. Its
-worktree retains an intentionally failing L2 verifier until the opaque-newtype
-import regression is repaired. The
-[lab handoff](../../lab/opaque-newtype-import/README.md) has its own verifier,
-which asserts the current compiler failure and passing controls. A passing lab
-check confirms the regression; it does not establish lesson completion.
-
-When finishing L2, also run the pinned compiler's focused allocation test from
-its checkout. This tests the heap claim that source output alone cannot prove:
+The wrapper lesson also relies on the pinned compiler's focused allocation
+test. Run it from its checkout. This tests the heap claim that source output
+alone cannot prove:
 
 ```text
 cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell

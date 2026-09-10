@@ -199,4 +199,4 @@ supplies the provider and operation interpreter and owns release; copies of a
 read integer are ordinary values. Next we will examine which values can leave
 that scope and which ones still retain access to the cell.
 
-[cells]: https://github.com/dikini/ash-lang/blob/40c964c69c007ba81ec6bdbac34e31ad24fec9c7/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[cells]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-cells-and-resource-dependencies
