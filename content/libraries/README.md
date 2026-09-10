@@ -7,7 +7,7 @@ that path first so functions, parameterized definitions, public declarations,
 and source imports are already familiar.
 
 Use the `ash` command prepared by the repository's
-[shared setup](../../README.md#prepare-ash). Each lesson keeps its program in a
+[shared setup](../../README.md#prepare-the-verified-baseline). Each lesson keeps its program in a
 `src` directory. Change into that directory before running an entry file, so
 its sibling library imports resolve from the same program directory.
 

@@ -10,32 +10,50 @@ This repository follows the experiment described by
 That design note is informative. This repository explains and tests Ash; it
 does not define the language.
 
-## Unpublished Lib Ash migration
+## Planned migration to Diag Ash
 
-The active documentation stream is migrating to the completed `lib-ash`
-milestone:
+The tip of this repository plans one forward migration to **`diag-ash`**, at
+Ash commit `9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. This is the cumulative
+Ash checkpoint: it includes human and JSON diagnostics, the migration fixes,
+effects and resource scopes, library abstractions, and modules. The milestone
+name identifies the whole target, not a diagnostics-only edition. `effect-ash`
+is an included predecessor, not a separate documentation destination.
 
-- Ash milestone tag: `lib-ash`;
-- resolved Ash commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`;
-- repository state: unpublished migration; and
-- active content: the complete verified eleven-lesson path under
-  `content/learn/`, nine verified Cases and three explicit unavailable slots
-  under `content/cases/`, and five verified library-abstraction lessons under
-  `content/libraries/`.
+The [migration plan](docs/plans/2026-09-10-diag-ash-migration.md) owns the next
+work. It supersedes the unfinished Lib Ash publication plan and requires all
+three content families to move to the same exact Diag Ash commit. No ash-doc
+`diag-ash` publication tag exists yet.
 
-There is no ash-doc `lib-ash` publication tag yet. The published
-`modular-ash` documentation tag and Ash commit
-`dca16039923475c48025c5f17beadeb6bcb6a4bf` remain the immutable predecessor;
-they do not govern active migration work. The matching tags live in different
-repositories and identify different source commits: an `ash-lang` tag retains
-language and tool behavior, while an ash-doc tag retains the corresponding
-documentation snapshot.
+**Work and reference have different roles.** All new edition work targets
+`diag-ash`. Earlier Ash milestones supply historical reference and
+comparison evidence only. Their successful checks do not establish
+Diag Ash correctness, and they are not alternative work targets.
 
-## Prepare Ash
+### Last verified content baseline
+
+The content and checks have not migrated yet. Their last verified target is
+`lib-ash`, Ash commit `d1e323d23390cdad03202ee3df76cd9100556e1d`:
+
+- eleven Learn lessons;
+- nine recursive-algorithm Cases, with Cases 9, 10, and 12 unavailable; and
+- five library-abstraction lessons.
+
+The setup and source links below still serve that baseline. These verification
+records do not establish that the content passes at Diag Ash. The migration
+will update the setup, sources, links, diagnostic checks, and coverage together.
+
+The published `modular-ash` documentation tag remains immutable. Its Ash target
+is `dca16039923475c48025c5f17beadeb6bcb6a4bf`; `recursive-1` retains the complete
+historical Cases. The unfinished Lib Ash edition has no publication tag and
+will not receive one as part of this migration. Tags with matching names in
+ash-lang and ash-doc identify different commits: compiler and documentation
+snapshots respectively.
+
+## Prepare the verified baseline
 
 The learning path uses the `ash` command-line tool. You need Git and a Rust
 toolchain that includes Cargo. Clone Ash with its Git URL, select the exact
-commit for this edition, and build it:
+commit for this historical baseline, and build it:
 
 ```text
 git clone git@github.com:dikini/ash-lang.git
@@ -104,14 +122,15 @@ compiler-failure evidence from the numbered path. Complete predecessor prose,
 canonical programs, and checks for these three slots remain available in the immutable
 [`recursive-1` snapshot](https://github.com/dikini/ash-doc/tree/fa870a280c76278361db658ff3952cf18f2b7833/content/cases).
 Each Case returns to the active path only after its complete evidence passes at
-the pinned Lib Ash commit.
+the selected Diag Ash commit under the migration plan.
 
 ## Authority
 
-- Language behavior in active material comes from the specification at the
-  pinned Lib Ash commit.
+- Until content cutover, language claims and executable observations remain
+  tied to the verified Lib Ash baseline. Migrated material must derive from
+  the exact Diag Ash specification; the planned target alone proves no lesson.
 - `ash` invocation, output, and failures come from the tool guide and executable
-  at the same commit.
+  at the same commit as the content being verified.
 - Ash project status and possible future behavior come from current `ash-lang`
   artifacts, read according to their stated authority.
 - Explanations and learning paths belong to this repository and remain

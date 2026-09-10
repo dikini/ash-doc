@@ -7,7 +7,7 @@ semantics.
 
 The active path targets `lib-ash` at commit
 `d1e323d23390cdad03202ee3df76cd9100556e1d`, as declared by the
-[repository](../../README.md#unpublished-lib-ash-migration). Language details
+[repository](../../README.md#planned-migration-to-diag-ash). Language details
 come from the specification at that commit. The [project roadmap](roadmap.md)
 owns the one next complete increment. The
 [learning index](../../content/learn/README.md) lists only lessons that readers

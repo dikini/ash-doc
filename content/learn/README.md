@@ -7,7 +7,7 @@ teach you more than reading the finished code alone.
 ## Before you begin
 
 You need a text editor, a terminal, Git, and a Rust toolchain with Cargo. Follow
-[Prepare Ash](../../README.md#prepare-ash) to clone the source selected for this
+[Prepare Ash](../../README.md#prepare-the-verified-baseline) to clone the source selected for this
 edition, build the command-line tool, and make `ash` available in your terminal.
 Keep that terminal open while you work through a lesson.
 

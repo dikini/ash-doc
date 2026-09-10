@@ -20,11 +20,26 @@ compatible capability that the project skill does not cover.
 
 ## Authority and target
 
-The active work is an unpublished migration to `lib-ash` at commit
+The planned edition target is `diag-ash` at Ash commit
+`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`, under the
+[Diag Ash migration plan](docs/plans/2026-09-10-diag-ash-migration.md).
+This cumulative checkpoint includes diagnostics, the migration repairs,
+effects, library abstractions, and modules. Do not interpret its name as a
+feature subset or plan a separate stop at `effect-ash`.
+
+**Work and reference have different roles.** All new edition work targets
+`diag-ash`. Earlier Ash milestones supply historical reference and
+comparison evidence only. Their successful checks do not establish
+Diag Ash correctness, and they are not alternative work targets.
+
+Content cutover has not happened. Existing teaching sources, specification
+links, and verifiers retain their last verified Lib Ash baseline at
 `d1e323d23390cdad03202ee3df76cd9100556e1d`. Only complete verified units under
-an indexed content family and linked as active from that family index belong to
-the active documentation stream during this migration. An unavailable numbered
-Case remains historical evidence, not an active unit.
+an indexed content family and linked as active from that family index belong
+to that baseline. An unavailable numbered Case remains historical evidence.
+Do not relabel baseline verification as Diag Ash verification. During cutover,
+move the shared pin and all target administration together, mark pending units
+as drafts, and restore active navigation only after each unit verifies.
 
 The immutable predecessor targets `modular-ash` at commit
 `dca16039923475c48025c5f17beadeb6bcb6a4bf`. It remains historical evidence and
@@ -40,12 +55,13 @@ published documentation tag.
 
 Use sources according to the claim you are making:
 
-1. The
-   [specification at the pinned commit](https://github.com/dikini/ash-lang/tree/d1e323d23390cdad03202ee3df76cd9100556e1d/spec)
-   is the only authority for language behavior in active material.
-2. The pinned implementation, its tests, and the
-   [pinned tool guide](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/docs/tools/ash.md)
-   govern tool behavior and executable observations.
+1. The [Diag Ash specification](https://github.com/dikini/ash-lang/tree/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/spec)
+   governs current migration work and all migrated material. The historical
+   [Lib Ash specification](https://github.com/dikini/ash-lang/tree/d1e323d23390cdad03202ee3df76cd9100556e1d/spec)
+   explains only the retained baseline and comparisons.
+2. The [Diag Ash tool guide](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md),
+   implementation, and tests at that commit govern new tool observations.
+   Historical observations retain their own exact tool and compiler pin.
 3. Accepted architectural decisions in `ash-lang` govern the non-language
    choices within their scope and retained version.
 4. Change proposals describe proposed transitions. Tasks authorize work.
@@ -57,9 +73,9 @@ the latest
 [Ash writing guide](https://github.com/dikini/ash-lang/blob/main/docs/project/writing.md).
 Do not import language behavior from `main` into the pinned edition.
 
-The repository README declares the migration state, Ash milestone, resolved
-commit, and immutable predecessor. Learning pages inherit the active target;
-do not repeat it in every lesson. Plans and verification must still name the
+The repository README declares the planned target, content-cutover state,
+last verified baseline, and immutable predecessor. Learning pages inherit
+their declared content target; do not repeat it in every lesson. Plans and verification must still name the
 exact target. An upstream canary may test a newer exact commit, but it does not
 change the active migration target.
 
@@ -164,9 +180,10 @@ programs, fixtures, and checks together once the project accepts a lesson layout
 Do not establish a second specification, duplicate every tutorial program in
 `ash-lang`, or add compatibility machinery for old Ash editions.
 
-The repository has one active forward line on `main`. Preserve a published
-edition with the immutable tag named by its target Ash milestone. During a
-future migration, move `main` to one exact Ash commit, expose incomplete
+The repository has one active forward line on `main`, now planned for
+`diag-ash`. Preserve a published edition with the immutable tag named by its
+target Ash milestone. During content cutover, move `main` to one exact Ash
+commit, expose incomplete
 coverage, and restore lessons only after their examples pass. Do not backport
 new work or maintain an old edition branch.
 

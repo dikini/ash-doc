@@ -4,72 +4,55 @@ The roadmap names ash-doc's next complete increment and records verified
 increments. It is a planning view, not a curriculum, publication promise, or
 source of Ash semantics.
 
-## Current migration target
+## Planned edition target
 
-- Ash milestone: `lib-ash`
-- Resolved commit: `d1e323d23390cdad03202ee3df76cd9100556e1d`
-- Repository state: unpublished forward migration with the complete verified
-  Learn path, nine verified recursive-algorithm Cases, and five verified
-  library-abstraction lessons active
-- Published `lib-ash` documentation tag: none
-- Immutable predecessor: `modular-ash` at Ash commit
-  `dca16039923475c48025c5f17beadeb6bcb6a4bf`
+- Ash milestone: `diag-ash`.
+- Resolved Ash commit: `9231b21228c5ccacbbee0cc0da60b380e5d2dc59`.
+- State: migration planned; content cutover and Diag Ash verification pending.
+- Scope: the cumulative compiler, including diagnostics, migration repairs,
+  effects, library abstractions, and modules.
+- Published ash-doc `diag-ash` tag: none.
 
-Active teaching and verification use the [pinned Lib Ash evaluation
-behavior](https://github.com/dikini/ash-lang/blob/d1e323d23390cdad03202ee3df76cd9100556e1d/spec/dynamic-semantics.md).
-Each Case record below states whether it is active at Lib Ash, blocked there, or
-historical at the predecessor.
-The roadmap states mean:
+The [Diag Ash migration plan](../plans/2026-09-10-diag-ash-migration.md)
+supersedes both the unfinished Lib Ash publication outcome and the earlier
+intention to migrate to a repaired effects checkpoint. The destination is
+`diag-ash`; included milestones do not become separate documentation targets.
 
-- **next** identifies the one increment ready to enter the execution workflow:
-  approve its bounded design, activate its temporary plan, then implement it;
-- **provisional** orders downstream increments without authorizing their case
-  implementation, content directories, source, or tooling; and
-- **blocked residual** identifies required work that cannot execute at the
-  current exact target after its failure evidence and all independent units
-  have completed review; and
-- **verified** identifies completed content whose prose, programs, and checks
-  pass together.
+## Next: migrate the existing edition to Diag Ash
 
-Promotion to **next** authorizes the design-and-plan work, not a content change
-that bypasses those gates.
+Move Learn, Cases, and Libraries to the exact Diag Ash commit as one forward
+edition. Adopt JSON diagnostic checks and restore Cases 9, 10, and 12 after
+verification. Preserve each unit's teaching promise. New effects or diagnostic
+lessons require their own later bounded outcome.
 
-## Blocked residual: complete Cases 9, 10, and 12
+Upstream has integrated the compiler repairs and diagnostic feature. Its
+[repair report](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/design/migration-repair-evidence.md)
+records the original-source outcomes. The remaining work here is documentation
+and verifier migration, including explicit implementation selection in clients
+that formerly passed before Lib Ash. Upstream repair evidence does not prove
+that the complete ash-doc edition passes at Diag Ash.
 
-**Question:** When can the three compiler-blocked Cases regain their historical
-teaching promises under one exact edition target?
+## Last verified baseline and outstanding coverage
 
-The approved
-[Lib Ash documentation milestone design](../plans/2026-08-31-lib-ash-documentation-milestone-design.md)
-selects a staged forward migration ending in an immutable ash-doc `lib-ash`
-tag. The target is the annotated `ash-lang` tag `lib-ash`, resolved to exact
-commit `d1e323d23390cdad03202ee3df76cd9100556e1d`.
+The existing content and checks still target Lib Ash at
+`d1e323d23390cdad03202ee3df76cd9100556e1d`: eleven Learn lessons, nine Cases,
+and five library lessons were recorded as verified. Cases 9, 10, and 12 remain
+unavailable in this baseline. Their eight original entries and exact historical
+failures remain in the permanent
+[migration evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md).
 
-Every independently executable Case has migrated. All eight numbered entries
-from Cases 9, 10, and 12 instead fail during dependency-summary admission at
-the exact target. Their source, predecessor observations, and target failures
-remain in the permanent
-[upstream evidence](../../lab/lib-ash-migration/body-free-summary-authentication/README.md).
-The family index keeps all three gaps visible.
+The published `modular-ash` predecessor and `recursive-1` checkpoint remain
+immutable. No Lib Ash publication tag was created. Diag Ash publication must
+wait for complete migration evidence at its own exact target.
 
-Outcome 2 remains incomplete, and final publication remains blocked. Resuming
-these Cases requires a fresh bounded plan under a separately authorized exact
-edition target. A later upstream fix cannot change the immutable `lib-ash`
-evidence or silently retarget only these Cases; every active page and check
-must move together if project authority selects another target.
+All current work targets Diag Ash. Earlier Ash milestones are reference
+material only. The records below describe completed work at their stated
+historical pins.
+They remain evidence; they do not imply Diag Ash verification. During cutover,
+track each unit as pending or verified at Diag Ash and expose every coverage
+gap in navigation.
 
-## No next implementable increment at this target
-
-The five-lesson **Design library abstractions in Ash** path is complete. Every
-Learn lesson and independently executable Case is also complete at the exact
-target. No other approved content outcome can proceed independently of the
-three blocked Cases.
-
-The roadmap therefore leaves **next** empty. A later upstream fix requires one
-coordinated exact edition target and a fresh bounded Cases-resumption plan; it
-cannot silently change only the failed Cases or the publication tag.
-
-## Verified increments
+## Historical verification records
 
 The active [beginning learning path](beginning-learning-path.md) contains all
 eleven lessons and 43 canonical sources verified at exact Lib Ash commit
@@ -979,18 +962,23 @@ executable evidence subordinate to the pinned specification and tool; they do
 not define Ash semantics or accept an Ash mechanism.
 
 The immutable predecessor contains `11 Learn / 12 Cases / 53 Case sources`.
-The active migration tree contains:
+The retained Lib Ash baseline contains:
 
 - `11 Learn lessons / 43 sources`;
 - `9 Cases / 42 sources`; and
 - `5 library lessons / 17 sources`.
 
-All currently implementable Cases are verified. Cases 9, 10, and 12 remain
-**blocked residual** work with linked upstream evidence, so Outcome 2 and final
-publication remain incomplete. There is no independently implementable
-**next** outcome. No ash-doc `lib-ash` tag may be created in this state.
+At the Lib Ash baseline, every independently executable Case was verified;
+Cases 9, 10, and 12 prevented publication. That unfinished outcome is now
+superseded by the Diag Ash migration above. These counts are its starting
+coverage, not a Diag Ash completion claim.
 
 ## Promotion and verification policy
+
+**Next** names the selected increment ready for execution planning.
+**Provisional** names a possible later increment. **Blocked residual** names
+incomplete work with retained evidence. **Verified** always means verified at
+the exact commit stated by its record, never at a later milestone by inference.
 
 For a future increment:
 

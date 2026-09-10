@@ -4,7 +4,10 @@ This root contains material intended for a coherent, version-pinned Ash
 documentation edition. Content explains and tests Ash; it does not define the
 language.
 
-The unpublished Lib Ash migration currently contains three active families:
+The [planned edition](../docs/plans/2026-09-10-diag-ash-migration.md) targets
+`diag-ash`. Content cutover is pending; the three families below retain their
+last verified Lib Ash baseline as historical evidence. All migration work
+targets Diag Ash:
 
 - [`learn/`](learn/README.md) for the complete verified eleven-lesson beginning
   learning path;

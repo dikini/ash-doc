@@ -4,7 +4,7 @@ The [Learn Ash path](../learn/README.md) builds the language model needed here:
 modules, functions, patterns, recursive data, higher-order functions, and
 parameterized definitions. Complete its eleven lessons before beginning these
 cases. Keep the same `ash` executable available through the
-[shared setup](../../README.md#prepare-ash).
+[shared setup](../../README.md#prepare-the-verified-baseline).
 
 The Cases path asks what changes when a program must do more than produce the
 right value. Each chapter begins with a recursive representation, makes an
