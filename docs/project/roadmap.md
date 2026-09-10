@@ -8,15 +8,15 @@ a delivery schedule, publication promise, or source of Ash semantics.
 ## Current baseline
 
 Ash-doc targets `diag-ash` at
-`57eec5bbadae885e49c323e0a05e7a01b9ce8a36`. This cumulative checkpoint includes
+`38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`. This cumulative checkpoint includes
 diagnostics, effects and resources, library abstractions, modules, and the
 earlier language foundation.
 
 All content is verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
-- [Algorithms and effects](../../content/cases/README.md): fifteen Cases,
-  56 sources.
+- [Algorithms and effects](../../content/cases/README.md): nineteen Cases,
+  60 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -57,7 +57,7 @@ Continue that foundation through three connected strands:
 
 E1–E12, F1–F2, and L1–L3 are **verified**. Their identifiers express curricular
 relationships, not task identifiers or delivery batches. The current effect
-Cases outcome is partially delivered, with four examples blocked upstream.
+Cases outcome is complete at the current baseline.
 
 ### Teaching approach
 
@@ -352,24 +352,21 @@ The intended order and current state are:
 <!-- markdownlint-disable MD013 -->
 | Case | Concept | State |
 | --- | --- | --- |
-| Number tree leaves | Replace explicit counter threading with `Fresh.next` and scoped state. | Blocked |
-| Measure tree search | Count comparisons through a handler while keeping ordering fixed. | Blocked |
+| [Number tree leaves](../../content/cases/numbering-tree-leaves/README.md) | Replace explicit counter threading with `Fresh.next` and scoped state. | Verified |
+| [Measure tree search](../../content/cases/measuring-tree-search/README.md) | Count comparisons through a handler while keeping ordering fixed. | Verified |
 | [Supply order prices](../../content/cases/supplying-order-prices/README.md) | Select regular, promotional, or unavailable dependency responses. | Verified |
 | [Run a scripted session](../../content/cases/running-a-scripted-session/README.md) | Keep domain transitions pure; supply commands and collect replies. | Verified |
-| Bound search work | Request before expansion; distinguish exhaustion from absence. | Blocked |
-| Compress parent paths | Use a scoped parent buffer; compare repeated lookup reads and writes. | Blocked |
+| [Bound search work](../../content/cases/bounding-search-work/README.md) | Request before expansion; distinguish exhaustion from absence. | Verified |
+| [Compress parent paths](../../content/cases/compressing-parent-paths/README.md) | Use a scoped parent buffer; compare repeated lookup reads and writes. | Verified |
 | [Read a bounded message](../../content/cases/reading-a-bounded-message/README.md) | Decode a byte length prefix through a checked cursor. | Verified |
 
 <!-- markdownlint-enable MD013 -->
 
-The [current lab case](../../lab/effect-cases-type-work/README.md) owns the four
-blocked drafts, their intended outputs, a reduced type-work failure, and the
-[upstream-agent handoff](../../lab/effect-cases-type-work/upstream-agent.md).
-The [remaining execution plan](../plans/2026-09-10-effect-cases.md) is blocked
-on that upstream repair and an authorized migration. The drafts are not indexed
-as active lessons. The three independent verified Cases
-follow the pure Cases now; restore the intended order when the blocked drafts
-verify after an authorized baseline migration.
+All seven Cases retain their intended comparisons at the current baseline.
+The compiler repair permits the four recursive programs without source changes.
+The parent-path transcript uses the tool's constructor formatting: a tuple
+payload prints within the constructor's parentheses. This corrects a derived
+transcript mistake; it changes no result, type, or program.
 
 Prerequisites are Learn's foundation and the relevant effects lessons:
 requests, resumption, cells, discard for bounded search, and native buffers for
@@ -412,19 +409,19 @@ baseline. These sections govern the proposed boundaries:
 - [Specification overview][overview], [local nominal scope][nominals], and
   [scoped exact evidence][evidence]: L2 and L3.
 
-[rows]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#computation-types-and-effect-rows
-[effects]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#effects
-[cells]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[buffers]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-native-buffers
-[cleanup]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-cleanup-actions
-[hooks]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#synchronous-typed-hooks
-[blocks]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#blocks
-[rank1]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#inference-and-rank-1-restrictions
-[recursion]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#recursive-block-groups
-[implementations]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#implementations
-[overview]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md
-[nominals]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#local-nominal-scope
-[evidence]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#scoped-exact-evidence
+[rows]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[buffers]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-native-buffers
+[cleanup]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-cleanup-actions
+[hooks]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#synchronous-typed-hooks
+[blocks]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#blocks
+[rank1]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#inference-and-rank-1-restrictions
+[recursion]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#recursive-block-groups
+[implementations]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#implementations
+[overview]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/README.md
+[nominals]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#scoped-exact-evidence
 
 ## Evidence and completion expectations
 
@@ -454,8 +451,7 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, and L1–L3 are complete. Three short effect Cases are verified;
-four retain their intended programs as blocked drafts in the current lab case.
+E1–E12, F1–F2, L1–L3, and all seven short effect Cases are complete.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording

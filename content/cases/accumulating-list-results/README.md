@@ -90,9 +90,9 @@ describes these equations and does not infer a physical pointer-sharing
 strategy.
 
 The [static pattern and equation
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#patterns-matches-and-coverage)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#patterns-matches-and-coverage)
 check the `Empty` and `More` cases, while the [global-definition
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#globals-and-modules)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#globals-and-modules)
 make a definition available in its own body. Those Ash rules support the
 recursive definitions; the traversal account comes from the particular
 equations shown here.
@@ -100,7 +100,7 @@ equations shown here.
 In `reverse_through_append`, the nonempty equation first binds
 `reversed_rest`. A binding evaluates its initializer before the rest of its
 block, according to the pinned [dynamic binding
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#bindings).
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#bindings).
 The recursive reverse of `rest` is therefore a value before `append` begins to
 traverse that already-built result. Append places the singleton containing
 `first` on its right.
@@ -145,7 +145,7 @@ ash accumulating-list-results/src/01-same-result.ash
 
 Both fields are `More(4, More(3, More(2, More(1, Empty))))`. The complete line
 follows the pinned tool's [successful-output
-contract](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md#successful-output):
+contract](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md#successful-output):
 one observed value, its checked type, and a newline.
 
 ## Counting the revisited left operands
@@ -155,7 +155,7 @@ it encounters a `More` in the left operand; its `Empty` equation returns zero.
 `reverse_revisits` adds the counts from all the append calls.
 `fold_left_visits` separately counts one visit to each input `More` handled by
 the accumulator traversal. The pinned [dynamic constructor and match
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 govern constructor values and equational-clause selection. The counters remain
 instrumentation defined by this module, not language operations.
 
@@ -235,7 +235,7 @@ At `Empty`, `fold_left` returns the accumulated `B`. At `More(first, rest)`,
 the strict `next_accumulated` binding completes `combine accumulated first`
 before recursion continues with `rest`. The pinned [static function and
 application
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#functions-and-application)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#functions-and-application)
 connect each supplied argument to the corresponding function domain.
 
 For reverse, `B` is `List<A>`. `prepend` constructs
@@ -345,13 +345,13 @@ diagnostic or language defect.
 
 In the nonempty `fold_left` equation, the initializer for `next_accumulated`
 completes first under the pinned [dynamic binding
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#bindings).
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#bindings).
 The recursive `fold_left combine next_accumulated rest` application is then the
 result expression of the block under the pinned [static block
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#blocks):
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#blocks):
 no later source operation waits for that recursive result. The pinned [dynamic
 application
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#application)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#application)
 describe strict function and argument evaluation; *tail position* here names
 only the recursive application's placement in this source.
 

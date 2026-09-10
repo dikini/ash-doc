@@ -131,12 +131,12 @@ partial removal. `empty` is a function from `Unit` because a pinned Ash
 module contains declarations rather than an evaluated module value.
 
 Every language claim must come from the
-[pinned specification](https://github.com/dikini/ash-lang/tree/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec),
+[pinned specification](https://github.com/dikini/ash-lang/tree/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec),
 and every command observation must follow the pinned
 [`ash` tool
-guide](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md).
+guide](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md).
 The target is `diag-ash` at
-`57eec5bbadae885e49c323e0a05e7a01b9ce8a36`. Neither the selected sources nor
+`38e3478589b77133caa8e4f16ccc0ef1ad2b6c26`. Neither the selected sources nor
 current `ash-lang/main` can add behavior to that edition.
 
 ## Deliberate exclusions

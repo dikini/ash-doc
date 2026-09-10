@@ -13,9 +13,10 @@ work and retained data caused by that choice. Later cases change the
 representation when an operation or invariant demands it.
 
 The short effect Cases at the end apply the
-[effects path](../effects/README.md) to replaceable dependencies, scripted
-sessions, and checked byte input. Each isolates one concept in a small program;
-its introduction names the relevant effects prerequisites.
+[effects path](../effects/README.md) to scoped state, replaceable dependencies,
+scripted sessions, search budgets, and checked byte storage. Each isolates one
+concept in a small program; its introduction names the relevant effects
+prerequisites.
 
 ## How to work through a case
 
@@ -107,12 +108,24 @@ storage strategy.
     transition fixed, let LIFO return a longer path and FIFO return the
     shortest path, guard the cycle by marking before addition, and account for
     logical pending entries separately.
-13. [How can an order request its prices and
+13. [How can a traversal number its leaves without threading a
+    counter?](numbering-tree-leaves/README.md) — compare explicit state passing
+    with a fresh-number request handled by a scoped cell.
+14. [How can a lookup count comparisons without changing its
+    ordering?](measuring-tree-search/README.md) — measure the same lookup in
+    two tree shapes through a handler.
+15. [How can an order request its prices and
     discount?](supplying-order-prices/README.md) — run one calculation under
     regular, promotional, and unavailable responses.
-14. [How can a session use scripted input and collect its
+16. [How can a session use scripted input and collect its
     replies?](running-a-scripted-session/README.md) — keep domain transitions
     pure while a handler supplies commands and builds the transcript.
-15. [How can a decoder request bytes from bounded
+17. [How can a search stop before exceeding its
+    budget?](bounding-search-work/README.md) — request permission before each
+    nonempty expansion and distinguish exhaustion from absence.
+18. [How can updating parent links change repeated
+    lookup?](compressing-parent-paths/README.md) — compare reads and writes
+    with and without compression in a scoped buffer.
+19. [How can a decoder request bytes from bounded
     storage?](reading-a-bounded-message/README.md) — separate parsing from a
     scoped cursor, and distinguish truncation from acquisition failure.

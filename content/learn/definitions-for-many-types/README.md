@@ -203,7 +203,7 @@ reason: kind.expected-type
 The message marks the first bare `List` in `keep` and relates its function kind
 to the declaration `type List<A>`. The parameter position needs a complete
 value type; applying `List` to an element type supplies one. The
-[kind rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#kinds-monotypes-and-schemes)
+[kind rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#kinds-monotypes-and-schemes)
 derive both kinds and require ordinary function domains and results to have
 kind `Type`.
 

@@ -139,7 +139,7 @@ main () = {
 <!-- markdownlint-enable MD013 -->
 
 Under Ash's [public, private, and opaque declaration
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md#public-private-and-opaque-declarations),
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#public-private-and-opaque-declarations),
 `Dictionary<K, V>` is nameable in an importing module, but `Empty` and `Node`
 are not available there as values or patterns. Both constructors remain
 available throughout this defining module.
@@ -160,7 +160,7 @@ values without exposing their representation constructors.
 
 The `where Order<K>` requirements still declare the needed comparison evidence
 under the pinned [interface and constrained-scheme
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#interfaces-and-constrained-schemes).
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#interfaces-and-constrained-schemes).
 Opacity changes who can name the representation constructors; it does not
 select implementation evidence, change lookup's branch selection, or change
 insertion's equations.
@@ -170,7 +170,7 @@ directly as the entry source, that `main` runs. When another source imports the
 module, its private `main` is not exported or evaluated as module
 initialization. Ash modules are passive dependencies, and only the selected
 entry module supplies the executed `main`, as described by the specification
-[overview](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/README.md#current-ash).
+[overview](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/README.md#current-ash).
 
 ## Construct through the public operations
 
@@ -209,7 +209,7 @@ The two imports perform independent static work. The complete import binds
 public names beneath `Dictionaries`, but selects no implementation facts. The
 `impl Order` item binds no name; it selects the dependency's public `Order`
 facts for evidence selection in this entry. The pinned [import
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md#imports-and-namespaces)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#imports-and-namespaces)
 define that separation. Selecting evidence neither reveals `Empty` or `Node`
 nor weakens their opaque access boundary. This private selector does not
 re-export the facts, make them transitively available to another client, or
@@ -385,9 +385,9 @@ The four bindings in `valid_between` evaluate the two bound checks and both
 recursive validations before the nested `both` applications combine them.
 Bindings evaluate their initializers before continuing under the pinned
 [binding
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#bindings),
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#bindings),
 and function arguments evaluate strictly under the pinned [application
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#application).
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#application).
 A completed validation therefore enters both branches even when an earlier
 Boolean is already `false`.
 
@@ -484,9 +484,9 @@ Predict the same resolution reason. The defining module can pattern-match on
 passed to functions or covered without representation inspection, but their
 withheld constructors cannot occur in importer patterns under the pinned
 [opaque declaration
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/name-resolution.md#public-private-and-opaque-declarations)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/name-resolution.md#public-private-and-opaque-declarations)
 and [coverage
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#patterns-matches-and-coverage).
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#patterns-matches-and-coverage).
 
 Run the entry:
 
@@ -523,9 +523,9 @@ Empty : Dictionary<Natural, Int>
 ```
 
 The output still renders the constructor structure. Ash's [observation
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#observation)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#observation)
 render nominal data structurally, and the tool's [successful-output
-contract](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/docs/tools/ash.md#successful-output)
 prints the resulting value and closed type.
 
 That rendering does not create a source binding named `Dictionaries.Empty`. It
@@ -543,9 +543,9 @@ exact module gives clients no constructor route around those operations.
 That does not make finiteness a property proved by `Dictionary<K, V>`. Code
 inside the defining module could create a constructor-guarded dictionary-spine
 cycle or export a bad operation. Ash's static [recursive block-group
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#recursive-block-groups)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#recursive-block-groups)
 and dynamic [recursive-binding
-rules](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#recursive-bindings)
+rules](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#recursive-bindings)
 admit guarded recursive data; opacity does not change that semantic boundary.
 
 The selected public operations produce finite acyclic dictionary spines when
@@ -554,7 +554,7 @@ required calls return. The generic key or value payloads may independently
 contain cycles. A cyclic value payload does not add a dictionary `Node`, and a
 completed lookup can return `Some(cyclic_value)` without inspecting that
 payload. If the entry `main` returns that option, final structural
-[observation](https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#observation)
+[observation](https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#observation)
 traverses the option and its payload and renders an active-path revisit as
 `<cycle>`. A comparison that follows a cyclic key or otherwise fails to return
 can prevent lookup, insertion, build, or validation from returning.

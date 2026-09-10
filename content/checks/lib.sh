@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-readonly ash_doc_expected_pin=57eec5bbadae885e49c323e0a05e7a01b9ce8a36
+readonly ash_doc_expected_pin=38e3478589b77133caa8e4f16ccc0ef1ad2b6c26
 
 ash_doc_fail() {
     printf 'verify: %s\n' "$1" >&2

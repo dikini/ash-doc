@@ -311,5 +311,5 @@ depends on the program's calls and data. With this boundary understood, the
 paths can build on local functions without assuming they are all polymorphic
 or that every recursive structure is a finite list.
 
-[groups]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/static-semantics.md#recursive-block-groups
-[execution]: https://github.com/dikini/ash-lang/blob/57eec5bbadae885e49c323e0a05e7a01b9ce8a36/spec/dynamic-semantics.md#recursive-bindings
+[groups]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/static-semantics.md#recursive-block-groups
+[execution]: https://github.com/dikini/ash-lang/blob/38e3478589b77133caa8e4f16ccc0ef1ad2b6c26/spec/dynamic-semantics.md#recursive-bindings
