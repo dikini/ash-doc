@@ -52,9 +52,10 @@ Continue that foundation through three connected strands:
 - **Library abstractions:** generic implementations, nominal wrappers, and
   scoped exact evidence, extending the existing library path.
 
-All entries below are **provisional**. Their identifiers express curricular
-relationships, not task identifiers or delivery batches. No lesson is selected
-for implementation. No new reader-facing family or lesson directory exists.
+E1 is **next** and owns the first selected slice described below. All other
+entries remain **provisional**. Their identifiers express curricular
+relationships, not task identifiers or delivery batches. No new reader-facing
+family or lesson directory exists.
 
 ### Teaching approach
 
@@ -83,6 +84,8 @@ E12 follow in order. The additional bridges below are conceptual prerequisites,
 not requirements to complete every library lesson or algorithm Case.
 
 ### E1. How can a calculation request a value from its caller's context?
+
+**State: next.** See the [selected first slice](#selected-first-slice).
 
 Start from an ordinary configuration argument and introduce one effect
 operation, a request with `perform`, and a complete handler that resumes with
@@ -371,12 +374,88 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-Delivery will be considered separately. No batch, date, first implementation
-increment, content-family layout, or publication mechanism is selected here.
-The documentation remains unpublished; no ash-doc `diag-ash` publication tag
-exists. Refine chapter boundaries when executable design exposes a dependency
-or an overloaded question, and replace superseded wording rather than keeping
-parallel roadmaps.
+E1 is the first selected increment. Later delivery groupings and dates remain
+undecided. The documentation remains unpublished; no ash-doc `diag-ash`
+publication tag exists. Refine chapter boundaries when executable design
+exposes a dependency or an overloaded question, and replace superseded wording
+rather than keeping parallel roadmaps.
+
+## Selected first slice
+
+**E1: request a configuration value and supply it with a handler.** This is one
+complete lesson continuing from Learn, at `diag-ash` commit
+`9231b21228c5ccacbbee0cc0da60b380e5d2dc59`.
+
+The reader outcome is: write and explain a calculation that requests a value,
+read its closed effect row, and handle the request so the entry computation
+has no remaining effects. Changing the handler changes the calculation's
+result without changing the calculation itself.
+
+### Scope and progression
+
+Start with a small score calculation whose configuration is an explicit
+argument. Use an integer example first; a finite-list exercise may reuse the
+data and recursion already taught in Learn without becoming a prerequisite
+for understanding the request.
+
+The chapter makes these connected moves:
+
+1. Establish what the explicit argument supplies and predict the pure result.
+2. Declare one private, unparameterized effect with one operation that requests
+   an integer configuration value. Introduce `perform` and the closed row on
+   the calculation's signature together.
+3. Supply a complete handler with one clause and one `resume`. Explain how its
+   integer answer lets the suspended calculation finish. Explain the
+   continuation rule needed for this clause without developing the full
+   control model reserved for E5.
+4. Run the unchanged calculation under two alternative handlers and account
+   for the different results.
+5. Leave the request outward at the entry boundary, inspect the actual
+   rejection, and restore the handler as the correction.
+6. End with an exercise that changes the supplied value or calculation and
+   asks the reader to predict and explain the result.
+
+Learn supplies all prerequisites: signatures, calls, blocks, integers, and
+function values. No interface lesson, local generalization, or resource
+mechanism is required. The governing sources are [effects][effects],
+[computation types and effect rows][rows], and the entry contract in the
+[specification overview][overview]. Tool observations follow the
+[pinned tool guide](https://github.com/dikini/ash-lang/blob/9231b21228c5ccacbbee0cc0da60b380e5d2dc59/docs/tools/ash.md).
+
+### Why this boundary
+
+A complete E1 closes the request-to-handler-to-result explanation while
+introducing the effect row immediately. A combined E1–E3 increment would also
+require latent effects across returned functions, higher-order contracts, and
+row polymorphism. Those are valuable next questions, but they would obscure
+whether the first request and handler model works for the reader.
+
+E2 owns propagation through several callers and returned functions. E3 owns
+open rows and `EffectRow` parameters. Nested handlers, multiple operations,
+parameterized effect identities, discard, resources, cleanup, and hooks remain
+in their later chapters. The first lesson introduces enough `resume` to
+explain its complete example; it does not silently postpone required syntax.
+
+### Completion and next planning boundary
+
+The lesson must include canonical sources for the pure starting point, both
+handled observations, and the rejected entry. Its checks must establish the
+promised values and types, successful and rejected exit statuses, and the
+causal diagnostic locations. The prose must show the complete captured human
+rejection beside its command and explain both the cause and correction.
+Semantic JSON checks remain separate from exact human transcript agreement.
+Exercises must preserve the predictions the reader is asked to discover.
+
+The chapter and its family index must land together with source agreement and
+applicable checks. The index connects the lesson to Learn and owns reading
+order and shared setup. Lesson prose contains the learning account; project
+state and governing-source inventories remain here and in the execution plan.
+
+This selection establishes the reader outcome and scope. Detailed lesson
+layout, exact source files, observed values, diagnostic classification, and
+verification commands belong to the bounded design and execution plan. No
+lesson implementation or new family layout is selected by this roadmap edit.
+The [plans index](../plans/README.md) remains unchanged until that plan exists.
 
 ## Selecting work
 
