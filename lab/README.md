@@ -23,6 +23,7 @@ when its retention condition requires it.
 Source selection, licensing, and adaptation questions without an executable
 Ash experiment belong in [`research/`](../research/README.md).
 
-No laboratory case is active at the current baseline. Remove a case when
-its question is resolved and its retention condition has ended; Git retains
-prior evidence.
+The [effect-row tail exclusion case](effect-row-tail-exclusion/README.md)
+records unexpected acceptance at a generic call in the current baseline.
+Remove a case when its question is resolved and its retention condition has
+ended; Git retains prior evidence.

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "effect.row-union-ambiguous",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "row_failure",
+      "kind": "effect-row-failure",
+      "value": "function-outside-declared"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "effect_row",
+      "path": "src/04-missing-row.ash",
+      "byte_start": 227,
+      "byte_end": 245,
+      "facts": [
+        {
+          "name": "row_failure",
+          "kind": "effect-row-failure",
+          "value": "function-outside-declared"
+        }
+      ]
+    }
+  ]
+}

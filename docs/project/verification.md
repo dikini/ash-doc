@@ -20,7 +20,7 @@ Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
 The four aggregates cover eleven Learn lessons / 43 sources, twelve Cases /
-53 sources, five library lessons / 17 sources, and one effects lesson / four
+53 sources, five library lessons / 17 sources, and two effects lessons / eight
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.
@@ -39,9 +39,9 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 24 captures: eleven Learn, seven Cases, five Libraries, and one
-in Effects. The effects rejection checks the local entry declaration whose row
-still requires `Bonus`; its primary label identifies that declaration.
+There are 25 captures: eleven Learn, seven Cases, five Libraries, and two
+in Effects. Effects checks cover an unhandled entry and a caller whose
+contract omits an effect. Labels retain each explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's
@@ -62,6 +62,16 @@ captured answers into exercises that ask readers to discover a failure.
 The opaque dictionary and iterator rejections preserve their source-access
 boundaries. The ordering and library lessons reject missing implementation
 evidence. Successful dictionary clients explicitly select `impl Order`.
+
+## Reproduce the active regression candidate
+
+The [row-tail exclusion case](../../lab/effect-row-tail-exclusion/README.md)
+records unexpected acceptance at a generic call. Its verifier reproduces the
+current behavior; it does not establish conformance to the specification:
+
+```text
+bash lab/effect-row-tail-exclusion/checks/verify.sh /path/to/diag-ash
+```
 
 ## Review the rest
 

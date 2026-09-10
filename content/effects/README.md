@@ -26,3 +26,6 @@ explain the command prompt, English messages, and displayed source paths.
 1. [How can a calculation request a value from its caller's context?](requesting-a-value/README.md)
    — declare an effect, read a closed effect row, request a value, and supply
    it through a handler.
+2. [What does an effectful function promise?](following-effect-contracts/README.md)
+   — follow effects through calls and distinguish requesting now from
+   returning a function that requests later.

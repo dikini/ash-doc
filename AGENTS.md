@@ -24,7 +24,7 @@ The current edition and all new work target `diag-ash` at Ash commit
 `9231b21228c5ccacbbee0cc0da60b380e5d2dc59`. This cumulative checkpoint includes
 diagnostics, migration repairs, effects and resources, library abstractions,
 and modules. All eleven Learn lessons, twelve Cases, five library lessons,
-and the first effects lesson are verified; the
+and two effects lessons are verified; the
 [verification guide](docs/project/verification.md) names their baseline checks.
 Publication has not occurred.
 

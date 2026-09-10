@@ -15,8 +15,8 @@ checks share that exact baseline:
 - [`libraries/`](libraries/README.md) for five verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic
   and relational interface methods; and
-- [`effects/`](effects/README.md) for the first verified lesson on effect
-  requests, closed rows, and handlers.
+- [`effects/`](effects/README.md) for two verified lessons on requests and handlers,
+  effectful call chains, and returned functions.
 
 A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
 and links to canonical programs, fixtures, and checks kept inside the same unit.

@@ -19,16 +19,16 @@ All content is verified at this baseline:
   53 sources.
 - [Library abstractions](../../content/libraries/README.md): five lessons,
   17 sources.
-- [Effects and scoped resources](../../content/effects/README.md): one lesson,
-  four sources.
+- [Effects and scoped resources](../../content/effects/README.md): two lessons,
+  eight sources.
 
 The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 24 demonstrated rejections through complete
+The active edition now teaches all 25 demonstrated rejections through complete
 English human messages: eleven in Learn, seven in Cases, five in Libraries,
-and one in Effects.
+and two in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
@@ -55,9 +55,10 @@ Continue that foundation through three connected strands:
 - **Library abstractions:** generic implementations, nominal wrappers, and
   scoped exact evidence, extending the existing library path.
 
-E1 is **verified** and begins the active effects path. All other entries remain
-**provisional**. Their identifiers express curricular relationships, not task
-identifiers or delivery batches. No further delivery increment is selected.
+E1 and E2 are **verified** and form the active effects path. E3 is **in progress**
+and remains a draft because of the row-tail exclusion mismatch below. All
+other entries remain **provisional**. These identifiers express curricular
+relationships, not task identifiers or delivery batches.
 
 ### Teaching approach
 
@@ -101,6 +102,8 @@ operations, open rows, and abandonment for later chapters.
 
 ### E2. What does an effectful function promise?
 
+**State: verified.** [Read the lesson](../../content/effects/following-effect-contracts/README.md).
+
 Follow the request through several ordinary calls and a returned function.
 Distinguish a value type from computation effects, and constructing a function
 from calling it. Explain where latent effects belong on chained arrows.
@@ -111,6 +114,10 @@ with one that omits a required effect. Use closed rows so the next chapter has
 one new abstraction to introduce.
 
 ### E3. How can a reusable function preserve its caller's effects?
+
+**State: in progress; draft.** The [execution plan](../plans/2026-09-10-effect-contracts.md)
+owns the remaining work. The [regression candidate](../../lab/effect-row-tail-exclusion/README.md)
+records a mismatch between specified row exclusions and generic-call checking.
 
 Revisit a higher-order function from Learn with pure and effectful callbacks.
 Introduce open rows, row parameters, and the `EffectRow` kind because the
@@ -376,8 +383,12 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1 is complete. E2 is the next curricular question; it remains provisional
-until selected for delivery. Later delivery groupings and dates are undecided.
+E1 and E2 are complete. E3's examples and prose are drafted, but the compiler
+accepts a callback whose effect the specified row-tail exclusion forbids. Its
+working examples do not establish that excluded-instantiation boundary. The
+lesson remains outside active navigation pending upstream resolution or an
+explicit decision to teach the known limitation. Later delivery groupings
+and dates are undecided.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording
