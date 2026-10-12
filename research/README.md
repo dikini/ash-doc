@@ -22,3 +22,13 @@ owns its own claims; the research record remains source and method evidence.
 
 Follow the [writing skill](../.agents/skills/writing-ash-documentation/SKILL.md)
 for source integrity and adaptation style.
+
+## Teaching references
+
+- [*How to Design Programs*](how-to-design-programs-recursive-algorithms.md)
+  contributes design from data, abstraction, termination, and cost reasoning.
+- [Liquid Shplait](liquid-shplait-teaching.md) contributes explanations of
+  contracts, checking responsibilities, rejections, and guarantee boundaries.
+- [*A Data-Centric Introduction to Computing*](data-centric-introduction-to-computing.md)
+  contributes meaningful data, development from examples, prediction, and
+  revision through small distinguishing cases.

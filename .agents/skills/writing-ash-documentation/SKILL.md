@@ -14,6 +14,18 @@ verification.
 Extend Ash's direct writing with the method of
 [*How to Design Programs*](https://htdp.org/2026-2-25/Book/), not its wording.
 
+Also draw on [Liquid Shplait's documentation][liquid] for explaining a
+contract's requirements, a rejection's cause, and the scope of a guarantee.
+Use [*A Data-Centric Introduction to Computing*][dcic], edition 2025-08-27,
+for developing programs from meaningful data and examples, asking for
+predictions, and revising a plausible attempt through a small distinguishing
+case. Use these methods where the chapter's question needs them.
+
+The [Liquid Shplait record][liquid-record] and [DCIC record][dcic-record]
+retain the consulted sources, contributions, and adaptation boundaries.
+These are teaching inspirations. Write original prose and examples, and
+derive Ash behavior from the pinned specification and tool.
+
 ## Separate the two kinds of prose
 
 Learning prose builds a connected reader model; project prose records targets,
@@ -99,3 +111,8 @@ attribution.
   the observations the reader must discover?
 - Does every runnable block have canonical, tested source?
 - Do project records retain authority, target, and evidence?
+
+[liquid]: https://docs.racket-lang.org/liquid-shplait/
+[dcic]: https://dcic-world.org/2025-08-27/index.html
+[liquid-record]: ../../../research/liquid-shplait-teaching.md
+[dcic-record]: ../../../research/data-centric-introduction-to-computing.md

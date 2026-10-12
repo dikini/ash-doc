@@ -15,6 +15,4 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-The active bounded decision is to add the two user-selected teaching
-references. Its [execution plan](2026-10-12-teaching-references.md) records the
-source review, files, and completion checks.
+No active plans.

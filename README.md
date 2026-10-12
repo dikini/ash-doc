@@ -167,7 +167,13 @@ techniques visible in
 [*How to Design Programs*, second edition](https://htdp.org/2026-2-25/Book/):
 start from a concrete problem, make intermediate design reasoning visible,
 introduce vocabulary as it becomes useful, and turn examples into checks. The
-project-local
+project also draws teaching inspiration from
+[Liquid Shplait](research/liquid-shplait-teaching.md) for explaining contracts,
+rejections, and guarantee boundaries, and from
+[*A Data-Centric Introduction to Computing*](research/data-centric-introduction-to-computing.md)
+for meaningful data, prediction, and development through examples and revision.
+These references inform original teaching material; Ash behavior still comes
+from the pinned specification and tool. The project-local
 [`writing-ash-documentation` skill](.agents/skills/writing-ash-documentation/SKILL.md)
 defines that style for writing agents. [AGENTS.md](AGENTS.md) defines the
 repository authority and workflow around it.
