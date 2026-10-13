@@ -9,9 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const label = document.createElement('summary');
   label.textContent = 'On this page';
   disclosure.append(label);
+  const pagePath = pathname => pathname.replace(/\/index\.html$/, '/');
   for (const link of toc.querySelectorAll('a[href]')) {
     const target = new URL(link.href, location.href);
-    if (target.origin !== location.origin || target.pathname !== location.pathname || !target.hash) continue;
+    if (target.origin !== location.origin || pagePath(target.pathname) !== pagePath(location.pathname) || !target.hash) continue;
     const copy = link.cloneNode(true);
     copy.setAttribute('href', target.hash);
     copy.removeAttribute('id');

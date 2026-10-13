@@ -18,6 +18,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / ".build/toolchain"
+BOOK_FAMILIES = ("learn", "libraries", "effects", "cases")
 
 
 def run(args, **kwargs):
@@ -73,8 +74,7 @@ def markdown(quarto, document, note_prefix=""):
     return result + ("\n" + "\n\n".join(definitions) + "\n" if definitions else "")
 
 
-def ordered_sources(quarto, selected):
-    indexed = []
+def family_indexes(quarto):
     root_index = parse(quarto, (ROOT / "content/README.md").read_text())
     families = []
     for node in walk(root_index["blocks"]):
@@ -84,18 +84,30 @@ def ordered_sources(quarto, selected):
             if candidate.parent.parent == ROOT / "content" and candidate.name == "README.md":
                 if candidate not in families:
                     families.append(candidate)
-    for index in families:
-        for node in walk(parse(quarto, index.read_text())["blocks"]):
-            if node.get("t") != "Link":
-                continue
-            target = urlsplit(node["c"][2][0])
-            if target.scheme or not target.path:
-                continue
-            path = (index.parent / unquote(target.path)).resolve()
-            if path.parent.parent == index.parent and path.name == "README.md":
-                relative = path.relative_to(ROOT).as_posix()
-                if relative not in indexed:
-                    indexed.append(relative)
+    return families
+
+
+def family_lessons(quarto, index):
+    indexed = []
+    for node in walk(parse(quarto, index.read_text())["blocks"]):
+        if node.get("t") != "Link":
+            continue
+        target = urlsplit(node["c"][2][0])
+        if target.scheme or not target.path:
+            continue
+        path = (index.parent / unquote(target.path)).resolve()
+        if path.parent.parent == index.parent and path.name == "README.md":
+            if not path.is_file():
+                raise ValueError(f"{index}: indexed lesson is missing: {target.path}")
+            relative = path.relative_to(ROOT).as_posix()
+            if relative not in indexed:
+                indexed.append(relative)
+    return indexed
+
+
+def ordered_sources(quarto, selected):
+    indexed = [source for index in family_indexes(quarto)
+               for source in family_lessons(quarto, index)]
     for source in selected:
         if source not in indexed:
             raise ValueError(f"{source}: not an indexed lesson")
@@ -105,8 +117,27 @@ def ordered_sources(quarto, selected):
 def chapter_name(source):
     path = Path(source)
     if path.parts[0] == "content":
+        if len(path.parts) == 3:
+            return f"{path.parts[1]}-introduction.md"
         return f"{path.parts[1]}-{path.parts[2]}.md"
     return path.stem + ".md"
+
+
+def whole_book_sources(quarto):
+    available = {index.parent.name: index for index in family_indexes(quarto)}
+    sources, parts = [], []
+    for family in BOOK_FAMILIES:
+        if family not in available:
+            raise ValueError(f"whole book requires the indexed {family} family")
+        index = available[family]
+        introduction = index.relative_to(ROOT).as_posix()
+        lessons = family_lessons(quarto, index)
+        if not lessons:
+            raise ValueError(f"{index}: family has no indexed lessons")
+        sources.extend([introduction, *lessons])
+        parts.append({"family": family, "introduction": chapter_name(introduction),
+                      "chapters": [chapter_name(source) for source in lessons]})
+    return sources, parts
 
 
 def transform_links(document, source, mapping, commit):
@@ -214,9 +245,16 @@ def stage_images(document, source, output):
     return list(assets.values())
 
 
-def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=None):
+def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=None,
+                    details=None):
     text = (ROOT / source).read_text(encoding="utf-8")
     document = parse(quarto, text)
+    if details is not None:
+        heading = next((block for block in document["blocks"]
+                        if block.get("t") == "Header" and block["c"][0] == 1), None)
+        if heading is None:
+            raise ValueError(f"{source}: chapter needs a top-level title")
+        details.update(title=literal(heading["c"][2]), anchor=heading["c"][1][0])
     transform_links(document, source, mapping, commit)
     staged_assets = stage_images(document, source, output)
     if assets is not None:
@@ -279,11 +317,12 @@ def reader_setup(quarto):
     return markdown(quarto, document, "setup-")
 
 
-def configuration(chapters):
+def configuration(chapters, title="Ash documentation rendering specimen",
+                  output_file="ash-doc-specimen"):
     return {
         "project": {"type": "book", "output-dir": "output", "resources": ["fonts/**"]},
-        "book": {"title": "Ash documentation rendering specimen",
-                 "author": "Ash documentation project", "output-file": "ash-doc-specimen",
+        "book": {"title": title,
+                 "author": "Ash documentation project", "output-file": output_file,
                  "chapters": ["index.md", "setup.md"] + chapters},
         "lang": "en", "execute": {"enabled": False}, "number-sections": False,
         "pdf-a4": False,
@@ -295,9 +334,11 @@ def configuration(chapters):
                      "grid": {"sidebar-width": "220px", "body-width": "650px", "margin-width": "210px"},
                      "include-in-header": "styles/fonts.html",
                      "include-after-body": "styles/navigation.html"},
-            "epub": {"toc": True, "epub-version": 3, "css": "styles/epub.css"},
+            "epub": {"toc": True, "epub-version": 3, "css": "styles/epub.css",
+                     "filters": [{"path": "styles/book-links.lua", "at": "pre-quarto"}]},
             "typst": {"toc": True, "keep-typ": True, "mainfont": "TeX Gyre Pagella",
                       "monofont": "IBM Plex Mono", "reference-location": "margin",
+                      "filters": [{"path": "styles/book-links.lua", "at": "pre-quarto"}],
                       "template-partials": ["styles/typst-show.typ", "styles/book.typ"]},
         },
     }
@@ -310,7 +351,15 @@ def prepare(args):
         raise ValueError(f"Quarto {config['quarto_version']} required; found {version}")
     if config["ash_commit"] not in (ROOT / "README.md").read_text():
         raise ValueError("specimen Ash target differs from the current edition")
-    sources = ordered_sources(args.quarto, config["sources"]) + config["fixtures"]
+    whole_book = getattr(args, "whole_book", False)
+    if whole_book:
+        sources, parts = whole_book_sources(args.quarto)
+        title, output_file = "Ash documentation review draft", "ash-doc-review"
+    else:
+        sources = ordered_sources(args.quarto, config["sources"]) + config["fixtures"]
+        parts = []
+        title, output_file = "Ash documentation rendering specimen", "ash-doc-specimen"
+    config["output_file"] = output_file
     mapping = {source: chapter_name(source) for source in sources}
     if len(set(mapping.values())) != len(mapping):
         raise ValueError("chapter filenames collide")
@@ -318,38 +367,65 @@ def prepare(args):
     args.output.mkdir(parents=True, exist_ok=True)
     marker = args.output / ".ash-doc-rendering"
     if any(args.output.iterdir()) and not marker.exists():
-        raise ValueError(f"{args.output}: existing directory is not a generated specimen")
+        raise ValueError(f"{args.output}: existing directory is not a generated book")
     marker.write_text("Generated by ash-doc rendering/build.py\n", encoding="utf-8")
     shutil.copytree(ROOT / "rendering/styles", args.output / "styles", dirs_exist_ok=True)
     shutil.copytree(ROOT / "rendering/fonts", args.output / "fonts", dirs_exist_ok=True)
     jobs, records = [], []
     for source in sources:
         assets = []
+        details = {}
         staged, codes = prepare_chapter(args.quarto, source, mapping, commit, jobs,
-                                       output=args.output, assets=assets)
+                                       output=args.output, assets=assets, details=details)
         chapter = mapping[source]
         (args.output / chapter).write_text(staged, encoding="utf-8")
-        records.append({"source": source, "chapter": chapter, "code": codes, "assets": assets,
-                        "sha256": hashlib.sha256((ROOT / source).read_bytes()).hexdigest()})
+        path = Path(source)
+        if path.parts[0] == "content":
+            role = "introduction" if len(path.parts) == 3 else "lesson"
+        else:
+            role = "fixture"
+        record = {"source": source, "chapter": chapter, "code": codes, "assets": assets,
+                  "sha256": hashlib.sha256((ROOT / source).read_bytes()).hexdigest(),
+                  "role": role, **details}
+        if path.parts[0] == "content":
+            record["family"] = path.parts[1]
+        records.append(record)
     (args.output / "setup.md").write_text(reader_setup(args.quarto), encoding="utf-8")
-    (args.output / "index.md").write_text(
+    introduction = ("# Ash documentation\n\n"
+        "The book begins with small calculations and follows how their data and "
+        "functions connect. Work through the programs, predict their results, "
+        "and use the observations to explain each step.\n\n"
+        "Begin with reader setup and Learn Ash. The library chapters develop "
+        "reusable abstractions; the effects chapters develop requests, control, "
+        "and scoped resources. The Cases then calculate algorithms and apply "
+        "those ideas to larger problems. Follow each part in order, using its "
+        "introduction for reading and practice guidance.\n") if whole_book else (
         "# Ash documentation\n\nThis local specimen tests the presentation of verified lessons "
         "and labelled notation fixtures in three formats.\n\nThe lessons target `diag-ash`, commit `"
         + config["ash_commit"] + "`. The edition remains unpublished.\n\n"
-        "Begin with reader setup, then use the contents to select a chapter.\n", encoding="utf-8")
-    (args.output / "_quarto.yml").write_text(json.dumps(configuration(list(mapping.values())), indent=2), encoding="utf-8")
+        "Begin with reader setup, then use the contents to select a chapter.\n")
+    (args.output / "index.md").write_text(introduction, encoding="utf-8")
+    chapters = ([{"part": part["introduction"], "chapters": part["chapters"]} for part in parts]
+                if whole_book else list(mapping.values()))
+    (args.output / "_quarto.yml").write_text(json.dumps(configuration(chapters, title, output_file), indent=2), encoding="utf-8")
     (args.output / "_quarto-a4.yml").write_text(json.dumps({
-        "book": {"output-file": "ash-doc-specimen-a4"},
+        "book": {"output-file": output_file + "-a4"},
         "pdf-a4": True,
         "format": {"typst": {"reference-location": "margin"}},
     }, indent=2), encoding="utf-8")
     (args.output / "sources.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
+    (args.output / "build.json").write_text(json.dumps({
+        "mode": "book" if whole_book else "specimen", "title": title,
+        "output_file": output_file, "source_commit": commit, "ash_commit": config["ash_commit"],
+        "chapters": ["index.md", "setup.md", *mapping.values()], "parts": parts,
+        "lesson_count": sum(record["role"] == "lesson" for record in records),
+    }, indent=2), encoding="utf-8")
     (args.output / "diagram-jobs.json").write_text(json.dumps({"output": str(args.output / "assets"),
                                             "diagrams": jobs}, indent=2), encoding="utf-8")
     return config
 
 
-def repair_figure_wrappers(output):
+def repair_figure_wrappers(output, output_file="ash-doc-specimen"):
     """Compensate for QT-01 without changing the valid image alt attribute."""
     wrapper = re.compile(r'<div\b[^>]*\bclass="[^"]*\bquarto-float\b[^"]*"[^>]*>')
 
@@ -361,7 +437,7 @@ def repair_figure_wrappers(output):
         corrected = repair(text)
         if corrected != text:
             path.write_text(corrected, encoding="utf-8")
-    path = output / "ash-doc-specimen.epub"
+    path = output / (output_file + ".epub")
     temporary = path.with_suffix(".epub.partial")
     try:
         with zipfile.ZipFile(path) as original, zipfile.ZipFile(temporary, "w") as corrected:
@@ -402,13 +478,14 @@ def build(args, config):
     environment["SOURCE_DATE_EPOCH"] = run(["git", "show", "-s", "--format=%ct", "HEAD"], cwd=ROOT,
                                           capture_output=True, text=True).stdout.strip()
     run([args.quarto, "render", "--to", "all"], cwd=args.output, env=environment)
-    shutil.copyfile(args.output / "index.typ", args.output / "ash-doc-specimen.typ")
+    output_file = config["output_file"]
+    shutil.copyfile(args.output / "index.typ", args.output / (output_file + ".typ"))
     run([args.quarto, "render", "--to", "typst", "--profile", "a4", "--no-clean"],
         cwd=args.output, env=environment)
-    shutil.copyfile(args.output / "index.typ", args.output / "ash-doc-specimen-a4.typ")
-    repair_figure_wrappers(args.output / "output")
-    for name in ("index.html", "ash-doc-specimen.epub", "ash-doc-specimen.pdf",
-                 "ash-doc-specimen-a4.pdf"):
+    shutil.copyfile(args.output / "index.typ", args.output / (output_file + "-a4.typ"))
+    repair_figure_wrappers(args.output / "output", output_file)
+    for name in ("index.html", output_file + ".epub", output_file + ".pdf",
+                 output_file + "-a4.pdf"):
         if not (args.output / "output" / name).is_file():
             raise ValueError(f"required output missing: {name}")
     print(f"Built HTML, EPUB 3, book PDF, and A4 PDF in {args.output / 'output'}")
@@ -417,13 +494,16 @@ def build(args, config):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--whole-book", action="store_true",
+                        help="render all indexed lessons in Learn, Libraries, Effects, Cases order")
     parser.add_argument("--specimen", type=Path, default=ROOT / "rendering/specimen.json")
     parser.add_argument("--quarto", type=Path, default=TOOLS / "quarto-1.10.19/bin/quarto")
-    parser.add_argument("--output", type=Path, default=ROOT / ".build/specimen")
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--railroad", type=Path)
     parser.add_argument("--sequent", type=Path)
     parser.add_argument("--browser", type=Path, default=TOOLS / "browser-cache/chrome/linux-152.0.7977.75/chrome-linux64/chrome")
     args = parser.parse_args()
+    args.output = args.output or ROOT / (".build/book" if args.whole_book else ".build/specimen")
     os.environ.setdefault("XDG_CACHE_HOME", str(TOOLS / "cache"))
     common = run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
                  cwd=ROOT, capture_output=True, text=True).stdout.strip()

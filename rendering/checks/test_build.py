@@ -296,6 +296,101 @@ class PreparationTests(unittest.TestCase):
             with zipfile.ZipFile(output / "ash-doc-specimen.epub") as archive:
                 self.assertEqual(archive.read("EPUB/text/ch001.xhtml").decode(), expected)
 
+    def test_whole_book_uses_index_order_and_retains_part_introductions(self):
+        source = "content/cases/first/README.md"
+        with self.asset_book({source: "# First\n"}, {}) as (builder, root, args):
+            families = ("learn", "libraries", "effects", "cases")
+            (root / "content/README.md").write_text("\n".join(
+                f"[{family}]({family}/README.md)" for family in reversed(families)))
+            expected = []
+            for family in families:
+                (root / f"content/{family}").mkdir(exist_ok=True)
+                (root / f"content/{family}/README.md").write_text(
+                    f"# {family.title()}\n\nA reader introduction.\n\n"
+                    "1. [Second](second/README.md)\n2. [First](first/README.md)\n")
+                expected.append(f"content/{family}/README.md")
+                for name in ("first", "second", "draft"):
+                    path = root / f"content/{family}/{name}/README.md"
+                    path.parent.mkdir(exist_ok=True)
+                    path.write_text(f"# {family.title()} {name}\n\n"
+                                    "[This part](../README.md)\n\n"
+                                    f"```text\n{family} {name}: retained text\n```\n")
+                expected.extend(f"content/{family}/{name}/README.md"
+                                for name in ("second", "first"))
+            args.whole_book = True
+            builder.prepare(args)
+            records = json.loads((args.output / "sources.json").read_text())
+            self.assertEqual([record["source"] for record in records], expected)
+            self.assertEqual(sum(record["role"] == "lesson" for record in records), 8)
+            self.assertEqual(sum(record["role"] == "introduction" for record in records), 4)
+            identity = json.loads((args.output / "build.json").read_text())
+            self.assertEqual(identity["mode"], "book")
+            self.assertEqual(identity["lesson_count"], 8)
+            self.assertEqual([part["family"] for part in identity["parts"]], list(families))
+            self.assertEqual(identity["chapters"], ["index.md", "setup.md"] +
+                             [record["chapter"] for record in records])
+            self.assertEqual(identity["output_file"], "ash-doc-review")
+            self.assertEqual(json.loads((args.output / "diagram-jobs.json").read_text())["diagrams"], [])
+            configuration = json.loads((args.output / "_quarto.yml").read_text())
+            self.assertEqual([part["part"] for part in configuration["book"]["chapters"][2:]],
+                             [part["introduction"] for part in identity["parts"]])
+            for record in records:
+                staged = (args.output / record["chapter"]).read_text()
+                self.assertEqual(fences((root / record["source"]).read_text()), fences(staged))
+                self.assertTrue(record["title"])
+                self.assertTrue(record["anchor"])
+                if record["role"] == "lesson":
+                    self.assertIn(f"{record['family']}-introduction.md", staged)
+                else:
+                    self.assertIn("A reader introduction.", staged)
+            self.assertEqual(json.loads((args.output / "_quarto-a4.yml").read_text())
+                             ["book"]["output-file"], "ash-doc-review-a4")
+
+    def test_full_book_figure_repair_uses_its_own_output_name(self):
+        spec = importlib.util.spec_from_file_location("render_build", ROOT / "rendering/build.py")
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        original = '<div class="quarto-float" alt="Keep"><img alt="Keep"></div>'
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            with zipfile.ZipFile(output / "ash-doc-review.epub", "w") as archive:
+                archive.writestr("EPUB/text/ch001.xhtml", original)
+            try:
+                builder.repair_figure_wrappers(output, "ash-doc-review")
+            except TypeError as error:
+                self.fail(f"Figure repair cannot select the full-book export: {error}")
+            with zipfile.ZipFile(output / "ash-doc-review.epub") as archive:
+                self.assertEqual(archive.read("EPUB/text/ch001.xhtml").decode(),
+                                 '<div class="quarto-float"><img alt="Keep"></div>')
+
+    def test_print_template_compiles_native_book_parts_in_reading_order(self):
+        os.environ.setdefault("XDG_CACHE_HOME", str(ROOT / ".build/toolchain/cache"))
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as temporary:
+            directory = Path(temporary)
+            template = directory / "template.typ"
+            template.write_text('#import "@preview/marginalia:0.3.1" as marginalia\n' +
+                                (ROOT / "rendering/styles/book.typ").read_text() + "\n$body$\n")
+            source = directory / "parts.md"
+            source.write_text("```{=typst}\n#part[First part]\nFirst introduction.\n"
+                              "#part[Second part]\nSecond introduction.\n```\n")
+            typst = directory / "parts.typ"
+            result = subprocess.run([str(QUARTO), "pandoc", str(source), "--to", "typst",
+                                     "--standalone", "--template", str(template),
+                                     "--metadata", "title=Part regression", "--output", str(typst)],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            result = subprocess.run([str(QUARTO), "typst", "compile", str(typst),
+                                     str(directory / "parts.pdf"), "--font-path",
+                                     str(ROOT / "rendering/fonts"), "--ignore-system-fonts",
+                                     "--package-cache-path", str(QUARTO.parents[1] /
+                                     "share/formats/typst/packages")],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            text = subprocess.check_output(["pdftotext", str(directory / "parts.pdf"), "-"], text=True)
+            self.assertLess(text.rindex("First part"), text.rindex("Second part"))
+            self.assertIn("First introduction.", text)
+            self.assertIn("Second introduction.", text)
+
     def prepare(self, config=None):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

@@ -16,6 +16,7 @@ $endif$
   pagebreak(weak: true)
   block(above: 0pt, below: 18pt, text(size: 24pt, weight: "regular", it.body))
 }
+#let part(title) = heading(level: 1, numbering: none, title)
 $if(pdf-a4)$
 #show: marginalia.setup.with(
   inner: (far: 25mm, width: 0pt, sep: 0pt),

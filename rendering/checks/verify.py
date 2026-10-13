@@ -15,11 +15,16 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 
+ROOT = Path(__file__).resolve().parents[2]
+BOOK_FAMILIES = ("learn", "libraries", "effects", "cases")
+
+
 class Html(HTMLParser):
     def __init__(self, source):
         super().__init__(convert_charrefs=True)
         self.ids, self.links, self.pre = set(), [], []
         self.current = None
+        self.headings, self.heading_current = [], None
         self.images = []
         self.full_width, self.full_width_current = [], None
         self.full_width_depth = 0
@@ -44,10 +49,14 @@ class Html(HTMLParser):
                 self.links.append(attrs[name])
         if tag == "pre":
             self.current = []
+        if tag == "h1":
+            self.heading_current = []
 
     def handle_data(self, data):
         if self.current is not None:
             self.current.append(data)
+        if self.heading_current is not None:
+            self.heading_current.append(data)
         if self.full_width_current is not None:
             self.full_width_current["text"].append(data)
 
@@ -55,6 +64,9 @@ class Html(HTMLParser):
         if tag == "pre" and self.current is not None:
             self.pre.append("".join(self.current).removesuffix("\n"))
             self.current = None
+        if tag == "h1" and self.heading_current is not None:
+            self.headings.append(" ".join("".join(self.heading_current).split()))
+            self.heading_current = None
         if tag == "div" and self.full_width_current is not None:
             self.full_width_depth -= 1
             if self.full_width_depth == 0:
@@ -88,6 +100,142 @@ def heading_text(text):
     return text.translate(str.maketrans({
         "\u2019": "'", "\u2018": "'", "\u201c": '"', "\u201d": '"',
     }))
+
+
+def indexed_lessons(root, family):
+    """Read direct lesson links from the family index, independently of build records."""
+    directory = root / "content" / family
+    lessons = []
+    for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", (directory / "README.md").read_text()):
+        url = urlsplit(target)
+        if url.scheme or url.netloc or not url.path:
+            continue
+        path = (directory / unquote(url.path)).resolve()
+        if path.parent.parent == directory and path.name == "README.md":
+            source = path.relative_to(root).as_posix()
+            if source not in lessons:
+                lessons.append(source)
+    check(lessons, f"{family}: family index has no lessons")
+    return lessons
+
+
+def verify_diagram_sources(jobs, records):
+    sources = {record["source"] for record in records}
+    for job in jobs:
+        check(job["path"] in sources, f"diagram {job['id']}: no recorded source for {job['path']}")
+
+
+def verify_build_metadata(metadata, records, root=ROOT):
+    """Check generated identity against canonical indexes and exact source digests."""
+    mode = metadata["mode"]
+    check(mode in ("book", "specimen"), f"unknown build mode: {mode}")
+    basename = metadata["output_file"]
+    check(basename == ("ash-doc-review" if mode == "book" else "ash-doc-specimen"),
+          f"output basename does not match {mode} mode")
+    check(isinstance(metadata["title"], str) and metadata["title"].strip(), "build has no title")
+    config = json.loads((root / "rendering/specimen.json").read_text())
+    check(metadata["ash_commit"] == config["ash_commit"], "build Ash target differs from the pinned edition")
+    check(isinstance(metadata["source_commit"], str) and
+          re.fullmatch(r"[0-9a-f]{40}", metadata["source_commit"]), "build source commit is not exact")
+    sources = [record["source"] for record in records]
+    chapters = [record["chapter"] for record in records]
+    check(len(set(sources)) == len(sources), "duplicate source records")
+    check(len(set(chapters)) == len(chapters), "duplicate chapter records")
+    check(metadata["chapters"] == ["index.md", "setup.md"] + chapters,
+          "build chapter order differs from source records")
+    lessons = {family: indexed_lessons(root, family) for family in BOOK_FAMILIES}
+    if mode == "book":
+        expected_sources = [source for family in BOOK_FAMILIES
+                            for source in [f"content/{family}/README.md"] + lessons[family]]
+        check(sources == expected_sources, "book sources differ from complete indexed reading order")
+        for record in records:
+            family = Path(record["source"]).parts[1]
+            role = "introduction" if record["source"] == f"content/{family}/README.md" else "lesson"
+            check(record.get("role") == role, f"{record['source']}: role must be {role}")
+            check(record.get("family") == family, f"{record['source']}: incorrect source family")
+        expected_parts = [{"family": family,
+                           "introduction": records[sources.index(f"content/{family}/README.md")]["chapter"],
+                           "chapters": [records[sources.index(source)]["chapter"] for source in lessons[family]]}
+                          for family in BOOK_FAMILIES]
+        check(metadata["parts"] == expected_parts, "book part introductions/chapters differ from indexed sources")
+        expected_count = sum(len(sources) for sources in lessons.values())
+    else:
+        selected = set(config["sources"])
+        family_order = []
+        for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", (root / "content/README.md").read_text()):
+            path = (root / "content" / urlsplit(target).path).resolve()
+            if path.parent.name in lessons and path.name == "README.md" and path.parent.name not in family_order:
+                family_order.append(path.parent.name)
+        expected_sources = [source for family in family_order for source in lessons[family]
+                            if source in selected] + config["fixtures"]
+        check(sources == expected_sources, "specimen sources differ from indexed selection and fixtures")
+        for record in records:
+            role = "lesson" if record["source"] in selected else "fixture"
+            check(record.get("role") == role, f"{record['source']}: role must be {role}")
+        check(metadata["parts"] == [], "specimen unexpectedly contains book parts")
+        expected_count = len(selected)
+    check(metadata["lesson_count"] == expected_count, "reported lesson count differs from indexed coverage")
+    for record in records:
+        source = root / record["source"]
+        check(source.is_file(), f"canonical source missing: {record['source']}")
+        check(hashlib.sha256(source.read_bytes()).hexdigest() == record["sha256"],
+              f"{record['source']}: canonical source differs from its recorded digest")
+    return basename
+
+
+def verify_epub_chapters(xml, package_name, records):
+    """Associate chapters through spine, source heading and TOC before exact code comparison."""
+    package = xml[package_name]
+    manifest = {item.attrib["id"]: item for item in package.findall(".//{*}manifest/{*}item")}
+    destinations = {identifier: local_target(package_name, item.attrib["href"])[0]
+                    for identifier, item in manifest.items()}
+    spine = []
+    for item in package.findall(".//{*}spine/{*}itemref"):
+        identifier = item.attrib["idref"]
+        check(identifier in destinations, f"EPUB: missing spine item {identifier}")
+        if item.attrib.get("linear", "yes") == "no":
+            continue
+        name = destinations[identifier]
+        check(name in xml, f"EPUB: missing spine document {name}")
+        spine.append(name)
+    check(len(set(spine)) == len(spine), "EPUB: duplicate spine documents")
+    nav_names = [destinations[identifier] for identifier, item in manifest.items()
+                 if "nav" in item.attrib.get("properties", "").split()]
+    check(len(nav_names) == 1 and nav_names[0] in xml, "EPUB: missing unique navigation document")
+    nav_name = nav_names[0]
+    toc_nodes = [node for node in xml[nav_name].iter()
+                 if node.tag.rsplit("}", 1)[-1] == "nav" and
+                 "toc" in node.attrib.get("{http://www.idpf.org/2007/ops}type", "").split()]
+    check(len(toc_nodes) == 1, "EPUB: missing unique navigation TOC")
+
+    def title(node):
+        return heading_text(" ".join("".join(node.itertext()).split()))
+
+    associated, previous = {}, -1
+    for record in records:
+        expected_title = heading_text(" ".join(record["title"].split()))
+        candidates = [(number, name) for number, name in enumerate(spine)
+                      for node in xml[name].iter()
+                      if node.tag.rsplit("}", 1)[-1] == "h1" and title(node) == expected_title]
+        check(len(candidates) == 1, f"EPUB: source chapter heading is not unique: {record['source']}")
+        number, name = candidates[0]
+        check(number > previous, f"EPUB: spine source chapter order differs at {record['source']}")
+        previous = number
+        document = xml[name]
+        anchor = record["anchor"]
+        check(any(node.attrib.get("id") == anchor for node in document.iter()),
+              f"EPUB: source chapter anchor missing: {record['source']}")
+        links = [node for node in toc_nodes[0].iter()
+                 if node.tag.rsplit("}", 1)[-1] == "a" and
+                 local_target(nav_name, node.attrib.get("href", "")) == (name, anchor) and
+                 title(node) == expected_title]
+        check(len(links) == 1, f"EPUB: navigation does not identify source chapter: {record['source']}")
+        actual = ["".join(node.itertext()).removesuffix("\n") for node in document.iter()
+                  if node.tag.rsplit("}", 1)[-1] == "pre"]
+        check(actual == [block["text"] for block in record["code"]],
+              f"{record['source']}: EPUB rendered code/transcript differs from its source chapter")
+        associated[record["source"]] = (name, document)
+    return associated
 
 
 def source_notes(project, records):
@@ -471,12 +619,12 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
                   and bounds["top"] >= -1 and bounds["bottom"] <= height + 1,
                   f"{filename}: page {number} puts text outside the paper: {word.text!r}")
 
-    titles = ["Ash documentation", "Reader setup"]
-    for record in records:
-        heading = re.search(r"^# (.+)$", (project / record["chapter"]).read_text(), re.M)
+    titles = []
+    for record in [{"chapter": "index.md"}, {"chapter": "setup.md"}] + records:
+        heading = re.search(r"^# (.+?)(?: \{[^}]+\})?$", (project / record["chapter"]).read_text(), re.M)
         check(heading is not None, f"{record['chapter']}: chapter has no title")
-        titles.append(heading.group(1))
-    parities = set()
+        titles.append(record.get("title", heading.group(1)))
+    parities, previous_heading = set(), None
     for title in titles:
         headings = []
         for number, page in enumerate(pages, 1):
@@ -489,6 +637,10 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
                     headings.append((number, words[0]))
         check(len(headings) == 1, f"{filename}: chapter title not found exactly once: {title}")
         number, first_word = headings[0]
+        position = (number, float(first_word.attrib["yMin"]))
+        check(previous_heading is None or position > previous_heading,
+              f"{filename}: chapter reading order differs at {title!r}")
+        previous_heading = position
         expected_left = 25 * millimetre if a4 else (54 if number % 2 else 198)
         check(abs(float(first_word.attrib["xMin"]) - expected_left) <= 1,
               f"{filename}: page {number} has an incorrect body margin at {title!r}")
@@ -520,35 +672,36 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
                   f"{filename}: page {number} has overlapping sidenotes")
         note_regions.setdefault(number, []).append(bounds)
 
-    wide_paragraph = find_pdf_phrase(pages, full_width["paragraph"])
-    check(len(wide_paragraph) == 1, f"{filename}: complete full-width paragraph not found exactly once")
-    wide_page, wide_words = wide_paragraph[0]
-    paragraph_bounds = word_bounds(wide_words)
-    for cell in full_width["cells"]:
-        occurrences = find_pdf_phrase(pages, cell)
-        check(len(occurrences) == 1, f"{filename}: full-width table cell not found exactly once: {cell}")
-        number, words = occurrences[0]
-        check(number == wide_page, f"{filename}: full-width note/table breaks across pages")
-        wide_words.extend(words)
-    wide_bounds = word_bounds(wide_words)
-    if a4:
-        wide_left, wide_right = 25 * millimetre, 190 * millimetre
-        extends_notes = paragraph_bounds["right"] > 140 * millimetre + 1
-    elif wide_page % 2:
-        wide_left, wide_right = 54, 540
-        extends_notes = paragraph_bounds["right"] > 396 + 1
-    else:
-        wide_left, wide_right = 36, 522
-        extends_notes = paragraph_bounds["left"] < 180 - 1
-    check(abs(float(wide_paragraph[0][1][0].attrib["xMin"]) - wide_left) <= 1,
-          f"{filename}: full-width note has the wrong starting margin")
-    check(wide_bounds["left"] >= wide_left - 1 and wide_bounds["right"] <= wide_right + 1,
-          f"{filename}: full-width note extends outside usable print margins")
-    check(extends_notes, f"{filename}: full-width paragraph does not extend into the note area")
-    for note in note_regions.get(wide_page, []):
-        overlaps = (wide_bounds["left"] < note["right"] and wide_bounds["right"] > note["left"]
-                    and wide_bounds["top"] < note["bottom"] and wide_bounds["bottom"] > note["top"])
-        check(not overlaps, f"{filename}: full-width note overlaps a sidenote")
+    if full_width is not None:
+        wide_paragraph = find_pdf_phrase(pages, full_width["paragraph"])
+        check(len(wide_paragraph) == 1, f"{filename}: complete full-width paragraph not found exactly once")
+        wide_page, wide_words = wide_paragraph[0]
+        paragraph_bounds = word_bounds(wide_words)
+        for cell in full_width["cells"]:
+            occurrences = find_pdf_phrase(pages, cell)
+            check(len(occurrences) == 1, f"{filename}: full-width table cell not found exactly once: {cell}")
+            number, words = occurrences[0]
+            check(number == wide_page, f"{filename}: full-width note/table breaks across pages")
+            wide_words.extend(words)
+        wide_bounds = word_bounds(wide_words)
+        if a4:
+            wide_left, wide_right = 25 * millimetre, 190 * millimetre
+            extends_notes = paragraph_bounds["right"] > 140 * millimetre + 1
+        elif wide_page % 2:
+            wide_left, wide_right = 54, 540
+            extends_notes = paragraph_bounds["right"] > 396 + 1
+        else:
+            wide_left, wide_right = 36, 522
+            extends_notes = paragraph_bounds["left"] < 180 - 1
+        check(abs(float(wide_paragraph[0][1][0].attrib["xMin"]) - wide_left) <= 1,
+              f"{filename}: full-width note has the wrong starting margin")
+        check(wide_bounds["left"] >= wide_left - 1 and wide_bounds["right"] <= wide_right + 1,
+              f"{filename}: full-width note extends outside usable print margins")
+        check(extends_notes, f"{filename}: full-width paragraph does not extend into the note area")
+        for note in note_regions.get(wide_page, []):
+            overlaps = (wide_bounds["left"] < note["right"] and wide_bounds["right"] > note["left"]
+                        and wide_bounds["top"] < note["bottom"] and wide_bounds["bottom"] > note["top"])
+            check(not overlaps, f"{filename}: full-width note overlaps a sidenote")
 
     if lesson is not None:
         verification = verify_lesson_pdf(pages, lesson, filename, a4, note_regions)
@@ -573,13 +726,17 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
 
 def verify(project):
     output = project / "output"
-    check((output / "ash-doc-specimen-a4.pdf").is_file(),
-          "required PDF variant missing: ash-doc-specimen-a4.pdf")
+    metadata = json.loads((project / "build.json").read_text())
     records = json.loads((project / "sources.json").read_text())
-    full_width = source_full_width(records)
+    basename = verify_build_metadata(metadata, records)
+    specimen = metadata["mode"] == "specimen"
+    for filename in ("index.html", basename + ".epub", basename + ".pdf", basename + "-a4.pdf"):
+        check((output / filename).is_file(), f"required output missing: {filename}")
+    full_width = source_full_width(records) if specimen else None
     lesson = next(record for record in records if record["source"] ==
                   "content/cases/guaranteeing-logarithmic-retrieval/README.md")
     jobs = json.loads((project / "diagram-jobs.json").read_text())["diagrams"]
+    verify_diagram_sources(jobs, records)
     pages = {path.name: Html(path.read_text()) for path in output.glob("*.html")}
     lesson_page = pages[Path(lesson["chapter"]).with_suffix(".html").name]
     for identifier in ("red-root-sketch", "repair-comparison", "fig-tree-repair", "height-counting-cue"):
@@ -593,7 +750,10 @@ def verify(project):
     total = 0
     for record in records:
         page_name = Path(record["chapter"]).with_suffix(".html").name
+        check(page_name in pages, f"required source chapter missing: {page_name}")
         page = pages[page_name]
+        check([heading_text(title) for title in page.headings] == [heading_text(record["title"])],
+              f"{page_name}: source chapter title differs from rendered HTML")
         expected = [block["text"] for block in record["code"]]
         check(page.pre == expected, f"{page_name}: rendered code/transcript differs from source")
         total += len(expected)
@@ -606,32 +766,31 @@ def verify(project):
             check((output / path).exists(), f"{name}: missing destination {href}")
             if anchor and path in pages:
                 check(anchor in pages[path].ids, f"{name}: missing anchor {href}")
-    verify_full_width_markup([example for page in pages.values() for example in page.full_width],
-                             full_width, "HTML")
+    if full_width is not None:
+        verify_full_width_markup([example for page in pages.values() for example in page.full_width],
+                                 full_width, "HTML")
 
-    with zipfile.ZipFile(output / "ash-doc-specimen.epub") as archive:
+    with zipfile.ZipFile(output / (basename + ".epub")) as archive:
         xml = {name: ET.fromstring(archive.read(name)) for name in archive.namelist()
                if name.endswith((".xhtml", ".svg", ".opf"))}
         epub_ids = {name: {node.attrib["id"] for node in document.iter() if "id" in node.attrib}
                     for name, document in xml.items()}
-        package = next(document for name, document in xml.items() if name.endswith(".opf"))
+        package_names = [name for name in xml if name.endswith(".opf")]
+        check(len(package_names) == 1, "EPUB has no unique package document")
+        package_name = package_names[0]
+        package = xml[package_name]
         check(package.attrib["version"] == "3.0", "EPUB is not EPUB 3")
-        check("rendition:layout" not in archive.read("EPUB/content.opf").decode(), "EPUB unexpectedly fixes its layout")
-        epub_pre = []
+        check("rendition:layout" not in archive.read(package_name).decode(), "EPUB unexpectedly fixes its layout")
+        associated = verify_epub_chapters(xml, package_name, records)
         epub_full_width = []
         notes = 0
         expected_notes = sum(len(re.findall(r"^\[\^[^\]]+\]:",
                             (project / record["chapter"]).read_text(), re.M)) for record in records)
-        lesson_epub = None
         for name, document in xml.items():
             if not name.endswith(".xhtml"):
                 continue
-            if "height-counting-cue" in epub_ids[name]:
-                lesson_epub = (name, document)
             for element in document.iter():
                 tag = element.tag.rsplit("}", 1)[-1]
-                if tag == "pre":
-                    epub_pre.append("".join(element.itertext()).removesuffix("\n"))
                 if element.attrib.get("id") == "full-width-note":
                     epub_full_width.append({"text": "".join(element.itertext()),
                                             "tags": {node.tag.rsplit("}", 1)[-1] for node in element.iter()}})
@@ -649,12 +808,9 @@ def verify(project):
                     check(path in archive.namelist(), f"{name}: missing EPUB destination {target}")
                     if anchor:
                         check(anchor in epub_ids.get(path, set()), f"{name}: missing EPUB anchor {target}")
-        for record in records:
-            for block in record["code"]:
-                check(block["text"] in epub_pre, f"{record['source']}: EPUB loses source text")
         check(notes == expected_notes, "EPUB loses or duplicates source note references")
-        check(lesson_epub is not None, "EPUB omits real lesson note styles")
-        lesson_name, lesson_document = lesson_epub
+        lesson_name, lesson_document = associated[lesson["source"]]
+        check("height-counting-cue" in epub_ids[lesson_name], "EPUB omits real lesson note styles")
         for identifier, expected in lesson_expected["images"].items():
             candidates = [node for node in lesson_document.iter()
                           if node.attrib.get("id") == identifier]
@@ -674,7 +830,8 @@ def verify(project):
         check(len(references) == 1, "EPUB: graphical note has no unique reference")
         check(references[0].attrib.get("id") in epub_ids[lesson_name],
               "EPUB: graphical note reference has no return destination")
-        verify_full_width_markup(epub_full_width, full_width, "EPUB")
+        if full_width is not None:
+            verify_full_width_markup(epub_full_width, full_width, "EPUB")
 
     for job in jobs:
         svg = ET.parse(output / "assets" / (job["id"] + ".svg")).getroot()
@@ -687,10 +844,11 @@ def verify(project):
                 if attribute.rsplit("}", 1)[-1] == "href":
                     check(value.startswith("#"), f"{job['id']}: external SVG resource")
 
-    notes = source_notes(project, records)
-    book_pages = verify_pdf(project, records, notes, full_width, "ash-doc-specimen.pdf", lesson=lesson_expected)
-    a4_pages = verify_pdf(project, records, notes, full_width, "ash-doc-specimen-a4.pdf", a4=True, lesson=lesson_expected)
-    print(f"Verified {len(pages)} HTML pages, EPUB 3 links/notes, {len(jobs)} static diagrams, "
+    notes = source_notes(project, records) if specimen else []
+    book_pages = verify_pdf(project, records, notes, full_width, basename + ".pdf", lesson=lesson_expected)
+    a4_pages = verify_pdf(project, records, notes, full_width, basename + "-a4.pdf", a4=True, lesson=lesson_expected)
+    print(f"Verified {metadata['mode']} with {metadata['lesson_count']} indexed lessons: "
+          f"{len(pages)} HTML pages, EPUB 3 chapter text/links/notes, {len(jobs)} static diagrams, "
           f"{canonical_assets} canonical lesson assets, and {total} complete code/transcript blocks in all formats; "
           f"book PDF {book_pages} pages and A4 PDF {a4_pages} pages with checked margins/notes.")
 
