@@ -24,8 +24,11 @@ main () = (Tagged(42), Points(42))
 
 `Tagged` is ordinary data with one constructor and one integer field. `Points`
 is a newtype whose sole, same-spelled constructor takes one representation
-value. Both are distinct from `Int` and from each other. From this lesson's
-`src` directory, run:
+value. Both are distinct from `Int` and from each other. The tool prints a
+newtype through its representation while retaining its nominal type in the
+reported type. Use that [rendering rule][rendering] to predict the two printed
+fields, then identify their types separately. Run from this lesson's `src`
+directory:
 
 ```text
 $ ash 01-data-and-newtype.ash
@@ -38,7 +41,8 @@ in that output does not mean the source type has become `Int`.
 
 ## Cross the representation boundary explicitly
 
-A function accepting an integer cannot be given points automatically:
+The representation does not make `Points` equal to `Int` in a function
+contract. Consider this call:
 
 <!-- source: src/02-no-coercion.ash -->
 ```ash
@@ -50,6 +54,9 @@ add_one value = value + 1
 main : Unit -> Int
 main () = add_one (Points(41))
 ```
+
+Identify the argument expression's type and the domain that `add_one`
+requires. Predict whether the application meets that contract, then run it:
 
 <!-- diagnostic: src/02-no-coercion.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -85,6 +92,10 @@ main : Unit -> Points
 main () = add_one (Points(41))
 ```
 
+Follow the pattern, integer addition, and explicit construction. What amount
+does the function return, and which nominal type does its contract retain?
+Predict both before running this version:
+
 ```text
 $ ash 03-explicit-conversion.ash
 42 : Points
@@ -119,18 +130,22 @@ main : Unit -> (Int, Int)
 main () = (reward 4, reward (Points(4)))
 ```
 
+Write the complete `Reward` requirement for each argument, then follow the
+matching method. Predict the two reward amounts before running the program:
+
 ```text
 $ ash 04-distinct-behavior.ash
 (4, 40) : (Int, Int)
 ```
 
-The two arguments select different complete requirements: `Reward<Int>` and
+The raw integer method returns `4`; the points method computes `4 * 10` and
+returns `40`. The two arguments select different complete requirements:
+`Reward<Int>` and
 `Reward<Points>`. Their representations do not merge their implementation
 identities. Unlike the overlapping integer-box rules in the previous lesson,
 these two nominal keys cannot match one another.
 
-Without the points implementation, wrapping an integer does not supply its
-missing evidence:
+Now remove only the points implementation:
 
 <!-- source: src/05-no-inherited-evidence.ash -->
 ```ash
@@ -147,6 +162,9 @@ impl Reward<Int> {
 main : Unit -> Int
 main () = reward (Points(4))
 ```
+
+Which complete requirement does this argument create? Compare it with the
+remaining implementation head and predict whether evidence is available:
 
 <!-- diagnostic: src/05-no-inherited-evidence.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -195,9 +213,10 @@ number (Ticket(value)) = value
 ```
 
 The module owns `Ticket`, so `issue` may construct it and `number` may unwrap
-it. `pub opaque newtype` exports the type name and the public functions, but
-not the constructor. A transparent `pub newtype` would also export its
-constructor; a declaration without `pub` would keep its name private.
+it. `pub opaque newtype` exports the type name but withholds the constructor.
+The functions' own `pub` declarations export `issue` and `number`. A
+transparent `pub newtype` would also export its constructor; a declaration
+without `pub` would keep its name private.
 
 This client uses the operations that the module exposes:
 
@@ -209,13 +228,17 @@ main : Unit -> Int
 main () = Tickets.number (Tickets.issue 42)
 ```
 
-The client obtains a ticket from `issue` and reads its integer through `number`:
+Follow the public operations from the input integer to the ticket and back.
+Does the client need to name a constructor along that route? Predict its
+result before running it:
 
 ```text
 $ ash 06-opaque-client.ash
 42 : Int
 ```
 
+`issue` wraps `42` inside its defining module, and `number` unwraps that ticket
+there. The client observes the returned integer using only those operations.
 The complete import makes the public operations and type name available.
 Constructor access is a separate boundary. This second client attempts to
 cross it directly:
@@ -227,6 +250,10 @@ import tickets as Tickets
 main : Unit -> Tickets.Ticket
 main () = Tickets.Ticket(42)
 ```
+
+The signature and expression use the same spelling in different roles.
+Which role needs constructor access, and which public declaration grants or
+withholds it? Predict the source occurrence the message will identify:
 
 <!-- diagnostic: src/07-hidden-constructor.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -269,12 +296,17 @@ main : Unit -> (Int, Bool)
 main () = (unwrap (Recorded(42)), unwrap (Recorded(true)))
 ```
 
+Identify each constructed value's complete `Recorded` type, then follow its
+`unwrap` call. Predict the pair's values and types before running it:
+
 ```text
 $ ash 08-parameterized-wrapper.ash
 (42, true) : (Int, Bool)
 ```
 
-`Recorded<Int>` and `Recorded<Bool>` are different applications of the same
+Each pattern exposes its representation and `unwrap` returns that value, so
+the pair retains the integer and boolean. `Recorded<Int>` and `Recorded<Bool>`
+are different applications of the same
 nominal constructor. Each `unwrap` use substitutes one element type through
 both its parameter and result. This follows the same parameter rules used by
 ordinary data; it adds no implicit conversion between the two applications.
@@ -304,23 +336,32 @@ been checked before this runtime erasure.
 
 ## Practice: preserve meaning across conversion
 
+Start each task with a fresh copy in a scratch directory: use
+`04-distinct-behavior.ash` for tasks one and two,
+`08-parameterized-wrapper.ash` for task three, and
+`01-data-and-newtype.ash` for task four.
+
 1. Change the point multiplier in `04-distinct-behavior.ash`. Explain which
-   implementation and tuple field it affects.
+   implementation and tuple field it affects. Predict the pair, then run it.
 2. Add a second newtype over `Int` with a different domain meaning. Give it an
-   explicit `Reward` implementation and compare all three rewards.
-3. Use `Recorded` with a tuple representation in the last example. Predict the
-   unwrapped value and type before running it.
-4. Explain why replacing a newtype declaration with an ordinary one-constructor
-   data declaration changes the representation cost but does not make either
-   type implicitly equal to its field type.
+   explicit `Reward` implementation and extend `main` to compare all three
+   rewards. Update its tuple annotation, predict the values, and run it.
+3. Use `Recorded` with a tuple representation in `08-parameterized-wrapper.ash`.
+   Update the entry result annotation to agree with the unwrapped value.
+   Predict that value and type before running it.
+4. Replace `newtype Points` with an ordinary one-constructor data declaration.
+   Predict the value display and nominal type, then compare the observation.
+   Explain the representation cost through the lowering and execution rules;
+   explain separately whether either declaration makes the type equal to `Int`.
 
 A newtype separates meaning in source contracts while reusing an existing
 runtime representation. Explicit construction, patterns, and evidence keep
 the intended interpretation visible. The next chapter brings that nominal
-distinction into one local scope and supplies exact behavior for it there.
+distinction into [one local scope and supplies exact behavior there](../supplying-scoped-evidence/README.md).
 
 [overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md#current-ash
 [evidence]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
 [execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches
 [lowering]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md#explicit-rank-1-operations
 [allocation-test]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/src/eval/machine.rs#L6306
+[rendering]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#successful-output
