@@ -470,6 +470,14 @@ rather than keeping parallel roadmaps.
 
 ## Selecting work
 
+**Active outcome: E1 teaching pilot.** Revise the existing chapter's prose and
+exercises to place predictions before revealed results and connect the unmet
+request to the entry contract. Preserve its four canonical programs and
+observations at `diag-ash`, commit
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The approved
+[execution plan](../plans/2026-10-13-requesting-a-value-teaching-pilot.md)
+also adds ash-lang's Codex context defaults to this project.
+
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
 negative observations, and completion checks. Keep its temporary execution
