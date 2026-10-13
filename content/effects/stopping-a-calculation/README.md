@@ -33,15 +33,18 @@ main () = sum_scores (Item(20, Item(0, Item(99, End))), 0)
 
 `End` completes the calculation. An `Item` with value zero returns `Stopped`
 immediately. Every other item adds to the total and continues with its tail.
-For the list `20, 0, 99`, the function stops with `20` and does not visit `99`.
-Run the file from this lesson's `src` directory:
+Trace the list `20, 0, 99`: which items contribute to the accumulated total,
+and which tail is left untouched? Predict the outcome before running the
+file from this lesson's `src` directory:
 
 ```text
 $ ash 01-pure-outcome.ash
 Stopped(20) : Outcome
 ```
 
-The constructors make the result meaningful to this program. Their names do
+The first item adds `20`; the next item selects `Stopped` with that total.
+The call never recurses into the tail containing `99`. The constructors make
+the result meaningful to this program. Their names do
 not give them any special failure or control behavior in Ash.
 
 ## Ask the handler whether to continue
@@ -85,16 +88,21 @@ The operation carries the partial total and expects a `Unit` answer. If it
 receives that answer, the calculation can continue to its recursive call.
 The surrounding handler instead executes `discard`, consuming the continuation
 without running the waiting remainder. The clause then returns `Stopped partial`.
+`discard` itself returns `Unit`, which the `ignored` binding sets aside.
 
-For this input, the waiting work includes the recursive call that would visit
-`99` and the outer construction of `Finished`. Neither happens after discard:
+At the zero request, identify the accumulated prefix and all the waiting
+work. Follow the call back to `main` as well: what must happen before
+`Finished` can be constructed? Predict the clause's outcome after discard:
 
 ```text
 $ ash 02-stop-at-zero.ash
 Stopped(20) : Outcome
 ```
 
-This version produces the same outcome as the pure version. The difference is
+The request carries `20`. Discard abandons the recursive call that would visit
+`99` and the pending outer construction of `Finished`. The clause instead
+constructs `Stopped(20)`, producing the same outcome as the pure version.
+The difference is
 where the stopping choice lives. The pure function chooses in its match. The
 effectful function requests a decision; its handler chooses how to consume
 the waiting continuation.
@@ -136,21 +144,23 @@ main () = {
 }
 ```
 
-The zero contributes nothing to the total, and the recursive call goes on to
-`99`. The resumed calculation finishes normally and constructs `Finished`:
+Resume continues after the zero request. Predict the total when the remaining
+recursive calls finish, and which constructor `main` will then use:
 
 ```text
 $ ash 03-continue-at-zero.ash
 Finished(119) : Outcome
 ```
 
+The zero adds nothing, but the later `99` adds to the existing `20`.
+Normal completion supplies `119` to the waiting `Finished` construction.
 `resume` and `discard` consume the same clause capability. One continues the
 waiting work; the other abandons it. Neither is an ordinary stored function.
 
 ## Discard does not supply the clause's result
 
-In `04-discard-result.ash`, the clause stops the continuation but forgets to
-produce its outcome:
+In `04-discard-result.ash`, the clause stops the continuation and returns only
+the value of `discard`:
 
 <!-- source: src/04-discard-result.ash -->
 ```ash
@@ -183,6 +193,10 @@ main () = {
     }
 }
 ```
+
+Compare that value's type with the handler's `Outcome` result requirement.
+Which step from the stopping version is missing?
+
 <!-- diagnostic: src/04-discard-result.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -241,17 +255,20 @@ main () = {
 }
 ```
 
-No request occurs for this input, so the handler body finishes with its own
-value and no clause runs:
+Trace the two items. Will either select `at_zero`, and if no clause runs,
+where does the handler's result come from?
 
 ```text
 $ ash 05-no-stop.ash
 Finished(42) : Outcome
 ```
 
-The static `Stop` row still describes what `sum_scores` may require for other
+Both items take the recursive branch, so no request occurs. The body finishes
+with `Finished(42)`; the discarding clause never runs. The static `Stop` row
+still describes what `sum_scores` may require for other
 inputs. The handler supplies that contract even when one execution does not
-request it.
+request it. The [evaluation rules][evaluation] distinguish a handler body's
+normal return from a selected clause's consumption of waiting work.
 
 The [effect rules][effects] also check whether abandoned work can be closed
 safely. These examples own no resources or cleanup actions. Do not conclude
@@ -259,6 +276,11 @@ that every discard is pure or that it can skip any enclosing obligation. We
 will return to those questions after introducing scoped state and cleanup.
 
 ## Practice: compare the two choices
+
+For each task, start with fresh copies of `01-pure-outcome.ash`,
+`02-stop-at-zero.ash`, and `03-continue-at-zero.ash` in a scratch directory
+outside this lesson's `src` tree. Make the same input change in the copies you
+compare, then run them from that directory.
 
 1. Move the zero marker to the beginning of the list. Predict the pure
    outcome and the discarding handler's outcome before running either.
@@ -271,3 +293,4 @@ return a chosen outcome. The next question is how a calculation can keep
 mutable state whose access and release belong to one scope.
 
 [effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
+[evaluation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#effect-handlers-and-completion
