@@ -41,8 +41,10 @@ directory, reader-facing link, or publication date.
 ## Programs and calculations
 
 - **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)**
-  — **verified.** Definitions, expressions, `main`, functions, function calls,
-  and composition.
+  — **verified.**
+  Predict expression values, call substitutions, and composition, then connect
+  the observation to main's entry contract.
+
 - **2. [How can one source file use another?](../../content/learn/using-another-source-file/README.md)**
   — **verified.** Modules, complete imports, public declarations, and qualified
   names.

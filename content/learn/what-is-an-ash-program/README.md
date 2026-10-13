@@ -17,7 +17,12 @@ main : Unit -> Int
 main () = 42
 ```
 
-Now run the file from your terminal:
+The second line defines the calculation: its right side is the integer
+`42`. The first line is its *signature*. Read `Unit -> Int` as “takes a
+`Unit` value and produces an `Int` value.” `Unit` has one value, written
+`()`; `Int` is the type of integer values.
+
+Predict the value that `main ()` produces, then run the file from your terminal:
 
 ```text
 ash program.ash
@@ -34,11 +39,10 @@ right side, `42`, is an *expression*. Evaluating that expression produces the
 value `42`. `ash` reports the value together with its type, `Int`, which is
 the type of integer values.
 
-The first line is the *signature* of `main`. Read `Unit -> Int` as “takes a
-`Unit` value and produces an `Int` value.” `Unit` has one value, written `()`.
-Because `main` receives `()`, it needs no information before calculating its
-integer result. Together, the signature and definition describe the
-calculation where this program begins.
+Because `main` receives `()`, it needs no input information before calculating
+its integer result. Together, the signature and definition describe the
+calculation where this program begins. The [entry rules][entry] require that
+starting definition in the file selected for execution.
 
 ## Expressions calculate values
 
@@ -72,9 +76,8 @@ main : Unit -> Int
 main () = 1 + 2 * 3
 ```
 
-What value do you expect? Work through the expression before asking Ash. Since
-multiplication groups more tightly than addition, the calculation proceeds as
-follows:
+Multiplication groups more tightly than addition. Use that rule to predict
+the value before running. Ash reports `7 : Int`; compare it with these steps:
 
 ```text
 1 + 2 * 3
@@ -82,8 +85,8 @@ follows:
 7
 ```
 
-Run the program and Ash reports `7 : Int`. The smaller multiplication
-expression produces `6`; the addition then uses that value to produce `7`.
+The smaller multiplication produces `6`; the addition then uses that value
+to produce `7`.
 
 Suppose we want the addition to happen first instead. Parentheses let us make
 that grouping part of the expression:
@@ -94,8 +97,8 @@ main : Unit -> Int
 main () = (1 + 2) * 3
 ```
 
-Only the grouping has changed. Before you run this version, predict its value.
-Then work through the calculation:
+Only the grouping has changed. Predict its value, then run the file.
+Ash reports `9 : Int`. The calculation now proceeds this way:
 
 ```text
 (1 + 2) * 3
@@ -103,8 +106,7 @@ Then work through the calculation:
 9
 ```
 
-Run the file. Ash reports `9 : Int`. Parentheses make `1 + 2` the smaller
-expression that Ash evaluates first.
+Parentheses make `1 + 2` the smaller expression that Ash evaluates first.
 
 > **With a learning assistant:** Run both grouping programs. Show the assistant
 > your predictions, the two programs, and the actual results from `ash`. Explain
@@ -135,7 +137,14 @@ The expression `number + 1` describes how the result is calculated.
 
 The last line uses the expression `increment 41`. This is a *function call*,
 and `41` is its *argument*. To understand the call, use `41` wherever the
-definition uses its parameter:
+definition uses its parameter. Predict the result before running:
+
+```text
+ash program.ash
+42 : Int
+```
+
+The substitution explains that observation:
 
 ```text
 increment 41
@@ -143,13 +152,8 @@ increment 41
 42
 ```
 
-The call therefore produces `42`, and so does `main`. Running the program
-confirms the calculation:
-
-```text
-ash program.ash
-42 : Int
-```
+The argument replaces the parameter with `41`, so the addition and the
+enclosing `main` both produce `42`.
 
 Once a calculation has a name, it can take part in another calculation. Add a
 function that doubles an integer, then use both functions in `main`:
@@ -167,7 +171,8 @@ main () = double (increment 20)
 ```
 
 The parentheses keep `increment 20` together as the argument to `double`.
-Start with that inner call and work outward:
+Start with that inner call and work outward to predict the result. Run the
+program, then compare its `42 : Int` observation with the trace:
 
 ```text
 double (increment 20)
@@ -192,8 +197,8 @@ answer : Unit -> Int
 answer () = 42
 ```
 
-Run the saved example from `content/learn`. Instead of producing `42`, Ash
-explains why it cannot begin:
+Which definition in this file could supply the required `main ()` call?
+Run the saved example from `content/learn` to check that entry requirement:
 
 <!-- diagnostic: src/07-missing-main.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -223,20 +228,14 @@ included that name.
 
 ## Exercise: square, then double
 
-Return to the program that defines `increment` and `double`. We no longer need
-`increment` for this exercise, so replace it with a function that squares an
+Start with a fresh copy of `src/06-composition.ash` in your scratch directory,
+saved as `program.ash`. Replace `increment` with a function that squares an
 integer:
 
 1. Define `square : Int -> Int`. Multiply its input by itself.
 2. Change `main` so it calls `double (square 3)`.
 3. Work from the inner call outward and predict the result.
 4. Run the program and compare the result with your calculation.
-
-When the two functions are connected correctly, Ash reports:
-
-```text
-18 : Int
-```
 
 > **With a learning assistant:** Show the assistant your program, prediction,
 > and actual result from `ash`. Ask it to point to one expression at a time and
@@ -255,3 +254,5 @@ When you run the file, Ash evaluates `main ()` and reports the resulting value
 and type. Every program here fits in one source file, but Ash programs need not
 stop there. The next question is how a definition in one file can be used from
 another.
+
+[entry]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules

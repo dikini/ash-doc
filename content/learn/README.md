@@ -27,6 +27,11 @@ English output, and source-path convention.
 
 ## How to work through a lesson
 
+Keep your working programs in a scratch directory outside the checked-in
+lesson `src` trees. The chapters build on those working programs; each exercise
+names a fresh starting point. For a program with imports, keep its entry and
+required sibling files together in that directory.
+
 Use the same cycle for each program:
 
 1. Edit the program in your text editor.
