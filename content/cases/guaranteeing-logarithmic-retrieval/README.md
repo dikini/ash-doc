@@ -536,14 +536,15 @@ Node(
 ```
 
 This is the result of the local repair, before public insertion blackens its
-root. Each value stays with its key. The drawing uses `A`, `B`, `C`, and `D`
-for the same subtrees named `a`, `b`, `c`, and `d` in the program:
+root. Each value stays with its key. The larger drawing shows the general
+arrangement. It uses the same shapes and colors as the case sketches, with
+the program's names beside them:
 
 <!-- markdownlint-disable MD013 -->
 
 ::: {#repair-comparison .column-page-right}
 
-![Left-left repair preserves the associations and subtrees; the same result handles all four orientations.](assets/tree-repair.svg){#fig-tree-repair fig-alt="Before left-left repair, a black last node has red middle and first nodes down its left branch. First has subtrees A and B; middle has C on its right; last has D on its right. After repair, red middle has black first and last children. First retains A and B, and last retains C and D. Each key stays with its value." width=100%}
+![Rewire the same pieces - left-left, with the program's names.](assets/tree-repair.svg){#fig-tree-repair fig-alt="Left-left repair from left to right. Black violet (k3, v3) has red blue (k2, v2) on its left and subtree d on its right. Blue has red yellow (k1, v1) on its left and c on its right; yellow has a and b. After repair, red blue (k2, v2) has black yellow (k1, v1) and black violet (k3, v3) children. Yellow retains a and b; violet retains c and d. The upper halves show Red or Black, lower colors identify the associations, and the colored triangles retain subtrees a, b, c, and d. The labels use the program's names." width=100%}
 
 :::
 
@@ -551,13 +552,13 @@ for the same subtrees named `a`, `b`, `c`, and `d` in the program:
 
 {{< pagebreak >}}
 
-The ordering tells us where each subtree belongs. `A` and `B` stay below the
-first key. `C` and `D` become the children of the last key. The middle key
-separates those two constructed dictionaries. Each subtree must retain its
-inherited key bounds: `A` below the first key, `B` between first and middle,
-`C` between middle and last, and `D` above the last key. Their roots may be
-red; making the first and last nodes black also prevents a new red-red edge
-where those subtrees attach.
+The ordering tells us where each subtree belongs. `a` and `b` are the first
+node's children; `c` and `d` are the last node's children. The middle key
+separates the two constructed dictionaries. Each subtree must retain its
+inherited key bounds: `a` below `k1`, `b` between `k1` and `k2`, `c` between
+`k2` and `k3`, and `d` above `k3`. Their roots may be red; making the first
+and last nodes black also prevents a new red-red edge where those subtrees
+attach.
 
 In the following definition, the three repeated `let` patterns unpack the
 input groups; the final expression rebuilds their components in the arrangement
