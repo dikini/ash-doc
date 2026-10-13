@@ -104,9 +104,10 @@ directory, reader-facing link, or publication date.
 The following verified chapters extend the beginning path in the same family:
 
 - **12. [When can a local function work at several types?](../../content/learn/generalizing-local-functions/README.md)**
-  — **verified.** Eligible local generalization, captured types, monomorphic
-  bindings, and the rank-1 boundary. The effect-row connection is optional
-  until the reader has studied E3.
+  — **verified.**
+  Locate independent and shared type choices at local bindings, calls,
+  captures, and ordinary parameters; keep the E3 connection optional.
+
 - **13. [How can local definitions refer to one another?](../../content/learn/defining-local-recursion/README.md)**
   — **verified.** Annotated recursive groups, mutual scope, safe initialization,
   and bounded observations of guarded cyclic data.

@@ -30,6 +30,7 @@ that type to `Int` or `Bool`, and it does not belong to an enclosing binding.
 The compiler leaves it open for each use of `identity`. This is called
 *local generalization*.
 
+Predict the function type needed by each use and the resulting pair's type.
 From this lesson's `src` directory, run:
 
 ```text
@@ -60,8 +61,9 @@ main () = {
 }
 ```
 
-The body fits `Int -> Int`, but the Boolean call does not. Keep the working
-directory at this lesson's `src` directory for its diagnostic commands:
+Compare the annotation's input with each supplied argument. Can both uses
+meet that one contract? Keep this lesson's `src` directory as the working
+directory for its diagnostic commands:
 
 <!-- diagnostic: src/02-annotated-identity.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -108,10 +110,10 @@ main () = {
 }
 ```
 
-`make_identity` itself is polymorphic. Its occurrence at the initializer
-chooses one type for `A`. The resulting local binding keeps that one choice;
-it is not generalized again. The integer call fixes it, so the Boolean call
-conflicts:
+`make_identity` itself is polymorphic. Each occurrence chooses one type for
+`A`, but its returned function is bound by a call initializer, not by the
+eligible anonymous-function syntax. That binding keeps one shared choice.
+Which use fixes the function's input, and can the other use keep that choice?
 
 <!-- diagnostic: src/03-returned-function.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -153,6 +155,9 @@ main () = {
 }
 ```
 
+There are now two factory occurrences. Predict whether their type choices
+must agree, and whether the pair can satisfy `main`'s result type:
+
 ```text
 $ ash 04-separate-creations.ash
 (42, true) : (Int, Bool)
@@ -161,6 +166,15 @@ $ ash 04-separate-creations.ash
 Each occurrence of `make_identity` supplies its own choice. Alternatively,
 write the local anonymous function directly when one generalized definition
 expresses the intended reuse.
+
+The similar function bodies have different places for choosing types:
+
+| Binding | Where the type is chosen |
+| --- | --- |
+| Direct unannotated anonymous function (`01`) | At each use |
+| Annotated function (`02`) | In the one declared local type |
+| One factory result (`03`) | Shared by uses of that returned value |
+| Separate factory results (`04`) | Independently at each factory call |
 
 ## Keep captured types fixed
 
@@ -183,7 +197,8 @@ main () = pair_with false
 
 Within `pair_with`, the type of `saved` is the enclosing parameter `A`.
 The local definition cannot choose a different type for that captured value.
-It can generalize its new input type, which is independent of `saved`:
+It can generalize its new input type, which is independent of `saved`.
+Predict the type of both fields in each pair before running:
 
 ```text
 $ ash 05-captured-input.ash
@@ -215,7 +230,9 @@ main () = {
 Each `apply_twice` call chooses one `A`. Its `transform` parameter is one
 ordinary `A -> A` function for that call; it is not a parameter that may be
 called at unrelated types within the body. The two occurrences of `identity`
-are instantiated separately before they meet those parameter contracts:
+are instantiated separately before they meet those parameter contracts.
+Predict the two results and identify which one function type each
+`transform` parameter uses throughout its call:
 
 ```text
 $ ash 06-function-arguments.ash
@@ -235,9 +252,9 @@ does not excuse an unresolved type.
 
 ## Optional connection: preserving callback effects
 
-After [the effects lesson on callback rows](../../effects/preserving-callback-effects/README.md),
-apply the same account to a callback's effects. You can continue to the next
-Learn chapter without studying this example yet.
+You can continue directly to the next Learn chapter. Return to this example
+after [the effects lesson on callback rows](../../effects/preserving-callback-effects/README.md),
+where requests, handlers, and effect rows have been introduced.
 
 <!-- source: src/07-local-effect-row.ash -->
 ```ash
@@ -265,20 +282,26 @@ main () = {
 ```
 
 The direct anonymous initializer lets `apply` generalize its callback's input,
-result, and effect row. The first call uses a pure callback; the second uses
-`request_bonus`, whose request is handled around that call:
+result, and effect row. Identify the callback requirement at each call, then
+predict both integers. The second call places a handler around the callback's
+request:
 
 ```text
 $ ash 07-local-effect-row.ash
 (40, 2) : (Int, Int)
 ```
 
-The row choice follows each callback, just as the input type follows each
-argument. Generalization preserves the row's constraints; it does not erase
-its effects. It also does not invent interface requirements. Those must be
-supplied through the contracts and evidence taught in the library path.
+The pure callback returns `40`; the effectful callback receives `2` from
+its handler. The row choice follows each callback, just as the input type
+follows each argument. Generalization preserves the row's constraints and
+retains its effects. It introduces no interface requirements; those come from
+the contracts and evidence taught in the library path.
 
 ## Practice: locate the type choice
+
+For each task, make a fresh copy of its named source in a scratch directory
+outside this lesson's `src` tree. Predict the observation, then run that copy
+from its directory.
 
 1. Change `01-local-identity.ash` to return three uses, with integer, Boolean,
    and unit inputs. Update the entry result type before running it.
