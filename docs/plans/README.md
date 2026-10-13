@@ -15,4 +15,5 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-No active plans.
+The active [PDF variants plan](2026-10-13-pdf-variants.md) belongs to the
+rendering infrastructure outcome.

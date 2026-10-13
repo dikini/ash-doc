@@ -50,6 +50,11 @@ diagrams. The [rendering guide](rendering.md) records its selected sources,
 verification, current development handoffs, and replacement condition. This
 work does not publish the edition or change its Ash target.
 
+The user requested both the current double-sided book PDF and a one-sided A4
+variant with extra left binding space. The active
+[PDF variants plan](../plans/2026-10-13-pdf-variants.md) owns this bounded
+presentation change.
+
 ## Curriculum direction
 
 The next learning stage asks: how can a reader design a calculation that
