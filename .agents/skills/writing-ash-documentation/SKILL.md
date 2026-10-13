@@ -70,6 +70,15 @@ administration. Add YAML metadata only for a concrete consumer.
 Exercises use only introduced concepts and tools. Name what the reader should
 make or explain, not what project coverage it supplies.
 
+When developing a program, start with the problem and a concrete example, then
+describe the data and derive the needed operation types before filling their
+bodies. Work from the public goal toward smaller operations and cases. Explain
+a novel type or concept in detail; give a familiar idea's new facet only the
+explanation it needs. Read the [program-design reference](references/program-design.md)
+when calculating a solution, reviewing dense code, or interpreting a large
+result. It covers contracts, structural reasoning, explained mnemonics,
+grouped inputs, and checked observations without imposing a chapter template.
+
 ## Choose formatting for the explanation
 
 Keep the main argument readable in ordinary chapter order. Use a numbered
@@ -98,6 +107,13 @@ For diagrams, begin with the ordinary column and assess label size, aspect
 ratio, and printed height at the proposed width. Wider space can help a dense
 landscape figure; it cannot replace a readable structure. Verify narrow HTML,
 enlarged EPUB text, and both PDF layouts before accepting the choice.
+
+Keep a consistent visual vocabulary for the same kind of structure or
+transformation. Define what shapes, markings, links, and arrows represent;
+preserve that mapping across figures and align labels with the program's names.
+A larger figure can add annotations without introducing another vocabulary.
+Place its caption beneath the image and any further explanation below that.
+The formatting reference gives the rules and a worked local example.
 
 ## Support a learning assistant
 
@@ -134,6 +150,12 @@ attribution.
 - Read the prose aloud. Do repeated imperatives, stock transitions, identical
   paragraph shapes, or filler make the teaching method sound mechanical?
 - Does vocabulary follow the example that needs it?
+- Can the reader follow the problem through its data, operation types, and
+  smaller calculations, with enough explanation for new concepts?
+- Do patterns, names, and argument groups expose the wiring? Are compact local
+  mnemonics explained and consistent with the prose and diagrams?
+- Are premises and preservation arguments stated separately from finite test
+  observations? Are selected successful results identified and checked?
 - Can the reader predict, run, and explain each observation?
 - Does every provided rejection observation show the complete actual human
   message and explain its causal labels and correction, while exercises retain
@@ -147,6 +169,8 @@ attribution.
   height checked, rather than every diagram receiving the widest layout?
 - Do diagrams have captions and descriptions, use the supported top-level
   fences, and preserve the distinction between sequents and sequences?
+- Do related figures preserve their visual meanings and code labels, with
+  useful explanation below their captions?
 - Have new formatting elements been checked in narrow HTML, enlarged EPUB
   text, and both PDF layouts for clipping, page breaks, and note collisions?
 - Do project records retain authority, target, and evidence?

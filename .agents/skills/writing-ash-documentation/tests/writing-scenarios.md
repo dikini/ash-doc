@@ -3,6 +3,32 @@
 These scenarios test discovery, retrieval, and application. Run them with a
 fresh agent from the repository root without naming the skill in the request.
 
+## Run an affected scenario
+
+Choose the scenarios that exercise the rule being changed, including a
+counterexample when the change could be applied too broadly. A caption change
+does not require rerunning unrelated diagnostic or import scenarios.
+
+1. Run the selected request with a fresh agent at the pre-change revision.
+   Give it the repository context, but no previous discussion, proposed rule,
+   skill name, or passing condition. Record the prompt, revision, references
+   retrieved, and decisions that meet or miss the passing condition.
+2. After changing the guidance, run the same request with another fresh agent
+   at the updated revision. Compare its decisions with the baseline rather
+   than comparing exact prose. A reference opened without being applied does
+   not establish that the guidance works.
+3. If the agent misses the rule or applies it too broadly, revise the smallest
+   relevant instruction and repeat the affected scenario. Use the existing
+   language, source-agreement, and rendering checks when its proposed change
+   becomes actual lesson material.
+4. Retain the before-and-after outcome with the change's review evidence, such
+   as its commit or pull-request description. Name the scenarios run, the
+   observed difference, and any remaining gaps. Distinguish a reviewed scenario
+   from one actually run; do not report unrun scenarios as passing.
+
+These are manual decision checks. They need no new harness, registry, permanent
+pass ledger, or test that requires an agent to repeat particular wording.
+
 ## Tutorial opening
 
 ### Tutorial request
@@ -201,3 +227,141 @@ unsupported.
 The agent also checks whether each note earns its place by assisting nearby
 understanding. It removes repetitive or unrelated detours and reduces competing
 notes even when the margin has enough room for them.
+
+## Calculate a program from its problem
+
+### Calculation request
+
+Plan a revision of `content/cases/implementing-persistent-fifo-frontier/README.md`
+so the reader calculates the queue program instead of meeting a complete module
+before understanding its operations. The reader knows recursive lists,
+`Option`, and constructor patterns. The two-list queue representation is new.
+Keep the canonical programs and their observations. Give a prose outline and
+a sample transition into the first operation.
+
+### Calculation passing condition
+
+The agent retrieves the program-design reference and begins with the FIFO
+problem and a small example. It then establishes the data representation and
+its logical sequence before calculating operation types and their input/result
+requirements. It works from those requirements toward the concrete equations,
+with examples and reasoning at the point where they help the reader choose a
+case. It explains the novel two-list representation in enough detail to follow
+the calculation, while briefly recalling the already familiar lists, options,
+and patterns. It names new vocabulary only when needed and gives essential
+definitions and reasoning in the main text. The outline is a connected account,
+not a repeated checklist or a fixed set of mandatory headings. Existing Ash
+claims stay tied to the pinned specification, and any displayed source must
+retain canonical agreement.
+
+## Expose structural wiring with compact names
+
+### Wiring request
+
+An author is planning a helper that combines two sorted runs. Each run supplies
+a list, its length, and a comparison count, so six positional arguments and
+repeated long names obscure which fields belong together. The result contains
+the merged list, the combined length, and the updated count. Suggest one or two
+readable arrangements and show how to explain their field correspondence and
+correctness. The neighbouring helpers use curried calls. This is a design
+review; do not claim an untested Ash fragment is executable.
+
+### Wiring passing condition
+
+The agent uses the program-design reference to establish the helper's type,
+the meaning of its fields, and the requirements on the sorted inputs before
+filling in the algorithm. It considers grouping each run's related fields and
+destructuring those groups, or using compact local names when that is clearer.
+An adjacent legend explains the mnemonics, and corresponding fields retain
+their names throughout the explanation. Global names remain descriptive and
+the proposed helper fits the neighbouring API's call style. A complete small
+definition or labelled schematic exposes the wiring instead of presenting
+unexplained fragments. The reasoning states how the output retains the input
+elements in order and how length and comparison accounting follow the work.
+Examples test distinguishing cases; their success is not called a proof of
+the general invariant. The agent does not promise compiler optimisation,
+require wrappers everywhere, or import the search-tree lesson's names and
+palette into this different problem.
+
+## Explain a large successful result
+
+### Structured-result request
+
+An existing lesson has a successful captured result spanning more than a page:
+a tuple containing the initial state, several intermediate states, returned
+values, and accumulated work counts. Readers cannot tell what each field
+establishes. Plan a clearer presentation while preserving the complete
+canonical capture and checks. The next example shows a rejected program, and
+the final exercise asks the reader to discover a different result.
+
+### Structured-result passing condition
+
+The agent separates the successful result into small, explained observations
+in the order of the reader's questions. Each displayed selection identifies
+the field or step it comes from and has an exact agreement check against the
+complete capture; it does not pose as a complete CLI transcript or hide
+contradictory fields. The canonical capture and its semantic checks remain
+available as evidence, without forcing the entire result into the main reading
+path. Prose connects each observation to a prediction or a property it
+establishes and retains limits on what the result can show. The rejection still
+displays its complete actual human message and command under the existing
+edition checks. The discovery exercise still withholds its observation. The
+agent does not solve the reading problem merely by shrinking type or assigning
+the complete result a wider column.
+
+## Preserve visual continuity and useful captions
+
+### Diagram-continuity request
+
+A queue chapter uses small before-and-after sketches showing its `front` and
+`rear` lists. Each value has a stable colour and list connections show the
+structure. An arrow between drawings shows the transfer. A new large figure
+uses differently shaped boxes, long internal labels, and different colours for
+the same values. Its caption is only “Queue,” followed by text above the image
+that repeats “before and after.” Review that figure and propose an annotated
+reference drawing that connects it to `Queue(front, rear)` and the code. Explain
+what an empty list marker means without relying on the palette from another
+chapter.
+
+### Diagram-continuity passing condition
+
+The agent retrieves the formatting reference and retains the established
+shapes, colours, list-order conventions, and connection meanings for this queue
+problem.
+It follows each value's colour through the transfer; changed position or
+attachment does not change value identity. It distinguishes structural
+connections from the arrow marking the operation, and distinguishes a value
+from a whole retained list. The larger drawing adds short code-aligned labels
+beside the familiar shapes instead of introducing a second representation.
+Any colour or shape used for `End` is defined locally as an empty list with no
+element; white is not assumed to mean emptiness in every chapter. The caption
+under the image names its particular operation or insight, with any additional
+explanation after that name. Redundant before/after text is removed when the
+arrow already communicates direction. A meaningful description and nearby
+prose preserve the relationships without relying on colour alone. The agent
+checks the drawing at its actual widths and does not treat a larger diagram as
+a different visual language or infer physical sharing from reused colours.
+
+## Keep simple programs and established notation simple
+
+### Restraint request
+
+Review a short lesson passage that defines a scalar addition function with two
+`Int` inputs and one `Int` result. Its type, complete definition, and one
+checked observation already fit together in the ordinary column. The same
+lesson later has a standard Mermaid sequence diagram showing a client request
+and a server response. Apply the repository's recent teaching and diagram
+guidance where it helps; explain any changes you would leave out.
+
+### Restraint passing condition
+
+The agent discovers the writing skill and applies the guidance proportionately.
+It keeps the scalar function and its call style compact, retaining any useful
+type or result explanation without inventing grouped wrapper types, mnemonic
+legends, forced operation inventories, or five recipe headings. It preserves
+standard sequence-diagram participants, lifelines, and message-arrow meanings
+instead of replacing them with a tree or queue representation. Visual
+continuity applies within the relevant problem and notation; it does not
+require every Ash diagram to use the same shapes, palette, or arrow semantics.
+Any claimed change still has a concrete reading purpose and the applicable
+source or rendering checks.

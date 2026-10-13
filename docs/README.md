@@ -10,6 +10,11 @@ does not contain published Ash instruction or define Ash behavior.
 - [Roadmap](project/roadmap.md) records the full learning continuation, its
   prerequisites, and the delivery outcome when one is selected.
 - [Verification](project/verification.md) gives the baseline checks.
+- [Writing guidance](../.agents/skills/writing-ash-documentation/SKILL.md) is
+  shared by authors and agents. Its [program-design reference][program-design]
+  covers stepwise calculation and readable code; its
+  [formatting reference][formatting] covers notes, visual continuity, and output
+  layouts. [Writing scenarios][writing-scenarios] test application of the rules.
 - [Rendering](project/rendering.md) gives the local HTML, EPUB 3, and PDF
   specimen, its tool boundary, and its checks. The
   [notation renderer report](project/notation-renderer-bugs.md) and
@@ -21,3 +26,7 @@ does not contain published Ash instruction or define Ash behavior.
 Published learning material belongs under [`content/`](../content/README.md).
 Executable experiments belong under [`lab/`](../lab/README.md). Source and
 technique evaluations belong under [`research/`](../research/README.md).
+
+[program-design]: ../.agents/skills/writing-ash-documentation/references/program-design.md
+[formatting]: ../.agents/skills/writing-ash-documentation/references/formatting.md
+[writing-scenarios]: ../.agents/skills/writing-ash-documentation/tests/writing-scenarios.md

@@ -98,12 +98,25 @@ paragraph and table. It spans the body and note area, stays together on one
 print page, and reflows in narrow HTML and EPUB previews. Both PDFs and the
 browser checks verify the source text and actual layout.
 
-The active [authoring-guidance consolidation plan][authoring-plan] carries the
-accepted teaching, code, and visual conventions into the required writing
-skill and its review scenarios. It changes project guidance without a bulk
-lesson revision or a new rendering mechanism.
+The required [writing skill][writing-skill] now preserves the accepted teaching,
+code, and visual conventions. Its [program-design reference][program-design]
+covers problem-to-program calculation, explanation depth, structural wiring,
+and selected successful observations; its [formatting reference][formatting]
+preserves note purpose, visual continuity, local colour meanings, and caption
+order. The [workflow](workflow.md#preserve-authoring-lessons) explains how to
+apply and refine the guidance in new or materially revised chapters.
 
-[authoring-plan]: ../plans/consolidate-authoring-guidance.md
+Five focused fresh-agent planning trials exercised queue calculation, grouped
+run inputs, explained result selections, queue-diagram continuity, and
+restraint for a simple function and standard sequence notation. The
+[writing scenarios][writing-scenarios] retain repeatable requests and decision
+criteria. These trials support application of the guidance; they do not
+establish reader comprehension or review every chapter's rendered layout.
+
+[writing-skill]: ../../.agents/skills/writing-ash-documentation/SKILL.md
+[program-design]: ../../.agents/skills/writing-ash-documentation/references/program-design.md
+[formatting]: ../../.agents/skills/writing-ash-documentation/references/formatting.md
+[writing-scenarios]: ../../.agents/skills/writing-ash-documentation/tests/writing-scenarios.md
 
 ## Curriculum direction
 

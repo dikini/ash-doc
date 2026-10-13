@@ -122,6 +122,32 @@ Before marking a lesson verified:
 Git history retains the plan. The current tree retains the lesson, its
 evidence, and only project records that still guide forward work.
 
+## Preserve authoring lessons
+
+Use the required [writing skill][writing-skill] for both authors and agents.
+Its [program-design reference][program-design] guides calculations and dense
+code; its [formatting reference][formatting] guides notes, diagrams, and layout.
+Apply them when creating a chapter or materially revising its explanation.
+Do not infer that all existing chapters have received the same editorial review
+because their executable checks pass.
+
+When lesson review establishes a useful convention, preserve the decision
+beside the rule it refines. State the reader problem, why the choice helps,
+when to use it, and where it would add unnecessary work or obscure the idea.
+Link a current verified example rather than copying its code into a second
+handbook. Keep domain-specific shapes, palettes, and naming keys in their
+proper scope. The writing skill owns reusable teaching guidance; renderer
+limits and Ash behavior retain their existing sources of authority.
+
+Extend the [writing scenarios][writing-scenarios] when the finding exposes a
+repeatable failure. Run the affected scenario with a fresh author or agent,
+then try another problem family and a case where the rule should not apply.
+Retain the scenario, observed decisions, and relevant limits with the change's
+review evidence. These judgments supplement canonical-source and rendering
+checks; a wording match cannot establish reader comprehension. Update or remove
+a convention when later evidence shows it no longer helps. Git retains earlier
+decisions without requiring a conversation archive or another style registry.
+
 ## Preserve a published edition
 
 Every published ash-doc edition uses the exact tag name of the Ash milestone
@@ -205,3 +231,8 @@ or when the project begins its first publication or forward migration. Adopt a
 manifest, registry, renderer, expanded harness, or CI service only when that
 review names the concrete problem and a smaller local convention cannot solve
 it.
+
+[writing-skill]: ../../.agents/skills/writing-ash-documentation/SKILL.md
+[program-design]: ../../.agents/skills/writing-ash-documentation/references/program-design.md
+[formatting]: ../../.agents/skills/writing-ash-documentation/references/formatting.md
+[writing-scenarios]: ../../.agents/skills/writing-ash-documentation/tests/writing-scenarios.md

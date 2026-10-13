@@ -49,8 +49,10 @@ Let the main account set the pace.
 
 Use standard emphasis, inline code, lists, and tables within these forms.
 Keep runnable Ash blocks connected to canonical source and checks as required
-by the writing skill. Preserve complete diagnostics and program text; change
-their presentation rather than abbreviating them to fit a page.
+by the writing skill. Preserve complete diagnostics and exact program text;
+long definitions may use explained, checked portions. The
+[program-design reference](program-design.md) covers those portions and selected
+successful observations. Page layout must not silently abbreviate either.
 
 ## Numbered sidenotes
 
@@ -157,7 +159,13 @@ caption:
 
 ```markdown
 ![Calls.](assets/note-calls.svg){fig-alt="Outer calls inner." width=100%}
+
+The inner call supplies the value needed by the outer call.
 ```
+
+Display the image first, its caption beneath it, and any supplementary
+explanation beneath the caption. The sentence above demonstrates source order;
+include it only when it adds something the drawing and caption do not supply.
 
 Preparation copies used images from within the lesson directory, including
 images in notes and Divs, while preserving their attributes. These SVGs must
@@ -307,6 +315,56 @@ has been checked with a prepared static SVG; choosing full width for generated
 fences still needs an explicit source-preparation option. Do not wrap a diagram
 fence in a wide Div and assume the current adapter will convert it.
 
+## Keep a visual vocabulary
+
+For the same kind of problem, keep the same graphical representation when
+possible. Define the meanings of shapes, markings, positions, connections, and
+arrows, then preserve them across related figures. A reader should recognise
+the structure before interpreting a new case. A different abstraction may need
+a different view; explain that change where it becomes useful. Established
+notations, including railroad grammars and interaction sequences, retain their
+own conventions.
+
+For a structural transformation, distinguish connections within a state from
+the arrow between states. Keep the important pieces recognisable as they move
+or reconnect. Use the program's names when labelling those pieces, with the
+same capitalisation and indices. Introduce compact labels through a nearby
+key, rather than making the reader translate a second set of names. State
+whether a shape denotes one node, an association, a whole unchanged subtree,
+or another unit.
+
+Give each visual channel a clear job. A domain property such as a tree node's
+red or black state can change while a separate marking follows its key/value
+association. Do not imply that moving a value establishes physical object
+identity or allocation reuse. Define unfilled or empty markings too: if white
+means no association, it cannot also mean an existing association left
+unlabelled. Supply labels, distinguishable shapes, or another cue when needed
+to preserve the relationship in grayscale; colour alone must not carry an
+otherwise unavailable explanation.
+
+The [repair figures][repair-figures] illustrate a local vocabulary:
+
+| Marking | Meaning in these figures |
+| --- | --- |
+| Circle's upper half | Red or black tree form |
+| Yellow, blue, violet lower halves | `(k1, v1)`, `(k2, v2)`, `(k3, v3)` |
+| White lower half | `Empty`, which has no key/value association |
+| Green, orange, pink, cyan triangles | Unchanged subtrees `a`, `b`, `c`, `d` |
+| Lines within a tree | Child connections |
+| Arrow between trees | Repair from candidate to reconstructed tree |
+
+The association indices describe key order in the local case. The palette
+does not assign permanent colours to keys across all insertions or lessons.
+These shapes and hues are an example, not a diagram standard for queues,
+call stacks, or every ash-doc chapter.
+
+When enlarging a small sketch, retain its vocabulary and add the detail that
+earns the extra space. The [annotated repair figure][annotated-repair] keeps the
+same split circles and subtree triangles, with `a` through `d` and `(k1, v1)`
+through `(k3, v3)` beside them. It connects the compact sketches to the code's
+names. A large repetition needs a teaching purpose, such as readable
+annotations or a useful comparison; size alone supplies none.
+
 ## Diagrams and their descriptions
 
 Choose the notation that expresses the relationship:
@@ -394,10 +452,17 @@ family examples:
 ```
 ````
 
-Captions state the point of the figure; descriptions communicate its relevant
-relationships without relying on colour or spatial position alone. Both are
-plain text in the current adapter. Keep source labels short enough to remain
-legible when the figure scales. Supply a prose explanation even when a visual
+Captions state the point and name the case where useful: for example,
+“Rewire the same pieces - left-left.” Place the caption beneath the figure and
+any further explanation beneath the caption. Introduce the figure in the main
+text when needed, but omit a repeated “before above, after below” preface when
+the transformation arrow already makes that direction clear. Orientation
+labels remain useful where direction would otherwise be ambiguous.
+
+Descriptions communicate the relevant relationships without relying on colour
+or spatial position alone. Captions and descriptions are plain text in the
+current adapter. Keep source labels short enough to remain legible when the
+figure scales. Supply the causal explanation in prose even when a visual
 pattern seems clear.
 
 The build derives static SVG assets for every output. Their glyphs are outlined
@@ -431,3 +496,5 @@ needs inspection in the intended e-readers.
 [rendering]: ../../../../docs/project/rendering.md
 [tool-report]: ../../../../docs/project/rendering-tool-bugs.md
 [tree-lesson]: ../../../../content/cases/guaranteeing-logarithmic-retrieval/README.md
+[repair-figures]: ../../../../content/cases/guaranteeing-logarithmic-retrieval/README.md#repair-the-returned-child
+[annotated-repair]: ../../../../content/cases/guaranteeing-logarithmic-retrieval/README.md#construct-the-shared-repair-result

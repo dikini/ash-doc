@@ -115,7 +115,11 @@ Write Ash for the pinned milestone, not from memory and not for
 - Follow the source style used by the pinned specification: descriptive
   `snake_case` term names, `PascalCase` type and constructor names, signatures
   adjacent to their global definitions, and consistent four-space indentation
-  inside declarations and branches.
+  inside declarations and branches. Keep global and API names descriptive.
+  Short local mnemonics may expose dense structural wiring when a nearby key
+  explains their roles and they agree across prose, patterns, and diagrams;
+  the writing skill's [program-design reference][program-design] guides that
+  choice.
 - Choose names from the problem domain. Keep `main` focused on the observation
   the lesson promises. Remove unrelated language features from small examples.
 - Keep a runnable program in a canonical source file. A displayed runnable
@@ -233,3 +237,5 @@ The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
 with shared verification helpers. Rendering uses Quarto Book, Typst, and a
 configuration bounded to the local specimen. It selects no general content
 registry, CI service, publication platform, or repository-wide license.
+
+[program-design]: .agents/skills/writing-ash-documentation/references/program-design.md
