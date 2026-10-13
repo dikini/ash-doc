@@ -6,7 +6,8 @@ specimen tests that presentation boundary without changing learning source or
 Ash behavior.
 
 The user approved Quarto Book, Typst, reflowable EPUB 3, a book PDF with generous
-outer margins, and evaluation of the existing railroad and sequent renderers.
+outer margins, a one-sided A4 PDF with left binding space, and evaluation of
+the existing railroad and sequent renderers.
 All lesson material still targets `diag-ash`, Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The edition remains unpublished.
 
@@ -57,10 +58,35 @@ retains chapter navigation when Quarto hides its floating TOC. Local fonts and
 assets supply the page; the theme's external web-font import is disabled.
 
 EPUB 3 uses linked notes and reader-controlled reflow. Its separate CSS wraps
-long identifiers and code, and lets narrow table cells break. The PDF uses
-8 by 10 inch pages, mirrored outer margins, selectable body text, and page
-breaks through long code. An original narrow Typst show partial replaces the
-bundled book's cover and decorative chapter styling.
+long identifiers and code, and lets narrow table cells break. The two PDF
+variants share selectable body text, typography, and page breaks through long
+code. An original narrow Typst show partial replaces the bundled book's cover
+and decorative chapter styling.
+
+## PDF print variants
+
+The default build produces both variants from the same staged chapters and
+static figures:
+
+| Variant | Paper and margins | Notes |
+| --- | --- | --- |
+| Double-sided book | 8 by 10 inches; mirrored margins | Outer margin |
+| One-sided A4 | 25 mm left; 20 mm right, top, and bottom | Footnotes |
+
+The book keeps its existing geometry: a 0.75 inch inner margin and a 2.75 inch
+outer area comprising the note column, its separation, and the paper edge.
+The left and right areas alternate by page parity for double-sided printing.
+
+A4 uses fixed margins on every page. Its 5 mm extra left space is a replaceable
+binding allowance. Ordinary footnotes leave a 165 mm text area while preserving
+the notes near their references. The A4 profile sets
+`reference-location: document` before generating Typst, so Quarto does not
+transform footnotes into margin notes. Choose one-sided printing for this copy.
+
+A Quarto `a4` profile changes only the PDF filename, page setup, and note
+placement. Shared typography and front matter remain in one Typst partial.
+Separate complete templates would duplicate those choices. Leaving A4 to a
+printer's scaling control would not verify binding space or note placement.
 
 ## Tool and renderer pins
 
@@ -114,10 +140,18 @@ Typst font search are controlled by the build command. Chromium may need
 execution outside a restricted shell sandbox to create local process sockets.
 
 The result is `.build/specimen/output/index.html`,
-`.build/specimen/output/ash-doc-specimen.epub`, and
-`.build/specimen/output/ash-doc-specimen.pdf`. The complete generated Quarto
-project stays in `.build/specimen/`; source records retain each input path,
-source hash, and code/transcript text.
+`.build/specimen/output/ash-doc-specimen.epub`,
+`.build/specimen/output/ash-doc-specimen.pdf` for the double-sided book, and
+`.build/specimen/output/ash-doc-specimen-a4.pdf` for one-sided A4 printing.
+The complete generated Quarto project stays in `.build/specimen/`; source
+records retain each input path, source hash, and code/transcript text.
+Each PDF's generated Typst source is also retained there as
+`ash-doc-specimen.typ` and `ash-doc-specimen-a4.typ`.
+
+To render a prepared A4 copy independently, use the same controlled toolchain
+environment as `build.py` and run `quarto render --to typst --profile a4
+--no-clean` from the generated project. The second render keeps the existing
+HTML, EPUB, and book PDF. Rebuild through `build.py` after source changes.
 
 `python3 rendering/bootstrap.py --offline` validates the already prepared
 tools without downloading. The build then uses local assets. Repeated diagram
@@ -189,9 +223,11 @@ PDFTOCAIRO=/path/to/pdftocairo \
 The preparation checks cover source text, index order, internal and immutable
 source links, rejection of unindexed lesson inputs, and the figure-wrapper
 repair. Artifact checks cover six HTML pages, EPUB links and notes, all four
-static diagrams, and all 48 code/transcript blocks in each output. PDF checks
+static diagrams, and all code/transcript blocks in each output. PDF checks
 compare characters after visual whitespace and page-footer normalization;
-HTML and EPUB preserve complete preformatted text directly.
+HTML and EPUB preserve complete preformatted text directly. Both PDFs are
+checked for paper dimensions, text bounds, body margins on odd and even pages,
+and their distinct note placement.
 
 The browser check inspects desktop and mobile HTML, code overflow, navigation,
 keyboard use, notes, image descriptions, and local-only resource requests. It

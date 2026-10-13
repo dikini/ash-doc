@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check source text, book links, notes, and static assets in built output."""
+"""Check source text, links, static assets, and PDF page/note geometry."""
 
 import argparse
 import json
@@ -53,8 +53,155 @@ def local_target(source, target):
             if url.path else source), unquote(url.fragment)
 
 
+def pdf_words(element):
+    return element.findall(".//{*}word")
+
+
+def pdf_text(element):
+    return " ".join(word.text or "" for word in pdf_words(element))
+
+
+def heading_text(text):
+    return text.translate(str.maketrans({
+        "\u2019": "'", "\u2018": "'", "\u201c": '"', "\u201d": '"',
+    }))
+
+
+def source_notes(project, records):
+    """Read the fixture's complete note bodies and their reference sentences."""
+    notes = []
+    for record in records:
+        source = (project / record["chapter"]).read_text()
+        for definition in re.finditer(r"^\[\^([^\]]+)\]:[ \t]*(.*)(?:\n[ \t]+.*)*", source, re.M):
+            identifier, first_line = definition.group(1), definition.group(2)
+            continuation = [line.strip() for line in definition.group().splitlines()[1:]]
+            body = " ".join([first_line] + continuation)
+            marker = f"[^{identifier}]"
+            before = source[:definition.start()]
+            reference_position = before.find(marker)
+            check(reference_position >= 0, f"{record['chapter']}: note {identifier} has no reference")
+            paragraph_boundary = before.rfind("\n\n", 0, reference_position)
+            paragraph_start = paragraph_boundary + 2 if paragraph_boundary >= 0 else 0
+            reference = " ".join(before[paragraph_start:reference_position].split())
+            notes.append({"body": body, "reference": reference})
+    check(len(notes) == 2, "PDF fixture does not contain both complete source notes")
+    return notes
+
+
+def find_pdf_phrase(pages, text):
+    """Return exact word runs, retaining their page and actual geometry."""
+    expected = text.split()
+    found = []
+    for page_number, page in enumerate(pages, 1):
+        words = pdf_words(page)
+        actual = [word.text or "" for word in words]
+        for start in range(len(actual) - len(expected) + 1):
+            if actual[start:start + len(expected)] == expected:
+                found.append((page_number, words[start:start + len(expected)]))
+    return found
+
+
+def word_bounds(words):
+    return {
+        "left": min(float(word.attrib["xMin"]) for word in words),
+        "right": max(float(word.attrib["xMax"]) for word in words),
+        "top": min(float(word.attrib["yMin"]) for word in words),
+        "bottom": max(float(word.attrib["yMax"]) for word in words),
+    }
+
+
+def verify_pdf(project, records, notes, filename, a4=False):
+    path = project / "output" / filename
+    check(path.is_file(), f"required PDF variant missing: {filename}")
+    result = subprocess.run(["pdftotext", "-bbox-layout", str(path), "-"],
+                            check=True, capture_output=True, text=True)
+    pages = ET.fromstring(result.stdout).findall(".//{*}page")
+    check(pages, f"{filename}: PDF has no pages")
+    millimetre = 72 / 25.4
+    width, height = (210 * millimetre, 297 * millimetre) if a4 else (576, 720)
+    for number, page in enumerate(pages, 1):
+        check(abs(float(page.attrib["width"]) - width) <= 0.01
+              and abs(float(page.attrib["height"]) - height) <= 0.01,
+              f"{filename}: page {number} has the wrong paper dimensions")
+        for word in pdf_words(page):
+            bounds = word_bounds([word])
+            # Glyph bearings may slightly overhang their layout boxes.
+            check(bounds["left"] >= -1 and bounds["right"] <= width + 1
+                  and bounds["top"] >= -1 and bounds["bottom"] <= height + 1,
+                  f"{filename}: page {number} puts text outside the paper: {word.text!r}")
+
+    titles = ["Ash documentation", "Reader setup"]
+    for record in records:
+        heading = re.search(r"^# (.+)$", (project / record["chapter"]).read_text(), re.M)
+        check(heading is not None, f"{record['chapter']}: chapter has no title")
+        titles.append(heading.group(1))
+    parities = set()
+    for title in titles:
+        headings = []
+        for number, page in enumerate(pages, 1):
+            for block in page.findall(".//{*}block"):
+                words = pdf_words(block)
+                matches_title = heading_text(pdf_text(block)) == heading_text(title)
+                heading_size = (float(words[0].attrib["yMax"]) - float(words[0].attrib["yMin"])
+                                if words else 0)
+                if matches_title and heading_size >= 20:
+                    headings.append((number, words[0]))
+        check(len(headings) == 1, f"{filename}: chapter title not found exactly once: {title}")
+        number, first_word = headings[0]
+        expected_left = 25 * millimetre if a4 else (54 if number % 2 else 198)
+        check(abs(float(first_word.attrib["xMin"]) - expected_left) <= 1,
+              f"{filename}: page {number} has an incorrect body margin at {title!r}")
+        parities.add(number % 2)
+    check(parities == {0, 1}, f"{filename}: body margin check does not cover odd and even pages")
+
+    note_bottoms = {}
+    for note in notes:
+        occurrences = find_pdf_phrase(pages, note["body"])
+        references = find_pdf_phrase(pages, note["reference"])
+        check(len(occurrences) == 1, f"{filename}: complete note body not found exactly once: {note['body']}")
+        check(len(references) == 1, f"{filename}: note reference not found exactly once: {note['reference']}")
+        number, words = occurrences[0]
+        reference_number, reference_words = references[0]
+        bounds, reference_bounds = word_bounds(words), word_bounds(reference_words)
+        check(number == reference_number, f"{filename}: note detached from its reference page")
+        if a4:
+            check(bounds["left"] >= 25 * millimetre - 1
+                  and bounds["right"] <= width - 20 * millimetre + 1,
+                  f"{filename}: page {number} puts a footnote outside the text area")
+            check(bounds["top"] > reference_bounds["bottom"] + 20,
+                  f"{filename}: page {number} does not place its footnote below the reference")
+            note_bottoms[number] = max(note_bottoms.get(number, 0), bounds["bottom"])
+        else:
+            in_outer_margin = (bounds["left"] >= 396 - 1 and bounds["right"] <= 540 + 1
+                               if number % 2 else bounds["left"] >= 36 - 1 and bounds["right"] <= 180 + 1)
+            check(in_outer_margin, f"{filename}: page {number} does not place its note in the outer margin")
+            check(abs(bounds["top"] - float(reference_words[-1].attrib["yMin"])) <= 48,
+                  f"{filename}: page {number} puts its margin note too far from the reference")
+    for number, bottom in note_bottoms.items():
+        check(abs(bottom - (height - 20 * millimetre)) <= 20,
+              f"{filename}: page {number} does not place its footnotes at the bottom of the text area")
+
+    result = subprocess.run(["pdftotext", "-layout", str(path), "-"],
+                            check=True, capture_output=True, text=True)
+    body = []
+    for number, page in enumerate(result.stdout.split("\f"), 1):
+        lines = page.splitlines()
+        last = next((index for index in range(len(lines) - 1, -1, -1) if lines[index].strip()), None)
+        if last is not None and lines[last].strip() == str(number):
+            lines.pop(last)
+        body.append("\n".join(lines))
+    compact_pdf = re.sub(r"\s+", "", "\n".join(body))
+    for record in records:
+        for block in record["code"]:
+            check(re.sub(r"\s+", "", block["text"]) in compact_pdf,
+                  f"{filename}: {record['source']}: PDF loses code/transcript characters")
+    return len(pages)
+
+
 def verify(project):
     output = project / "output"
+    check((output / "ash-doc-specimen-a4.pdf").is_file(),
+          "required PDF variant missing: ash-doc-specimen-a4.pdf")
     records = json.loads((project / "sources.json").read_text())
     jobs = json.loads((project / "diagram-jobs.json").read_text())["diagrams"]
     pages = {path.name: Html(path.read_text()) for path in output.glob("*.html")}
@@ -122,22 +269,12 @@ def verify(project):
                 if attribute.rsplit("}", 1)[-1] == "href":
                     check(value.startswith("#"), f"{job['id']}: external SVG resource")
 
-    result = subprocess.run(["pdftotext", "-layout", str(output / "ash-doc-specimen.pdf"), "-"],
-                            check=True, capture_output=True, text=True)
-    body = []
-    for number, page in enumerate(result.stdout.split("\f"), 1):
-        lines = page.splitlines()
-        last = next((index for index in range(len(lines) - 1, -1, -1) if lines[index].strip()), None)
-        if last is not None and lines[last].strip() == str(number):
-            lines.pop(last)
-        body.append("\n".join(lines))
-    compact_pdf = re.sub(r"\s+", "", "\n".join(body))
-    for record in records:
-        for block in record["code"]:
-            check(re.sub(r"\s+", "", block["text"]) in compact_pdf,
-                  f"{record['source']}: PDF loses code/transcript characters")
+    notes = source_notes(project, records)
+    book_pages = verify_pdf(project, records, notes, "ash-doc-specimen.pdf")
+    a4_pages = verify_pdf(project, records, notes, "ash-doc-specimen-a4.pdf", a4=True)
     print(f"Verified {len(pages)} HTML pages, EPUB 3 links/notes, {len(jobs)} static diagrams, "
-          f"and {total} complete code/transcript blocks in all three formats.")
+          f"and {total} complete code/transcript blocks in all formats; "
+          f"book PDF {book_pages} pages and A4 PDF {a4_pages} pages with checked margins/notes.")
 
 
 if __name__ == "__main__":

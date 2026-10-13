@@ -12,10 +12,11 @@ development handoffs.
 
 - `specimen.json` selects indexed lessons and exact renderer inputs.
 - `specimen/notation.md` tests notes, figures, and the four notation cases.
-- `build.py` prepares sources and renders all three formats.
+- `build.py` prepares sources and renders HTML, EPUB, and both PDF variants.
 - `bootstrap.py` prepares pinned local tools.
 - `diagrams.mjs` derives standalone vector assets.
-- `styles/` separates navigation, article typography, EPUB reflow, and book PDF.
+- `styles/` separates navigation, article typography, EPUB reflow, and PDF print
+  layouts. The generated `a4` profile shares the book's typography.
 - `fonts/` contains unmodified font files and their license notices.
   Notice text is preserved with whitespace normalized.
 - `toolchain/` retains release hashes and the frozen npm dependency graph.

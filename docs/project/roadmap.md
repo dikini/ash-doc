@@ -43,17 +43,17 @@ same model; the effects connection remains optional until E3.
 ## Rendering infrastructure outcome
 
 The first rendering outcome is verified as a local specimen in responsive HTML,
-reflowable EPUB 3, and a book PDF. It keeps existing verified Markdown and
-executable evidence authoritative, uses Quarto Book and Typst, and evaluates
+reflowable EPUB 3, and two PDF print variants. It keeps existing verified
+Markdown and executable evidence authoritative, uses Quarto Book and Typst, and evaluates
 the existing railroad and sequent renderers separately from Mermaid sequence
 diagrams. The [rendering guide](rendering.md) records its selected sources,
 verification, current development handoffs, and replacement condition. This
 work does not publish the edition or change its Ash target.
 
-The user requested both the current double-sided book PDF and a one-sided A4
-variant with extra left binding space. The active
-[PDF variants plan](../plans/2026-10-13-pdf-variants.md) owns this bounded
-presentation change.
+The book PDF retains mirrored margins and outer margin notes for double-sided
+printing. The A4 PDF uses fixed margins, with 25 mm on the left and 20 mm on the
+other edges, and ordinary footnotes for one-sided printing. Both variants are
+verified against the same source text and their actual page geometry.
 
 ## Curriculum direction
 

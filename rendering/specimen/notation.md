@@ -2,12 +2,12 @@
 diagrams:
   - kind: mermaid
     id: fig-rendering-path
-    caption: One source passes through checks before three layouts.
-    description: Markdown is checked and prepared, then rendered as HTML, EPUB, and PDF.
+    caption: One source passes through checks before four layouts.
+    description: Markdown is checked, then rendered as HTML, EPUB, book PDF, and A4 PDF.
   - kind: mermaid
     id: fig-interaction
     caption: A reader asks a build tool to prepare a book.
-    description: The reader requests a build, the builder verifies sources and returns three artifacts.
+    description: The reader requests a build, the builder verifies sources and returns four artifacts.
   - kind: ebnf
     id: fig-grammar
     caption: A name is followed by zero or more comma-separated names.
@@ -29,6 +29,7 @@ provide the program and diagnostic material.
 A note should remain associated with the sentence that introduces it.[^short]
 The browser and printed book can place it in a margin. An e-reader needs a
 linked note that remains reachable as its font size and line lengths change.
+A one-sided A4 copy uses a footnote below the text.
 
 [^short]: This short note tests the relationship between a reference and its
     associated explanation.
@@ -42,9 +43,9 @@ Neither note supplies an answer to an exercise in the existing chapters.
     when an EPUB reader enlarges the font, and when a PDF page contains another
     note nearby. The main paragraph should remain available in reading order.
 
-## Three output paths
+## Output formats and print variants
 
-The graph has one source and three outputs. Its labels should remain legible
+The graph has one source and four outputs. Its labels should remain legible
 at narrow widths and in a grayscale print.
 
 ```mermaid
@@ -53,7 +54,9 @@ flowchart TB
     checks --> prepare[Prepare book]
     prepare --> html[Responsive HTML]
     prepare --> epub[Reflowable EPUB 3]
-    prepare --> pdf[Book PDF]
+    prepare --> pdf[PDF]
+    pdf --> book[Double-sided book]
+    pdf --> a4[One-sided A4]
 ```
 
 ## Interaction sequences
@@ -67,7 +70,7 @@ sequenceDiagram
     participant Builder
     Reader->>Builder: Prepare the specimen
     Builder->>Builder: Verify sources
-    Builder-->>Reader: HTML, EPUB 3, PDF
+    Builder-->>Reader: HTML, EPUB 3, book PDF, A4 PDF
 ```
 
 ## Railroad grammar
@@ -110,7 +113,8 @@ family examples:
 | --- | --- | --- | --- |
 | HTML | Responsive chapters | Margin or linked | Static SVG |
 | EPUB 3 | Reader-controlled reflow | Linked | Static SVG |
-| PDF | Book pages | Outer margin | Vector figures |
+| Book PDF | Mirrored book pages | Outer margin | Vector figures |
+| A4 PDF | One-sided pages | Footnotes | Vector figures |
 
 The [first program](../../content/learn/what-is-an-ash-program/README.md) tests
 an internal chapter link. The [writing workflow](../../docs/project/workflow.md)

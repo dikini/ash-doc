@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare a source-preserving Quarto book and build its three outputs."""
+"""Prepare a source-preserving Quarto book and build HTML, EPUB, and two PDFs."""
 
 import argparse
 import hashlib
@@ -171,6 +171,7 @@ def configuration(chapters):
                  "author": "Ash documentation project", "output-file": "ash-doc-specimen",
                  "chapters": ["index.md", "setup.md"] + chapters},
         "lang": "en", "execute": {"enabled": False}, "number-sections": False,
+        "pdf-a4": False,
         "syntax-highlighting": "none",
         "format": {
             "html": {"theme": ["cosmo", "styles/html.scss"], "toc": True,
@@ -220,6 +221,11 @@ def prepare(args):
         + config["ash_commit"] + "`. The edition remains unpublished.\n\n"
         "Begin with reader setup, then use the contents to select a chapter.\n", encoding="utf-8")
     (args.output / "_quarto.yml").write_text(json.dumps(configuration(list(mapping.values())), indent=2), encoding="utf-8")
+    (args.output / "_quarto-a4.yml").write_text(json.dumps({
+        "book": {"output-file": "ash-doc-specimen-a4"},
+        "pdf-a4": True,
+        "format": {"typst": {"reference-location": "document"}},
+    }, indent=2), encoding="utf-8")
     (args.output / "sources.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
     (args.output / "diagram-jobs.json").write_text(json.dumps({"output": str(args.output / "assets"),
                                             "diagrams": jobs}, indent=2), encoding="utf-8")
@@ -275,14 +281,20 @@ def build(args, config):
     environment["XDG_CACHE_HOME"] = str(TOOLS / "cache")
     environment["TYPST_FONT_PATHS"] = str(ROOT / "rendering/fonts")
     environment["TYPST_IGNORE_SYSTEM_FONTS"] = "true"
+    environment.pop("QUARTO_PROFILE", None)
     environment["SOURCE_DATE_EPOCH"] = run(["git", "show", "-s", "--format=%ct", "HEAD"], cwd=ROOT,
                                           capture_output=True, text=True).stdout.strip()
     run([args.quarto, "render", "--to", "all"], cwd=args.output, env=environment)
+    shutil.copyfile(args.output / "index.typ", args.output / "ash-doc-specimen.typ")
+    run([args.quarto, "render", "--to", "typst", "--profile", "a4", "--no-clean"],
+        cwd=args.output, env=environment)
+    shutil.copyfile(args.output / "index.typ", args.output / "ash-doc-specimen-a4.typ")
     repair_figure_wrappers(args.output / "output")
-    for name in ("index.html", "ash-doc-specimen.epub", "ash-doc-specimen.pdf"):
+    for name in ("index.html", "ash-doc-specimen.epub", "ash-doc-specimen.pdf",
+                 "ash-doc-specimen-a4.pdf"):
         if not (args.output / "output" / name).is_file():
             raise ValueError(f"required output missing: {name}")
-    print(f"Built HTML, EPUB 3, and PDF in {args.output / 'output'}")
+    print(f"Built HTML, EPUB 3, book PDF, and A4 PDF in {args.output / 'output'}")
 
 
 def main():
