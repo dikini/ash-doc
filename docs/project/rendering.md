@@ -11,8 +11,10 @@ the existing railroad and sequent renderers.
 All lesson material still targets `diag-ash`, Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The edition remains unpublished.
 
-The [formatting guidance plan](../plans/2026-10-13-formatting-guidance.md)
-adds authoring instructions to the writing style for this approved draft.
+The writing skill's
+[formatting reference](../../.agents/skills/writing-ash-documentation/references/formatting.md)
+explains how authors choose these elements and write their source. This guide
+retains the implementation and verification boundary.
 
 ## Selected sources and authority
 

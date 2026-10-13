@@ -10,6 +10,11 @@ sources, tool pins, commands, checks, and replacement conditions. The
 [rendering tool report](../docs/project/rendering-tool-bugs.md) retain current
 development handoffs.
 
+For chapter authoring, use the writing skill's
+[formatting reference](../.agents/skills/writing-ash-documentation/references/formatting.md).
+It explains when to use sidenotes, full-width material, diagrams, and page
+breaks, with source examples and the bounds shared by the four outputs.
+
 - `specimen.json` selects indexed lessons and exact renderer inputs.
 - `specimen/notation.md` tests sidenotes, full-width formatting, and the four
   notation cases.

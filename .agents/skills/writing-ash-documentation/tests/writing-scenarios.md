@@ -141,3 +141,28 @@ connects the argument and required-type labels to the correction. The reason
 code remains secondary. Lesson-local agreement checks supplement unchanged
 semantic JSON checks. The exercise still withholds its observation, and the
 prose does not claim that message wording defines Ash semantics.
+
+## Cross-format authoring
+
+### Formatting request
+
+A chapter has essential explanatory prose, a short secondary clarification and
+a longer one, a wide notation comparison, and a nested inference rule plus a
+separate interaction sequence. Give an author the supported source syntax and
+advice for fitting these into HTML, EPUB 3, and the two PDF layouts. Keep the
+chapter readable across all outputs.
+
+### Formatting passing condition
+
+The agent retrieves the writing skill's formatting reference. It keeps
+essential reasoning in the main text and uses ordinary Markdown notes for both
+secondary clarifications. It explains right-margin HTML and A4 notes,
+alternating outer-margin book notes, narrow-screen reading flow, and linked
+EPUB notes. The wide comparison uses `.column-page-right`, reflows in one
+column, fits one page in both PDFs, and avoids note collisions. A standalone
+`{{< pagebreak >}}` is a conditional layout choice, with reader-controlled EPUB
+pagination. Diagram fences remain top-level, outside notes, lists, and Divs;
+ordered YAML entries supply unique IDs, captions, and descriptions. The agent
+uses `sequent` for inference rules and Mermaid for interaction sequences,
+assumes neither LaTeX support nor arbitrary shortcodes, and checks all output
+layouts. It does not imply that the specimen renders every content chapter.

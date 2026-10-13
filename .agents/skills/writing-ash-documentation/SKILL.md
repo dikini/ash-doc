@@ -70,6 +70,21 @@ administration. Add YAML metadata only for a concrete consumer.
 Exercises use only introduced concepts and tools. Name what the reader should
 make or explain, not what project coverage it supplies.
 
+## Choose formatting for the explanation
+
+Keep the main argument readable in ordinary chapter order. Use numbered notes
+for secondary clarification, including longer notes that fit legibly beside
+the text. Use a full-width block when a short explanation or table needs the
+body and adjoining note space. Choose a diagram for a relationship the reader
+needs to see, and explain what it establishes in prose.
+
+When adding or reviewing these elements, read the
+[formatting reference](references/formatting.md) for source examples, diagram
+metadata, and the current cross-format bounds. It covers HTML, EPUB 3, the
+double-sided book PDF, and the one-sided A4 PDF. Keep layout choices in the
+shared renderer and navigation in its chrome. Chapter source owns meaning and
+reading order.
+
 ## Support a learning assistant
 
 The chapter must work without an assistant. Add sparse, product-neutral prompts
@@ -110,6 +125,12 @@ attribution.
   message and explain its causal labels and correction, while exercises retain
   the observations the reader must discover?
 - Does every runnable block have canonical, tested source?
+- Can the main explanation stand without its notes, and does wide material
+  remain readable when it returns to one column?
+- Do diagrams have captions and descriptions, use the supported top-level
+  fences, and preserve the distinction between sequents and sequences?
+- Have new formatting elements been checked in narrow HTML, enlarged EPUB
+  text, and both PDF layouts for clipping, page breaks, and note collisions?
 - Do project records retain authority, target, and evidence?
 
 [liquid]: https://docs.racket-lang.org/liquid-shplait/
