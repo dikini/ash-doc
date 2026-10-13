@@ -16,6 +16,9 @@ The writing skill's
 explains how authors choose these elements and write their source. This guide
 retains the implementation and verification boundary.
 
+The [real-lesson note plan](../plans/2026-10-13-real-lesson-notes.md) applies the
+accepted formatting forms to the search-tree chapter for print review.
+
 ## Selected sources and authority
 
 The [specimen configuration](../../rendering/specimen.json) selects three
