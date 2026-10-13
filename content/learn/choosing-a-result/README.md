@@ -19,18 +19,19 @@ main : Unit -> Bool
 main () = 20 + 22 == 42
 ```
 
-Work through the addition before the equality:
+Work through the addition before the equality and predict the Boolean result.
+Run the program, then compare its observation with the calculation:
+
+```text
+true : Bool
+```
+
+The addition supplies the left input to equality:
 
 ```text
 20 + 22 == 42
 42 == 42
 true
-```
-
-Running the program confirms the last step:
-
-```text
-true : Bool
 ```
 
 `Bool` has exactly two values, `true` and `false`. Change the right side of the
@@ -60,8 +61,8 @@ Read the `match` from its first line. It examines `condition`. Each line inside
 the braces is an *arm*. The part before `=>` names a possible form of the
 value; the expression after `=>` gives the result for that form.
 
-Here `condition` is `true`, so the first arm applies and the call produces
-`when_true`:
+Use the supplied condition to choose an arm, then predict the value that
+arm returns. Run your working program; it reports `42 : Int`. Trace why:
 
 ```text
 choose true 42 0
@@ -72,6 +73,11 @@ match true { ... }
 If the call began `choose false 42 0`, the second arm would apply and the
 result would be `0`. Both arms produce an `Int`, which agrees with the final
 `Int` in the signature of `choose`.
+
+`choose` receives its inputs as evaluated values. The match selects one arm
+body after receiving the condition; it does not delay evaluation of the
+function's arguments. The [application][application] and
+[matching][evaluation] rules distinguish those steps.
 
 ## Calculating the condition
 
@@ -91,7 +97,8 @@ main () = choose (20 + 22 == 42) 42 0
 ```
 
 The parentheses keep the equality together as the first input to `choose`.
-Trace that input before entering the match:
+Predict the condition first, then the selected result. Run the program and
+compare its `42 : Int` observation with the trace:
 
 ```text
 choose (20 + 22 == 42) 42 0
@@ -118,8 +125,8 @@ main : Unit -> Int
 main () = choose false 42
 ```
 
-There is no expression to use when `condition` is `false`. Run this version
-from `content/learn` and look for that missing choice:
+Compare the possible `Bool` values with the patterns in the match. Which
+input has no result expression? Run this version from `content/learn`:
 
 <!-- diagnostic: src/04-missing-choice.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -150,6 +157,9 @@ arrive at a choice with no corresponding expression.
 
 ## Exercise: keep or double
 
+Start from a fresh copy of `src/02-choose.ash` in your scratch directory.
+Replace the function and its calls as you implement the new behavior.
+
 Define a function with this signature:
 
 ```text
@@ -174,3 +184,6 @@ then matching every possible form of that value. For `Bool`, those forms are
 Our matches still contain short expressions. When one route needs several
 steps, repeating a growing expression becomes hard to read. The next lesson
 shows how to name the intermediate values in a calculation.
+
+[evaluation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches
+[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application

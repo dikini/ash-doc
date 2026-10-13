@@ -56,7 +56,10 @@ directory, reader-facing link, or publication date.
   a supplied argument to the remaining arrow's requirement.
 
 - **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
-  — **verified.** `Bool`, integer equality, and exhaustive matching.
+  — **verified.**
+  Separate condition calculation from arm selection and compare possible
+  Boolean inputs with coverage before the rejection.
+
 - **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**
   — **verified.**
   Blocks, sequential `let` bindings, and scope.
