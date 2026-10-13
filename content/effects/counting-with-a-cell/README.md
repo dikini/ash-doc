@@ -35,16 +35,18 @@ Within the body, `counter` is a handle of type `Cell.Handle<R>`. The scope
 introduces `R` to distinguish this acquisition. Reading returns a copied
 integer; writing changes the cell and returns `Unit`.
 
-`before` retains the copied zero. `alias` is another way to access the same
-cell, so writing through it changes what a later read through `counter` sees.
-Run the file from this lesson's `src` directory:
+`alias` provides access to the same cell as `counter`. Predict both fields
+of the returned pair: does changing the cell also change the integer already
+bound to `before`? Run the file from this lesson's `src` directory:
 
 ```text
 $ ash 01-read-and-write.ash
 (0, 1) : (Int, Int)
 ```
 
-The aliases do not own separate releases. The resource scope owns one release
+`before` keeps the copied `0`; writing `1` through `alias` changes the cell,
+so the later read returns `1`. The aliases do not own separate releases.
+The resource scope owns one release
 when its body finishes. The returned pair contains ordinary integers and
 needs no cell access after that scope has closed.
 
@@ -67,14 +69,17 @@ main () = count (Item(20, Item(0, Item(99, End))), 0)
 
 Every `Item` contributes one, including an item whose score is zero. The
 accumulator is the number of items already visited. At `End`, it is the final
-count:
+count. Trace the list and predict that count, including the item with score
+zero:
 
 ```text
 $ ash 02-pure-count.ash
 3 : Int
 ```
 
-This is still a suitable way to count a list. The cell version will let us
+There are three `Item` constructors, so the count is `3`. Zero counts as an
+item here; this traversal has no stopping rule. This is still a suitable way
+to count a list. The cell version will let us
 compare the same result with a different way of carrying the count.
 
 ## Pass access to a helper
@@ -106,12 +111,18 @@ main () = resource cell<R> counter = 0 {
 
 `visit` returns `Unit`; its useful work is updating the cell. Before each
 recursive call, it reads the current count and writes one more. At `End`, it
-finishes without changing the count. The outer body then reads the result:
+finishes without changing the count. Use the same invariant as the pure
+version: after each update, the count equals the number of items visited.
+Predict the outer body's final read:
 
 ```text
 $ ash 03-cell-count.ash
 3 : Int
 ```
+
+Each of the three items causes one update, including zero, so the final read
+is `3`. The [cell evaluation rules][execution] give reads and writes access
+to the one payload owned by this acquisition.
 
 Read the helper's contract in two parts. `! {Cell.Ops<R>}` records the effects
 of its reads and writes. `where Cell.Provider<R>` requires evidence permitting
@@ -146,6 +157,11 @@ main () = resource cell<R> counter = 0 {
     read_count counter
 }
 ```
+
+The call sits inside an acquisition, but the helper's definition must state
+what it needs for every use. Compare its signature with `visit`'s: what
+requirement can the caller supply only if the helper declares it?
+
 <!-- diagnostic: src/04-missing-provider.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -173,11 +189,12 @@ reason: constraint.unsatisfied
 ```
 <!-- markdownlint-enable MD013 -->
 
-The first label identifies the method call without evidence. The builtin
-source labels show the required `Provider<R>` interface and its method;
-`@builtin.cell` identifies that compiler-owned source rather than a missing
-file in your checkout. The import label explains how the method became
-available by name.
+The first label identifies the method call without evidence. The label on
+`read`'s builtin declaration identifies the method that introduced the
+requirement. The import label explains how that declaration became available
+by name; the final group shows the `Provider<R>` interface participating in
+the failed selection. `@builtin.cell` names compiler-owned source rather
+than a missing file in your checkout.
 
 Add `where Cell.Provider<R>` to `read_count`'s signature, following `visit` in
 `03-cell-count.ash`. The helper then declares the requirement that the resource
@@ -187,12 +204,17 @@ method needs.
 
 ## Practice: track the count and its access
 
-1. Add another item to the list in both counting examples. Predict their
-   results and explain their different representations of intermediate state.
-2. In `01-read-and-write.ash`, write a different integer through `alias`.
+Start each task with fresh copies of its named programs in a scratch directory
+outside this lesson's `src` tree, and run the copies from that directory.
+
+1. Copy `02-pure-count.ash` and `03-cell-count.ash`. Add another item to both
+   lists. Predict their results and explain their different representations
+   of intermediate state.
+2. Copy `01-read-and-write.ash` and write a different integer through `alias`.
    Explain why `before` and the later read can differ.
-3. Change `visit` to count only nonzero scores. Keep the cell's updates inside
-   the branch that counts an item, then compare with a pure version.
+3. Copy `03-cell-count.ash` and `02-pure-count.ash`. Change `visit` to count
+   only nonzero scores. Keep the updates inside the branch that counts an item,
+   then make the same counting choice in the pure version and compare them.
 
 A cell handle provides reusable access during one owned scope. The scope
 supplies the provider and operation interpreter and owns release; copies of a
@@ -200,3 +222,4 @@ read integer are ordinary values. Next we will examine which values can leave
 that scope and which ones still retain access to the cell.
 
 [cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#scoped-cell-execution
