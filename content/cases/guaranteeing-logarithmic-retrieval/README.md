@@ -79,7 +79,7 @@ rule against adjacent red nodes limits how much longer a path can become.
 [^red-root-example]: Both paths contain one black form: their terminal `Empty`.
     A red root adds no black form.
 
-    ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A schematic red root has two Empty children, each counted as black. Each path contains one black form; the red root contributes none." width=100%}
+    ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A root circle with a red upper half connects to two terminal Empty circles with black upper halves. All lower halves are white. Each path contains one black form; the red root contributes none." width=100%}
 
 <!-- markdownlint-enable MD013 -->
 
