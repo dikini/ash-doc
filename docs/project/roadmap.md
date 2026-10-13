@@ -478,6 +478,13 @@ rather than keeping parallel roadmaps.
 
 ## Selecting work
 
+**Active outcome: E3 teaching review.** Improve callback prediction, row
+instantiation, and rejection explanations while preserving the chapter's six
+canonical sources and observations at `diag-ash`, commit
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its approved
+[execution plan](../plans/2026-10-13-preserving-callback-effects-teaching-review.md)
+closes before the E4 review becomes active.
+
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
 negative observations, and completion checks. Keep its temporary execution
