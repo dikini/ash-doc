@@ -98,6 +98,13 @@ paragraph and table. It spans the body and note area, stays together on one
 print page, and reflows in narrow HTML and EPUB previews. Both PDFs and the
 browser checks verify the source text and actual layout.
 
+The active [authoring-guidance consolidation plan][authoring-plan] carries the
+accepted teaching, code, and visual conventions into the required writing
+skill and its review scenarios. It changes project guidance without a bulk
+lesson revision or a new rendering mechanism.
+
+[authoring-plan]: ../plans/consolidate-authoring-guidance.md
+
 ## Curriculum direction
 
 The next learning stage asks: how can a reader design a calculation that
