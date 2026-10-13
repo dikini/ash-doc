@@ -15,4 +15,4 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-No active plans.
+Active plan: [library chapter 8 teaching review](2026-10-13-library-08-teaching-review.md).

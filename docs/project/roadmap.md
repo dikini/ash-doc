@@ -44,9 +44,18 @@ same model; the effects connection remains optional until E3.
 
 The approved review retains the eight chapters, 43 canonical sources, 17
 accepted observations, and 16 complete diagnostic captures at `diag-ash`
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Chapters one through 7 are
-reviewed and
-verified. No chapter execution plan is active; chapter 8 is next.
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Revise one chapter at a time using
+the
+project writing skill and existing teaching-inspiration records.
+
+Completed chapters: 1. choosing-implementation-evidence; 2.
+forwarding-capability-evidence; 3. accepting-type-constructors; 4.
+giving-method-local-type-parameters; 5. determining-interface-results; 6.
+requiring-element-behavior; 7. wrapping-a-representation
+
+**Active outcome: chapter 8, supplying-scoped-evidence.**
+What can leave a scope that owns a nominal identity and exact methods?
+[Execution plan](../plans/2026-10-13-library-08-teaching-review.md).
 
 ## Curriculum direction
 
