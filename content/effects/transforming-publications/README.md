@@ -6,8 +6,10 @@ scopes a way to register those transformations while the calculation publishes
 an ordinary typed value.
 
 A hook API is an effect with exactly one operation named `publish`, whose
-input and result types are equal. `hook` establishes a root with an identity
-transformation. Each `register` adds a transformer for its body's scope.
+input and result types are structurally equal under the declaration's own
+parameters, before substituting arguments at a use. `hook` establishes a root
+with an identity transformation. Each `register` adds a transformer for its
+body's scope.
 
 ## Transform in registration order
 
@@ -36,15 +38,17 @@ main () = hook Adjust {
 }
 ```
 
-Publication uses the ordinary `perform` syntax. The value `3` travels through
-the outer transformation first, becoming `4`, and the inner transformation
-then produces `8`. Run the file from this lesson's `src` directory:
+Publication uses ordinary `perform` syntax. It applies the outer
+transformation first, then the inner one. Predict the two intermediate values
+for payload `3` before running from this lesson's `src` directory:
 
 ```text
 $ ash 01-transform-order.ash
 8 : Int
 ```
 
+Increment changes `3` to `4`; double changes `4` to `8`. The
+[hook evaluation rules][execution] describe this outer-to-inner chain.
 Each transformer is an ordinary `Int -> Int` function. Registration evaluates
 the transformer expression once and retains the resulting function for that
 scope. It does not call the transformer until a publication reaches it.
@@ -78,22 +82,27 @@ main () = hook Adjust {
 }
 ```
 
-The first publication uses the increment registration. The nested root starts
-an empty identity chain, so its publication returns `3` unchanged. After that
-root finishes, the outer registration is still active:
+The nested root starts a fresh identity chain for this exact instance.
+For each publication, locate its nearest root and the registrations inside
+that root. Predict the three fields before running:
 
 ```text
 $ ash 02-nested-root.ash
 (4, 3, 4) : (Int, Int, Int)
 ```
 
+The first publication uses increment and returns `4`. Inside the nested root
+there is no registration, so publication returns `3`. After it closes, the
+outer registration is still active and produces `4` again.
 A root does not accumulate every registration in the program. Its exact
 instance and lexical nesting determine the chain used by a publication.
 
 ## Callbacks use the context around registration
 
 A transformer can itself request an effect. In `03-callback-context.ash`,
-`adjust` asks for a bonus:
+`adjust` asks for a bonus. Callbacks run through a generated handler clause
+outside handlers placed only around publication. Use E4's distinction between
+body and clause requests to locate the context surrounding registration:
 
 <!-- source: src/03-callback-context.ash -->
 ```ash
@@ -123,19 +132,22 @@ main () = hook Adjust {
 }
 ```
 
-The direct bonus request in the publication body receives `100`. That value
-is deliberately ignored. When publication invokes `adjust`, its request uses
-the handler surrounding the registration and receives `2`, giving:
+Trace the direct bonus request and the request made by `adjust` separately.
+Which handler answers each, and which answer contributes to the published
+result?
 
 ```text
 $ ash 03-callback-context.ash
 5 : Int
 ```
 
-The handler installed only around the publication does not interpret the
-callback's bonus request. The callback runs through its registration's handler
-clause, outside that publication-only handler. E4's distinction between body
-requests and clause requests explains the difference.
+The direct request receives `100`, which its binding ignores. The callback's
+request receives `2` from the handler surrounding registration, so
+`adjust` computes `3 + 2`. The callback runs through the registration's
+generated clause, outside the handler installed only around publication.
+An ordinary closure keeps lexical values; creating it under a handler does
+not store that handler. Here the registration's clause determines the
+callback's handler context.
 
 Callback effects remain requirements of the registration even when one input
 never publishes. A hook root handles its own target, not every effect used by
@@ -157,6 +169,10 @@ main () = hook Convert<Int, Int> {
     perform Convert<Int, Int>.publish 3
 }
 ```
+
+Compare `A` and `B` in the declaration before substituting `Int`. Does this
+API meet the hook requirement, regardless of this particular use?
+
 <!-- diagnostic: src/04-invalid-api.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -217,16 +233,19 @@ main () = resource cell<R> calls = 0 {
 }
 ```
 
-The stop request arrives before publication. Discard closes the owned
-registration without invoking its transformer or the remaining publication.
-The clause returns `7`. The later publication occurs after that registration
-has closed, so the root returns `5` unchanged and the callback count stays zero:
+Discard can close an owned registration without invoking its transformer.
+The stop request arrives before publication. Predict the three fields:
+the clause's result, the later publication after closing, and the number of
+actual calls to `change`:
 
 ```text
 $ ash 05-discard-registration.ash
 (7, 5, 0) : (Int, Int, Int)
 ```
 
+The remaining publication is skipped and the clause returns `7`. The
+registration is gone before the later publication, which returns the root's
+unchanged `5`. No callback ran, so the count is `0`.
 The callback captures cell access, but its owner surrounds the whole hook and
 all callback uses. The dependency rules from E8 still apply. Registration is
 not permission to return access beyond the cell's lifetime.
@@ -268,15 +287,18 @@ main () = resource cell<R> calls = 0 {
 }
 ```
 
-The waiting registration is preserved. Its publication invokes `change` once
-and produces `4`. Normal completion then removes the registration. The later
-publication again returns the root's unchanged `5`:
+Resumption preserves the waiting registration and continues after the stop
+request. Predict the callback count and both publication results, accounting
+for where normal completion removes the registration:
 
 ```text
 $ ash 06-resume-registration.ash
 (4, 5, 1) : (Int, Int, Int)
 ```
 
+The resumed publication invokes `change` once and produces `4`. Its scope
+then closes normally; the later publication returns `5` from the identity
+root. The counter records that one invocation.
 Removing a registration does not run its transformer as a destructor. Cleanup
 actions are a separate feature. As with other completion owners, discard may
 close a registration inside its owned abandoned segment; it cannot skip a
@@ -284,6 +306,9 @@ required owner outside that segment. Hooks introduce no escaping registration
 token or arbitrary removal operation.
 
 ## Practice: trace the value and the lifetime
+
+Start each task with a fresh copy of its named program in a scratch directory
+outside this lesson's `src` tree. Run the copy from that directory.
 
 1. Reverse the two registrations in `01-transform-order.ash`. Predict the
    result by applying the functions in their new order.
@@ -300,3 +325,4 @@ what a publication does. Next we will use the same resource-lifetime model
 with a provider whose acquisition can fail before its body begins.
 
 [hooks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#synchronous-typed-hooks
+[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#synchronous-hook-execution

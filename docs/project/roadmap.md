@@ -242,9 +242,10 @@ No source-cleanup guarantee is implied for internal termination or exhaustion.
 
 **State: verified.** [Read the lesson](../../content/effects/transforming-publications/README.md).
 
-Declare an effect with one endomorphic `publish` operation, establish a hook,
-and register transformations. Predict outer-to-inner transformation order,
-callback effects, and the separate chain established by a nested exact root.
+Qualify a declaration before substitution, establish a hook, and register
+transformations. Predict outer-to-inner order, callback context, and the chain
+selected by each exact root. Separate evaluation of the registration expression
+from later callback invocations.
 
 The reader can distinguish registration context from publication context and
 explain registration lifetime across normal return, capture, resume, and owned
@@ -490,13 +491,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E10 teaching review.** Revise the existing chapter
-for its hook qualification, callback context, and registration lifetime boundary.
-The approved prose and exercise review targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
-[execution plan](../plans/2026-10-13-publications-teaching-review.md) owns this
-chapter; complete and verify it, then advance to E11.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
