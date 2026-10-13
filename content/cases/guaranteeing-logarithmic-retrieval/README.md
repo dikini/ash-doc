@@ -76,11 +76,13 @@ rule against adjacent red nodes limits how much longer a path can become.
 
 <!-- markdownlint-disable MD013 -->
 
-[^red-root-example]: Both paths contain one black form: their terminal `Empty`.
-    A red root adds no black form. The yellow lower half identifies the root's
-    `(k, v)` association. White lower halves mark `Empty`, which has none.
+[^red-root-example]:
 
     ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A root circle with a red upper half and a yellow association half connects to two terminal Empty circles with black upper halves and white lower halves. Empty has no key/value association. Each path contains one black form; the red root contributes none." width=100%}
+
+    Both paths contain one black form: their terminal `Empty`.
+    A red root adds no black form. The yellow lower half identifies the root's
+    `(k, v)` association. White lower halves mark `Empty`, which has none.
 
 <!-- markdownlint-enable MD013 -->
 
@@ -369,9 +371,9 @@ restore Black RArg(
 
 <!-- markdownlint-disable MD013 -->
 
-[^restore-left-left]: Left-left repair: before above, after below.
+[^restore-left-left]:
 
-    ![Rewire the same pieces.](assets/restore-left-left.svg){#restore-left-left-sketch fig-alt="Before above: black violet above a red blue left child and a red yellow left grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ![Rewire the same pieces - left-left.](assets/restore-left-left.svg){#restore-left-left-sketch fig-alt="Before above: black violet above a red blue left child and a red yellow left grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
 
 <!-- markdownlint-enable MD013 -->
 
@@ -411,9 +413,9 @@ restore Black RArg(
 
 <!-- markdownlint-disable MD013 -->
 
-[^restore-left-right]: Left-right repair: before above, after below.
+[^restore-left-right]:
 
-    ![Rewire the same pieces.](assets/restore-left-right.svg){#restore-left-right-sketch fig-alt="Before above: black violet above a red yellow left child, whose right child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ![Rewire the same pieces - left-right.](assets/restore-left-right.svg){#restore-left-right-sketch fig-alt="Before above: black violet above a red yellow left child, whose right child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
 
 <!-- markdownlint-enable MD013 -->
 
@@ -447,9 +449,9 @@ restore Black RArg(a, k1, v1) Node(
 
 <!-- markdownlint-disable MD013 -->
 
-[^restore-right-left]: Right-left repair: before above, after below.
+[^restore-right-left]:
 
-    ![Rewire the same pieces.](assets/restore-right-left.svg){#restore-right-left-sketch fig-alt="Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ![Rewire the same pieces - right-left.](assets/restore-right-left.svg){#restore-right-left-sketch fig-alt="Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
 
 <!-- markdownlint-enable MD013 -->
 
@@ -480,9 +482,9 @@ restore Black RArg(a, k1, v1) Node(
 
 <!-- markdownlint-disable MD013 -->
 
-[^restore-right-right]: Right-right repair: before above, after below.
+[^restore-right-right]:
 
-    ![Rewire the same pieces.](assets/restore-right-right.svg){#restore-right-right-sketch fig-alt="Before above: black yellow above a red blue right child and a red violet right grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ![Rewire the same pieces - right-right.](assets/restore-right-right.svg){#restore-right-right-sketch fig-alt="Before above: black yellow above a red blue right child and a red violet right grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
 
 <!-- markdownlint-enable MD013 -->
 
