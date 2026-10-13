@@ -136,48 +136,56 @@ insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
 <!-- markdownlint-enable MD013 -->
 
 When recursion returns a child, the parent has its color, its two branches,
-and its own association available. These five pieces have types `Color`,
-`D`, `K`, `V`, and `D`, in constructor-field order. Rebuilding or repairing
-that parent must return a `D`. Write one arrow after each input type, then
-put `D` for the result. This calculates the signature of `restore`, which
-repairs a red-red edge beneath a black parent when it finds one:
+and its own association available. Carry the left dictionary and the parent's
+key and value together, leaving the color and right dictionary as separate
+inputs. This small private type gives that group a name:
 
-<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/dictionaries.ash#repair_args -->
+
+```text
+type RArg<K, V> = RArg(Dictionary<K, V>, K, V)
+```
+
+`RArg` means repair argument. Its constructor takes a dictionary, a key, and
+that key's value. The dictionary lies immediately before the association in
+key order. Each group therefore describes one part of the ordered arrangement:
+a subtree followed by an association. The type groups those values; it does
+not establish their ordering or black-height conditions.
+
+Rebuilding the parent now takes a `Color`, an `RArg<K, V>`, and a `D`, and
+returns a `D`. Those successive inputs calculate the signature of `restore`,
+which repairs a red-red edge beneath a black parent when it finds one:
 
 ::: {#wide-restore-signature .column-page-right}
 
 <!-- signature: src/dictionaries.ash#restore -->
 
 ```text
-restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
+restore : Color -> RArg<K, V> -> Dictionary<K, V> -> Dictionary<K, V>
 ```
 
 :::
 
-<!-- markdownlint-enable MD013 -->
-
-That repair will rearrange three associations with four intervening subtrees.
-Every subtree has type `D`, every key has type `K`, and every associated
-value has type `V`. `restore_three` consumes them in their increasing order:
-subtree, key, value, subtree, key, value, subtree, key, value, subtree. Write
-one arrow after each of those ten inputs, then put `D` for the result.
-That calculation gives the longer signature below. Its last dictionary
-type is the output; the preceding four are subtree inputs. The different
-orientations will supply the same types of pieces to this one construction:
-
-<!-- markdownlint-disable MD013 -->
-
-::: {#wide-restore-three-signature .column-page-right}
+That repair rearranges three associations with four intervening subtrees.
+Three `RArg` values carry the first three subtrees and their following
+associations; one final `D` supplies the rightmost subtree. All four inputs
+produce one `D`. The different orientations will supply these same groups to
+one construction:
 
 <!-- signature: src/dictionaries.ash#restore_three -->
 
 ```text
-restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
+restore_three : (
+    RArg<K, V> -> RArg<K, V> -> RArg<K, V> ->
+    Dictionary<K, V> -> Dictionary<K, V>
+)
 ```
 
-:::
-
-<!-- markdownlint-enable MD013 -->
+The arrows still describe [successive calls](../../learn/using-more-than-one-input/README.md#supplying-two-inputs).
+A constructed `RArg` is one argument to a call, so it has grouping parentheses
+when passed to another function. Its fields have already been collected into
+one value, like the [tuple inputs](../../learn/values-travel-together/README.md#receiving-one-pair)
+from Learn.
 
 Finally, internal insertion may return a red root. `blacken_root` restores
 the public root condition without searching the tree or changing an
@@ -257,22 +265,23 @@ insert_colored 1 10 Empty
 => Node(Red, Empty, 1, 10, Empty)
 ```
 
-At a `Node`, comparison gives three cases. For `Less`, recur on `left`.
-Its type is `D`, and the function type tells us that
-`insert_colored key value left` returns `D`. Assume this smaller call inserts
-the association and preserves ordering and black-height, allowing a red-red
-edge directly below a red root.
+At a `Node`, comparison gives three cases. In the compact node pattern below,
+`a` and `b` name the left and right dictionaries, while `k` and `v` name the
+stored key and value. The separate `key` and `value` name the association being
+inserted. For `Less`, recur on `a`. Its type is `D`, and
+`insert_colored key value a` returns `D`. Assume this smaller call inserts the
+association and preserves ordering and black-height, allowing a red-red edge
+directly below a red root.
 
-The returned left dictionary can now replace the old left field. The other
-four fields retain their types: `color : Color`, `current_key : K`,
-`current_value : V`, and `right : Dictionary<K, V>`. Put the five pieces in
-the order required by `restore`. Its result is the whole dictionary this
-case needs. At a black parent it can repair the returned child's edge;
-at a red parent it reconstructs the subtree for the enclosing ancestor.
-This determines the combining expression in the `Less` arm. `Greater`
-makes the same calculation with the returned right dictionary. For a finite
-dictionary, each recursive input is a smaller child, so descent reaches
-`Empty` or an equal key, provided the comparisons return.
+The returned dictionary belongs with the parent's association in
+`RArg(insert_colored key value a, k, v)`. Pass that group to `restore` after
+`color`, then supply `b` as the right dictionary. At a black parent, `restore`
+can repair the returned child's edge; at a red parent, it reconstructs the
+subtree for the enclosing ancestor. This calculates the combining expression
+in the `Less` arm. `Greater` keeps `RArg(a, k, v)` and supplies the recursively
+returned right dictionary. Each recursive input is a smaller child, so descent
+through a finite dictionary reaches `Empty` or an equal key, provided the
+comparisons return.
 
 On `Equal`, inserting `(2, 99)` over `(2, 20)` retains the stored key,
 children, and color, changing only the value. This supplies the middle arm
@@ -287,10 +296,10 @@ without recursion or repair. The completed excerpt is:
 ```text
 insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
 insert_colored key value Empty = Node(Red, Empty, key, value, Empty)
-insert_colored key value Node(color, left, current_key, current_value, right) = match compare key current_key {
-    Less => restore color (insert_colored key value left) current_key current_value right
-    Equal => Node(color, left, current_key, value, right)
-    Greater => restore color left current_key current_value (insert_colored key value right)
+insert_colored key value Node(color, a, k, v, b) = match compare key k {
+    Less => restore color (RArg(insert_colored key value a, k, v)) b
+    Equal => Node(color, a, k, value, b)
+    Greater => restore color (RArg(a, k, v)) (insert_colored key value b)
 }
 ```
 
@@ -300,104 +309,190 @@ insert_colored key value Node(color, left, current_key, current_value, right) = 
 
 ### Repair the returned child
 
-Insertion has asked `restore` to construct a dictionary from the parent
-fields, with one child replaced by the recursive result. Its type already
-tells us the five inputs and their result. Which field patterns need repair?
-A black parent can receive a red child with a red child of its own. That
-local candidate contains three associations in increasing order, with four
-intervening subtrees. Name them first, middle, and last; name the subtrees
-`A`, `B`, `C`, and `D` from left to right.
+Insertion asks `restore` to rebuild a parent with one child replaced by the
+recursive result. A black parent may receive a red child with a red child of
+its own. The two red nodes can follow left-left, left-right, right-left, or
+right-right branches. These are the function's four repair cases. We will
+follow each equation separately, then add a fallback for candidates that need
+no local repair.
 
-For the running example, black `3` receives red `2` with red `1` below it.
-The parent must return the same associations without that red-red edge.
-The shared helper's job is to return red middle above black first and last,
-with `A` and `B` below first and `C` and `D` below last. This gives `restore`
-a result to request while we have yet to fill `restore_three`'s body.
-A nested pattern can name the pieces needed by that call:
-
-- The outer parent is black and supplies the last association, `(3, 30)`.
-- Its red left child supplies the middle association, `(2, 20)`.
-- That child's red left child supplies the first association, `(1, 10)`.
-- The remaining child fields supply `A`, `B`, `C`, and `D` in increasing order.
-
-Those names give the arguments to `restore_three` directly. The expected
-calculation is:
+Every case must retain the same three associations and four intervening
+subtrees. Short names let us compare the input pattern with the reconstruction:
+`a`, `b`, `c`, `d` are the subtrees from left to right; `k` means key and `v`
+means value. `(k1, v1)`, `(k2, v2)`, `(k3, v3)` are the associations in increasing
+key order. The indices indicate that order, rather than literal key values or
+insertion order:
 
 ```text
-restore Black
-    Node(Red, Node(Red, Empty, 1, 10, Empty), 2, 20, Empty)
-    3 30 Empty
-=> restore_three Empty 1 10 Empty 2 20 Empty 3 30 Empty
-=> red 2 above black 1 and black 3, with the same values
+a, (k1, v1), b, (k2, v2), c, (k3, v3), d
 ```
 
-A red parent can be on either side of the black grandparent, and its red
-child can be on either side again. We need four patterns, rather than a rule
-that repairs only the descending example:
+Each case collects the first three subtree-and-association groups into `RArg`
+values and leaves `d` separate. The shared helper will place the middle
+association above black first and last nodes. For now, its promised result
+lets us calculate the calls that each case needs.
 
-| Orientation | Insertion order | Fields supplying first, middle, last |
-| --- | --- | --- |
-| left-left | `3, 2, 1` | grandchild, child, parent |
-| left-right | `3, 1, 2` | child, grandchild, parent |
-| right-left | `1, 3, 2` | parent, grandchild, child |
-| right-right | `1, 2, 3` | parent, child, grandchild |
-
-For instance, `3, 1, 2` puts the middle association in the red child's right
-branch. The second pattern must take it from that branch. The destination is
-unchanged: red middle above black first and last. Each pattern only selects
-which candidate fields supply that shared construction.
+The optional sketches show each candidate above its repaired result. The
+upper half of a circle records red or black; the lower color follows that
+association as it moves. Colored triangles stand for the surrounding subtrees.
+The same colors appear before and after, so you can trace the rewiring without
+reading names inside the diagram.
 
 {{< pagebreak >}}
 
-What should happen when none of the four patterns fits? Inserting `2` below
-black `3` creates only one red child, so there is no red-red edge to repair.
-Returning the parent's fields in an ordinary `Node` preserves that result.
-This fallback also reconstructs a red parent. If its returned child is red,
-a black ancestor will handle the edge between them. The complete equation
-group is:
+**Left-left.**[^restore-left-left] Inserting `3, 2, 1` gives our running
+candidate: black `3` above red `2` above red `1`, following left branches. The
+black parent supplies the last association, `(k3, v3)`; its red child supplies
+the middle, `(k2, v2)`; and the red grandchild supplies the first, `(k1, v1)`.
+The remaining fields name `a`, `b`, `c`, and `d` in their ordered positions:
+
+<!-- excerpt: src/dictionaries.ash#restore_left_left -->
+
+```text
+restore Black RArg(
+    Node(Red, Node(Red, a, k1, v1, b), k2, v2, c),
+    k3,
+    v3
+) d = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+```
 
 <!-- markdownlint-disable MD013 -->
 
-::: {#wide-restore-excerpt .column-page-right}
+[^restore-left-left]: Left-left repair: before above, after below.
 
-<!-- excerpt: src/dictionaries.ash#restore -->
-
-```text
-restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore Black Node(
-    Red,
-    Node(Red, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    third
-) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black Node(
-    Red,
-    first,
-    first_key,
-    first_value,
-    Node(Red, second, middle_key, middle_value, third)
-) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black first first_key first_value Node(
-    Red,
-    Node(Red, second, middle_key, middle_value, third),
-    last_key,
-    last_value,
-    fourth
-) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black first first_key first_value Node(
-    Red,
-    second,
-    middle_key,
-    middle_value,
-    Node(Red, third, last_key, last_value, fourth)
-) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore color left key value right = Node(color, left, key, value, right)
-```
-
-:::
+    ![Rewire the same pieces.](assets/restore-left-left.svg){#restore-left-left-sketch fig-alt="Before above: black violet above a red blue left child and a red yellow left grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
 
 <!-- markdownlint-enable MD013 -->
+
+The repeated groups on the right show what survives the pattern. In this
+example, all four subtrees are `Empty`. The bindings supply this schematic
+call to the helper:
+
+```text
+restore_three
+    (RArg(Empty, 1, 10))
+    (RArg(Empty, 2, 20))
+    (RArg(Empty, 3, 30))
+    Empty
+=> red 2 above black 1 and black 3, with the same values
+```
+
+**Left-right.**[^restore-left-right] Inserting `3, 1, 2` still puts the last
+association at the black parent. Its red left child now supplies the first
+association. The child's red right branch supplies the middle. The second
+pattern selects that changed position, then sends the same ordered groups to
+the helper:
+
+<!-- excerpt: src/dictionaries.ash#restore_left_right -->
+
+```text
+restore Black RArg(
+    Node(Red, a, k1, v1, Node(Red, b, k2, v2, c)),
+    k3,
+    v3
+) d = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+```
+
+<!-- markdownlint-disable MD013 -->
+
+[^restore-left-right]: Left-right repair: before above, after below.
+
+    ![Rewire the same pieces.](assets/restore-left-right.svg){#restore-left-right-sketch fig-alt="Before above: black violet above a red yellow left child, whose right child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+
+<!-- markdownlint-enable MD013 -->
+
+The destination remains red middle above black first and last. Only the
+fields from which we obtain the groups have changed.
+
+{{< pagebreak >}}
+
+**Right-left.**[^restore-right-left] Inserting `1, 3, 2` puts the first
+association at the black parent and the last at its red right child. The
+child's red left branch supplies the middle. The parent's group already
+contains `a`, `k1`, and `v1`; the nested right pattern supplies the remaining
+pieces:
+
+<!-- excerpt: src/dictionaries.ash#restore_right_left -->
+
+```text
+restore Black RArg(a, k1, v1) Node(
+    Red,
+    Node(Red, b, k2, v2, c),
+    k3,
+    v3,
+    d
+) = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+```
+
+<!-- markdownlint-disable MD013 -->
+
+[^restore-right-left]: Right-left repair: before above, after below.
+
+    ![Rewire the same pieces.](assets/restore-right-left.svg){#restore-right-left-sketch fig-alt="Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+
+<!-- markdownlint-enable MD013 -->
+
+Here `b` and `c` come from the middle node's children. Their names retain
+the same ordered positions as in the preceding cases, so the reconstruction
+call is unchanged.
+
+**Right-right.**[^restore-right-right] Inserting `1, 2, 3` puts the first
+association at the black parent, the middle at its red right child, and the
+last at that child's red right branch. This is the final orientation:
+
+<!-- excerpt: src/dictionaries.ash#restore_right_right -->
+
+```text
+restore Black RArg(a, k1, v1) Node(
+    Red,
+    b,
+    k2,
+    v2,
+    Node(Red, c, k3, v3, d)
+) = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+```
+
+<!-- markdownlint-disable MD013 -->
+
+[^restore-right-right]: Right-right repair: before above, after below.
+
+    ![Rewire the same pieces.](assets/restore-right-right.svg){#restore-right-right-sketch fig-alt="Before above: black yellow above a red blue right child and a red violet right grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+
+<!-- markdownlint-enable MD013 -->
+
+The four equations differ in where they find the first, middle, and last
+associations. Each requests the same reconstruction after collecting them.
+
+**When no repair case matches.** Inserting `2` below black `3` creates only
+one red child, so there is no red-red edge to repair. Reconstruct the node
+from the supplied fields. The same fallback also reconstructs a red parent;
+if its child is red, an enclosing black ancestor will handle that edge:
+
+<!-- excerpt: src/dictionaries.ash#restore_unchanged -->
+
+```text
+restore color RArg(a, k, v) b = Node(color, a, k, v, b)
+```
 
 Ash tries these patterns in source order and selects the first matching
 equation once the arguments have arrived. The final equation handles every
@@ -406,15 +501,15 @@ remaining color and subtree shape. The
 check that the equations cover the input type. The
 [evaluation rules for matches and equations](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 explain which body executes. Neither check establishes the ordering or
-black-height premises we used in the repair calculation.
+black-height premises used in the repair calculation.
 
 ### Construct the shared repair result
 
-`restore_three` receives the ten values selected by `restore` and must
-construct one `Dictionary<K, V>`. The middle association separates the
-first two subtrees from the last two. Place the first association above
-`first` and `second`, and the last above `third` and `fourth`. Those two
-constructed dictionaries can become the middle node's children.
+`restore_three` receives three `RArg` values and the final subtree `d`. Unpack
+the groups to name `a`, `b`, `c`, their keys, and their values. The middle
+association separates the first two subtrees from the last two. Place the
+first association above `a` and `b`, and the last above `c` and `d`. Those two
+constructed dictionaries become the middle node's children.
 
 Give the first and last nodes black colors to remove the red-red edge and
 allow red-rooted surrounding subtrees. Keep the middle root red to retain
@@ -433,10 +528,8 @@ Node(
 ```
 
 This is the result of the local repair, before public insertion blackens its
-root. Each value stays with its key. In the general body, the association
-names are `first_key`, `middle_key`, and `last_key`, with their corresponding
-values. The four subtree positions are `first`, `second`, `third`, and
-`fourth`. The drawing uses `A`, `B`, `C`, and `D` for those subtrees:
+root. Each value stays with its key. The drawing uses `A`, `B`, `C`, and `D`
+for the same subtrees named `a`, `b`, `c`, and `d` in the program:
 
 <!-- markdownlint-disable MD013 -->
 
@@ -448,47 +541,60 @@ values. The four subtree positions are `first`, `second`, `third`, and
 
 <!-- markdownlint-enable MD013 -->
 
+{{< pagebreak >}}
+
 The ordering tells us where each subtree belongs. `A` and `B` stay below the
 first key. `C` and `D` become the children of the last key. The middle key
 separates those two constructed dictionaries. Each subtree must retain its
 inherited key bounds: `A` below the first key, `B` between first and middle,
 `C` between middle and last, and `D` above the last key. Their roots may be
 red; making the first and last nodes black also prevents a new red-red edge
-where those subtrees attach. The constructor expression we just calculated
-therefore completes `restore_three`:
+where those subtrees attach.
+
+In the following definition, the three repeated `let` patterns unpack the
+input groups; the final expression rebuilds their components in the arrangement
+we just calculated. The local names retain the
+legend: ordered subtrees `a`, `b`, `c`, `d` and associations `(k1, v1)`,
+`(k2, v2)`, `(k3, v3)`:
 
 <!-- markdownlint-disable MD013 -->
-
-::: {#wide-restore-three-excerpt .column-page-right}
 
 <!-- excerpt: src/dictionaries.ash#restore_three -->
 
 ```text
-restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth = Node(
-    Red,
-    Node(Black, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    Node(Black, third, last_key, last_value, fourth)
+restore_three : (
+    RArg<K, V> -> RArg<K, V> -> RArg<K, V> ->
+    Dictionary<K, V> -> Dictionary<K, V>
 )
+restore_three first second third d = {
+    let RArg(a, k1, v1) = first
+    let RArg(b, k2, v2) = second
+    let RArg(c, k3, v3) = third
+    Node(
+        Red,
+        Node(Black, a, k1, v1, b),
+        k2,
+        v2,
+        Node(Black, c, k3, v3, d)
+    )
+}
 ```
-
-:::
 
 <!-- markdownlint-enable MD013 -->
 
 This definition is a non-executable excerpt from the complete companion
-module. It constructs three nodes and passes the four subtree values
+module. Its three local patterns each bind their own input group under Ash's
+[block and pattern rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#blocks).
+It constructs three dictionary nodes and passes the four subtree values
 unchanged into them. It needs no comparison: its caller must supply the
 associations and subtrees in the required order.
 
 For the insertion candidates we will produce, the four surrounding subtrees
 are recursively consistent and have one common black-height. The candidate
 may contain the one red-red edge being repaired. If the common height is
-`b`, the former black grandparent contributes one, giving `b + 1` on every
+`q`, the former black grandparent contributes one, giving `q + 1` on every
 path. The result's black children each contribute one and its red root
-contributes none, so every path still has `b + 1`. This calculation explains
+contributes none, so every path still has `q + 1`. This calculation explains
 why the colors in the body preserve the count.
 
 ### Restore the public root condition
@@ -527,7 +633,7 @@ At `Empty`, the first equation returns red `1`. The pending reconstruction
 at `2` receives that result:
 
 ```text
-restore Red Node(Red, Empty, 1, 10, Empty) 2 20 Empty
+restore Red (RArg(Node(Red, Empty, 1, 10, Empty), 2, 20)) Empty
 => Node(Red, Node(Red, Empty, 1, 10, Empty), 2, 20, Empty)
 ```
 

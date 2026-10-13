@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="216" viewBox="0 0 160 216" role="img" aria-labelledby="title description">
+<title id="title">Right-left rewiring</title>
+<desc id="description">Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order. The upper semicircle records Red or Black; the lower color tracks the association.</desc>
+<path data-phase="before" data-parent="first" data-child="a" data-side="left" d="M40,18 L20,91" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="before" data-parent="first" data-child="last" data-side="right" d="M40,18 L120,43" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="before" data-parent="last" data-child="middle" data-side="left" d="M120,43 L80,68" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="before" data-parent="last" data-child="d" data-side="right" d="M120,43 L140,91" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="before" data-parent="middle" data-child="b" data-side="left" d="M80,68 L60,91" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="before" data-parent="middle" data-child="c" data-side="right" d="M80,68 L100,91" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<g data-phase="before" data-association="first" data-color="Black" data-x="40" data-y="18">
+<path data-half="top" d="M28,18 A12,12 0 0 1 52,18 Z" fill="#252525"/>
+<path data-half="bottom" d="M52,18 A12,12 0 0 1 28,18 Z" fill="#f1c84e"/>
+<circle cx="40" cy="18" r="12" fill="none" stroke="#59534e" stroke-width="0.7"/>
+</g>
+<g data-phase="before" data-association="last" data-color="Red" data-x="120" data-y="43">
+<path data-half="top" d="M108,43 A12,12 0 0 1 132,43 Z" fill="#c94136"/>
+<path data-half="bottom" d="M132,43 A12,12 0 0 1 108,43 Z" fill="#a06bab"/>
+<circle cx="120" cy="43" r="12" fill="none" stroke="#59534e" stroke-width="0.7"/>
+</g>
+<g data-phase="before" data-association="middle" data-color="Red" data-x="80" data-y="68">
+<path data-half="top" d="M68,68 A12,12 0 0 1 92,68 Z" fill="#c94136"/>
+<path data-half="bottom" d="M92,68 A12,12 0 0 1 68,68 Z" fill="#326cab"/>
+<circle cx="80" cy="68" r="12" fill="none" stroke="#59534e" stroke-width="0.7"/>
+</g>
+<path data-phase="before" data-subtree="a" d="M20,91 L12,101 L28,101 Z" fill="#75b695" stroke="#59534e" stroke-width="0.7"/>
+<path data-phase="before" data-subtree="b" d="M60,91 L52,101 L68,101 Z" fill="#e49645" stroke="#59534e" stroke-width="0.7"/>
+<path data-phase="before" data-subtree="c" d="M100,91 L92,101 L108,101 Z" fill="#c86b9d" stroke="#59534e" stroke-width="0.7"/>
+<path data-phase="before" data-subtree="d" d="M140,91 L132,101 L148,101 Z" fill="#64b5cf" stroke="#59534e" stroke-width="0.7"/>
+<path d="M80,112 L80,130 M75,125 L80,130 L85,125" fill="none" stroke="#78716a" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<path data-phase="after" data-parent="middle" data-child="first" data-side="left" d="M80,148 L40,174" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="after" data-parent="middle" data-child="last" data-side="right" d="M80,148 L120,174" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="after" data-parent="first" data-child="a" data-side="left" d="M40,174 L20,197" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="after" data-parent="first" data-child="b" data-side="right" d="M40,174 L60,197" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="after" data-parent="last" data-child="c" data-side="left" d="M120,174 L100,197" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<path data-phase="after" data-parent="last" data-child="d" data-side="right" d="M120,174 L140,197" fill="none" stroke="#78716a" stroke-width="1.3"/>
+<g data-phase="after" data-association="middle" data-color="Red" data-x="80" data-y="148">
+<path data-half="top" d="M68,148 A12,12 0 0 1 92,148 Z" fill="#c94136"/>
+<path data-half="bottom" d="M92,148 A12,12 0 0 1 68,148 Z" fill="#326cab"/>
+<circle cx="80" cy="148" r="12" fill="none" stroke="#59534e" stroke-width="0.7"/>
+</g>
+<g data-phase="after" data-association="first" data-color="Black" data-x="40" data-y="174">
+<path data-half="top" d="M28,174 A12,12 0 0 1 52,174 Z" fill="#252525"/>
+<path data-half="bottom" d="M52,174 A12,12 0 0 1 28,174 Z" fill="#f1c84e"/>
+<circle cx="40" cy="174" r="12" fill="none" stroke="#59534e" stroke-width="0.7"/>
+</g>
+<g data-phase="after" data-association="last" data-color="Black" data-x="120" data-y="174">
+<path data-half="top" d="M108,174 A12,12 0 0 1 132,174 Z" fill="#252525"/>
+<path data-half="bottom" d="M132,174 A12,12 0 0 1 108,174 Z" fill="#a06bab"/>
+<circle cx="120" cy="174" r="12" fill="none" stroke="#59534e" stroke-width="0.7"/>
+</g>
+<path data-phase="after" data-subtree="a" d="M20,197 L12,207 L28,207 Z" fill="#75b695" stroke="#59534e" stroke-width="0.7"/>
+<path data-phase="after" data-subtree="b" d="M60,197 L52,207 L68,207 Z" fill="#e49645" stroke="#59534e" stroke-width="0.7"/>
+<path data-phase="after" data-subtree="c" d="M100,197 L92,207 L108,207 Z" fill="#c86b9d" stroke="#59534e" stroke-width="0.7"/>
+<path data-phase="after" data-subtree="d" d="M140,197 L132,207 L148,207 Z" fill="#64b5cf" stroke="#59534e" stroke-width="0.7"/>
+</svg>

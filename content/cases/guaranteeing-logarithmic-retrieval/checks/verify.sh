@@ -187,14 +187,14 @@ order_section=$(ash_doc_section \
 lookup_section=$(ash_doc_section \
     "$library" \
     'pub lookup : K -> Dictionary<K, V> -> Option<V> where Order<K>' \
-    'restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>')
+    'restore_three : (')
 restore_three_section=$(ash_doc_section \
     "$library" \
-    'restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>' \
-    'restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>')
+    'restore_three : (' \
+    'restore : Color -> RArg<K, V> -> Dictionary<K, V> -> Dictionary<K, V>')
 restore_section=$(ash_doc_section \
     "$library" \
-    'restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>' \
+    'restore : Color -> RArg<K, V> -> Dictionary<K, V> -> Dictionary<K, V>' \
     'insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>')
 insert_colored_section=$(ash_doc_section \
     "$library" \
@@ -253,7 +253,7 @@ readonly build_section lower_section upper_section valid_section color_section
 readonly balance_section balance_holds_section root_section invariant_section
 readonly main_section
 
-readonly expected_representations=$'pub type Ordering =\n    Less\n    | Equal\n    | Greater\n\npub type Natural =\n    Zero\n    | Next(Natural)\n\npub type Option<A> =\n    None\n    | Some(A)\n\npub type List<A> =\n    End\n    | More(A, List<A>)\n\ntype Color =\n    Red\n    | Black\n\npub opaque type Dictionary<K, V> =\n    Empty\n    | Node(Color, Dictionary<K, V>, K, V, Dictionary<K, V>)\n\ntype BalanceCheck =\n    Invalid\n    | Valid(Int)'
+readonly expected_representations=$'pub type Ordering =\n    Less\n    | Equal\n    | Greater\n\npub type Natural =\n    Zero\n    | Next(Natural)\n\npub type Option<A> =\n    None\n    | Some(A)\n\npub type List<A> =\n    End\n    | More(A, List<A>)\n\ntype Color =\n    Red\n    | Black\n\npub opaque type Dictionary<K, V> =\n    Empty\n    | Node(Color, Dictionary<K, V>, K, V, Dictionary<K, V>)\n\ntype BalanceCheck =\n    Invalid\n    | Valid(Int)\n\ntype RArg<K, V> = RArg(Dictionary<K, V>, K, V)'
 ash_doc_assert_exact \
     "$representations_section" "$expected_representations" \
     "public representations and private red-black forms must remain exact"
@@ -279,15 +279,15 @@ ash_doc_assert_exact \
     "$lookup_section" "$expected_lookup" \
     "lookup must retain its exact selected branches and stored value"
 
-readonly expected_restore_three=$'restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>\nrestore_three first first_key first_value second middle_key middle_value third last_key last_value fourth = Node(\n    Red,\n    Node(Black, first, first_key, first_value, second),\n    middle_key,\n    middle_value,\n    Node(Black, third, last_key, last_value, fourth)\n)'
+readonly expected_restore_three=$'restore_three : (\n    RArg<K, V> -> RArg<K, V> -> RArg<K, V> ->\n    Dictionary<K, V> -> Dictionary<K, V>\n)\nrestore_three first second third d = {\n    let RArg(a, k1, v1) = first\n    let RArg(b, k2, v2) = second\n    let RArg(c, k3, v3) = third\n    Node(\n        Red,\n        Node(Black, a, k1, v1, b),\n        k2,\n        v2,\n        Node(Black, c, k3, v3, d)\n    )\n}'
 ash_doc_assert_exact \
     "$restore_three_section" "$expected_restore_three" \
     "restore_three must retain all three ordered key-value associations"
 
-readonly restore_ll=$'restore Black Node(\n    Red,\n    Node(Red, first, first_key, first_value, second),\n    middle_key,\n    middle_value,\n    third\n) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth'
-readonly restore_lr=$'restore Black Node(\n    Red,\n    first,\n    first_key,\n    first_value,\n    Node(Red, second, middle_key, middle_value, third)\n) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth'
-readonly restore_rl=$'restore Black first first_key first_value Node(\n    Red,\n    Node(Red, second, middle_key, middle_value, third),\n    last_key,\n    last_value,\n    fourth\n) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth'
-readonly restore_rr=$'restore Black first first_key first_value Node(\n    Red,\n    second,\n    middle_key,\n    middle_value,\n    Node(Red, third, last_key, last_value, fourth)\n) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth'
+readonly restore_ll=$'restore Black RArg(\n    Node(Red, Node(Red, a, k1, v1, b), k2, v2, c),\n    k3,\n    v3\n) d = (restore_three\n        (RArg(a, k1, v1))\n        (RArg(b, k2, v2))\n        (RArg(c, k3, v3))\n        d\n    )'
+readonly restore_lr=$'restore Black RArg(\n    Node(Red, a, k1, v1, Node(Red, b, k2, v2, c)),\n    k3,\n    v3\n) d = (restore_three\n        (RArg(a, k1, v1))\n        (RArg(b, k2, v2))\n        (RArg(c, k3, v3))\n        d\n    )'
+readonly restore_rl=$'restore Black RArg(a, k1, v1) Node(\n    Red,\n    Node(Red, b, k2, v2, c),\n    k3,\n    v3,\n    d\n) = (restore_three\n        (RArg(a, k1, v1))\n        (RArg(b, k2, v2))\n        (RArg(c, k3, v3))\n        d\n    )'
+readonly restore_rr=$'restore Black RArg(a, k1, v1) Node(\n    Red,\n    b,\n    k2,\n    v2,\n    Node(Red, c, k3, v3, d)\n) = (restore_three\n        (RArg(a, k1, v1))\n        (RArg(b, k2, v2))\n        (RArg(c, k3, v3))\n        d\n    )'
 ash_doc_assert_contains \
     "$restore_section" "$restore_ll" \
     "restore must retain the left-left repair orientation"
@@ -302,7 +302,7 @@ ash_doc_assert_contains \
     "restore must retain the right-right repair orientation"
 ash_doc_assert_phrase_count \
     "$restore_section" \
-    'restore color left key value right = Node(color, left, key, value, right)' 1 \
+    'restore color RArg(a, k, v) b = Node(color, a, k, v, b)' 1 \
     "restore fallback must reconstruct exactly the supplied color and branches"
 
 ash_doc_assert_phrase_count \
@@ -311,15 +311,15 @@ ash_doc_assert_phrase_count \
     "absent insertion must construct one red leaf"
 ash_doc_assert_phrase_count \
     "$insert_colored_section" \
-    'Less => restore color (insert_colored key value left) current_key current_value right' 1 \
+    'Less => restore color (RArg(insert_colored key value a, k, v)) b' 1 \
     "colored insertion must recurse left and retain the right association"
 ash_doc_assert_phrase_count \
     "$insert_colored_section" \
-    'Equal => Node(color, left, current_key, value, right)' 1 \
+    'Equal => Node(color, a, k, value, b)' 1 \
     "equal insertion must retain the stored key, color, and branches"
 ash_doc_assert_phrase_count \
     "$insert_colored_section" \
-    'Greater => restore color left current_key current_value (insert_colored key value right)' 1 \
+    'Greater => restore color (RArg(a, k, v)) (insert_colored key value b)' 1 \
     "colored insertion must recurse right and retain the left association"
 
 readonly expected_blacken=$'blacken_root : Dictionary<K, V> -> Dictionary<K, V>\nblacken_root dictionary = match dictionary {\n    Empty => Empty\n    Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) => dictionary\n    Node(Red, left, key, value, right) => Node(Black, left, key, value, right)\n}'
@@ -531,7 +531,7 @@ ash_doc_assert_contains \
 
 ash_doc_assert_sha256 \
     "$library" \
-    9406176b03322ce58d415b08064ccb8adf05bb0529a2280b9c4f71255e03105d \
+    e8e08aebd5fb608368c7ddb5554a0f6fb27bf46ac56d1150de63a9ee512776f3 \
     "dictionaries.ash must retain its exact complete source"
 ash_doc_assert_sha256 \
     "$prefix_entry" \
@@ -566,6 +566,8 @@ ash_doc_check_sources "$unit_root" "$readme" \
     src/02-build-and-persistence.ash src/03-repair.ash
 python3 "$unit_root/checks/check_fragments.py" "$readme" "$library" "$prefix_entry"
 python3 "$unit_root/checks/check_prefix_observations.py" "$readme" "$prefix_fixture"
+python3 "$unit_root/checks/check_repair_cases.py" "$library" \
+    "$unit_root/fixtures/repair-cases.ash" "$ASH_DOC_ASH_BIN"
 python3 -m unittest discover -s "$unit_root/checks" -p 'test_*.py'
 
 ash_doc_assert_text_line_once \

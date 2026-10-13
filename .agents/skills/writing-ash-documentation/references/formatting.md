@@ -242,7 +242,7 @@ example, the search-tree lesson uses this checked, non-executable signature:
 <!-- signature: src/dictionaries.ash#restore -->
 
 ```text
-restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
+restore : Color -> RArg<K, V> -> Dictionary<K, V> -> Dictionary<K, V>
 ```
 
 :::

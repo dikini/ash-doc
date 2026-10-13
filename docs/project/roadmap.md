@@ -40,10 +40,9 @@ programs live outside canonical source trees, with required sibling modules
 kept together. Local generalization and recursive initialization continue the
 same model; the effects connection remains optional until E3.
 
-The approved [function-input clarification](../plans/2026-10-13-function-input-shapes.md)
-will compare the existing curried and tuple-input examples, including what
-remains after supplying one input. It changes prose within the Learn path and
-retains the canonical programs and current target.
+The Learn path now compares its existing curried and tuple-input examples,
+including what remains after supplying one input. The comparison retains the
+canonical programs and current target.
 
 The [library path](../../content/libraries/README.md) now asks for value,
 type, and evidence predictions before its worked answers. Rejections connect
@@ -57,21 +56,28 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 The [search-tree teaching trial](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
 is verified in all four outputs. It develops colored insertion from its
 problem and example, data, operation types, and worked calculations, proceeding
-from public composition into the smaller operations. Eleven checked fragments
-retain the canonical algorithm, and a small public client demonstrates the
-three-key repair. Selected long signatures and equation groups use wider space
-at the unchanged code size, with complete blocks on one page in both PDFs.
+from public composition into the smaller operations. Sixteen checked library
+fragments show the grouped repair inputs, their mnemonic fields, the four
+repair equations with local explanations, and the fallback. The shared helper
+destructures three groups with explicit patterns before rebuilding the tree.
+A small public client demonstrates the three-key repair, and private probes
+check every repair and the fallback boundaries with distinct nonempty subtrees.
 
-An approved [repair-case explanation plan](../plans/2026-10-13-explained-repair-cases.md)
-will group the repair inputs, explain the mnemonics, and separate all four
-repair equations and their fallback into checked portions with local prose.
+Four optional sidenote sketches show before and after trees above and below.
+Each circle's upper half records Red or Black; its stable lower color tracks
+the association through the rewiring. Colored triangles track whole subtrees.
+The ordinary body column holds each complete repair equation and helper on one
+page in both PDFs. Selected longer signatures, the insertion definition, and
+the common labeled diagram use wider space at the unchanged type sizes.
 
 The prefix-check continuation is also verified. It develops observation data,
 operation types, scenario composition, and recursive checks through sixteen
 additional exact excerpts. Five displayed components and a six-run summary
-agree with the complete captured result. All four canonical programs retain
-their previous bytes and checks. The later build-and-persistence listing and
-observation remain available for further teaching revision.
+agree with the complete captured result. The prefix, persistence, and public
+repair clients retain their previous bytes and observations; the defining
+module retains its previous public observations after grouping repair inputs.
+The later build-and-persistence listing and observation remain available for
+further teaching revision.
 
 The first rendering outcome is verified as a local specimen in responsive HTML,
 reflowable EPUB 3, and two PDF print variants. It keeps existing verified

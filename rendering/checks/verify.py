@@ -249,6 +249,39 @@ def verify_wide_code_pdf(pages, codes, filename, a4, note_regions):
     return code_pages
 
 
+def repair_reading_units(blocks):
+    """Select the four explained equations and the complete shared helper."""
+    codes = [node["c"][1] for node in ast_walk(blocks) if node.get("t") == "CodeBlock"]
+    cases = [code for code in codes if code.startswith("restore Black ")]
+    helpers = [code for code in codes if code.startswith("restore_three : (")
+               and "restore_three first second third d =" in code]
+    check(len(cases) == 4 and len(helpers) == 1,
+          "real lesson: four repair equations and one complete helper are required")
+    names = ("restore-left-left", "restore-left-right", "restore-right-left", "restore-right-right")
+    return [{"id": name, "text": code} for name, code in zip(names, cases)] + [
+        {"id": "restore-three", "text": helpers[0]}]
+
+
+def verify_repair_units_pdf(pages, units, filename, a4):
+    """Keep each short wiring comparison complete in the ordinary body column."""
+    millimetre = 72 / 25.4
+    found = {}
+    for unit in units:
+        occurrences = find_pdf_phrase(pages, unit["text"])
+        check(len(occurrences) == 1,
+              f"{filename}: complete repair unit {unit['id']} not found on one page")
+        number, words = occurrences[0]
+        bounds = word_bounds(words)
+        left, right = ((25 * millimetre, 134 * millimetre) if a4 else
+                       ((54, 378) if number % 2 else (198, 522)))
+        top, bottom = ((20 * millimetre, 277 * millimetre) if a4 else (54, 666))
+        check(bounds["left"] >= left - 1 and bounds["right"] <= right + 1
+              and bounds["top"] >= top - 1 and bounds["bottom"] <= bottom + 1,
+              f"{filename}: repair unit {unit['id']} leaves the body column on page {number}")
+        found[unit["id"]] = number
+    return found
+
+
 def inline_text(inlines):
     parts = []
     for node in inlines:
@@ -323,6 +356,7 @@ def real_lesson_source(project, record):
                                        "height_ratio": view_box[3] / view_box[2]}
     return {"images": expected_images, "note": note_text, "cue": cue_text,
             "wide_code": wide_code_blocks(document["blocks"]),
+            "repair_units": repair_reading_units(document["blocks"]),
             "cue_reference": cue_reference, "references": reference}
 
 
@@ -411,8 +445,10 @@ def verify_lesson_pdf(pages, expected, filename, a4, known_notes=None):
                                       "top": caption_bounds["top"] - sketch_height,
                                       "bottom": caption_bounds["bottom"]})
     code_pages = verify_wide_code_pdf(pages, expected["wide_code"], filename, a4, note_regions)
+    repair_pages = verify_repair_units_pdf(pages, expected["repair_units"], filename, a4)
     return {"graphical_note_page": note_page, "counting_cue_page": regions["counting cue"][0],
-            "wide_figure_page": wide_page, "wide_code_pages": code_pages}
+            "wide_figure_page": wide_page, "wide_code_pages": code_pages,
+            "repair_unit_pages": repair_pages}
 
 
 def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=None):

@@ -125,5 +125,29 @@ class WideCodeSourceTests(unittest.TestCase):
                                                         "expected_occurrences": 2}])
 
 
+class RepairReadingUnitTests(unittest.TestCase):
+    def verify(self, pages, a4=False):
+        verifier = getattr(VERIFY, "verify_repair_units_pdf", None)
+        self.assertTrue(callable(verifier), "repair reading-unit pagination check is missing")
+        return verifier(pages, [{"id": "restore-left-left", "text": "f : D -> D\nf value = value"}],
+                        "test.pdf", a4)
+
+    def test_complete_ordinary_unit_stays_on_one_page(self):
+        document = page([("f : D -> D", 72, 130, 100, 110),
+                         ("f value = value", 72, 160, 115, 125)])
+        self.assertEqual(self.verify([document], a4=True), {"restore-left-left": 1})
+
+    def test_case_or_helper_split_across_pages_is_rejected(self):
+        first = page([("f : D -> D", 72, 130, 640, 650)])
+        second = page([("f value = value", 72, 160, 60, 70)])
+        with self.assertRaisesRegex(ValueError, "complete.*one page"):
+            self.verify([first, second], a4=True)
+
+    def test_ordinary_unit_cannot_enter_the_sidenote_column(self):
+        document = page([("f : D -> D f value = value", 72, 410, 100, 110)])
+        with self.assertRaisesRegex(ValueError, "body column"):
+            self.verify([document], a4=True)
+
+
 if __name__ == "__main__":
     unittest.main()

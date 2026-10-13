@@ -72,10 +72,10 @@ class PrefixFragmentAgreementTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1, result.stderr)
         self.assertIn(reason, result.stderr)
 
-    def test_all_twenty_seven_fragments_pass(self):
+    def test_all_thirty_two_fragments_pass(self):
         result = self.check(self.document)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("27 exact source fragments", result.stdout)
+        self.assertIn("32 exact source fragments", result.stdout)
 
     def test_main_local_indent_is_exact(self):
         self.assert_rejected(self.document.replace("    let one =", "   let one =", 1),

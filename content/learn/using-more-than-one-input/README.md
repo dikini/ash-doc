@@ -38,8 +38,8 @@ add 20 22
 42
 ```
 
-The signature tells the same story as the definition. Function arrows group
-from the right, so we read
+The signature tells the same story as the definition. Function arrows
+[group from the right][arrows], so we read
 
 ```text
 Int -> Int -> Int
@@ -54,6 +54,10 @@ Int -> (Int -> Int)
 The first `Int` is the first input. After that input arrives, what remains has
 the type `Int -> Int`: a function waiting for the second input. When the second
 `Int` arrives, the calculation produces the final `Int`.
+
+Receiving several inputs through successive calls is called *currying*.
+A function written this way is *curried*: each call supplies one value,
+and the result may be another function ready for the next value.
 
 ## Pausing after the first input
 
@@ -79,9 +83,9 @@ Run the program to compare that prediction:
 
 No second integer has arrived, so the result is a function of type
 `Int -> Int`. The tool displays the function as `<function>`; that display
-does not show its body. Such a call is often called a *partial call*: it
-supplies some, but not all, of a function's inputs. The result is still useful.
-It remembers the input already
+does not show its body. Such a call is often called a *partial call*, or
+[*partial application*][application]: it supplies some, but not all, of a
+function's inputs. The result is still useful. It remembers the input already
 supplied and can receive the rest later.
 
 We can give the waiting calculation a descriptive name:
@@ -187,3 +191,6 @@ call produces a function that is still waiting.
 All the calculations so far have followed one fixed route. The next question
 is how a program can examine a value and choose which expression should
 produce its result.
+
+[arrows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#precedence-and-associativity
+[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application

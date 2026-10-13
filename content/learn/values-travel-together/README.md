@@ -64,7 +64,24 @@ sum_pair (20, 22)
 This differs from the earlier function `add : Int -> Int -> Int`. `add`
 receives one integer and then another; `sum_pair` receives one pair. Both can
 perform the same addition, but their inputs have different shapes and their
-signatures say so.
+signatures say so. Compare the complete calls with what remains after the
+[first input][application]:
+
+| Comparison | `add` | `sum_pair` |
+| --- | --- | --- |
+| Type | `Int -> Int -> Int` | `(Int, Int) -> Int` |
+| Full call | `add 20 22` | `sum_pair (20, 22)` |
+| First supplied value | `20 : Int` | `(20, 22) : (Int, Int)` |
+| Result after one input | Function of type `Int -> Int` | `42 : Int` |
+
+The curried `add` can pause after receiving `20`; its second integer arrives
+in a later call. The one input to `sum_pair` contains both integers, so that
+call produces their sum. This follows from these two signatures. A function
+receiving a tuple can also return a function if its signature says so.
+
+`sum_pair(20, 22)` is [the same call][call-syntax] as `sum_pair (20, 22)`.
+The space before `(` is optional. The comma inside the parentheses makes
+`(20, 22)` one pair argument containing two fields.
 
 ## Naming the parts inside a block
 
@@ -166,3 +183,6 @@ binding.
 Tuples describe combinations chosen at the point of use. Programs also need
 data with names that express what a value means and which forms it may take.
 The next lesson shows how an Ash program defines such data for itself.
+
+[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application
+[call-syntax]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#precedence-and-associativity

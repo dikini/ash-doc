@@ -6,6 +6,8 @@ import sys
 
 
 OPERATIONS = ("restore_three", "restore", "insert_colored", "blacken_root", "insert")
+RESTORE_CASES = ("restore_left_left", "restore_left_right", "restore_right_left",
+                 "restore_right_right", "restore_unchanged")
 PREFIX_OPERATIONS = ("has_value", "is_none", "prefix_run", "lookup_checks", "scenario")
 MARKER = re.compile(r"<!-- (excerpt|signature): ([^#\s]+)#([a-z_]+) -->")
 SIGNATURE = re.compile(r"(?:pub )?([a-z_]+) :")
@@ -19,6 +21,14 @@ def canonical_fragments(source):
         ("excerpt", "representation"):
         "\n".join(lines[representation_start:representation_end]).strip("\n")
     }
+    repair_args_starts = [i for i, line in enumerate(lines)
+                         if line.startswith("type RArg<K, V> =")]
+    if len(repair_args_starts) != 1:
+        raise ValueError("canonical source must have one RArg declaration")
+    repair_args_start = repair_args_starts[0]
+    repair_args_end = lines.index("pub interface Order<A> {")
+    fragments["excerpt", "repair_args"] = "\n".join(
+        lines[repair_args_start:repair_args_end]).strip("\n")
     signatures = [(i, match[1]) for i, line in enumerate(lines)
                   if (match := SIGNATURE.match(line))]
     for name in OPERATIONS:
@@ -27,8 +37,18 @@ def canonical_fragments(source):
             raise ValueError(f"canonical source must have one {name} signature")
         start = matches[0]
         end = next((i for i, _ in signatures if i > start), len(lines))
-        fragments["signature", name] = lines[start]
-        fragments["excerpt", name] = "\n".join(lines[start:end]).strip("\n")
+        first_equation = next(i for i in range(start + 1, end)
+                              if lines[i].startswith(name + " "))
+        fragments["signature", name] = "\n".join(lines[start:first_equation])
+        if name != "restore":
+            fragments["excerpt", name] = "\n".join(lines[start:end]).strip("\n")
+        else:
+            starts = [i for i in range(first_equation, end)
+                      if lines[i].startswith("restore ")]
+            if len(starts) != len(RESTORE_CASES):
+                raise ValueError("canonical restore must contain five complete equations")
+            for case, begin, finish in zip(RESTORE_CASES, starts, starts[1:] + [end]):
+                fragments["excerpt", case] = "\n".join(lines[begin:finish]).strip("\n")
     return fragments
 
 

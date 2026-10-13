@@ -26,14 +26,26 @@ class FragmentAgreementTests(unittest.TestCase):
         end = lines.index("type BalanceCheck =")
         representation = "\n".join(lines[start:end]).strip("\n")
         self.blocks = [("excerpt", "representation", representation)]
+        self.blocks.append(("excerpt", "repair_args", next(
+            line for line in lines if line.startswith("type RArg<K, V> ="))))
         for name in OPERATIONS:
             start = next(i for i, line in enumerate(lines)
                          if re.match(rf"(?:pub )?{name} :", line))
             end = next(i for i in range(start + 1, len(lines))
                        if re.match(r"(?:pub )?[a-z_]+ :", lines[i]))
             definition = "\n".join(lines[start:end]).strip("\n")
-            self.blocks += [("signature", name, lines[start]),
-                            ("excerpt", name, definition)]
+            first_equation = next(i for i in range(start + 1, end)
+                                  if lines[i].startswith(name + " "))
+            self.blocks.append(("signature", name, "\n".join(lines[start:first_equation])))
+            if name != "restore":
+                self.blocks.append(("excerpt", name, definition))
+            else:
+                starts = [i for i in range(first_equation, end)
+                          if lines[i].startswith("restore ")]
+                names = ("restore_left_left", "restore_left_right", "restore_right_left",
+                         "restore_right_right", "restore_unchanged")
+                self.blocks += [("excerpt", case, "\n".join(lines[begin:finish]).strip("\n"))
+                                for case, begin, finish in zip(names, starts, starts[1:] + [end])]
         self.document = "\n\n".join(self.marked(*block) for block in self.blocks)
 
     @staticmethod
@@ -57,7 +69,56 @@ class FragmentAgreementTests(unittest.TestCase):
     def test_exact_representation_signatures_and_bodies_pass(self):
         result = self.check(self.document)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("11 exact source fragments", result.stdout)
+        self.assertIn("16 exact source fragments", result.stdout)
+
+    def test_restore_can_be_presented_as_five_complete_equations(self):
+        cases = [block for block in self.blocks if block[1].startswith("restore_")
+                 and block[1] != "restore_three" and block[0] == "excerpt"]
+        self.assertEqual(len(cases), 5)
+        result = self.check(self.document)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_multiline_signature_cannot_drop_arrow_domains(self):
+        signature = next(block for block in self.blocks
+                         if block[:2] == ("signature", "restore_three"))
+        shortened = signature[2].replace("RArg<K, V> -> RArg<K, V> -> RArg<K, V> ->",
+                                         "RArg<K, V> ->")
+        self.assert_rejected(self.document.replace(self.marked(*signature),
+                                                  self.marked("signature", "restore_three", shortened)),
+                             "differs from canonical source")
+
+    def test_removed_case_cannot_drop_required_coverage(self):
+        case = next(block for block in self.blocks if block[:2] == ("excerpt", "restore_left_right"))
+        self.assert_rejected(self.document.replace(self.marked(*case), "", 1),
+                             "missing required fragment")
+
+    def test_changed_group_in_one_case_is_rejected(self):
+        case = next(block for block in self.blocks if block[:2] == ("excerpt", "restore_right_left"))
+        changed = case[2].replace("(RArg(c, k3, v3))", "(RArg(b, k3, v3))")
+        self.assert_rejected(self.document.replace(self.marked(*case),
+                                                  self.marked("excerpt", "restore_right_left", changed)),
+                             "differs from canonical source")
+
+    def test_removed_repair_arg_declaration_is_rejected(self):
+        declaration = next(block for block in self.blocks if block[:2] == ("excerpt", "repair_args"))
+        self.assert_rejected(self.document.replace(self.marked(*declaration), "", 1),
+                             "missing required fragment")
+
+    def test_canonical_repair_arg_declaration_is_required(self):
+        self.source.write_text(self.source.read_text().replace(
+            "type RArg<K, V> = RArg(Dictionary<K, V>, K, V)\n", "", 1))
+        self.assert_rejected(self.document, "canonical source must have one RArg declaration")
+
+    def test_canonical_restore_case_cannot_go_missing(self):
+        case = next(block for block in self.blocks if block[:2] == ("excerpt", "restore_left_right"))
+        self.source.write_text(self.source.read_text().replace(case[2] + "\n", "", 1))
+        self.assert_rejected(self.document, "canonical restore must contain five complete equations")
+
+    def test_old_whole_dispatcher_marker_is_rejected(self):
+        case = next(block for block in self.blocks if block[:2] == ("excerpt", "restore_left_left"))
+        self.assert_rejected(self.document.replace(self.marked(*case),
+                                                  self.marked("excerpt", "restore", case[2])),
+                             "unknown fragment")
 
     def test_changed_definition_is_rejected(self):
         self.assert_rejected(self.document.replace("Red,\n", "Black,\n", 1),

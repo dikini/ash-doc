@@ -27,6 +27,8 @@ type BalanceCheck =
     Invalid
     | Valid(Int)
 
+type RArg<K, V> = RArg(Dictionary<K, V>, K, V)
+
 pub interface Order<A> {
     compare : A -> A -> Ordering
 }
@@ -49,52 +51,76 @@ lookup query Node(ignored_color, left, current_key, current_value, right) = matc
     Greater => lookup query right
 }
 
-restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth = Node(
-    Red,
-    Node(Black, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    Node(Black, third, last_key, last_value, fourth)
+restore_three : (
+    RArg<K, V> -> RArg<K, V> -> RArg<K, V> ->
+    Dictionary<K, V> -> Dictionary<K, V>
 )
+restore_three first second third d = {
+    let RArg(a, k1, v1) = first
+    let RArg(b, k2, v2) = second
+    let RArg(c, k3, v3) = third
+    Node(
+        Red,
+        Node(Black, a, k1, v1, b),
+        k2,
+        v2,
+        Node(Black, c, k3, v3, d)
+    )
+}
 
-restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore Black Node(
+restore : Color -> RArg<K, V> -> Dictionary<K, V> -> Dictionary<K, V>
+restore Black RArg(
+    Node(Red, Node(Red, a, k1, v1, b), k2, v2, c),
+    k3,
+    v3
+) d = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+restore Black RArg(
+    Node(Red, a, k1, v1, Node(Red, b, k2, v2, c)),
+    k3,
+    v3
+) d = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+restore Black RArg(a, k1, v1) Node(
     Red,
-    Node(Red, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    third
-) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black Node(
+    Node(Red, b, k2, v2, c),
+    k3,
+    v3,
+    d
+) = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+restore Black RArg(a, k1, v1) Node(
     Red,
-    first,
-    first_key,
-    first_value,
-    Node(Red, second, middle_key, middle_value, third)
-) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black first first_key first_value Node(
-    Red,
-    Node(Red, second, middle_key, middle_value, third),
-    last_key,
-    last_value,
-    fourth
-) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black first first_key first_value Node(
-    Red,
-    second,
-    middle_key,
-    middle_value,
-    Node(Red, third, last_key, last_value, fourth)
-) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore color left key value right = Node(color, left, key, value, right)
+    b,
+    k2,
+    v2,
+    Node(Red, c, k3, v3, d)
+) = (restore_three
+        (RArg(a, k1, v1))
+        (RArg(b, k2, v2))
+        (RArg(c, k3, v3))
+        d
+    )
+restore color RArg(a, k, v) b = Node(color, a, k, v, b)
 
 insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
 insert_colored key value Empty = Node(Red, Empty, key, value, Empty)
-insert_colored key value Node(color, left, current_key, current_value, right) = match compare key current_key {
-    Less => restore color (insert_colored key value left) current_key current_value right
-    Equal => Node(color, left, current_key, value, right)
-    Greater => restore color left current_key current_value (insert_colored key value right)
+insert_colored key value Node(color, a, k, v, b) = match compare key k {
+    Less => restore color (RArg(insert_colored key value a, k, v)) b
+    Equal => Node(color, a, k, value, b)
+    Greater => restore color (RArg(a, k, v)) (insert_colored key value b)
 }
 
 blacken_root : Dictionary<K, V> -> Dictionary<K, V>
