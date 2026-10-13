@@ -77,9 +77,10 @@ rule against adjacent red nodes limits how much longer a path can become.
 <!-- markdownlint-disable MD013 -->
 
 [^red-root-example]: Both paths contain one black form: their terminal `Empty`.
-    A red root adds no black form.
+    A red root adds no black form. The yellow lower half identifies the root's
+    `(k, v)` association. White lower halves mark `Empty`, which has none.
 
-    ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A root circle with a red upper half connects to two terminal Empty circles with black upper halves. All lower halves are white. Each path contains one black form; the red root contributes none." width=100%}
+    ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A root circle with a red upper half and a yellow association half connects to two terminal Empty circles with black upper halves and white lower halves. Empty has no key/value association. Each path contains one black form; the red root contributes none." width=100%}
 
 <!-- markdownlint-enable MD013 -->
 
@@ -333,10 +334,15 @@ association above black first and last nodes. For now, its promised result
 lets us calculate the calls that each case needs.
 
 The optional sketches show each candidate above its repaired result. The
-upper half of a circle records red or black; the lower color follows that
-association as it moves. Colored triangles stand for the surrounding subtrees.
-The same colors appear before and after, so you can trace the rewiring without
-reading names inside the diagram.
+upper half of a circle records red or black. The lower colors track the
+ordered associations: yellow is `(k1, v1)`, blue is `(k2, v2)`, and violet is
+`(k3, v3)`. A white lower half marks `Empty`, which has no association.
+
+The triangles track whole dictionaries: green is `a`, orange is `b`, pink is
+`c`, and cyan is `d`. Each subtree stays unchanged while its attachment changes.
+After repair, `a` and `b` belong below the yellow association; `c` and `d`
+belong below violet. The same colors appear before and after, so you can trace
+the rewiring without reading names inside the diagram.
 
 {{< pagebreak >}}
 

@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 224.87999 150" role="img" aria-labelledby="red-root-sketch-title red-root-sketch-description">
 <title id="red-root-sketch-title">A red root with two terminal Empty forms</title>
-<desc id="red-root-sketch-description">The root circle has a red upper half. Its two terminal Empty circles have black upper halves because Empty counts as black. Every lower half is white. Each root-to-Empty path contains one black form; the red root adds none.</desc>
+<desc id="red-root-sketch-description">The root circle has a red upper half and a yellow lower half identifying its key/value association. Its two terminal Empty circles have black upper halves because Empty counts as black, and white lower halves because they have no association. Each root-to-Empty path contains one black form; the red root adds none.</desc>
 <path data-parent="root" data-child="left-empty" d="M112.44,30 L57,116" fill="none" stroke="#78716a" stroke-width="1.3"/>
 <path data-parent="root" data-child="right-empty" d="M112.44,30 L167.88,116" fill="none" stroke="#78716a" stroke-width="1.3"/>
 <g data-form="Node" data-color="Red">
 <path data-half="top" d="M94.44,30 A18,18 0 0 1 130.44,30 Z" fill="#c94136"/>
-<path data-half="bottom" d="M130.44,30 A18,18 0 0 1 94.44,30 Z" fill="#ffffff"/>
+<path data-half="bottom" d="M130.44,30 A18,18 0 0 1 94.44,30 Z" fill="#f1c84e"/>
 <circle cx="112.44" cy="30" r="18" fill="none" stroke="#59534e" stroke-width="0.7"/>
 </g>
 <g data-form="Empty" data-color="Black">
