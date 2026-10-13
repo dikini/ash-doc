@@ -56,11 +56,9 @@ or additional curriculum changes belong to this outcome.
    and commit the verified chapter before advancing.
 
 ```sh
-bash content/libraries/supplying-scoped-evidence/checks/verify.sh
-/path/to/diag-ash
+bash content/libraries/supplying-scoped-evidence/checks/verify.sh /path/to/diag-ash
 ```
 
-The final aggregate is `bash content/libraries/checks/verify.sh
-/path/to/diag-ash`.
+The final aggregate is `bash content/libraries/checks/verify.sh /path/to/diag-ash`.
 The focused test is
 `cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell`.
