@@ -40,6 +40,11 @@ programs live outside canonical source trees, with required sibling modules
 kept together. Local generalization and recursive initialization continue the
 same model; the effects connection remains optional until E3.
 
+The approved [function-input clarification](../plans/2026-10-13-function-input-shapes.md)
+will compare the existing curried and tuple-input examples, including what
+remains after supplying one input. It changes prose within the Learn path and
+retains the canonical programs and current target.
+
 The [library path](../../content/libraries/README.md) now asks for value,
 type, and evidence predictions before its worked answers. Rejections connect
 complete requirements, declaration access, and lexical scope to causal labels
