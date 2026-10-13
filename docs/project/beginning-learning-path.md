@@ -73,7 +73,10 @@ directory, reader-facing link, or publication date.
   with chained inputs and connect rejection to the wrong shape.
 
 - **7. [How can a program define its own data?](../../content/learn/defining-data/README.md)**
-  — **verified.** Nominal types and constructors.
+  — **verified.**
+  Connect constructor forms to represented information and predict
+  observations before comparing distinct nominal identities.
+
 - **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
   — **verified.** Constructor patterns, equations or matches, and coverage.
 - **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
