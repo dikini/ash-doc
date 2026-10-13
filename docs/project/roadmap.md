@@ -44,16 +44,9 @@ same model; the effects connection remains optional until E3.
 
 The approved review retains the eight chapters, 43 canonical sources, 17
 accepted observations, and 16 complete diagnostic captures at `diag-ash`
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Revise one chapter at a time using
-the
-project writing skill and existing teaching-inspiration records.
-
-Completed chapters: 1. choosing-implementation-evidence; 2.
-forwarding-capability-evidence; 3. accepting-type-constructors
-
-**Active outcome: chapter 4, giving-method-local-type-parameters.**
-How can one required method work at two element types?
-[Execution plan](../plans/2026-10-13-library-04-teaching-review.md).
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Chapters one through 4 are
+reviewed and
+verified. No chapter execution plan is active; chapter 5 is next.
 
 ## Curriculum direction
 
