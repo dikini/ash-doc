@@ -224,7 +224,6 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
     descriptions = document["meta"].pop("diagrams", {"c": []})["c"]
     diagram_number = 0
     blocks = []
-    code_records = []
     for block in document["blocks"]:
         if block.get("t") == "Para" and literal(block["c"]) == "{{< pagebreak >}}":
             # Keep the used Quarto directive intact through the Markdown writer.
@@ -249,12 +248,19 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
                                [{"t": "Str", "c": description["caption"]}],
                                ["assets/" + description["id"] + ".svg", ""]]}]})
                 continue
-            code_records.append({"kind": kind, "text": code})
         blocks.append(block)
     if diagram_number != len(descriptions):
         raise ValueError(f"{source}: unused diagram descriptions")
     document["blocks"] = blocks
     document["meta"] = {}
+    code_records = []
+    for block in walk(document["blocks"]):
+        if block.get("t") != "CodeBlock":
+            continue
+        attributes, code = block["c"]
+        kind = attributes[1][0] if attributes[1] else ""
+        if kind not in ("mermaid", "ebnf", "sequent"):
+            code_records.append({"kind": kind, "text": code})
     # Namespace note labels without changing source anchors or literal code.
     prefix = Path(chapter_name(source)).stem + "-"
     return markdown(quarto, document, prefix), code_records

@@ -221,6 +221,46 @@ a new PDF page, carries a page-break request into EPUB, and leaves screen HTML
 continuous. An EPUB reader controls physical pagination. Other Quarto
 shortcodes are outside the current preparation contract.
 
+### Choose a code width
+
+Begin in the ordinary text column. Compare a wide layout when wrapping hides
+function parameters, corresponding equation cases, or the grouping of a long
+expression. Use the wider region when it makes that structure easier to read
+at the established code font size. A long program also needs an explanation
+in manageable steps; extra width alone does not make it easier to understand.
+
+Use the same `.column-page-right` Div around an ordinary code fence. Keep the
+existing source-agreement marker immediately before its fence inside the Div.
+The layout must preserve the canonical text, indentation, and checks. For
+example, the search-tree lesson uses this checked, non-executable signature:
+
+<!-- markdownlint-disable MD013 -->
+
+````markdown
+::: {#wide-restore-signature .column-page-right}
+
+<!-- signature: src/dictionaries.ash#restore -->
+
+```text
+restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
+```
+
+:::
+````
+
+<!-- markdownlint-enable MD013 -->
+
+That signature marker belongs to the lesson's local fragment check. Complete
+runnable blocks retain their existing canonical-source agreement mechanism.
+Width does not change whether a block is executable or a labelled fragment.
+
+Keep each wide code block on one page in both PDFs and clear of nearby notes.
+For a longer definition, choose meaningful checked portions or the ordinary
+column, where pagination is supported. Do not reduce the font or alter
+canonical line breaks to make a wide block fit. Inspect narrow HTML and EPUB
+with enlarged text: code must remain complete and wrap within their available
+reading width. Full width in print supplies no extra space on a small screen.
+
 ### Choose a diagram or illustration width
 
 Start with the ordinary text column. Use the smallest width that preserves

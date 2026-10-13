@@ -53,6 +53,33 @@ class PreparationTests(unittest.TestCase):
                                    output=root / "book")
             yield builder, root, args
 
+    def test_wide_code_keeps_source_records_in_reading_order(self):
+        source = "content/cases/example/README.md"
+        before = "identity : Int -> Int\nidentity value = value"
+        wide = ("combine : Tree<Key, Value> -> Key -> Value -> Tree<Key, Value>\n"
+                "combine tree key value = {\n"
+                "    restore tree key value\n"
+                "}")
+        after = "The result remains Tree<Key, Value>."
+        text = (f"# Lesson\n\n```ash\n{before}\n```\n\n"
+                "::: {#wide-definition .column-page-right}\n\n"
+                f"```text\n{wide}\n```\n\n:::\n\n"
+                f"```text\n{after}\n```\n")
+        with self.asset_book({source: text}, {}) as (builder, root, args):
+            builder.prepare(args)
+            record = json.loads((args.output / "sources.json").read_text())[0]
+            self.assertEqual(record["code"], [
+                {"kind": "ash", "text": before},
+                {"kind": "text", "text": wide},
+                {"kind": "text", "text": after},
+            ])
+            original = builder.parse(QUARTO, text)
+            staged = (args.output / record["chapter"]).read_text()
+            prepared = builder.parse(QUARTO, staged)
+            self.assertEqual(prepared["blocks"], original["blocks"],
+                             "wide attributes and literal code must survive staging")
+            self.assertEqual((root / source).read_text(), text)
+
     def test_lesson_images_keep_note_and_wide_structure_with_exact_assets(self):
         source = "content/cases/example/README.md"
         svg = (b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 40">'

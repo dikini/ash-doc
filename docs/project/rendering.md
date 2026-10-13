@@ -24,10 +24,12 @@ complete, indexed lessons:
 - [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)
   supplies short programs and a complete rejection.
 - [Guarantee logarithmic retrieval](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
-  supplies a table, a 248-line listing, a 1,721-character output line, and all
-  three note forms. A numbered sketch illustrates the count of black forms,
-  a margin cue clarifies the height counts, and a wide
-  comparison follows left-left repair into its common result.
+  derives colored insertion through checked definition excerpts and a small
+  complete repair client. Its later comprehensive clients still exercise long
+  listings and a 1,721-character output line. It supplies all three note forms:
+  a numbered sketch illustrates the count of black forms, a margin cue
+  clarifies the height counts, and a wide comparison follows left-left repair
+  into its common result.
 - [Require element behavior](../../content/libraries/requiring-element-behavior/README.md)
   supplies multiline diagnostics and their source relationships.
 
@@ -38,6 +40,13 @@ diagnostic conventions from the root README. Unselected local source links
 point to an immutable ash-doc commit; included chapters link within the book.
 Those source links require that commit to be available on GitHub; an unpushed
 local build does not publish its source snapshot.
+
+The search-tree lesson labels its displayed definition and signature fragments
+as non-executable and checks them against the complete canonical module with a
+lesson-local standard-library comparison. Its complete clients retain the
+shared whole-program agreement check. Preparation preserves both kinds of code
+text in every output. The local fragment convention serves this teaching trial;
+it does not change how other lessons establish executable-source agreement.
 
 The separate [notation fixture](../../rendering/specimen/notation.md) contains
 two notes, a table, Mermaid graph and interaction sequence, EBNF railroad
@@ -146,6 +155,15 @@ package does not reliably handle a wide block across mirrored page breaks.
 Artifact checks require the entire paragraph and table on one page, with no
 intersection between its text and any sidenote. Revise this bound only after
 verifying a layout implementation that handles longer blocks.
+
+The search-tree derivation also uses native wide Divs for selected long
+signatures and equation groups. Their extra width makes parameters and cases
+easier to follow at the shared 8.5 pt code size. Preparation records ordinary
+code recursively, including code inside wide Divs, so source and output checks
+retain these blocks in reading order. It still converts bare diagram fences
+only at chapter top level. Each wide code block must fit one page in both PDFs
+and stay clear of notes; narrow HTML and EPUB wrap the unchanged source text.
+The formatting reference gives the authoring example and selection criteria.
 
 ## Tool and renderer pins
 
@@ -271,7 +289,7 @@ Run the existing checks for all three selected lessons against the exact Ash
 checkout, as described in the [verification guide](verification.md). Then run:
 
 ```sh
-python3 -m unittest discover -s rendering/checks -p test_build.py
+python3 -m unittest discover -s rendering/checks -p 'test_*.py'
 python3 rendering/checks/verify.py
 node rendering/checks/browser.mjs
 java -jar .build/toolchain/epubcheck-5.4.0/epubcheck.jar \
@@ -302,7 +320,10 @@ HTML and EPUB preserve complete preformatted text directly. Both PDFs are
 checked for paper dimensions, text bounds, body margins on odd and even pages,
 and their distinct note placement. The full-width aside must retain its text
 and formatting, extend into the note area, avoid note collisions, and reflow in
-narrow browser and EPUB previews.
+narrow browser and EPUB previews. Wide lesson code must remain complete on one
+print page, within the body and outer margins and clear of notes. Focused
+regressions reject split blocks, missing characters, invalid bounds, and note
+collisions.
 
 The browser check inspects desktop and mobile HTML, code overflow, navigation,
 keyboard use, notes, image descriptions, and local-only resource requests. It

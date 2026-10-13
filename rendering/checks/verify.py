@@ -193,6 +193,62 @@ def ast_walk(value):
             yield from ast_walk(child)
 
 
+def wide_code_blocks(blocks):
+    """Select ordinary code in native wide Divs, preserving source order."""
+    ordinary_codes = [re.sub(r"\s+", "", block["c"][1]) for block in ast_walk(blocks)
+                      if block.get("t") == "CodeBlock" and
+                      (not block["c"][0][1] or
+                       block["c"][0][1][0] not in ("mermaid", "ebnf", "sequent"))]
+    codes, seen = [], set()
+    for div in ast_walk(blocks):
+        if div.get("t") != "Div" or "column-page-right" not in div["c"][0][1]:
+            continue
+        identifier = div["c"][0][0]
+        selected = 0
+        for block in ast_walk(div["c"][1]):
+            if block.get("t") != "CodeBlock" or id(block) in seen:
+                continue
+            attributes, code = block["c"]
+            kind = attributes[1][0] if attributes[1] else ""
+            if kind in ("mermaid", "ebnf", "sequent"):
+                continue
+            check(identifier, "real lesson: wide code has no stable region identifier")
+            seen.add(id(block))
+            selected += 1
+            label = identifier if selected == 1 else f"{identifier}-{selected}"
+            compact = re.sub(r"\s+", "", code)
+            codes.append({"id": label, "text": code,
+                          "expected_occurrences": sum(text.count(compact) for text in ordinary_codes)})
+    return codes
+
+
+def verify_wide_code_pdf(pages, codes, filename, a4, note_regions):
+    """Require each complete wide code block on one usable, unobstructed page."""
+    millimetre = 72 / 25.4
+    code_pages = {}
+    for code in codes:
+        occurrences = find_pdf_phrase(pages, code["text"])
+        label = code["id"]
+        required = code.get("expected_occurrences", 1)
+        check(len(occurrences) == required,
+              f"{filename}: complete wide code {label} not found on one page for all "
+              f"{required} source occurrences (found {len(occurrences)})")
+        for number, words in occurrences:
+            bounds = word_bounds(words)
+            left, right = ((25 * millimetre, 190 * millimetre) if a4 else
+                           ((54, 540) if number % 2 else (36, 522)))
+            top, bottom = ((20 * millimetre, 277 * millimetre) if a4 else (54, 666))
+            check(bounds["left"] >= left - 1 and bounds["right"] <= right + 1
+                  and bounds["top"] >= top - 1 and bounds["bottom"] <= bottom + 1,
+                  f"{filename}: wide code {label} leaves printable bounds on page {number}")
+            for note in note_regions.get(number, []):
+                overlaps = (bounds["left"] < note["right"] and bounds["right"] > note["left"]
+                            and bounds["top"] < note["bottom"] and bounds["bottom"] > note["top"])
+                check(not overlaps, f"{filename}: wide code {label} overlaps a note on page {number}")
+        code_pages[label] = occurrences[0][0]
+    return code_pages
+
+
 def inline_text(inlines):
     parts = []
     for node in inlines:
@@ -266,6 +322,7 @@ def real_lesson_source(project, record):
                                        "alt": attributes["fig-alt"], "src": image["c"][2][0],
                                        "height_ratio": view_box[3] / view_box[2]}
     return {"images": expected_images, "note": note_text, "cue": cue_text,
+            "wide_code": wide_code_blocks(document["blocks"]),
             "cue_reference": cue_reference, "references": reference}
 
 
@@ -294,7 +351,7 @@ def verify_canonical_assets(project, records):
     return count
 
 
-def verify_lesson_pdf(pages, expected, filename, a4):
+def verify_lesson_pdf(pages, expected, filename, a4, known_notes=None):
     millimetre = 72 / 25.4
     regions = {}
     def phrase(text):
@@ -343,8 +400,19 @@ def verify_lesson_pdf(pages, expected, filename, a4):
         if number == wide_page:
             check(bounds["bottom"] <= wide_bounds["top"] or bounds["top"] >= wide_bounds["bottom"],
                   f"{filename}: wide figure caption overlaps {role}")
+    note_regions = {number: list(bounds) for number, bounds in (known_notes or {}).items()}
+    for number, bounds in regions.values():
+        note_regions.setdefault(number, []).append(bounds)
+    note_left, note_right = ((140 * millimetre, 190 * millimetre) if a4 else
+                            ((396, 540) if caption_page % 2 else (36, 180)))
+    sketch_height = ((note_right - note_left)
+                     * expected["images"]["red-root-sketch"]["height_ratio"])
+    note_regions[caption_page].append({"left": note_left, "right": note_right,
+                                      "top": caption_bounds["top"] - sketch_height,
+                                      "bottom": caption_bounds["bottom"]})
+    code_pages = verify_wide_code_pdf(pages, expected["wide_code"], filename, a4, note_regions)
     return {"graphical_note_page": note_page, "counting_cue_page": regions["counting cue"][0],
-            "wide_figure_page": wide_page}
+            "wide_figure_page": wide_page, "wide_code_pages": code_pages}
 
 
 def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=None):
@@ -447,7 +515,7 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
         check(not overlaps, f"{filename}: full-width note overlaps a sidenote")
 
     if lesson is not None:
-        verification = verify_lesson_pdf(pages, lesson, filename, a4)
+        verification = verify_lesson_pdf(pages, lesson, filename, a4, note_regions)
         print(f"{filename}: real lesson layout {verification}")
 
     result = subprocess.run(["pdftotext", "-layout", str(path), "-"],

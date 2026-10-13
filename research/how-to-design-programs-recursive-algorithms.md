@@ -11,6 +11,11 @@ semantics of its teaching languages into Ash?
 - Matthias Felleisen, Robert Bruce Findler, Matthew Flatt, and Shriram
   Krishnamurthi, [*How to Design Programs*, second edition, release
   2026-02-25](https://htdp.org/2026-2-25/Book/).
+- Part I, especially [Designing Functions and From Functions to
+  Programs](https://htdp.org/2026-2-25/Book/part_one.html), for relating
+  signatures and purposes to expected examples, deriving a function's
+  structure from its data, and identifying needed helper operations before
+  completing their bodies.
 - Part II, especially [Designing with Self-Referential Data
   Definitions](https://htdp.org/2026-2-25/Book/part_two.html), for functions
   whose structure follows a data definition.
@@ -40,6 +45,14 @@ recursive list, one function equation handles the ending form and another
 handles the form that contains a smaller list. Comparing several functions
 with those same equations exposes the repeated traversal before abstraction is
 introduced.
+
+The design recipe places a signature, purpose, and expected examples before
+the completed body. For a program with several operations, a needed helper
+can first be described by its name, signature, and purpose. Ash-doc can use
+those boundaries to reason about a composition, then derive each body from
+its data cases and the promised results of its smaller computations. The
+explanation must still establish why the chosen expressions satisfy the
+purpose; a matching type alone does not establish an algorithm's invariant.
 
 The method also keeps termination and cost attached to the program's source
 structure. A structural call follows a field that is visibly smaller. A

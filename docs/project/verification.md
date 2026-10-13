@@ -20,7 +20,7 @@ Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
 The four aggregates cover thirteen Learn lessons / 57 sources, twenty Cases /
-64 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
+65 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
 sources. They check successful values, types, stdout, stderr, and exit status;
 agreement between displayed
 and canonical code; and the source properties each Case teaches.

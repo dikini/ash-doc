@@ -10,10 +10,12 @@ readonly readme="$unit_root/README.md"
 readonly library="$unit_root/src/dictionaries.ash"
 readonly prefix_entry="$unit_root/src/01-prefix-matrix.ash"
 readonly persistence_entry="$unit_root/src/02-build-and-persistence.ash"
+readonly repair_entry="$unit_root/src/03-repair.ash"
 readonly sources=(
     src/dictionaries.ash
     src/01-prefix-matrix.ash
     src/02-build-and-persistence.ash
+    src/03-repair.ash
 )
 
 # shellcheck source-path=SCRIPTDIR/../../../checks
@@ -37,7 +39,7 @@ find "$unit_root/src" -maxdepth 1 -type f -name '*.ash' \
 if ! cmp -s "$declared_sources_file" "$actual_sources_file"; then
     diff -u "$declared_sources_file" "$actual_sources_file" >&2 || true
     ash_doc_fail \
-        "canonical source set must contain exactly the three declared paths"
+        "canonical source set must contain exactly the four declared paths"
 fi
 
 ash_doc_section() {
@@ -155,7 +157,8 @@ ash_doc_assert_text_line_once() {
 
 library_source=$(<"$library")
 persistence_source=$(<"$persistence_entry")
-readonly library_source persistence_source
+repair_source=$(<"$repair_entry")
+readonly library_source persistence_source repair_source
 
 # Keep every mutation-facing source claim ahead of hashes and executions.
 ash_doc_assert_phrase_count \
@@ -520,6 +523,11 @@ ash_doc_assert_contains \
     "$persistence_source" "$persistence_lookups" \
     "persistence evidence must retain old, replaced, extended, and built lookups"
 
+readonly repair_steps=$'let one = Next(Zero)\n    let two = Next(one)\n    let three = Next(two)\n    let after_three = insert three 30 (empty ())\n    let after_two = insert two 20 after_three\n    insert one 10 after_two'
+ash_doc_assert_contains \
+    "$repair_source" "$repair_steps" \
+    "the calculated repair must insert keys three, two, one in that order"
+
 ash_doc_assert_sha256 \
     "$library" \
     9406176b03322ce58d415b08064ccb8adf05bb0529a2280b9c4f71255e03105d \
@@ -536,6 +544,7 @@ ash_doc_assert_sha256 \
 readonly dictionary_output='(true, false, false, false, false) : (Bool, Bool, Bool, Bool, Bool)'
 readonly prefix_output='(Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))))))), More(true, More(true, More(true, More(true, More(true, More(true, More(true, More(true, End))))))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))))))), More(true, More(true, More(true, More(true, More(true, More(true, More(true, More(true, End))))))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End)))))) : (Scenario, Scenario, Scenario, Scenario, Scenario, Scenario)'
 readonly persistence_output='((Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 20, Empty), Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 99, Empty), Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 99, Node(Red, Empty, Next(Next(Next(Zero))), 30, Empty)), Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 99, Node(Red, Empty, Next(Next(Next(Zero))), 30, Empty))), (true, true, true, true), (Some(20), Some(99), Some(99), None, Some(30), Some(30))) : ((Dictionary<Natural, Int>, Dictionary<Natural, Int>, Dictionary<Natural, Int>, Dictionary<Natural, Int>), (Bool, Bool, Bool, Bool), (Option<Int>, Option<Int>, Option<Int>, Option<Int>, Option<Int>, Option<Int>))'
+readonly repair_output='Node(Black, Node(Black, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty)) : Dictionary<Natural, Int>'
 
 ash_doc_run_accepted \
     "$unit_root" src/dictionaries.ash "$dictionary_output"
@@ -543,9 +552,14 @@ ash_doc_run_accepted \
     "$unit_root" src/01-prefix-matrix.ash "$prefix_output"
 ash_doc_run_accepted \
     "$unit_root" src/02-build-and-persistence.ash "$persistence_output"
+ash_doc_run_accepted \
+    "$unit_root" src/03-repair.ash "$repair_output"
 
 [[ -f $readme ]] || ash_doc_fail "missing unit README.md"
-ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
+ash_doc_check_sources "$unit_root" "$readme" \
+    src/01-prefix-matrix.ash src/02-build-and-persistence.ash src/03-repair.ash
+python3 "$unit_root/checks/check_fragments.py" "$readme" "$library"
+python3 -m unittest discover -s "$unit_root/checks" -p test_fragments.py
 
 ash_doc_assert_text_line_once \
     "$dictionary_output" \
@@ -556,5 +570,8 @@ ash_doc_assert_text_line_once \
 ash_doc_assert_text_line_once \
     "$persistence_output" \
     "README must display the build and persistence output exactly once"
+ash_doc_assert_text_line_once \
+    "$repair_output" \
+    "README must display the calculated three-key repair output exactly once"
 
-ash_doc_finish 3
+ash_doc_finish 4

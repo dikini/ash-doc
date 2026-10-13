@@ -16,7 +16,7 @@ All content is verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
 - [Algorithms and effects](../../content/cases/README.md): twenty Cases,
-  64 sources.
+  65 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -49,11 +49,15 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
-The approved [colored insertion teaching trial](../plans/2026-10-13-calculating-colored-insertion.md)
-uses the rendered search-tree lesson to develop the program from its problem,
-data, operation types, and worked calculations. It preserves the canonical
-algorithm and retains comprehensive observations while deriving the insertion
-definitions beside their explanations.
+The [search-tree teaching trial](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
+is verified in all four outputs. It develops colored insertion from its
+problem and example, data, operation types, and worked calculations, proceeding
+from public composition into the smaller operations. Eleven checked fragments
+retain the canonical algorithm, and a small public client demonstrates the
+three-key repair. Selected long signatures and equation groups use wider space
+at the unchanged code size, with complete blocks on one page in both PDFs.
+The later comprehensive listings and observations remain available for further
+teaching revision.
 
 The first rendering outcome is verified as a local specimen in responsive HTML,
 reflowable EPUB 3, and two PDF print variants. It keeps existing verified

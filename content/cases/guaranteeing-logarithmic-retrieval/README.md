@@ -1,30 +1,60 @@
 # How can the representation prevent a search tree from degenerating?
 
-Opacity answered who may assemble dictionary nodes. It did not constrain the
-shape produced by the public operations. In the preceding case, ascending keys
-could still form a right chain with height `h = n`. Lookup followed only one
-branch, but that branch could contain every key.
+The dictionary from the preceding case hides its constructors, but insertion
+can still build a long chain. Insert the associations `(3, 30)`, `(2, 20)`,
+and `(1, 10)` into an empty dictionary. Ordered insertion puts `2` below the
+left branch of `3`, then `1` below the left branch of `2`. Looking up `1` visits
+all three nodes. Repeating that pattern gives height `h = n`: one ordered
+branch can contain every key.
 
-A hidden color on each nonempty node gives insertion enough information to
-limit that height. Color does not change search order. It records a second
-invariant that prevents any root-to-empty path from becoming much longer than
-the others. The dictionary remains persistent: insertion returns a new value
-and reconstructs only the entered path and a bounded neighborhood around each
-repair.
+We want insertion to keep lookup paths short while retaining the same
+associations. For these three keys, `2` can be the root, with `1` and `3` as
+its children. Lookup still uses the key comparison from the preceding case.
+The change belongs in how insertion constructs the tree.
 
-## Separate recursive consistency from the root
+A hidden color on each nonempty node will tell insertion when a local path
+needs repair. We will develop that data, state the operations it needs, then
+calculate their bodies using the three-association example. Insertion remains
+persistent: it returns a new dictionary, leaving the earlier value available.
 
-The hidden representation adds a private `Color` field:
+{{< pagebreak >}}
+
+## Describe the colored data
+
+The keys and values retain their meanings. A `Dictionary<K, V>` associates
+keys of type `K` with values of type `V`. Its recursive alternatives tell us
+whether there is an association at the current position. The following
+non-executable declaration excerpt adds a color to the representation:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- excerpt: src/dictionaries.ash#representation -->
 
 ```text
-Dictionary<K, V>
+type Color =
+    Red
+    | Black
+
+pub opaque type Dictionary<K, V> =
     Empty
-    Node(color, left, key, value, right)
+    | Node(Color, Dictionary<K, V>, K, V, Dictionary<K, V>)
 ```
 
-`Empty` counts as black.[^red-root-example]
-A subtree is recursively consistent when three
-conditions hold:
+<!-- markdownlint-enable MD013 -->
+
+`Empty` has no association. `Node` contains a color, the left dictionary, a
+key, its associated value, and the right dictionary, in that order. `K` and
+`V` describe every association in that tree. We reuse `Natural`, `Option`,
+`Ordering`, and the `Order<K>` comparison from the preceding case. The new
+`Color` has exactly two alternatives, `Red` and `Black`.
+
+A color is useful only with rules for interpreting it. `Empty` counts as
+black.[^red-root-example] A black node adds one to the count on every path
+below it; a red node adds none. We call the common count, including the
+terminal `Empty`, the subtree's *black-height*. It measures the black forms
+on a path, rather than all its nonempty nodes.
+
+A subtree is recursively consistent when three conditions hold:
 
 1. It has the global ordering invariant from the preceding case. Every left
    descendant is `Less` than the current key, and every right descendant is
@@ -35,8 +65,14 @@ conditions hold:
 
 A recursively consistent subtree may have a red root. A completed public
 dictionary adds one more condition: its root is black, unless the dictionary
-is `Empty`. Keeping the root condition separate lets red subtrees participate
-in repair without making red nodes invalid everywhere.
+is `Empty`. Separating that final condition lets red subtrees participate in
+insertion. In the three-key result, a black `2` with black children `1` and `3`
+meets all four conditions: every path counts the root, one black child, and
+its terminal `Empty`, giving black-height three. A black `3` with only a red
+left child `2` also has equal counts. The shorter right path counts `3` and
+`Empty`; each longer left path counts the same two black forms. Equal
+black-height therefore allows some difference in total path length. The
+rule against adjacent red nodes limits how much longer a path can become.
 
 <!-- markdownlint-disable MD013 -->
 
@@ -47,171 +83,286 @@ in repair without making red nodes invalid everywhere.
 
 <!-- markdownlint-enable MD013 -->
 
-The opaque declaration still controls only source access. Importers can name
+The opaque declaration controls source access. Importers can name
 `Dictionary<K, V>`, but cannot name its constructors under Ash's
 [public and opaque declaration rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations).
 The defining module can construct any of its forms, including invalid ones.
-Neither the nominal type nor `Order<K>` proves these representation laws.
+Neither the nominal type nor `Order<K>` proves the representation laws. We
+must design the operations to preserve them.
 
-The module checks ordering and balance in two passes. `valid_between` carries
-the inherited lower and upper key bounds through the whole tree. A separate
-balance pass returns either `Invalid` or the common black-height. It binds both
-child summaries before comparing them, just as the ordering pass binds both
-recursive results before combining them. Ash bindings evaluate their
-initializers before continuing under the pinned
-[binding rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings),
-so a completed validation enters both branches in both passes. A final check
-tests only the top-level root color.
+## State the operations we need
 
-The defining module contains five private trees. Predict one `true` followed
-by four `false` values:
+Work out the function types before filling their bodies. In the following
+type calculations, `D` abbreviates `Dictionary<K, V>` in the explanation;
+it is not a new Ash type or a declaration in the program. The source
+signatures keep the full spelling.
 
-- a valid one-node black tree;
-- a tree with a deeper key beyond an inherited ordering bound;
-- a red root whose recursive properties otherwise hold;
-- a red parent with red children whose ordering and black-height hold; and
-- a tree whose two root paths contain different black counts.
-
-These cases distinguish the checks. They do not prove that insertion preserves
-them for every input.
-
-## Repair one colored path
-
-Insertion first follows the ordered branch selected by `compare`. At `Empty`,
-it constructs a red leaf. A black leaf would increase the black count on only
-the entered path. A red leaf leaves that count unchanged, but it may appear
-below a red parent.
-
-That red-red edge has a red parent on either the left or right of a black
-grandparent. The new red child can also be on either side of its parent. These
-two choices produce exactly four orientations:
-
-| Orientation | Insertion order |
-| --- | --- |
-| left-left | `3, 2, 1` |
-| left-right | `3, 1, 2` |
-| right-left | `1, 3, 2` |
-| right-right | `1, 2, 3` |
-
-All four contain three increasing key-value associations separated by four
-subtrees. One normalization gives them the same local result. The drawing
-follows the left-left case into that result. Each node shows its color and the
-source names for its key and value. `A`, `B`, `C`, and `D` stand for the `first`,
-`second`, `third`, and `fourth` subtrees:
+The public operation has the same job as before: insert a key and value into
+a valid dictionary. If the comparison is `Equal`, replace that association's
+value; otherwise add the association. Return a valid dictionary with all
+other associations retained. We supply a key of type `K`, then a value of
+type `V`, then a dictionary of type `D`; the result must also have type `D`.
+Reading those inputs and the result in order gives `K -> V -> D -> D`.
+Comparison needs `Order<K>`, so the signature includes that requirement.
+The following source signature is a non-executable excerpt:
 
 <!-- markdownlint-disable MD013 -->
 
-::: {#repair-comparison .column-page-right}
+<!-- signature: src/dictionaries.ash#insert -->
 
-![Left-left repair preserves the associations and subtrees; the same result handles all four orientations.](assets/tree-repair.svg){#fig-tree-repair fig-alt="Before left-left repair, a black last node has red middle and first nodes down its left branch. First has subtrees A and B; middle has C on its right; last has D on its right. After repair, red middle has black first and last children. First retains A and B, and last retains C and D. Each key stays with its value." width=100%}
+```text
+pub insert : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
+```
+
+<!-- markdownlint-enable MD013 -->
+
+Insertion still descends through one ordered branch. We need an internal
+operation that performs that descent while allowing a temporary red root or
+an edge between two red nodes. Its input is a recursively consistent
+subtree. Its result retains ordering and black-height, but may have a
+red-red edge directly below its red root. A black ancestor must repair that
+edge. The requirement on `Order<K>` supplies the comparison that selects the
+branch. Its job still takes a `K`, a `V`, and a `D` and returns a `D`, so
+`insert_colored` has the same function type as public insertion:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- signature: src/dictionaries.ash#insert_colored -->
+
+```text
+insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
+```
+
+<!-- markdownlint-enable MD013 -->
+
+When recursion returns a child, the parent has its color, its two branches,
+and its own association available. These five pieces have types `Color`,
+`D`, `K`, `V`, and `D`, in constructor-field order. Rebuilding or repairing
+that parent must return a `D`. Write one arrow after each input type, then
+put `D` for the result. This calculates the signature of `restore`, which
+repairs a red-red edge beneath a black parent when it finds one:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-restore-signature .column-page-right}
+
+<!-- signature: src/dictionaries.ash#restore -->
+
+```text
+restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
+```
 
 :::
 
 <!-- markdownlint-enable MD013 -->
 
-Before repair, `last_key` has `middle_key` on its left, and `middle_key` has
-`first_key` on its left. The repair puts `middle_key` above `first_key` and
-`last_key`. `A` and `B` stay below `first_key`; `C` and `D` become the children
-of `last_key`. The red-red edge disappears while the left-to-right order of
-subtrees, keys, and values stays the same.
+That repair will rearrange three associations with four intervening subtrees.
+Every subtree has type `D`, every key has type `K`, and every associated
+value has type `V`. `restore_three` consumes them in their increasing order:
+subtree, key, value, subtree, key, value, subtree, key, value, subtree. Write
+one arrow after each of those ten inputs, then put `D` for the result.
+That calculation gives the longer signature below. Its last dictionary
+type is the output; the preceding four are subtree inputs. The different
+orientations will supply the same types of pieces to this one construction:
 
-Every value stays paired with its key. The four surrounding subtree values pass
-unchanged into the new constructors, and the in-order sequence remains first,
-middle, last. The source expresses this shared result in `restore_three`; four
-nested `restore` patterns only select which fields supply it. Pattern selection
-follows Ash's exhaustive
-[pattern and match rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#patterns-matches-and-coverage).
-
-The transient candidate differs from a recursively consistent tree only at
-the red-red edge, so the four surrounding subtrees have one common
-black-height. Each new black child adds one black form above two of those
-subtrees. The red middle root adds none. Every path through the normalized
-result therefore has the common subtree black-height plus one, the same count
-as through the former black grandparent. Repair preserves equal black-height
-as well as order and associations.
-
-This functional insertion strategy takes conceptual inspiration from the
-tradition evaluated in the
-[persistent red-black insertion record](../../../research/persistent-red-black-insertion.md).
-The Ash program, diagram, derivation, examples, and exercises here are original.
-
-As recursion returns, a repaired red middle node can become the child of a red
-ancestor. The next black grandparent repairs that edge. Because public
-insertion starts from a valid black-rooted dictionary, reconstruction removes
-every red-red edge before the internal result reaches the top. `blacken_root`
-then restores only the public root-color condition. Recoloring a red root adds
-one black form to every root path equally; it does not change key order or
-key-value associations.
-
-Equal insertion takes a different arm. It retains the stored representative
-key, current color, and both branches while replacing only the value. It creates
-no red leaf and needs no repair.
-
-Here is the complete defining module.
-
-<!-- source: src/dictionaries.ash -->
 <!-- markdownlint-disable MD013 -->
-```ash
-pub type Ordering =
-    Less
-    | Equal
-    | Greater
 
-pub type Natural =
-    Zero
-    | Next(Natural)
+::: {#wide-restore-three-signature .column-page-right}
 
-pub type Option<A> =
-    None
-    | Some(A)
+<!-- signature: src/dictionaries.ash#restore_three -->
 
-pub type List<A> =
-    End
-    | More(A, List<A>)
-
-type Color =
-    Red
-    | Black
-
-pub opaque type Dictionary<K, V> =
-    Empty
-    | Node(Color, Dictionary<K, V>, K, V, Dictionary<K, V>)
-
-type BalanceCheck =
-    Invalid
-    | Valid(Int)
-
-pub interface Order<A> {
-    compare : A -> A -> Ordering
-}
-
-pub impl Order<Natural> {
-    compare Zero Zero = Equal
-    compare Zero Next(right) = Less
-    compare Next(left) Zero = Greater
-    compare Next(left) Next(right) = compare left right
-}
-
-pub empty : Unit -> Dictionary<K, V>
-empty () = Empty
-
-pub lookup : K -> Dictionary<K, V> -> Option<V> where Order<K>
-lookup query Empty = None
-lookup query Node(ignored_color, left, current_key, current_value, right) = match compare query current_key {
-    Less => lookup query left
-    Equal => Some(current_value)
-    Greater => lookup query right
-}
-
+```text
 restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth = Node(
-    Red,
-    Node(Black, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    Node(Black, third, last_key, last_value, fourth)
-)
+```
 
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+Finally, internal insertion may return a red root. `blacken_root` restores
+the public root condition without searching the tree or changing an
+association. It receives one whole dictionary and returns one whole
+dictionary, giving `D -> D`:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- signature: src/dictionaries.ash#blacken_root -->
+
+```text
+blacken_root : Dictionary<K, V> -> Dictionary<K, V>
+```
+
+<!-- markdownlint-enable MD013 -->
+
+We can already check how these operations fit together. Once we supply
+`key : K` and `value : V`, `insert_colored key value` has remaining type
+`D -> D`. Give it a dictionary and its result has type `D`.
+`blacken_root` accepts that result because its input type is also `D`.
+Its output is `D`, which is exactly what public insertion promises.
+We have calculated the connection between the two operations before
+choosing either body. Ash checks application inputs and results under its
+[function and application typing rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application).
+
+These signatures describe the shapes of inputs and outputs. The purposes add
+requirements that the types do not express. Completed dictionaries and
+temporary insertion results have the same `Dictionary<K, V>` type; their
+stated conditions differ. In particular, `restore` is a local repair for
+candidates produced by insertion. It is not a general operation for
+correcting an arbitrary malformed tree.
+
+## Repair one colored path
+
+We have the function types and the conditions each operation must maintain.
+Now fill the public operation, follow its call into recursive insertion,
+and develop the smaller repair it needs. The three-association example will
+let us check each choice with a concrete tree.
+
+The following calculations are schematic source calculations, not runnable
+programs or tool output. Numerals stand for the corresponding `Natural`
+keys; values such as `10` remain integers.
+
+Begin with the public goal. The type calculation already tells us how the
+two operations connect: obtain the internal insertion result, then pass that
+whole dictionary to `blacken_root`. Assuming those operations do their
+stated jobs, this expression gives public insertion the required result:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- excerpt: src/dictionaries.ash#insert -->
+
+```text
+pub insert : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
+insert key value dictionary = blacken_root (insert_colored key value dictionary)
+```
+
+<!-- markdownlint-enable MD013 -->
+
+The body names the two remaining jobs. We can develop each one from its
+promised input and result, starting with the insertion that produces the
+dictionary for `blacken_root`.
+
+### Insert into the recursive data
+
+`insert_colored` must give public insertion a dictionary with the new or
+replaced association. Its input is either `Empty` or `Node`, so those two
+alternatives supply its first cases. At `Empty`, a new association needs
+two empty children. The replaced `Empty` contributes one black form. A red
+node above two `Empty` children also contributes one on each path, leaving
+the count unchanged. A black node would make that count two on only the
+entered branch. This determines the new node's red color and gives the
+first expected result:
+
+```text
+insert_colored 1 10 Empty
+=> Node(Red, Empty, 1, 10, Empty)
+```
+
+At a `Node`, comparison gives three cases. For `Less`, recur on `left`.
+Its type is `D`, and the function type tells us that
+`insert_colored key value left` returns `D`. Assume this smaller call inserts
+the association and preserves ordering and black-height, allowing a red-red
+edge directly below a red root.
+
+The returned left dictionary can now replace the old left field. The other
+four fields retain their types: `color : Color`, `current_key : K`,
+`current_value : V`, and `right : Dictionary<K, V>`. Put the five pieces in
+the order required by `restore`. Its result is the whole dictionary this
+case needs. At a black parent it can repair the returned child's edge;
+at a red parent it reconstructs the subtree for the enclosing ancestor.
+This determines the combining expression in the `Less` arm. `Greater`
+makes the same calculation with the returned right dictionary. For a finite
+dictionary, each recursive input is a smaller child, so descent reaches
+`Empty` or an equal key, provided the comparisons return.
+
+On `Equal`, inserting `(2, 99)` over `(2, 20)` retains the stored key,
+children, and color, changing only the value. This supplies the middle arm
+without recursion or repair. The completed excerpt is:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-insert-colored-excerpt .column-page-right}
+
+<!-- excerpt: src/dictionaries.ash#insert_colored -->
+
+```text
+insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
+insert_colored key value Empty = Node(Red, Empty, key, value, Empty)
+insert_colored key value Node(color, left, current_key, current_value, right) = match compare key current_key {
+    Less => restore color (insert_colored key value left) current_key current_value right
+    Equal => Node(color, left, current_key, value, right)
+    Greater => restore color left current_key current_value (insert_colored key value right)
+}
+```
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+### Repair the returned child
+
+Insertion has asked `restore` to construct a dictionary from the parent
+fields, with one child replaced by the recursive result. Its type already
+tells us the five inputs and their result. Which field patterns need repair?
+A black parent can receive a red child with a red child of its own. That
+local candidate contains three associations in increasing order, with four
+intervening subtrees. Name them first, middle, and last; name the subtrees
+`A`, `B`, `C`, and `D` from left to right.
+
+For the running example, black `3` receives red `2` with red `1` below it.
+The parent must return the same associations without that red-red edge.
+The shared helper's job is to return red middle above black first and last,
+with `A` and `B` below first and `C` and `D` below last. This gives `restore`
+a result to request while we have yet to fill `restore_three`'s body.
+A nested pattern can name the pieces needed by that call:
+
+- The outer parent is black and supplies the last association, `(3, 30)`.
+- Its red left child supplies the middle association, `(2, 20)`.
+- That child's red left child supplies the first association, `(1, 10)`.
+- The remaining child fields supply `A`, `B`, `C`, and `D` in increasing order.
+
+Those names give the arguments to `restore_three` directly. The expected
+calculation is:
+
+```text
+restore Black
+    Node(Red, Node(Red, Empty, 1, 10, Empty), 2, 20, Empty)
+    3 30 Empty
+=> restore_three Empty 1 10 Empty 2 20 Empty 3 30 Empty
+=> red 2 above black 1 and black 3, with the same values
+```
+
+A red parent can be on either side of the black grandparent, and its red
+child can be on either side again. We need four patterns, rather than a rule
+that repairs only the descending example:
+
+| Orientation | Insertion order | Fields supplying first, middle, last |
+| --- | --- | --- |
+| left-left | `3, 2, 1` | grandchild, child, parent |
+| left-right | `3, 1, 2` | child, grandchild, parent |
+| right-left | `1, 3, 2` | parent, grandchild, child |
+| right-right | `1, 2, 3` | parent, child, grandchild |
+
+For instance, `3, 1, 2` puts the middle association in the red child's right
+branch. The second pattern must take it from that branch. The destination is
+unchanged: red middle above black first and last. Each pattern only selects
+which candidate fields supply that shared construction.
+
+{{< pagebreak >}}
+
+What should happen when none of the four patterns fits? Inserting `2` below
+black `3` creates only one red child, so there is no red-red edge to repair.
+Returning the parent's fields in an ordinary `Node` preserves that result.
+This fallback also reconstructs a red parent. If its returned child is red,
+a black ancestor will handle the edge between them. The complete equation
+group is:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-restore-excerpt .column-page-right}
+
+<!-- excerpt: src/dictionaries.ash#restore -->
+
+```text
 restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
 restore Black Node(
     Red,
@@ -242,169 +393,225 @@ restore Black first first_key first_value Node(
     Node(Red, third, last_key, last_value, fourth)
 ) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
 restore color left key value right = Node(color, left, key, value, right)
+```
 
-insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
-insert_colored key value Empty = Node(Red, Empty, key, value, Empty)
-insert_colored key value Node(color, left, current_key, current_value, right) = match compare key current_key {
-    Less => restore color (insert_colored key value left) current_key current_value right
-    Equal => Node(color, left, current_key, value, right)
-    Greater => restore color left current_key current_value (insert_colored key value right)
-}
+:::
 
+<!-- markdownlint-enable MD013 -->
+
+Ash tries these patterns in source order and selects the first matching
+equation once the arguments have arrived. The final equation handles every
+remaining color and subtree shape. The
+[pattern and coverage rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#patterns-matches-and-coverage)
+check that the equations cover the input type. The
+[evaluation rules for matches and equations](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+explain which body executes. Neither check establishes the ordering or
+black-height premises we used in the repair calculation.
+
+### Construct the shared repair result
+
+`restore_three` receives the ten values selected by `restore` and must
+construct one `Dictionary<K, V>`. The middle association separates the
+first two subtrees from the last two. Place the first association above
+`first` and `second`, and the last above `third` and `fourth`. Those two
+constructed dictionaries can become the middle node's children.
+
+Give the first and last nodes black colors to remove the red-red edge and
+allow red-rooted surrounding subtrees. Keep the middle root red to retain
+the black-height. For the running example, the four subtrees are `Empty`
+and the associations are `(1, 10)`, `(2, 20)`, and `(3, 30)`. The expected
+local result makes the construction concrete:
+
+```text
+Node(
+    Red,
+    Node(Black, Empty, 1, 10, Empty),
+    2,
+    20,
+    Node(Black, Empty, 3, 30, Empty)
+)
+```
+
+This is the result of the local repair, before public insertion blackens its
+root. Each value stays with its key. In the general body, the association
+names are `first_key`, `middle_key`, and `last_key`, with their corresponding
+values. The four subtree positions are `first`, `second`, `third`, and
+`fourth`. The drawing uses `A`, `B`, `C`, and `D` for those subtrees:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#repair-comparison .column-page-right}
+
+![Left-left repair preserves the associations and subtrees; the same result handles all four orientations.](assets/tree-repair.svg){#fig-tree-repair fig-alt="Before left-left repair, a black last node has red middle and first nodes down its left branch. First has subtrees A and B; middle has C on its right; last has D on its right. After repair, red middle has black first and last children. First retains A and B, and last retains C and D. Each key stays with its value." width=100%}
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+The ordering tells us where each subtree belongs. `A` and `B` stay below the
+first key. `C` and `D` become the children of the last key. The middle key
+separates those two constructed dictionaries. Each subtree must retain its
+inherited key bounds: `A` below the first key, `B` between first and middle,
+`C` between middle and last, and `D` above the last key. Their roots may be
+red; making the first and last nodes black also prevents a new red-red edge
+where those subtrees attach. The constructor expression we just calculated
+therefore completes `restore_three`:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-restore-three-excerpt .column-page-right}
+
+<!-- excerpt: src/dictionaries.ash#restore_three -->
+
+```text
+restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
+restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth = Node(
+    Red,
+    Node(Black, first, first_key, first_value, second),
+    middle_key,
+    middle_value,
+    Node(Black, third, last_key, last_value, fourth)
+)
+```
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+This definition is a non-executable excerpt from the complete companion
+module. It constructs three nodes and passes the four subtree values
+unchanged into them. It needs no comparison: its caller must supply the
+associations and subtrees in the required order.
+
+For the insertion candidates we will produce, the four surrounding subtrees
+are recursively consistent and have one common black-height. The candidate
+may contain the one red-red edge being repaired. If the common height is
+`b`, the former black grandparent contributes one, giving `b + 1` on every
+path. The result's black children each contribute one and its red root
+contributes none, so every path still has `b + 1`. This calculation explains
+why the colors in the body preserve the count.
+
+### Restore the public root condition
+
+Internal insertion has kept the associations ordered and the path counts
+equal, but our calculated root is red. `blacken_root` has three meaningful
+inputs: `Empty`, a black node, or a red node. The first two already meet the
+public root condition and should be returned unchanged. For a red node,
+retain its association and both children and change only its color:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- excerpt: src/dictionaries.ash#blacken_root -->
+
+```text
 blacken_root : Dictionary<K, V> -> Dictionary<K, V>
 blacken_root dictionary = match dictionary {
     Empty => Empty
     Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) => dictionary
     Node(Red, left, key, value, right) => Node(Black, left, key, value, right)
 }
+```
 
-pub insert : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
-insert key value dictionary = blacken_root (insert_colored key value dictionary)
+<!-- markdownlint-enable MD013 -->
 
-fold_left : (B -> A -> B) -> B -> List<A> -> B
-fold_left combine accumulated End = accumulated
-fold_left combine accumulated More(first, rest) = {
-    let next_accumulated = combine accumulated first
-    fold_left combine next_accumulated rest
-}
+For our local result, that final case returns black `2` with black `1` and
+`3` beneath it. Every path gains the same one black form. Recoloring the
+root changes neither ordering nor key-value associations.
 
-insert_entry : Dictionary<K, V> -> (K, V) -> Dictionary<K, V> where Order<K>
-insert_entry dictionary entry = match entry {
-    (key, value) => insert key value dictionary
-}
+### Assemble and run the example
 
-pub build : List<(K, V)> -> Dictionary<K, V> where Order<K>
-build entries = fold_left insert_entry (empty ()) entries
+Starting with `Empty`, inserting `(3, 30)` creates red `3`, then blackens it.
+Inserting `(2, 20)` leaves black `3` with a red left child because no repair
+pattern fits. Inserting `(1, 10)` now selects `Less` at both nodes.
+At `Empty`, the first equation returns red `1`. The pending reconstruction
+at `2` receives that result:
 
-above_lower : Option<K> -> K -> Bool where Order<K>
-above_lower None key = true
-above_lower Some(lower) key = match compare lower key {
-    Less => true
-    Equal => false
-    Greater => false
-}
+```text
+restore Red Node(Red, Empty, 1, 10, Empty) 2 20 Empty
+=> Node(Red, Node(Red, Empty, 1, 10, Empty), 2, 20, Empty)
+```
 
-below_upper : K -> Option<K> -> Bool where Order<K>
-below_upper key None = true
-below_upper key Some(upper) = match compare key upper {
-    Less => true
-    Equal => false
-    Greater => false
-}
+Its parent color is red, so none of the four repair equations fits; the
+fallback produces the temporary red-red edge. The next pending
+reconstruction, at black `3`, receives the candidate derived for the
+left-left repair. Its first pattern selects `restore_three`, which returns
+red `2` with black `1` and `3` as children.
 
-both : Bool -> Bool -> Bool
-both true right = right
-both false right = false
+The nested recursive expression is evaluated before `restore` receives that
+child value, under Ash's strict
+[application rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application).
+The calculation therefore descends through comparisons, then reconstructs
+from the returned child toward the root. A repair can return a red root
+beneath a red ancestor; the next black grandparent handles that edge.
+Starting from a valid black-rooted dictionary ensures that any such edge
+has a black grandparent before the internal result reaches the top.
 
-valid_between : Option<K> -> Option<K> -> Dictionary<K, V> -> Bool where Order<K>
-valid_between lower upper Empty = true
-valid_between lower upper Node(ignored_color, left, key, ignored_value, right) = {
-    let respects_lower = above_lower lower key
-    let respects_upper = below_upper key upper
-    let left_valid = valid_between lower (Some(key)) left
-    let right_valid = valid_between (Some(key)) upper right
-    both respects_lower (both respects_upper (both left_valid right_valid))
-}
+The final `blacken_root` call changes the returned red `2` to black. Predict
+that black root with black children `1` and `3`, and the original values
+`10`, `20`, and `30` still paired with their keys.
 
-is_black : Dictionary<K, V> -> Bool
-is_black Empty = true
-is_black Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) = true
-is_black Node(Red, ignored_left, ignored_key, ignored_value, ignored_right) = false
+The complete client below names the three `Natural` keys explicitly and uses
+only public operations. The `impl Order` import item supplies the public
+ordering implementation, as in the preceding case.
 
-children_colors_hold : Color -> Dictionary<K, V> -> Dictionary<K, V> -> Bool
-children_colors_hold Black left right = true
-children_colors_hold Red left right = both (is_black left) (is_black right)
+<!-- markdownlint-disable MD013 -->
 
-add_black : Color -> Int -> Int
-add_black Red height = height
-add_black Black height = height + 1
+<!-- source: src/03-repair.ash -->
 
-balance_summary : Dictionary<K, V> -> BalanceCheck
-balance_summary Empty = Valid(1)
-balance_summary Node(color, left, ignored_key, ignored_value, right) = {
-    let left_result = balance_summary left
-    let right_result = balance_summary right
-    let children_hold = children_colors_hold color left right
-    match (left_result, right_result) {
-        (Invalid, ignored_right_result) => Invalid
-        (Valid(ignored_left_height), Invalid) => Invalid
-        (Valid(left_height), Valid(right_height)) => match children_hold {
-            false => Invalid
-            true => match left_height == right_height {
-                false => Invalid
-                true => Valid(add_black color left_height)
-            }
-        }
-    }
-}
+```ash
+import dictionaries (Dictionary, Natural, Zero, Next, empty, insert, impl Order)
 
-balance_holds : Dictionary<K, V> -> Bool
-balance_holds dictionary = match balance_summary dictionary {
-    Invalid => false
-    Valid(ignored_height) => true
-}
-
-root_is_black : Dictionary<K, V> -> Bool
-root_is_black Empty = true
-root_is_black Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) = true
-root_is_black Node(Red, ignored_left, ignored_key, ignored_value, ignored_right) = false
-
-pub invariant_holds : Dictionary<K, V> -> Bool where Order<K>
-invariant_holds dictionary = {
-    let ordered = valid_between None None dictionary
-    let balanced = balance_holds dictionary
-    let black_root = root_is_black dictionary
-    both ordered (both balanced black_root)
-}
-
-main : Unit -> (Bool, Bool, Bool, Bool, Bool)
+main : Unit -> Dictionary<Natural, Int>
 main () = {
     let one = Next(Zero)
     let two = Next(one)
     let three = Next(two)
-    let four = Next(three)
-    let valid = Node(Black, Empty, one, 10, Empty)
-    let invalid_order = Node(
-        Black,
-        Node(Black, Empty, one, 10, Node(Red, Empty, three, 30, Empty)),
-        two,
-        20,
-        Node(Black, Empty, four, 40, Empty)
-    )
-    let red_root = Node(Red, Empty, one, 10, Empty)
-    let red_red = Node(
-        Black,
-        Node(
-            Red,
-            Node(Red, Empty, one, 10, Empty),
-            two,
-            20,
-            Node(Red, Empty, three, 30, Empty)
-        ),
-        four,
-        40,
-        Empty
-    )
-    let uneven_black_height = Node(
-        Black,
-        Node(Black, Empty, one, 10, Empty),
-        two,
-        20,
-        Empty
-    )
-    (
-        invariant_holds valid,
-        invariant_holds invalid_order,
-        invariant_holds red_root,
-        invariant_holds red_red,
-        invariant_holds uneven_black_height
-    )
+    let after_three = insert three 30 (empty ())
+    let after_two = insert two 20 after_three
+    insert one 10 after_two
 }
 ```
+
 <!-- markdownlint-enable MD013 -->
 
-The private `main` returns the five predictions in fixture order. Run the module
-directly from `content/cases`:
+Run it from `content/cases`:
+
+```text
+ash guaranteeing-logarithmic-retrieval/src/03-repair.ash
+```
+
+<!-- markdownlint-disable MD013 -->
+
+```text
+Node(Black, Node(Black, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty)) : Dictionary<Natural, Int>
+```
+
+<!-- markdownlint-enable MD013 -->
+
+The printed tree makes each predicted association and color visible. Opacity
+prevents the client from constructing or matching these nodes; the tool can
+still display the returned value. The result checks this particular
+calculation. It does not establish preservation for every dictionary.
+
+The [complete dictionary module](src/dictionaries.ash) also contains the
+ordering and balance checks used later in the chapter. `valid_between`
+checks inherited key bounds. A separate pass obtains each child's
+black-height, rejects red-red edges and unequal counts, and a final check
+examines the root. Both passes bind both recursive child results before
+combining them. Ash's strict
+[binding rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings)
+mean that a completed validation enters both branches.
+
+The defining module's private `main` constructs five trees to distinguish
+these checks. Predict one `true` followed by four `false` values:
+
+- a valid one-node black tree;
+- a deeper key beyond an inherited ordering bound;
+- a red root whose recursive properties otherwise hold;
+- a red parent with red children whose ordering and black-height hold; and
+- two root paths with different black counts.
+
+Run the complete companion directly from `content/cases`:
 
 ```text
 ash guaranteeing-logarithmic-retrieval/src/dictionaries.ash
@@ -414,9 +621,14 @@ ash guaranteeing-logarithmic-retrieval/src/dictionaries.ash
 (true, false, false, false, false) : (Bool, Bool, Bool, Bool, Bool)
 ```
 
-The result shows that this validator distinguishes each selected malformed
-shape from the valid one. It remains an observation of five finite values, not
-a type-level proof or an exhaustive preservation argument.
+This observation distinguishes the selected malformed values from the valid
+one. The finite examples supplement the ordering and black-height
+calculations; they do not replace the argument about what repair preserves.
+
+This functional insertion strategy takes conceptual inspiration from the
+tradition evaluated in the
+[persistent red-black insertion record](../../../research/persistent-red-black-insertion.md).
+The Ash program, diagram, derivation, examples, and exercises here are original.
 
 ## Check every selected insertion prefix
 
