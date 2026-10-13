@@ -33,6 +33,13 @@ Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
 
+The [Learn path](beginning-learning-path.md) connects predictions to observed
+values and types before explaining worked traces. Rejections connect a
+contract or scope requirement to its causal labels and repair. Fresh exercise
+programs live outside canonical source trees, with required sibling modules
+kept together. Local generalization and recursive initialization continue the
+same model; the effects connection remains optional until E3.
+
 ## Rendering infrastructure outcome
 
 The first rendering outcome is verified as a local specimen in responsive HTML,

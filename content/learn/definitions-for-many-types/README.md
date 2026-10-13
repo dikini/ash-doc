@@ -28,18 +28,17 @@ The uppercase name `A` in the signature is a type parameter. Read `A -> A` as
 the body assumes that the value is an integer, a Boolean, or any other
 particular type.
 
-At the first call, `A` is `Int`, so `identity 42` has type `Int`. At the second
-call, `A` is `Bool`, so `identity true` has type `Bool`. Ash determines those
-choices from the calls; the source expression does not supply type arguments.
-
-Running the program reports:
+For each call, identify the type replacing `A` and use it consistently for
+the input and result. Predict the pair's value and type before running:
 
 ```text
 (42, true) : (Int, Bool)
 ```
 
-There is still only one `identity` definition. Each use replaces `A`
-consistently through its signature.
+The first call chooses `Int`, and the second chooses `Bool`. Ash determines
+those choices from the calls; the source expression does not supply type
+arguments. There is still one `identity` definition, with a consistent
+substitution at each use.
 
 ## Data with an element type
 
@@ -58,7 +57,8 @@ In `Box<A>`, `A` names the type of the constructor's field. Replacing `A` with
 `Int` gives `Box<Int>`, whose constructor carries an integer. Replacing it with
 `Bool` gives `Box<Bool>`, whose constructor carries a Boolean.
 
-The constructor expressions make those replacements visible:
+Predict the complete type of each constructor expression before running the
+program. These two fields account for the tuple it reports:
 
 ```text
 Box(42)     : Box<Int>
@@ -123,10 +123,16 @@ import makes `Lists.More` and `Lists.Empty` available through the alias
 `Lists`.
 
 The import and qualified names follow the module boundary from the second
-lesson. Here `A` and `B` are both `Int`: the anonymous function transforms an
-integer into an integer, and the input list contains `41`.
+lesson. Use the input list and the transformation's type to choose `A` and
+`B`. Then predict the output list by following one `More` case and its
+`Empty` rest. Run the entry beside `lists.ash`; it reports:
 
-Follow the two equations:
+```text
+More(42, Empty) : List<Int>
+```
+
+Both parameters are `Int` here. The transformation produces `42` from
+`41`, while the recursive call preserves the empty tail:
 
 ```text
 Lists.map increment (Lists.More(41, Lists.Empty))
@@ -135,11 +141,7 @@ Lists.More(42, Lists.Empty)
 ```
 
 The name `increment` in this trace stands for the anonymous function in the
-program. Running the source file reports:
-
-```text
-More(42, Empty) : List<Int>
-```
+program.
 
 This one example brings together the beginning path: a module exports data and
 a function; the data is recursive; the function follows its forms; and another
@@ -178,8 +180,9 @@ main : Unit -> List<Int>
 main () = keep Empty
 ```
 
-The signature of `keep` puts bare `List` in both an ordinary function parameter
-and result position. Run this version from `content/learn`:
+What kind does `List` have before receiving an element type, and what kind
+does each ordinary input and result position require? Run this version from
+`content/learn` to compare that mismatch with the labels:
 
 <!-- diagnostic: src/04-unsaturated-list.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -213,14 +216,17 @@ structure work for any element type, like `identity` and `map`.
 
 ## Exercise: change the element type
 
-Keep the `lists.ash` module unchanged. In the entry source, define:
+Start with fresh copies of `src/lists.ash` and `src/03-list-main.ash` beside
+each other in your scratch directory. Keep the module unchanged. In the entry,
+define:
 
 ```text
 is_42 : Int -> Bool
 is_42 number = number == 42
 ```
 
-Map `is_42` over a two-element `List<Int>`. Before running the program:
+Map `is_42` over a two-element `List<Int>` and update `main`'s result type
+to describe that transformation. Before running the program:
 
 1. decide which types replace `A` and `B` in `map`;
 2. construct the expected `List<Bool>` value; and
@@ -246,3 +252,8 @@ resulting value and type.
 The examples have grown from one integer expression to a public, recursive
 list transformation without changing that central model: definitions describe
 expressions, and expressions calculate values.
+
+The next chapter asks which local function bindings can retain this reuse
+across different input types, and which bindings hold one chosen function
+value. Continue with
+[local generalization](../generalizing-local-functions/README.md).

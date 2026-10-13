@@ -41,51 +41,77 @@ directory, reader-facing link, or publication date.
 ## Programs and calculations
 
 - **1. [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)**
-  — **verified.** Definitions, expressions, `main`, functions, function calls,
-  and composition.
+  — **verified.**
+  Predict expression values, call substitutions, and composition, then connect
+  the observation to main's entry contract.
+
 - **2. [How can one source file use another?](../../content/learn/using-another-source-file/README.md)**
-  — **verified.** Modules, complete imports, public declarations, and qualified
-  names.
+  — **verified.**
+  Trace qualified calls through public declarations and explain the
+  private-helper rejection through both source files.
+
 - **3. [How can a function use more than one input?](../../content/learn/using-more-than-one-input/README.md)**
-  — **verified.** Chained function arrows, function clauses with several
-  inputs, and chained calls.
+  — **verified.**
+  Predict each call step's value and remaining function type; connect
+  a supplied argument to the remaining arrow's requirement.
+
 - **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
-  — **verified.** `Bool`, integer equality, and exhaustive matching.
+  — **verified.**
+  Separate condition calculation from arm selection and compare possible
+  Boolean inputs with coverage before the rejection.
+
 - **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**
   — **verified.**
-  Blocks, sequential `let` bindings, and scope.
+  Predict each named intermediate value and the block result; explain
+  forward-reference rejection through sequential scope.
 
 ## Data and structure
 
 - **6. [How can several values travel together?](../../content/learn/values-travel-together/README.md)**
-  — **verified.** Tuples, tuple types, and tuple patterns.
+  — **verified.**
+  Predict field values and tuple types; compare a single pair input
+  with chained inputs and connect rejection to the wrong shape.
+
 - **7. [How can a program define its own data?](../../content/learn/defining-data/README.md)**
-  — **verified.** Nominal types and constructors.
+  — **verified.**
+  Connect constructor forms to represented information and predict
+  observations before comparing distinct nominal identities.
+
 - **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
-  — **verified.** Constructor patterns, equations or matches, and coverage.
+  — **verified.**
+  Derive patterns and equations from constructor forms; explain coverage
+  for every admitted input independently of main's chosen value.
+
 - **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
-  — **verified.** Recursive nominal data and recursive functions.
+  — **verified.**
+  Follow each finite rest field with a recursive call and use Empty's
+  result as the base; distinguish this argument from general termination.
 
 ## Functional abstraction
 
 - **10. [How can a function itself be a value?](../../content/learn/functions-as-values/README.md)**
-  — **verified.** Anonymous functions, higher-order functions, and lexical
-  capture.
+  — **verified.**
+  Trace callback calls and captured inputs separately from function
+  creation; connect a supplied value to its callable contract.
+
 - **11. [How can one definition work with many types?](../../content/learn/definitions-for-many-types/README.md)**
-  — **verified.** Type parameters, parameterized data, and rank-1 parametric
-  polymorphism.
+  — **verified.**
+  Choose substitutions for reusable functions and recursive data;
+  distinguish a type constructor from a complete value type.
 
 ## Local-function continuation
 
 The following verified chapters extend the beginning path in the same family:
 
 - **12. [When can a local function work at several types?](../../content/learn/generalizing-local-functions/README.md)**
-  — **verified.** Eligible local generalization, captured types, monomorphic
-  bindings, and the rank-1 boundary. The effect-row connection is optional
-  until the reader has studied E3.
+  — **verified.**
+  Locate independent and shared type choices at local bindings, calls,
+  captures, and ordinary parameters; keep the E3 connection optional.
+
 - **13. [How can local definitions refer to one another?](../../content/learn/defining-local-recursion/README.md)**
-  — **verified.** Annotated recursive groups, mutual scope, safe initialization,
-  and bounded observations of guarded cyclic data.
+  — **verified.**
+  Separate simultaneous scope, guarded construction, and later use;
+  predict bounded cycle observations without assuming termination.
 
 ## Maintaining the path
 

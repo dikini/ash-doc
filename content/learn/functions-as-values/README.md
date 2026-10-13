@@ -30,8 +30,10 @@ The first input to `apply_twice` has type `Int -> Int`. The parentheses in
 receiving such a function, `apply_twice` receives an integer and produces an
 integer.
 
-In the body, `transform` stands for the function supplied by the call. Since
-`main` supplies `increment`, the calculation becomes:
+In the body, `transform` stands for the function supplied by the call.
+Predict the value after its first application and after its second.
+Run the program; Ash reports `42 : Int`. Substituting the supplied function
+explains the two calls:
 
 ```text
 apply_twice increment 40
@@ -65,8 +67,9 @@ Read the expression inside the parentheses as “a function of `number` whose
 result is `number + 1`.” Ash knows that `apply_twice` requires an `Int -> Int`,
 so the parameter and result are checked as integers.
 
-The anonymous function performs the same calculation as `increment`. Applying
-it twice to `40` still produces `42`. The choice between a named and anonymous
+Predict whether replacing the named function changes either application.
+Running again produces `42 : Int`: the anonymous body adds one at each call.
+The choice between a named and anonymous
 function is about explanation: name a function when the name helps the reader
 or the calculation is reused; keep a short, local transformation beside its
 use when that is clearer.
@@ -92,7 +95,9 @@ main () = make_adder 20 22
 `fn(number) { amount + number }`. That function remembers the particular
 `amount` from the call that created it.
 
-Trace the call in two stages:
+Which input is saved when the function is created, and which arrives when it
+is called? Predict the final value before running. Ash reports `42 : Int`.
+Trace creation first:
 
 ```text
 make_adder 20
@@ -107,8 +112,10 @@ make_adder 20 22
 42
 ```
 
-This is the earlier partial-call idea written out. `make_adder 20` produces an
-`Int -> Int`; giving that function `22` produces the final integer.
+Creating the anonymous function retains `20` without doing its addition.
+The later call supplies `22`, then the body computes the result. This is the
+earlier partial-call idea written out: creation produces an `Int -> Int`,
+and its invocation produces the integer.
 
 ## A function parameter requires a function
 
@@ -124,8 +131,8 @@ main : Unit -> Int
 main () = apply_twice 2 40
 ```
 
-The value `2` has type `Int`, but the first part of the signature requires
-`Int -> Int`. Run this version from `content/learn`:
+Compare the first argument's type with the parenthesized input contract.
+Which value would need to be callable? Run this version from `content/learn`:
 
 <!-- diagnostic: src/04-not-a-function.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -154,6 +161,9 @@ inputs must itself be callable.
 
 ## Exercise: apply three times
 
+Start from a fresh copy of `src/01-named-function.ash` in your scratch
+directory. Keep `increment` and replace `apply_twice` and its call.
+
 Define:
 
 ```text
@@ -176,5 +186,5 @@ remember names from that surrounding expression.
 
 `apply_twice` works only with functions from `Int` to `Int`, even though its
 structure does not depend on integers. Our `IntList` similarly repeats a shape
-that need not be limited to integer elements. The final lesson asks how one
+that need not be limited to integer elements. The next lesson asks how one
 definition can express that independence from a particular type.

@@ -31,7 +31,8 @@ to construct a value of that type.
 The vertical bar means “or.” It separates one possible form from the next. The
 indentation keeps the alternatives together as one definition.
 
-The expression `Go` is already a complete value. Running the program reports:
+The expression `Go` is already a complete value. Predict which constructor
+and type name the tool will report, then run:
 
 ```text
 Go : Signal
@@ -64,7 +65,8 @@ The data definition gives us two cases to consider:
 supplies that field and produces a `Result`. `Missing` needs no fields and is a
 `Result` by itself.
 
-Run the program. Ash preserves both the form and the field in its report:
+Predict how the report will distinguish a found integer from an integer
+alone, then run. Ash preserves the form and field:
 
 ```text
 Found(42) : Result
@@ -90,13 +92,10 @@ main : Unit -> Score
 main () = keep_score (Count(42))
 ```
 
-Both constructors carry one integer. Nevertheless, `Score(42)` has type
-`Score`, while `Count(42)` has type `Count`. The names preserve the distinction
-the program cares about.
-
-`keep_score` requires a `Score`. Giving it `Count(42)` does not become sound
-merely because the value inside is an integer. Run this version from
-`content/learn`:
+Both constructors carry one integer. Follow the supplied constructor back
+to its type declaration, then compare that identity with the input required
+by `keep_score`. Does the shared field shape establish the required type?
+Run this version from `content/learn`:
 
 <!-- diagnostic: src/03-distinct-types.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -124,14 +123,18 @@ the value; changing only its contained integer could not repair this mismatch.
 
 ## Exercise: describe a reading
 
+Start from a fresh copy of `src/02-result-with-value.ash` in your scratch
+directory. Replace its data definition and entry result as you build the new
+representation.
+
 Define a type named `Reading` with these two forms:
 
 - `Exact(Int)` carries a measured integer;
 - `Unavailable` carries no fields.
 
-Write `main : Unit -> Reading` and construct an `Exact` reading. Run the
-program, then change only the result expression so that it constructs an
-unavailable reading. Predict how Ash will display each value and its type.
+Write `main : Unit -> Reading` and construct an `Exact` reading. Predict its
+value and type before running. Then change only the result expression to
+construct an unavailable reading; predict that observation before running too.
 
 Finish by explaining, in one sentence for each constructor, what information
 that form represents. A data definition should describe the values of the
