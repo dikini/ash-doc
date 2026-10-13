@@ -34,7 +34,7 @@ declarations.
 
 ## What do public names carry?
 
-First make `names_only_facade.ash` contain one public targeted import:
+First read `names_only_facade.ash`, which contains one public targeted import:
 
 <!-- source: src/names_only_facade.ash -->
 ```ash
@@ -105,7 +105,7 @@ make an eligible concrete obligation with no available source
 
 ## Forward the implementation route
 
-Now make `capability_facade.ash` differ by one import item:
+`capability_facade.ash` differs by one import item:
 
 <!-- source: src/capability_facade.ash -->
 ```ash
@@ -128,7 +128,9 @@ main : Unit -> Bool
 main () = same((21, 21))
 ```
 
-Run it:
+Trace the implementation route from this client through the facade to
+`equality.ash`. Which item authorizes each hop, and which complete requirement
+does the integer pair create? Predict the comparison's boolean, then run it:
 
 ```text
 ash 01-forwarded.ash
@@ -139,6 +141,9 @@ Ash reports:
 ```text
 true : Bool
 ```
+
+The result comes from the original method's `21 == 21` comparison. `same`
+receives that method and returns its answer; the facade adds no calculation.
 
 There are two explicit implementation items. The public item in the facade
 authorizes the route for later dependents. The private item in the client
@@ -153,8 +158,8 @@ validates the selected route, it
 The evaluator performs
 [no runtime interface lookup](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#generated-interface-evidence).
 
-The representation cost is one additional import hop and an explicit selector
-at each boundary that forwards or consumes the capability. The invariant is
+The source adds one import hop and an explicit selector at each boundary that
+forwards or consumes the capability. The invariant is
 visible in source: names and implementation authorization travel through
 independent items. The facade gains a stable public boundary without
 duplicating the interface, constrained function, implementation identity, or
@@ -162,19 +167,24 @@ method body.
 
 ## Practice: inspect each hop
 
-Work in copies of these sources so the observations above remain intact.
+Start each task with fresh copies in a scratch directory. For tasks one, two,
+and four, copy `equality.ash`, `capability_facade.ash`, and `01-forwarded.ash`
+together. For task three, copy `equality.ash`, `names_only_facade.ash`, and
+`02-names-only.ash` instead.
 
 1. Remove `impl Equal` only from `capability_facade.ash`, leaving the client
    selector in place. Predict whether the failure occurs while resolving the
    import or while satisfying the call, then run it. This is a different
    boundary from the lesson's name-only client.
-2. Restore the facade selector, then remove `impl Equal` only from the client.
-   Explain why a public authorization route does not become ambient evidence.
-3. Add the ordinary name `Equal` to the name-only client's import. Explain why
-   making the interface spelling available is still not implementation
-   selection.
-4. Change `pub import` to `import` in a facade copy. Identify which facts remain
-   usable inside that facade and which route is no longer public to its client.
+2. Remove `impl Equal` only from `01-forwarded.ash`. Predict whether the
+   facade's public authorization is enough for this call, then check and
+   explain the observation through the two imports.
+3. Add the ordinary name `Equal` to `02-names-only.ash`'s import. Predict what
+   the call requires and what the new item supplies, then run it and explain
+   the message's labels.
+4. Change `pub import` to `import` in `capability_facade.ash`. Identify which
+   facts remain usable inside that facade. Predict what its client can import,
+   then check your prediction.
 
 A facade forwards a capability only when its public boundary carries both the
 needed names and an implementation authorization route. A dependent still

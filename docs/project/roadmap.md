@@ -44,14 +44,8 @@ same model; the effects connection remains optional until E3.
 
 The approved review retains the eight chapters, 43 canonical sources, 17
 accepted observations, and 16 complete diagnostic captures at `diag-ash`
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Revise one chapter at a time using the
-project writing skill and existing teaching-inspiration records.
-
-Completed chapters: 1. choosing-implementation-evidence
-
-**Active outcome: chapter 2, forwarding-capability-evidence.**
-How does evidence reach a client through a facade?
-[Execution plan](../plans/2026-10-13-library-02-teaching-review.md).
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Chapters one through 2 are reviewed and
+verified. No chapter execution plan is active; chapter 3 is next.
 
 ## Curriculum direction
 
@@ -107,7 +101,8 @@ not requirements to complete every library lesson or algorithm Case.
 
 ### E1. How can a calculation request a value from its caller's context?
 
-**State: verified.** [Read the lesson](../../content/effects/requesting-a-value/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/requesting-a-value/README.md).
 
 Start from an ordinary configuration argument and introduce one effect
 operation, a request with `perform`, and a complete handler that resumes with
@@ -125,7 +120,8 @@ practice task starts from a fresh copy of the handled program.
 
 ### E2. What does an effectful function promise?
 
-**State: verified.** [Read the lesson](../../content/effects/following-effect-contracts/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/following-effect-contracts/README.md).
 
 Follow the request through several ordinary calls and a returned function.
 Distinguish a value type from computation effects, and constructing a function
@@ -142,7 +138,8 @@ of its named program.
 
 ### E3. How can a reusable function preserve its caller's effects?
 
-**State: verified.** [Read the lesson](../../content/effects/preserving-callback-effects/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/preserving-callback-effects/README.md).
 
 Revisit a higher-order function from Learn with pure and effectful callbacks.
 Introduce open rows, row parameters, and the `EffectRow` kind because the
@@ -164,7 +161,8 @@ polymorphic.
 
 ### E4. Which handler answers a request?
 
-**State: verified.** [Read the lesson](../../content/effects/choosing-a-handler/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/choosing-a-handler/README.md).
 
 Nest handlers and move a request between handled bodies and operation clauses.
 Then distinguish parameterized instances and APIs with equal spellings from
@@ -182,7 +180,8 @@ their sibling imports.
 
 ### E5. What happens when a handler resumes a calculation?
 
-**State: verified.** [Read the lesson](../../content/effects/resuming-a-calculation/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/resuming-a-calculation/README.md).
 
 Predict the operation answer, resumed calculation's result, and clause result,
 then account for each through the trace. Compare the declared operation API
@@ -195,7 +194,8 @@ small examples. Do not introduce resource ownership yet.
 
 ### E6. How can a handler stop a calculation early?
 
-**State: verified.** [Read the lesson](../../content/effects/stopping-a-calculation/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/stopping-a-calculation/README.md).
 
 Use a resource-free list calculation that can finish with an ordinary result
 or stop with a domain-defined outcome. Introduce `discard` as consumption of
@@ -210,7 +210,8 @@ Do not imply that discard is universally pure.
 
 ### E7. How can a calculation keep scoped mutable state?
 
-**State: verified.** [Read the lesson](../../content/effects/counting-with-a-cell/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/counting-with-a-cell/README.md).
 
 Predict copied reads, alias updates, and item counts, then compare a scoped
 cell with a pure accumulator. The count records every visited item, including
@@ -218,7 +219,8 @@ zero. Distinguish handle access, provider evidence, the operation interpreter,
 and scope-owned release.
 
 Before this chapter, use the existing
-[implementation-evidence lesson](../../content/libraries/choosing-implementation-evidence/README.md)
+[implementation-evidence
+lesson](../../content/libraries/choosing-implementation-evidence/README.md)
 as a bridge. Then explain how acquisition supplies the sealed provider
 relation and interpreter; ordinary implementation selection does not create
 resource authority.
@@ -229,7 +231,8 @@ ordinary completion first; escape and abandonment follow in E8 and E9.
 
 ### E8. Why can a result leave a resource scope while access cannot?
 
-**State: verified.** [Read the lesson](../../content/effects/keeping-access-in-scope/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/keeping-access-in-scope/README.md).
 
 Return a copied count, then consider returning a handle or a closure that
 retains access. Compare separate acquisitions and transport through a tuple or
@@ -243,7 +246,8 @@ released during resumed normal completion.
 
 ### E9. How can work run when a scope finishes?
 
-**State: verified.** [Read the lesson](../../content/effects/running-cleanup/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/running-cleanup/README.md).
 
 Introduce `cleanup` through normal completion: retain an action, run the body,
 invoke the action, and preserve the body's result. Use an enclosing cell to
@@ -260,7 +264,8 @@ No source-cleanup guarantee is implied for internal termination or exhaustion.
 
 ### E10. How can several scopes transform one publication?
 
-**State: verified.** [Read the lesson](../../content/effects/transforming-publications/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/transforming-publications/README.md).
 
 Qualify a declaration before substitution, establish a hook, and register
 transformations. Predict outer-to-inner order, callback context, and the chain
@@ -275,7 +280,8 @@ arbitrary removal mechanism.
 
 ### E11. How can acquiring a resource fail?
 
-**State: verified.** [Read the lesson](../../content/effects/acquiring-a-buffer/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/acquiring-a-buffer/README.md).
 
 Use a small byte calculation with a scoped native buffer. Explain acquisition
 outcomes before entering the body, checked access, and release. Choose small
@@ -290,7 +296,8 @@ cells; introduce neither source pointers nor general FFI.
 
 ### E12. How do these boundaries fit together?
 
-**State: verified.** [Read the lesson](../../content/effects/combining-effects-and-scopes/README.md).
+**State: verified.** [Read the
+lesson](../../content/effects/combining-effects-and-scopes/README.md).
 
 Derive an effectful scoring policy, scoped counting, early stopping, and
 cleanup from a pure finite-list calculation. Observe the pure result before
@@ -311,7 +318,8 @@ making effects a prerequisite for learning local function behavior.
 
 ### F1. When can a local function work at several types?
 
-**State: verified.** [Read the lesson](../../content/learn/generalizing-local-functions/README.md).
+**State: verified.** [Read the
+lesson](../../content/learn/generalizing-local-functions/README.md).
 
 Revisit anonymous functions and type parameters. Compare an eligible local
 anonymous-function binding used at different types with an annotated binding
@@ -324,7 +332,8 @@ taught in E3. Generalization does not create new interface requirements.
 
 ### F2. How can local definitions refer to one another?
 
-**State: verified.** [Read the lesson](../../content/learn/defining-local-recursion/README.md).
+**State: verified.** [Read the
+lesson](../../content/learn/defining-local-recursion/README.md).
 
 Continue from sequential bindings and global recursion. Introduce annotated
 `let rec` groups through local recursive functions, then mutual references.
@@ -339,13 +348,15 @@ cycle does not establish termination of a traversal.
 ## Continuing library abstractions
 
 These chapters continue the opening five lessons of the
-[library path](../../content/libraries/README.md). L1 through L3 follow in order.
+[library path](../../content/libraries/README.md). L1 through L3 follow in
+order.
 The effects path does not require completing this strand; later synthesis may
 reuse it after its concepts have been introduced.
 
 ### L1. How can an implementation depend on its element's behavior?
 
-**State: verified.** [Read the lesson](../../content/libraries/requiring-element-behavior/README.md).
+**State: verified.** [Read the
+lesson](../../content/libraries/requiring-element-behavior/README.md).
 
 Extend a concrete interface implementation to a nominal container whose
 implementation requires behavior for its element type. Trace prerequisite
@@ -359,7 +370,8 @@ re-teaching the existing determination lesson.
 
 ### L2. How can a wrapper give an existing representation a distinct meaning?
 
-**State: verified.** [Read the lesson](../../content/libraries/wrapping-a-representation/README.md).
+**State: verified.** [Read the
+lesson](../../content/libraries/wrapping-a-representation/README.md).
 
 Compare ordinary nominal data with a module `newtype`. Construct and match the
 wrapper explicitly, then give it interface behavior distinct from its
@@ -372,7 +384,8 @@ printed values alone do not demonstrate allocation behavior.
 
 ### L3. How can one lexical scope supply its own exact behavior?
 
-**State: verified.** [Read the lesson](../../content/libraries/supplying-scoped-evidence/README.md).
+**State: verified.** [Read the
+lesson](../../content/libraries/supplying-scoped-evidence/README.md).
 
 Introduce a local `newtype`, first by consuming it within its scope and then
 by returning an identity-free result. Supply methods through sequential
@@ -398,13 +411,25 @@ The intended order and current state are:
 <!-- markdownlint-disable MD013 -->
 | Case | Concept | State |
 | --- | --- | --- |
-| [Number tree leaves](../../content/cases/numbering-tree-leaves/README.md) | Replace explicit counter threading with `Fresh.next` and scoped state. | Verified |
-| [Measure tree search](../../content/cases/measuring-tree-search/README.md) | Count comparisons through a handler while keeping ordering fixed. | Verified |
-| [Supply order prices](../../content/cases/supplying-order-prices/README.md) | Select regular, promotional, or unavailable dependency responses. | Verified |
-| [Run a scripted session](../../content/cases/running-a-scripted-session/README.md) | Keep domain transitions pure; supply commands and collect replies. | Verified |
-| [Bound search work](../../content/cases/bounding-search-work/README.md) | Request before expansion; distinguish exhaustion from absence. | Verified |
-| [Compress parent paths](../../content/cases/compressing-parent-paths/README.md) | Use a scoped parent buffer; compare repeated lookup reads and writes. | Verified |
-| [Read a bounded message](../../content/cases/reading-a-bounded-message/README.md) | Decode a byte length prefix through a checked cursor. | Verified |
+| [Number tree leaves](../../content/cases/numbering-tree-leaves/README.md) |
+Replace explicit counter threading with `Fresh.next` and scoped state. |
+Verified |
+| [Measure tree search](../../content/cases/measuring-tree-search/README.md) |
+Count comparisons through a handler while keeping ordering fixed. | Verified |
+| [Supply order prices](../../content/cases/supplying-order-prices/README.md)
+| Select regular, promotional, or unavailable dependency responses. | Verified
+|
+| [Run a scripted
+session](../../content/cases/running-a-scripted-session/README.md) | Keep
+domain transitions pure; supply commands and collect replies. | Verified |
+| [Bound search work](../../content/cases/bounding-search-work/README.md) |
+Request before expansion; distinguish exhaustion from absence. | Verified |
+| [Compress parent
+paths](../../content/cases/compressing-parent-paths/README.md) | Use a scoped
+parent buffer; compare repeated lookup reads and writes. | Verified |
+| [Read a bounded
+message](../../content/cases/reading-a-bounded-message/README.md) | Decode a
+byte length prefix through a checked cursor. | Verified |
 
 <!-- markdownlint-enable MD013 -->
 
@@ -425,7 +450,8 @@ claims, and asymptotic analysis outside these examples.
 
 ## Hook pipeline Case
 
-**Verified.** [Who controls the next pipeline step?](../../content/cases/controlling-a-hook-pipeline/README.md)
+**Verified.** [Who controls the next pipeline
+step?](../../content/cases/controlling-a-hook-pipeline/README.md)
 combines three registered transformations with ordinary policy and trace
 operations. Separate entries show permitted processing, rejection before later
 stages, and omitted enrichment. The source, transformations, and consumer form
