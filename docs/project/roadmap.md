@@ -33,6 +33,16 @@ Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
 
+## Rendering infrastructure outcome
+
+The approved first rendering outcome is a local specimen in responsive HTML,
+reflowable EPUB 3, and a book PDF. It keeps existing verified Markdown and
+executable evidence authoritative, uses Quarto Book and Typst, and evaluates
+the existing railroad and sequent renderers separately from Mermaid sequence
+diagrams. The [temporary execution plan](../plans/2026-10-13-rendering-specimen.md)
+owns its selected sources, verification, and replacement condition. This work
+does not publish the edition or change its Ash target.
+
 ## Curriculum direction
 
 The next learning stage asks: how can a reader design a calculation that
