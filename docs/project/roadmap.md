@@ -49,6 +49,10 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
+The approved [prefix-observation revision](../plans/2026-10-13-calculating-prefix-observations.md)
+continues the search-tree teaching trial through data, operation types,
+recursive program derivation, and checked smaller observations.
+
 The [search-tree teaching trial](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
 is verified in all four outputs. It develops colored insertion from its
 problem and example, data, operation types, and worked calculations, proceeding
