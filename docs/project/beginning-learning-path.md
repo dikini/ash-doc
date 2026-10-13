@@ -46,8 +46,10 @@ directory, reader-facing link, or publication date.
   the observation to main's entry contract.
 
 - **2. [How can one source file use another?](../../content/learn/using-another-source-file/README.md)**
-  — **verified.** Modules, complete imports, public declarations, and qualified
-  names.
+  — **verified.**
+  Trace qualified calls through public declarations and explain the
+  private-helper rejection through both source files.
+
 - **3. [How can a function use more than one input?](../../content/learn/using-more-than-one-input/README.md)**
   — **verified.** Chained function arrows, function clauses with several
   inputs, and chained calls.

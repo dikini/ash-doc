@@ -1,7 +1,7 @@
 # How can one source file use another?
 
 The programs in the first chapter kept every definition in one source file.
-That made each calculation easy to see as a whole. As a program grows, some
+That kept each calculation in view as a whole. As a program grows, some
 definitions begin to belong together: arithmetic functions form one group,
 data-handling functions another, and `main` connects them for the result we
 want.
@@ -31,7 +31,7 @@ answer () = double 21
 ```
 
 Both definitions work as they did in the first chapter. `double` takes an
-integer and doubles it. `answer` calls `double` and produces `42`. The new word
+integer and doubles it. `answer` calls `double`. The new word
 is `pub`, short for *public*. It says that another source file may use
 `answer`.
 
@@ -50,7 +50,8 @@ same directory; an import path leaves off the `.ash` extension. The name after
 `as` is the alias used in this file. We chose `Arithmetic`, so the call writes
 `Arithmetic.answer`.
 
-Run the entry file from the `calculation` directory:
+Follow the qualified call into `arithmetic.ash`, then use its definition of
+`double` to predict the result. Run the entry file from `calculation`:
 
 ```text
 ash main.ash
@@ -93,8 +94,8 @@ main : Unit -> Int
 main () = Arithmetic.double 21
 ```
 
-Run the saved version from `content/learn` to see which declaration the call
-cannot access:
+Compare the requested name with the declarations carrying `pub`. Does this
+import make that call available? Run the saved version from `content/learn`:
 
 <!-- diagnostic: src/02-private-main.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -115,10 +116,9 @@ The message names `double` as private. Its first label marks the inaccessible
 member in the call; the second takes us to `double`'s declaration in
 `arithmetic.ash`, where there is no `pub`. The import succeeded, but it did not
 make that helper public. Restore `Arithmetic.answer ()` to use the module's
-public calculation. Adding `pub` to every definition
-would remove that boundary, but it would also make the distinction useless.
-Instead, make public the definitions another module needs and leave supporting
-calculations inside their own module.
+public calculation. Make public the definitions another module needs and
+leave supporting calculations inside their own module. The
+[visibility rules][visibility] preserve that distinction across an import.
 
 > **With a learning assistant:** If an imported name is rejected, show the
 > assistant both source files and the complete diagnostic. Ask it to connect
@@ -127,7 +127,8 @@ calculations inside their own module.
 
 ## Exercise: move `square`
 
-Make a new two-file program:
+Make a new two-file program in a fresh scratch directory, with
+`arithmetic.ash` and `main.ash` beside each other:
 
 1. In `arithmetic.ash`, define a public function `square : Int -> Int` that
    multiplies its input by itself.
@@ -136,8 +137,6 @@ Make a new two-file program:
 4. Predict the value and type, then run `ash main.ash`.
 5. Remove `pub` from `square`, run the program once more, and explain the
    change in terms of the two modules.
-
-With `square` public, Ash reports `36 : Int`.
 
 ## One program, two files
 
@@ -149,3 +148,5 @@ module.
 
 Our functions still take one input each. The next chapter asks what the arrows
 and calls mean when a function needs more than one input.
+
+[visibility]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations
