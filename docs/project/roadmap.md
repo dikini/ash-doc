@@ -49,6 +49,12 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
+The approved [colored insertion teaching trial](../plans/2026-10-13-calculating-colored-insertion.md)
+uses the rendered search-tree lesson to develop the program from its problem,
+data, operation types, and worked calculations. It preserves the canonical
+algorithm and retains comprehensive observations while deriving the insertion
+definitions beside their explanations.
+
 The first rendering outcome is verified as a local specimen in responsive HTML,
 reflowable EPUB 3, and two PDF print variants. It keeps existing verified
 Markdown and executable evidence authoritative, uses Quarto Book and Typst,
