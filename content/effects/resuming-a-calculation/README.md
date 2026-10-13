@@ -37,36 +37,42 @@ main () = handle {
 }
 ```
 
-The first request needs an integer. `resume 2` supplies that integer, allowing
-the body to bind `bonus` and continue to its next request. The `enabled` clause
-then supplies `true`. The match computes `42`.
-
-That `42` becomes the result of the bonus clause's `resume 2`. The clause binds
-it to `result`, adds `100`, and returns `142` as the handler's result. Run the
-file from this lesson's `src` directory:
+The first request needs an integer; `resume 2` supplies it and continues at
+the binding of `bonus`. Follow that work through the `enabled` request and
+the match. Before running, predict what value returns to `result`, then what
+the bonus clause returns after adding `100`. Run the file from this lesson's
+`src` directory:
 
 ```text
 $ ash 01-resumed-result.ash
 142 : Int
 ```
 
-There are three values to distinguish. The bonus operation receives the
-answer `2`; the suspended body produces `42`; the clause produces `142` after
-its remaining work. For the other operation, `resume true` takes a Boolean
-answer but returns an integer result. The operation signature controls the
-answer supplied to `resume`. The handler's result contract controls the
-resumed computation and the clause result.
+The `enabled` clause supplies `true`, so the match computes `40 + 2`.
+That result returns to the bonus clause, which still has its addition to do:
+
+| Role | Value | Where it goes |
+| --- | --- | --- |
+| Answer supplied to the bonus operation | `2` | The body's `bonus` binding |
+| Result of the resumed calculation | `42` | The clause's `result` binding |
+| Final result of the bonus clause | `142` | The enclosing calculation |
+
+For the other operation, `resume true` takes a Boolean answer but returns an
+integer result. The operation signature controls the answer supplied to
+`resume`. The handler's result contract controls the resumed computation and
+the clause result.
 
 Resumption continues after the request. It does not start the body again or
 repeat work before that request. Handlers in the suspended segment are
 restored as the work continues, which is why the later `enabled` request still
-uses the `Round` handler.
+uses the `Round` handler. The [handler evaluation rules][evaluation] describe
+this return to the clause after the resumed work finishes.
 
 ## Cover the whole operation API
 
 A handler supplies exactly one clause for every operation in its target API.
-`02-missing-operation.ash` omits `enabled`, even though this particular body
-only requests `bonus`:
+`02-missing-operation.ash` uses a body that only requests `bonus`. Compare the
+declared operations with the clauses: which requirement remains uncovered?
 
 <!-- source: src/02-missing-operation.ash -->
 ```ash
@@ -80,6 +86,9 @@ main () = handle (perform Round.bonus ()) with Round {
     bonus ignored => resume 2
 }
 ```
+
+Check that comparison against the diagnostic:
+
 <!-- diagnostic: src/02-missing-operation.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -118,6 +127,10 @@ main () = handle (perform Bonus.amount ()) with Bonus {
     amount ignored => 2
 }
 ```
+
+At the end of this clause, has the waiting calculation received an answer?
+Identify what remains unconsumed before reading the message:
+
 <!-- diagnostic: src/03-missing-resume.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -134,8 +147,8 @@ The label points at the clause that finishes while leaving its continuation
 unused. Replace its `2` with `resume 2` to continue the waiting calculation.
 The message also names safe discard, which the next lesson will introduce.
 
-Once resumed, the same continuation cannot be used again. In
-`04-repeated-resume.ash`, the first use has already consumed it:
+Once resumed, the same continuation cannot be used again. Trace its state
+through the two uses in `04-repeated-resume.ash`:
 
 <!-- source: src/04-repeated-resume.ash -->
 ```ash
@@ -151,6 +164,9 @@ main () = handle (perform Bonus.amount ()) with Bonus {
     }
 }
 ```
+
+Which use encounters a continuation that has already been consumed?
+
 <!-- diagnostic: src/04-repeated-resume.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -199,16 +215,18 @@ main () = handle {
 }
 ```
 
-Only one branch runs. The selected branch consumes the continuation and the
-clause then adds `100` to its result:
+Only one branch runs. Choose that branch from the condition, then predict
+what returns from its resumption and what the clause adds afterward:
 
 ```text
 $ ash 06-branching-resume.ash
 142 : Int
 ```
 
-Changing the condition chooses a different answer; it does not permit both
-branches to run against the same continuation. This check does not prove
+The `true` branch supplies `2`, so the waiting body returns `42` and the
+clause returns `142`, as before. Changing the condition chooses a different
+answer; it does not permit both branches to run against the same continuation.
+This check does not prove
 that every program terminates. It governs paths that normally finish.
 
 ## Keep the right to resume in its clause
@@ -232,6 +250,10 @@ main () = handle (perform Bonus.amount ()) with Bonus {
     }
 }
 ```
+
+The right to resume belongs to the operation clause. Which nested scope would
+have to retain that right for `later` to work?
+
 <!-- diagnostic: src/05-captured-resume.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -256,12 +278,16 @@ The [effect rules][effects] define these consumption and scope restrictions.
 
 ## Practice: distinguish answer from result
 
-1. Change the bonus answer in `01-resumed-result.ash`. Predict both the
+For each task, make a fresh copy of the named program in a scratch directory
+outside this lesson's `src` tree. Predict the result, then run that copy from
+its directory.
+
+1. Start from `01-resumed-result.ash` and change the bonus answer. Predict the
    resumed body's result and the final result after adding `100`.
-2. Change the `enabled` answer to `false`. Trace what returns to the bonus
-   clause before running the program.
-3. Change the branch condition in `06-branching-resume.ash`. Explain why each
-   alternative still consumes the continuation exactly once.
+2. Start again from `01-resumed-result.ash` and change the `enabled` answer to
+   `false`. Trace what returns to the bonus clause before running the program.
+3. Start from `06-branching-resume.ash` and change the branch condition.
+   Explain why each alternative still consumes the continuation exactly once.
 
 A clause supplies an operation answer when it resumes, receives the result of
 the waiting calculation, and may then finish its own work. Sometimes we want
@@ -269,3 +295,4 @@ to stop the waiting calculation instead. The next lesson develops that choice
 without introducing resource ownership yet.
 
 [effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
+[evaluation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#effect-handlers-and-completion

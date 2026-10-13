@@ -164,10 +164,9 @@ their sibling imports.
 
 **State: verified.** [Read the lesson](../../content/effects/resuming-a-calculation/README.md).
 
-Trace the work before a request, the suspended remainder, and the result of
-`resume`. Extend the API to several operations and explain complete clause
-coverage. Separate the operation's result from the handled calculation's
-result.
+Predict the operation answer, resumed calculation's result, and clause result,
+then account for each through the trace. Compare the declared operation API
+with handler clauses before examining incomplete coverage.
 
 The reader can explain the continuation's scope and its consumption exactly
 once on each normally completing clause path. Compare a valid resumption with
@@ -486,13 +485,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E5 teaching review.** Answer how readers cross the
-continuation consumption and clause scope boundary using the existing lesson.
-The approved prose and exercise review targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
-[execution plan](../plans/2026-10-13-resumption-teaching-review.md) owns this
-chapter; close it before advancing to E6.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
