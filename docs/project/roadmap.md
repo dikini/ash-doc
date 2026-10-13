@@ -40,22 +40,12 @@ programs live outside canonical source trees, with required sibling modules
 kept together. Local generalization and recursive initialization continue the
 same model; the effects connection remains optional until E3.
 
-## Library teaching review
-
-The approved review retains the eight chapters, 43 canonical sources, 17
-accepted observations, and 16 complete diagnostic captures at `diag-ash`
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Revise one chapter at a time using
-the
-project writing skill and existing teaching-inspiration records.
-
-Completed chapters: 1. choosing-implementation-evidence; 2.
-forwarding-capability-evidence; 3. accepting-type-constructors; 4.
-giving-method-local-type-parameters; 5. determining-interface-results; 6.
-requiring-element-behavior; 7. wrapping-a-representation
-
-**Active outcome: chapter 8, supplying-scoped-evidence.**
-What can leave a scope that owns a nominal identity and exact methods?
-[Execution plan](../plans/2026-10-13-library-08-teaching-review.md).
+The [library path](../../content/libraries/README.md) now asks for value,
+type, and evidence predictions before its worked answers. Rejections connect
+complete requirements, declaration access, and lexical scope to causal labels
+and repairs. Every practice task names a fresh baseline; sibling modules stay
+together outside canonical source trees. All eight chapters retain their
+original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Curriculum direction
 

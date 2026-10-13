@@ -28,13 +28,17 @@ main () = {
 
 The representation is `Int`, as for the module newtype in the preceding
 chapter. Construction and the pattern explicitly cross that boundary. The
-block returns an integer, so its result contains no local type identity.
-Run from this lesson's `src` directory:
+local identity must stay out of the block's outward type. Follow the pattern
+and arithmetic to predict the returned amount, then identify what type leaves
+the block. Run from this lesson's `src` directory:
 
 ```text
 $ ash 01-local-value.ash
 42 : Int
 ```
+
+The pattern unwraps `40`, and the body adds two to return `42 : Int`. No
+`Points` identity occurs in that result type.
 
 A local declaration is sequential: its nominal type and constructor enter the
 following scope together. It has no `pub` form and cannot become a recursive
@@ -64,13 +68,15 @@ main () = make_adder 40 2
 
 The result of `make_adder 40` has type `Int -> Int`. The returned function
 captures `offset` and unwraps it when called, but its parameter and result do
-not expose `Offset`. Calling it with two gives:
+not expose `Offset`. Predict the amount retained when `make_adder` receives
+`40`, then the result when that returned function receives `2`. Run it:
 
 ```text
 $ ash 02-returned-closure.ash
 42 : Int
 ```
 
+The closure unwraps its saved `40` and adds its argument `2`, producing `42`.
 This is an ordinary retained value and closure. The local newtype has no
 release obligation. Its representation may remain in a function environment
 when the function's outward type is independent of the local nominal identity.
@@ -88,6 +94,10 @@ main () = {
     0
 }
 ```
+
+Compare the inner block's result type with the outward function type of
+`make_adder`. Which expression exposes a local identity beyond its declaration's
+scope here? Predict whether leaving `escaped` unused changes that boundary:
 
 <!-- diagnostic: src/04-identity-escape.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -145,15 +155,20 @@ implementation head. Its `read` method unwraps a `Token` and adds the preceding
 `offset` value. The source becomes available only after every supplied method
 has checked; `forward token` is in that following remainder.
 
-At that call, the token fixes the selection key. The exact `Read<Token, Int>`
-source determines the result as `Int` and supplies the required method.
-Inside `forward`, its ordinary declared requirement carries that method to
-`read`. The global helper does not need to name the local type:
+Identify the complete requirement at `forward token` and the preceding
+declaration that supplies it. Which ordinary value does the supplied method
+capture? Follow its calculation to predict the result before running it:
 
 ```text
 $ ash 03-exact-method.ash
 42 : Int
 ```
+
+The method unwraps `40` and adds the captured `offset`, which is two. At the
+call, the token fixes the selection key. The exact `Read<Token, Int>` source
+determines the result as `Int` and supplies the required method. Inside
+`forward`, its ordinary declared requirement carries that method to `read`.
+The global helper uses the supplied behavior without naming the local type.
 
 This retains the earlier library model: a generic helper declares its
 requirement, and the caller supplies evidence. `with` adds a lexical source
@@ -168,8 +183,7 @@ dependent result does not.
 
 ## A module nominal does not establish a local key
 
-Move `Token` outside the block and the same evidence declaration no longer
-qualifies:
+Compare the earlier local declaration with a module-level `Token`:
 
 <!-- source: src/05-no-local-key.ash -->
 ```ash
@@ -190,6 +204,10 @@ main () = {
     forward (Token(42))
 }
 ```
+
+Identify the selection key in `Read<Token, Int>`, then locate the declaration
+that owns its nominal identity. Does that declaration supply an active local
+nominal? Predict which source occurrence the checker will mark:
 
 <!-- diagnostic: src/05-no-local-key.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -216,7 +234,8 @@ matching concrete implementations; it does not rewrite those contracts.
 
 ## Availability follows the occurrence's source scope
 
-A method used before a `with` cannot borrow evidence from later in the block:
+The evidence source applies to the following remainder, including function
+bodies defined there. Compare that scope with this call's position:
 
 <!-- source: src/06-before-evidence.ash -->
 ```ash
@@ -238,6 +257,9 @@ main () = {
     before
 }
 ```
+
+At `forward token`, which evidence declarations are already available? Predict
+whether the later `with` can supply this occurrence, then run the source:
 
 <!-- diagnostic: src/06-before-evidence.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -262,9 +284,12 @@ reason: constraint.unsatisfied
 <!-- markdownlint-enable MD013 -->
 
 The call in `before` is outside the following remainder. Its labels lead back
-to `forward`'s required relation. Moving the evidence declaration before that
-call supplies the missing source. The compiler preserves the original lexical
-scope of an occurrence even when it finishes inference later.
+to `forward`'s required relation. The final `before` expression and `main`'s
+`Int` result annotation fix the complete requirement to `Read<Token, Int>`.
+What remains missing is evidence available at the call's original position.
+Moving the evidence declaration before that call supplies the source. The
+compiler preserves an occurrence's original lexical scope even when it
+finishes inference later.
 
 Supplied method bodies can capture preceding ordinary values and use preceding
 evidence. The new source is not available inside its own supplied bodies, so
@@ -297,6 +322,10 @@ main () = {
     forward (Token(40))
 }
 ```
+
+Mark the remainder governed by each `with`. Which earlier source remains
+active when the checker reaches the second declaration? Compare their keys
+to predict which two locations the checker needs to relate:
 
 <!-- diagnostic: src/07-duplicate-evidence.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -347,14 +376,18 @@ main () = {
 }
 ```
 
+Follow each call using only the `with` source active in its block. Predict the
+pair's values and explain why one block's method cannot change the other:
+
 ```text
 $ ash 08-disjoint-scopes.ash
 (41, 42) : (Int, Int)
 ```
 
-`Token` remains in scope around both calculations, but each `with` applies
-only inside its own following remainder. The first adds one and the second
-adds two. Neither source becomes available to a new call after its block.
+The first method computes `40 + 1` and the second computes `40 + 2`, giving
+`(41, 42)`. `Token` remains in scope around both calculations, but each `with`
+applies only inside its own following remainder. Neither source becomes
+available to a new call after its block.
 
 For a determined interface, simultaneously active equal keys with different
 dependent result types also conflict. Distinct local declarations remain
@@ -391,14 +424,20 @@ main : Unit -> Int
 main () = make_reader 40 ()
 ```
 
-The returned function's body occurs after `with`, so its call selects the exact
-method there. The checked closure retains the method function, its `offset`
-capture, and the local token needed for the call. It exposes only `Unit -> Int`:
+The function body occurs in the remainder after `with`. Use that source scope
+to identify the method selected for `forward token`, then trace the values it
+needs when called. Predict the result and check whether the returned
+`Unit -> Int` type exposes `Token`:
 
 ```text
 $ ash 09-retained-method.ash
 42 : Int
 ```
+
+The selected method adds its captured two to the token's saved `40`, producing
+`42`. The checked closure retains the method function, its `offset` capture,
+and the local token needed for the call. Its outward type exposes only
+`Unit -> Int`.
 
 After `make_reader` returns, calling this closure uses those retained ordinary
 functions and values. It does not search the caller's block for evidence or
@@ -412,20 +451,29 @@ Those separate obligations belong to the effects and resources path.
 
 ## Practice: trace scope and capture
 
+Start each task with a fresh copy in a scratch directory: use
+`03-exact-method.ash` for task one, `08-disjoint-scopes.ash` for task two, and
+`09-retained-method.ash` for tasks three and four.
+
 1. Change the `offset` in `03-exact-method.ash`. Predict the result and explain
    how `forward` receives behavior without knowing that local binding.
 2. In `08-disjoint-scopes.ash`, make the second method multiply by two.
-   Explain why this does not change the first calculation's selected method.
+   Predict both fields before running it, then explain which source supplies
+   each method.
 3. Construct two readers with different inputs using `make_reader`, then call
-   both. Predict which ordinary values each closure retains.
-4. Explain why returning the local constructor from `make_reader` would expose
-   an identity while returning its current `Unit -> Int` function does not.
+   both in `main` and update its result annotation. Predict the pair and which
+   ordinary values each closure retains, then check the observation.
+4. Reason about returning the local constructor from `make_reader`. Write its
+   outward function type on paper and identify any local identity it contains.
+   Compare that boundary with the current `Unit -> Int` result.
 
 A local nominal gives one scope a distinct type, and exact evidence gives its
 following code a specific method contract. Identity-free results and checked
 closures can leave while new evidence selection remains lexical. Together
 with generic implementations and module wrappers, these tools let a library
 state which behavior it needs and where that behavior comes from.
+Continue with the [algorithm and effect Cases](../../cases/README.md) to use
+explicit capabilities while deriving calculations, invariants, and costs.
 
 [nominals]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#local-nominal-scope
 [evidence]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-exact-evidence

@@ -214,7 +214,7 @@ component must equal or be a strict syntactic part of the corresponding head
 component, and at least one must be strictly smaller. This rule checks
 structural progress in the requirement, not the method's calculation.
 
-The following declaration repeats its head in its prerequisite:
+Consider keeping the box type in the prerequisite:
 
 <!-- source: src/04-no-decrease.ash -->
 ```ash
@@ -252,13 +252,13 @@ reason: impl.prerequisite-not-decreasing
 
 The labels compare `Box<A>` with the unchanged `Box<A>` prerequisite. The
 prerequisite repeats the head instead of removing a constructor layer. In the
-working implementation,
-`A` is a strict part of `Box<A>`, so the prerequisite makes structural progress.
+working implementation, `A` is a strict part of `Box<A>`, so the prerequisite
+makes structural progress.
 Use `where Equal<A>` and the unwrapping method from `boxes.ash`.
 
 This admission rule applies to nonground prerequisites: those still containing
-parameters. A fully concrete
-prerequisite is exempt from this decrease comparison, but evidence selection
+parameters. A fully concrete prerequisite is exempt from this decrease
+comparison, but evidence selection
 still detects cycles of complete requirements. The rule does not prove that
 arbitrary method bodies terminate.
 

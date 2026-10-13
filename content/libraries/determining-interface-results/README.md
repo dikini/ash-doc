@@ -69,8 +69,8 @@ Ash reports:
 42 : Int
 ```
 
-The method body returns the integer `42`, as its `Key -> Int` signature
-promises. `Result` is `Unit` in the implementation's interface application;
+The method body returns `42`. Its `Key -> Int` signature promises an integer
+result. `Result` is `Unit` in the implementation's interface application;
 that type is not the method's returned value type.
 
 The argument `true` fixes `Key = Bool` without guessing. The selected source

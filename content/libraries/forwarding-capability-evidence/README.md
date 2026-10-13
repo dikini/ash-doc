@@ -159,9 +159,9 @@ The evaluator performs
 [no runtime interface lookup](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#generated-interface-evidence).
 
 The source adds one import hop and an explicit selector at each boundary that
-forwards or consumes the capability. The invariant is
-visible in source: names and implementation authorization travel through
-independent items. The facade gains a stable public boundary without
+forwards or consumes the capability. The invariant is visible in source:
+names and implementation authorization travel through independent items. The
+facade gains a stable public boundary without
 duplicating the interface, constrained function, implementation identity, or
 method body.
 

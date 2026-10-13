@@ -140,9 +140,9 @@ $ ash 04-distinct-behavior.ash
 
 The raw integer method returns `4`; the points method computes `4 * 10` and
 returns `40`. The two arguments select different complete requirements:
-`Reward<Int>` and
-`Reward<Points>`. Their representations do not merge their implementation
-identities. Unlike the overlapping integer-box rules in the previous lesson,
+`Reward<Int>` and `Reward<Points>`. Their representations do not merge their
+implementation identities. Unlike the overlapping integer-box rules in the
+previous lesson,
 these two nominal keys cannot match one another.
 
 Now remove only the points implementation:
@@ -306,9 +306,9 @@ $ ash 08-parameterized-wrapper.ash
 
 Each pattern exposes its representation and `unwrap` returns that value, so
 the pair retains the integer and boolean. `Recorded<Int>` and `Recorded<Bool>`
-are different applications of the same
-nominal constructor. Each `unwrap` use substitutes one element type through
-both its parameter and result. This follows the same parameter rules used by
+are different applications of the same nominal constructor. Each `unwrap` use
+substitutes one element type through both its parameter and result. This follows
+the same parameter rules used by
 ordinary data; it adds no implicit conversion between the two applications.
 
 ## Account for the wrapper's cost
