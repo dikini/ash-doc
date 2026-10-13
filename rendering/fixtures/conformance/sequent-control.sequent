@@ -1,0 +1,4 @@
+K-Value-Type :=
+    DELTA; OMEGA; XI |- monotype => Type
+    ===>
+    DELTA; OMEGA; XI |- value monotype ok

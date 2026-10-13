@@ -1,0 +1,3 @@
+Environment-Notation :=
+    ===>
+    GAMMA; DELTA; OMEGA; XI; IOTA; PHI; MU |- expression ⇒ type
