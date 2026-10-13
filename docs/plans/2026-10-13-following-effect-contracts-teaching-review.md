@@ -46,8 +46,12 @@ handler selection, and detailed continuation control in their later lessons.
 From the ash-doc worktree:
 
 ```sh
-env RUSTC_WRAPPER= bash content/effects/following-effect-contracts/checks/verify.sh /path/to/clean/diag-ash
-markdownlint content/effects/following-effect-contracts/README.md docs/project/roadmap.md docs/plans/README.md
+env RUSTC_WRAPPER= bash \
+    content/effects/following-effect-contracts/checks/verify.sh \
+    /path/to/clean/diag-ash
+markdownlint \
+    content/effects/following-effect-contracts/README.md \
+    docs/project/roadmap.md docs/plans/README.md
 git diff --check
 git status --short
 ```
