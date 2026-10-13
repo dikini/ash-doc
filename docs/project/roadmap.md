@@ -120,6 +120,13 @@ establish reader comprehension or review every chapter's rendered layout.
 
 ## Curriculum direction
 
+The active [complete review-book plan][whole-book-plan] extends the local
+renderer to all 53 verified lessons in Learn → Libraries → Effects → Cases
+order, with HTML, EPUB 3, and both PDF variants. The specimen remains a separate
+regression build.
+
+[whole-book-plan]: ../plans/2026-10-13-whole-book-review.md
+
 The next learning stage asks: how can a reader design a calculation that
 requests behavior, explain the effects in its contract, and keep control and
 resource access within their scopes?
