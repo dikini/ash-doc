@@ -272,13 +272,15 @@ cells; introduce neither source pointers nor general FFI.
 
 **State: verified.** [Read the lesson](../../content/effects/combining-effects-and-scopes/README.md).
 
-Compose an effectful scoring policy, scoped counting, early stopping, and
-cleanup in one complete finite-list calculation. Derive it from earlier
-versions rather than presenting a finished application without explanation.
+Derive an effectful scoring policy, scoped counting, early stopping, and
+cleanup from a pure finite-list calculation. Observe the pure result before
+the combined module, then predict score, visits, and closing actions separately
+for normal, stopped, changed-policy, and empty inputs.
 
 The reader can account for the result, outward row, handler selection,
-continuation consumption, cleanup order, and resource lifetimes. Use one
-boundary change at a time to challenge that account. Hooks and buffers are
+continuation consumption, cleanup order, and resource lifetimes, including the
+entry's remaining policy requirement. Practice copies keep the entry and its
+sibling module together outside canonical sources. Hooks and buffers are
 extensions only where the problem creates a reason to use them; the final
 example need not contain every syntax form.
 
@@ -493,13 +495,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E12 teaching review.** Revise the existing chapter
-for its local interpretations and the residual entry requirement boundary.
-The approved prose and exercise review targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
-[execution plan](../plans/2026-10-13-effects-composition-teaching-review.md)
-owns this chapter; complete and verify it, then close the approved review.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and

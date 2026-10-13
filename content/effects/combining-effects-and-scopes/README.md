@@ -31,8 +31,17 @@ main () = sum_scores (Scoring.Item(20, Scoring.Item(22, Scoring.End)), 0, 2)
 ```
 
 For each nonzero item, add its value and the bonus to the accumulator. At zero,
-return `Stopped total`; at `End`, return `Finished total`. With values `20, 22`
-and bonus `2`, the completed score is `46`.
+return `Stopped total`; at `End`, return `Finished total`. Trace the two items
+with bonus `2` and predict the outcome. Run from this lesson's `src` directory,
+where the sibling module already supplies the data declarations:
+
+```text
+$ ash 00-pure-calculation.ash
+Finished(46) : Outcome
+```
+
+The two contributions are `20 + 2` and `22 + 2`. Their total reaches
+`End`, which constructs `Finished(46)`.
 
 The effectful version keeps that arithmetic and stopping point. It changes how
 the bonus is obtained, makes visits observable, and gives scope completion its
@@ -40,7 +49,13 @@ own action.
 
 ## Separate the traversal from its interpretations
 
-`scoring.ash` contains the shared calculation used by all the entry programs:
+Replace the bonus argument with a public request that each entry can answer.
+To count visits without passing cell access into the traversal, add a private
+`Visit` request before each item. Keep E6's stop request at zero. A surrounding
+`run` function will interpret visits and stops, while a cleanup action records
+the processing scope's completion.
+
+`scoring.ash` contains those parts and the data declarations used above:
 
 <!-- source: src/scoring.ash -->
 ```ash
@@ -114,24 +129,9 @@ and the visit handler. Both cell owners surround the stop handler, so their
 access remains live when discard invokes the action. The returned tuple
 contains an ordinary outcome and two copied integers; it exports no handles.
 
-Read the outward contracts from the inside out:
-
-| Boundary | Requirements still needed outside it |
-| --- | --- |
-| `sum_scores` | `Bonus`, `Stop`, and `Visit` |
-| The visit handler | `Bonus`, `Stop`, and access to `visited` |
-| The cleanup and stop handler | `Bonus` and access to the two live cells |
-| The two resource scopes | `Bonus` |
-| The entry's bonus handler | None |
-
-Cleanup's cell access contributes to the effects of closing, including when
-closing happens during discard. The resource scopes supply those exact cell
-interpreters. `Bonus` remains public because the entry chooses its policy;
-`Stop` and `Visit` remain private implementation choices.
-
 ## Run the completed calculation
 
-Save `01-finished.ash` beside the module. It supplies a bonus of two:
+`01-finished.ash` sits beside the module and supplies a bonus of two:
 
 <!-- source: src/01-finished.ash -->
 ```ash
@@ -146,24 +146,36 @@ main () = {
 }
 ```
 
-The first visit increments the count before the first bonus request. Resuming
-that request continues the suspended work; it does not repeat the visit. The
-same happens for the second item. At `End`, the score is `46` and the count is
-two. Normal cleanup increments `closed` once. From this lesson's `src` directory:
-
-```text
-$ ash 00-pure-calculation.ash
-Finished(46) : Outcome
-```
+Predict each report field separately. Compute the score from item
+contributions, count the visit requests, and identify when the cleanup runs.
+Remember that resuming a bonus request continues after it without repeating
+the preceding visit:
 
 ```text
 $ ash 01-finished.ash
 (Finished(46), 2, 1) : (Outcome, Int, Int)
 ```
 
-The score agrees with the pure version. The other two fields expose the visit
-and completion behavior we added. Importing the module does not initialize
+The two items earn `22` and `24`, giving the pure version's score of `46`.
+Each was visited once, and normal completion invoked `on_close` once.
+The other two fields expose the visit and completion behavior we added.
+Importing the module does not initialize
 those cells; each call to `run` executes its own acquisitions.
+
+Read the outward contracts from the inside out:
+
+| Boundary | Requirements still needed outside it |
+| --- | --- |
+| `sum_scores` | `Bonus`, `Stop`, and `Visit` |
+| The visit handler | `Bonus`, `Stop`, and access to `visited` |
+| The cleanup and stop handler | `Bonus` and access to the two live cells |
+| The two resource scopes | `Bonus` |
+| The entry's bonus handler | None |
+
+Cleanup's cell access contributes to the effects of closing, including when
+closing happens during discard. The resource scopes supply those exact cell
+interpreters. `Bonus` remains public because the entry chooses its policy;
+`Stop` and `Visit` remain private implementation choices.
 
 ## Stop before applying another bonus
 
@@ -182,16 +194,20 @@ main () = {
 }
 ```
 
-The first item contributes `20 + 2`, giving total `22`. The zero marker counts
-as the second visit, then requests a stop before requesting its bonus. The
-stop clause abandons the remaining traversal, including the item `99` and the
-pending `Finished` construction. Closing invokes the cleanup action once,
-then the clause supplies `Stopped(22)`:
+Trace the visit, zero test, and bonus request in that order. Predict the
+partial score at the stop request, the visit count including the marker, and
+the cleanup count. Which later item and pending constructor will be abandoned?
 
 ```text
 $ ash 02-stopped.ash
 (Stopped(22), 2, 1) : (Outcome, Int, Int)
 ```
+
+The first item earns `20 + 2`. The zero marker is visited next, then requests
+a stop with total `22` before requesting any bonus. Discard skips `99` and
+the pending `Finished` construction, but invokes the owned cleanup once.
+The clause supplies `Stopped(22)` beside visit count `2` and closing count
+`1`.
 
 The cleanup requires only the still-live `closed` cell. It does not need to
 restore the captured visit handler or continue the abandoned traversal.
@@ -215,6 +231,9 @@ main () = {
 }
 ```
 
+Predict the score from the new bonus. Then consider whether either the visit
+requests or scope completion changed, and predict those counts independently:
+
 ```text
 $ ash 03-different-policy.ash
 (Finished(52), 2, 1) : (Outcome, Int, Int)
@@ -223,8 +242,7 @@ $ ash 03-different-policy.ash
 Only the policy answer changed. The score becomes `25 + 27`, while the visit
 and cleanup counts retain their meanings.
 
-`05-empty-input.ash` checks another boundary: there is no item to visit and no
-policy request to make, but the processing scope still completes:
+`05-empty-input.ash` starts the same `run` with no items:
 
 <!-- source: src/05-empty-input.ash -->
 ```ash
@@ -239,13 +257,19 @@ main () = {
 }
 ```
 
+At `End`, which requests does the traversal actually make? Predict all three
+fields, keeping an entered cleanup scope's obligation separate from whether
+the traversal makes a request:
+
 ```text
 $ ash 05-empty-input.ash
 (Finished(0), 0, 1) : (Outcome, Int, Int)
 ```
 
-The cleanup obligation belongs to entering its scope, not to whether one
-particular execution makes an effect request.
+The traversal returns its initial total `0` without visits or bonus requests.
+The cleanup still increments `closed`, giving `(Finished(0), 0, 1)`.
+Its obligation belongs to entering its scope. The `run` contract still records
+`Bonus` for other inputs, and the entry supplies its handler even here.
 
 ## The entry must still supply the public policy
 
@@ -263,6 +287,10 @@ main () = {
     Scoring.run values
 }
 ```
+
+Follow the contract table outward. Which requirement remains on `main`,
+and who could answer it if the entry has no caller supplying effects?
+
 <!-- diagnostic: src/04-unhandled-policy.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -275,20 +303,29 @@ reason: entry.main-effects
 ```
 <!-- markdownlint-enable MD013 -->
 
-The label points at the entry declaration whose row remains nonempty. Restore
-the bonus handler from `01-finished.ash`. Neither the module boundary nor the
-private resource scopes turn an unhandled policy request into a pure entry.
+The label points at the entry declaration whose row still contains `Bonus`.
+The [entry requirement][entry] is an empty latent row: calling `main` must
+need no effect answers from its caller. Restore the bonus handler from
+`01-finished.ash` to answer that remaining request. The module's private
+handlers and resources fulfill their own requirements and leave this policy
+to the entry.
 
 ## Practice: account for every field
+
+Start each task in a fresh scratch directory outside this lesson's `src`
+tree. Copy its named entry and the sibling `scoring.ash` together, so the
+entry's import finds your copy. Run the copied entry from that directory.
 
 1. Change the values and bonus in `01-finished.ash`. Predict the score, visit
    count, and cleanup count separately.
 2. Move the zero marker in `02-stopped.ash`. Explain whether it contributes a
    bonus, whether it contributes a visit, and which suffix is abandoned.
-3. Call `Scoring.run` twice under a bonus handler and return both reports.
-   Predict whether the second run starts with fresh counts.
-4. Move the visit request below the zero check in `scoring.ash`. Predict how
-   this changes the stopped report while retaining the scoring rule.
+3. Start from `01-finished.ash`. Call `Scoring.run` twice under a bonus handler
+   and return both reports. Predict whether the second run starts with fresh
+   counts.
+4. Start from `02-stopped.ash`. In your copied `scoring.ash`, move the visit
+   request below the zero check. Predict how this changes the stopped report
+   while retaining the scoring rule.
 
 A complete explanation identifies where each request is answered, which work
 resumes or stops, and which owners remain responsible for completion. The
@@ -299,3 +336,4 @@ problems without being added to this calculation merely to use every feature.
 [effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
 [cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
 [cleanup]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cleanup-actions
+[entry]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules
