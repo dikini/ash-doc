@@ -55,6 +55,11 @@ printing. The A4 PDF uses fixed margins, with 25 mm on the left and 20 mm on the
 other edges, and ordinary footnotes for one-sided printing. Both variants are
 verified against the same source text and their actual page geometry.
 
+The user requested right-hand A4 sidenotes and a full-width formatting example.
+The active
+[margin notes and full-width plan](../plans/2026-10-13-margin-notes-and-full-width.md)
+owns this presentation revision.
+
 ## Curriculum direction
 
 The next learning stage asks: how can a reader design a calculation that
