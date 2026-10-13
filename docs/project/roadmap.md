@@ -62,6 +62,10 @@ retain the canonical algorithm, and a small public client demonstrates the
 three-key repair. Selected long signatures and equation groups use wider space
 at the unchanged code size, with complete blocks on one page in both PDFs.
 
+An approved [repair-case explanation plan](../plans/2026-10-13-explained-repair-cases.md)
+will group the repair inputs, explain the mnemonics, and separate all four
+repair equations and their fallback into checked portions with local prose.
+
 The prefix-check continuation is also verified. It develops observation data,
 operation types, scenario composition, and recursive checks through sixteen
 additional exact excerpts. Five displayed components and a six-run summary
