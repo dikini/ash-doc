@@ -76,16 +76,10 @@ main : Unit -> (Bool, Bool)
 main () = (same (Box(42), Box(42)), same (Box(20), Box(22)))
 ```
 
-For `same (Box(42), Box(42))`, follow the evidence request:
-
-1. The argument fixes `A` in `same` to `Box<Int>`.
-2. `Equal<Box<Int>>` matches the generic box implementation with its parameter
-   set to `Int`.
-3. Substituting that choice into its prerequisite gives `Equal<Int>`.
-4. The selected integer implementation satisfies that prerequisite.
-
-The resulting box method receives integer equality and uses it on the two
-unwrapped values. From this lesson's `src` directory, run:
+Write the complete requirement for the first `same` call. Follow the box
+implementation's prerequisite to the selected element method, then use that
+method on each pair's unwrapped contents. Predict both booleans before running
+from this lesson's `src` directory:
 
 ```text
 $ ash 01-box-equality.ash
@@ -94,6 +88,18 @@ $ ash 01-box-equality.ash
 
 The first pair has equal contents and the second does not. The ordinary
 constructor shapes are the same; the element method supplies the distinction.
+
+For `same (Box(42), Box(42))`, the evidence request follows this path:
+
+1. The argument fixes `A` in `same` to `Box<Int>`.
+2. `Equal<Box<Int>>` matches the generic box implementation with its parameter
+   set to `Int`.
+3. Substituting that choice into its prerequisite gives `Equal<Int>`.
+4. The selected integer implementation satisfies that prerequisite.
+
+The resulting box method receives integer equality and uses it on the two
+unwrapped values. The second call uses the same evidence path with different
+integer contents.
 
 ## A selected container rule still needs its prerequisite
 
@@ -107,6 +113,10 @@ import boxes (Box, impl Equal)
 main : Unit -> (Bool, Bool)
 main () = (same (Box(42), Box(42)), same (Box(20), Box(22)))
 ```
+
+The box implementation is still selected. Trace its prerequisite from the
+first call: where does evidence become unavailable? Predict which call and
+declarations the message will connect, then run this entry:
 
 <!-- diagnostic: src/02-missing-prerequisite.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -176,6 +186,10 @@ main : Unit -> Bool
 main () = same (Box(Box(42)), Box(Box(42)))
 ```
 
+Write the complete requirements from the outer box to the element type.
+Separately count the box layers each value must lose during execution. Predict
+the boolean before running this nested comparison:
+
 ```text
 $ ash 03-nested-boxes.ash
 true : Bool
@@ -194,7 +208,13 @@ second way to choose between competing implementations.
 
 ## Require structural progress from a generic prerequisite
 
-A generic implementation must not ask for an equally large nonground key:
+For a generic prerequisite still containing parameters, compare its selection
+key with the head's key. The vectors must have equal width. Each prerequisite
+component must equal or be a strict syntactic part of the corresponding head
+component, and at least one must be strictly smaller. This rule checks
+structural progress in the requirement, not the method's calculation.
+
+The following declaration repeats its head in its prerequisite:
 
 <!-- source: src/04-no-decrease.ash -->
 ```ash
@@ -212,6 +232,9 @@ main : Unit -> Unit
 main () = ()
 ```
 
+Compare the two `Box<A>` key arguments. Which part of the progress requirement
+can this header satisfy, and which part remains unmet? Run the source:
+
 <!-- diagnostic: src/04-no-decrease.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -227,22 +250,23 @@ reason: impl.prerequisite-not-decreasing
 ```
 <!-- markdownlint-enable MD013 -->
 
-The labels compare `Box<A>` with the unchanged `Box<A>` prerequisite. Selection
-would ask for the same unresolved structure again. In the working implementation,
+The labels compare `Box<A>` with the unchanged `Box<A>` prerequisite. The
+prerequisite repeats the head instead of removing a constructor layer. In the
+working implementation,
 `A` is a strict part of `Box<A>`, so the prerequisite makes structural progress.
 Use `where Equal<A>` and the unwrapping method from `boxes.ash`.
 
-For key vectors, the widths must agree, every prerequisite component must be
-equal to or a strict syntactic part of the corresponding head component, and
-at least one must be strictly smaller. This admission rule applies to
-nonground prerequisites: those still containing parameters. A fully concrete
+This admission rule applies to nonground prerequisites: those still containing
+parameters. A fully concrete
 prerequisite is exempt from this decrease comparison, but evidence selection
 still detects cycles of complete requirements. The rule does not prove that
 arbitrary method bodies terminate.
 
 ## A specialized implementation is not an override
 
-It may be tempting to add a separate rule for integer boxes:
+Available implementation heads must be coherent: two distinct heads cannot
+match the same complete application. A prerequisite does not give one head
+lower priority. Consider adding a separate rule for integer boxes:
 
 <!-- source: src/05-overlap.ash -->
 ```ash
@@ -261,6 +285,9 @@ impl Equal<Box<Int>> {
 main : Unit -> Unit
 main () = ()
 ```
+
+Find an application that both heads can match. Predict which declarations
+the checker must compare before it can accept this module, then run it:
 
 <!-- diagnostic: src/05-overlap.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -289,8 +316,9 @@ distinct nominal type; the next chapter develops that choice.
 
 ## Put an implementation with an owner
 
-The box module may implement its own outer nominal type even though the
-interface comes from another module. An unrelated client owns neither:
+An implementation belongs in a module that owns its interface or an outer
+nominal type in its selection key. The box module qualifies through its own
+type even though `Equal` comes from another module. Examine this client:
 
 <!-- source: src/06-foreign-owner.ash -->
 ```ash
@@ -304,6 +332,10 @@ impl Equal<Box<Int>> {
 main : Unit -> Unit
 main () = ()
 ```
+
+Locate the defining modules of `Equal` and the outer `Box` type. Does this
+client define either one? Predict whether its method body can repair an
+ownership failure, then run the source:
 
 <!-- diagnostic: src/06-foreign-owner.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -333,20 +365,27 @@ The [implementation rules][implementations] govern admission and coherence;
 
 ## Practice: follow the required behavior
 
+Start each task with fresh copies in a scratch directory. For tasks one and
+two, copy `03-nested-boxes.ash`, `equality.ash`, and `boxes.ash` together. For
+tasks three and four, copy `01-box-equality.ash` with those two libraries.
+
 1. Change one innermost integer in `03-nested-boxes.ash`. Trace the complete
-   requirements and predict which method makes the final decision.
-2. Add another `Box` layer to both arguments. Explain why the same generic
-   declaration is sufficient and how many unwrapping steps execute.
+   requirements and predict the boolean and which method makes the final
+   decision, then run it.
+2. Add another `Box` layer to both arguments in `03-nested-boxes.ash`. Predict
+   the result and count the unwrapping steps before running it. Explain which
+   complete requirements reuse the generic declaration.
 3. Add `Equal<Bool>` to `equality.ash`, using exhaustive Boolean patterns.
-   Compare two Boolean boxes through `same` and predict the result.
+   Compare two Boolean boxes through `same` in the copied entry and adjust its
+   arguments as needed. Predict the result, then check it.
 4. Explain why removing the prerequisite from the box implementation would
    leave its method unable to compare arbitrary elements.
 
 A generic implementation describes how to build one behavior from explicitly
 required smaller behaviors. Imports make its facts available, structural rules
 keep selection coherent, and the method explains the actual calculation.
-Next we will give one existing representation a new nominal meaning without
-allocating an ordinary constructor wrapper.
+The next chapter gives an [existing representation a new nominal meaning](../wrapping-a-representation/README.md)
+without allocating an ordinary constructor wrapper.
 
 [implementations]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#implementations
 [selection]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence
