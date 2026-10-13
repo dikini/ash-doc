@@ -487,6 +487,13 @@ rather than keeping parallel roadmaps.
 
 ## Selecting work
 
+**Active outcome: E7 teaching review.** Revise the existing chapter
+for its handle access, provider evidence, interpretation, and ownership boundary.
+The approved prose and exercise review targets `diag-ash` at
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
+[execution plan](../plans/2026-10-13-scoped-counting-teaching-review.md) owns this
+chapter; complete and verify it, then advance to E8.
+
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
 negative observations, and completion checks. Keep its temporary execution
