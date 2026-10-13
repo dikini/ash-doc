@@ -51,8 +51,10 @@ directory, reader-facing link, or publication date.
   private-helper rejection through both source files.
 
 - **3. [How can a function use more than one input?](../../content/learn/using-more-than-one-input/README.md)**
-  — **verified.** Chained function arrows, function clauses with several
-  inputs, and chained calls.
+  — **verified.**
+  Predict each call step's value and remaining function type; connect
+  a supplied argument to the remaining arrow's requirement.
+
 - **4. [How can a program choose a result?](../../content/learn/choosing-a-result/README.md)**
   — **verified.** `Bool`, integer equality, and exhaustive matching.
 - **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**

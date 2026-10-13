@@ -23,18 +23,19 @@ main () = add 20 22
 ```
 
 The definition names two parameters, `left` and `right`. In the call
-`add 20 22`, the inputs line up with those parameters from left to right:
+`add 20 22`, the inputs line up with those parameters from left to right.
+Predict the value, then save and run the program. Ash reports:
+
+```text
+42 : Int
+```
+
+The substitution accounts for that result:
 
 ```text
 add 20 22
 20 + 22
 42
-```
-
-Save the program and run it. Ash reports:
-
-```text
-42 : Int
 ```
 
 The signature tells the same story as the definition. Function arrows group
@@ -68,16 +69,19 @@ main : Unit -> Int -> Int
 main () = add 20
 ```
 
-Before running the program, notice what is missing. `add` has received `20` for
-`left`, but it has received nothing for `right`. There is no integer result to
-report yet. Ash instead reports the waiting function and its type:
+Before running, count the inputs still needed. `add` has received `20` for
+`left`; what remains to receive `right`, and what type does it have?
+Run the program to compare that prediction:
 
 ```text
 <function> : Int -> Int
 ```
 
-Such a call is often called a *partial call*: it supplies some, but not all, of
-a function's inputs. The result is still useful. It remembers the input already
+No second integer has arrived, so the result is a function of type
+`Int -> Int`. The tool displays the function as `<function>`; that display
+does not show its body. Such a call is often called a *partial call*: it
+supplies some, but not all, of a function's inputs. The result is still useful.
+It remembers the input already
 supplied and can receive the rest later.
 
 We can give the waiting calculation a descriptive name:
@@ -96,7 +100,8 @@ main () = add_twenty 22
 
 Read the body of `add_twenty` from left to right. `add 20` first produces a
 function that remembers `20`. The remaining `number` is then supplied to that
-function. With `22` as the input, the calculation becomes:
+function. Predict what `add_twenty 22` produces, then run and compare its
+`42 : Int` observation with these steps:
 
 ```text
 add_twenty 22
@@ -110,8 +115,10 @@ Run the program and compare Ash's `42 : Int` with these steps.
 ## Each input keeps its type
 
 Pausing partway through a call does not loosen what the function accepts. After
-`add 20`, the waiting function still requires an `Int`. Replace the second
-number with `true`:
+`add 20`, the waiting function still requires an `Int`. The value `true`
+belongs to `Bool`, the Boolean type whose other value is `false`. We will
+use those values to make decisions next. For now, compare their type with
+the remaining input requirement:
 
 <!-- source: src/04-wrong-input.ash -->
 ```ash
@@ -122,7 +129,8 @@ main : Unit -> Int
 main () = add 20 true
 ```
 
-Run this version from `content/learn` and compare the two types in the message:
+Which call step has an input of the required type, and which does not?
+Run this version from `content/learn` and compare the labels with your account:
 
 <!-- diagnostic: src/04-wrong-input.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -150,6 +158,9 @@ waiting `Int -> Int` function a `Bool`. Replacing `true` with `22` supplies the
 integer that the remaining arrow requires and restores `42 : Int`.
 
 ## Exercise: multiply three numbers
+
+Start from a fresh copy of `src/01-two-inputs.ash` in your scratch directory.
+Replace `add` and its uses as you build the new calculation.
 
 Define a function with this signature:
 
