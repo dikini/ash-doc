@@ -16,6 +16,9 @@ The writing skill's
 explains how authors choose these elements and write their source. This guide
 retains the implementation and verification boundary.
 
+The [note-purpose plan](../plans/2026-10-13-note-purpose-guide.md) adds the
+requested distinctions between the three authoring forms.
+
 ## Selected sources and authority
 
 The [specimen configuration](../../rendering/specimen.json) selects three
