@@ -482,6 +482,13 @@ rather than keeping parallel roadmaps.
 
 ## Selecting work
 
+**Active outcome: E4 teaching review.** Improve handler-selection prediction
+and closure traces while preserving the chapter's eight canonical sources and
+observations at `diag-ash`, commit
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The approved
+[execution plan](../plans/2026-10-13-choosing-a-handler-teaching-review.md)
+closes the sequential E2–E4 review.
+
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
 negative observations, and completion checks. Keep its temporary execution
