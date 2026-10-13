@@ -95,8 +95,9 @@ directory, reader-facing link, or publication date.
   creation; connect a supplied value to its callable contract.
 
 - **11. [How can one definition work with many types?](../../content/learn/definitions-for-many-types/README.md)**
-  — **verified.** Type parameters, parameterized data, and rank-1 parametric
-  polymorphism.
+  — **verified.**
+  Choose substitutions for reusable functions and recursive data;
+  distinguish a type constructor from a complete value type.
 
 ## Local-function continuation
 
