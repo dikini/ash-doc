@@ -90,8 +90,10 @@ directory, reader-facing link, or publication date.
 ## Functional abstraction
 
 - **10. [How can a function itself be a value?](../../content/learn/functions-as-values/README.md)**
-  — **verified.** Anonymous functions, higher-order functions, and lexical
-  capture.
+  — **verified.**
+  Trace callback calls and captured inputs separately from function
+  creation; connect a supplied value to its callable contract.
+
 - **11. [How can one definition work with many types?](../../content/learn/definitions-for-many-types/README.md)**
   — **verified.** Type parameters, parameterized data, and rank-1 parametric
   polymorphism.
