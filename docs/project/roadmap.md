@@ -229,8 +229,10 @@ Introduce `cleanup` through normal completion: retain an action, run the body,
 invoke the action, and preserve the body's result. Use an enclosing cell to
 make ordering observable without introducing external I/O.
 
-Then revisit early stopping and explain which owned actions execute, which
-resources remain live, and which handlers are available at closing positions.
+Predict body results and log changes separately during normal return and early
+stopping. Explain which owned actions execute, which resources remain live,
+and the nearest interpreter requirement at each closing position before
+examining removed-handler and running-action rejections.
 The reader can distinguish safe abandonment from skipping required completion
 or relying on a removed interpreter. Separate the normal-completion,
 abandonment-order, and rejected-context examples so each has one causal point.
@@ -488,13 +490,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E9 teaching review.** Revise the existing chapter
-for its owned completion and interpreter availability during closing boundary.
-The approved prose and exercise review targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
-[execution plan](../plans/2026-10-13-cleanup-teaching-review.md) owns this
-chapter; complete and verify it, then advance to E10.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and

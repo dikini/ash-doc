@@ -30,16 +30,20 @@ main () = resource cell<R> log = 0 {
 }
 ```
 
-The body finishes with `42`. Before the cleanup expression returns that saved
-value, it invokes `append_one`. The log changes from `9` to `91`; the body
-result remains `42`. Run it from this lesson's `src` directory:
+On normal completion, cleanup saves the body's value, invokes the action, and
+then returns the saved value. Predict the pair's fields separately: what does
+the body return, and what does the log contain after `append_one`? Run from
+this lesson's `src` directory:
 
 ```text
 $ ash 01-normal-completion.ash
 (42, 91) : (Int, Int)
 ```
 
-The cell owner surrounds the cleanup and the final read, so the action has
+The body returns `42` after writing `9`; the action changes the log to
+`9 * 10 + 1`, or `91`. Its `Unit` result is set aside, preserving the
+body's `42`. The [cleanup evaluation rules][execution] describe these two
+steps. The cell owner surrounds the cleanup and the final read, so the action has
 live access when it runs. Its function type records that access's operation
 row. Cleanup does not require its action to be pure.
 
@@ -68,15 +72,16 @@ main () = resource cell<R> log = 0 {
 }
 ```
 
-The inner body produces `42`. Its action appends `2` before the outer body can
-finish. The outer action then appends `1`, producing a log of `21`:
+An inner cleanup must close before its surrounding body finishes. Trace the
+two actions in that order and predict the log alongside the saved body result:
 
 ```text
 $ ash 02-nested-cleanup.ash
 (42, 21) : (Int, Int)
 ```
 
-Neither action changes the saved result. Copying an action function would
+The inner action appends `2`, then the outer action appends `1`, producing
+`21`. Neither changes the saved `42`. Copying an action function would
 copy an ordinary callable value, not the scope's obligation to invoke it.
 
 ## Close owned scopes when their body is abandoned
@@ -118,24 +123,32 @@ main () = resource cell<R> log = 0 {
 
 The stop request selects the outer clause. Its discard owns the captured
 cleanup scopes and invokes their actions while closing that abandoned work.
-The inner action appends `2`, then the outer appends `1`. The later write of
-`999` and the body result `42` are skipped. After closing, the clause returns
-`7`:
+Separate the waiting body work from its closing obligations. Which writes
+belong to the body, and which belong to the owned actions? Predict the log
+after those actions and the result chosen by the stop clause:
 
 ```text
 $ ash 03-discard-cleanup.ash
 (7, 21) : (Int, Int)
 ```
 
-The log cell remains live outside the handler. Cleanup can use it before its
+Discard skips the later write of `999` and the body result `42`. It closes
+the inner cleanup by appending `2`, then the outer by appending `1`; only
+after that does the clause return `7`. The log cell remains live outside
+the handler. Cleanup can use it before its
 own resource scope eventually releases it. Here discard itself has effects
 because it invokes actions that write the cell. It is not universally pure.
 
 ## Do not restore a handler that abandonment removes
 
-Cleanup actions can request source effects too. Their requests must be valid
-in the context available at closing. `04-removed-handler.ash` surrounds an
-action with a `Report` handler that the stop operation would abandon:
+Cleanup actions can request source effects too. The [cleanup rules][cleanup]
+check the nearest matching interpreter at the action's closing position,
+including the action's own handlers and surrounding boundaries. If discard
+removes the nearest handler needed there, an outer handler for the same
+instance cannot replace it.
+
+`04-removed-handler.ash` surrounds an action with a `Report` handler. Locate
+that handler relative to the stop handler before deciding what discard removes:
 
 <!-- source: src/04-removed-handler.ash -->
 ```ash
@@ -171,9 +184,9 @@ main () = handle {
 }
 ```
 
-There is also an outer `Report` handler, used by the initial report. It cannot
-silently replace the nearer handler that governs `report_close` at its closing
-position. Abandonment would remove that nearer handler:
+There is also an outer `Report` handler, used by the initial report. Which
+`Report` handler is nearest to the cleanup's closing position? Would it remain
+available when the stop clause discards?
 
 <!-- diagnostic: src/04-removed-handler.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -210,8 +223,10 @@ reason: effect.cleanup-context
 <!-- markdownlint-enable MD013 -->
 
 The labels connect discard, the action requiring interpretation, and the
-handler that would be removed. Cleanup does not restore captured source
-handlers merely to run an abandoned action.
+handler that would be removed. The inner `Report` governs the action at
+closing, but lies inside the abandoned work. The surviving outer `Report`
+cannot replace it. Cleanup does not restore captured source handlers merely
+to run an abandoned action.
 
 In `05-surviving-handler.ash`, the handler needed by the action surrounds the
 stop handler and remains available during discard:
@@ -253,14 +268,17 @@ main () = resource cell<R> log = 0 {
 }
 ```
 
-The action reports `1`; the surviving handler writes that value to the log and
-resumes the closing action. The stop clause can then return `7`:
+Follow the scopes from `report_close` outward: which handler can interpret
+its report while discard closes the cleanup? Predict both the stop clause's
+result and the log:
 
 ```text
 $ ash 05-surviving-handler.ash
 (7, 1) : (Int, Int)
 ```
 
+The surviving `Report` handler writes the reported `1` and resumes the
+closing action. That action finishes before the stop clause returns `7`.
 Another way to give an action its interpretation is to place the needed
 handler inside the action itself. A handler placed only in the body's interior
 does not automatically cover an action that runs after that body has finished.
@@ -290,6 +308,10 @@ main () = handle (cleanup stop_while_closing {
     }
 }
 ```
+
+Here the body has already returned and the action has started. What required
+completion would the stop clause's discard skip?
+
 <!-- diagnostic: src/06-running-action.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -323,6 +345,9 @@ not prove that a diverging action eventually returns.
 
 ## Practice: predict closing order
 
+For each task, make a fresh copy of its named program in a scratch directory
+outside this lesson's `src` tree, then run the copy from that directory.
+
 1. Exchange the two actions in `02-nested-cleanup.ash`. Predict the log before
    running the program.
 2. Change the body result in `01-normal-completion.ash`. Explain which tuple
@@ -337,3 +362,4 @@ at closing. Next we will use scoped handlers to transform publications through
 several registered functions.
 
 [cleanup]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cleanup-actions
+[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#scoped-cleanup-actions
