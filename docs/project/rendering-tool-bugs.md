@@ -6,6 +6,9 @@ in the bundled conversion tools. This report separates them from the user's
 [notation renderer findings](notation-renderer-bugs.md). It makes no Ash
 language claim and changes no upstream source.
 
+The browser capture limitation below is an integration observation, separate
+from those two confirmed conversion failures.
+
 ## Evaluated tool boundary
 
 The approved specimen uses Quarto Book and Typst. These observations use the
@@ -170,6 +173,59 @@ The specimen supplies its own original book template; that selection does not
 repair the upstream default. Remove this failure record after verified tool
 adoption.
 
+## QA-01: full-page browser capture can disturb mixed margin notes
+
+**Classification:** browser QA and native margin-layout integration limitation.
+This is not a confirmed persistent user-facing Quarto defect. Settled fresh
+loads and ordinary viewport resizes passed with the evaluated tools.
+
+The [canonical mixed-note fixture][mixed-source] places a static supplementary
+diagram in a numbered note, followed nearby by an unnumbered `.column-margin`
+reading cue. Its [configuration][mixed-config] uses Quarto Book's native margin
+layout and a small note-style subset. The image retains explicit `fig-alt`;
+diagram parsing is outside this check.
+
+Copy the fixture to a fresh scratch directory and render it with the evaluated
+Quarto version:
+
+```sh
+cp -R rendering/fixtures/conformance/mixed-margin-notes \
+    /tmp/ash-doc-mixed-margin-notes
+XDG_CACHE_HOME=/tmp/ash-doc-mixed-margin-notes/cache \
+    /path/to/quarto-1.10.19/bin/quarto render \
+    /tmp/ash-doc-mixed-margin-notes --to html
+node rendering/fixtures/conformance/mixed-margin-notes/measure.mjs \
+    /tmp/ash-doc-mixed-margin-notes/_book \
+    /path/to/puppeteer/lib/puppeteer/puppeteer.js \
+    /path/to/chrome \
+    /tmp/ash-doc-mixed-margin-notes/evidence
+```
+
+The [measurement script][mixed-measure] uses Puppeteer 25.10.0 and Chrome
+152.0.7977.75 at a 1440 by 1000 pixel viewport. It records an early sample after
+navigation and font loading, a full-page screenshot, and the subsequent note
+bounds. It then reloads, waits for font and image decoding and stable note
+bounds, and checks ordinary width and height resizes and a viewport screenshot.
+It writes complete JSON measurements and both screenshots. Early overlap is
+recorded as an observation; the script requires the settled controls to pass.
+
+The [retained capture][mixed-capture] records the numbered note from
+`y=96.80` to `381.05` pixels. Before the early full-page screenshot, the reading
+cue begins at `y=381.05`, clear of that note. Immediately after the capture it
+begins at `y=203.70`, over the diagram. Waiting for stable bounds in that altered
+capture state did not by itself restore the separation. A fresh settled load,
+ordinary width and height changes, and a viewport capture kept the two notes
+separate. The fixture render and the control measurement run both exit `0`.
+
+Browser acceptance must wait for fonts, image decoding, and native margin
+relayout before judging note placement. Prefer viewport captures for this
+check, and measure the note bounds again after any capture or resize. Do not
+treat a single early rectangle sample or screenshot as proof of a persistent
+reading-layout failure. This observation does not require an upstream repair;
+it identifies a timing and capture boundary for ash-doc's QA. Retain the fixture
+while mixed note images remain part of the authoring guidance, and reassess
+these controls when the browser or Quarto toolchain changes.
+
 ## Retention and exclusions
 
 The current specimen's adapters may compensate for these tool boundaries while
@@ -193,3 +249,7 @@ the observed human messages.
 [alt-capture]: ../../rendering/fixtures/conformance/tool-captures/quarto-fig-alt-epubcheck.txt
 [author-config]: ../../rendering/fixtures/conformance/quarto-no-author/_quarto.yml
 [author-capture]: ../../rendering/fixtures/conformance/tool-captures/quarto-no-author-render.txt
+[mixed-source]: ../../rendering/fixtures/conformance/mixed-margin-notes/notes.qmd
+[mixed-config]: ../../rendering/fixtures/conformance/mixed-margin-notes/_quarto.yml
+[mixed-measure]: ../../rendering/fixtures/conformance/mixed-margin-notes/measure.mjs
+[mixed-capture]: ../../rendering/fixtures/conformance/mixed-margin-notes/observations.json

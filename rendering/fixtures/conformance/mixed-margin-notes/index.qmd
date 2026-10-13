@@ -1,0 +1,4 @@
+# Mixed margin notes
+
+The next chapter places an illustrated numbered note near an unnumbered
+reading cue. These original fixtures test rendering, not Ash behavior.

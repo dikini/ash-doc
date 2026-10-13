@@ -1,0 +1,27 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: Mixed margin note probe
+  author: Ash documentation project
+  chapters:
+    - index.qmd
+    - notes.qmd
+
+lang: en
+number-sections: false
+execute:
+  enabled: false
+
+format:
+  html:
+    theme:
+      - cosmo
+      - note-probe.scss
+    toc: false
+    reference-location: margin
+    grid:
+      sidebar-width: 220px
+      body-width: 650px
+      margin-width: 210px

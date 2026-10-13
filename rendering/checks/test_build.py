@@ -2,6 +2,7 @@
 
 import json
 import importlib.util
+import os
 import re
 import subprocess
 import tempfile
@@ -19,6 +20,54 @@ def fences(text):
 
 
 class PreparationTests(unittest.TestCase):
+    def test_chapter_notes_keep_their_own_text_when_combined(self):
+        spec = importlib.util.spec_from_file_location("render_build", ROOT / "rendering/build.py")
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        os.environ.setdefault("XDG_CACHE_HOME", str(ROOT / ".build/toolchain/cache"))
+        with tempfile.TemporaryDirectory() as temporary:
+            builder.ROOT = Path(temporary)
+            staged = []
+            for name, note in (("first", "First supplementary note."),
+                               ("second", "Second supplementary note.")):
+                text = (f"# {name.title()} {{#topic-{name}}}\n\n"
+                        f"A claim.[^source]\n\n[^source]: {note}\n\n"
+                        "```text\nLiteral spelling [^1] stays unchanged.\n```\n\n"
+                        f"::: {{#reminder-{name} .column-margin}}\n"
+                        "A local reminder.\n:::\n")
+                (builder.ROOT / f"{name}.md").write_text(text)
+                prepared, _ = builder.prepare_chapter(
+                    QUARTO, f"{name}.md", {}, "0" * 40, [])
+                self.assertEqual(fences(text), fences(prepared))
+                self.assertIn(f"{{#topic-{name}}}", prepared)
+                self.assertIn(f"{{#reminder-{name} .column-margin}}", prepared)
+                staged.append(prepared)
+            document = builder.parse(QUARTO, "\n\n".join(staged))
+            notes = [builder.literal(node["c"]) for node in builder.walk(document["blocks"])
+                     if node.get("t") == "Note"]
+            self.assertEqual(notes, ["First supplementary note.", "Second supplementary note."])
+
+    def test_note_body_formatting_survives_namespacing(self):
+        spec = importlib.util.spec_from_file_location("render_build", ROOT / "rendering/build.py")
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        os.environ.setdefault("XDG_CACHE_HOME", str(ROOT / ".build/toolchain/cache"))
+        text = ("# Topic {#topic}\n\nA claim.[^detail]\n\n"
+                "[^detail]: **A qualification** uses `notation` and [the topic](#topic).\n\n"
+                "    A second paragraph retains its place.\n\n"
+                "    - A supporting example.\n"
+                "    - A literal `[^1]` spelling.\n")
+        original = builder.parse(QUARTO, text)
+        expected = [node["c"] for node in builder.walk(original["blocks"])
+                    if node.get("t") == "Note"]
+        with tempfile.TemporaryDirectory() as temporary:
+            builder.ROOT = Path(temporary)
+            (builder.ROOT / "topic.md").write_text(text)
+            prepared, _ = builder.prepare_chapter(QUARTO, "topic.md", {}, "0" * 40, [])
+        actual = [node["c"] for node in builder.walk(builder.parse(QUARTO, prepared)["blocks"])
+                  if node.get("t") == "Note"]
+        self.assertEqual(actual, expected)
+
     def test_figure_wrapper_repair_preserves_the_image_description(self):
         spec = importlib.util.spec_from_file_location("render_build", ROOT / "rendering/build.py")
         builder = importlib.util.module_from_spec(spec)

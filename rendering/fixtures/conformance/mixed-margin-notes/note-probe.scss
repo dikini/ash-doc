@@ -1,0 +1,15 @@
+/*-- scss:defaults --*/
+$font-family-serif: Georgia, serif;
+$font-family-sans-serif: $font-family-serif;
+$web-font-path: false;
+
+/*-- scss:rules --*/
+body { font-size: 1.05rem; }
+main.content { line-height: 1.6; }
+main.content h1 { font-size: 2.4rem; margin-bottom: 1.7rem; }
+main.content h2 { font-size: 1.55rem; margin-top: 2.6rem; border: 0; }
+main.content p { margin-bottom: 1.25rem; }
+.margin-container, .column-margin { font-size: .83rem; line-height: 1.4; }
+figure { margin: 1.75rem 0; }
+figure img { max-width: 100%; height: auto; }
+figcaption { font-size: .85rem; line-height: 1.45; text-align: left; }

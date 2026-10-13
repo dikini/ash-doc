@@ -1,0 +1,150 @@
+{
+  "scope": "Early automation capture versus settled native HTML layout.",
+  "browser": "Chrome/152.0.7977.75",
+  "observations": [
+    {
+      "name": "Early sample after navigation and fonts",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": false
+    },
+    {
+      "name": "Immediately after early full-page capture",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 203.703125,
+        "bottom": 250.25,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": true
+    },
+    {
+      "name": "Stable bounds after early full-page capture",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 203.703125,
+        "bottom": 250.25,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": true
+    },
+    {
+      "name": "Fresh settled load after image decoding",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": false
+    },
+    {
+      "name": "Width resize",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1025.484375,
+        "right": 1235.484375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1025.484375,
+        "right": 1235.484375
+      },
+      "overlap": false
+    },
+    {
+      "name": "Original width",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": false
+    },
+    {
+      "name": "Height resize",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": false
+    },
+    {
+      "name": "Original height",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": false
+    },
+    {
+      "name": "Settled after viewport capture",
+      "note": {
+        "top": 96.796875,
+        "bottom": 381.046875,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "cue": {
+        "top": 381.046875,
+        "bottom": 427.59375,
+        "left": 1024.984375,
+        "right": 1234.984375
+      },
+      "overlap": false
+    }
+  ]
+}

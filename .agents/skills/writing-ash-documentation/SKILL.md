@@ -72,11 +72,20 @@ make or explain, not what project coverage it supplies.
 
 ## Choose formatting for the explanation
 
-Keep the main argument readable in ordinary chapter order. Use numbered notes
-for secondary clarification, including longer notes that fit legibly beside
-the text. Use a full-width block when a short explanation or table needs the
-body and adjoining note space. Choose a diagram for a relationship the reader
-needs to see, and explain what it establishes in prose.
+Keep the main argument readable in ordinary chapter order. Use a numbered
+sidenote for optional detail or credit attached to particular words. Use an
+unnumbered margin note for a brief local reminder whose association is clear
+without a reference number. Use a full-width aside or figure when its table,
+diagram, illustration, or other content needs the body and adjoining note
+space. Choose by the relationship to the explanation, rather than note length.
+Leave unused margin space when it serves no content need.
+
+Sidenotes and margin notes may include small diagrams or sketches that add
+optional intuition. Keep them legible at note-column width and connect them to
+the nearby example; required understanding stays in the main reading path.
+Judge every note by whether it helps understanding without competing for
+attention. Prefer one clear point and familiar vocabulary. Remove a note that
+adds a detour, repeats the paragraph, or demands more effort than it saves.
 
 When adding or reviewing these elements, read the
 [formatting reference](references/formatting.md) for source examples, diagram
@@ -84,6 +93,11 @@ metadata, and the current cross-format bounds. It covers HTML, EPUB 3, the
 double-sided book PDF, and the one-sided A4 PDF. Keep layout choices in the
 shared renderer and navigation in its chrome. Chapter source owns meaning and
 reading order.
+
+For diagrams, begin with the ordinary column and assess label size, aspect
+ratio, and printed height at the proposed width. Wider space can help a dense
+landscape figure; it cannot replace a readable structure. Verify narrow HTML,
+enlarged EPUB text, and both PDF layouts before accepting the choice.
 
 ## Support a learning assistant
 
@@ -127,6 +141,10 @@ attribution.
 - Does every runnable block have canonical, tested source?
 - Can the main explanation stand without its notes, and does wide material
   remain readable when it returns to one column?
+- Does a numbered note have a precise reference, an unnumbered margin note a
+  clear local association, and a full-width element a reason to need the space?
+- Are diagram labels readable at the chosen width, with aspect ratio and page
+  height checked, rather than every diagram receiving the widest layout?
 - Do diagrams have captions and descriptions, use the supported top-level
   fences, and preserve the distinction between sequents and sequences?
 - Have new formatting elements been checked in narrow HTML, enlarged EPUB

@@ -50,10 +50,25 @@ def parse(quarto, text):
     return json.loads(result.stdout)
 
 
-def markdown(quarto, document):
-    return run([quarto, "pandoc", "--from", "json", "--to", "markdown-smart",
-                "--wrap=none", "--markdown-headings=atx"], input=json.dumps(document),
-               text=True, capture_output=True).stdout
+def markdown(quarto, document, note_prefix=""):
+    definitions = []
+    if note_prefix:
+        notes = [node for node in walk(document["blocks"]) if node.get("t") == "Note"]
+        for number, note in enumerate(notes, 1):
+            label = f"{note_prefix}{number}"
+            body = {"pandoc-api-version": document["pandoc-api-version"],
+                    "meta": {}, "blocks": note["c"]}
+            lines = markdown(quarto, body).rstrip().splitlines()
+            definition = f"[^{label}]: " + "\n".join(
+                line if index == 0 else "    " + line
+                for index, line in enumerate(lines))
+            definitions.append(definition)
+            note.clear()
+            note.update({"t": "RawInline", "c": ["markdown", f"[^{label}]"]})
+    result = run([quarto, "pandoc", "--from", "json", "--to", "markdown-smart",
+                  "--wrap=none", "--markdown-headings=atx"], input=json.dumps(document),
+                 text=True, capture_output=True).stdout
+    return result + ("\n" + "\n\n".join(definitions) + "\n" if definitions else "")
 
 
 def ordered_sources(quarto, selected):
@@ -152,7 +167,9 @@ def prepare_chapter(quarto, source, mapping, commit, jobs):
         raise ValueError(f"{source}: unused diagram descriptions")
     document["blocks"] = blocks
     document["meta"] = {}
-    return markdown(quarto, document), code_records
+    # Namespace note labels without changing source anchors or literal code.
+    prefix = Path(chapter_name(source)).stem + "-"
+    return markdown(quarto, document, prefix), code_records
 
 
 def reader_setup(quarto):
@@ -165,7 +182,7 @@ def reader_setup(quarto):
         if keep:
             blocks.append(block)
     document["blocks"], document["meta"] = blocks, {}
-    return markdown(quarto, document)
+    return markdown(quarto, document, "setup-")
 
 
 def configuration(chapters):

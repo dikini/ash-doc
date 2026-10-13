@@ -166,3 +166,38 @@ ordered YAML entries supply unique IDs, captions, and descriptions. The agent
 uses `sequent` for inference rules and Mermaid for interaction sequences,
 assumes neither LaTeX support nor arbitrary shortcodes, and checks all output
 layouts. It does not imply that the specimen renders every content chapter.
+
+## Choose a note form and figure width
+
+### Note-choice request
+
+Choose between numbered sidenotes, unnumbered margin notes, full-width asides,
+and ordinary prose for a source credit attached to one claim, a reminder of an
+introduced term beside an example, a comparison table, and a required causal
+step. A diagram has many participants and a landscape aspect ratio. Explain
+how to decide its width in print and on narrow screens, and give supported
+source forms without inventing renderer options. Also choose a form for an
+optional commutative diagram, program-state snapshot, or call-stack sketch
+that reinforces the explanation.
+
+### Note-choice passing condition
+
+The agent uses the formatting reference to select a numbered sidenote for the
+precise source credit, a labelled `.column-margin` note for the local reminder,
+a `.column-page-right` aside for a comparison that needs wider space, and main
+prose for essential reasoning. It chooses by relationship and content, rather
+than length or a desire to fill the margin. It treats full-width regions as
+available to diagrams and illustrations as well as prose. A landscape ratio
+suggests a candidate; actual label size, printed height, caption placement,
+note collisions, and narrow-screen readability determine the width. It can
+suggest splitting a diagram if neither width works. It distinguishes these
+ash-doc choices from Tufte's personal practice and retains the current limit on
+placing generated diagram fences in full-width Divs.
+Supplementary sketches may use either numbered or unnumbered notes according
+to their association. They retain introduced vocabulary, remain faithful to
+the example, and must be legible at actual note-column width. Essential
+understanding stays in the main reading path; raw nested diagram fences remain
+unsupported.
+The agent also checks whether each note earns its place by assisting nearby
+understanding. It removes repetitive or unrelated detours and reduces competing
+notes even when the margin has enough room for them.

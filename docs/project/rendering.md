@@ -16,9 +16,6 @@ The writing skill's
 explains how authors choose these elements and write their source. This guide
 retains the implementation and verification boundary.
 
-The [note-purpose plan](../plans/2026-10-13-note-purpose-guide.md) adds the
-requested distinctions between the three authoring forms.
-
 ## Selected sources and authority
 
 The [specimen configuration](../../rendering/specimen.json) selects three
@@ -59,6 +56,28 @@ Markdown and declarative diagram sources remain replaceable inputs.
 The typography and relationship between prose, notes, and figures draw
 inspiration from [Tufte CSS](https://edwardtufte.github.io/tufte-css/). The local
 styles are original. They do not copy Tufte's book pages or illustrations.
+
+The writing skill's note guidance also draws on Tufte's own comments in
+[Sidenotes or footnotes or what?](https://www.edwardtufte.com/notebook/sidenotes-or-footnotes-or-what/),
+dated September 13, 2003 and September 4, 2006. It adapts the principle that
+annotations serve a content need. The numbered sidenote, unnumbered margin
+note, and full-width aside are ash-doc authoring conventions, rather than a
+taxonomy prescribed in that discussion. The formatting reference also gives
+figure-width review criteria using aspect ratio, label scale, and page height.
+Width remains an author choice informed by rendered output.
+
+Numbered sidenotes attach optional detail or credit to specific words.
+Unnumbered `.column-margin` notes supply brief local reminders, including
+legible supplementary sketches. Full-width regions can hold diagrams,
+illustrations, tables, or other content needing the space. Notes must assist
+understanding without competing with the main account. Native note placement
+and a prepared wide SVG have been checked in all four layouts; bare diagram
+fences retain the top-level conversion boundary described below.
+
+Preparation gives each chapter's note references and definitions a distinct
+prefix while preserving source anchors and literal code. Pandoc still writes
+each note's formatted body. This prevents separately staged chapters from
+reusing one another's definitions when Quarto assembles EPUB and PDF.
 
 HTML keeps the book TOC, local TOC, and previous/next navigation in chrome
 outside the article. The right margin carries notes. A mobile disclosure
@@ -220,7 +239,8 @@ The [notation renderer report](notation-renderer-bugs.md) retains three
 confirmed defects, separately classified integration gaps, executable controls,
 and proposed priorities for the specialised sequent renderer. The
 [rendering tool report](rendering-tool-bugs.md) retains two independent Quarto
-failures. No upstream repository was changed.
+failures and a separate browser-capture limitation for mixed margin notes.
+No upstream repository was changed.
 
 For QT-01, the specimen keeps Quarto's image alternative text and removes only
 the illegal `alt` attribute from generated figure wrapper `div` elements in

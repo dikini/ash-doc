@@ -15,5 +15,4 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-The [note-purpose guide](2026-10-13-note-purpose-guide.md) belongs to the
-approved local rendering decision.
+No active plans.
