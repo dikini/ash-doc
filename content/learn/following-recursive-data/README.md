@@ -29,8 +29,8 @@ Read the definition one form at a time:
 - `More(first, rest)` represents one integer followed by another `IntList`.
 
 The second field of `More` is the self-reference. It permits another `More`
-value, whose second field may permit another, until an `Empty` value ends the
-list.
+value, whose second field may permit another. In the finite lists here,
+following those rest fields reaches `Empty`.
 
 The value in `main` has two `More` layers. Indentation makes its structure
 easier to see:
@@ -42,8 +42,8 @@ More(20,
 ```
 
 The first layer carries `20`. Its rest is a list whose first integer is `22`.
-That second layer's rest is `Empty`, so the value is finite. Run the program
-and Ash displays the same nested shape:
+That second layer's rest is `Empty`, so the value is finite. Predict the
+nested value and its type before running; Ash displays:
 
 ```text
 More(20, More(22, Empty)) : IntList
@@ -73,8 +73,10 @@ pattern gives names to the first integer and the rest of the list. We can add
 `first` directly. To find what the entire `rest` contributes, the function
 applies itself to that smaller list.
 
-This is a *recursive call*. It follows the recursive field in the data. Each
-call receives one fewer `More` layer than the call before it:
+This is a *recursive call*. It follows the recursive field in the data.
+For this finite input, count the `More` layers still to visit at each call.
+Predict the result before running; Ash reports `42 : Int`. Compare the
+pending additions with this trace:
 
 ```text
 sum (More(20, More(22, Empty)))
@@ -84,8 +86,11 @@ sum (More(20, More(22, Empty)))
 42
 ```
 
-The `Empty` equation supplies the result that ends the chain of calls. Running
-the program confirms the trace with `42 : Int`.
+Each call receives one fewer `More` layer, until `Empty` supplies `0`.
+The pending additions combine that base result with `22` and then `20`.
+This finite input and the move to its smaller rest explain why this traversal
+ends. Exhaustive equations alone do not prove that every recursive call
+terminates.
 
 > **With a learning assistant:** Give the assistant a three-element `IntList`
 > and your trace of `sum`. Ask it to check that each recursive call receives
@@ -110,9 +115,9 @@ main : Unit -> Int
 main () = sum Empty
 ```
 
-But every finite list eventually contains `Empty`, and `Empty` is itself a
-valid `IntList`. Without its equation, the recursive call has nowhere to stop.
-Run this version from `content/learn` to see where the promise is incomplete:
+`Empty` is itself a valid `IntList`, as well as the ending form reached by
+the finite lists here. Which equation gives it a result? Run this version
+from `content/learn` to check that coverage requirement:
 
 <!-- diagnostic: src/03-missing-empty.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -137,6 +142,9 @@ result from which the longer cases can be calculated.
 
 ## Exercise: count the integers
 
+Start from a fresh copy of `src/02-sum.ash` in your scratch directory.
+Replace the function and its calls while keeping the data definition.
+
 Define `length : IntList -> Int`. Follow the two forms of the data:
 
 - the length of `Empty` is `0`;
@@ -152,10 +160,10 @@ the expression that combines the first part with the recursive result changes.
 
 ## Recursion follows self-reference
 
-A recursive data definition has a form containing a smaller value of the type
-being defined. A function follows that form with a recursive call on the
-corresponding field. A non-recursive form supplies the result that ends the
-calculation.
+In these finite lists, `rest` contains fewer layers of the same type.
+The recursive call follows that field, and the non-recursive `Empty` form
+supplies the ending result. The data definition guides the cases; the chosen
+input and recursive argument explain the progress of this calculation.
 
 So far, every function has been called by name where it is used. Functions are
 also values: they can be received, returned, and made for a particular

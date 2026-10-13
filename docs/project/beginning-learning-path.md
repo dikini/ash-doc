@@ -83,7 +83,9 @@ directory, reader-facing link, or publication date.
   for every admitted input independently of main's chosen value.
 
 - **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
-  — **verified.** Recursive nominal data and recursive functions.
+  — **verified.**
+  Follow each finite rest field with a recursive call and use Empty's
+  result as the base; distinguish this argument from general termination.
 
 ## Functional abstraction
 
