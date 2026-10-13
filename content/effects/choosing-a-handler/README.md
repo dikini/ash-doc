@@ -5,7 +5,7 @@ also have a local rule inside a broader rule. To predict its result, follow
 where the request happens and identify the nearest handler for that exact
 effect instance.
 
-An effect instance consists of the declaring effect and its type arguments.
+An [effect instance][rows] consists of the declaring effect and its type arguments.
 Two handlers with the same target can answer differently. Two effects with
 the same spelling need not be the same target.
 
@@ -31,17 +31,21 @@ main () = handle {
 }
 ```
 
-The inner handler supplies `2`. The later request uses the still-surrounding
-handler and receives `10`. Follow both scopes, then run the file from this
-lesson's `src` directory:
+For each `perform`, identify the matching handler that still surrounds it.
+Follow where the local scope finishes before predicting the sum, then run
+the file from this lesson's `src` directory:
 
 ```text
 $ ash 01-nested.ash
 12 : Int
 ```
 
-Both requests name `Bonus.amount`. Their positions in the calculation decide
-which handler answers. The effect row does not list an order of handlers.
+The inner handler supplies `2`. The later request uses the still-surrounding
+handler and receives `10`, so the addition produces `12`.
+
+Both requests name `Bonus.amount`. The [handler evaluation rules][evaluation]
+select the nearest matching handler at the point of each request. The effect
+row does not list an order of handlers.
 
 ## A clause can ask the surrounding handler
 
@@ -67,15 +71,24 @@ main () = handle {
 }
 ```
 
-The request in the inner body selects the inner clause. The request made
-directly by that clause goes past its own handler to the outer handler. It
-receives `10`, then the inner clause resumes its suspended calculation with
-`12`. The clause does not repeatedly select itself.
+A clause runs outside the handler that selected it. Here, its request reaches
+the handlers surrounding the inner handler. With that boundary in mind,
+follow how `base` gets its value and predict the answer passed to the inner
+`resume`:
 
 ```text
 $ ash 02-forwarding.ash
 12 : Int
 ```
+
+The request in the inner body selects the inner clause. The request made
+directly by that clause goes past its own handler to the outer handler. It
+receives `10`, then the inner clause resumes its suspended calculation with
+`12`. The clause does not repeatedly select itself.
+
+Both programs produce `12`. The preceding one adds the answers to two body
+requests. This one uses the outer answer to construct the inner clause's
+answer. The same final value can follow different request paths.
 
 Handling removes the targeted requirement from the body. A request introduced
 by a clause remains an outward requirement until another handler answers it.
@@ -106,13 +119,17 @@ main () = {
 ```
 
 `Ask<Int>` and `Ask<Bool>` are different instances of one declaration. Their
-clauses resume with different value types. Each handler targets exactly the
-instance requested in its body:
+operations return different value types. Match each requested instance to
+its handler, then predict the value and type of each tuple field:
 
 ```text
 $ ash 03-instances.ash
 (40, true) : (Int, Bool)
 ```
+
+Each handler targets exactly the instance requested in its body. The integer
+request receives `40`, and the Boolean request receives `true`. Their operation
+result types determine what each clause may supply through `resume`.
 
 Changing only the handler's target does not redirect the request. Consider
 `04-wrong-instance.ash`:
@@ -128,6 +145,11 @@ main () = handle (perform Ask<Int>.value ()) with Ask<Bool> {
     value ignored => resume false
 }
 ```
+
+Compare the type arguments on the request and the handler target before
+looking at the clause. Does the handler target the instance established by
+its body? Run the file to inspect that boundary:
+
 <!-- diagnostic: src/04-wrong-instance.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -140,14 +162,16 @@ reason: effect.handler-missing-input
 ```
 <!-- markdownlint-enable MD013 -->
 
-The label identifies `Ask<Bool>`, but the body requests `Ask<Int>`. Restore the
-target to `Ask<Int>` and supply an integer through `resume`, as in the first
-binding of `03-instances.ash`. Matching operation names alone is insufficient.
+The label identifies `Ask<Bool>`, but the body requests `Ask<Int>`. The handler
+must target that exact instance. Restore the target to `Ask<Int>` and supply
+an integer through `resume`, as in the first binding of `03-instances.ash`.
+Changing the target also changes the operation's answer type, so the Boolean
+answer must change too. Matching operation names alone is insufficient.
 
 ## A declaration keeps its identity across imports
 
-Two modules can use the same spelling for independent APIs. Save these sibling
-files as `left.ash` and `right.ash`:
+Two modules can use the same spelling for independent APIs. The sibling files
+`left.ash` and `right.ash` each declare a public effect:
 
 <!-- source: src/left.ash -->
 ```ash
@@ -181,18 +205,22 @@ main () = handle {
 }
 ```
 
-The outer `Right.Bonus` handler does not answer the `Left.Bonus` request. The
-inner handler supplies `2` for the left declaration and the outer supplies
-`5` for the right:
+For each request, follow its import alias to the declaring module. Locate the
+handler that targets that declaration, then predict the sum from the two
+answers:
 
 ```text
 $ ash 05-module-identities.ash
 7 : Int
 ```
 
+The outer `Right.Bonus` handler does not answer the `Left.Bonus` request. The
+inner handler supplies `2` for the left declaration and the outer supplies
+`5` for the right. The calculation adds those answers to produce `7`.
+
 Qualification identifies the declaring module. Renaming an import alias does
 not create a new effect; declaring another effect does. The
-[identity and row rules][rows] preserve this distinction even when spellings
+[effect identity rules][effects] preserve this distinction even when spellings
 and operation signatures agree.
 
 ## A closure keeps values, not its creating handler
@@ -226,23 +254,32 @@ main () = {
 }
 ```
 
-`make_request ()` obtains `2` and saves it as `initial`. The local annotation
-on `request` supplies the function type needed to check the anonymous function.
-Its body has not run yet. Returning that closure retains `initial`, but does
-not retain the handler that supplied it.
-
-Later, `request ()` runs under a handler supplying `9`. Its result combines
-the saved `2` with that new answer:
+Separate the creating call, `make_request ()`, from the later call,
+`request ()`. Trace the first request while the function is being made, then
+identify which handler surrounds the request inside its body when it is
+called later. Predict the result from the saved value and the new answer:
 
 ```text
 $ ash 06-returned-function.ash
 11 : Int
 ```
 
+`make_request ()` obtains `2` and saves it as `initial`. The local annotation
+on `request` gives the checker an expected function type. Its body has not run
+yet. Returning that closure retains `initial`, but does not retain the handler
+that supplied it.
+
+Later, `request ()` runs under a handler supplying `9`. Its result combines
+the saved `2` with that new answer, producing `11`.
+
 There are two separate facts to trace: which ordinary values the closure
 captures, and which handler surrounds a request when the closure is called.
 
 ## Practice: trace the request before changing the answer
+
+Start each task from a fresh copy of its named program in this lesson's `src`
+directory. Keep `left.ash` and `right.ash` beside the module-example copy so
+its relative imports still find the same declarations.
 
 1. Change only the inner answer in `01-nested.ash`. Predict which part of the
    sum changes, then run the program.
@@ -261,3 +298,4 @@ calculation.
 
 [effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
 [rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
+[evaluation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#effect-handlers-and-completion

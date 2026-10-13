@@ -155,6 +155,11 @@ nearest matching handler, and explain which clause effects remain outward.
 Contrast handling the intended instance with handling a different one. Explain
 that constructing a closure under a handler does not capture that handler.
 
+Identify the answering clause before computing each result, including the
+two paths that produce the same score. Trace saved closure values separately
+from the handler around the later call, and keep module exercise copies beside
+their sibling imports.
+
 ### E5. What happens when a handler resumes a calculation?
 
 **State: verified.** [Read the lesson](../../content/effects/resuming-a-calculation/README.md).
@@ -481,13 +486,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E4 teaching review.** Improve handler-selection prediction
-and closure traces while preserving the chapter's eight canonical sources and
-observations at `diag-ash`, commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The approved
-[execution plan](../plans/2026-10-13-choosing-a-handler-teaching-review.md)
-closes the sequential E2–E4 review.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
