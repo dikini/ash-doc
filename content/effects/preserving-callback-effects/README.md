@@ -25,14 +25,17 @@ main : Unit -> Int
 main () = apply_twice (increment, 40)
 ```
 
-The first call turns `40` into `41`. The second uses that result and produces
-`42`. Neither call requests an effect. Run the file from this lesson's `src`
-directory:
+Start with the inner call, `function value`, and use its result as the input
+to the outer call. Predict what applying `increment` twice does to the starting
+value, then run the file from this lesson's `src` directory:
 
 ```text
 $ ash 01-pure-callback.ash
 42 : Int
 ```
+
+The first call turns `40` into `41`. The second uses that result and produces
+`42`. Neither call requests an effect.
 
 The tuple parameter contains a pure function of type `Int -> Int` and its
 starting integer. `apply_twice` also promises a pure result computation.
@@ -61,9 +64,9 @@ main () = handle (apply_twice (score, 40)) with Bonus {
 }
 ```
 
-`score` has type `Int -> Int ! {Bonus}`. It cannot satisfy an argument position
-that promises a pure function. The outer handler can answer a request made
-during the calculation; it does not change the type required by the helper:
+Compare `score`'s signature with the function component of `apply_twice`'s
+tuple parameter. Which requirement does each row describe? Keep the outer
+handler in view as you check whether the supplied function fits that parameter:
 
 <!-- diagnostic: src/02-pure-contract.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -87,6 +90,11 @@ The first label identifies the supplied argument. The second points back to
 the tuple parameter in `apply_twice`'s signature, and the third identifies the
 whole call. Together they show where the effectful function meets a pure
 function requirement.
+
+`score` has type `Int -> Int ! {Bonus}`, while the helper requires `Int -> Int`.
+The outer handler can answer a request made during a valid calculation; it
+does not change the helper's required argument type. The callback contract
+has to describe the function being supplied.
 
 In this message, `<effect:1:0:0>` is the tool's rendering of the effect identity
 for `Bonus` in this program. It is not syntax to copy into a signature. The
@@ -135,17 +143,20 @@ refer to the same parameter. The callback may require `R`, so calling
 `apply_twice` may require `R` too. The helper calls the callback without
 installing a handler or adding a separate effect.
 
-Each use of this signed global definition instantiates its parameters. In the
-call with `increment`, `A` is `Int` and `R` is the empty row. In the call with
-`score`, `A` is again `Int` and `R` is `{Bonus}`. The second call is handled;
-the first needs no handler.
-
-Predict both results before running:
+Each use of this signed global definition instantiates its parameters. For
+each call in `main`, identify `A` from the callback's input and result types,
+and `R` from its effect row. Use those substitutions to trace the callback's
+two calls, then predict both results:
 
 ```text
 $ ash 03-open-row.ash
 (42, 44) : (Int, Int)
 ```
+
+In the call with `increment`, `A` is `Int` and `R` is the empty row. In the
+call with `score`, `A` is again `Int` and `R` is `{Bonus}`. Each call gets
+the contract its callback needs. The second call is handled; the first needs
+no handler.
 
 The effectful calculation adds two to `40`, then adds two to `42`. Calling the
 callback twice still requires the row `{Bonus}`, not two entries for `Bonus`.
@@ -188,13 +199,17 @@ This notation also records that `R` excludes that exact `Bonus` instance.
 The tail is the remainder, not an unknown row that might duplicate the known
 member.
 
-Here the callback is pure, so `R` becomes empty. `increment 40` produces `41`,
-and the helper's request supplies `2`:
+The addition uses the callback's result and the helper's own requested bonus.
+Follow the callback first and the request second, then predict their sum:
 
 ```text
 $ ash 04-known-effect.ash
 43 : Int
 ```
+
+Here the callback is pure, so `R` becomes empty. `increment 40` produces `41`,
+and the handler supplies `2` for the helper's request. Adding them produces
+`43`; only the helper introduces a `Bonus` requirement.
 
 The tail's exclusion also limits which callbacks this helper accepts. A
 callback that itself requests `Bonus` cannot supply that tail. We will examine
@@ -223,8 +238,9 @@ main () = handle (add_bonus (increment, 40)) with Bonus {
 ```
 
 The body still combines the callback's unknown row with a `Bonus` request.
-Now the signature neither includes `Bonus` explicitly nor establishes that
-`R` excludes it. Ash does not invent that exclusion to make the union work:
+Compare the result signature with the preceding version. Does it establish
+that the tail excludes the known effect being added? Inspect the rejected
+expression:
 
 <!-- diagnostic: src/05-unknown-union.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -241,6 +257,8 @@ reason: effect.row-union-ambiguous
 The label identifies the expression combining the two requirements. This
 message uses the same reason code seen for the incorrect closed contract in
 the preceding lesson, but its explanation concerns an unknown row union.
+The signature neither includes `Bonus` explicitly nor establishes that `R`
+excludes it. Ash does not invent that exclusion to make the union work.
 Restore `{Bonus | R}` in the result signature, as in `04-known-effect.ash`.
 That states the known requirement and the restriction on the remaining tail.
 
@@ -253,8 +271,8 @@ particular call uses a pure callback.
 ## Respect the tail's exclusion at a call
 
 Now try the bonus-requesting `score` as the callback to `add_bonus`.
-`06-excluded-callback.ash` gives the helper the correct result row, but supplies
-a callback that conflicts with its tail:
+`06-excluded-callback.ash` retains the known member beside the result tail
+and passes `score` to the helper:
 
 <!-- source: src/06-excluded-callback.ash -->
 ```ash
@@ -274,9 +292,9 @@ main () = handle (add_bonus (score, 40)) with Bonus {
 }
 ```
 
-`score` requires `{Bonus}`. Matching that callback against `Int -> Int ! {| R}`
-would put `Bonus` into `R`. But the helper's result row `{Bonus | R}` already
-requires that `R` exclude the same `Bonus` instance. The call is rejected:
+Read the row in `score`'s signature, then substitute it for `R` in the
+helper's callback type. Can that substitution satisfy the exclusion recorded
+by `{Bonus | R}`? Run the file to inspect the call boundary:
 
 <!-- diagnostic: src/06-excluded-callback.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -298,6 +316,10 @@ related label points at the helper's required callback type. The message
 explains why matching them fails: the known effect cannot also occur in the
 tail with the same type arguments.
 
+`score` requires `{Bonus}`. Matching that callback against `Int -> Int ! {| R}`
+would put `Bonus` into `R`. The helper's result row `{Bonus | R}` requires that
+`R` exclude that same instance, so this substitution cannot satisfy the contract.
+
 Use the pure `increment` callback from `04-known-effect.ash` to satisfy this
 contract. Its empty row fits `R`, leaving only the helper's own `Bonus`
 request. If the helper is intended to share `Bonus` with its callback, its
@@ -309,7 +331,11 @@ requested the bonus twice using one effect-row member.
 
 ## Practice: preserve the callback's contract
 
-1. In a copy of `03-open-row.ash`, make `apply_twice` call its callback three
+Use a fresh copy of `03-open-row.ash` for each of the first two tasks, and a
+fresh copy of `04-known-effect.ash` for the third. Keep the copies in this
+lesson's `src` directory.
+
+1. Make `apply_twice` call its callback three
    times and rename it `apply_three_times`. Predict both results before
    running. Explain whether the row needs to change.
 2. Add a pure Boolean callback that exchanges `true` and `false`. Use the

@@ -134,6 +134,10 @@ contract with a falsely pure callback contract. Explain row exclusions and
 ambiguous unions through a small example when needed to show the boundary of
 inference. Row order is not an execution order.
 
+Identify the value-type and row substitutions before predicting each callback
+use. Read each rejection against the callback argument, unknown union, or tail
+exclusion, and start each practice task from a fresh program copy.
+
 Use explicitly signed global helpers first. Complete F1 before examples rely
 on generalized local callbacks; do not silently treat every local binding as
 polymorphic.
@@ -477,13 +481,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E3 teaching review.** Improve callback prediction, row
-instantiation, and rejection explanations while preserving the chapter's six
-canonical sources and observations at `diag-ash`, commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its approved
-[execution plan](../plans/2026-10-13-preserving-callback-effects-teaching-review.md)
-closes before the E4 review becomes active.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
