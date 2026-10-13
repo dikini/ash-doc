@@ -62,7 +62,8 @@ directory, reader-facing link, or publication date.
 
 - **5. [How can a calculation name an intermediate value?](../../content/learn/naming-intermediate-values/README.md)**
   — **verified.**
-  Blocks, sequential `let` bindings, and scope.
+  Predict each named intermediate value and the block result; explain
+  forward-reference rejection through sequential scope.
 
 ## Data and structure
 

@@ -30,19 +30,21 @@ let answer = 40 + 2
 ```
 
 Ash evaluates the expression on the right and associates the resulting value
-with the name on the left. Within the rest of this block, `answer` stands for
-`42`.
+with the name on the left. That name is available in the rest of the block.
 
 The last line is different. It is the expression whose value becomes the value
-of the whole block. We can trace the block without keeping the addition in our
-heads:
+of the whole block. Predict the value bound to `answer` and the value returned
+by the final expression, then run the program. Ash reports `42 : Int`.
+Trace how that result follows:
 
 ```text
 let answer = 40 + 2   -- answer stands for 42
 answer                -- the block produces 42
 ```
 
-Run the program. The block produces `42`, so `main` produces `42 : Int`.
+The addition binds `42` to `answer`; the final expression uses that value.
+A binding names the intermediate result, while the final expression determines
+what the block returns.
 
 ## Letting one step use another
 
@@ -58,17 +60,18 @@ main () = {
 }
 ```
 
-Read the bindings from top to bottom. The first binding associates
-`incremented` with `21`. When Ash reaches `doubled`, that earlier name is
-already available:
+Read the bindings from top to bottom. Predict each named value and the final
+result before running. Ash reports `42 : Int`; the later initializer uses the
+value produced by the earlier one:
 
 ```text
 incremented = 20 + 1 = 21
 doubled     = 21 * 2 = 42
 ```
 
-The final expression is `doubled`, so the block produces `42`. Running the
-program checks the entire chain.
+The first binding produces `21`, the next produces `42`, and the final
+expression returns `doubled`. The [binding rules][bindings] explain how each
+initializer runs before its new names become available to the remainder.
 
 These names belong to the block. They help explain this calculation without
 adding definitions that the rest of the source file can call. A useful local
@@ -90,9 +93,9 @@ main () = {
 }
 ```
 
-When Ash checks `later + 2`, no binding for `later` is in reach. The following
-line cannot supply a name backward in the source. Run this version from
-`content/learn`:
+At the initializer `later + 2`, which names have already been introduced?
+Does the following binding belong to that preceding scope? Run this version
+from `content/learn` to check your account:
 
 <!-- diagnostic: src/03-forward-reference.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -123,8 +126,9 @@ main () = double (increment 20)
 ```
 
 Start from the
-[first lesson's program](../what-is-an-ash-program/README.md#giving-a-calculation-a-name),
-and keep its existing `increment` and `double` definitions. In the block:
+[first lesson's composition program](../what-is-an-ash-program/README.md#giving-a-calculation-a-name):
+make a fresh scratch copy of its `src/06-composition.ash`. Keep the existing
+`increment` and `double` definitions. In the block:
 
 1. name the result of `increment 20`;
 2. name the result of doubling that value; and
@@ -143,3 +147,5 @@ expression determines what leaves the block.
 One name can stand for one value. Sometimes two or more values belong to the
 same step and should travel together. The next lesson introduces a value that
 keeps such parts side by side.
+
+[bindings]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings
