@@ -40,15 +40,22 @@ programs live outside canonical source trees, with required sibling modules
 kept together. Local generalization and recursive initialization continue the
 same model; the effects connection remains optional until E3.
 
+The [library path](../../content/libraries/README.md) now asks for value,
+type, and evidence predictions before its worked answers. Rejections connect
+complete requirements, declaration access, and lexical scope to causal labels
+and repairs. Every practice task names a fresh baseline; sibling modules stay
+together outside canonical source trees. All eight chapters retain their
+original 43 sources, 17 accepted observations, and 16 complete captures.
+
 ## Rendering infrastructure outcome
 
 The first rendering outcome is verified as a local specimen in responsive HTML,
 reflowable EPUB 3, and two PDF print variants. It keeps existing verified
-Markdown and executable evidence authoritative, uses Quarto Book and Typst, and evaluates
-the existing railroad and sequent renderers separately from Mermaid sequence
-diagrams. The [rendering guide](rendering.md) records its selected sources,
-verification, current development handoffs, and replacement condition. This
-work does not publish the edition or change its Ash target.
+Markdown and executable evidence authoritative, uses Quarto Book and Typst,
+and evaluates the existing railroad and sequent renderers separately from
+Mermaid sequence diagrams. The [rendering guide](rendering.md) records its
+selected sources, verification, current development handoffs, and replacement
+condition. This work does not publish the edition or change its Ash target.
 
 The book PDF retains mirrored margins and outer margin notes for double-sided
 printing. The one-sided A4 PDF keeps 25 mm of left binding space and a fixed

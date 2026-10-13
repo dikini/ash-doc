@@ -44,7 +44,9 @@ and result of `keep` are therefore valid value types. These relationships
 follow Ash's rules for
 [kinds, monotypes, and schemes](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#kinds-monotypes-and-schemes).
 
-Run the program:
+At the call in `main`, which constructor replaces `F`, and which element type
+replaces `A`? Follow `keep`'s body to predict both the returned value and its
+completed type. Run the program from this lesson's `src` directory:
 
 ```text
 ash 01-explicit-kind.ash
@@ -60,10 +62,11 @@ At this call, ordinary typing chooses `F = Option` and `A = Int`. `keep` does
 not inspect either type argument or the `Some` value. It returns the same
 `Option<Int>` value it received.
 
-## Omission means `Type`, not inference
+## Read the omitted declaration
 
-It might seem that Ash could discover `F`'s function kind from `F<A>`. Test
-that prediction with the parallel program:
+The omitted annotation on `A` fixed its kind to `Type`. The same rule applies
+to every omitted declaration kind; Ash does not infer a function kind from
+use. The parallel program removes `F`'s annotation:
 
 <!-- source: src/02-omitted-kind.ash -->
 ```ash
@@ -78,7 +81,8 @@ main : Unit -> Option<Int>
 main () = keep(Some(42))
 ```
 
-The only change is the removal of `: Type -> Type`. Run it:
+Before running it, locate the first type application that needs `F` to have a
+function kind. Which declaration fixes the kind that application receives?
 
 <!-- diagnostic: src/02-omitted-kind.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -116,19 +120,23 @@ instead accepts a one-argument constructor, such as
 
 ## Practice: follow the remaining kind
 
-Work in copies of the accepted program.
+Start each task with a fresh copy of `01-explicit-kind.ash` in a scratch
+directory.
 
-1. Replace `Option` with a two-parameter type `Pair<A, B>`. Give a parameter
-   the kind `Type -> Type -> Type`, apply it to one type, and state the kind
-   that remains.
-2. Apply that parameter to two types and explain why the result can appear as a
-   function domain or result.
+1. Reason about replacing `Option` with a two-parameter type `Pair<A, B>` and
+   giving `F` the kind `Type -> Type -> Type`. Apply `F` to one type on paper
+   and state the kind that remains. Explain which context could accept it;
+   this task does not ask for a partial application in a value-type position.
+2. Replace `Option` with `Pair<A, B>`. Revise `keep` to accept its two-argument
+   constructor and apply it to both element types in its domain and result.
+   Construct a pair in `main` and update its result annotation. Predict the
+   value and type, then run the complete program and explain the kinds.
 3. Change `F` back to an omitted-kind parameter. Predict which application is
    rejected before running the program.
-4. Try to use bare `Option` as `main`'s result type. Explain why a value boundary
-   needs kind `Type`, not `Type -> Type`.
+4. Try to use bare `Option` as `main`'s result type. Predict whether its kind
+   satisfies that value boundary, then run it and follow the causal labels.
 
 An abstraction accepts a one-argument type constructor by declaring a parameter
 of kind `Type -> Type`. Ash keeps omission deliberately different: omitted
 declaration kinds are `Type`. The next lesson uses this constructor parameter
-inside an interface method that has its own type parameters.
+inside an [interface method that has its own type parameters](../giving-method-local-type-parameters/README.md).

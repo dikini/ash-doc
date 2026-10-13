@@ -11,7 +11,7 @@ vary from one occurrence to the next.
 
 ## Declare the method's changing types
 
-Put the interface and its constrained consumer in `api.ash`:
+Read the interface and its constrained consumer in `api.ash`:
 
 <!-- source: src/api.ash -->
 ```ash
@@ -30,15 +30,15 @@ pub map_pair<F : Type -> Type> : (F<Int>, F<Bool>) -> (F<Bool>, F<Int>) where Fu
 map_pair (numbers, flags) = (map((to_bool, numbers)), map((to_int, flags)))
 ```
 
-`F` belongs to the interface. A complete application such as `Functor<Box>`
-is the implementation requirement. By contrast, `A` and `B` belong only to
+`F` belongs to the interface. The complete application `Functor<F>` records
+the implementation requirement. By contrast, `A` and `B` belong only to
 `map`. They describe one occurrence's input and output element types and create
 no separate interface requirement.
 
-`map_pair` makes the distinction observable. Its first `map` occurrence uses
-`A = Int` and `B = Bool`; its second uses `A = Bool` and `B = Int`. Both
-occurrences retain the same `Functor<F>` requirement. Ash freshens the complete
-interface vector and then the method's ordered parameters at each occurrence,
+`map_pair` uses `map` once with each transformation function. The function and
+container arguments determine each occurrence's element types. Both occurrences
+retain the same `Functor<F>` requirement. Ash gives the interface vector and
+then the method's ordered parameters fresh type choices at each occurrence,
 as specified by the
 [interface method typing rule](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes).
 
@@ -72,7 +72,10 @@ main : Unit -> (Box<Bool>, Box<Int>)
 main () = map_pair((Box(42), Box(true)))
 ```
 
-From this lesson's `src` directory, run:
+Use `to_bool` and `to_int` to identify `A` and `B` at the two `map` calls.
+Then follow the implementation: unwrap, apply the supplied function, and wrap.
+Predict both fields of the returned tuple before running from this lesson's
+`src` directory:
 
 ```text
 ash 01-map-pair.ash
@@ -83,6 +86,11 @@ Ash reports:
 ```text
 (Box(true), Box(42)) : (Box<Bool>, Box<Int>)
 ```
+
+The first call unwraps `Box(42)`, compares its integer with `42`, and wraps
+`true`. Its method arguments are `A = Int` and `B = Bool`. The second unwraps
+`Box(true)`, maps that boolean to `42`, and wraps the integer; there `A = Bool`
+and `B = Int`. This accounts for both the values and the tuple's reported type.
 
 The entry selects one `Functor<Box>` fact. That evidence supplies `map` for
 both method-local instantiations; it does not select a new implementation for
@@ -96,7 +104,9 @@ and
 
 ## An omitted list binds no local types
 
-Remove the method parameter list but leave its type unchanged:
+A method's parameter list must declare every type variable in its signature
+outside the interface's parameters. An omitted list binds none. The rejected
+source removes that list but leaves the method type unchanged:
 
 <!-- source: src/02-missing-method-parameters.ash -->
 ```ash
@@ -105,7 +115,8 @@ interface Functor<F : Type -> Type> {
 }
 ```
 
-Run:
+`F` still belongs to the interface. Which remaining names need method-local
+binders? Locate their signature before running this source:
 
 <!-- diagnostic: src/02-missing-method-parameters.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -139,19 +150,22 @@ method as an ordinary argument.
 
 ## Practice: separate the two parameter roles
 
-Work in copies of the accepted sources.
+Start each task with fresh copies of `api.ash`, `carrier.ash`, and
+`01-map-pair.ash` together in a scratch directory.
 
-1. Use `map` twice at the same `Int -> Bool` element types. Identify what stays
-   polymorphic even though both occurrences choose the same local arguments.
+1. Use `map` twice at the same `Int -> Bool` element types. Adjust `map_pair`'s
+   domain and result, and the entry's arguments and annotation, to agree with
+   those calls. Predict the resulting pair and identify what stays polymorphic
+   even though both occurrences choose the same local arguments.
 2. Reverse the written method parameters to `<B, A>` without changing the
    signature. Predict the output and explain what parameter order records.
 3. Add an unused method parameter `C`. Predict the binding error before running
    the source.
-4. Remove `impl Functor` only from the entry import. Explain why declared
-   method-local parameters cannot satisfy the separate `Functor<Box>` evidence
-   obligation.
+4. Remove `impl Functor` only from the entry import. Predict whether the
+   declared method parameters supply what this call needs, then run it and
+   explain the diagnostic's labels through the separate parameter roles.
 
 One implementation can support unrelated element types because each method
 occurrence instantiates the method's own parameters while retaining one
 complete interface requirement. The next lesson asks how one known interface
-argument can determine another before evidence selection.
+argument can [determine another before evidence selection](../determining-interface-results/README.md).
