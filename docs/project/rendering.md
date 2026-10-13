@@ -16,9 +16,6 @@ The writing skill's
 explains how authors choose these elements and write their source. This guide
 retains the implementation and verification boundary.
 
-The [real-lesson note plan](../plans/2026-10-13-real-lesson-notes.md) applies the
-accepted formatting forms to the search-tree chapter for print review.
-
 ## Selected sources and authority
 
 The [specimen configuration](../../rendering/specimen.json) selects three
@@ -27,7 +24,10 @@ complete, indexed lessons:
 - [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)
   supplies short programs and a complete rejection.
 - [Guarantee logarithmic retrieval](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
-  supplies a table, a 248-line listing, and a 1,721-character output line.
+  supplies a table, a 248-line listing, a 1,721-character output line, and all
+  three note forms. A numbered sketch illustrates the count of black forms,
+  a margin cue clarifies the height counts, and a wide
+  comparison follows left-left repair into its common result.
 - [Require element behavior](../../content/libraries/requiring-element-behavior/README.md)
   supplies multiline diagnostics and their source relationships.
 
@@ -237,6 +237,19 @@ and diagnostic text remain selectable.
 Self-contained assets have explicit viewports, no browser scripts or HTML
 foreign objects, and no external image or font resources. Short railroad
 figures use a bounded width so responsive scaling keeps their labels readable.
+
+Native Markdown images can also reference checked-in, outlined SVG files within
+their lesson directory. Preparation visits images inside notes and Divs as
+well as ordinary paragraphs, preserves captions and layout attributes, and
+copies unchanged bytes into distinct generated asset paths. Each chapter's
+source record retains its image paths and SHA-256 values. Missing, escaping,
+or nonportable SVG inputs fail preparation. This boundary does not add nested
+diagram-fence conversion or a placement schema for generated notation.
+
+The search-tree figures are original source diagrams with labels derived from
+the canonical program. Their descriptions retain the editable SVG source.
+The evaluated font-outline helpers generated their standalone glyph paths;
+regeneration of the book uses the checked-in figures directly.
 
 The [notation renderer report](notation-renderer-bugs.md) retains three
 confirmed defects, separately classified integration gaps, executable controls,

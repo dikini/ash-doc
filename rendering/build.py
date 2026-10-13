@@ -4,12 +4,14 @@
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
 import subprocess
 import sys
 import zipfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -129,10 +131,96 @@ def transform_links(document, source, mapping, commit):
         node["c"][2][0] = replacement
 
 
-def prepare_chapter(quarto, source, mapping, commit, jobs):
+def validate_source_svg(data, source):
+    """Accept the self-contained outlined SVG boundary used by the specimen."""
+    try:
+        if re.search(br"<\?(?!xml[ \t\r\n])", data):
+            raise ValueError("processing instructions are unsupported")
+        if re.search(br"<!\s*(?:DOCTYPE|ENTITY)\b", data, re.I):
+            raise ValueError("document declarations are unsupported")
+        svg = ET.fromstring(data)
+        if svg.tag != "{http://www.w3.org/2000/svg}svg":
+            raise ValueError("an SVG root and namespace are required")
+        viewport = [float(value) for value in re.split(r"[ ,]+", svg.get("viewBox", "").strip())]
+        if (len(viewport) != 4 or not all(math.isfinite(value) for value in viewport)
+                or viewport[2] <= 0 or viewport[3] <= 0):
+            raise ValueError("a positive finite viewBox is required")
+
+        def css_resources(css):
+            decoded = re.sub(r"\\([0-9a-f]{1,6})\s?|\\([^\r\n])",
+                             lambda match: chr(int(match[1], 16)) if match[1] else match[2],
+                             css, flags=re.I)
+            if re.search(r"@import\b|@font-face\b", decoded, re.I):
+                raise ValueError("CSS imports and reader fonts are unsupported")
+            for match in re.finditer(r"url\(\s*([\"']?)(.*?)\1\s*\)", decoded, re.I | re.S):
+                if not match[2].strip().startswith("#"):
+                    raise ValueError("external CSS resources are unsupported")
+
+        allowed = {"svg", "g", "defs", "symbol", "use", "path", "rect", "line",
+                   "circle", "ellipse", "polyline", "polygon", "title", "desc", "style",
+                   "clipPath", "mask", "linearGradient", "radialGradient", "stop"}
+        for node in svg.iter():
+            kind = node.tag.rsplit("}", 1)[-1]
+            if node.tag != f"{{http://www.w3.org/2000/svg}}{kind}" or kind not in allowed:
+                raise ValueError(f"unsupported element {kind}")
+            for attribute, value in node.attrib.items():
+                name = attribute.rsplit("}", 1)[-1]
+                if attribute == "{http://www.w3.org/XML/1998/namespace}base":
+                    raise ValueError("resource base overrides are unsupported")
+                if name.lower().startswith("on"):
+                    raise ValueError("event handlers are unsupported")
+                if name == "href" and not value.strip().startswith("#"):
+                    raise ValueError("external href resources are unsupported")
+                css_resources(value)
+            if kind == "style":
+                css_resources("".join(node.itertext()))
+    except (ET.ParseError, ValueError) as error:
+        raise ValueError(f"{source}: unsuitable SVG: {error}") from error
+
+
+def stage_images(document, source, output):
+    """Rebase native images, including those inside notes, without rewriting them."""
+    assets = {}
+    parent = (ROOT / source).parent.resolve()
+    for node in walk(document["blocks"]):
+        if node.get("t") != "Image":
+            continue
+        target = node["c"][2][0]
+        url = urlsplit(target)
+        path = Path(unquote(url.path))
+        if (url.scheme or url.netloc or not url.path or path.is_absolute()
+                or url.query or url.fragment):
+            raise ValueError(f"{source}: image needs a plain relative lesson path: {target}")
+        asset = (parent / path).resolve()
+        if not asset.is_relative_to(parent) or not asset.is_file():
+            raise ValueError(f"{source}: image is missing or outside its lesson: {target}")
+        if asset.suffix.lower() != ".svg":
+            raise ValueError(f"{source}: only outlined SVG lesson images are supported: {target}")
+        if output is None:
+            raise ValueError(f"{source}: image staging requires an output directory")
+        relative = asset.relative_to(ROOT).as_posix()
+        if relative not in assets:
+            data = asset.read_bytes()
+            validate_source_svg(data, relative)
+            identifier = hashlib.sha256(relative.encode()).hexdigest()[:16]
+            basename = re.sub(r"[^A-Za-z0-9._-]", "-", asset.stem) + ".svg"
+            staged = f"assets/source-{identifier}-{basename}"
+            destination = output / staged
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(data)
+            assets[relative] = {"source": relative, "staged": staged,
+                                "sha256": hashlib.sha256(data).hexdigest()}
+        node["c"][2][0] = assets[relative]["staged"]
+    return list(assets.values())
+
+
+def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=None):
     text = (ROOT / source).read_text(encoding="utf-8")
     document = parse(quarto, text)
     transform_links(document, source, mapping, commit)
+    staged_assets = stage_images(document, source, output)
+    if assets is not None:
+        assets.extend(staged_assets)
     descriptions = document["meta"].pop("diagrams", {"c": []})["c"]
     diagram_number = 0
     blocks = []
@@ -230,10 +318,12 @@ def prepare(args):
     shutil.copytree(ROOT / "rendering/fonts", args.output / "fonts", dirs_exist_ok=True)
     jobs, records = [], []
     for source in sources:
-        staged, codes = prepare_chapter(args.quarto, source, mapping, commit, jobs)
+        assets = []
+        staged, codes = prepare_chapter(args.quarto, source, mapping, commit, jobs,
+                                       output=args.output, assets=assets)
         chapter = mapping[source]
         (args.output / chapter).write_text(staged, encoding="utf-8")
-        records.append({"source": source, "chapter": chapter, "code": codes,
+        records.append({"source": source, "chapter": chapter, "code": codes, "assets": assets,
                         "sha256": hashlib.sha256((ROOT / source).read_bytes()).hexdigest()})
     (args.output / "setup.md").write_text(reader_setup(args.quarto), encoding="utf-8")
     (args.output / "index.md").write_text(

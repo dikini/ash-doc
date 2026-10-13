@@ -19,6 +19,10 @@ const modulePath = process.env.PUPPETEER_MODULE ?? join(toolchain,
   'mermaid/node_modules/puppeteer/lib/puppeteer/puppeteer.js');
 const { default: puppeteer } = await import(pathToFileURL(modulePath).href);
 const sources = JSON.parse(await readFile(join(project, 'sources.json'), 'utf8'));
+const lessonSource = sources.find(source => source.source ===
+  'content/cases/guaranteeing-logarithmic-retrieval/README.md');
+assert.ok(lessonSource, 'The real search-tree lesson is selected.');
+const lessonHtml = lessonSource.chapter.replace(/\.md$/, '.html');
 const report = { scope: 'Browser HTML and extracted EPUB XHTML; no e-reader compatibility claim.',
   browser: '', checks: [], screenshots: [], secondaryEngine: null };
 const mime = { '.html': 'text/html', '.xhtml': 'application/xhtml+xml', '.css': 'text/css',
@@ -180,6 +184,116 @@ async function fullWidthLayout(page, layout) {
     'The full table remains inside the reflowed aside.');
 }
 
+async function settledNotes(page) {
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await Promise.all([...document.images].map(image => image.decode().catch(() => {})));
+  });
+  let previous;
+  let stableSince = Date.now();
+  const started = Date.now();
+  while (Date.now() - started < 10000) {
+    const current = JSON.stringify(await page.$$eval('#red-root-sketch, #height-counting-cue, #repair-comparison',
+      nodes => nodes.map(node => {
+        const box = node.getBoundingClientRect();
+        return [box.x, box.y, box.width, box.height].map(value => Math.round(value * 10));
+      })));
+    if (current !== previous) { previous = current; stableSince = Date.now(); }
+    if (Date.now() - stableSince >= 750) return;
+    await new Promise(complete => setTimeout(complete, 50));
+  }
+  throw new Error('Native mixed-note geometry did not settle within 10 seconds.');
+}
+
+async function realLessonNotes(page, layout) {
+  await settledNotes(page);
+  const geometry = await page.evaluate(() => {
+    const box = node => {
+      const bounds = node.getBoundingClientRect();
+      return { left: bounds.left, right: bounds.right, top: bounds.top,
+        bottom: bounds.bottom, width: bounds.width, height: bounds.height };
+    };
+    const sketch = document.getElementById('red-root-sketch');
+    const image = sketch?.matches('img') ? sketch : sketch?.querySelector('img');
+    const note = image?.closest('[role="doc-footnote"], .sidenote, .footnote, [id^="fn"]');
+    const reference = note && [...document.querySelectorAll('a.footnote-ref')].find(ref =>
+      new URL(ref.href).hash.slice(1) === note.id);
+    const cue = document.getElementById('height-counting-cue');
+    const wide = document.getElementById('repair-comparison');
+    const wideFigure = document.getElementById('fig-tree-repair');
+    const wideImage = wideFigure?.matches('img') ? wideFigure : wideFigure?.querySelector('img');
+    if (!image || !note || !reference || !cue || !wide || !wideImage) return null;
+    const imageData = image => ({ ...box(image), alt: image.alt,
+      complete: image.complete, naturalWidth: image.naturalWidth });
+    const cueParent = cue.parentElement.closest('section');
+    return { sketch: imageData(image), note: box(note), reference: box(reference),
+      referenceText: reference.parentElement.textContent.replace(/\s+/g, ' ').trim(),
+      noteText: note.textContent.replace(/\s+/g, ' ').trim(), cue: box(cue),
+      cueText: cue.textContent.replace(/\s+/g, ' ').trim(), cueSection: cueParent?.id,
+      cueMarkers: cue.querySelectorAll('a.footnote-ref, a.footnote-back, a.footnote-backref').length,
+      wide: box(wide), wideImage: imageData(wideImage),
+      body: box(document.querySelector('main > section > p, main p') ?? document.querySelector('section > p')),
+      viewport: document.documentElement.clientWidth };
+  });
+  assert.ok(geometry, 'The real lesson includes all three note forms and a linked graphical sidenote.');
+  const { sketch, note, reference, cue, wide, wideImage, body, viewport } = geometry;
+  for (const image of [sketch, wideImage]) {
+    assert.ok(image.complete && image.naturalWidth > 0, 'The canonical lesson SVG loads.');
+    assert.ok(image.alt.length > 20, 'The lesson figure retains a useful description.');
+    assert.ok(image.width > 100 && image.height > 30, 'The lesson figure has readable dimensions.');
+  }
+  assert.ok(sketch.width <= note.width + 1 && sketch.left >= note.left - 1 && sketch.right <= note.right + 1,
+    'The optional sketch fits the actual note width.');
+  if (layout !== 'epub') assert.ok(Math.abs(note.top - reference.top) < 500,
+    'The numbered sketch remains near its HTML reference.');
+  assert.match(geometry.referenceText, /Empty counts as black/);
+  assert.match(geometry.noteText, /Both paths contain one black form/);
+  assert.match(geometry.cueText, /Counting cue/);
+  assert.equal(geometry.cueMarkers, 0, 'The local counting cue has no footnote marker.');
+  assert.match(geometry.cueSection ?? '', /height|logarithm|bound/, 'The counting cue stays with the height proof.');
+  assert.ok(wideImage.width <= wide.width + 1 && wideImage.left >= wide.left - 1 && wideImage.right <= wide.right + 1,
+    'The full-width image stays inside its reading region.');
+  assert.ok(wide.left >= 0 && wide.right <= viewport + 1, 'The wide figure fits the viewport.');
+  if (layout === 'desktop') {
+    assert.ok(wide.width >= body.width + 100 && wideImage.width >= body.width + 100,
+      'The figure itself uses the body and note columns.');
+    assert.ok(note.left >= body.right - 1 && cue.left >= body.right - 1,
+      'Both local note forms occupy the right margin.');
+    for (const margin of [note, cue]) {
+      assert.ok(margin.bottom <= wide.top || margin.top >= wide.bottom,
+        'The wide figure has no collision with margin content.');
+    }
+    assert.ok(note.bottom <= cue.top || note.top >= cue.bottom, 'The two margin notes do not overlap.');
+  }
+  return geometry;
+}
+
+async function realLessonReference(page) {
+  const start = page.url();
+  const note = await page.$eval('#red-root-sketch', node =>
+    node.closest('[role="doc-footnote"], [id^="fn"]').id);
+  const selector = `a.footnote-ref[href="#${note}"]`;
+  await page.click(selector);
+  assert.equal(new URL(page.url()).hash, `#${note}`, 'The reference opens its own graphical note.');
+  await page.goBack();
+  assert.equal(page.url(), start, 'Browser history returns from the native EPUB note.');
+}
+
+async function realLessonCapture(page, label) {
+  await page.$eval('#red-root-sketch', node => node.scrollIntoView({ block: 'center' }));
+  await settledNotes(page);
+  const path = join(qa, `real-lesson-notes-${label}.png`);
+  await page.screenshot({ path });
+  report.screenshots.push(relative(root, path));
+  await realLessonNotes(page, label);
+  await page.$eval('#repair-comparison', node => node.scrollIntoView({ block: 'center' }));
+  await settledNotes(page);
+  const widePath = join(qa, `real-lesson-wide-${label}.png`);
+  await page.screenshot({ path: widePath });
+  report.screenshots.push(relative(root, widePath));
+  await realLessonNotes(page, label);
+}
+
 try {
   browser = await puppeteer.launch({ executablePath, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
   report.browser = await browser.version();
@@ -227,6 +341,9 @@ try {
         });
       }
     }
+    await load(page, lessonHtml);
+    await check(`${label}: real lesson note forms, sketch, and wide figure fit`, () => realLessonNotes(page, label));
+    await check(`${label}: viewport capture preserves mixed-note geometry`, () => realLessonCapture(page, label));
     await load(page, 'notation.html');
     await check(`${label}: book and chapter navigation occupy separate chrome`, async () => {
       const navigation = await page.evaluate(() => ({
@@ -331,6 +448,11 @@ try {
     const index = Number(chapter.match(/\d+/)[0]);
     const source = sources[index - 3];
     if (source) await check(`EPUB: ${chapter} retains exact code text`, () => exactCode(page, source, 'pre > code'));
+    if (source?.source === lessonSource.source) {
+      await check('EPUB at enlarged text: real lesson notes and figures reflow', () => realLessonNotes(page, 'epub'));
+      await check('EPUB: graphical note reference and history return work', () => realLessonReference(page));
+      await check('EPUB: real lesson viewport capture preserves note geometry', () => realLessonCapture(page, 'epub'));
+    }
   }
   await check('EPUB: SVG figures and linked notes remain available', async () => {
     await images(page);
@@ -359,6 +481,10 @@ try {
         await load(second, `epub/EPUB/text/${chapter}`);
         await second.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
         await check(`EPUB at enlarged text in Firefox: ${chapter} reflows without overflow`, () => noOverflow(second));
+        const source = sources[Number(chapter.match(/\d+/)[0]) - 3];
+        if (source?.source === lessonSource.source) await check(
+          'EPUB in Firefox: real lesson notes and figures reflow at enlarged text',
+          () => realLessonNotes(second, 'epub'));
       }
       await check('EPUB: Firefox loads four static diagrams', () => images(second));
       await check('EPUB in Firefox: full-width aside preserves complete text and formatting', () => fullWidthContent(second));

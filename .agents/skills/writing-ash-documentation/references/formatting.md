@@ -149,12 +149,22 @@ Use restrained styling consistent with the secondary text. Contrast should
 make the relationships readable without giving the sketch undue prominence.
 
 Give an image a meaningful alternative description and a brief explanatory
-label or caption. For a static image available to the prepared book, set
-`fig-alt` explicitly; Quarto treats the bracketed image text as its caption:
+label or caption. Keep a prepared static SVG in `assets/` beside the lesson's
+README and use its relative path. Set `fig-alt` explicitly; Quarto treats the
+bracketed image text as its caption. Keep the image in its own paragraph, with
+blank lines separating nearby comments, so native figure handling retains that
+caption:
 
 ```markdown
 ![Calls.](assets/note-calls.svg){fig-alt="Outer calls inner." width=100%}
 ```
+
+Preparation copies used images from within the lesson directory, including
+images in notes and Divs, while preserving their attributes. These SVGs must
+have an explicit viewport and outlined labels, with no scripts, HTML elements,
+or external resources. Other source-image formats remain outside this checked
+preparation boundary. The [search-tree lesson][tree-lesson] supplies a graphical
+sidenote, an unnumbered counting cue, and a full-width repair comparison.
 
 The image must work in grayscale and when its note returns to EPUB reading
 order. In browser review, let fonts, images, and native margin positioning
@@ -380,3 +390,4 @@ needs inspection in the intended e-readers.
 [tufte-notes]: https://www.edwardtufte.com/notebook/sidenotes-or-footnotes-or-what/
 [rendering]: ../../../../docs/project/rendering.md
 [tool-report]: ../../../../docs/project/rendering-tool-bugs.md
+[tree-lesson]: ../../../../content/cases/guaranteeing-logarithmic-retrieval/README.md

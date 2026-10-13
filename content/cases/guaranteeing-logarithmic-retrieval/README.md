@@ -22,7 +22,8 @@ Dictionary<K, V>
     Node(color, left, key, value, right)
 ```
 
-`Empty` counts as black. A subtree is recursively consistent when three
+`Empty` counts as black.[^red-root-example]
+A subtree is recursively consistent when three
 conditions hold:
 
 1. It has the global ordering invariant from the preceding case. Every left
@@ -36,6 +37,15 @@ A recursively consistent subtree may have a red root. A completed public
 dictionary adds one more condition: its root is black, unless the dictionary
 is `Empty`. Keeping the root condition separate lets red subtrees participate
 in repair without making red nodes invalid everywhere.
+
+<!-- markdownlint-disable MD013 -->
+
+[^red-root-example]: Both paths contain one black form: their terminal `Empty`.
+    A red root adds no black form.
+
+    ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A schematic red root has two Empty children, each counted as black. Each path contains one black form; the red root contributes none." width=100%}
+
+<!-- markdownlint-enable MD013 -->
 
 The opaque declaration still controls only source access. Importers can name
 `Dictionary<K, V>`, but cannot name its constructors under Ash's
@@ -84,18 +94,26 @@ two choices produce exactly four orientations:
 | right-right | `1, 2, 3` |
 
 All four contain three increasing key-value associations separated by four
-subtrees. One normalization gives them the same local result:
+subtrees. One normalization gives them the same local result. The drawing
+follows the left-left case into that result. Each node shows its color and the
+source names for its key and value. `A`, `B`, `C`, and `D` stand for the `first`,
+`second`, `third`, and `fourth` subtrees:
 
-```text
-                         [Red]
-                    middle:middle_value
-                    /                  \
-             [Black]                  [Black]
-        first:first_value          last:last_value
-          /           \              /          \
-       first         second        third        fourth
-      subtree        subtree       subtree      subtree
-```
+<!-- markdownlint-disable MD013 -->
+
+::: {#repair-comparison .column-page-right}
+
+![Left-left repair preserves the associations and subtrees; the same result handles all four orientations.](assets/tree-repair.svg){#fig-tree-repair fig-alt="Before left-left repair, a black last node has red middle and first nodes down its left branch. First has subtrees A and B; middle has C on its right; last has D on its right. After repair, red middle has black first and last children. First retains A and B, and last retains C and D. Each key stays with its value." width=100%}
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+Before repair, `last_key` has `middle_key` on its left, and `middle_key` has
+`first_key` on its left. The repair puts `middle_key` above `first_key` and
+`last_key`. `A` and `B` stay below `first_key`; `C` and `D` become the children
+of `last_key`. The red-red edge disappears while the left-to-right order of
+subtrees, keys, and values stays the same.
 
 Every value stays paired with its key. The four surrounding subtree values pass
 unchanged into the new constructors, and the in-order sequence remains first,
@@ -696,6 +714,11 @@ name to construct or match.
 Let `n` count nonempty `Node` forms. Let `h` be the largest number of `Node`
 forms on a path from the root to `Empty`. Let `q` be the equal number of black
 forms on such a path, including the terminal `Empty`.
+
+::: {#height-counting-cue .column-margin}
+*Counting cue.* Count terminal `Empty` in `q`, but only `Node` forms in `n`
+and `h`.
+:::
 
 For a nonempty valid dictionary, each path contains `q - 1` black `Node` forms.
 The root is black, and two red nodes cannot be adjacent. At most one red node
