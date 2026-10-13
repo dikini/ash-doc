@@ -25,8 +25,9 @@ main () = {
 }
 ```
 
-`base` is in scope while the anonymous function is checked. Calling it later
-adds the saved integer to its input. Run from this lesson's `src` directory:
+`base` is in scope while the anonymous function is checked. Identify that
+saved value separately from the later argument, then predict their sum.
+Run from this lesson's `src` directory:
 
 ```text
 $ ash 01-sequential-bindings.ash
@@ -65,7 +66,9 @@ contract while the body is checked. The body may also capture the preceding
 
 The initializer creates a function; it does not run the match yet. The call
 after the group starts the traversal. Each `Item` contributes its score plus
-one, then the recursive call follows `rest`. `End` contributes zero:
+one, then the recursive call follows `rest`. `End` contributes zero.
+Predict the total, distinguishing the captured `bonus` from the score
+supplied by each recursive argument:
 
 ```text
 $ ash 02-local-sum.ash
@@ -114,7 +117,8 @@ of the whole asks for oddness of the rest, and oddness asks for evenness.
 
 Both names enter scope before either initializer is checked. Both initializers
 are anonymous functions, so their calls to the other member wait until the
-functions are used. The `let two` binding begins the ordinary block remainder:
+functions are used. The `let two` binding begins the ordinary block remainder.
+Predict both results by alternating the calls until they reach `Zero`:
 
 ```text
 $ ash 03-mutual-functions.ash
@@ -150,6 +154,9 @@ main () = {
     (even two, odd two)
 }
 ```
+
+At the initializer for `even`, which names have already entered scope?
+Does delaying its call change which names its body can use?
 
 <!-- diagnostic: src/04-sequential-forward.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -197,7 +204,9 @@ starts with a fully applied constructor of its declared nominal type. The
 references are stored as fields rather than used to calculate their contents
 during initialization.
 
-The result follows exactly two `Step` patterns. It returns ordinary integers:
+The result follows exactly two `Step` patterns. Predict which stored node
+supplies each returned integer, and whether that bounded observation needs
+an ending constructor:
 
 ```text
 $ ash 05-guarded-cycle.ash
@@ -229,6 +238,9 @@ main () = {
     0
 }
 ```
+
+Compare this initializer's outer form with the constructor-root requirement.
+What node would it construct before trying to retain its own reference?
 
 <!-- diagnostic: src/06-unsafe-root.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -270,6 +282,10 @@ main () = {
 }
 ```
 
+The outer constructor is present. Follow the recursive occurrence beneath
+it: is the reference stored directly, or passed through a calculation that
+initialization checking does not allow?
+
 <!-- diagnostic: src/07-forced-reference.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -294,12 +310,16 @@ implicit delays, or a promise that later traversals terminate.
 
 ## Practice: separate construction from use
 
+For each task, make a fresh copy of its named program in a scratch directory
+outside this lesson's `src` tree. Run the copy from that directory.
+
 1. Change `bonus` and the input list in `02-local-sum.ash`. Trace which values
    come from capture and which come from each recursive argument.
 2. Add one `Next` to `two` in `03-mutual-functions.ash`. Predict both results
    by tracing the alternating calls before running.
-3. Exchange the two member declarations in the mutual group. Keep `let rec`
-   on the first and `and` on the second. Explain whether scope changes.
+3. Start from `03-mutual-functions.ash` and exchange its two member
+   declarations. Keep `let rec` on the first and `and` on the second.
+   Explain whether scope changes.
 4. Extend `05-guarded-cycle.ash` to observe exactly three scores. Predict which
    node supplies the third, and keep a fixed observation bound.
 

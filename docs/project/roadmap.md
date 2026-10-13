@@ -33,6 +33,13 @@ Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
 checks. Discovery exercises keep their unanswered observations.
 
+The [Learn path](beginning-learning-path.md) connects predictions to observed
+values and types before explaining worked traces. Rejections connect a
+contract or scope requirement to its causal labels and repair. Fresh exercise
+programs live outside canonical source trees, with required sibling modules
+kept together. Local generalization and recursive initialization continue the
+same model; the effects connection remains optional until E3.
+
 ## Curriculum direction
 
 The next learning stage asks: how can a reader design a calculation that
@@ -495,13 +502,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: Learn lesson 13 teaching review.**
-Revise the existing chapter across this boundary:
-mutual scope, initialization safety, and bounded use.
-Target `diag-ash` at `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
-The [execution plan](../plans/2026-10-13-learn-local-recursion-review.md)
-owns this outcome; complete and verify it, then close the approved Learn review.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and

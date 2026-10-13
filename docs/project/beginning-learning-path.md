@@ -109,8 +109,9 @@ The following verified chapters extend the beginning path in the same family:
   captures, and ordinary parameters; keep the E3 connection optional.
 
 - **13. [How can local definitions refer to one another?](../../content/learn/defining-local-recursion/README.md)**
-  — **verified.** Annotated recursive groups, mutual scope, safe initialization,
-  and bounded observations of guarded cyclic data.
+  — **verified.**
+  Separate simultaneous scope, guarded construction, and later use;
+  predict bounded cycle observations without assuming termination.
 
 ## Maintaining the path
 
