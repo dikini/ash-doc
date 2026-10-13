@@ -51,14 +51,15 @@ verification, current development handoffs, and replacement condition. This
 work does not publish the edition or change its Ash target.
 
 The book PDF retains mirrored margins and outer margin notes for double-sided
-printing. The A4 PDF uses fixed margins, with 25 mm on the left and 20 mm on the
-other edges, and ordinary footnotes for one-sided printing. Both variants are
-verified against the same source text and their actual page geometry.
+printing. The one-sided A4 PDF keeps 25 mm of left binding space and a fixed
+50 mm right sidenote column, separated from the main text by 6 mm. Its top,
+bottom, and outer paper-edge distances are 20 mm. Both short and long notes
+stay beside their references without overlap.
 
-The user requested right-hand A4 sidenotes and a full-width formatting example.
-The active
-[margin notes and full-width plan](../plans/2026-10-13-margin-notes-and-full-width.md)
-owns this presentation revision.
+The notation fixture also includes a full-width aside with a formatted
+paragraph and table. It spans the body and note area, stays together on one
+print page, and reflows in narrow HTML and EPUB previews. Both PDFs and the
+browser checks verify the source text and actual layout.
 
 ## Curriculum direction
 

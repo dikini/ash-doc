@@ -106,6 +106,80 @@ async function images(page) {
   }
 }
 
+const fullWidthParagraph = 'Full-width note. The text and note columns can share a single aside when an explanation needs more room. This paragraph keeps the same reading order while using the space normally reserved for sidenotes. A narrow screen or e-reader returns the block to one flowing column.';
+
+async function fullWidthContent(page) {
+  const content = await page.evaluate(() => {
+    const block = document.getElementById('full-width-note');
+    if (!block) return null;
+    const text = node => node?.textContent.replace(/\s+/g, ' ').trim();
+    const paragraph = block.querySelector('p');
+    const emphasis = block.querySelector('p em');
+    const strong = block.querySelector('td strong');
+    const code = block.querySelector('td code');
+    return {
+      paragraph: text(paragraph), label: text(emphasis),
+      headers: [...block.querySelectorAll('th')].map(text),
+      rows: [...block.querySelectorAll('tbody tr')].map(row => [...row.querySelectorAll('td')].map(text)),
+      italic: text(block.querySelector('td em')), bold: text(strong), code: text(code),
+      emphasisStyle: emphasis && getComputedStyle(emphasis).fontStyle,
+      boldWeight: strong && getComputedStyle(strong).fontWeight,
+      codeFont: code && getComputedStyle(code).fontFamily,
+      fontSize: paragraph && Number.parseFloat(getComputedStyle(paragraph).fontSize)
+    };
+  });
+  assert.ok(content, 'The full-width note is rendered with its source identifier.');
+  assert.equal(content.paragraph, fullWidthParagraph, 'The complete aside paragraph is preserved.');
+  assert.equal(content.label, 'Full-width note.');
+  assert.deepEqual(content.headers, ['Body text', 'Sidenote text', 'A shared aside']);
+  assert.deepEqual(content.rows, [
+    ['Regular type', 'Secondary explanation', 'A wider reading area'],
+    ['inline_code', 'Short or long notes', 'One reading order']
+  ]);
+  assert.equal(content.italic, 'Secondary explanation');
+  assert.equal(content.bold, 'A wider reading area');
+  assert.equal(content.code, 'inline_code');
+  assert.equal(content.emphasisStyle, 'italic', 'Emphasis retains its visible formatting.');
+  assert.ok(Number(content.boldWeight) >= 600, 'Strong text remains visibly distinct.');
+  assert.match(content.codeFont, /mono/i, 'Inline code retains a monospace face.');
+  assert.ok(content.fontSize >= 12, 'The aside retains readable paragraph type.');
+}
+
+async function fullWidthLayout(page, layout) {
+  const dimensions = await page.evaluate(() => {
+    const block = document.getElementById('full-width-note');
+    if (!block) return null;
+    const box = node => {
+      const bounds = node.getBoundingClientRect();
+      return { left: bounds.left, right: bounds.right, top: bounds.top,
+        bottom: bounds.bottom, width: bounds.width, height: bounds.height };
+    };
+    return {
+      block: box(block), table: box(block.querySelector('table')),
+      tableScroll: block.querySelector('table').scrollWidth,
+      body: document.querySelector('main p') && box(document.querySelector('main p')),
+      navigation: document.querySelector('#quarto-sidebar') && box(document.querySelector('#quarto-sidebar')),
+      notes: ['fn1', 'fn2'].map(id => document.getElementById(id)).filter(Boolean).map(box),
+      viewport: document.documentElement.clientWidth
+    };
+  });
+  assert.ok(dimensions, 'The full-width note is available for layout checks.');
+  const { block, body, navigation, notes, table, tableScroll, viewport } = dimensions;
+  assert.ok(block.width > 0 && block.height > 0, 'The aside occupies visible space.');
+  assert.ok(block.left >= 0 && block.right <= viewport + 1, 'The aside stays inside the page.');
+  if (layout === 'desktop') {
+    assert.ok(block.left >= body.left - 1, 'The aside starts in the body column.');
+    assert.ok(block.left >= navigation.right, 'The aside leaves book and chapter navigation clear.');
+    assert.ok(block.width >= body.width + 100, 'The aside uses the body and right note area.');
+    assert.ok(block.right >= Math.max(...notes.map(note => note.right)) - 1,
+      'The aside extends through the right note column.');
+    for (const note of notes) assert.ok(note.bottom <= block.top || note.top >= block.bottom,
+      'The full-width aside does not collide with a sidenote.');
+  }
+  assert.ok(table.width <= block.width + 1 && tableScroll <= block.width + 1,
+    'The full table remains inside the reflowed aside.');
+}
+
 try {
   browser = await puppeteer.launch({ executablePath, args: ['--no-sandbox', '--disable-dev-shm-usage'] });
   report.browser = await browser.version();
@@ -161,7 +235,7 @@ try {
         insideArticle: !!document.querySelector('main #TOC, main #quarto-sidebar, main .on-this-page')
       }));
       assert.equal(navigation.book, chapters.length);
-      assert.equal(navigation.local, 6);
+      assert.equal(navigation.local, 7);
       assert.equal(navigation.insideArticle, false);
     });
     if (label === 'mobile') await check('mobile: chapter menu has space above the chapter title', async () => {
@@ -182,8 +256,8 @@ try {
     });
     await check(`${label}: local navigation works by keyboard`, async () => {
       if (label === 'mobile') {
-        assert.equal(await page.$$eval('.on-this-page a[href]', nodes => nodes.length), 6,
-          'The disclosure contains all six local chapter links.');
+        assert.equal(await page.$$eval('.on-this-page a[href]', nodes => nodes.length), 7,
+          'The disclosure contains all seven local chapter links.');
         await page.focus('.on-this-page summary');
         await page.keyboard.press('Enter');
         await page.keyboard.press('Tab');
@@ -228,8 +302,11 @@ try {
       }
     });
     await check(`${label}: four static diagrams load and fit`, () => images(page));
+    await check(`${label}: full-width aside preserves complete text and formatting`, () => fullWidthContent(page));
+    await check(`${label}: full-width aside uses its reading area without overlap`, () => fullWidthLayout(page, label));
     await page.evaluate(() => window.scrollTo(0, 0));
     await screenshot(page, `html-${label}.png`);
+    if (await page.$('#full-width-note')) await screenshot(page, `html-full-width-${label}.png`, '#full-width-note');
     if (label === 'desktop') {
       await screenshot(page, 'html-railroad.png', '#fig-grammar');
       await screenshot(page, 'html-sequent.png', '#fig-inference');
@@ -262,6 +339,8 @@ try {
     assert.equal(new URL(page.url()).hash, reference);
     assert.ok(await page.$eval(reference, node => node.getBoundingClientRect().height > 10));
   });
+  await check('EPUB: full-width aside preserves complete text and formatting', () => fullWidthContent(page));
+  await check('EPUB: full-width aside reflows at enlarged text', () => fullWidthLayout(page, 'epub'));
   await check('Chrome HTML and EPUB previews require no external requests', () => assert.deepEqual(externalRequests, []));
   await page.evaluate(() => window.scrollTo(0, 0));
   await screenshot(page, 'epub-reflow-chrome.png');
@@ -282,6 +361,8 @@ try {
         await check(`EPUB at enlarged text in Firefox: ${chapter} reflows without overflow`, () => noOverflow(second));
       }
       await check('EPUB: Firefox loads four static diagrams', () => images(second));
+      await check('EPUB in Firefox: full-width aside preserves complete text and formatting', () => fullWidthContent(second));
+      await check('EPUB in Firefox: full-width aside reflows at enlarged text', () => fullWidthLayout(second, 'epub'));
       await screenshot(second, 'epub-reflow-firefox.png');
       report.secondaryEngine = { browser: await firefox.version(), status: 'previewed' };
     } finally { await firefox.close(); }

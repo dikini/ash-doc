@@ -18,10 +18,20 @@ class Html(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.ids, self.links, self.pre = set(), [], []
         self.current = None
+        self.full_width, self.full_width_current = [], None
+        self.full_width_depth = 0
         self.feed(source)
 
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
+        if tag == "div":
+            if self.full_width_current is not None:
+                self.full_width_depth += 1
+            elif attrs.get("id") == "full-width-note":
+                self.full_width_current = {"text": [], "tags": set()}
+                self.full_width_depth = 1
+        if self.full_width_current is not None:
+            self.full_width_current["tags"].add(tag)
         if "id" in attrs:
             self.ids.add(attrs["id"])
         for name in ("href", "src"):
@@ -33,11 +43,19 @@ class Html(HTMLParser):
     def handle_data(self, data):
         if self.current is not None:
             self.current.append(data)
+        if self.full_width_current is not None:
+            self.full_width_current["text"].append(data)
 
     def handle_endtag(self, tag):
         if tag == "pre" and self.current is not None:
             self.pre.append("".join(self.current).removesuffix("\n"))
             self.current = None
+        if tag == "div" and self.full_width_current is not None:
+            self.full_width_depth -= 1
+            if self.full_width_depth == 0:
+                self.full_width.append({"text": "".join(self.full_width_current["text"]),
+                                        "tags": self.full_width_current["tags"]})
+                self.full_width_current = None
 
 
 def check(condition, message):
@@ -88,6 +106,48 @@ def source_notes(project, records):
     return notes
 
 
+def plain_inline(text):
+    return " ".join(text.replace("*", "").replace("`", "").split())
+
+
+def source_full_width(records):
+    """Read this bounded formatting fixture from its canonical Markdown."""
+    root = Path(__file__).resolve().parents[2]
+    examples = []
+    for record in records:
+        source = (root / record["source"]).read_text()
+        for match in re.finditer(r"^:::[ \t]+\{([^}\n]+)\}\n(.*?)\n:::[ \t]*$", source, re.M | re.S):
+            attributes, content = match.group(1).split(), match.group(2)
+            if "#full-width-note" not in attributes:
+                continue
+            check(".column-page-right" in attributes, "full-width note does not span body and outer notes")
+            before_table, separator, table = content.partition("\n|")
+            check(separator, "full-width note has no formatting table")
+            paragraph = plain_inline(before_table)
+            cells = []
+            for line in ("|" + table).splitlines():
+                if not line.startswith("|") or not line.endswith("|"):
+                    continue
+                row = [cell.strip() for cell in line[1:-1].split("|")]
+                if all(re.fullmatch(r":?-+:?", cell) for cell in row):
+                    continue
+                cells.extend(plain_inline(cell) for cell in row)
+            check(paragraph and cells, "full-width note has no complete paragraph/table text")
+            examples.append({"paragraph": paragraph, "cells": cells})
+    check(len(examples) == 1, "full-width formatting example not found exactly once in source")
+    return examples[0]
+
+
+def verify_full_width_markup(examples, expected, label):
+    check(len(examples) == 1, f"{label}: full-width formatting example not found exactly once")
+    example = examples[0]
+    compact = re.sub(r"\s+", "", example["text"])
+    for text in [expected["paragraph"]] + expected["cells"]:
+        check(re.sub(r"\s+", "", text) in compact, f"{label}: full-width note loses text: {text}")
+    check({"table", "em", "strong", "code"}.issubset(example["tags"]),
+          f"{label}: full-width note loses table or inline formatting")
+
+
 def find_pdf_phrase(pages, text):
     """Return exact word runs, retaining their page and actual geometry."""
     expected = text.split()
@@ -110,7 +170,7 @@ def word_bounds(words):
     }
 
 
-def verify_pdf(project, records, notes, filename, a4=False):
+def verify_pdf(project, records, notes, full_width, filename, a4=False):
     path = project / "output" / filename
     check(path.is_file(), f"required PDF variant missing: {filename}")
     result = subprocess.run(["pdftotext", "-bbox-layout", str(path), "-"],
@@ -154,7 +214,7 @@ def verify_pdf(project, records, notes, filename, a4=False):
         parities.add(number % 2)
     check(parities == {0, 1}, f"{filename}: body margin check does not cover odd and even pages")
 
-    note_bottoms = {}
+    note_regions = {}
     for note in notes:
         occurrences = find_pdf_phrase(pages, note["body"])
         references = find_pdf_phrase(pages, note["reference"])
@@ -162,24 +222,52 @@ def verify_pdf(project, records, notes, filename, a4=False):
         check(len(references) == 1, f"{filename}: note reference not found exactly once: {note['reference']}")
         number, words = occurrences[0]
         reference_number, reference_words = references[0]
-        bounds, reference_bounds = word_bounds(words), word_bounds(reference_words)
+        bounds = word_bounds(words)
         check(number == reference_number, f"{filename}: note detached from its reference page")
         if a4:
-            check(bounds["left"] >= 25 * millimetre - 1
-                  and bounds["right"] <= width - 20 * millimetre + 1,
-                  f"{filename}: page {number} puts a footnote outside the text area")
-            check(bounds["top"] > reference_bounds["bottom"] + 20,
-                  f"{filename}: page {number} does not place its footnote below the reference")
-            note_bottoms[number] = max(note_bottoms.get(number, 0), bounds["bottom"])
+            check(bounds["left"] >= 140 * millimetre - 1
+                  and bounds["right"] <= 190 * millimetre + 1,
+                  f"{filename}: page {number} does not place its sidenote in the fixed right column")
         else:
             in_outer_margin = (bounds["left"] >= 396 - 1 and bounds["right"] <= 540 + 1
                                if number % 2 else bounds["left"] >= 36 - 1 and bounds["right"] <= 180 + 1)
             check(in_outer_margin, f"{filename}: page {number} does not place its note in the outer margin")
-            check(abs(bounds["top"] - float(reference_words[-1].attrib["yMin"])) <= 48,
-                  f"{filename}: page {number} puts its margin note too far from the reference")
-    for number, bottom in note_bottoms.items():
-        check(abs(bottom - (height - 20 * millimetre)) <= 20,
-              f"{filename}: page {number} does not place its footnotes at the bottom of the text area")
+        check(abs(bounds["top"] - float(reference_words[-1].attrib["yMin"])) <= 48,
+              f"{filename}: page {number} puts its margin note too far from the reference")
+        for previous in note_regions.get(number, []):
+            check(bounds["top"] >= previous["bottom"] or bounds["bottom"] <= previous["top"],
+                  f"{filename}: page {number} has overlapping sidenotes")
+        note_regions.setdefault(number, []).append(bounds)
+
+    wide_paragraph = find_pdf_phrase(pages, full_width["paragraph"])
+    check(len(wide_paragraph) == 1, f"{filename}: complete full-width paragraph not found exactly once")
+    wide_page, wide_words = wide_paragraph[0]
+    paragraph_bounds = word_bounds(wide_words)
+    for cell in full_width["cells"]:
+        occurrences = find_pdf_phrase(pages, cell)
+        check(len(occurrences) == 1, f"{filename}: full-width table cell not found exactly once: {cell}")
+        number, words = occurrences[0]
+        check(number == wide_page, f"{filename}: full-width note/table breaks across pages")
+        wide_words.extend(words)
+    wide_bounds = word_bounds(wide_words)
+    if a4:
+        wide_left, wide_right = 25 * millimetre, 190 * millimetre
+        extends_notes = paragraph_bounds["right"] > 140 * millimetre + 1
+    elif wide_page % 2:
+        wide_left, wide_right = 54, 540
+        extends_notes = paragraph_bounds["right"] > 396 + 1
+    else:
+        wide_left, wide_right = 36, 522
+        extends_notes = paragraph_bounds["left"] < 180 - 1
+    check(abs(float(wide_paragraph[0][1][0].attrib["xMin"]) - wide_left) <= 1,
+          f"{filename}: full-width note has the wrong starting margin")
+    check(wide_bounds["left"] >= wide_left - 1 and wide_bounds["right"] <= wide_right + 1,
+          f"{filename}: full-width note extends outside usable print margins")
+    check(extends_notes, f"{filename}: full-width paragraph does not extend into the note area")
+    for note in note_regions.get(wide_page, []):
+        overlaps = (wide_bounds["left"] < note["right"] and wide_bounds["right"] > note["left"]
+                    and wide_bounds["top"] < note["bottom"] and wide_bounds["bottom"] > note["top"])
+        check(not overlaps, f"{filename}: full-width note overlaps a sidenote")
 
     result = subprocess.run(["pdftotext", "-layout", str(path), "-"],
                             check=True, capture_output=True, text=True)
@@ -203,6 +291,7 @@ def verify(project):
     check((output / "ash-doc-specimen-a4.pdf").is_file(),
           "required PDF variant missing: ash-doc-specimen-a4.pdf")
     records = json.loads((project / "sources.json").read_text())
+    full_width = source_full_width(records)
     jobs = json.loads((project / "diagram-jobs.json").read_text())["diagrams"]
     pages = {path.name: Html(path.read_text()) for path in output.glob("*.html")}
     total = 0
@@ -221,6 +310,8 @@ def verify(project):
             check((output / path).exists(), f"{name}: missing destination {href}")
             if anchor and path in pages:
                 check(anchor in pages[path].ids, f"{name}: missing anchor {href}")
+    verify_full_width_markup([example for page in pages.values() for example in page.full_width],
+                             full_width, "HTML")
 
     with zipfile.ZipFile(output / "ash-doc-specimen.epub") as archive:
         xml = {name: ET.fromstring(archive.read(name)) for name in archive.namelist()
@@ -231,6 +322,7 @@ def verify(project):
         check(package.attrib["version"] == "3.0", "EPUB is not EPUB 3")
         check("rendition:layout" not in archive.read("EPUB/content.opf").decode(), "EPUB unexpectedly fixes its layout")
         epub_pre = []
+        epub_full_width = []
         notes = 0
         for name, document in xml.items():
             if not name.endswith(".xhtml"):
@@ -239,6 +331,9 @@ def verify(project):
                 tag = element.tag.rsplit("}", 1)[-1]
                 if tag == "pre":
                     epub_pre.append("".join(element.itertext()).removesuffix("\n"))
+                if element.attrib.get("id") == "full-width-note":
+                    epub_full_width.append({"text": "".join(element.itertext()),
+                                            "tags": {node.tag.rsplit("}", 1)[-1] for node in element.iter()}})
                 if tag == "div":
                     check("alt" not in element.attrib, f"{name}: invalid alt attribute on div")
                 if element.attrib.get("{http://www.idpf.org/2007/ops}type") == "noteref":
@@ -257,6 +352,7 @@ def verify(project):
             for block in record["code"]:
                 check(block["text"] in epub_pre, f"{record['source']}: EPUB loses source text")
         check(notes == 2, "EPUB does not contain both linked notes")
+        verify_full_width_markup(epub_full_width, full_width, "EPUB")
 
     for job in jobs:
         svg = ET.parse(output / "assets" / (job["id"] + ".svg")).getroot()
@@ -270,8 +366,8 @@ def verify(project):
                     check(value.startswith("#"), f"{job['id']}: external SVG resource")
 
     notes = source_notes(project, records)
-    book_pages = verify_pdf(project, records, notes, "ash-doc-specimen.pdf")
-    a4_pages = verify_pdf(project, records, notes, "ash-doc-specimen-a4.pdf", a4=True)
+    book_pages = verify_pdf(project, records, notes, full_width, "ash-doc-specimen.pdf")
+    a4_pages = verify_pdf(project, records, notes, full_width, "ash-doc-specimen-a4.pdf", a4=True)
     print(f"Verified {len(pages)} HTML pages, EPUB 3 links/notes, {len(jobs)} static diagrams, "
           f"and {total} complete code/transcript blocks in all formats; "
           f"book PDF {book_pages} pages and A4 PDF {a4_pages} pages with checked margins/notes.")

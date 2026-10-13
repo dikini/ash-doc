@@ -29,7 +29,7 @@ provide the program and diagnostic material.
 A note should remain associated with the sentence that introduces it.[^short]
 The browser and printed book can place it in a margin. An e-reader needs a
 linked note that remains reachable as its font size and line lengths change.
-A one-sided A4 copy uses a footnote below the text.
+A one-sided A4 copy keeps both short and long notes in its right margin.
 
 [^short]: This short note tests the relationship between a reference and its
     associated explanation.
@@ -114,7 +114,26 @@ family examples:
 | HTML | Responsive chapters | Margin or linked | Static SVG |
 | EPUB 3 | Reader-controlled reflow | Linked | Static SVG |
 | Book PDF | Mirrored book pages | Outer margin | Vector figures |
-| A4 PDF | One-sided pages | Footnotes | Vector figures |
+| A4 PDF | One-sided pages | Right sidenotes | Vector figures |
+
+{{< pagebreak >}}
+
+## A full-width aside
+
+A wider explanation can use the text column and its adjoining note space.
+
+::: {#full-width-note .column-page-right}
+*Full-width note.* The text and note columns can share a single aside when an
+explanation needs more room. This paragraph keeps the same reading order while
+using the space normally reserved for sidenotes. A narrow screen or e-reader
+returns the block to one flowing column.
+
+| Body text | Sidenote text | A shared aside |
+| --- | --- | --- |
+| Regular type | *Secondary explanation* | **A wider reading area** |
+| `inline_code` | Short or long notes | One reading order |
+
+:::
 
 The [first program](../../content/learn/what-is-an-ash-program/README.md) tests
 an internal chapter link. The [writing workflow](../../docs/project/workflow.md)

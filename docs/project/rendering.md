@@ -71,22 +71,51 @@ static figures:
 | Variant | Paper and margins | Notes |
 | --- | --- | --- |
 | Double-sided book | 8 by 10 inches; mirrored margins | Outer margin |
-| One-sided A4 | 25 mm left; 20 mm right, top, and bottom | Footnotes |
+| One-sided A4 | Fixed binding space and a wider right note area | Sidenotes |
 
 The book keeps its existing geometry: a 0.75 inch inner margin and a 2.75 inch
 outer area comprising the note column, its separation, and the paper edge.
 The left and right areas alternate by page parity for double-sided printing.
 
-A4 uses fixed margins on every page. Its 5 mm extra left space is a replaceable
-binding allowance. Ordinary footnotes leave a 165 mm text area while preserving
-the notes near their references. The A4 profile sets
-`reference-location: document` before generating Typst, so Quarto does not
-transform footnotes into margin notes. Choose one-sided printing for this copy.
+A4 uses fixed geometry on every page: 25 mm on the left for binding, 20 mm
+above and below, and a 50 mm right note column with 6 mm separation from the
+text and 20 mm to the paper edge. The main column is 109 mm wide; the main and
+note columns together use 165 mm. The short and long notes use smaller
+secondary type, retain their reference numbers, and stay beside their
+references without overlapping. Choose one-sided printing for this copy.
 
-A Quarto `a4` profile changes only the PDF filename, page setup, and note
-placement. Shared typography and front matter remain in one Typst partial.
+Both PDF profiles set `reference-location: margin`. Marginalia alternates the
+book's outer note area by page parity; A4 uses fixed left/right geometry with
+notes always on the right. EPUB retains linked notes within its reading flow.
+The shared print style removes the empty bottom separator left after margin
+conversion; it retains the numbered sidenotes.
+
+A Quarto `a4` profile changes the PDF filename and page setup. Shared note
+handling, typography, and front matter remain in one Typst partial.
 Separate complete templates would duplicate those choices. Leaving A4 to a
 printer's scaling control would not verify binding space or note placement.
+
+## Full-width formatting
+
+The notation fixture includes an unnumbered full-width aside with a paragraph,
+emphasis, inline monospace text, and a table. Its fenced Div uses
+`{#full-width-note .column-page-right}`. This native Quarto class spans the body
+and adjoining note area while retaining the binding margin and leaving HTML
+navigation outside the content. In the mirrored book it expands into the
+outer area; in A4 it expands to the right. Mobile HTML and EPUB return it to
+their available reading width.
+
+The example begins with Quarto's standalone `{{< pagebreak >}}` directive so
+the paragraph and table stay together. Preparation preserves that exact
+directive through its Pandoc Markdown round-trip. In PDF it begins a new page;
+EPUB carries the same page-break request, while screen HTML retains its
+continuous reading flow.
+
+Keep the print example short enough to stay on one page. The pinned Marginalia
+package does not reliably handle a wide block across mirrored page breaks.
+Artifact checks require the entire paragraph and table on one page, with no
+intersection between its text and any sidenote. Revise this bound only after
+verifying a layout implementation that handles longer blocks.
 
 ## Tool and renderer pins
 
@@ -227,7 +256,9 @@ static diagrams, and all code/transcript blocks in each output. PDF checks
 compare characters after visual whitespace and page-footer normalization;
 HTML and EPUB preserve complete preformatted text directly. Both PDFs are
 checked for paper dimensions, text bounds, body margins on odd and even pages,
-and their distinct note placement.
+and their distinct note placement. The full-width aside must retain its text
+and formatting, extend into the note area, avoid note collisions, and reflow in
+narrow browser and EPUB previews.
 
 The browser check inspects desktop and mobile HTML, code overflow, navigation,
 keyboard use, notes, image descriptions, and local-only resource requests. It

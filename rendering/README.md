@@ -11,7 +11,8 @@ sources, tool pins, commands, checks, and replacement conditions. The
 development handoffs.
 
 - `specimen.json` selects indexed lessons and exact renderer inputs.
-- `specimen/notation.md` tests notes, figures, and the four notation cases.
+- `specimen/notation.md` tests sidenotes, full-width formatting, and the four
+  notation cases.
 - `build.py` prepares sources and renders HTML, EPUB, and both PDF variants.
 - `bootstrap.py` prepares pinned local tools.
 - `diagrams.mjs` derives standalone vector assets.

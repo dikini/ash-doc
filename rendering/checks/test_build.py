@@ -83,6 +83,12 @@ class PreparationTests(unittest.TestCase):
         self.assertIn("## Read a diagnostic", setup)
         self.assertNotIn("## Working here", setup)
 
+    def test_full_width_example_keeps_its_quarto_page_break(self):
+        result, output = self.prepare()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        fixture = (output / "notation.md").read_text()
+        self.assertIn("{{< pagebreak >}}\n\n## A full-width aside", fixture)
+
     def test_unindexed_project_source_cannot_enter_the_book_as_a_lesson(self):
         config = json.loads((ROOT / "rendering/specimen.json").read_text())
         config["sources"] = ["docs/README.md"]

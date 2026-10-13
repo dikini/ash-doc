@@ -85,6 +85,8 @@ The [rendering guide](rendering.md#verify-the-specimen) gives the separate check
 for the local HTML, EPUB 3, double-sided book PDF, and one-sided A4 PDF specimen.
 Rendering checks preserve source text and inspect presentation, including
 actual paper size, fixed or mirrored margins, and note placement in both PDFs.
+The full-width aside must preserve its formatted paragraph and table, remain
+on one print page, clear sidenotes and navigation, and reflow in narrow previews.
 They do not replace the executable lesson checks above. The two linked
 development reports retain upstream notation and conversion failures
 independently of successful specimen output.

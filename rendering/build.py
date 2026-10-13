@@ -123,6 +123,10 @@ def prepare_chapter(quarto, source, mapping, commit, jobs):
     blocks = []
     code_records = []
     for block in document["blocks"]:
+        if block.get("t") == "Para" and literal(block["c"]) == "{{< pagebreak >}}":
+            # Keep the used Quarto directive intact through the Markdown writer.
+            blocks.append({"t": "RawBlock", "c": ["markdown", "{{< pagebreak >}}"]})
+            continue
         if block.get("t") == "RawBlock" and block["c"][0] == "html" and block["c"][1].lstrip().startswith("<!--"):
             continue
         if block.get("t") == "CodeBlock":
@@ -224,7 +228,7 @@ def prepare(args):
     (args.output / "_quarto-a4.yml").write_text(json.dumps({
         "book": {"output-file": "ash-doc-specimen-a4"},
         "pdf-a4": True,
-        "format": {"typst": {"reference-location": "document"}},
+        "format": {"typst": {"reference-location": "margin"}},
     }, indent=2), encoding="utf-8")
     (args.output / "sources.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
     (args.output / "diagram-jobs.json").write_text(json.dumps({"output": str(args.output / "assets"),
