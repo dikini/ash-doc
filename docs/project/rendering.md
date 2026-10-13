@@ -25,8 +25,11 @@ complete, indexed lessons:
   supplies short programs and a complete rejection.
 - [Guarantee logarithmic retrieval](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
   derives colored insertion through checked definition excerpts and a small
-  complete repair client. Its later comprehensive clients still exercise long
-  listings and a 1,721-character output line. It supplies all three note forms:
+  complete repair client. Its prefix client develops observation data and
+  operations through checked excerpts, with selected result components and a
+  six-run summary checked against the complete capture. The later persistence
+  client retains its longer listing and structural output. The lesson supplies
+  all three note forms:
   a numbered sketch illustrates the count of black forms, a margin cue
   clarifies the height counts, and a wide comparison follows left-left repair
   into its common result.
@@ -42,11 +45,16 @@ Those source links require that commit to be available on GitHub; an unpushed
 local build does not publish its source snapshot.
 
 The search-tree lesson labels its displayed definition and signature fragments
-as non-executable and checks them against the complete canonical module with a
-lesson-local standard-library comparison. Its complete clients retain the
-shared whole-program agreement check. Preparation preserves both kinds of code
-text in every output. The local fragment convention serves this teaching trial;
-it does not change how other lessons establish executable-source agreement.
+as non-executable and checks them against the complete canonical dictionary
+and prefix client with a lesson-local standard-library comparison. Its complete
+displayed clients retain the shared whole-program agreement check. The prefix
+section labels its smaller observations as components of one returned value.
+The complete stdout fixture retains the value and type, and its local check
+compares the selected fields and six-run summary with that capture. The full
+client still verifies against the pinned tool with empty stderr and status zero.
+Preparation preserves the displayed code and observation text in every output.
+These local conventions serve this teaching trial; other lessons retain their
+existing source and transcript checks.
 
 The separate [notation fixture](../../rendering/specimen/notation.md) contains
 two notes, a table, Mermaid graph and interaction sequence, EBNF railroad

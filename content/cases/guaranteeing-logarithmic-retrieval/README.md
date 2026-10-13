@@ -632,27 +632,64 @@ The Ash program, diagram, derivation, examples, and exercises here are original.
 
 ## Check every selected insertion prefix
 
-The first public client records six separate scenarios. Each `Scenario` begins
-with the empty dictionary's validity. Every `PrefixCheck` then records four
-facts after one insertion: the invariant, the newly inserted association, the
-first retained association in that scenario, and one absent key. The final list
-checks every exact key-value association again and ends with the same absence.
+The repair calculation ended with a valid dictionary containing `(3, 30)`,
+`(2, 20)`, and `(1, 10)`. Could a final successful lookup hide a problem after
+an earlier insertion? Starting from the empty dictionary, we want observations
+after `3`, after `3, 2`, and after `3, 2, 1`. Each is an insertion prefix: an
+initial part of the same input sequence.
 
-Predict `true` in every position for these sequences, in order: ascending
-`1` through `7`, descending `7` through `1`, then left-left, left-right,
-right-left, and right-right. The four three-key cases use the insertion orders
-from the repair table.
+After inserting `(1, 10)`, finding that association is only one part of the
+answer. The dictionary must also retain earlier associations, keep its ordering
+and color conditions, and return no value for a key we never inserted. We will
+calculate a client that records selected facts after each step, then checks
+every association in the final dictionary.
 
-The complete import makes the public names available through `Dictionaries`.
-The separate `impl Order` import selects the library's public ordering
-implementation for these calls, as in the earlier ordering Case.
+### Describe the input and observations
 
-<!-- source: src/01-prefix-matrix.ash -->
-<!-- markdownlint-disable MD013 -->
-```ash
+The input is a `List<(Natural, Int)>`: each element pairs a key with its expected
+value. For our three-step example, those pairs are `(3, 30)`, `(2, 20)`, and
+`(1, 10)`, in that order. We also choose `(3, 30)` as the first association to
+retain, and `0` as an absent key. These numbers stand for the `Natural` values
+whose constructor forms we used in the repair client.
+
+The report needs three new data types. `PrefixCheck` groups four Boolean
+observations about one dictionary, in this order:
+
+1. Its ordering, root color, red-child colors, and black-height satisfy the
+   invariant.
+2. Lookup of the key just inserted returns its expected value.
+3. Lookup of the first inserted key still returns its expected value.
+4. Lookup of the selected absent key returns `None`.
+
+`Scenario` groups the empty dictionary's invariant check, the list of those
+prefix checks, and a final list of association checks followed by the absence
+check. Keeping these observations separate lets us locate a failure in the
+run. A `true` invariant alone cannot tell us whether a value stayed with its
+key.
+
+`PrefixRun` serves a different purpose inside the client. It returns the prefix
+checks together with the final dictionary, so another operation can examine
+that dictionary. The type keeps these two results together without exposing
+the dictionary's hidden constructors.
+
+The client uses the familiar complete import for qualified public names and
+selects `Order` implementations separately:
+
+<!-- excerpt: src/01-prefix-matrix.ash#imports -->
+
+```text
 import dictionaries as Dictionaries
 import dictionaries (impl Order)
+```
 
+{{< pagebreak >}}
+
+The three report declarations are non-executable excerpts from the
+[complete client](src/01-prefix-matrix.ash):
+
+<!-- excerpt: src/01-prefix-matrix.ash#representation -->
+
+```text
 type PrefixCheck =
     PrefixCheck(Bool, Bool, Bool, Bool)
 
@@ -664,15 +701,177 @@ type PrefixRun =
         Dictionaries.List<PrefixCheck>,
         Dictionaries.Dictionary<Dictionaries.Natural, Int>
     )
+```
 
+`List` still has its ending form `End` and its `More` form containing one
+element and the rest. `Option` still distinguishes `None` from `Some`.
+What is new here is the purpose and order of the report fields, rather than
+another form of list or optional value. The Boolean types describe the shape
+of an observation; they do not establish that it will be `true`.
+
+For the selected runs, keys are distinct, the retained pair is the first input
+pair, and the absent key does not occur in the input. Those choices make the
+expected report meaningful. If a later entry replaced a value for the same
+key, checking the earlier value in the final dictionary would correctly return
+`false`. Replacement belongs to the next example.
+
+### Choose the operation types
+
+Start with the result we want. `scenario` consumes the entry list, the retained
+key and its expected value, and the absent key. It returns a `Scenario`:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-prefix-scenario-signature .column-page-right}
+
+<!-- signature: src/01-prefix-matrix.ash#scenario -->
+
+```text
+scenario : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Int -> Dictionaries.Natural -> Scenario
+```
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+Its body must begin with an empty dictionary and somehow obtain both the
+intermediate observations and the final dictionary. Give that task to
+`prefix_run`. Its inputs are the same four pieces of scenario information,
+followed by the dictionary to continue from. Its result must be `PrefixRun`,
+not just a list of checks, because the caller still needs the final dictionary:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-prefix-prefix-run-signature .column-page-right}
+
+<!-- signature: src/01-prefix-matrix.ash#prefix_run -->
+
+```text
+prefix_run : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Int -> Dictionaries.Natural -> Dictionaries.Dictionary<Dictionaries.Natural, Int> -> PrefixRun
+```
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+Supplying the entries, retained pair, and absent key leaves a function from
+`Dictionary<Natural, Int>` to `PrefixRun`. In the recursive case we can supply
+the smaller remainder of the entries and the updated dictionary to that same
+operation. The type tells us what can connect; the calculation must determine
+what each check means and which dictionary to pass.
+
+Lookup returns an optional value. We need two short operations to turn that
+answer into a Boolean observation. `has_value` receives an expected `Int` and
+an `Option<Int>`; it must report whether the value was found and agrees:
+
+<!-- signature: src/01-prefix-matrix.ash#has_value -->
+
+```text
 has_value : Int -> Dictionaries.Option<Int> -> Bool
-has_value expected Dictionaries.None = false
-has_value expected Dictionaries.Some(actual) = expected == actual
+```
 
+`is_none` receives an optional value and reports whether it is absent. It does
+not inspect the payload, so its signature can retain the type parameter `A`:
+
+<!-- signature: src/01-prefix-matrix.ash#is_none -->
+
+```text
 is_none : Dictionaries.Option<A> -> Bool
-is_none Dictionaries.None = true
-is_none Dictionaries.Some(ignored_value) = false
+```
 
+Finally, `lookup_checks` consumes the complete entry list, the absent key, and
+one final dictionary. It returns a list of Boolean observations:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-prefix-lookup-checks-signature .column-page-right}
+
+<!-- signature: src/01-prefix-matrix.ash#lookup_checks -->
+
+```text
+lookup_checks : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Dictionaries.Dictionary<Dictionaries.Natural, Int> -> Dictionaries.List<Bool>
+```
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+We have now described every operation needed by `scenario`. Fill their bodies
+from the overall result toward the smaller tasks.
+
+{{< pagebreak >}}
+
+### Assemble a scenario
+
+Create the empty dictionary with the concrete key and value types. Passing it
+to `prefix_run` produces a `PrefixRun`. Matching that result supplies `checks`
+and `final_dictionary` with the types required by the report. The empty
+invariant check is a `Bool`, `checks` is a `List<PrefixCheck>`, and applying
+`lookup_checks` to the original entries and final dictionary supplies the
+`List<Bool>`. Those are precisely `Scenario`'s three fields:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-prefix-scenario-excerpt .column-page-right}
+
+<!-- excerpt: src/01-prefix-matrix.ash#scenario -->
+
+```text
+scenario : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Int -> Dictionaries.Natural -> Scenario
+scenario entries retained_key retained_value absent_key = {
+    let empty : Dictionaries.Dictionary<Dictionaries.Natural, Int> = Dictionaries.empty()
+    let run = prefix_run entries retained_key retained_value absent_key empty
+    match run {
+        PrefixRun(checks, final_dictionary) => Scenario(
+            Dictionaries.invariant_holds empty,
+            checks,
+            lookup_checks entries absent_key final_dictionary
+        )
+    }
+}
+```
+
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+The entry list has two uses. `prefix_run` consumes it to construct successive
+dictionaries. `lookup_checks` uses it as the associations to expect in the
+finished value. The final pass can therefore check all earlier associations,
+not just the first and the latest ones.
+
+### Record the next prefix and continue
+
+`prefix_run` follows the entry list's two forms. With `End`, there is no next
+insertion and no new prefix check. The required result is `PrefixRun(End,
+dictionary)`: retain the supplied dictionary and return an empty check list.
+
+With `More(entry, rest)`, split the entry into `key` and `value`. Inserting that
+pair into `dictionary` returns `next_dictionary` of the same dictionary type.
+All four observations must examine this returned value. Checking the old
+`dictionary` would answer questions about the preceding prefix.
+
+The four stated positions of `PrefixCheck` now determine the meanings of its
+Boolean expressions: validate `next_dictionary`, look up the new key and value,
+look up the retained key and value, then look up the absent key. The two small adapters
+already have the types needed to interpret those lookups.
+
+{{< pagebreak >}}
+
+The remaining work has the same form as the original task, with the smaller
+list `rest`. Assume that calling `prefix_run` on that remainder and
+`next_dictionary` returns its checks in insertion order and the dictionary
+after all remaining entries. Match that result, place `current_check` before
+`later_checks`, and return the same `final_dictionary`. This determines the
+complete equations:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-prefix-prefix-run-excerpt .column-page-right}
+
+<!-- excerpt: src/01-prefix-matrix.ash#prefix_run -->
+
+```text
 prefix_run : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Int -> Dictionaries.Natural -> Dictionaries.Dictionary<Dictionaries.Natural, Int> -> PrefixRun
 prefix_run Dictionaries.End retained_key retained_value absent_key dictionary = PrefixRun(
     Dictionaries.End,
@@ -696,7 +895,82 @@ prefix_run Dictionaries.More(entry, rest) retained_key retained_value absent_key
         }
     }
 }
+```
 
+:::
+
+<!-- markdownlint-enable MD013 -->
+
+The base case supplies the promise for an empty remainder. The recursive case
+adds one observation to the front of the returned list, so the list order
+remains the insertion order. For a finite entry list, each call removes one
+`More`; the recursion reaches `End`, provided insertion and the checks return.
+The function records every Boolean result and continues even if one is
+`false`.
+
+Each invariant check visits the whole current dictionary. This observation
+client therefore does more work than its insertions alone. The logarithmic
+bound later in the chapter concerns the search path; validation has its own
+cost.
+
+The [global scope rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#global-scope)
+allow these bodies to call helpers defined later in the complete source.
+The [function and application rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application)
+check that the argument and result types fit. The list-order promise comes
+from the equations we just calculated.
+
+### Interpret the optional lookup results
+
+For `has_value`, `None` cannot be the expected association. `Some(actual)`
+contains an `Int`, so compare it with `expected`:
+
+<!-- excerpt: src/01-prefix-matrix.ash#has_value -->
+
+```text
+has_value : Int -> Dictionaries.Option<Int> -> Bool
+has_value expected Dictionaries.None = false
+has_value expected Dictionaries.Some(actual) = expected == actual
+```
+
+For example, `has_value 30 (Some(30))` is `true`, while both
+`has_value 30 None` and `has_value 30 (Some(31))` are `false`. These are
+calculations from the two equations, rather than additional CLI observations.
+
+For `is_none`, the `None` case is the successful absence observation; any
+present payload makes it false:
+
+<!-- excerpt: src/01-prefix-matrix.ash#is_none -->
+
+```text
+is_none : Dictionaries.Option<A> -> Bool
+is_none Dictionaries.None = true
+is_none Dictionaries.Some(ignored_value) = false
+```
+
+The payload's value and type do not affect that answer. These two small
+functions let the caller distinguish an absent association, a present wrong
+value, and the expected value.
+
+### Recheck every final association
+
+The four prefix flags inspect the new association, one retained association,
+and an absent key. After inserting `1`, they do not separately inspect `2`.
+A final pass must therefore compare every input association against the final
+dictionary.
+
+`lookup_checks` also follows the list's two forms. With `More(entry, rest)`,
+look up this entry's key in the same final dictionary, compare its value, and
+place that Boolean before the checks for `rest`. With `End`, all associations
+have been examined; return a one-element list containing the absent-key
+check. The result has one flag per entry followed by that final absence flag:
+
+<!-- markdownlint-disable MD013 -->
+
+::: {#wide-prefix-lookup-checks-excerpt .column-page-right}
+
+<!-- excerpt: src/01-prefix-matrix.ash#lookup_checks -->
+
+```text
 lookup_checks : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Dictionaries.Dictionary<Dictionaries.Natural, Int> -> Dictionaries.List<Bool>
 lookup_checks Dictionaries.End absent_key dictionary = Dictionaries.More(
     is_none (Dictionaries.lookup absent_key dictionary),
@@ -708,22 +982,40 @@ lookup_checks Dictionaries.More(entry, rest) absent_key dictionary = match entry
         lookup_checks rest absent_key dictionary
     )
 }
+```
 
-scenario : Dictionaries.List<(Dictionaries.Natural, Int)> -> Dictionaries.Natural -> Int -> Dictionaries.Natural -> Scenario
-scenario entries retained_key retained_value absent_key = {
-    let empty : Dictionaries.Dictionary<Dictionaries.Natural, Int> = Dictionaries.empty()
-    let run = prefix_run entries retained_key retained_value absent_key empty
-    match run {
-        PrefixRun(checks, final_dictionary) => Scenario(
-            Dictionaries.invariant_holds empty,
-            checks,
-            lookup_checks entries absent_key final_dictionary
-        )
-    }
-}
+:::
 
+<!-- markdownlint-enable MD013 -->
+
+For the running example, the list positions refer to `(3, 30)`, `(2, 20)`,
+`(1, 10)`, and absence of `0`. To see why the middle check matters, consider
+a dictionary containing only `(3, 30)` and `(1, 10)`. It can satisfy the
+invariant, contain the new `1` and retained `3`, and omit `0`, yet the check
+for `(2, 20)` must be `false`. This is a deliberately incomplete dictionary,
+not the result of our insertion run. It distinguishes what the final pass
+asks from what the four local flags ask.
+
+### Assemble the inputs and read the result
+
+The complete client's `main` returns six `Scenario` values:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- signature: src/01-prefix-matrix.ash#main -->
+
+```text
 main : Unit -> (Scenario, Scenario, Scenario, Scenario, Scenario, Scenario)
-main () = {
+```
+
+<!-- markdownlint-enable MD013 -->
+
+It begins by constructing the seven `Natural` keys. These lines are an excerpt
+from inside `main`, so their indentation is retained:
+
+<!-- excerpt: src/01-prefix-matrix.ash#keys -->
+
+```text
     let one = Dictionaries.Next(Dictionaries.Zero)
     let two = Dictionaries.Next(one)
     let three = Dictionaries.Next(two)
@@ -731,60 +1023,31 @@ main () = {
     let five = Dictionaries.Next(four)
     let six = Dictionaries.Next(five)
     let seven = Dictionaries.Next(six)
-    let ascending = Dictionaries.More(
-        (one, 10),
-        Dictionaries.More(
-            (two, 20),
-            Dictionaries.More(
-                (three, 30),
-                Dictionaries.More(
-                    (four, 40),
-                    Dictionaries.More(
-                        (five, 50),
-                        Dictionaries.More(
-                            (six, 60),
-                            Dictionaries.More((seven, 70), Dictionaries.End)
-                        )
-                    )
-                )
-            )
-        )
-    )
-    let descending = Dictionaries.More(
-        (seven, 70),
-        Dictionaries.More(
-            (six, 60),
-            Dictionaries.More(
-                (five, 50),
-                Dictionaries.More(
-                    (four, 40),
-                    Dictionaries.More(
-                        (three, 30),
-                        Dictionaries.More(
-                            (two, 20),
-                            Dictionaries.More((one, 10), Dictionaries.End)
-                        )
-                    )
-                )
-            )
-        )
-    )
+```
+
+The running input is the list whose first entry is `(three, 30)` and whose
+remainder contains `(two, 20)` and `(one, 10)`:
+
+<!-- markdownlint-disable MD013 -->
+
+<!-- excerpt: src/01-prefix-matrix.ash#left_left -->
+
+```text
     let left_left = Dictionaries.More(
         (three, 30),
         Dictionaries.More((two, 20), Dictionaries.More((one, 10), Dictionaries.End))
     )
-    let left_right = Dictionaries.More(
-        (three, 30),
-        Dictionaries.More((one, 10), Dictionaries.More((two, 20), Dictionaries.End))
-    )
-    let right_left = Dictionaries.More(
-        (one, 10),
-        Dictionaries.More((three, 30), Dictionaries.More((two, 20), Dictionaries.End))
-    )
-    let right_right = Dictionaries.More(
-        (one, 10),
-        Dictionaries.More((two, 20), Dictionaries.More((three, 30), Dictionaries.End))
-    )
+```
+
+<!-- markdownlint-enable MD013 -->
+
+The complete source also constructs ascending and descending seven-key lists
+and the other three repair orientations. Its final tuple supplies each list,
+its first association, and `Zero` as the absent key:
+
+<!-- excerpt: src/01-prefix-matrix.ash#matrix_calls -->
+
+```text
     (
         scenario ascending one 10 Dictionaries.Zero,
         scenario descending seven 70 Dictionaries.Zero,
@@ -793,32 +1056,102 @@ main () = {
         scenario right_left one 10 Dictionaries.Zero,
         scenario right_right one 10 Dictionaries.Zero
     )
-}
 ```
-<!-- markdownlint-enable MD013 -->
 
-Run the client:
+Predict `true` for each empty check and all four flags after each insertion.
+The final list should also contain only `true`: every exact association remains
+available, and `Zero` remains absent. Run the complete client from
+`content/cases`:
 
 ```text
 ash guaranteeing-logarithmic-retrieval/src/01-prefix-matrix.ash
 ```
 
-<!-- markdownlint-disable MD013 -->
+The command returns one tuple containing all six scenarios. Read the
+left-left scenario, the third tuple element, in smaller parts below. Each
+fence contains a field or list element of that same captured value; the
+surrounding tuple, `Scenario` constructor, and other fields are omitted. These
+are selected observations, not separate program outputs.
+
+Before any insertion, the scenario's first field is the empty invariant check:
+
+<!-- observation: prefix-matrix#left_left.empty -->
+
 ```text
-(Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))))))), More(true, More(true, More(true, More(true, More(true, More(true, More(true, More(true, End))))))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))))))), More(true, More(true, More(true, More(true, More(true, More(true, More(true, More(true, End))))))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End))))), Scenario(true, More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), More(PrefixCheck(true, true, true, true), End))), More(true, More(true, More(true, More(true, End)))))) : (Scenario, Scenario, Scenario, Scenario, Scenario, Scenario)
+true
 ```
-<!-- markdownlint-enable MD013 -->
 
-The two seven-key scenarios contain seven successful prefix checks and eight
-successful final positions: seven exact associations plus the absence. Each
-three-key scenario contains three prefix checks and four final positions. The
-matrix exercises every named repair orientation and repeated repairs under
-ascending and descending pressure.
+After `(3, 30)`, its first prefix check is:
 
-It does not establish the general theorem by enumeration. A faulty repair can
-be exposed by one of these runs, while the general preservation claim still
-depends on the source equations, the representation conditions, and the
-ordering premises.
+<!-- observation: prefix-matrix#left_left.prefix_1 -->
+
+```text
+PrefixCheck(true, true, true, true)
+```
+
+Read the four positions as invariant, `(3, 30)`, retained `(3, 30)`, and
+absence of `0`. The second and third positions test the same association at
+this first step; their jobs differ once another entry is inserted.
+
+After `(2, 20)`, the next prefix check is:
+
+<!-- observation: prefix-matrix#left_left.prefix_2 -->
+
+```text
+PrefixCheck(true, true, true, true)
+```
+
+Now the second position checks `(2, 20)` and the third checks the earlier
+`(3, 30)`. The first and fourth positions continue to check the invariant
+and absence of `0` in this two-entry dictionary.
+
+After `(1, 10)`, the third prefix check is:
+
+<!-- observation: prefix-matrix#left_left.prefix_3 -->
+
+```text
+PrefixCheck(true, true, true, true)
+```
+
+The repair has preserved the invariant and the new and retained associations.
+The final pass then examines all three pairs in input order, followed by
+absence of `0`:
+
+<!-- observation: prefix-matrix#left_left.lookups -->
+
+```text
+More(true, More(true, More(true, More(true, End))))
+```
+
+Each `More` supplies the next Boolean and the final `End` ends the list. The
+second flag checks the middle association `(2, 20)`, which the last prefix's
+four local flags did not inspect separately.
+
+The same captured tuple gives the following counts. Each prefix check contains
+four `true` flags, and every final flag is `true`:
+
+<!-- summary: prefix-matrix -->
+
+| Input order | Empty | Prefix checks | Final flags |
+| --- | --- | --- | --- |
+| Ascending `1` to `7` | `true` | 7 | 8 |
+| Descending `7` to `1` | `true` | 7 | 8 |
+| Left-left `3, 2, 1` | `true` | 3 | 4 |
+| Left-right `3, 1, 2` | `true` | 3 | 4 |
+| Right-left `1, 3, 2` | `true` | 3 | 4 |
+| Right-right `1, 2, 3` | `true` | 3 | 4 |
+
+The seven-key scenarios create seven prefix observations and eight final
+flags: seven exact associations plus the absence. Each three-key scenario
+creates three prefix observations and four final flags. The matrix exercises
+the four named repair orientations and repeated repairs under ascending and
+descending input.
+
+These finite observations can expose a faulty repair. They do not establish
+preservation for every dictionary by enumeration. That general argument still
+depends on the source equations, representation conditions, and ordering
+premises. The client makes selected consequences of that argument observable
+at each insertion boundary.
 
 ## Retain build, replacement, and older values
 
@@ -920,6 +1253,8 @@ applies public insertion in input order.
 render nominal data structurally. That output does not export the private color
 type or either opaque dictionary constructor. It gives client source no new
 name to construct or match.
+
+{{< pagebreak >}}
 
 ## Derive the logarithmic bound
 

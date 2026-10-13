@@ -49,10 +49,6 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
-The approved [prefix-observation revision](../plans/2026-10-13-calculating-prefix-observations.md)
-continues the search-tree teaching trial through data, operation types,
-recursive program derivation, and checked smaller observations.
-
 The [search-tree teaching trial](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
 is verified in all four outputs. It develops colored insertion from its
 problem and example, data, operation types, and worked calculations, proceeding
@@ -60,8 +56,13 @@ from public composition into the smaller operations. Eleven checked fragments
 retain the canonical algorithm, and a small public client demonstrates the
 three-key repair. Selected long signatures and equation groups use wider space
 at the unchanged code size, with complete blocks on one page in both PDFs.
-The later comprehensive listings and observations remain available for further
-teaching revision.
+
+The prefix-check continuation is also verified. It develops observation data,
+operation types, scenario composition, and recursive checks through sixteen
+additional exact excerpts. Five displayed components and a six-run summary
+agree with the complete captured result. All four canonical programs retain
+their previous bytes and checks. The later build-and-persistence listing and
+observation remain available for further teaching revision.
 
 The first rendering outcome is verified as a local specimen in responsive HTML,
 reflowable EPUB 3, and two PDF print variants. It keeps existing verified

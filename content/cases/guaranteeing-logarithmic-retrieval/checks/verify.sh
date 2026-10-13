@@ -11,6 +11,7 @@ readonly library="$unit_root/src/dictionaries.ash"
 readonly prefix_entry="$unit_root/src/01-prefix-matrix.ash"
 readonly persistence_entry="$unit_root/src/02-build-and-persistence.ash"
 readonly repair_entry="$unit_root/src/03-repair.ash"
+readonly prefix_fixture="$unit_root/fixtures/prefix-matrix.stdout"
 readonly sources=(
     src/dictionaries.ash
     src/01-prefix-matrix.ash
@@ -546,6 +547,11 @@ readonly prefix_output='(Scenario(true, More(PrefixCheck(true, true, true, true)
 readonly persistence_output='((Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 20, Empty), Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 99, Empty), Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 99, Node(Red, Empty, Next(Next(Next(Zero))), 30, Empty)), Node(Black, Node(Red, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 99, Node(Red, Empty, Next(Next(Next(Zero))), 30, Empty))), (true, true, true, true), (Some(20), Some(99), Some(99), None, Some(30), Some(30))) : ((Dictionary<Natural, Int>, Dictionary<Natural, Int>, Dictionary<Natural, Int>, Dictionary<Natural, Int>), (Bool, Bool, Bool, Bool), (Option<Int>, Option<Int>, Option<Int>, Option<Int>, Option<Int>, Option<Int>))'
 readonly repair_output='Node(Black, Node(Black, Empty, Next(Zero), 10, Empty), Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty)) : Dictionary<Natural, Int>'
 
+[[ -f $prefix_fixture ]] || ash_doc_fail "missing complete prefix matrix capture"
+ash_doc_assert_exact \
+    "$(cat "$prefix_fixture")" "$prefix_output" \
+    "the prefix matrix fixture must retain its complete exact observation"
+
 ash_doc_run_accepted \
     "$unit_root" src/dictionaries.ash "$dictionary_output"
 ash_doc_run_accepted \
@@ -557,16 +563,14 @@ ash_doc_run_accepted \
 
 [[ -f $readme ]] || ash_doc_fail "missing unit README.md"
 ash_doc_check_sources "$unit_root" "$readme" \
-    src/01-prefix-matrix.ash src/02-build-and-persistence.ash src/03-repair.ash
-python3 "$unit_root/checks/check_fragments.py" "$readme" "$library"
-python3 -m unittest discover -s "$unit_root/checks" -p test_fragments.py
+    src/02-build-and-persistence.ash src/03-repair.ash
+python3 "$unit_root/checks/check_fragments.py" "$readme" "$library" "$prefix_entry"
+python3 "$unit_root/checks/check_prefix_observations.py" "$readme" "$prefix_fixture"
+python3 -m unittest discover -s "$unit_root/checks" -p 'test_*.py'
 
 ash_doc_assert_text_line_once \
     "$dictionary_output" \
     "README must display the dictionary validation output exactly once"
-ash_doc_assert_text_line_once \
-    "$prefix_output" \
-    "README must display the complete prefix matrix output exactly once"
 ash_doc_assert_text_line_once \
     "$persistence_output" \
     "README must display the build and persistence output exactly once"
