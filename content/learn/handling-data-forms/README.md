@@ -41,13 +41,13 @@ Each constructor has a corresponding arm. The pattern `Found(value)` does two
 jobs: it recognizes the `Found` form and gives its integer field the local name
 `value`. The `Missing` form has no field to name.
 
-For `Found(42)`, the first pattern applies and `value` stands for `42`. The
-function therefore produces `42`. For `Missing`, the second pattern applies
-and the function produces `0`.
+Predict which arm handles `Found(42)`, what `value` binds, and what the
+function returns. Run it, then change the call to `value_or_zero Missing`
+and predict that result before running again.
 
-Run the program, then change the call to `value_or_zero Missing`. The two runs
-should report `42 : Int` and `0 : Int`. Both paths agree with the result type in
-the signature.
+The observations are `42 : Int` and `0 : Int`. The `Found` pattern binds
+its field to `value`; the `Missing` arm supplies its own integer because
+there is no field. Both paths agree with the signature's result type.
 
 ## Letting the equations follow the forms
 
@@ -69,7 +69,9 @@ main () = value_or_zero (Found(42))
 ```
 
 The signature still belongs to the whole function. The two equations describe
-what that function does for the two forms of `Result`:
+what that function does for the two forms of `Result`. Before running, locate
+the equation selected by each input and compare with the explicit match.
+The first call reports `42 : Int`; the two calculations are:
 
 ```text
 value_or_zero Found(42)
@@ -106,7 +108,9 @@ main : Unit -> Int
 main () = value_or_zero Missing
 ```
 
-Run this version from `content/learn`. Which form has no equation?
+Compare every form allowed by `Result` with the equations. Which form has no
+result, and would changing only `main`'s input fulfill the function's contract?
+Run this version from `content/learn`:
 
 <!-- diagnostic: src/03-missing-constructor.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -125,15 +129,18 @@ reason: coverage.non-exhaustive
 The message names `Missing` and labels the incomplete `value_or_zero`
 definition. Restoring `value_or_zero Missing = 0` gives that form its own
 result. The problem exists whether or not `main` happens to construct
-`Missing`. The
-signature says that `value_or_zero` accepts any `Result`, and the data
-definition says that `Missing` is one. The equations must keep that promise.
+`Missing`. The signature accepts any `Result`, and the data definition says
+that `Missing` is one. The equations must keep that promise.
 
 When a constructor carries several fields, its pattern must have the same
 number and order of parts. The pattern then supplies a local name for each part
 the expression needs.
 
 ## Exercise: respond to a signal
+
+Start from a fresh copy of `src/02-equations.ash` in your scratch directory.
+Replace the data definition and function, then use the same scratch program
+for the equivalent match.
 
 Return to the earlier definition:
 

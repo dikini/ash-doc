@@ -78,7 +78,10 @@ directory, reader-facing link, or publication date.
   observations before comparing distinct nominal identities.
 
 - **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**
-  — **verified.** Constructor patterns, equations or matches, and coverage.
+  — **verified.**
+  Derive patterns and equations from constructor forms; explain coverage
+  for every admitted input independently of main's chosen value.
+
 - **9. [How can a function follow recursive data?](../../content/learn/following-recursive-data/README.md)**
   — **verified.** Recursive nominal data and recursive functions.
 
