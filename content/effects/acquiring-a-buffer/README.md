@@ -2,8 +2,8 @@
 
 A cell scope begins with an integer value. A native buffer must first acquire
 space for a requested number of bytes. That acquisition can fail before its
-body starts. The result therefore records whether acquisition and the body
-completed successfully.
+body starts. Successful acquisition followed by normal body completion wraps
+the body's value in `Success`, even when that value is itself a `Failure`.
 
 The buffer API also returns ordinary outcomes for checked reads and writes.
 We will keep those outcomes separate: acquiring a buffer successfully does
@@ -25,8 +25,14 @@ main () = resource native_buffer<R> bytes = 4 {
 
 `@builtin.native_buffer` supplies the fixed buffer API. Like a cell, an acquired
 buffer has a handle, an exact provider relation, an operation interpreter, and
-one scope owning release. Its bytes start at zero. Run this file from the
-lesson's `src` directory:
+one scope owning release. Its bytes start at zero.
+
+`Buffer.Outcome<A>` has ordinary constructors `Success(A)` and
+`Failure(Error)`. Its errors include `InvalidLength`, `AllocationFailed`,
+`InvalidIndex`, and `InvalidByte`. A read at a valid index returns
+`Success` containing the byte. Identify the two expressions producing outcome
+layers here: the read and the surrounding acquisition. Predict both before
+running from this lesson's `src` directory:
 
 ```text
 $ ash 01-zeroed-bytes.ash
@@ -37,10 +43,8 @@ The inner `Success(0)` is the read outcome. The outer `Success` says acquisition
 succeeded and the body returned that value normally. The buffer is released
 before that outer successful result is returned.
 
-`Buffer.Outcome<A>` has ordinary constructors `Success(A)` and
-`Failure(Error)`. Its errors include `InvalidLength`, `AllocationFailed`,
-`InvalidIndex`, and `InvalidByte`. Code must match the outcomes it needs; these
-constructors do not throw exceptions or automatically stop surrounding work.
+Code must match the outcomes it needs; these constructors do not throw
+exceptions or automatically stop surrounding work.
 
 ## Check the write before using its result
 
@@ -59,8 +63,11 @@ main () = resource native_buffer<R> bytes = 4 {
 }
 ```
 
-The successful write returns `Unit`. Its match then reads index one. If the
-write failed, the other branch would return that error instead:
+For four bytes, valid indices are zero through three; valid byte values are
+zero through 255. A successful write returns `Buffer.Success(())`, and its
+match then reads index one. If the write failed, the other branch would return
+that error instead. Predict which
+branch this write selects, then the read's value and its acquisition wrapper:
 
 ```text
 $ ash 02-write-and-read.ash
@@ -92,14 +99,17 @@ main () = resource cell<C> entered = 0 {
 }
 ```
 
-No buffer is acquired. The body does not write to `entered`, and the result is
-an acquisition failure rather than a successful acquisition containing a body
-failure:
+Use the positive-length requirement to decide whether the body is entered.
+Predict the acquisition outcome and the cell's final value separately:
 
 ```text
 $ ash 03-acquisition-failure.ash
 (Failure(InvalidLength), 0) : (Outcome<Int>, Int)
 ```
+
+Zero is invalid, so no buffer is acquired and the body never writes to
+`entered`. The result is `Failure(InvalidLength)` and the cell remains
+`0`. This failure comes from acquisition, before any body value exists.
 
 A valid length can also fail because allocation is unavailable. The program
 must be able to handle `AllocationFailed`; this example uses invalid length
@@ -122,12 +132,17 @@ main () = resource native_buffer<R> bytes = 2 {
 }
 ```
 
+The length is valid, but is the read index within its bounds? Predict the
+read's outcome and whether the enclosing acquisition still returns `Success`:
+
 ```text
 $ ash 04-invalid-index.ash
 Success(Failure(InvalidIndex)) : Outcome<Outcome<Int>>
 ```
 
-Acquisition succeeded and the body ran, but the read returned an error.
+Acquisition succeeded and the body returned normally, but its value was the
+read's `Failure(InvalidIndex)`. This is an ordinary returned value: the tool
+prints it and exits with status `0`.
 Changing the index to one gives a valid read of the initially zero byte.
 
 A byte value must be between zero and 255. `05-invalid-byte.ash` records both
@@ -145,6 +160,9 @@ main () = resource native_buffer<R> bytes = 2 {
     Checked(written, Buffer.read (bytes, 0))
 }
 ```
+
+Predict both fields of `Checked`. If the write is outside the byte range,
+what will a later read find at the unchanged position?
 
 ```text
 $ ash 05-invalid-byte.ash
@@ -173,6 +191,9 @@ main () = resource native_buffer<R> outer = 1 {
 }
 ```
 
+Trace entry into each body. Which acquisition can return a value without
+running its body, and what will the outer body return and wrap?
+
 ```text
 $ ash 06-nested-acquisition.ash
 Success(Failure(InvalidLength)) : Outcome<Outcome<Int>>
@@ -183,6 +204,19 @@ ordinary value, then the outer scope releases its buffer and wraps that value
 in `Success`. Its shape resembles a failed read in an acquired buffer, but
 its cause is the inner acquisition. Follow the expression producing each
 outcome rather than guessing from the constructor alone.
+
+These examples separate the producer of each outcome layer:
+
+| Example | Acquisition result | Body's returned value |
+| --- | --- | --- |
+| Zero length (`03`) | `Failure(InvalidLength)` | Body never entered |
+| Invalid index (`04`) | `Success(...)` | Read's `Failure(InvalidIndex)` |
+| Invalid byte (`05`) | `Success(...)` | `Checked` with both access outcomes |
+| Nested acquisition (`06`) | `Success(...)` | Inner `Failure(InvalidLength)` |
+
+All six programs so far return ordinary values with tool status `0`,
+including those containing `Failure`. The [buffer evaluation rules][execution]
+keep acquisition, access outcomes, and normal release distinct.
 
 ## A success wrapper cannot export access
 
@@ -201,6 +235,10 @@ main () = {
     0
 }
 ```
+
+What would the success wrapper retain if its body returned `bytes`? Apply
+E8's dependency rule before reading this source rejection:
+
 <!-- diagnostic: src/07-handle-escape.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -231,6 +269,10 @@ general foreign-function interface.
 
 ## Practice: identify which operation failed
 
+For each task, make a fresh copy of its named program in a scratch directory
+outside this lesson's `src` tree. Predict the outcome, then run that copy from
+its directory.
+
 1. Give `03-acquisition-failure.ash` a valid small length. Predict the outcome
    and the `entered` count before running.
 2. Change the index in `04-invalid-index.ash` to the last valid position.
@@ -244,3 +286,4 @@ while access belongs to a live owner. The final lesson will put requests,
 state, early stopping, and cleanup together in one finite-list calculation.
 
 [buffers]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-native-buffers
+[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#scoped-native-buffer-execution

@@ -261,10 +261,12 @@ Use a small byte calculation with a scoped native buffer. Explain acquisition
 outcomes before entering the body, checked access, and release. Choose small
 deterministic success and failure observations permitted by the fixed API.
 
-The reader can distinguish acquisition failure, a successful acquisition whose
-body returns a domain outcome, and nested acquisition outcomes. They can
-explain why those wrappers remain distinct and apply the lifetime model from
-cells. This chapter introduces neither source pointers nor general FFI.
+The reader predicts body entry and identifies which expression produces each
+outcome layer. They distinguish acquisition failure from a successful
+acquisition wrapping a normally returned body failure, including nested
+acquisitions. Invalid access returns ordinary values with tool status zero;
+retained handle escape is a source rejection. Apply the lifetime model from
+cells; introduce neither source pointers nor general FFI.
 
 ### E12. How do these boundaries fit together?
 
@@ -491,13 +493,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E11 teaching review.** Revise the existing chapter
-for its body entry, ordinary failure values, and retained resource access boundary.
-The approved prose and exercise review targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
-[execution plan](../plans/2026-10-13-buffer-acquisition-teaching-review.md)
-owns this chapter; complete and verify it, then advance to E12.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
