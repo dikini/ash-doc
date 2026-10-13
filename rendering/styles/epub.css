@@ -1,0 +1,13 @@
+body { font-family: serif; line-height: 1.5; overflow-wrap: anywhere; }
+h1, h2, h3 { font-weight: normal; }
+h1 { break-before: page; }
+p { margin: 0 0 1em; }
+pre, code { font-family: monospace; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8em; line-height: 1.4; }
+pre code { white-space: inherit; overflow-wrap: anywhere; }
+img, svg { max-width: 100%; height: auto; }
+figure { margin: 1.5em 0; }
+figcaption { font-size: .9em; }
+table { border-collapse: collapse; width: 100%; table-layout: fixed; font-size: .85em; }
+td, th { padding: .3em; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+a { text-decoration: underline; }

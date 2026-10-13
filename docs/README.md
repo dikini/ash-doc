@@ -10,6 +10,11 @@ does not contain published Ash instruction or define Ash behavior.
 - [Roadmap](project/roadmap.md) records the full learning continuation, its
   prerequisites, and the delivery outcome when one is selected.
 - [Verification](project/verification.md) gives the baseline checks.
+- [Rendering](project/rendering.md) gives the local HTML, EPUB 3, and PDF
+  specimen, its tool boundary, and its checks. The
+  [notation renderer report](project/notation-renderer-bugs.md) and
+  [rendering tool report](project/rendering-tool-bugs.md) retain executable
+  development handoffs.
 - [Plans](plans/README.md) contains temporary design and execution records owned
   by an active roadmap outcome or bounded repository decision.
 

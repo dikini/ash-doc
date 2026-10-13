@@ -81,6 +81,12 @@ separate from the lesson's source observations.
 
 ## Review the rest
 
+The [rendering guide](rendering.md#verify-the-specimen) gives the separate checks
+for the local HTML, EPUB 3, and PDF specimen. Rendering checks preserve source
+text and inspect presentation; they do not replace the executable lesson
+checks above. The two linked development reports retain upstream notation and
+conversion failures independently of successful specimen output.
+
 From the repository root, run Markdown lint and shell checks:
 
 ```sh

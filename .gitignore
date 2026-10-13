@@ -1,2 +1,6 @@
 # Local Git worktrees
 .worktrees/
+
+# Local renderer tools, generated sources, and output
+.build/
+__pycache__/

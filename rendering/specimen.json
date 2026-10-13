@@ -1,0 +1,24 @@
+{
+  "ash_commit": "9ec5920e8c395f9a36125805ee93b7f58c0f4764",
+  "quarto_version": "1.10.19",
+  "sources": [
+    "content/learn/what-is-an-ash-program/README.md",
+    "content/cases/guaranteeing-logarithmic-retrieval/README.md",
+    "content/libraries/requiring-element-behavior/README.md"
+  ],
+  "fixtures": ["rendering/specimen/notation.md"],
+  "renderers": {
+    "railroad": "366d5eaa937e9e9fbae3bf8d44265ccc2c528067",
+    "sequent": "21dad3d34b206b7964d2dd7edcab89a7b8f2b612"
+  },
+  "renderer_bundles": {
+    "railroad": {
+      "path": "dist/rehype.js",
+      "sha256": "05b301382edc1d064da5ec8119a2ea1ef3943870c8e5654858a1921fbcfd7dd5"
+    },
+    "sequent": {
+      "path": "packages/core/src/index.js",
+      "sha256": "10a503718fb6ae501d3b8dc3cec3b71c0a62e42937477abff873cf74f9dd5cda"
+    }
+  }
+}

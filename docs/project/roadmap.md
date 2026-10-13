@@ -35,13 +35,13 @@ checks. Discovery exercises keep their unanswered observations.
 
 ## Rendering infrastructure outcome
 
-The approved first rendering outcome is a local specimen in responsive HTML,
+The first rendering outcome is verified as a local specimen in responsive HTML,
 reflowable EPUB 3, and a book PDF. It keeps existing verified Markdown and
 executable evidence authoritative, uses Quarto Book and Typst, and evaluates
 the existing railroad and sequent renderers separately from Mermaid sequence
-diagrams. The [temporary execution plan](../plans/2026-10-13-rendering-specimen.md)
-owns its selected sources, verification, and replacement condition. This work
-does not publish the edition or change its Ash target.
+diagrams. The [rendering guide](rendering.md) records its selected sources,
+verification, current development handoffs, and replacement condition. This
+work does not publish the edition or change its Ash target.
 
 ## Curriculum direction
 

@@ -1,0 +1,39 @@
+/*-- scss:defaults --*/
+$body-bg: #fffff8;
+$body-color: #171714;
+$link-color: #30302b;
+$font-family-serif: "TeX Gyre Pagella", Palatino, "Palatino Linotype", Georgia, serif;
+$font-family-sans-serif: $font-family-serif;
+$font-family-monospace: "IBM Plex Mono", "DejaVu Sans Mono", monospace;
+$web-font-path: false;
+
+/*-- scss:rules --*/
+body { font-size: 1.05rem; }
+main.content { line-height: 1.6; }
+main.content h1, main.content h2, main.content h3 { font-weight: 400; }
+main.content h1 { font-size: 2.4rem; margin-bottom: 1.7rem; }
+main.content h2 { font-size: 1.55rem; margin-top: 2.6rem; border: 0; }
+main.content h3 { font-size: 1.25rem; font-style: italic; }
+main.content p { margin-bottom: 1.25rem; }
+main.content a { text-decoration: underline; text-underline-offset: .15em; }
+main.content pre { max-width: 100%; overflow-x: auto; font-size: .78rem; line-height: 1.5; }
+div.sourceCode { border: 0; background: transparent; }
+.sidebar, #TOC, .nav-page { font-family: system-ui, sans-serif; font-size: .84rem; }
+.sidebar-title { font-size: 1rem; font-weight: 500; }
+.margin-container, .column-margin { font-size: .83rem; line-height: 1.4; }
+figure { margin: 1.75rem 0; }
+figure img { max-width: 100%; height: auto; }
+figcaption { font-size: .85rem; line-height: 1.45; text-align: left; }
+table { font-size: .9rem; }
+.on-this-page { margin: 1rem 0; font-family: system-ui, sans-serif; font-size: .85rem; }
+.on-this-page a { display: block; padding: .25rem 0; }
+@media (min-width: 992px) { .on-this-page { display: none; } }
+@media (max-width: 991px) {
+  body { font-size: 1rem; }
+  main.content h1 { font-size: 2rem; }
+  main.content { min-width: 0; }
+  #quarto-content > .on-this-page { grid-column: body-start / body-end; grid-row: 1; }
+  #quarto-content > main.content { grid-row: 2; }
+  #quarto-content > .page-navigation { grid-row: 3; }
+  table { display: block; overflow-x: auto; }
+}

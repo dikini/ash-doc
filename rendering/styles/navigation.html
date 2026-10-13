@@ -1,0 +1,23 @@
+<script>
+// Keep local navigation in the chrome when Quarto hides its floating TOC.
+document.addEventListener('DOMContentLoaded', () => {
+  const toc = document.querySelector('#TOC');
+  const article = document.querySelector('main.content');
+  if (!toc || !article) return;
+  const disclosure = document.createElement('details');
+  disclosure.className = 'on-this-page';
+  const label = document.createElement('summary');
+  label.textContent = 'On this page';
+  disclosure.append(label);
+  for (const link of toc.querySelectorAll('a[href]')) {
+    const target = new URL(link.href, location.href);
+    if (target.origin !== location.origin || target.pathname !== location.pathname || !target.hash) continue;
+    const copy = link.cloneNode(true);
+    copy.setAttribute('href', target.hash);
+    copy.removeAttribute('id');
+    copy.removeAttribute('class');
+    disclosure.append(copy);
+  }
+  article.before(disclosure);
+});
+</script>

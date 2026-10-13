@@ -1,0 +1,50 @@
+{
+  "quarto": {
+    "version": "1.10.19",
+    "url": "https://github.com/quarto-dev/quarto-cli/releases/download/v1.10.19/quarto-1.10.19-linux-amd64.tar.gz",
+    "sha256": "8e38c2b2df6a6dbd369ea16e15acded6894545258d13a02f777f81ad18fd7973",
+    "binary": "quarto-1.10.19/bin/quarto",
+    "pandoc": "3.10",
+    "typst": "0.15.1",
+    "bundled_marginalia": "0.3.1"
+  },
+  "epubcheck": {
+    "version": "5.4.0",
+    "url": "https://github.com/w3c/epubcheck/releases/download/v5.4.0/epubcheck-5.4.0.zip",
+    "sha256": "33350c61038e71dfb3d45a76aed04bf5481e6d5500cb780f6e98db8bbd15a28c",
+    "jar": "epubcheck-5.4.0/epubcheck.jar"
+  },
+  "mermaid_cli": {
+    "version": "12.0.0",
+    "mermaid_version": "12.1.0",
+    "puppeteer_version": "25.10.0",
+    "browser": "Chrome 152.0.7977.75",
+    "binary": "mermaid/node_modules/.bin/mmdc",
+    "node_tested": "24.0.1",
+    "lock_sha256": "d8679bdcce68d794995d1237ec8035b7a445ef0813ad4de74bb469cc324185ff"
+  },
+  "fonts": {
+    "DejaVu-license.txt": "e81d9dced49fea2a7d576cbea283873de58563c5d488f954deb282843c3ea79c",
+    "DejaVuSansMono-Bold.ttf": "bce60f1b4421acd9ea51ba6623d7024ecbe6817a953e3654df62a5e6bdf8f769",
+    "DejaVuSansMono.ttf": "b4a6c3e4faab8773f4ff761d56451646409f29abedd68f05d38c2df667d3c582",
+    "DejaVuSerif-Bold.ttf": "c47b5527bcdc8dcf9ea8c77054454c5a884beaca2f44851a2a823ee639cbf07f",
+    "DejaVuSerif-BoldItalic.ttf": "8d3dd3d31350309042ed226af82b34539bd773518e6107cb352712853ba80308",
+    "DejaVuSerif-Italic.ttf": "2e39b1d50f90b933b00c7bb54a96afd3f86419b3d717c7cf202e36f2d4973e47",
+    "DejaVuSerif.ttf": "42d1edeb7952f31b1f96d767ed7030b08a39e0c372b0071641518864e2bffb51",
+    "IBM-Plex-license.txt": "ed00326e4573277ab21aaf0580b014c95ee234b3e3144e8516e7ba76156f6507",
+    "IBMPlexMono-Bold.ttf": "5474dd5d5c3dc6c027cac93fe7e5a736e7b33adb4717093a1e23b36aab4606e9",
+    "IBMPlexMono-BoldItalic.ttf": "3d0c0888a9c3a98b39fc5aace9c20b149c793063cd9e9e0634f561e55186c4bf",
+    "IBMPlexMono-Italic.ttf": "d70bd62fa6b97d19853c0cf823667f99f7ff023d915052248e68635179c8fa83",
+    "IBMPlexMono-Regular.ttf": "a3c50f7c0e063998cfaeae56c6169ece9e0feaffaef425aa038f85d037fb4b9b",
+    "TeX-Gyre-license.txt": "432145211179a69f32c121ffb03a3b98c97a0fd11ef1083fe27271c468bbd1da",
+    "texgyrepagella-bold.otf": "dd4f9b69f0b24f1fb9be8634abf1fce2009e5c68a30842a3e9f5d6e535900abd",
+    "texgyrepagella-bolditalic.otf": "556fd64655a92bd9f5485ae2c03f7b9cdaf745a27a91d7edb3c3abde997206d2",
+    "texgyrepagella-italic.otf": "069bb27f48eb98a741715227fc6e4b7baf3639c29fc13925f70d1ed8884ac29a",
+    "texgyrepagella-regular.otf": "44e64260716d8f2bbe412baa1ee99b7c995190ac4573177c24def0b9200438c7"
+  },
+  "java_tested": "Temurin 21.0.11+10",
+  "pdftocairo": {
+    "version": "26.01.0",
+    "binary": "pdftocairo"
+  }
+}

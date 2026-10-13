@@ -15,5 +15,4 @@ Name a plan `YYYY-MM-DD-short-name.md`. Link it from its owning roadmap outcome
 or decision while it is active. Git history retains completed plans; do not
 maintain a second archive or completed-plans index.
 
-- [Rendering specimen](2026-10-13-rendering-specimen.md) is owned by the approved
-  rendering infrastructure outcome in the project roadmap.
+No active plans.

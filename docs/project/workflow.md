@@ -18,6 +18,7 @@ docs/       project policy, roadmap, and temporary plans
 content/    material intended for a coherent documentation edition
 lab/        bounded executable experiments and pressure cases
 research/   source and technique evaluations
+rendering/  local book preparation, styles, notation fixtures, and checks
 ```
 
 An index defines each root before the first leaf exists. Add a family, lesson, lab
@@ -191,6 +192,11 @@ lesson retains its own source-specific checks and expected observations. See the
 
 `README.md` remains the lesson entry for repository browsing. Add a registry,
 renderer, or CI service only when a concrete outcome needs it.
+
+The approved [rendering specimen](rendering.md) is the first such rendering
+outcome. Its source selection is bounded to indexed, verified lessons and
+labelled project fixtures; it does not create a general content registry or
+publish the edition.
 
 ## Replacement boundary
 

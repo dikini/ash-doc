@@ -257,11 +257,11 @@ Its output uses HTML grid and flex layouts. The upstream project promises HTML
 integration, so the absence of an SVG API is a portability feature gap.
 
 The specimen renders that existing HTML with a pinned browser, measures text
-and deduction bars, and emits plain SVG text and lines. It reuses the original
-parser, symbol normalization, and layout. Nested derivations and the primitive
-typing family were captured successfully. The resulting SVG has no
-`foreignObject`, script, or runtime dependency. Its text still depends on the
-selected font; accessibility descriptions retain the canonical notation.
+and deduction bars, and derives vector glyph paths with pinned fonts. It
+reuses the original parser, symbol normalization, and layout. Nested derivations
+and the primitive typing family were captured successfully. The resulting SVG
+has no `foreignObject`, script, runtime dependency, or external font dependency.
+Its glyphs are not selectable text; descriptions retain canonical notation.
 
 A native SVG backend would need the same source semantics and geometry tests.
 Remove browser capture only after native output passes the same nested,
@@ -286,9 +286,10 @@ the source checkout reproducible. This is a build reproducibility gap; it does
 not establish that every clean build fails.
 
 Track a reviewed build pin or document an externally pinned launcher and test
-the clean-checkout build. The specimen supplies its own pinned sbt launcher.
-Remove that compensation only after the upstream checkout declares and verifies
-the build version it requires.
+the clean-checkout build. The evaluation uses an explicit sbt 1.11.2 pin in a
+temporary source copy; the maintained specimen bootstrap does not provision
+the upstream build. Retain the gap until the upstream checkout declares and
+verifies the build version it requires.
 
 ## Proposed sequent development direction
 

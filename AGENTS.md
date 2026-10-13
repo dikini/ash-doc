@@ -147,7 +147,8 @@ Verification uses lesson-local Bash scripts, a shared Bash helper, and
 small Python standard-library comparisons for JSON and human transcripts. Keep
 semantic JSON checks separate from exact-edition human agreement. Run
 ShellCheck for Bash and Markdown lint for prose. Keep tooling changes tied to a
-concrete check; no renderer or publication platform is selected.
+concrete check. The approved [local rendering specimen](docs/project/rendering.md)
+uses Quarto Book and Typst; no publication platform is selected.
 
 ## Repository workflow
 
@@ -227,7 +228,8 @@ Before completing a change:
    status.
 8. Run `git diff --check` and inspect `git status --short` before committing.
 
-The repository selects the indexed `docs/`, `content/`, `lab/`, and `research/`
-roots, four content families, and lesson-local source and checks with shared
-verification helpers. It selects no renderer, manifest, CI service, publication
-platform, or license.
+The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
+`rendering/` roots, four content families, and lesson-local source and checks
+with shared verification helpers. Rendering uses Quarto Book, Typst, and a
+configuration bounded to the local specimen. It selects no general content
+registry, CI service, publication platform, or repository-wide license.

@@ -197,6 +197,15 @@ content family or lesson only when its prose and applicable executable evidence
 can land together.
 
 Verification uses the shared Bash helper and Python JSON comparison described
-in the verification guide. No renderer, manifest, CI service, or publication
-platform is selected. Establish each choice from a concrete need
-and keep the first implementation small enough to replace.
+in the verification guide. The approved
+[rendering specimen](docs/project/rendering.md) uses Quarto Book and Typst to
+produce responsive HTML, reflowable EPUB 3, and a book PDF from selected verified
+lessons. It includes static Mermaid graphs and interaction sequences, railroad
+grammar, and sequent inference rules. Its configuration selects only this
+local specimen. No CI service or publication platform is selected.
+
+The [notation renderer report](docs/project/notation-renderer-bugs.md) and
+[rendering tool report](docs/project/rendering-tool-bugs.md) contain current
+failures, minimal reproducers, passing controls, and bounded development
+prompts. Rendering preparation does not publish the edition or change its
+Ash checkpoint.
