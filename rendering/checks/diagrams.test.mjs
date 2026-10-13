@@ -3,15 +3,17 @@ import assert from 'node:assert/strict';
 import { access, mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import http from 'node:http';
 
 const environment = {
   railroad: 'RAILROAD_BUNDLE', sequent: 'SEQUENT_BUNDLE', mermaid: 'MMDC',
-  puppeteer: 'PUPPETEER_MODULE', browser: 'CHROME_BIN'
+  puppeteer: 'PUPPETEER_MODULE', browser: 'CHROME_BIN', fonts: 'DIAGRAM_FONTS', pdftocairo: 'PDFTOCAIRO'
 };
 function tools() {
   return Object.fromEntries(Object.entries(environment).map(([key, name]) => {
-    assert.ok(process.env[name], `Set ${name} to the pinned ${key} tool path.`);
-    return [key, process.env[name]];
+    const value = process.env[name] ?? (key === 'pdftocairo' ? '/usr/bin/pdftocairo' : undefined);
+    assert.ok(value, `Set ${name} to the pinned ${key} tool path.`);
+    return [key, value];
   }));
 }
 async function renderer() {
@@ -30,7 +32,11 @@ const diagrams = [
   { id: 'grammar', kind: 'ebnf', source: 'module_path ::= identifier { "." identifier } | "@" identifier ;\n',
     path: 'notation.md', line: 21, description: 'A module path has repeated segments or a named root.' },
   { id: 'inference', kind: 'sequent', source: 'T-Int :=\n    ===>\n    GAMMA |- n ⇒ Int\n',
-    path: 'notation.md', line: 30, description: 'An integer inference with no premises.' }
+    path: 'notation.md', line: 30, description: 'An integer inference with no premises.' },
+  { id: 'grouped', kind: 'sequent', source: 'family primitive-typing:\n  T-Int :=\n    ===>\n    GAMMA |- n ⇒ Int\n\n  T-Unit :=\n    ===>\n    GAMMA |- () ⇒ Unit\n',
+    path: 'notation.md', line: 38, description: 'Integer and unit rules remain a labeled family.' },
+  { id: 'nested', kind: 'sequent', source: 'Chain :=\n    [ A\n      ===>\n      B ]\n    ===>\n    C\n',
+    path: 'notation.md', line: 51, description: 'A derived premise remains above its parent inference.' }
 ];
 
 test('all notation kinds produce deterministic, accessible standalone SVGs', async () => {
@@ -53,11 +59,10 @@ test('all notation kinds produce deterministic, accessible standalone SVGs', asy
       assert.ok(svg.includes(diagram.source.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')),
         `${diagram.id} retains its canonical notation in its description`);
       assert.doesNotMatch(svg, /foreignObject|<script\b|https?:\/\/(?!www\.w3\.org\/)/i);
-      if (diagram.kind === 'ebnf') assert.match(svg, /fill:\s*none/);
+      assert.doesNotMatch(svg, /<text\b|font-family|@font-face/i, `${diagram.id} must not depend on reader fonts`);
+      assert.match(svg, /<path\b/, `${diagram.id} retains vector drawing and outlined glyphs`);
       if (diagram.kind === 'sequent') {
-        assert.match(svg, /Γ.*⊢.*Int/);
-        assert.match(svg, /<line\b/);
-        assert.match(svg, /<text\b/);
+        assert.match(svg, /<use\b/, `${diagram.id} uses vector glyphs`);
       }
     }
   } finally {
@@ -106,6 +111,49 @@ test('a production caption wider than its grammar remains inside the SVG', async
     const width = Number(/<svg[^>]*\bwidth="([0-9.]+)"/.exec(svg)[1]);
     assert.ok(width > name.length * 8, 'The viewport must contain the caption as well as the grammar.');
   } finally {
+    await rm(output, { recursive: true, force: true });
+  }
+});
+
+test('a short railroad remains readable at the mobile article width', async () => {
+  const renderDiagrams = await renderer();
+  const output = await mkdtemp(join(tmpdir(), 'ash-doc-mobile-grammar-'));
+  try {
+    await renderDiagrams({ ...tools(), output, diagrams: [diagrams[2]] });
+    const svg = await readFile(join(output, 'grammar.svg'), 'utf8');
+    const width = Number(/<svg[^>]*\bwidth="([0-9.]+)"/.exec(svg)[1]);
+    assert.ok(width <= 336, `Short grammar width ${width} must fit a 330px article without shrinking 14px labels below 13px.`);
+  } finally {
+    await rm(output, { recursive: true, force: true });
+  }
+});
+
+test('external Mermaid images and CSS resources fail without network requests', async () => {
+  const renderDiagrams = await renderer();
+  const output = await mkdtemp(join(tmpdir(), 'ash-doc-external-diagram-'));
+  let requests = 0;
+  const pixel = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==', 'base64');
+  const server = http.createServer((_request, response) => {
+    requests += 1;
+    response.setHeader('Content-Type', 'image/png');
+    response.end(pixel);
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const url = `http://127.0.0.1:${server.address().port}/resource`;
+  try {
+    for (const source of [
+      `flowchart LR\n  A@{ img: "${url}", label: "Image", w: 60, h: 60 }\n`,
+      `%%{init: {"themeCSS":"@import url(${url});"}}%%\nflowchart LR\n  A --> B\n`
+    ]) {
+      await assert.rejects(renderDiagrams({ ...tools(), output, diagrams: [{ ...diagrams[0], source }] }), /external|image nodes|resources/i);
+      await assert.rejects(access(join(output, 'graph.svg')), { code: 'ENOENT' });
+    }
+    const localStyle = JSON.stringify({ themeCSS: '.node rect { fill: url("#unused") #eee; }' });
+    await renderDiagrams({ ...tools(), output, diagrams: [{ ...diagrams[0],
+      source: `%%{init: ${localStyle}}%%\nflowchart LR\n    A --> B\n` }] });
+    assert.equal(requests, 0, 'Diagram notation cannot fetch external resources.');
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
     await rm(output, { recursive: true, force: true });
   }
 });
