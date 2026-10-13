@@ -11,7 +11,7 @@ type, and keep the requirement visible on any definition that uses it. A
 client then chooses which public implementation facts are available in its
 module.
 
-Create `equality.ash` as the library source:
+Read the library source, `equality.ash`:
 
 <!-- source: src/equality.ash -->
 ```ash
@@ -64,8 +64,9 @@ main : Unit -> Bool
 main () = same((21, 21))
 ```
 
-Before running it, predict whether the public `Equal<Int>` implementation in
-`equality.ash` is automatically available here.
+The pair supplies two integers. Which complete `Equal<A>` requirement does
+that create? Before running the client, predict whether importing `same`
+also makes the library's public implementation available.
 
 Run the entry from this lesson's `src` directory:
 
@@ -122,7 +123,10 @@ main : Unit -> Bool
 main () = same((21, 21))
 ```
 
-Run this entry:
+The new item selects public implementation facts for `Equal`. Use the integer
+arguments to identify the required application, then follow the matching
+method body in `equality.ash`. What boolean will the client produce? Run it to
+compare with your prediction:
 
 ```text
 ash 01-selected.ash
@@ -134,12 +138,14 @@ Ash reports:
 true : Bool
 ```
 
+The selected method compares `21 == 21`, which produces `true`. `same` uses
+that method to compare its pair and returns the boolean unchanged.
+
 The two clients differ only by `, impl Equal`. The item resolves the public
 interface spelling in `equality.ash` and selects its public implementation
 facts, but it binds no source name. Once ordinary typing fixes the call's
 requirement to `Equal<Int>`, the selected `Equal<Int>` fact is the unique
-matching concrete evidence. The method body compares `21 == 21`, so `same`
-produces `true`.
+matching concrete evidence.
 
 That order matters. `impl Equal` does not choose a result by inspecting the
 values at runtime. Checking first determines the complete interface
@@ -158,13 +164,14 @@ implementation evidence visible in source.
 
 ## Practice: change one boundary at a time
 
-Work in copies of the three sources so the observations above remain intact.
+Start each task with fresh copies of `equality.ash` and `01-selected.ash`
+together in a scratch directory, as described in the library path's setup.
 
 1. Change the selected client's arguments to `21` and `22`. Predict the
    boolean before running it, then explain why the selected fact is unchanged.
-2. Remove `pub` from the implementation in `equality.ash`. Run the selected
-   client and explain why another module can no longer select that private
-   fact.
+2. Remove `pub` from the implementation in `equality.ash`. Predict what the
+   client can select, then run it. Follow the diagnostic's labels and explain
+   which declaration or import you would change to repair it.
 3. Replace `impl Equal` with the ordinary name item `Equal`. The interface name
    is now available in the client, but is its implementation fact available?
    Predict what the message will explain and where its labels will point,
@@ -174,3 +181,5 @@ When you explain each result, keep the four roles separate: the interface
 names required behavior, the implementation supplies that behavior for
 `Int`, the `where` clause records the library definition's need, and
 `impl Equal` selects public implementation facts for the client module.
+The next chapter asks how those names and facts can reach a client through a
+[facade](../forwarding-capability-evidence/README.md).

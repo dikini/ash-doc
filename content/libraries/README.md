@@ -8,12 +8,19 @@ and source imports are already familiar.
 
 Use the `ash` command prepared by the repository's
 [shared setup](../../README.md#prepare-ash). Each lesson keeps its program in a
-`src` directory. Change into that directory before running an entry file, so
-its sibling library imports resolve from the same program directory.
+`src` directory. Run the displayed commands from that directory. Relative
+imports resolve from the importing source file's directory, so keep sibling
+library files beside their clients.
 
 The [diagnostic reading notes](../../README.md#read-a-diagnostic) explain the
 shell prompt, English output, and source-path convention. Rejection commands
 also run from the lesson's `src` directory.
+
+For practice, start each task in a fresh scratch directory outside the lesson's
+canonical `src` tree. Copy the named entry and its required sibling modules
+together, keeping their filenames. Run the copied entry from that scratch
+directory. Begin the next task with fresh copies, so an earlier edit does not
+change the boundary you are testing.
 
 For each boundary, use the same cycle:
 
