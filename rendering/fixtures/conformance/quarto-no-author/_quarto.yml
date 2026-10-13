@@ -1,0 +1,11 @@
+lang: en
+project:
+  type: book
+book:
+  title: An optional author reproduction
+  output-file: optional-author
+  chapters:
+    - index.qmd
+format:
+  typst:
+    keep-typ: true

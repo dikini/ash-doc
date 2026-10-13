@@ -1,0 +1,14 @@
+[typst]: Compiling index.typ to index.pdf...error: expected content, found array
+    ┌─ @preview/orange-book:0.7.1/lib.typ:584:48
+    │
+584 │       #text(size: title-main-3, weight: "bold", author)
+    │                                                 ^^^^^^
+
+ERROR: error: expected content, found array
+    ┌─ @preview/orange-book:0.7.1/lib.typ:584:48
+    │
+584 │       #text(size: title-main-3, weight: "bold", author)
+    │                                                 ^^^^^^
+
+
+ERROR: Typst compilation failed

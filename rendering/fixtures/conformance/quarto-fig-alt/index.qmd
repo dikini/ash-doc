@@ -1,0 +1,9 @@
+# A caption and an alternative
+
+The caption and alternative describe the same small figure.
+
+<!-- markdownlint-disable MD013 -->
+
+![A filled square.](square.svg){#fig-square fig-alt="A black square on white." width="100%"}
+
+<!-- markdownlint-enable MD013 -->

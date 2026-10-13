@@ -1,0 +1,12 @@
+lang: en
+project:
+  type: book
+book:
+  title: Figure alternative text reproduction
+  author: Ash documentation project
+  output-file: figure-alt
+  chapters:
+    - index.qmd
+format:
+  epub:
+    epub-version: 3

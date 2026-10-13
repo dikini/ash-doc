@@ -290,6 +290,55 @@ the clean-checkout build. The specimen supplies its own pinned sbt launcher.
 Remove that compensation only after the upstream checkout declares and verifies
 the build version it requires.
 
+## Proposed sequent development direction
+
+The requested renderer is a specialised, simplified TeX-like notation tool.
+Keep its named rules, premises, conclusions, nested derivations, and rule
+families as the structural core. A bounded formula language can improve
+mathematical typography without importing a TeX engine or treating ordinary
+Ash judgment text as a new language.
+
+These are proposed priorities for the renderer project, not accepted changes
+to Ash notation or implemented repairs:
+
+1. **Restore source compatibility first.** Resolve SQ-01 against the unchanged
+   corpus, including how indented continuation text belongs to its premise.
+   Keep raw text, Unicode, and the existing aliases valid. The renderer should
+   explain the tree it read without silently interpreting unfamiliar text.
+2. **Specify a small formula vocabulary.** Begin with named symbols, grouped
+   arguments, explicit subscripts and superscripts, upright operator names, and
+   literal text. Commands such as `\Gamma`, `\vdash`, `\to`, `\forall`,
+   `\text{...}`, and `\operatorname{...}` are candidates. Select and document
+   the supported commands from concrete Ash figures. Use an explicit opt-in
+   command mode or escape rule so existing braces, underscores, and backslashes
+   retain their current meaning. Unknown ordinary words remain literal; unknown
+   commands in command mode receive a source diagnostic. Defer macros, package
+   loading, document layout, and unrestricted TeX expansion.
+3. **Keep source spans through both parsers.** The rule parser and any formula
+   parser should retain line, column, and end positions. A diagnostic can then
+   identify the offending command or group, explain the accepted form, and keep
+   the complete source available. Add negative controls for missing arguments,
+   unmatched grouping, unknown commands, and invalid structural indentation.
+4. **Share one measured layout between hosts.** Separate the parsed rule and
+   formula trees from font metrics, box layout, and serialization. Compute the
+   same premise alignment, inference-bar width, conclusion position, and label
+   spacing for HTML and a native SVG backend. Pin typography and test fallback
+   glyphs. Decide whether portable SVG retains text with supplied fonts or uses
+   glyph outlines; retain canonical source and useful accessible descriptions
+   either way. Prefer this shared layout to another parser in each host.
+5. **Test source and presentation together.** Retain the real Ash corpus and
+   small controls for axioms, multiple premises, nested proofs, families, long
+   judgments, symbols, and malformed input. Add geometry and visual checks for
+   clipping, overlapping labels, missing glyphs, and narrow layouts. Verify a
+   native SVG as an external image in HTML, EPUB, and Typst, while retaining
+   source and error tests for both existing host adapters.
+
+The first bounded upstream increment can repair continuation handling and add
+source spans, with the original corpus as its acceptance boundary. The formula
+vocabulary and native SVG backend can follow as separate reviewed increments.
+This keeps the specimen's temporary capture replaceable and gives each new
+piece a measurable reason to exist.
+
 ## Scope and retention
 
 The user task is portable formal notation inside a book specimen. Its source
