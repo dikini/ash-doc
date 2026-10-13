@@ -40,6 +40,19 @@ programs live outside canonical source trees, with required sibling modules
 kept together. Local generalization and recursive initialization continue the
 same model; the effects connection remains optional until E3.
 
+## Library teaching review
+
+The approved review retains the eight chapters, 43 canonical sources, 17
+accepted observations, and 16 complete diagnostic captures at `diag-ash`
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Revise one chapter at a time using the
+project writing skill and existing teaching-inspiration records.
+
+Completed chapters: None yet.
+
+**Active outcome: chapter 1, choosing-implementation-evidence.**
+Which names and evidence does the comparison client need?
+[Execution plan](../plans/2026-10-13-library-01-teaching-review.md).
+
 ## Curriculum direction
 
 The next learning stage asks: how can a reader design a calculation that
