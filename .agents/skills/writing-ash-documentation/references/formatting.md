@@ -481,9 +481,10 @@ renderer failure.
 ## Review the reading experience
 
 After adding special formatting, build the selected material through the
-[rendering checks](../../../../docs/project/rendering.md#verify-the-specimen).
-The current specimen renders only its configured lessons and notation fixture;
-authoring supported Markdown does not by itself add a chapter to that build.
+[rendering checks](../../../../docs/project/rendering.md#verify-both-builds).
+Use `--whole-book` to review all indexed lessons. The default specimen renders
+only its configured lessons and notation fixture; authoring supported Markdown
+does not by itself add a chapter to either indexed selection.
 
 Inspect narrow HTML, EPUB with enlarged text, and both PDF variants. Check note
 references and return links, reading order, table wrapping, figure labels,

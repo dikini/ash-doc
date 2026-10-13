@@ -81,15 +81,39 @@ separate from the lesson's source observations.
 
 ## Review the rest
 
-The [rendering guide](rendering.md#verify-the-specimen) gives the separate checks
-for the local HTML, EPUB 3, double-sided book PDF, and one-sided A4 PDF specimen.
-Rendering checks preserve source text and inspect presentation, including
-actual paper size, fixed or mirrored margins, and note placement in both PDFs.
-The full-width aside must preserve its formatted paragraph and table, remain
-on one print page, clear sidenotes and navigation, and reflow in narrow previews.
-They do not replace the executable lesson checks above. The two linked
-development reports retain upstream notation and conversion failures
-independently of successful specimen output.
+The [rendering guide](rendering.md#verify-both-builds) gives the separate checks
+for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF. The
+complete review book includes thirteen Learn, eight Libraries, twelve Effects,
+and twenty Cases lessons, in that order, plus four family introductions. The
+default build retains the smaller specimen and its notation regressions.
+
+After building both modes through the guide, run their artifact and browser
+checks explicitly:
+
+```sh
+python3 -m unittest discover -s rendering/checks -p 'test_*.py'
+node --test --test-isolation=none rendering/checks/browser.test.mjs
+python3 rendering/checks/verify.py .build/book
+node rendering/checks/browser.mjs .build/book
+python3 rendering/checks/verify.py
+node rendering/checks/browser.mjs
+java -jar .build/toolchain/epubcheck-5.4.0/epubcheck.jar \
+    .build/book/output/ash-doc-review.epub
+java -jar .build/toolchain/epubcheck-5.4.0/epubcheck.jar \
+    .build/specimen/output/ash-doc-specimen.epub
+```
+
+The no-argument artifact and browser commands select `.build/specimen/`.
+Each build retains its browser screenshots and structured observations under
+`qa-browser/`. Checks derive coverage and order from the canonical family
+indexes, compare source hashes, and retain complete chapter code and transcripts
+in HTML and EPUB. Both PDFs check actual chapter order, paper size, fixed or
+mirrored margins, and note placement. The specimen's full-width aside must
+preserve its formatted paragraph and table, remain on one print page, clear
+sidenotes and navigation, and reflow in narrow previews. Both builds retain the
+search-tree layout regressions. These presentation checks supplement the
+executable lesson checks above. The linked development reports retain upstream
+notation and conversion failures separately.
 
 From the repository root, run Markdown lint and shell checks:
 

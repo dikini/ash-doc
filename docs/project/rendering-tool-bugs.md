@@ -1,18 +1,18 @@
 # Rendering tool development report
 
-Can a maintainer give Quarto ordinary book metadata and an accessible figure,
-then receive valid EPUB 3 and PDF output? Two controlled cases found failures
-in the bundled conversion tools. This report separates them from the user's
+Can ordinary Quarto book source preserve introductions, internal links, and
+accessible figures in EPUB 3 and PDF? Five controlled failures cross those
+conversion boundaries. This report separates them from the user's
 [notation renderer findings](notation-renderer-bugs.md). It makes no Ash
 language claim and changes no upstream source.
 
 The browser capture limitation below is an integration observation, separate
-from those two confirmed conversion failures.
+from those five confirmed conversion failures.
 
 ## Evaluated tool boundary
 
-The approved specimen uses Quarto Book and Typst. These observations use the
-downloaded and hash-checked tools in the
+The approved local review book and regression specimen use Quarto Book and
+Typst. These observations use the downloaded and hash-checked tools in the
 [rendering toolchain manifest](../../rendering/toolchain/manifest.json):
 
 | Component | Evaluated version |
@@ -29,8 +29,9 @@ The Ash edition remains `diag-ash` at
 rendering fixtures, rather than Ash programs. They isolate tool behavior from
 language semantics, diagram parsers, the specimen theme, and existing lessons.
 
-The fixture probe runs each case in its own copied project and writes complete
-human captures, generated XHTML, statuses, and a JSON report. From ash-doc, run:
+The existing fixture probe covers QT-01 and QT-02 only. It runs each in its own
+copied project and writes complete human captures, generated XHTML, statuses,
+and a JSON report. From ash-doc, run:
 
 ```sh
 python3 rendering/checks/rendering-tool-conformance.py \
@@ -42,7 +43,8 @@ python3 rendering/checks/rendering-tool-conformance.py \
 Use a fresh output directory. The canonical fixtures are unchanged; passing
 controls differ by one attribute or metadata field. The probe exits `0` when
 the observed failures and controls agree. `--expect-fixed` instead requires
-both failing cases to succeed with candidate tools.
+those two failing cases to succeed with candidate tools. QT-03 through QT-05
+use the separate standalone book fixture and commands below.
 
 ## QT-01: figure alternative text becomes invalid EPUB XHTML
 
@@ -173,6 +175,194 @@ The specimen supplies its own original book template; that selection does not
 repair the upstream default. Remove this failure record after verified tool
 adoption.
 
+## Reproduce the book-navigation boundaries
+
+The [minimal configuration][navigation-config] selects four original Markdown
+files: [reader start][navigation-index], [first chapter][navigation-first],
+[family introduction][navigation-family], and [last chapter][navigation-last].
+The family file is a native book part. It contains a formatted title with an
+explicit H1 anchor, a prose marker, one text block, and a link to the last
+chapter. The other files distinguish bare forward links, an explicit forward
+fragment, and backward links. The configuration supplies a scalar author and
+uses the bundled default Typst template, so QT-02 does not confound the result.
+It includes no ash-doc adapters, themes, diagrams, or lessons.
+
+From ash-doc, copy it to a fresh scratch directory and render both formats:
+
+```sh
+navigation_quarto="$PWD/.build/toolchain/quarto-1.10.19/bin/quarto"
+navigation_fonts="$PWD/rendering/fonts"
+navigation_cache="$PWD/.build/toolchain/cache"
+cp -R rendering/fixtures/conformance/quarto-book-navigation \
+    /tmp/ash-doc-book-navigation
+cd /tmp/ash-doc-book-navigation
+XDG_CACHE_HOME="$navigation_cache" \
+TYPST_FONT_PATHS="$navigation_fonts" TYPST_IGNORE_SYSTEM_FONTS=true \
+SOURCE_DATE_EPOCH=0 NO_COLOR=1 \
+    "$navigation_quarto" render --to epub --no-clean
+XDG_CACHE_HOME="$navigation_cache" \
+TYPST_FONT_PATHS="$navigation_fonts" TYPST_IGNORE_SYSTEM_FONTS=true \
+SOURCE_DATE_EPOCH=0 NO_COLOR=1 \
+    "$navigation_quarto" render --to typst --no-clean
+```
+
+The EPUB command exits `0` and writes `_book/book-navigation.epub`. The Typst
+command exits `1`; `keep-typ: true` retains `index.typ` for inspection. The
+[complete Typst failure capture][navigation-capture] records the compilation
+messages and Quarto's final error. Use the same environment when repeating
+either command for a control.
+Inspection must include generated chapter content and destinations; an exit
+status alone cannot detect the silently retained filename links or lost EPUB
+introduction.
+
+## QT-03: bare forward chapter links remain filename URLs
+
+**Classification:** current single-file book link-resolution defect in the
+evaluated Quarto and Pandoc combination, observed in EPUB and Typst. No earlier
+passing version is established.
+
+`index.md` links forward with `[Forward first](first.md)`. The EPUB stores
+`href="first.md"` in `EPUB/text/ch001.xhtml`, although the selected first chapter
+is packaged as `EPUB/text/ch002.xhtml`. There is no `first.md` archive member.
+The first chapter's forward link to `last.md` likewise retains that filename.
+The generated Typst contains:
+
+```text
+#link("first.md")[Forward first].
+#link("last.md")[Forward last].
+```
+
+Those links do not address the selected chapters' labels. In a separate copy,
+remove only `[Back family](family.md).` from `last.md` to avoid QT-05. Typst then
+exits `0` and produces a PDF while retaining both filename links. The EPUB
+already exits `0` with those unresolved destinations.
+
+The explicit forward fragment `[Forward fragment](last.md#last-chapter)` is
+the passing control in the unchanged fixture. It becomes
+`ch003.xhtml#last-chapter` in the native-part EPUB and
+`#link(<last-chapter>)[Forward fragment]` in Typst. The backward bare link
+`[Back first](first.md)` also resolves to that chapter's original anchor in both
+formats. The ordinary-chapter control below still leaves the bare forward
+links unresolved, separating this failure from part conversion.
+
+The bundled `share/filters/main.lua` indexes each file's first H1 into
+`fileSectionIds` and resolves bare links through that map in one combined
+preprocessing traversal. The forward/backward distinction is consistent with
+looking up a destination before its heading has been visited. Explicit
+fragments take a different branch that removes the filename prefix.
+
+**Development prompt:** reproduce forward and backward bare links in one
+single-file book with the exact bundle, then make every selected file's target
+available before resolving links. Preserve explicit fragments and external
+URLs. Test EPUB archive destinations and PDF heading destinations through the
+generated artifacts, including links from a part introduction. Do not make the
+test pass by changing author source to explicit fragments or treating selected
+files as external URLs.
+
+**Completion condition:** all unchanged selected bare links resolve to the
+intended chapter or part heading in EPUB and Typst, in either direction; the
+fragment and backward controls still pass. Remove this record after verified
+tool adoption, retaining chapter-scoped link regressions.
+
+## QT-04: EPUB drops a file-backed native part introduction
+
+**Classification:** current Quarto single-file EPUB assembly defect. No earlier
+passing version is established.
+
+The native-part EPUB command above exits `0`, but its reading chapters and
+navigation omit `Family introduction`, `Family retained marker.`, and
+`part_example = 17`. The reader-start, first-chapter, and last-chapter markers
+remain. The dropped material is ordinary Markdown in a selected file, not a
+project-only fixture excluded by source selection.
+
+In a separate copy, replace only the native part entry in `book.chapters` with
+ordinary chapter entries, retaining all four source files:
+
+```yaml
+chapters:
+  - index.md
+  - first.md
+  - family.md
+  - last.md
+```
+
+Rendering this control as EPUB exits `0` and retains the family heading,
+formatted title, prose marker, text block, original anchor, and navigation
+destination. The control isolates native-part handling; the complete review
+book still needs its family introductions and part organization together.
+
+The bundled `bin/quarto.js` wraps the entire selected part file in a
+`.quarto-book-part` Div. `cleanupBookPart` in `share/filters/main.lua` returns an
+empty Div for formats other than LaTeX and Typst, including EPUB. The selected
+part's title and body therefore disappear together.
+
+**Development prompt:** retain the reader-facing content of a file-backed part
+in EPUB while preserving native part grouping in formats that support it.
+Compare the native-part fixture with the ordinary-chapter control and inspect
+the EPUB spine and TOC as well as title, inline formatting, prose, code, and
+anchors. Keep bare forward links in scope as the separate QT-03 boundary.
+
+**Completion condition:** the unchanged native part appears in the EPUB
+reading order before its lesson, with its complete title, body, code, anchor,
+and navigation destination. The ordinary-chapter control still passes. Remove
+this record after verified tool adoption, retaining the part-introduction
+regression.
+
+## QT-05: Typst discards a native part's original H1 anchor
+
+**Classification:** current failure of the bundled Orange Book part conversion
+to retain source identity in Typst. No earlier passing version is established.
+
+The family source declares `{#family-introduction}` on its H1. The generated
+Typst retains its title and body, but replaces that H1 with
+`#part[Family introduction]` without the original label. The later backward
+link becomes `#link(<family-introduction>)[Back family]`. Typst rejects that
+missing destination. The complete failure portion of the retained capture is:
+
+<!-- markdownlint-disable MD013 -->
+
+```text
+[typst]: Compiling index.typ to index.pdf...error: label `<family-introduction>` does not exist in the document
+    ┌─ index.typ:492:1
+    │
+492 │ #link(<family-introduction>)[Back family].
+    │  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ERROR: error: label `<family-introduction>` does not exist in the document
+    ┌─ index.typ:492:1
+    │
+492 │ #link(<family-introduction>)[Back family].
+    │  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+ERROR: Typst compilation failed
+```
+
+<!-- markdownlint-enable MD013 -->
+
+The ordinary-chapter control from QT-04 exits `0` for Typst. It keeps
+`<family-introduction>` on the family heading and resolves the same backward
+link. Removing only that backward link from the native fixture also permits
+compilation, but the missing label remains. That control separates a lost
+destination from unrelated template or package failures.
+
+The bundled Orange Book `orange-book.lua` replaces part H1 nodes with a raw
+Typst `#part[...]` block assembled from their text. That replacement does not
+carry `el.identifier`. The source H1 and ordinary-chapter control identify the
+discarded anchor directly.
+
+**Development prompt:** preserve each native part H1's original identifier on
+the part heading produced by the bundled Typst extension. Render its inline
+content without flattening or unsafe string insertion, and check that a link
+lands on the intended heading's page. Test explicit part fragments and bare
+links in both directions, separately accounting for QT-03. Keep the default
+template and scalar-author control so the repair addresses the part boundary.
+
+**Completion condition:** the unchanged native fixture compiles, its original
+part label belongs to the intended heading, and part links reach that heading's
+page. The ordinary-chapter and explicit chapter-fragment controls still pass.
+Remove this record after verified tool adoption, retaining destination tests.
+
 ## QA-01: full-page browser capture can disturb mixed margin notes
 
 **Classification:** browser QA and native margin-layout integration limitation.
@@ -228,15 +418,15 @@ these controls when the browser or Quarto toolchain changes.
 
 ## Retention and exclusions
 
-The current specimen's adapters may compensate for these tool boundaries while
-preserving source descriptions and metadata. Such integration repairs do not
-turn an upstream failing case into a passing one. This report retains the
+The local review book and specimen adapters may compensate for these boundaries
+while preserving source descriptions and metadata. Such integration repairs
+do not turn an upstream failing case into a passing one. This report retains the
 unchanged upstream reproducers until verified tool updates make them obsolete.
 
-The optional author and accessible figure cases are independent of railroad
-and sequent syntax. They do not justify changing those renderers, changing Ash,
-or moving ash-doc's language checkpoint. Sandbox browser restrictions,
-subprocess restrictions, and already corrected specimen implementation mistakes
+The author, accessible figure, and book-navigation cases are independent of
+railroad and sequent syntax. They do not justify changing those renderers,
+changing Ash, or moving ash-doc's language checkpoint. Sandbox browser
+restrictions, subprocess restrictions, and already corrected specimen mistakes
 are not catalogued as upstream tool defects.
 
 These fixtures and reports are original. The captures identify the exact
@@ -249,6 +439,12 @@ the observed human messages.
 [alt-capture]: ../../rendering/fixtures/conformance/tool-captures/quarto-fig-alt-epubcheck.txt
 [author-config]: ../../rendering/fixtures/conformance/quarto-no-author/_quarto.yml
 [author-capture]: ../../rendering/fixtures/conformance/tool-captures/quarto-no-author-render.txt
+[navigation-config]: ../../rendering/fixtures/conformance/quarto-book-navigation/_quarto.yml
+[navigation-index]: ../../rendering/fixtures/conformance/quarto-book-navigation/index.md
+[navigation-first]: ../../rendering/fixtures/conformance/quarto-book-navigation/first.md
+[navigation-family]: ../../rendering/fixtures/conformance/quarto-book-navigation/family.md
+[navigation-last]: ../../rendering/fixtures/conformance/quarto-book-navigation/last.md
+[navigation-capture]: ../../rendering/fixtures/conformance/quarto-book-navigation/typst-render.txt
 [mixed-source]: ../../rendering/fixtures/conformance/mixed-margin-notes/notes.qmd
 [mixed-config]: ../../rendering/fixtures/conformance/mixed-margin-notes/_quarto.yml
 [mixed-measure]: ../../rendering/fixtures/conformance/mixed-margin-notes/measure.mjs

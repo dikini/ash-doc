@@ -15,8 +15,9 @@ does not contain published Ash instruction or define Ash behavior.
   covers stepwise calculation and readable code; its
   [formatting reference][formatting] covers notes, visual continuity, and output
   layouts. [Writing scenarios][writing-scenarios] test application of the rules.
-- [Rendering](project/rendering.md) gives the local HTML, EPUB 3, and PDF
-  specimen, its tool boundary, and its checks. The
+- [Rendering](project/rendering.md) gives the complete local review book and
+  regression specimen in HTML, EPUB 3, and both PDFs, with their tool boundary
+  and checks. The
   [notation renderer report](project/notation-renderer-bugs.md) and
   [rendering tool report](project/rendering-tool-bugs.md) retain executable
   development handoffs.

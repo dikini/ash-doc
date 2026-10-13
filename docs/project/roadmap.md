@@ -53,6 +53,26 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
+The complete local review draft assembles all 53 indexed lessons in Learn →
+Libraries → Effects → Cases order, with four family introductions and shared
+reader setup. The 59 HTML pages and reflowable EPUB 3 retain 603 displayed code
+and transcript blocks. The double-sided book PDF has 361 pages; the one-sided
+A4 copy has 319. Artifact checks verify indexed coverage, chapter order, source
+hashes, links, code text, and both print geometries. The original three-lesson
+specimen remains the default regression build, with its notation fixture and
+separate browser evidence. The [rendering guide](rendering.md) gives both builds'
+commands. The edition remains local and unpublished.
+
+Browser checks pass for all 59 HTML pages at desktop and mobile sizes and all
+57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
+its separate browser and artifact checks. Visual inspection covers 74 selected
+PDF pages, with the final text geometry and representative rasters matched to
+that review.
+
+Visual review identified long traversal and frontier listings, wrapped types,
+and a diagnostic that continues onto another page as candidates for a focused
+teaching revision.
+
 The [search-tree teaching trial](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)
 is verified in all four outputs. It develops colored insertion from its
 problem and example, data, operation types, and worked calculations, proceeding
@@ -119,13 +139,6 @@ establish reader comprehension or review every chapter's rendered layout.
 [writing-scenarios]: ../../.agents/skills/writing-ash-documentation/tests/writing-scenarios.md
 
 ## Curriculum direction
-
-The active [complete review-book plan][whole-book-plan] extends the local
-renderer to all 53 verified lessons in Learn → Libraries → Effects → Cases
-order, with HTML, EPUB 3, and both PDF variants. The specimen remains a separate
-regression build.
-
-[whole-book-plan]: ../plans/2026-10-13-whole-book-review.md
 
 The next learning stage asks: how can a reader design a calculation that
 requests behavior, explain the effects in its contract, and keep control and

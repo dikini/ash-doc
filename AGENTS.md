@@ -234,8 +234,11 @@ Before completing a change:
 
 The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
 `rendering/` roots, four content families, and lesson-local source and checks
-with shared verification helpers. Rendering uses Quarto Book, Typst, and a
-configuration bounded to the local specimen. It selects no general content
-registry, CI service, publication platform, or repository-wide license.
+with shared verification helpers. Rendering uses Quarto Book and Typst for a
+bounded local review book of all 53 indexed, verified lessons in Learn →
+Libraries → Effects → Cases order, with four family introductions. The default
+specimen remains a regression build. Both modes share tools and styles; their
+generated source records serve preparation and checks. This selects no general
+content registry, CI service, publication platform, or repository-wide license.
 
 [program-design]: .agents/skills/writing-ash-documentation/references/program-design.md

@@ -1,0 +1,14 @@
+[typst]: Compiling index.typ to index.pdf...error: label `<family-introduction>` does not exist in the document
+    ┌─ index.typ:492:1
+    │
+492 │ #link(<family-introduction>)[Back family].
+    │  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ERROR: error: label `<family-introduction>` does not exist in the document
+    ┌─ index.typ:492:1
+    │
+492 │ #link(<family-introduction>)[Back family].
+    │  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+ERROR: Typst compilation failed

@@ -1,0 +1,22 @@
+project:
+  type: book
+book:
+  title: Book navigation probe
+  author: Fixture author
+  output-file: book-navigation
+  chapters:
+    - index.md
+    - first.md
+    - part: family.md
+      chapters:
+        - last.md
+number-sections: false
+execute:
+  enabled: false
+format:
+  epub:
+    epub-version: 3
+  typst:
+    keep-typ: true
+    mainfont: TeX Gyre Pagella
+    monofont: IBM Plex Mono

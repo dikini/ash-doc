@@ -1,13 +1,15 @@
-# Render the local book specimen
+# Render the local review book
 
-Can the same verified explanation, program, and diagnostic remain readable in
-a browser, a reflowing e-reader, and a printed book? The first rendering
-specimen tests that presentation boundary without changing learning source or
-Ash behavior.
+Can the complete verified learning work remain readable in a browser, a
+reflowing e-reader, and a printed book? The local review book assembles the
+indexed lessons for that presentation boundary. The smaller specimen retains
+focused regressions for notes, diagrams, diagnostics, and long code.
 
 The user approved Quarto Book, Typst, reflowable EPUB 3, a book PDF with generous
 outer margins, a one-sided A4 PDF with left binding space, and evaluation of
-the existing railroad and sequent renderers.
+the existing railroad and sequent renderers. The complete review book extends
+that local choice with Learn → Libraries → Effects → Cases order and the four
+family introductions. Canonical learning source remains authoritative.
 All lesson material still targets `diag-ash`, Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The edition remains unpublished.
 
@@ -18,8 +20,21 @@ retains the implementation and verification boundary.
 
 ## Selected sources and authority
 
-The [specimen configuration](../../rendering/specimen.json) selects three
-complete, indexed lessons:
+Whole-book mode derives all lessons from the existing family indexes:
+
+- [Learn](../../content/learn/README.md): thirteen lessons;
+- [Libraries](../../content/libraries/README.md): eight lessons;
+- [Effects](../../content/effects/README.md): twelve lessons; and
+- [Cases](../../content/cases/README.md): twenty lessons.
+
+Each family keeps its indexed lesson order. Its reader-facing introduction
+becomes a native Quarto book part before those lessons. Reader setup comes from
+the root README. The book contains no project notation fixture; that fixture
+remains in the specimen. Unindexed lesson directories do not enter either
+selection merely because they exist.
+
+The default [specimen configuration](../../rendering/specimen.json) selects
+three complete, indexed lessons:
 
 - [What is an Ash program?](../../content/learn/what-is-an-ash-program/README.md)
   supplies short programs and a complete rejection.
@@ -36,13 +51,13 @@ complete, indexed lessons:
 - [Require element behavior](../../content/libraries/requiring-element-behavior/README.md)
   supplies multiline diagnostics and their source relationships.
 
-Their directories retain canonical programs and existing checks. The
-preparation step derives selected lesson order from the content and family
-indexes, rather than sorting directories. It extracts shared reader setup and
-diagnostic conventions from the root README. Unselected local source links
-point to an immutable ash-doc commit; included chapters link within the book.
-Those source links require that commit to be available on GitHub; an unpushed
-local build does not publish its source snapshot.
+Their directories retain canonical programs and existing checks. The specimen
+derives its selected lesson order from the content and family indexes, rather
+than sorting directories. Both modes extract shared reader setup and diagnostic
+conventions from the root README. Included lessons and family introductions
+link within the book. Other local source links point to an immutable ash-doc
+commit. Those source links require that commit to be available on GitHub; an
+unpushed local build does not publish its source snapshot.
 
 The search-tree lesson labels its displayed definition and signature fragments
 as non-executable and checks them against the complete canonical dictionary
@@ -72,6 +87,14 @@ Quarto Book is selected for the first specimen because it already assembles
 chapters and coordinates the required outputs. Deferring that choice would
 leave the existing long listings and diagnostics untested in book layouts.
 Markdown and declarative diagram sources remain replaceable inputs.
+
+The complete review book extends the same adapter. A separately assembled
+Quarto project would duplicate source order, styles, links, and checks; leaving
+only the specimen would leave complete-book navigation and pagination
+unobserved. The extension reads the existing indexes and uses native parts,
+sharing the tool pins, cache, fonts, notes, assets, and print geometry. Its
+generated records serve preparation and verification; this choice establishes
+no general content registry.
 
 The typography and relationship between prose, notes, and figures draw
 inspiration from [Tufte CSS](https://edwardtufte.github.io/tufte-css/). The local
@@ -103,12 +126,27 @@ HTML keeps the book TOC, local TOC, and previous/next navigation in chrome
 outside the article. The right margin carries notes. A mobile disclosure
 retains chapter navigation when Quarto hides its floating TOC. Local fonts and
 assets supply the page; the theme's external web-font import is disabled.
+On narrow screens, inline constructors and long identifiers wrap. Program
+blocks retain their own horizontal scrolling.
 
 EPUB 3 uses linked notes and reader-controlled reflow. Its separate CSS wraps
 long identifiers and code, and lets narrow table cells break. The two PDF
 variants share selectable body text, typography, and page breaks through long
 code. An original narrow Typst show partial replaces the bundled book's cover
 and decorative chapter styling.
+
+For EPUB and Typst, a filter reads the existing generated source records before
+Quarto processes the book. At this pin, a selected forward page link can remain
+a filename URL. Bundled part handling also discards an introduction's original
+H1 identifier in Typst and drops its entire part block in EPUB. The filter
+changes selected page links to their original destination labels and preserves
+explicit fragments. In EPUB it returns the part's heading and body to the
+ordinary reading flow. In Typst it attaches each part label to its heading;
+Pandoc renders the title's inline formatting, and a small shared Typst function
+supplies the heading. HTML, staged Markdown, and canonical sources retain their
+existing links and anchors. Focused regressions check the EPUB part title,
+body, code, navigation, and forward link, and compile PDF links to their intended
+headings and pages with the pinned tools.
 
 ## PDF print variants
 
@@ -210,11 +248,19 @@ different build pass; review its source and tool boundary first.
 
 ## Prepare and build
 
-From ash-doc, prepare the cached toolchain and build the specimen:
+From ash-doc, prepare the cached toolchain and build the default specimen:
 
 ```sh
 python3 rendering/bootstrap.py
 python3 rendering/build.py \
+    --railroad /path/to/railroad \
+    --sequent /path/to/sequent-md
+```
+
+Build the complete review book with the same tools:
+
+```sh
+python3 rendering/build.py --whole-book \
     --railroad /path/to/railroad \
     --sequent /path/to/sequent-md
 ```
@@ -224,14 +270,26 @@ explicit paths above make the dependency boundary visible. Quarto's cache and
 Typst font search are controlled by the build command. Chromium may need
 execution outside a restricted shell sandbox to create local process sockets.
 
-The result is `.build/specimen/output/index.html`,
-`.build/specimen/output/ash-doc-specimen.epub`,
-`.build/specimen/output/ash-doc-specimen.pdf` for the double-sided book, and
-`.build/specimen/output/ash-doc-specimen-a4.pdf` for one-sided A4 printing.
-The complete generated Quarto project stays in `.build/specimen/`; source
-records retain each input path, source hash, and code/transcript text.
-Each PDF's generated Typst source is also retained there as
-`ash-doc-specimen.typ` and `ash-doc-specimen-a4.typ`.
+The specimen's generated project stays in `.build/specimen/`. Its four outputs
+under `output/` are `index.html`, `ash-doc-specimen.epub`,
+`ash-doc-specimen.pdf` for the double-sided book, and
+`ash-doc-specimen-a4.pdf` for one-sided A4 printing.
+
+The complete review project stays in `.build/book/`, with `index.html`,
+`ash-doc-review.epub`, `ash-doc-review.pdf`, and `ash-doc-review-a4.pdf` under
+`output/`. Its title and output names distinguish it from the specimen. Both
+projects retain each PDF's generated Typst source beside their staged chapters,
+using the corresponding PDF basename and `.typ` extension.
+
+Each project retains `build.json` with its mode, title, output basename, exact
+Ash and ash-doc commits, flattened chapter order, book parts, and lesson count.
+`sources.json` retains the selected canonical chapter paths and SHA-256 hashes,
+staged filenames, source titles and anchors, complete code/transcript blocks,
+and source asset records. Whole-book records distinguish introductions from
+lessons and name their families. These are generated build records, rather than
+a second source registry. Preparation records ash-doc's current commit for
+source links and hashes the current canonical files; rebuild after source
+changes.
 
 To render a prepared A4 copy independently, use the same controlled toolchain
 environment as `build.py` and run `quarto render --to typst --profile a4
@@ -280,24 +338,43 @@ regeneration of the book uses the checked-in figures directly.
 The [notation renderer report](notation-renderer-bugs.md) retains three
 confirmed defects, separately classified integration gaps, executable controls,
 and proposed priorities for the specialised sequent renderer. The
-[rendering tool report](rendering-tool-bugs.md) retains two independent Quarto
-failures and a separate browser-capture limitation for mixed margin notes.
+[rendering tool report](rendering-tool-bugs.md) retains five independent Quarto
+conversion failures and a separate browser-capture limitation for mixed margin
+notes. Its existing automated conformance probe covers the figure and author
+cases; separate native-book fixtures isolate the link and part boundaries.
 No upstream repository was changed.
 
-For QT-01, the specimen keeps Quarto's image alternative text and removes only
+For QT-01, both builds keep Quarto's image alternative text and remove only
 the illegal `alt` attribute from generated figure wrapper `div` elements in
 HTML and EPUB. Its regression check confirms that the image description
 survives. Remove this compensation after unchanged upstream fixtures validate
 with adopted tools. The original Typst partial also avoids the defective
 bundled no-author cover default; it does not repair that default.
 
-## Verify the specimen
+## Verify both builds
 
-Run the existing checks for all three selected lessons against the exact Ash
-checkout, as described in the [verification guide](verification.md). Then run:
+Run all four content-family aggregates against the exact Ash checkout, as
+described in the [verification guide](verification.md). They cover all 53
+lessons before presentation checks. Build both modes, then run the shared
+preparation, artifact, and browser helper regressions:
 
 ```sh
 python3 -m unittest discover -s rendering/checks -p 'test_*.py'
+node --test --test-isolation=none rendering/checks/browser.test.mjs
+```
+
+Verify the complete book explicitly:
+
+```sh
+python3 rendering/checks/verify.py .build/book
+node rendering/checks/browser.mjs .build/book
+java -jar .build/toolchain/epubcheck-5.4.0/epubcheck.jar \
+    .build/book/output/ash-doc-review.epub
+```
+
+The no-argument artifact and browser commands retain the specimen workflow:
+
+```sh
 python3 rendering/checks/verify.py
 node rendering/checks/browser.mjs
 java -jar .build/toolchain/epubcheck-5.4.0/epubcheck.jar \
@@ -319,30 +396,41 @@ PDFTOCAIRO=/path/to/pdftocairo \
     node rendering/checks/diagrams.test.mjs
 ```
 
-The preparation checks cover source text, index order, internal and immutable
-source links, rejection of unindexed lesson inputs, and the figure-wrapper
-repair. Artifact checks cover six HTML pages, EPUB links and notes, all four
-static diagrams, and all code/transcript blocks in each output. PDF checks
-compare characters after visual whitespace and page-footer normalization;
-HTML and EPUB preserve complete preformatted text directly. Both PDFs are
-checked for paper dimensions, text bounds, body margins on odd and even pages,
-and their distinct note placement. The full-width aside must retain its text
-and formatting, extend into the note area, avoid note collisions, and reflow in
-narrow browser and EPUB previews. Wide lesson code must remain complete on one
-print page, within the body and outer margins and clear of notes. Focused
-regressions reject split blocks, missing characters, invalid bounds, and note
-collisions.
+The preparation checks cover source text, index order, part introductions,
+internal and immutable source links, rejection of unindexed lesson inputs, and
+the figure-wrapper repair. Artifact checks independently read the canonical
+indexes and verify complete selection and order, source hashes, and build
+identity. Each HTML and EPUB source chapter retains its title and complete
+code/transcript blocks. EPUB association follows its package spine, headings,
+anchors, and navigation, rather than chapter-number offsets. Links and source
+assets are checked in both formats. The specimen also retains all four static
+notation cases.
 
-The browser check inspects desktop and mobile HTML, code overflow, navigation,
-keyboard use, notes, image descriptions, and local-only resource requests. It
-also inspects extracted EPUB chapters at enlarged text in Chromium and the
-available Firefox. Those are browser reflow checks, not evidence for physical
-e-readers or every EPUB reading system. Inspect the book in intended readers
-before publication.
+PDF checks compare code characters after visual whitespace and page-footer
+normalization. Both PDFs check actual chapter reading order, paper dimensions,
+text bounds, body margins on odd and even pages, and their distinct note
+placement. The specimen's full-width aside must retain its text and formatting,
+extend into the note area, avoid note collisions, and reflow in narrow browser
+and EPUB previews. Both builds retain the search-tree checks: wide lesson code
+must remain complete on one print page, within the body and outer margins and
+clear of notes, and repair units retain their reading order. Focused regressions
+reject reordered chapters, split blocks, missing characters, invalid bounds,
+and note collisions.
+
+The browser check visits all manifest chapters in desktop and mobile HTML. It
+compares book and previous/next navigation with their complete order, derives
+local navigation from staged source headings, and checks keyboard use, code
+overflow, notes, image descriptions, and local-only resource requests. It also
+inspects extracted EPUB chapters at enlarged text in Chromium and the available
+Firefox, using their spine and source headings to identify chapters. Those are
+browser reflow checks, not evidence for physical e-readers or every EPUB reading
+system. Inspect the book in intended readers before publication.
 
 Render PDF pages with Poppler and inspect their typography, note placement,
 diagram labels, code alignment, table wrapping, and page breaks. Browser
-screenshots and structured observations stay under `.build/qa/`.
+screenshots and structured observations stay under each build's `qa-browser/`,
+so `.build/book/qa-browser/` and `.build/specimen/qa-browser/` retain separate
+evidence.
 The conformance probes documented in the two development reports retain the
 upstream failures separately from specimen success. Finish with Markdown lint,
 ShellCheck, relative-link review, source inspection, and `git diff --check`.
@@ -355,7 +443,13 @@ rewrites. Replace a local adapter when a verified upstream interface supplies
 its function, retaining the artifact checks. Remove resolved bug records after
 adopting verified tool or renderer commits; Git retains earlier evidence.
 
-This decision establishes one local rendering specimen. It selects no hosting,
-CI service, publication mechanism, or repository-wide license. A publication
-still requires the complete edition's checks and its immutable `diag-ash` tag
-under the existing project workflow.
+Revisit whole-book assembly when another complete outcome needs a different
+selection or order, or the shared adapter cannot preserve source meaning and
+readable pagination. Remove the EPUB and Typst link and part compensation when
+adopted Quarto tools pass the unchanged forward-link, part-introduction, and
+part-anchor regressions.
+
+This decision establishes a bounded local review book and retained regression
+specimen. It selects no hosting, CI service, publication mechanism, or
+repository-wide license. A publication still requires the complete edition's
+checks and its immutable `diag-ash` tag under the existing project workflow.
