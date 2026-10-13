@@ -68,7 +68,10 @@ directory, reader-facing link, or publication date.
 ## Data and structure
 
 - **6. [How can several values travel together?](../../content/learn/values-travel-together/README.md)**
-  — **verified.** Tuples, tuple types, and tuple patterns.
+  — **verified.**
+  Predict field values and tuple types; compare a single pair input
+  with chained inputs and connect rejection to the wrong shape.
+
 - **7. [How can a program define its own data?](../../content/learn/defining-data/README.md)**
   — **verified.** Nominal types and constructors.
 - **8. [How can a function handle each form of data?](../../content/learn/handling-data-forms/README.md)**

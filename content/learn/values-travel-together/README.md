@@ -20,13 +20,14 @@ main : Unit -> (Int, Bool)
 main () = (42, true)
 ```
 
-The expression `(42, true)` puts an `Int` beside a `Bool`. Its type records the
-same order, `(Int, Bool)`. Running the program shows both:
+The expression puts two values into one pair. Predict its field order and
+the corresponding type order, then run the program:
 
 ```text
 (42, true) : (Int, Bool)
 ```
 
+The integer appears first and the Boolean second, giving type `(Int, Bool)`.
 The pair is not an integer followed by a separate Boolean result. It is one
 result with two parts. If we exchanged the parts, the type would also change to
 `(Bool, Int)`.
@@ -50,8 +51,9 @@ main () = sum_pair (20, 22)
 ```
 
 The signature has one arrow. `sum_pair` receives one `(Int, Int)` value and
-produces an `Int`. The pattern `(left, right)` has the same shape as that input,
-so `left` stands for `20` and `right` stands for `22`:
+produces an `Int`. The pattern `(left, right)` has the same shape as that
+input. Predict what each name binds and what their addition produces.
+Running confirms `42 : Int`; the pattern assigns the fields in order:
 
 ```text
 sum_pair (20, 22)
@@ -82,7 +84,8 @@ The first binding gives the whole pair one name. The second binding takes that
 value apart by matching its shape. Afterward, the rest of the block can use
 `left` and `right` separately.
 
-Run the program and trace the bindings in order:
+Predict the two field bindings and the final sum before running. The program
+reports `42 : Int`. Trace how the whole pair supplies the separate names:
 
 ```text
 pair  = (20, 22)
@@ -108,8 +111,8 @@ main : Unit -> Int
 main () = sum_pair (20, 21, 22)
 ```
 
-The call supplies one value of type `(Int, Int, Int)`, but `sum_pair` requires
-one value of type `(Int, Int)`. Run this version from `content/learn`:
+Count the fields in the supplied value and in `sum_pair`'s input type.
+Does the one tuple argument have the required shape? Run from `content/learn`:
 
 <!-- diagnostic: src/04-triple-is-not-a-pair.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -135,6 +138,9 @@ curried input. The one input has the wrong tuple shape. Supplying `(20, 22)`
 restores the two-field input and produces `42 : Int`.
 
 ## Exercise: keep two results
+
+Start from a fresh copy of `src/02-pair-input.ash` in your scratch directory.
+Replace `sum_pair` and its uses with the new calculation.
 
 Define this function:
 
