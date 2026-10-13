@@ -215,10 +215,11 @@ Return a copied count, then consider returning a handle or a closure that
 retains access. Compare separate acquisitions and transport through a tuple or
 data constructor.
 
-The reader can follow retained resource dependencies beyond visible result
-types. They can explain valid use within a live owner and a rejected escape,
-including why hiding access inside a closure does not make it safe. Include
-request payload transport to connect resource lifetimes with E4's handlers.
+The reader identifies what a result or payload retains before crossing its
+owner boundary. They can explain valid live access and rejected handle,
+closure, aggregate, and payload escape, including hidden dependencies beyond
+visible types. A copied payload distinguishes a suspended resource from one
+released during resumed normal completion.
 
 ### E9. How can work run when a scope finishes?
 
@@ -487,13 +488,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E8 teaching review.** Revise the existing chapter
-for its retained resource dependencies and owner lifetimes boundary.
-The approved prose and exercise review targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its
-[execution plan](../plans/2026-10-13-resource-access-teaching-review.md) owns this
-chapter; complete and verify it, then advance to E9.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and

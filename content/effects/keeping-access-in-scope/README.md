@@ -30,17 +30,19 @@ main () = {
 }
 ```
 
-The returned function captures `copied`, an ordinary integer. Its later call
-adds one without accessing the cell. The cell can be released when its scope
-finishes, before `later ()` runs. From this lesson's `src` directory:
+Inspect what `calculate` captures: does its body need the handle, or only the
+integer already read? Predict its result when `later ()` runs after the
+resource scope ends. Run from this lesson's `src` directory:
 
 ```text
 $ ash 01-copied-result.ash
 42 : Int
 ```
 
-This is the same distinction between captured values and later effects used
-in E4. Here it also explains why returning the closure is safe.
+The closure keeps the copied `41` and adds one, producing `42`. The scope
+releases the cell before `later ()` runs; the closure needs no access to it.
+This is E4's distinction between captured values and later effects applied
+to a resource lifetime.
 
 ## Reuse captured access while the owner remains live
 
@@ -64,14 +66,18 @@ main () = resource cell<R> counter = 0 {
 ```
 
 Both names refer to a function retaining access to the same counter. Each call
-reads and increments it. The owner surrounds both calls and the final read:
+reads and increments it. The owner surrounds both calls and the final read.
+Predict that read, and identify what would have to remain live to call
+`bump` again:
 
 ```text
 $ ash 02-live-access.ash
 2 : Int
 ```
 
-Reusable access is allowed. What matters is keeping it within its owner, not
+The two calls update the same cell from `0` to `2`. Both retain access
+within its owner; only the copied final read leaves it. Reusable access is
+allowed. What matters is keeping it within its owner, not
 limiting a handle to one use or prohibiting closures from capturing it.
 
 ## A returned handle would outlive its owner
@@ -90,6 +96,10 @@ main () = {
     0
 }
 ```
+
+What would `leaked` retain after the closing brace? Compare it with the
+copied integer retained by the first example:
+
 <!-- diagnostic: src/03-handle-escape.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -131,6 +141,10 @@ main () = {
     0
 }
 ```
+
+Follow `later`'s captured value back to its owner. Could that function perform
+its read after the owner closes?
+
 <!-- diagnostic: src/04-closure-escape.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -182,15 +196,17 @@ main () = resource cell<R> outer = 1 {
 }
 ```
 
-`R` and `S` identify different acquisitions. Writing through the first tuple
-field changes `outer`; it does not change `inner`. The inner scope returns a
-copied read, so closing it leaves the outer cell available:
+`R` and `S` identify different acquisitions. Match each tuple field to its
+owner, then trace the write and the read. Predict both returned integers and
+identify which owner is still live when the final pair is constructed:
 
 ```text
 $ ash 05-two-acquisitions.ash
 (10, 2) : (Int, Int)
 ```
 
+The write changes `outer` to `10`, while `inner` stays `2`. Its copied read
+leaves the inner scope; the outer owner still surrounds the final read.
 Tuples can transport access within a live owner. They cannot hide an escape.
 `07-aggregate-escape.ash` attempts to return one handle beside an integer:
 
@@ -206,6 +222,10 @@ main () = {
     0
 }
 ```
+
+The integer field needs no cell access. What does the other field retain
+when the whole tuple leaves the resource body?
+
 <!-- diagnostic: src/07-aggregate-escape.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -259,10 +279,9 @@ main () = handle (resource cell<R> counter = 41 {
 }
 ```
 
-The closure has the apparently resource-free type `Unit -> Int`, but its body
-captures `counter` and binds that handle to `saved`. Returning a constant does
-not remove the stored dependency. The request would deliver that closure to
-a handler outside the acquisition:
+The type `Unit -> Int` mentions no resource. Inspect the function body as well:
+what does `let saved = counter` retain? The selected handler is outside the
+acquisition. Does the constant return value remove that captured access?
 
 <!-- diagnostic: src/06-payload-escape.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -293,8 +312,10 @@ reason: type.resource-escape
 ```
 <!-- markdownlint-enable MD013 -->
 
-The label points at the request crossing the boundary. The body eventually
-returns zero, but that does not authorize the earlier transfer. The
+The label points at the request crossing the boundary, with the acquisition
+identified below it. The closure explicitly captures `counter`, even though
+it returns a constant. The body's eventual zero result does not authorize
+that earlier transfer. The
 [resource-dependency rules][cells] track stored handles and captures as well
 as exposed types and rows.
 
@@ -325,20 +346,29 @@ main () = handle (resource cell<R> counter = 41 {
 }
 ```
 
-The outer handler can call that closure without cell access. It obtains `42`,
-resumes the suspended body, and adds the body's zero result:
+This closure retains the copied integer. Trace the handler's two bindings:
+predict `reported` from the closure call, then `result` from resumption.
+Which value does their addition produce?
 
 ```text
 $ ash 08-copied-payload.ash
 42 : Int
 ```
 
-The resource scope is preserved while its suspended body waits and resumes;
-it is not acquired again. A resource-free payload may cross that boundary.
-The unsafe case was transferring retained access to a recipient outside its
-owner.
+The closure call produces `42`. At that point, the cell scope is still
+suspended in the continuation. `resume ()` restores that scope and the body
+returns `0`; normal completion releases the cell before resumption returns
+that result to the clause. Their addition gives `42`.
+
+The [cell evaluation rules][execution] preserve the owned scope during
+suspension and restore it without reacquiring the cell. A payload retaining
+only copied data may cross to the outer handler. The earlier rejected payload
+retained access whose owner was in the suspended work.
 
 ## Practice: identify the retained value
+
+For each task, start with a fresh copy of its named program in a scratch
+directory outside this lesson's `src` tree. Run your copy from that directory.
 
 1. Change the cell's initial value in `01-copied-result.ash`. Explain what the
    returned function remembers before predicting its result.
@@ -347,7 +377,7 @@ owner.
 3. Change the initial values and the write in `05-two-acquisitions.ash`.
    Predict both tuple fields separately.
 4. In `08-copied-payload.ash`, change the calculation over `copied`. Explain
-   why this still needs no access to the released cell.
+   why the closure needs no cell access while the resource scope is suspended.
 
 A dependency follows the access retained by a value, even through functions,
 aggregates, or request payloads. Ordinary copies can travel farther. Next we
@@ -355,3 +385,4 @@ will use a still-live resource to observe work that must run when a scope
 finishes, including when a handler abandons its body.
 
 [cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#scoped-cell-execution
