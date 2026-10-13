@@ -40,14 +40,19 @@ before it can return. This is why all three signatures contain `! {Bonus}`.
 An effect row describes the requirements of calling the function, including
 work done through other calls.
 
-The handler around `total 40` supplies `2` when the calculation reaches the
-request. The addition produces `42`, and the two callers return that same
-value. Run the file from this lesson's `src` directory:
+Trace the answer back from the handler through the addition and the two
+callers. Predict the result, then run the file from this lesson's `src`
+directory:
 
 ```text
 $ ash 01-call-chain.ash
 42 : Int
 ```
+
+The handler around `total 40` supplies `2` when the calculation reaches the
+request. The addition produces `42`, and the two callers return that same
+value. Neither caller writes `perform`; each still requires that request
+to be answered.
 
 None of these functions needs a separate handler merely because it calls an
 effectful function. It may pass the requirement outward through its contract.
@@ -79,9 +84,9 @@ main () = handle (total 40) with Bonus {
 }
 ```
 
-The body still calls `round_score`, whose contract requires `Bonus`. The
-handler in `main` does not make this incorrect definition acceptable. Ash
-checks `total` against its own signature:
+Compare `total`'s new signature with the contract of the function it calls.
+Can that body meet the promise of a pure call? Keep the handler in `main`
+in view while you run the file and inspect where Ash reports the mismatch:
 
 <!-- diagnostic: src/04-missing-row.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -97,8 +102,11 @@ reason: effect.row-union-ambiguous
 
 The label points at `round_score points`, the call that brings the requirement
 into `total`. The words of the message explain the mismatch: the body requests
-an effect outside the declared row. Restore `! {Bonus}` on `total`, as in
-`01-call-chain.ash`, and the contract again describes what the body does.
+an effect outside the declared row. Ash checks `total` against its own
+signature. The handler in `main` can answer the eventual request, but it does
+not repair that definition's incorrect promise. Restore `! {Bonus}` on
+`total`, as in `01-call-chain.ash`, and the contract again describes what the
+body does.
 
 This diagnostic uses `effect.row-union-ambiguous`. Here the source contains
 only closed rows; the message identifies a body that exceeds its declared
@@ -130,10 +138,21 @@ main () = {
 }
 ```
 
-Calling `make_score 40` creates a function. It does not run the anonymous
-function's body, so it does not request a bonus yet. The local name `calculate`
-holds that returned function. Calling `calculate ()` runs the body and makes
-the request; that is the call enclosed by the handler.
+`make_score 40` and `calculate ()` are separate calls. Follow the body of
+`make_score`: it returns an anonymous function. Which call reaches the
+`perform` expression? Trace the request from that point to its handler,
+then predict the score:
+
+```text
+$ ash 02-request-later.ash
+42 : Int
+```
+
+Calling `make_score 40` creates a function that keeps the points. It does not
+run the anonymous function's body, so it does not request a bonus yet. The
+local name `calculate` holds that returned function. Calling `calculate ()`
+runs the body and makes the request; that is the call enclosed by the handler.
+Its answer supplies the bonus for the addition, producing `42`.
 
 Read `Int -> Unit -> Int ! {Bonus}` from the outside inward. The first call
 takes an `Int` and purely returns a function. That function takes `Unit`,
@@ -143,11 +162,6 @@ to a future call of the returned function.
 The function value has a type describing that later call. The computation that
 creates the value has its own effects—in this case, none. Creating an anonymous
 function is pure even when its body contains a request.
-
-```text
-$ ash 02-request-later.ash
-42 : Int
-```
 
 The row's placement explains why `make_score 40` can appear before the handler.
 Moving the request into a function body changes when the request happens.
@@ -180,10 +194,21 @@ main () = {
 }
 ```
 
+Follow the initializer of `calculate` before moving to the final call.
+Does the request happen before or after `prepare_score 40` returns its
+function? Trace where the bonus is supplied and what the returned function
+keeps, then predict the result:
+
+```text
+$ ash 03-request-now.ash
+42 : Int
+```
+
 The block first requests the bonus and binds its answer to `bonus`. Only then
-does it create the anonymous function. The handler must therefore surround
+does it create the anonymous function. The handler therefore surrounds
 `prepare_score 40`. Once that call returns, `calculate ()` adds the captured
-integers without making another request.
+integers without making another request. It produces the same `42` as the
+preceding program, through a different sequence of work.
 
 Compare the two signatures:
 
@@ -195,23 +220,23 @@ Compare the two signatures:
 Arrows associate to the right. Without the parentheses, the row attaches to
 the innermost result computation. With them, the result of the first call is
 the whole pure function type `Unit -> Int`, and `! {Bonus}` describes producing
-that result. These are different contracts, even though both examples produce
-the same integer:
-
-```text
-$ ash 03-request-now.ash
-42 : Int
-```
+that result. The matching scores do not make the contracts interchangeable:
+one handler surrounds the call that constructs the function, and the other
+surrounds the later call of the returned function.
 
 The [computation-type rules][rows] explain how rows attach to arrows. The
 [function rules][functions] distinguish creating a function from applying it.
+The [application rules][application] describe when its stored body runs.
 When checking a call, Ash accounts for evaluating the function expression,
 evaluating its argument, and running the function body. Putting an effectful
 calculation in an argument does not hide its requirement either.
 
 ## Practice: place the handler around the work
 
-1. In a copy of `01-call-chain.ash`, add another function between `total` and
+Start each task from a fresh copy of its named program in this lesson's `src`
+directory.
+
+1. In `01-call-chain.ash`, add another function between `total` and
    `round_score`. Write its signature before its body. Explain whether it
    needs an effect row, then run it.
 2. In `02-request-later.ash`, change the remembered points and the handler's
@@ -230,3 +255,4 @@ without fixing its contract to `Bonus`.
 
 [rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
 [functions]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application
+[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application

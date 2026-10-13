@@ -116,6 +116,10 @@ why the entry computation must have an empty row. Compare a correct contract
 with one that omits a required effect. Use closed rows so the next chapter has
 one new abstraction to introduce.
 
+Trace construction and invocation separately before comparing the two
+returned-function contracts. Each practice task starts from a fresh copy
+of its named program.
+
 ### E3. How can a reusable function preserve its caller's effects?
 
 **State: verified.** [Read the lesson](../../content/effects/preserving-callback-effects/README.md).
@@ -473,13 +477,6 @@ exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.
 
 ## Selecting work
-
-**Active outcome: E2 teaching review.** Improve prediction and request-timing
-explanations in the existing chapter while preserving its four canonical
-programs and observations at `diag-ash`, commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Its approved
-[execution plan](../plans/2026-10-13-following-effect-contracts-teaching-review.md)
-closes before the E3 review becomes active.
 
 Select one complete reader outcome under the [project workflow](workflow.md).
 State its prerequisites, governing baseline, canonical sources, positive and
