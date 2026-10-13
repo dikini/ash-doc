@@ -203,10 +203,10 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
     await page.evaluate(() => document.fonts.ready);
   }
 
-  async function screenshot(page, name, element) {
+  async function screenshot(page, name, element, fullPage = true) {
     const path = join(qa, name);
     if (element) await (await page.$(element)).screenshot({ path });
-    else await page.screenshot({ path, fullPage: true });
+    else await page.screenshot({ path, fullPage });
     report.screenshots.push(relative(root, path));
   }
 
@@ -650,8 +650,9 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
     }
     await check('Chrome HTML and EPUB previews require no external requests', () => assert.deepEqual(externalRequests, []));
     await page.evaluate(() => window.scrollTo(0, 0));
-    await screenshot(page, 'epub-reflow-chrome.png');
+    await screenshot(page, 'epub-reflow-chrome.png', undefined, false);
     await page.close();
+    let firefoxStarted = false;
     try {
       await access('/usr/bin/firefox');
       await rm(join(qa, 'firefox-profile'), { recursive: true, force: true });
@@ -659,6 +660,7 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
       const firefox = await puppeteer.launch({ browser: 'firefox', executablePath: '/usr/bin/firefox',
         userDataDir: join(qa, 'firefox-profile'),
         env: { ...process.env, MOZ_DISABLE_CONTENT_SANDBOX: '1' } });
+      firefoxStarted = true;
       try {
         const second = await firefox.newPage();
         await second.setViewport({ width: 390, height: 844 });
@@ -686,11 +688,12 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
           await check('EPUB in Firefox: full-width aside preserves complete text and formatting', () => fullWidthContent(second));
           await check('EPUB in Firefox: full-width aside reflows at enlarged text', () => fullWidthLayout(second, 'epub'));
         }
-        await screenshot(second, 'epub-reflow-firefox.png');
+        await screenshot(second, 'epub-reflow-firefox.png', undefined, false);
         report.secondaryEngine = { browser: await firefox.version(), status: 'previewed' };
       } finally { await firefox.close(); }
     } catch (error) {
-      report.secondaryEngine = { status: 'unavailable', message: error.message };
+      report.secondaryEngine = { status: firefoxStarted ? 'failed' : 'unavailable', message: error.message };
+      if (firefoxStarted) report.checks.push({ name: 'Firefox EPUB preview completes', status: 'fail', message: error.message });
     }
   } finally {
     await browser?.close();
