@@ -93,8 +93,8 @@ function requirement.
 
 `score` has type `Int -> Int ! {Bonus}`, while the helper requires `Int -> Int`.
 The outer handler can answer a request made during a valid calculation; it
-does not change the helper's required argument type. The callback contract
-has to describe the function being supplied.
+does not change [the helper's required argument type][functions]. The callback
+contract has to describe the function being supplied.
 
 In this message, `<effect:1:0:0>` is the tool's rendering of the effect identity
 for `Bonus` in this program. It is not syntax to copy into a signature. The
@@ -335,9 +335,9 @@ Use a fresh copy of `03-open-row.ash` for each of the first two tasks, and a
 fresh copy of `04-known-effect.ash` for the third. Keep the copies in this
 lesson's `src` directory.
 
-1. Make `apply_twice` call its callback three
-   times and rename it `apply_three_times`. Predict both results before
-   running. Explain whether the row needs to change.
+1. Make `apply_twice` call its callback three times and rename it
+   `apply_three_times`. Predict both results before running. Explain whether
+   the row needs to change.
 2. Add a pure Boolean callback that exchanges `true` and `false`. Use the
    same `apply_twice` definition with that callback. Identify the value-type
    and row arguments for this use, then run it.
@@ -355,3 +355,4 @@ So far each successful effectful calculation has used one handler for
 nested or when a program uses different effect instances.
 
 [rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
+[functions]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application

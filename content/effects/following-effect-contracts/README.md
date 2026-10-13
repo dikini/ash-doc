@@ -152,7 +152,7 @@ Calling `make_score 40` creates a function that keeps the points. It does not
 run the anonymous function's body, so it does not request a bonus yet. The
 local name `calculate` holds that returned function. Calling `calculate ()`
 runs the body and makes the request; that is the call enclosed by the handler.
-Its answer supplies the bonus for the addition, producing `42`.
+The clause supplies `2` for the bonus, so the addition produces `42`.
 
 Read `Int -> Unit -> Int ! {Bonus}` from the outside inward. The first call
 takes an `Int` and purely returns a function. That function takes `Unit`,
