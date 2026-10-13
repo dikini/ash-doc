@@ -44,8 +44,14 @@ same model; the effects connection remains optional until E3.
 
 The approved review retains the eight chapters, 43 canonical sources, 17
 accepted observations, and 16 complete diagnostic captures at `diag-ash`
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Chapters one through 1 are reviewed and
-verified. No chapter execution plan is active; chapter 2 is next.
+`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Revise one chapter at a time using the
+project writing skill and existing teaching-inspiration records.
+
+Completed chapters: 1. choosing-implementation-evidence
+
+**Active outcome: chapter 2, forwarding-capability-evidence.**
+How does evidence reach a client through a facade?
+[Execution plan](../plans/2026-10-13-library-02-teaching-review.md).
 
 ## Curriculum direction
 
