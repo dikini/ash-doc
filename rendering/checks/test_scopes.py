@@ -178,6 +178,17 @@ class FormatTests(unittest.TestCase):
             self.build.repair_figure_wrappers(output, "example")
             self.assertNotIn("alt=", page.read_text())
 
+    def test_html_repair_ignores_unselected_leftover_pages(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            selected = output / "index.html"
+            selected.write_text('<div class="quarto-float" alt="wrong"></div>')
+            stale = output / "unselected.html"
+            stale.write_bytes(b"\xffnot an input to this build")
+            self.build.repair_figure_wrappers(output, "example", ["html"], ["index.md"])
+            self.assertNotIn("alt=", selected.read_text())
+            self.assertEqual(stale.read_bytes(), b"\xffnot an input to this build")
+
     def test_html_only_repair_does_not_open_existing_epub(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory)
@@ -294,6 +305,25 @@ class IdentityTests(unittest.TestCase):
         self.metadata["chapters"].remove("cases-introduction.md")
         with self.assertRaisesRegex(ValueError, "complete indexed"):
             self.verify.verify_build_metadata(self.metadata, self.records, self.root)
+
+    def test_exported_html_diagram_must_match_the_checked_staged_svg(self):
+        project = self.root / "prepared"
+        (project / "assets").mkdir(parents=True)
+        (project / "output/assets").mkdir(parents=True)
+        svg = (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10">'
+            '<desc>Rule = A;</desc><path d="M 0 0 L 10 10"/></svg>'
+        )
+        (project / "assets/grammar.svg").write_text(svg)
+        altered = svg.replace("<path", "<text>Not a portable export</text><path")
+        (project / "output/assets/grammar.svg").write_text(altered)
+        jobs = [{"id": "grammar", "source": "Rule = A;"}]
+        with self.assertRaisesRegex(ValueError, "published|exported"):
+            self.verify.verify_generated_diagrams(project, jobs, published=True)
+        (project / "output/assets/grammar.svg").write_text(svg)
+        self.verify.verify_generated_diagrams(project, jobs, published=True)
+        (project / "output/assets/grammar.svg").unlink()
+        self.verify.verify_generated_diagrams(project, jobs, published=False)
 
     def test_pdf_only_verification_does_not_require_html_epub_or_search_tree(self):
         project = self.root / "prepared"

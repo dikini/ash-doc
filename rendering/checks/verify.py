@@ -753,6 +753,26 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
     return len(pages)
 
 
+def verify_generated_diagrams(project, jobs, published=False):
+    """Validate staged notation, and exact delivered copies when HTML is selected."""
+    for job in jobs:
+        path = project / "assets" / (job["id"] + ".svg")
+        if published:
+            exported = project / "output/assets" / path.name
+            check(exported.read_bytes() == path.read_bytes(),
+                  f"{job['id']}: published diagram differs from checked staged SVG")
+        svg = ET.parse(path).getroot()
+        check("viewBox" in svg.attrib, f"{job['id']}: SVG has no viewport")
+        descriptions = ["".join(node.itertext()) for node in svg if node.tag.endswith("}desc")]
+        check(any(job["source"] in description for description in descriptions), f"{job['id']}: canonical notation missing")
+        for node in svg.iter():
+            check(node.tag.rsplit("}", 1)[-1] not in ("foreignObject", "script", "text"), f"{job['id']}: nonportable SVG element")
+            for attribute, value in node.attrib.items():
+                if attribute.rsplit("}", 1)[-1] == "href":
+                    check(value.startswith("#"), f"{job['id']}: external SVG resource")
+
+
+
 def verify(project):
     output = project / "output"
     metadata = json.loads((project / "build.json").read_text())
@@ -872,16 +892,7 @@ def verify(project):
             if full_width is not None:
                 verify_full_width_markup(epub_full_width, full_width, "EPUB")
 
-    for job in jobs:
-        svg = ET.parse(project / "assets" / (job["id"] + ".svg")).getroot()
-        check("viewBox" in svg.attrib, f"{job['id']}: SVG has no viewport")
-        descriptions = ["".join(node.itertext()) for node in svg if node.tag.endswith("}desc")]
-        check(any(job["source"] in description for description in descriptions), f"{job['id']}: canonical notation missing")
-        for node in svg.iter():
-            check(node.tag.rsplit("}", 1)[-1] not in ("foreignObject", "script", "text"), f"{job['id']}: nonportable SVG element")
-            for attribute, value in node.attrib.items():
-                if attribute.rsplit("}", 1)[-1] == "href":
-                    check(value.startswith("#"), f"{job['id']}: external SVG resource")
+    verify_generated_diagrams(project, jobs, published="html" in formats)
 
     notes = source_notes(project, records) if specimen else []
     print_pages = {}

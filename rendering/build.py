@@ -490,14 +490,16 @@ def prepare(args):
     return config
 
 
-def repair_figure_wrappers(output, output_file="ash-doc-specimen", formats=FORMATS):
+def repair_figure_wrappers(output, output_file="ash-doc-specimen", formats=FORMATS, chapters=None):
     """Compensate for QT-01 without changing the valid image alt attribute."""
     wrapper = re.compile(r'<div\b[^>]*\bclass="[^"]*\bquarto-float\b[^"]*"[^>]*>')
 
     def repair(text):
         return wrapper.sub(lambda match: re.sub(r'\s+alt="[^"]*"', '', match.group()), text)
 
-    for path in output.glob("*.html") if "html" in formats else ():
+    pages = ((output / Path(chapter).with_suffix(".html") for chapter in chapters)
+             if chapters is not None else output.glob("*.html"))
+    for path in pages if "html" in formats else ():
         text = path.read_text(encoding="utf-8")
         corrected = repair(text)
         if corrected != text:
@@ -562,7 +564,8 @@ def build(args, config):
     output_file = config["output_file"]
     formats = config.get("formats", FORMATS)
     render_formats(args, formats, environment, output_file)
-    repair_figure_wrappers(args.output / "output", output_file, formats)
+    chapters = json.loads((args.output / "build.json").read_text())["chapters"]
+    repair_figure_wrappers(args.output / "output", output_file, formats, chapters)
     names = {"html": "index.html", "epub": output_file + ".epub",
              "pdf": output_file + ".pdf", "pdf-a4": output_file + "-a4.pdf"}
     for name in (names[value] for value in formats):
