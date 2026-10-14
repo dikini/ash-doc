@@ -53,6 +53,10 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
+The approved [scoped rendering plan](../plans/2026-10-14-scoped-rendering.md)
+is active. Task scope will govern editing, review, testing, source preparation,
+and requested output formats for lesson, part, book, and specimen work.
+
 The complete local review draft assembles all 53 indexed lessons in Learn →
 Libraries → Effects → Cases order, with four family introductions and shared
 reader setup. The 59 HTML pages and reflowable EPUB 3 retain 633 displayed code
