@@ -1,28 +1,13 @@
 # How can traversal pause and resume without laziness?
 
-[Balanced lookup](../guaranteeing-logarithmic-retrieval/README.md) enters one
-logarithmic path. An in-order traversal has a different destination: it
-eventually visits every association. A function that returns the complete
-traversal as a list must enter all `n` nodes and construct all `n` list forms
-before its caller receives the first association. That eager result costs
-`O(n)` source work and `O(n)` new list state up front.
+Suppose a caller needs the first association in a dictionary, then wants to
+stop and decide whether to ask for another. [Balanced lookup][balanced] finds
+one key along a logarithmic path. Traversal has a different goal: visit every
+association in key order, allowing the caller to stop between visits.
 
-The traversal can remain eager without finishing all at once. One call returns
-one association together with ordinary immutable data that describes where the
-next call should continue. The boundary is between complete eager recursion and
-explicit eager pending state carried between calls. There is no delayed
-expression inside that state.
-
-## Turn the unfinished calls into frames
-
-Recall the order of one recursive visit:
-
-```text
-visit left subtree; produce current association; visit right subtree
-```
-
-The first client below builds the associations `two:20`, `one:10`, and
-`three:30`. Their ordered tree has this source-level shape:
+Use the three associations `two:20`, `one:10`, and `three:30`. Inserting them
+into the preceding dictionary gives this tree. The following sketches describe
+its shape and traversal; they are not executable Ash.
 
 ```text
           two:20
@@ -30,328 +15,351 @@ The first client below builds the associations `two:20`, `one:10`, and
      one:10    three:30
 ```
 
-Traversal first descends to `one`. Its pending state is:
+The first request should return `one:10`; a later request should return
+`two:20`, then `three:30`. A fourth request should say that traversal is
+finished. An empty dictionary should be finished on the first request.
+
+Returning a complete in-order list would visit all `n` nodes and construct
+all `n` list forms before the caller receives the first association. That
+costs `O(n)` source work and new list state up front. Instead, each request
+can return one association and a value describing where to continue. The
+caller keeps that value while paused and supplies it to the next request.
+What information must it contain?
+
+## Represent the unfinished traversal
+
+Recall the order at a node:
 
 ```text
-MoreFrame(
-    one,
-    10,
-    Empty,
-    MoreFrame(two, 20, right subtree rooted at three:30, NoFrame)
-)
+visit left subtree; produce current association; visit right subtree
 ```
 
-The outer frame makes `one:10` the next association and records its `Empty`
-right subtree. Beneath it, the frame for `two:20` retains the right subtree
-containing `three:30`; `NoFrame` says that no ancestor remains.
+To find the first entry, descend from `two` to `one`. Before descending, save
+`two:20` and its right subtree: both must be visited after the left subtree.
+At `one`, save `one:10` and its empty right subtree. Reaching its empty left
+subtree finishes the descent. The saved entries now form a stack, with `one`
+at the front and `two` behind it.
 
-The two frames repeat four positions: a key, its value, its unentered right
-subtree, and the rest of the unfinished ancestors. Generalizing those positions
-gives:
-
-```text
-NoFrame
-MoreFrame(key, value, saved_right, remaining_ancestors)
-```
-
-The frame at the front is the next association to produce. Its left subtree is
-absent because that work is complete. Its saved right subtree has not been
-entered. The remaining frames describe later associations in the same
-in-order sequence. This representation follows from the tree equations.
-
-`push_left` prepares that invariant. At `Empty`, it returns the existing stack.
-At a `Node`, it saves the current association and right subtree in a
-`MoreFrame`, then continues down the left branch. The resulting first frame is
-therefore the leftmost association that remains.
-
-`iterator` calls `push_left` with `NoFrame`, so initialization eagerly prepares
-only the initial left spine. `next` has two cases. `NoFrame` means that no
-association remains and produces `None`. `MoreFrame` produces its key-value
-pair and calls `push_left` on the saved right subtree with the remaining
-ancestors. The returned iterator is already fully prepared when `next`
-returns. Ash evaluates function arguments before application under its strict
-[application rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application),
-and constructor arguments are ordinary strict data.
-
-Here is the complete defining module. It retains the balanced dictionary from
-the preceding case and adds the private frame stack and public opaque iterator.
-This dependency has no `main`; the entry modules that follow import and invoke
-it.
+A frame records four things: the pending key, its value, the right subtree
+still to visit, and the remaining stack. Work in its left subtree belongs
+before that association; the descent records it in frames ahead of this one.
+Generalize those fields over the dictionary's existing `K` and `V` types.
+These are checked, non-executable excerpts from the defining module and the
+clients used below; the commands run their complete source files.
 
 <!-- markdownlint-disable MD013 -->
-<!-- source: src/dictionaries.ash -->
-```ash
-pub type Ordering =
-    Less
-    | Equal
-    | Greater
-
-pub type Natural =
-    Zero
-    | Next(Natural)
-
-pub type Option<A> =
-    None
-    | Some(A)
-
-pub type List<A> =
-    End
-    | More(A, List<A>)
-
-type Color =
-    Red
-    | Black
-
-pub opaque type Dictionary<K, V> =
-    Empty
-    | Node(Color, Dictionary<K, V>, K, V, Dictionary<K, V>)
-
-type BalanceCheck =
-    Invalid
-    | Valid(Int)
-
+<!-- excerpt: src/dictionaries.ash#frames -->
+```text
 type FrameStack<K, V> =
     NoFrame
     | MoreFrame(K, V, Dictionary<K, V>, FrameStack<K, V>)
+```
+<!-- markdownlint-enable MD013 -->
 
+`NoFrame` means that no entry remains. `MoreFrame` puts one pending association
+in front of the rest. Its third field is a whole dictionary, not a list of
+its entries. Saving that subtree preserves the work for a later request
+without traversing it now.
+
+For the example, the prepared stack has this schematic shape. `one`, `two`,
+and the named subtree stand for their actual values:
+
+```text
+MoreFrame(
+    one, 10, Empty,
+    MoreFrame(two, 20, subtree rooted at three:30, NoFrame)
+)
+```
+
+The outer frame is the next entry to produce. After producing it, traversal
+must handle its saved right subtree before the remaining frames. This is the
+stack invariant: the front association, then its right subtree, then the
+remaining stack describe exactly the unfinished in-order sequence. The type
+records the fields; the operations must preserve their intended order.
+
+Wrap the stack in a public iterator type:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/dictionaries.ash#iterator_data -->
+```text
 pub opaque type Iterator<K, V> =
     Iterator(FrameStack<K, V>)
+```
+<!-- markdownlint-enable MD013 -->
 
-pub interface Order<A> {
-    compare : A -> A -> Ordering
-}
+Inside the module, `Iterator` exposes the frame stack to its operations.
+Outside it, the opaque type gives callers a name for the state while
+withholding its constructor. This is the same [opaque-declaration boundary][opacity]
+used for the dictionary. A caller obtains states through the public operations
+rather than assembling frames itself.
 
-pub impl Order<Natural> {
-    compare Zero Zero = Equal
-    compare Zero Next(right) = Less
-    compare Next(left) Zero = Greater
-    compare Next(left) Next(right) = compare left right
-}
+The saved state is ordinary immutable data. Each returned iterator is already
+prepared for its next request. There is no delayed expression to force: the
+remaining work happens when the caller explicitly invokes an operation.
 
-pub empty : Unit -> Dictionary<K, V>
-empty () = Empty
+## Determine the operation types
 
-pub lookup : K -> Dictionary<K, V> -> Option<V> where Order<K>
-lookup query Empty = None
-lookup query Node(ignored_color, left, current_key, current_value, right) = match compare query current_key {
-    Less => lookup query left
-    Equal => Some(current_value)
-    Greater => lookup query right
-}
+Start with the caller's two operations. Preparing a dictionary gives an
+iterator with the same key and value types:
 
-restore_three : Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth = Node(
-    Red,
-    Node(Black, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    Node(Black, third, last_key, last_value, fourth)
-)
-
-restore : Color -> Dictionary<K, V> -> K -> V -> Dictionary<K, V> -> Dictionary<K, V>
-restore Black Node(
-    Red,
-    Node(Red, first, first_key, first_value, second),
-    middle_key,
-    middle_value,
-    third
-) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black Node(
-    Red,
-    first,
-    first_key,
-    first_value,
-    Node(Red, second, middle_key, middle_value, third)
-) last_key last_value fourth = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black first first_key first_value Node(
-    Red,
-    Node(Red, second, middle_key, middle_value, third),
-    last_key,
-    last_value,
-    fourth
-) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore Black first first_key first_value Node(
-    Red,
-    second,
-    middle_key,
-    middle_value,
-    Node(Red, third, last_key, last_value, fourth)
-) = restore_three first first_key first_value second middle_key middle_value third last_key last_value fourth
-restore color left key value right = Node(color, left, key, value, right)
-
-insert_colored : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
-insert_colored key value Empty = Node(Red, Empty, key, value, Empty)
-insert_colored key value Node(color, left, current_key, current_value, right) = match compare key current_key {
-    Less => restore color (insert_colored key value left) current_key current_value right
-    Equal => Node(color, left, current_key, value, right)
-    Greater => restore color left current_key current_value (insert_colored key value right)
-}
-
-blacken_root : Dictionary<K, V> -> Dictionary<K, V>
-blacken_root dictionary = match dictionary {
-    Empty => Empty
-    Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) => dictionary
-    Node(Red, left, key, value, right) => Node(Black, left, key, value, right)
-}
-
-pub insert : K -> V -> Dictionary<K, V> -> Dictionary<K, V> where Order<K>
-insert key value dictionary = blacken_root (insert_colored key value dictionary)
-
-fold_left : (B -> A -> B) -> B -> List<A> -> B
-fold_left combine accumulated End = accumulated
-fold_left combine accumulated More(first, rest) = {
-    let next_accumulated = combine accumulated first
-    fold_left combine next_accumulated rest
-}
-
-insert_entry : Dictionary<K, V> -> (K, V) -> Dictionary<K, V> where Order<K>
-insert_entry dictionary entry = match entry {
-    (key, value) => insert key value dictionary
-}
-
-pub build : List<(K, V)> -> Dictionary<K, V> where Order<K>
-build entries = fold_left insert_entry (empty ()) entries
-
-above_lower : Option<K> -> K -> Bool where Order<K>
-above_lower None key = true
-above_lower Some(lower) key = match compare lower key {
-    Less => true
-    Equal => false
-    Greater => false
-}
-
-below_upper : K -> Option<K> -> Bool where Order<K>
-below_upper key None = true
-below_upper key Some(upper) = match compare key upper {
-    Less => true
-    Equal => false
-    Greater => false
-}
-
-both : Bool -> Bool -> Bool
-both true right = right
-both false right = false
-
-valid_between : Option<K> -> Option<K> -> Dictionary<K, V> -> Bool where Order<K>
-valid_between lower upper Empty = true
-valid_between lower upper Node(ignored_color, left, key, ignored_value, right) = {
-    let respects_lower = above_lower lower key
-    let respects_upper = below_upper key upper
-    let left_valid = valid_between lower (Some(key)) left
-    let right_valid = valid_between (Some(key)) upper right
-    both respects_lower (both respects_upper (both left_valid right_valid))
-}
-
-is_black : Dictionary<K, V> -> Bool
-is_black Empty = true
-is_black Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) = true
-is_black Node(Red, ignored_left, ignored_key, ignored_value, ignored_right) = false
-
-children_colors_hold : Color -> Dictionary<K, V> -> Dictionary<K, V> -> Bool
-children_colors_hold Black left right = true
-children_colors_hold Red left right = both (is_black left) (is_black right)
-
-add_black : Color -> Int -> Int
-add_black Red height = height
-add_black Black height = height + 1
-
-balance_summary : Dictionary<K, V> -> BalanceCheck
-balance_summary Empty = Valid(1)
-balance_summary Node(color, left, ignored_key, ignored_value, right) = {
-    let left_result = balance_summary left
-    let right_result = balance_summary right
-    let children_hold = children_colors_hold color left right
-    match (left_result, right_result) {
-        (Invalid, ignored_right_result) => Invalid
-        (Valid(ignored_left_height), Invalid) => Invalid
-        (Valid(left_height), Valid(right_height)) => match children_hold {
-            false => Invalid
-            true => match left_height == right_height {
-                false => Invalid
-                true => Valid(add_black color left_height)
-            }
-        }
-    }
-}
-
-balance_holds : Dictionary<K, V> -> Bool
-balance_holds dictionary = match balance_summary dictionary {
-    Invalid => false
-    Valid(ignored_height) => true
-}
-
-root_is_black : Dictionary<K, V> -> Bool
-root_is_black Empty = true
-root_is_black Node(Black, ignored_left, ignored_key, ignored_value, ignored_right) = true
-root_is_black Node(Red, ignored_left, ignored_key, ignored_value, ignored_right) = false
-
-pub invariant_holds : Dictionary<K, V> -> Bool where Order<K>
-invariant_holds dictionary = {
-    let ordered = valid_between None None dictionary
-    let balanced = balance_holds dictionary
-    let black_root = root_is_black dictionary
-    both ordered (both balanced black_root)
-}
-
-push_left : Dictionary<K, V> -> FrameStack<K, V> -> FrameStack<K, V>
-push_left Empty stack = stack
-push_left Node(ignored_color, left, key, value, right) stack = {
-    let later_stack = MoreFrame(key, value, right, stack)
-    push_left left later_stack
-}
-
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/dictionaries.ash#iterator_type -->
+```text
 pub iterator : Dictionary<K, V> -> Iterator<K, V>
-iterator dictionary = Iterator(push_left dictionary NoFrame)
+```
+<!-- markdownlint-enable MD013 -->
 
+Advancing it either reports completion or returns one association together
+with the state for the next request:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-dictionaries-next_type .column-page-right}
+
+<!-- excerpt: src/dictionaries.ash#next_type -->
+```text
 pub next : Iterator<K, V> -> Option<((K, V), Iterator<K, V>)>
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+Read the successful payload from the outside in. `Some` holds a pair whose
+first component is `(K, V)` and whose second is `Iterator<K, V>`. `None` has
+no payload. Keeping the later iterator is what makes another request possible;
+keeping the current one allows a caller to repeat the same request.
+
+These operations need no `Order<K>` requirement. Insertion has already
+established the tree's ordering; traversal follows its structure. It neither
+compares keys nor repairs a malformed ordering.
+
+One private operation must prepare the next frame. It takes a subtree and an
+existing stack of later ancestors, then returns the prepared stack:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-dictionaries-push_left_type .column-page-right}
+
+<!-- excerpt: src/dictionaries.ash#push_left_type -->
+```text
+push_left : Dictionary<K, V> -> FrameStack<K, V> -> FrameStack<K, V>
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+The second input matters when resuming: after visiting a saved right subtree,
+traversal still owes the associations recorded in the remaining stack. Starting
+each descent with `NoFrame` would discard those ancestors.
+
+## Calculate preparation and one step
+
+First express the public composition. An initial traversal has no ancestors,
+so prepare the whole dictionary over `NoFrame` and wrap the result:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/dictionaries.ash#iterator -->
+```text
+iterator dictionary = Iterator(push_left dictionary NoFrame)
+```
+<!-- markdownlint-enable MD013 -->
+
+The wrapper does not postpone `push_left`. Ash evaluates arguments before
+application under its strict [application rules][application], including
+arguments supplied to constructors. This call completes the initial left
+spine before returning an iterator, while leaving other subtrees unentered.
+
+Now calculate `next` from its input's two possible stack forms. An empty
+stack has no association to return:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/dictionaries.ash#next_empty -->
+```text
 next Iterator(NoFrame) = None
+```
+<!-- markdownlint-enable MD013 -->
+
+For a frame, the key and value are ready. Remove that frame, prepare its saved
+right subtree over `rest`, and package the association with the later iterator:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/dictionaries.ash#next_frame -->
+```text
 next Iterator(MoreFrame(key, value, right, rest)) = Some(
     ((key, value), Iterator(push_left right rest))
 )
 ```
 <!-- markdownlint-enable MD013 -->
 
-`FrameStack<K, V>` and its constructors are private. `Iterator<K, V>` is a
-public opaque type, so a client can name it, obtain one through `iterator`,
-retain it, and pass returned states to `next`. Its `Iterator` constructor
-remains private to the defining module: clients cannot construct it or use it
-in a pattern. Neither operation has an `Order<K>` requirement and neither calls
-`compare`; iteration follows the structure already present.
+This equation explains the resume point: the saved right subtree comes next,
+then the previously saved ancestors. An empty right subtree simply exposes
+`rest`. A nonempty one contributes its own leftmost entries in front of `rest`.
 
-## Produce one association at a time
-
-The first client turns the frame sequence above into a check. The first `next`
-should yield `one`; the second should yield `two` and prepare its saved right
-subtree; the third should yield `three`; and the fourth should reach `NoFrame`
-and return `None`. Starting from `Empty` should return `None` immediately.
-`collect` turns those predictions into one complete list.
+It remains to fill in `push_left`. At `Empty`, there is no earlier association
+to place in front of the supplied stack:
 
 <!-- markdownlint-disable MD013 -->
-The complete import makes the public names available through `Dictionaries`.
-The separate `impl Order` import selects the library's public ordering
-implementation for these calls, as in the earlier ordering Case.
+<!-- excerpt: src/dictionaries.ash#push_empty -->
+```text
+push_left Empty stack = stack
+```
+<!-- markdownlint-enable MD013 -->
 
-<!-- source: src/01-sequence.ash -->
-```ash
+At a node, its left subtree must come first. Save the current association and
+right subtree in one frame, then descend into `left` over that frame:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-dictionaries-push_node .column-page-right}
+
+<!-- excerpt: src/dictionaries.ash#push_node -->
+```text
+push_left Node(ignored_color, left, key, value, right) stack = {
+    let later_stack = MoreFrame(key, value, right, stack)
+    push_left left later_stack
+}
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+The local `later_stack` names precisely what remains after the left subtree.
+The node's color does not affect in-order visitation, so the pattern calls it
+`ignored_color`. The recursive call handles a smaller subtree in a finite
+acyclic tree; eventually its empty left edge returns the prepared stack.
+
+Why does this preserve the order? The empty case contributes no entries.
+For a node, assume the recursive descent prepares its left subtree in order.
+Placing that preparation before the new frame gives the left entries, then
+the current association, then its right subtree, then the supplied stack.
+Those are exactly the required pieces in their required order. Combined with
+the two `next` equations, each request removes the first unfinished association
+and leaves the rest ready for another request.
+
+For the three-key example, the prepared frames change as follows. This is a
+schematic trace, not a captured tool result. The front frame appears first:
+
+| Request | Returned association | Prepared frames afterward |
+| --- | --- | --- |
+| Start | No association yet | `one` over `two`, with `three` saved by `two` |
+| First `next` | `one:10` | `two`, with its right subtree at `three` |
+| Second `next` | `two:20` | `three`, with an empty right subtree |
+| Third `next` | `three:30` | `NoFrame` |
+| Fourth `next` | `None` | No later iterator in the result |
+
+The second request is the one that enters the saved subtree at `three`. Pausing
+before that request leaves that descent undone.
+
+## Collect a sequence to check the calculation
+
+A client can test the repeated requests by collecting them into the familiar
+`List<(K, V)>`. This deliberately finishes traversal; it lets one observation
+show its order. The public names come from these imports:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/01-sequence.ash#imports -->
+```text
 import dictionaries as Dictionaries
 import dictionaries (impl Order)
+```
+<!-- markdownlint-enable MD013 -->
 
+The first import supplies `Dictionaries` as a qualifier. The separate
+`impl Order` import supplies the ordering implementation used to build the
+dictionary. The iterator operations themselves do not require it.
+
+The collection operation consumes an iterator and produces a list:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-01-sequence-collect_type .column-page-right}
+
+<!-- excerpt: src/01-sequence.ash#collect_type -->
+```text
 collect : Dictionaries.Iterator<K, V> -> Dictionaries.List<(K, V)>
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+Ask for one entry. `None` gives the empty list; `Some((entry, later))` gives a
+list whose head is `entry` and whose tail collects from `later`:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-01-sequence-collect .column-page-right}
+
+<!-- excerpt: src/01-sequence.ash#collect -->
+```text
 collect current = match Dictionaries.next current {
     Dictionaries.None => Dictionaries.End
     Dictionaries.Some((entry, later)) => Dictionaries.More(entry, collect later)
 }
+```
 
+:::
+<!-- markdownlint-enable MD013 -->
+
+Passing `later` is essential. Recursing on `current` would request the same
+entry again. The structural argument above says that each successful request
+removes one unfinished association, so this recursion reaches `None` on a
+finite dictionary.
+
+A second operation converts an optional result to a completion flag:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/01-sequence.ash#is_finished_type -->
+```text
 is_finished : Dictionaries.Option<A> -> Bool
+```
+<!-- markdownlint-enable MD013 -->
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/01-sequence.ash#is_finished -->
+```text
 is_finished Dictionaries.None = true
 is_finished Dictionaries.Some(ignored) = false
+```
+<!-- markdownlint-enable MD013 -->
 
+Together these observations determine the entry's result type:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-01-sequence-main_type .column-page-right}
+
+<!-- excerpt: src/01-sequence.ash#main_type -->
+```text
 main : Unit -> (Bool, Dictionaries.List<(Dictionaries.Natural, Int)>)
-main () = {
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+The first component checks an empty dictionary; the second records the ordered
+sequence. Inside `main`, construct the three existing natural-number keys:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/01-sequence.ash#keys -->
+```text
     let one = Dictionaries.Next(Dictionaries.Zero)
     let two = Dictionaries.Next(one)
     let three = Dictionaries.Next(two)
+```
+<!-- markdownlint-enable MD013 -->
+
+Prepare the empty dictionary with an explicit key and value type:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-01-sequence-empty .column-page-right}
+
+<!-- excerpt: src/01-sequence.ash#empty -->
+```text
     let empty_dictionary : Dictionaries.Dictionary<Dictionaries.Natural, Int> = Dictionaries.empty ()
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+Supply the nonempty entries in the example's insertion order:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/01-sequence.ash#entries -->
+```text
     let entries = Dictionaries.More(
         (two, 20),
         Dictionaries.More(
@@ -359,49 +367,111 @@ main () = {
             Dictionaries.More((three, 30), Dictionaries.End)
         )
     )
-    let dictionary = Dictionaries.build entries
-    let empty_finished = is_finished (Dictionaries.next (Dictionaries.iterator empty_dictionary))
-    (empty_finished, collect (Dictionaries.iterator dictionary))
-}
 ```
 <!-- markdownlint-enable MD013 -->
 
-The program should report `true` for the empty dictionary and then the three
-key-value pairs in increasing-key order. Run it from `content/cases`:
+Finally build the dictionary, inspect the empty iterator, and collect the
+nonempty one:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-01-sequence-finish .column-page-right}
+
+<!-- excerpt: src/01-sequence.ash#finish -->
+```text
+    let dictionary = Dictionaries.build entries
+    let empty_finished = is_finished (Dictionaries.next (Dictionaries.iterator empty_dictionary))
+    (empty_finished, collect (Dictionaries.iterator dictionary))
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+Predict the flag, the three associations, and the end of the list. Run the
+complete client from `content/cases`:
 
 ```text
 ash resuming-tree-traversal/src/01-sequence.ash
 ```
 
+Read these selected components of that one captured result separately. They
+are not separate runs or a replacement full transcript. The leading flag is:
+
 <!-- markdownlint-disable MD013 -->
+<!-- observation: sequence#empty -->
 ```text
-(true, More((Next(Zero), 10), More((Next(Next(Zero)), 20), More((Next(Next(Next(Zero))), 30), End)))) : (Bool, List<(Natural, Int)>)
+true
 ```
 <!-- markdownlint-enable MD013 -->
 
-The leading `true` confirms the immediate empty result. `More` then contains
-exactly `one`, `two`, and `three`, followed by `End`; reaching `End` means the
-fourth `next` returned `None`. The ordering is a consequence of structural
-in-order traversal together with the inherited dictionary ordering invariant.
-The iterator itself made no comparison and performed no validation or sorting.
-A malformed value constructed inside `Dictionaries` could therefore produce
-an out-of-order sequence.
-
-## Retain and replay a prepared state
-
-An iterator is an ordinary immutable value. The next client retains the state
-after producing `one`, then calls `next` on that same state twice. Because its
-ascending insertion order produces a root `two` with a saved right subtree
-containing `three`, the retained state should show a frame for `two` and that
-saved subtree. Both calls should yield `two` and independently prepare an
-equivalent frame for `three`.
+The empty iterator immediately returns `None`. The three successive `More`
+heads, in their captured order, are:
 
 <!-- markdownlint-disable MD013 -->
-<!-- source: src/02-retained-state.ash -->
-```ash
-import dictionaries as Dictionaries
-import dictionaries (impl Order)
+<!-- observation: sequence#one -->
+```text
+(Next(Zero), 10)
+```
+<!-- markdownlint-enable MD013 -->
 
+`Next(Zero)` is `one`, paired with `10`.
+
+<!-- markdownlint-disable MD013 -->
+<!-- observation: sequence#two -->
+```text
+(Next(Next(Zero)), 20)
+```
+<!-- markdownlint-enable MD013 -->
+
+`Next(Next(Zero))` is `two`, paired with `20`.
+
+<!-- markdownlint-disable MD013 -->
+<!-- observation: sequence#three -->
+```text
+(Next(Next(Next(Zero))), 30)
+```
+<!-- markdownlint-enable MD013 -->
+
+The third natural number is paired with `30`. The list's final tail is:
+
+<!-- markdownlint-disable MD013 -->
+<!-- observation: sequence#end -->
+```text
+End
+```
+<!-- markdownlint-enable MD013 -->
+
+Reaching `End` means that `collect` received `None` on its fourth request.
+The type of the complete result is:
+
+<!-- markdownlint-disable MD013 -->
+<!-- observation: sequence#type -->
+```text
+(Bool, List<(Natural, Int)>)
+```
+<!-- markdownlint-enable MD013 -->
+
+These observations agree with the trace. Their order follows from in-order
+traversal and the inherited dictionary ordering invariant. The iterator made
+no comparison and performed no validation or sorting. A malformed value
+constructed inside `Dictionaries` could produce an out-of-order sequence.
+
+## Retain a state and resume it twice
+
+A later iterator is an ordinary immutable value. To check that using it does
+not consume it, retain the state after producing `one` and call `next` on
+that same state twice. Each call should produce `two:20` with a state ready
+for `three:30`.
+
+The observation needs three fields: the retained iterator, the first call's
+result, and the second call's result. Each call has the same optional
+association-and-iterator type derived above. `Unexpected` records an empty
+initial result, which the nonempty example should not produce:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-02-retained-state-replay_data .column-page-right}
+
+<!-- excerpt: src/02-retained-state.ash#replay_data -->
+```text
 type ReplayObservation =
     Unexpected
     | Replay(
@@ -415,8 +485,30 @@ type ReplayObservation =
             Dictionaries.Iterator<Dictionaries.Natural, Int>
         )>
     )
+```
 
+:::
+<!-- markdownlint-enable MD013 -->
+
+The client uses the same two imports. Its checking operation has this type:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-02-retained-state-replay_type .column-page-right}
+
+<!-- excerpt: src/02-retained-state.ash#replay_type -->
+```text
 replay : Dictionaries.Iterator<Dictionaries.Natural, Int> -> ReplayObservation
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+One request obtains the state after the first association. In the successful
+case, save `after_one` in the observation and use it as both subsequent inputs:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/02-retained-state.ash#replay -->
+```text
 replay start = match Dictionaries.next start {
     Dictionaries.None => Unexpected
     Dictionaries.Some((ignored_first, after_one)) => Replay(
@@ -425,12 +517,29 @@ replay start = match Dictionaries.next start {
         Dictionaries.next after_one
     )
 }
+```
+<!-- markdownlint-enable MD013 -->
 
+`ignored_first` names the association that positions the experiment; the
+experiment observes what happens from the returned state. Both subsequent
+calls receive `after_one`, so neither uses the state returned by the other.
+
+This client returns the observation directly:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/02-retained-state.ash#main_type -->
+```text
 main : Unit -> ReplayObservation
-main () = {
-    let one = Dictionaries.Next(Dictionaries.Zero)
-    let two = Dictionaries.Next(one)
-    let three = Dictionaries.Next(two)
+```
+<!-- markdownlint-enable MD013 -->
+
+Inside `main`, define `one`, `two`, and `three` as before. This time insert in
+ascending order, which the balanced dictionary also turns into a root `two`
+with children `one` and `three`:
+
+<!-- markdownlint-disable MD013 -->
+<!-- excerpt: src/02-retained-state.ash#entries -->
+```text
     let entries = Dictionaries.More(
         (one, 10),
         Dictionaries.More(
@@ -438,38 +547,97 @@ main () = {
             Dictionaries.More((three, 30), Dictionaries.End)
         )
     )
-    replay (Dictionaries.iterator (Dictionaries.build entries))
-}
 ```
 <!-- markdownlint-enable MD013 -->
 
-The prediction includes private forms because Ash's structural
-[observation rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation)
-render nominal values even when their constructors are unavailable to the
-entry module. Run the client:
+Compose building, preparation, and the replay check:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-02-retained-state-finish .column-page-right}
+
+<!-- excerpt: src/02-retained-state.ash#finish -->
+```text
+    replay (Dictionaries.iterator (Dictionaries.build entries))
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+The tree shape predicts a saved frame for `two` retaining the subtree at
+`three`. Both subsequent calls should prepare equivalent frames for `three`.
+Run the complete client:
 
 ```text
 ash resuming-tree-traversal/src/02-retained-state.ash
 ```
 
+The following are the three fields of the single captured `Replay` result,
+followed by its type. Its first field is the saved iterator:
+
 <!-- markdownlint-disable MD013 -->
+::: {#wide-retained-state-saved .column-page-right}
+
+<!-- observation: retained-state#saved -->
 ```text
-Replay(Iterator(MoreFrame(Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty), NoFrame)), Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame))), Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame)))) : ReplayObservation
+Iterator(MoreFrame(Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty), NoFrame))
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+The front frame contains `two:20`, a right subtree containing `three:30`, and
+`NoFrame`. That subtree remains a `Node`; it has not yet been converted to
+frames. The second field comes from the first `next after_one`:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-retained-state-first .column-page-right}
+
+<!-- observation: retained-state#first -->
+```text
+Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame)))
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+It returns `two:20` and prepares a frame for `three:30`. The third field comes
+from the second `next after_one`:
+
+<!-- markdownlint-disable MD013 -->
+::: {#wide-retained-state-second .column-page-right}
+
+<!-- observation: retained-state#second -->
+```text
+Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame)))
+```
+
+:::
+<!-- markdownlint-enable MD013 -->
+
+It shows the same association and prepared state. Both calls descend into
+the same saved right subtree and construct a frame for `three`; retaining
+state does not memoize that remaining source work. The complete result's type
+is:
+
+<!-- markdownlint-disable MD013 -->
+<!-- observation: retained-state#type -->
+```text
+ReplayObservation
 ```
 <!-- markdownlint-enable MD013 -->
 
-`Iterator`, `MoreFrame`, `Node`, and their fields are visible in the output.
-That observation supplies no constructor binding to client source. Ash's
-[opaque declaration rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations)
-export the iterator type name while withholding its constructor, independent
-of how the tool renders a resulting value.
+`Iterator`, `MoreFrame`, `Node`, and their fields are visible in these
+observations. Ash's structural [observation rules][observation] render nominal
+values even when their constructors are unavailable to the entry module.
+Constructor payload tuples appear as fields in this output, which is why the
+captured `Some` displays the association and iterator as two fields. Seeing
+those forms supplies no constructor binding to client source. Test that
+separate boundary next.
 
-The raw retained state contains `two`, its right subtree containing `three`,
-and `NoFrame`. Both later fields are the same structural observation: each
-produces `two` and returns a state prepared for `three`. This fixed program
-demonstrates repeatable results after retaining an immutable state. It also
-repeats the `push_left` descent into the saved right subtree; persistence does
-not memoize that deferred source work.
+[balanced]: ../guaranteeing-logarithmic-retrieval/README.md
+[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application
+[observation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation
+[opacity]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations
 
 ## Test the source boundary in patterns and values
 
@@ -479,6 +647,8 @@ in this match arm should be rejected during name resolution. The type name
 is public, but the constructor that would expose the frame stack is withheld.
 
 <!-- markdownlint-disable MD013 -->
+::: {#wide-source-03-opaque-pattern .column-page-right}
+
 <!-- source: src/03-opaque-pattern.ash -->
 ```ash
 import dictionaries as Dictionaries
@@ -491,9 +661,15 @@ main () = {
     }
 }
 ```
+
+:::
 <!-- markdownlint-enable MD013 -->
 
 Run the rejected entry:
+
+{{< pagebreak >}}
+
+::: {#wide-diagnostic-03-opaque-pattern .column-page-right}
 
 <!-- diagnostic: src/03-opaque-pattern.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -508,6 +684,8 @@ The constructor `Iterator` belongs to an opaque type and is not accessible here.
    |     ^ The inaccessible declaration is here.
 reason: resolve.opaque-constructor
 ```
+
+:::
 <!-- markdownlint-enable MD013 -->
 
 The message explains that `Iterator` belongs to an opaque type. The first
@@ -537,6 +715,10 @@ main () = {
 
 Run the second rejected entry:
 
+{{< pagebreak >}}
+
+::: {#wide-diagnostic-04-opaque-construction .column-page-right}
+
 <!-- diagnostic: src/04-opaque-construction.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
@@ -550,6 +732,8 @@ The constructor `Iterator` belongs to an opaque type and is not accessible here.
    |     ^ The inaccessible declaration is here.
 reason: resolve.opaque-constructor
 ```
+
+:::
 <!-- markdownlint-enable MD013 -->
 
 This rejection labels `Iterator` in the local initializer and returns to the

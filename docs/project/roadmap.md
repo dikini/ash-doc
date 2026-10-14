@@ -55,8 +55,8 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 The complete local review draft assembles all 53 indexed lessons in Learn →
 Libraries → Effects → Cases order, with four family introductions and shared
-reader setup. The 59 HTML pages and reflowable EPUB 3 retain 603 displayed code
-and transcript blocks. The double-sided book PDF has 361 pages; the one-sided
+reader setup. The 59 HTML pages and reflowable EPUB 3 retain 633 displayed code
+and transcript blocks. The double-sided book PDF has 360 pages; the one-sided
 A4 copy has 319. Artifact checks verify indexed coverage, chapter order, source
 hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
@@ -65,12 +65,25 @@ commands. The edition remains local and unpublished.
 
 Browser checks pass for all 59 HTML pages at desktop and mobile sizes and all
 57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
-its separate browser and artifact checks. Visual inspection covers 74 selected
-PDF pages, with the final text geometry and representative rasters matched to
-that review.
+its separate browser and artifact checks. The original whole-book review
+inspected 74 selected PDF pages. The traversal revision additionally reviews
+all thirteen book pages and twelve A4 pages of that chapter; its widened
+blocks remain complete on one printable page in both variants.
 
-Visual review identified long traversal and frontier listings, wrapped types,
-and a diagnostic that continues onto another page as candidates for a focused
+The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
+now develops the three-entry problem, frame data and invariant, operation
+types, public composition, and smaller equations. Twenty-six exact source
+excerpts and ten selected observations agree with the complete canonical
+programs and success captures. All five source files retain their previous
+bytes, including both opaque-constructor rejections and complete human
+messages. The frame-work and persistence arguments remain explicit. Longer
+contracts and patterns use wider space; each wide diagnostic starts on a fresh
+print page to preserve its text across mirrored margins. Eleven display-check
+tests exercise source drift, wrong result selections, and incomplete captures.
+The revised chapter also passes desktop/mobile HTML and enlarged EPUB checks
+in Chromium and Firefox.
+
+The frontier lesson and other longer listings remain candidates for a focused
 teaching revision.
 
 The [search-tree teaching trial](../../content/cases/guaranteeing-logarithmic-retrieval/README.md)

@@ -131,24 +131,6 @@ ash_doc_assert_sha256() {
         ash_doc_fail "$3 (found $actual, expected $2)"
 }
 
-ash_doc_assert_text_line_once() {
-    if [[ $# -ne 2 ]]; then
-        ash_doc_fail "ash_doc_assert_text_line_once requires line and claim"
-    fi
-
-    local actual_count
-    actual_count=$(
-        awk -v expected="$1" '
-            $0 == "```text" { inside = 1; next }
-            inside && $0 == "```" { inside = 0; next }
-            inside && $0 == expected { count += 1 }
-            END { print count + 0 }
-        ' "$readme"
-    )
-    [[ $actual_count -eq 1 ]] ||
-        ash_doc_fail "$2 (found $actual_count occurrences, expected 1)"
-}
-
 library_source=$(<"$library")
 sequence_source=$(<"$sequence_entry")
 retained_source=$(<"$retained_entry")
@@ -270,8 +252,10 @@ ash_doc_assert_sha256 \
     8c656fc6eb7591c46cf162f77b4fa838257bd441dbb80abcd98705e9b9057cea \
     "04-opaque-construction.ash must retain its exact complete source"
 
-readonly sequence_output='(true, More((Next(Zero), 10), More((Next(Next(Zero)), 20), More((Next(Next(Next(Zero))), 30), End)))) : (Bool, List<(Natural, Int)>)'
-readonly retained_output='Replay(Iterator(MoreFrame(Next(Next(Zero)), 20, Node(Black, Empty, Next(Next(Next(Zero))), 30, Empty), NoFrame)), Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame))), Some((Next(Next(Zero)), 20), Iterator(MoreFrame(Next(Next(Next(Zero))), 30, Empty, NoFrame)))) : ReplayObservation'
+sequence_output=$(cat "$unit_root/fixtures/sequence.stdout")
+readonly sequence_output
+retained_output=$(cat "$unit_root/fixtures/retained-state.stdout")
+readonly retained_output
 
 ash_doc_run_accepted "$unit_root" src/01-sequence.ash "$sequence_output"
 ash_doc_run_accepted "$unit_root" src/02-retained-state.ash "$retained_output"
@@ -281,12 +265,9 @@ ash_doc_run_rejected "$unit_root" src/04-opaque-construction.ash 1
 ash_doc_check_human "$unit_root" src/04-opaque-construction.ash "$unit_root/.."
 
 [[ -f $readme ]] || ash_doc_fail "missing unit README.md"
-ash_doc_check_sources "$unit_root" "$readme" "${sources[@]}"
-ash_doc_assert_text_line_once \
-    "$sequence_output" \
-    "README must display the complete sequence output exactly once"
-ash_doc_assert_text_line_once \
-    "$retained_output" \
-    "README must display the retained-state output exactly once"
+ash_doc_check_sources "$unit_root" "$readme" \
+    src/03-opaque-pattern.ash src/04-opaque-construction.ash
+python3 "$unit_root/checks/check_display.py"
+python3 -m unittest discover -s "$unit_root/checks" -p 'test_*.py'
 
 ash_doc_finish 5
