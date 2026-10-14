@@ -17,6 +17,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
 BOOK_FAMILIES = ("learn", "libraries", "effects", "cases")
+FORMATS = ("html", "epub", "pdf", "pdf-a4")
 
 
 class Html(HTMLParser):
@@ -128,10 +129,28 @@ def verify_diagram_sources(jobs, records):
 def verify_build_metadata(metadata, records, root=ROOT):
     """Check generated identity against canonical indexes and exact source digests."""
     mode = metadata["mode"]
-    check(mode in ("book", "specimen"), f"unknown build mode: {mode}")
+    check(mode in ("book", "specimen", "lesson", "part"), f"unknown build mode: {mode}")
+    formats = metadata.get("formats", list(FORMATS))
+    check(isinstance(formats, list) and formats
+          and all(isinstance(value, str) and value in FORMATS for value in formats)
+          and len(set(formats)) == len(formats), "invalid requested formats")
+    selection = metadata.get("selection")
+    if mode == "lesson":
+        path = Path(selection or "")
+        check(len(path.parts) == 4 and path.parts[0] == "content"
+              and path.parts[1] in BOOK_FAMILIES and path.name == "README.md",
+              "lesson selection must name an indexed lesson")
+        families = (path.parts[1],)
+        expected_basename = f"ash-doc-{path.parts[1]}-{path.parts[2]}"
+    elif mode == "part":
+        check(selection in BOOK_FAMILIES, "part selection is not an indexed family")
+        families = (selection,)
+        expected_basename = f"ash-doc-{selection}"
+    else:
+        families = BOOK_FAMILIES
+        expected_basename = "ash-doc-review" if mode == "book" else "ash-doc-specimen"
     basename = metadata["output_file"]
-    check(basename == ("ash-doc-review" if mode == "book" else "ash-doc-specimen"),
-          f"output basename does not match {mode} mode")
+    check(basename == expected_basename, f"output basename does not match {mode} mode")
     check(isinstance(metadata["title"], str) and metadata["title"].strip(), "build has no title")
     config = json.loads((root / "rendering/specimen.json").read_text())
     check(metadata["ash_commit"] == config["ash_commit"], "build Ash target differs from the pinned edition")
@@ -143,9 +162,12 @@ def verify_build_metadata(metadata, records, root=ROOT):
     check(len(set(chapters)) == len(chapters), "duplicate chapter records")
     check(metadata["chapters"] == ["index.md", "setup.md"] + chapters,
           "build chapter order differs from source records")
-    lessons = {family: indexed_lessons(root, family) for family in BOOK_FAMILIES}
-    if mode == "book":
-        expected_sources = [source for family in BOOK_FAMILIES
+    if mode == "specimen":
+        families = tuple(family for family in BOOK_FAMILIES
+                         if any(Path(source).parts[1] == family for source in config["sources"]))
+    lessons = {family: indexed_lessons(root, family) for family in families}
+    if mode in ("book", "part"):
+        expected_sources = [source for family in families
                             for source in [f"content/{family}/README.md"] + lessons[family]]
         check(sources == expected_sources, "book sources differ from complete indexed reading order")
         for record in records:
@@ -156,9 +178,16 @@ def verify_build_metadata(metadata, records, root=ROOT):
         expected_parts = [{"family": family,
                            "introduction": records[sources.index(f"content/{family}/README.md")]["chapter"],
                            "chapters": [records[sources.index(source)]["chapter"] for source in lessons[family]]}
-                          for family in BOOK_FAMILIES]
+                          for family in families]
         check(metadata["parts"] == expected_parts, "book part introductions/chapters differ from indexed sources")
         expected_count = sum(len(sources) for sources in lessons.values())
+    elif mode == "lesson":
+        check(selection in lessons[families[0]], "lesson selection is not an indexed lesson")
+        check(sources == [selection], "lesson records differ from their selection")
+        check(records[0].get("role") == "lesson" and records[0].get("family") == families[0],
+              "lesson record has incorrect role or family")
+        check(metadata["parts"] == [], "lesson unexpectedly contains book parts")
+        expected_count = 1
     else:
         selected = set(config["sources"])
         family_order = []
@@ -508,15 +537,16 @@ def real_lesson_source(project, record):
             "cue_reference": cue_reference, "references": reference}
 
 
-def verify_canonical_assets(project, records):
+def verify_canonical_assets(project, records, published=True):
     root = Path(__file__).resolve().parents[2]
     count = 0
     for record in records:
         for asset in record.get("assets", []):
             canonical = root / asset["source"]
             staged = project / asset["staged"]
-            published = project / "output" / asset["staged"]
-            for path in (canonical, staged, published):
+            delivered = project / "output" / asset["staged"]
+            paths = (canonical, staged, delivered) if published else (canonical, staged)
+            for path in paths:
                 check(path.is_file(), f"canonical lesson asset missing: {path}")
                 check(hashlib.sha256(path.read_bytes()).hexdigest() == asset["sha256"],
                       f"canonical lesson asset differs from recorded source: {path}")
@@ -529,7 +559,6 @@ def verify_canonical_assets(project, records):
                     if attribute.rsplit("}", 1)[-1] == "href":
                         check(value.startswith("#"), f"{canonical}: external SVG resource")
             count += 1
-    check(count >= 2, "real lesson: both canonical images are not recorded and staged")
     return count
 
 
@@ -730,111 +759,121 @@ def verify(project):
     records = json.loads((project / "sources.json").read_text())
     basename = verify_build_metadata(metadata, records)
     specimen = metadata["mode"] == "specimen"
-    for filename in ("index.html", basename + ".epub", basename + ".pdf", basename + "-a4.pdf"):
-        check((output / filename).is_file(), f"required output missing: {filename}")
+    formats = metadata.get("formats", list(FORMATS))
+    names = {"html": "index.html", "epub": basename + ".epub",
+             "pdf": basename + ".pdf", "pdf-a4": basename + "-a4.pdf"}
+    for format in formats:
+        check((output / names[format]).is_file(), f"required output missing: {names[format]}")
     full_width = source_full_width(records) if specimen else None
-    lesson = next(record for record in records if record["source"] ==
-                  "content/cases/guaranteeing-logarithmic-retrieval/README.md")
+    lesson = next((record for record in records if record["source"] ==
+                   "content/cases/guaranteeing-logarithmic-retrieval/README.md"), None)
     jobs = json.loads((project / "diagram-jobs.json").read_text())["diagrams"]
     verify_diagram_sources(jobs, records)
-    pages = {path.name: Html(path.read_text()) for path in output.glob("*.html")}
-    lesson_page = pages[Path(lesson["chapter"]).with_suffix(".html").name]
-    for identifier in ("red-root-sketch", "repair-comparison", "fig-tree-repair", "height-counting-cue"):
-        check(identifier in lesson_page.ids, f"real lesson: missing rendered note/figure {identifier}")
-    lesson_expected = real_lesson_source(project, lesson)
-    canonical_assets = verify_canonical_assets(project, records)
-    for identifier, image in lesson_expected["images"].items():
-        matches = [actual for actual in lesson_page.images if actual.get("src") == image["src"]]
-        check(len(matches) == 1, f"real lesson: missing or duplicate {identifier} image")
-        check(matches[0].get("alt") == image["alt"], f"real lesson: {identifier} loses its description")
-    total = 0
-    for record in records:
-        page_name = Path(record["chapter"]).with_suffix(".html").name
-        check(page_name in pages, f"required source chapter missing: {page_name}")
-        page = pages[page_name]
-        check([heading_text(title) for title in page.headings] == [heading_text(record["title"])],
-              f"{page_name}: source chapter title differs from rendered HTML")
-        expected = [block["text"] for block in record["code"]]
-        check(page.pre == expected, f"{page_name}: rendered code/transcript differs from source")
-        total += len(expected)
-    for name, page in pages.items():
-        for href in page.links:
-            target = local_target(name, href)
-            if target is None:
-                continue
-            path, anchor = target
-            check((output / path).exists(), f"{name}: missing destination {href}")
-            if anchor and path in pages:
-                check(anchor in pages[path].ids, f"{name}: missing anchor {href}")
-    if full_width is not None:
-        verify_full_width_markup([example for page in pages.values() for example in page.full_width],
-                                 full_width, "HTML")
-
-    with zipfile.ZipFile(output / (basename + ".epub")) as archive:
-        xml = {name: ET.fromstring(archive.read(name)) for name in archive.namelist()
-               if name.endswith((".xhtml", ".svg", ".opf"))}
-        epub_ids = {name: {node.attrib["id"] for node in document.iter() if "id" in node.attrib}
-                    for name, document in xml.items()}
-        package_names = [name for name in xml if name.endswith(".opf")]
-        check(len(package_names) == 1, "EPUB has no unique package document")
-        package_name = package_names[0]
-        package = xml[package_name]
-        check(package.attrib["version"] == "3.0", "EPUB is not EPUB 3")
-        check("rendition:layout" not in archive.read(package_name).decode(), "EPUB unexpectedly fixes its layout")
-        associated = verify_epub_chapters(xml, package_name, records)
-        epub_full_width = []
-        notes = 0
-        expected_notes = sum(len(re.findall(r"^\[\^[^\]]+\]:",
-                            (project / record["chapter"]).read_text(), re.M)) for record in records)
-        for name, document in xml.items():
-            if not name.endswith(".xhtml"):
-                continue
-            for element in document.iter():
-                tag = element.tag.rsplit("}", 1)[-1]
-                if element.attrib.get("id") == "full-width-note":
-                    epub_full_width.append({"text": "".join(element.itertext()),
-                                            "tags": {node.tag.rsplit("}", 1)[-1] for node in element.iter()}})
-                if tag == "div":
-                    check("alt" not in element.attrib, f"{name}: invalid alt attribute on div")
-                if element.attrib.get("{http://www.idpf.org/2007/ops}type") == "noteref":
-                    notes += 1
-                for attribute in ("href", "src"):
-                    if attribute not in element.attrib:
-                        continue
-                    target = local_target(name, element.attrib[attribute])
-                    if target is None:
-                        continue
-                    path, anchor = target
-                    check(path in archive.namelist(), f"{name}: missing EPUB destination {target}")
-                    if anchor:
-                        check(anchor in epub_ids.get(path, set()), f"{name}: missing EPUB anchor {target}")
-        check(notes == expected_notes, "EPUB loses or duplicates source note references")
-        lesson_name, lesson_document = associated[lesson["source"]]
-        check("height-counting-cue" in epub_ids[lesson_name], "EPUB omits real lesson note styles")
-        for identifier, expected in lesson_expected["images"].items():
-            candidates = [node for node in lesson_document.iter()
-                          if node.attrib.get("id") == identifier]
-            check(len(candidates) == 1, f"EPUB: missing {identifier}")
-            image = next((node for node in candidates[0].iter()
-                          if node.tag.endswith("}img")), None)
-            check(image is not None and image.attrib.get("alt") == expected["alt"],
-                  f"EPUB: {identifier} loses its image or description")
-        notes_with_image = [node for node in lesson_document.iter()
-                            if node.attrib.get("{http://www.idpf.org/2007/ops}type") == "footnote"
-                            and any(child.attrib.get("id") == "red-root-sketch" for child in node.iter())]
-        check(len(notes_with_image) == 1, "EPUB: sketch is not inside its linked note")
-        note_id = notes_with_image[0].attrib["id"]
-        references = [node for node in lesson_document.iter()
-                      if node.attrib.get("{http://www.idpf.org/2007/ops}type") == "noteref"
-                      and node.attrib.get("href") == "#" + note_id]
-        check(len(references) == 1, "EPUB: graphical note has no unique reference")
-        check(references[0].attrib.get("id") in epub_ids[lesson_name],
-              "EPUB: graphical note reference has no return destination")
+    lesson_expected = real_lesson_source(project, lesson) if lesson else None
+    canonical_assets = verify_canonical_assets(project, records, published="html" in formats)
+    if lesson:
+        check(canonical_assets >= 2, "real lesson: both canonical images are not recorded and staged")
+    total = sum(len(record["code"]) for record in records)
+    pages = {}
+    if "html" in formats:
+        pages = {Path(chapter).with_suffix(".html").name: Html(
+            (output / Path(chapter).with_suffix(".html")).read_text()) for chapter in metadata["chapters"]}
+        if lesson is not None:
+            lesson_page = pages[Path(lesson["chapter"]).with_suffix(".html").name]
+            for identifier in ("red-root-sketch", "repair-comparison", "fig-tree-repair", "height-counting-cue"):
+                check(identifier in lesson_page.ids, f"real lesson: missing rendered note/figure {identifier}")
+            for identifier, image in lesson_expected["images"].items():
+                matches = [actual for actual in lesson_page.images if actual.get("src") == image["src"]]
+                check(len(matches) == 1, f"real lesson: missing or duplicate {identifier} image")
+                check(matches[0].get("alt") == image["alt"], f"real lesson: {identifier} loses its description")
+        for record in records:
+            page_name = Path(record["chapter"]).with_suffix(".html").name
+            check(page_name in pages, f"required source chapter missing: {page_name}")
+            page = pages[page_name]
+            check([heading_text(title) for title in page.headings] == [heading_text(record["title"])],
+                  f"{page_name}: source chapter title differs from rendered HTML")
+            expected = [block["text"] for block in record["code"]]
+            check(page.pre == expected, f"{page_name}: rendered code/transcript differs from source")
+        for name, page in pages.items():
+            for href in page.links:
+                target = local_target(name, href)
+                if target is None:
+                    continue
+                path, anchor = target
+                check((output / path).exists(), f"{name}: missing destination {href}")
+                if anchor and path in pages:
+                    check(anchor in pages[path].ids, f"{name}: missing anchor {href}")
         if full_width is not None:
-            verify_full_width_markup(epub_full_width, full_width, "EPUB")
+            verify_full_width_markup([example for page in pages.values() for example in page.full_width],
+                                     full_width, "HTML")
+
+    if "epub" in formats:
+        with zipfile.ZipFile(output / (basename + ".epub")) as archive:
+            xml = {name: ET.fromstring(archive.read(name)) for name in archive.namelist()
+                   if name.endswith((".xhtml", ".svg", ".opf"))}
+            epub_ids = {name: {node.attrib["id"] for node in document.iter() if "id" in node.attrib}
+                        for name, document in xml.items()}
+            package_names = [name for name in xml if name.endswith(".opf")]
+            check(len(package_names) == 1, "EPUB has no unique package document")
+            package_name = package_names[0]
+            package = xml[package_name]
+            check(package.attrib["version"] == "3.0", "EPUB is not EPUB 3")
+            check("rendition:layout" not in archive.read(package_name).decode(), "EPUB unexpectedly fixes its layout")
+            associated = verify_epub_chapters(xml, package_name, records)
+            epub_full_width = []
+            notes = 0
+            expected_notes = sum(len(re.findall(r"^\[\^[^\]]+\]:",
+                                (project / record["chapter"]).read_text(), re.M)) for record in records)
+            for name, document in xml.items():
+                if not name.endswith(".xhtml"):
+                    continue
+                for element in document.iter():
+                    tag = element.tag.rsplit("}", 1)[-1]
+                    if element.attrib.get("id") == "full-width-note":
+                        epub_full_width.append({"text": "".join(element.itertext()),
+                                                "tags": {node.tag.rsplit("}", 1)[-1] for node in element.iter()}})
+                    if tag == "div":
+                        check("alt" not in element.attrib, f"{name}: invalid alt attribute on div")
+                    if element.attrib.get("{http://www.idpf.org/2007/ops}type") == "noteref":
+                        notes += 1
+                    for attribute in ("href", "src"):
+                        if attribute not in element.attrib:
+                            continue
+                        target = local_target(name, element.attrib[attribute])
+                        if target is None:
+                            continue
+                        path, anchor = target
+                        check(path in archive.namelist(), f"{name}: missing EPUB destination {target}")
+                        if anchor:
+                            check(anchor in epub_ids.get(path, set()), f"{name}: missing EPUB anchor {target}")
+            check(notes == expected_notes, "EPUB loses or duplicates source note references")
+            if lesson is not None:
+                lesson_name, lesson_document = associated[lesson["source"]]
+                check("height-counting-cue" in epub_ids[lesson_name], "EPUB omits real lesson note styles")
+                for identifier, expected in lesson_expected["images"].items():
+                    candidates = [node for node in lesson_document.iter()
+                                  if node.attrib.get("id") == identifier]
+                    check(len(candidates) == 1, f"EPUB: missing {identifier}")
+                    image = next((node for node in candidates[0].iter()
+                                  if node.tag.endswith("}img")), None)
+                    check(image is not None and image.attrib.get("alt") == expected["alt"],
+                          f"EPUB: {identifier} loses its image or description")
+                notes_with_image = [node for node in lesson_document.iter()
+                                    if node.attrib.get("{http://www.idpf.org/2007/ops}type") == "footnote"
+                                    and any(child.attrib.get("id") == "red-root-sketch" for child in node.iter())]
+                check(len(notes_with_image) == 1, "EPUB: sketch is not inside its linked note")
+                note_id = notes_with_image[0].attrib["id"]
+                references = [node for node in lesson_document.iter()
+                              if node.attrib.get("{http://www.idpf.org/2007/ops}type") == "noteref"
+                              and node.attrib.get("href") == "#" + note_id]
+                check(len(references) == 1, "EPUB: graphical note has no unique reference")
+                check(references[0].attrib.get("id") in epub_ids[lesson_name],
+                      "EPUB: graphical note reference has no return destination")
+            if full_width is not None:
+                verify_full_width_markup(epub_full_width, full_width, "EPUB")
 
     for job in jobs:
-        svg = ET.parse(output / "assets" / (job["id"] + ".svg")).getroot()
+        svg = ET.parse(project / "assets" / (job["id"] + ".svg")).getroot()
         check("viewBox" in svg.attrib, f"{job['id']}: SVG has no viewport")
         descriptions = ["".join(node.itertext()) for node in svg if node.tag.endswith("}desc")]
         check(any(job["source"] in description for description in descriptions), f"{job['id']}: canonical notation missing")
@@ -845,12 +884,15 @@ def verify(project):
                     check(value.startswith("#"), f"{job['id']}: external SVG resource")
 
     notes = source_notes(project, records) if specimen else []
-    book_pages = verify_pdf(project, records, notes, full_width, basename + ".pdf", lesson=lesson_expected)
-    a4_pages = verify_pdf(project, records, notes, full_width, basename + "-a4.pdf", a4=True, lesson=lesson_expected)
+    print_pages = {}
+    for format in (value for value in formats if value.startswith("pdf")):
+        print_pages[format] = verify_pdf(project, records, notes, full_width, names[format],
+                                         a4=format == "pdf-a4", lesson=lesson_expected)
     print(f"Verified {metadata['mode']} with {metadata['lesson_count']} indexed lessons: "
-          f"{len(pages)} HTML pages, EPUB 3 chapter text/links/notes, {len(jobs)} static diagrams, "
-          f"{canonical_assets} canonical lesson assets, and {total} complete code/transcript blocks in all formats; "
-          f"book PDF {book_pages} pages and A4 PDF {a4_pages} pages with checked margins/notes.")
+          f"{', '.join(formats)}; {len(pages)} HTML pages, {len(jobs)} static diagrams, "
+          f"{canonical_assets} canonical lesson assets, {total} complete code/transcript blocks; "
+          f"PDF pages {print_pages} with checked margins/notes.")
+
 
 
 if __name__ == "__main__":

@@ -3,9 +3,25 @@
 Every active program, language claim, and tool observation targets Ash
 `diag-ash`, commit `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
 
+## Select the affected checks
+
+Follow the [task boundary](workflow.md#bound-the-task): choose checks from the
+action, scope, and changed inputs. For a lesson edit affecting programs,
+observations, or executable promises, run that lesson's local verifier:
+
+```sh
+bash content/cases/resuming-tree-traversal/checks/verify.sh /path/to/diag-ash
+```
+
+For a part task, run its affected lesson checks; use the family aggregate when
+the whole family's executable evidence needs verification. Reuse retained
+exact-pin evidence for unchanged inputs during prose or layout review. Do not
+rerun every program because one caption or print layout changed.
+
 ## Run the content checks
 
-Use a clean Ash checkout at that exact commit. From ash-doc, run:
+Use a clean Ash checkout at that exact commit. For complete-edition verification
+or a baseline migration, run all four family aggregates from ash-doc:
 
 ```text
 bash content/learn/checks/verify.sh /path/to/diag-ash
@@ -81,14 +97,18 @@ separate from the lesson's source observations.
 
 ## Review the rest
 
-The [rendering guide](rendering.md#verify-both-builds) gives the separate checks
-for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF. The
-complete review book includes thirteen Learn, eight Libraries, twelve Effects,
+The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
+checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
+The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
 and twenty Cases lessons, in that order, plus four family introductions. The
 default build retains the smaller specimen and its notation regressions.
 
-After building both modes through the guide, run their artifact and browser
-checks explicitly:
+Build the selected scope and requested formats through the guide, then run
+`verify.py` and, for HTML or EPUB, `browser.mjs` on that generated project. Run
+EPUBCheck only for selected EPUB output. A PDF-only review needs no browser.
+
+For a shared rendering task that needs both book and specimen regressions,
+the complete commands are:
 
 ```sh
 python3 -m unittest discover -s rendering/checks -p 'test_*.py'
@@ -115,7 +135,8 @@ search-tree layout regressions. These presentation checks supplement the
 executable lesson checks above. The linked development reports retain upstream
 notation and conversion failures separately.
 
-From the repository root, run Markdown lint and shell checks:
+Lint changed Markdown and, when Bash changes, check its syntax and run
+ShellCheck. For a repository-wide verification task, use:
 
 ```sh
 git ls-files -z '*.md' | xargs -0 markdownlint

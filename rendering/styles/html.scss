@@ -27,14 +27,18 @@ figcaption { font-size: .85rem; line-height: 1.45; text-align: left; }
 table { font-size: .9rem; }
 .on-this-page { margin: 1rem 0; font-family: system-ui, sans-serif; font-size: .85rem; }
 .on-this-page a { display: block; padding: .25rem 0; }
-@media (min-width: 992px) { .on-this-page { display: none; } }
+@media (min-width: 1200px) { .on-this-page { display: none; } }
+// Quarto moves the local TOC into the book sidebar below 1200px. A long
+// part can push it below the viewport, so retain a separate chapter disclosure.
+@media (max-width: 1199px) {
+  #quarto-content > .on-this-page { grid-column: body-start / body-end; grid-row: 1; }
+  #quarto-content > main.content { grid-row: 2; }
+  #quarto-content > .page-navigation { grid-row: 3; }
+}
 @media (max-width: 991px) {
   body { font-size: 1rem; }
   main.content h1 { font-size: 2rem; }
   main.content { min-width: 0; }
   main.content :not(pre) > code { white-space: pre-wrap; overflow-wrap: anywhere; }
-  #quarto-content > .on-this-page { grid-column: body-start / body-end; grid-row: 1; }
-  #quarto-content > main.content { grid-row: 2; }
-  #quarto-content > .page-navigation { grid-row: 3; }
   table { display: block; overflow-x: auto; }
 }

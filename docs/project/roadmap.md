@@ -53,9 +53,19 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
 
-The approved [scoped rendering plan](../plans/2026-10-14-scoped-rendering.md)
-is active. Task scope will govern editing, review, testing, source preparation,
-and requested output formats for lesson, part, book, and specimen work.
+Scoped review builds select one indexed lesson, one family part, the complete
+book, or the default specimen, with independent output-format selection.
+Preparation, artifact checks, and browser review follow the generated scope
+and requested formats. The [workflow](workflow.md#bound-the-task) also bounds
+editing, reading, review, executable checks, and reporting by the task's action
+and scope. Unchanged inputs retain applicable exact-pin evidence.
+
+The traversal lesson's two PDFs build in 10.4 seconds and verify in 0.7 seconds
+with cached tools on the local review host. The Learn part's HTML build takes
+28.2 seconds; full-book preparation alone takes 50.8 seconds. These measurements
+support selecting scope before considering incremental whole-book caching.
+The [rendering guide](rendering.md#scoped-build-evidence) records coverage and
+phase timings.
 
 The complete local review draft assembles all 53 indexed lessons in Learn →
 Libraries → Effects → Cases order, with four family introductions and shared

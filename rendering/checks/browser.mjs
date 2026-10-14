@@ -6,7 +6,7 @@ import { dirname, extname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export function browserPlan(build, sources, jobs) {
-  assert.ok(['book', 'specimen'].includes(build.mode), 'The build names its book or specimen mode.');
+  assert.ok(['book', 'specimen', 'lesson', 'part'].includes(build.mode), 'The build names its scope.');
   assert.ok(Array.isArray(build.chapters) && build.chapters.length > 0, 'The build records its chapters.');
   const chapters = build.chapters.map(chapter => {
     assert.match(chapter, /\.md$/, 'Chapter inputs are staged Markdown files.');
@@ -15,7 +15,13 @@ export function browserPlan(build, sources, jobs) {
   assert.equal(new Set(chapters).size, chapters.length, 'Chapter filenames are distinct.');
   for (const source of sources) assert.ok(build.chapters.includes(source.chapter),
     `${source.chapter} is missing from the build manifest.`);
-  return { chapters, sources, jobs, fixture: build.mode === 'specimen' ? sources.find(source =>
+  const formats = build.formats ?? ['html', 'epub', 'pdf', 'pdf-a4'];
+  assert.ok(Array.isArray(formats) && formats.length > 0 &&
+    formats.every(format => ['html', 'epub', 'pdf', 'pdf-a4'].includes(format)) &&
+    new Set(formats).size === formats.length, 'The build records distinct supported formats.');
+  const reviewHtml = formats.includes('html');
+  const reviewEpub = formats.includes('epub');
+  return { chapters: reviewHtml ? chapters : [], reviewHtml, reviewEpub, sources, jobs, fixture: build.mode === 'specimen' ? sources.find(source =>
     source.source === 'rendering/specimen/notation.md') : undefined };
 }
 
@@ -80,7 +86,7 @@ export function mapEpubChapters(spine, navigation, sources) {
 }
 
 async function main() {
-  assert.ok(process.argv.length <= 3, 'Usage: node rendering/checks/browser.mjs [.build/book|.build/specimen]');
+  assert.ok(process.argv.length <= 3, 'Usage: node rendering/checks/browser.mjs [generated-project]');
   const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
   const project = resolve(process.argv[2] ?? join(root, '.build/specimen'));
   const output = join(project, 'output');
@@ -92,13 +98,17 @@ async function main() {
     `browser-cache/chrome/linux-${chromeVersion}/chrome-linux64/chrome`);
   const modulePath = process.env.PUPPETEER_MODULE ?? join(toolchain,
     'mermaid/node_modules/puppeteer/lib/puppeteer/puppeteer.js');
-  const { default: puppeteer } = await import(pathToFileURL(modulePath).href);
   const sources = JSON.parse(await readFile(join(project, 'sources.json'), 'utf8'));
   const build = JSON.parse(await readFile(join(project, 'build.json'), 'utf8'));
   const jobs = JSON.parse(await readFile(join(project, 'diagram-jobs.json'), 'utf8')).diagrams;
-  const { chapters, fixture } = browserPlan(build, sources, jobs);
+  const { chapters, fixture, reviewHtml, reviewEpub } = browserPlan(build, sources, jobs);
+  if (!reviewHtml && !reviewEpub) {
+    console.log('No HTML or EPUB outputs selected; browser review does not apply.');
+    return;
+  }
+  const { default: puppeteer } = await import(pathToFileURL(modulePath).href);
   const quarto = join(toolchain, `quarto-${manifest.quarto.version}/bin/quarto`);
-  const localHeadings = new Map(await Promise.all(build.chapters.map(async chapter => {
+  const localHeadings = new Map(await Promise.all((reviewHtml ? build.chapters : []).map(async chapter => {
     const document = JSON.parse(execFileSync(quarto,
       ['pandoc', '--from', 'markdown-smart', '--to', 'json'],
       { input: await readFile(join(project, chapter), 'utf8'), encoding: 'utf8' }));
@@ -106,8 +116,7 @@ async function main() {
   })));
   const lessonSource = sources.find(source => source.source ===
     'content/cases/guaranteeing-logarithmic-retrieval/README.md');
-  assert.ok(lessonSource, 'The real search-tree lesson is selected.');
-  const lessonHtml = lessonSource.chapter.replace(/\.md$/, '.html');
+  const lessonHtml = lessonSource?.chapter.replace(/\.md$/, '.html');
   const fixtureHtml = fixture?.chapter.replace(/\.md$/, '.html');
   const report = { scope: 'Browser HTML and extracted EPUB XHTML; no e-reader compatibility claim.',
     mode: build.mode, outputFile: build.output_file, sourceCommit: build.source_commit,
@@ -117,11 +126,13 @@ async function main() {
     '.otf': 'font/otf', '.ttf': 'font/ttf', '.woff': 'font/woff' };
   await mkdir(qa, { recursive: true });
   const epub = join(qa, 'epub');
-  await rm(epub, { recursive: true, force: true });
-  execFileSync('python3', ['-c',
-    'import sys,zipfile; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])',
-    join(output, `${build.output_file}.epub`), epub]);
-  const epubStructure = JSON.parse(execFileSync('python3', ['-c', String.raw`
+  let epubChapters = [];
+  if (reviewEpub) {
+    await rm(epub, { recursive: true, force: true });
+    execFileSync('python3', ['-c',
+      'import sys,zipfile; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])',
+      join(output, `${build.output_file}.epub`), epub]);
+    const epubStructure = JSON.parse(execFileSync('python3', ['-c', String.raw`
 import json, posixpath, sys, xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -164,7 +175,8 @@ for reference in document.findall('.//{*}spine/{*}itemref'):
     spine.append({'href': name, 'headings': headings})
 print(json.dumps({'spine': spine, 'navigation': navigation}))
   `, epub], { encoding: 'utf8' }));
-  const epubChapters = mapEpubChapters(epubStructure.spine, epubStructure.navigation, sources);
+    epubChapters = mapEpubChapters(epubStructure.spine, epubStructure.navigation, sources);
+  }
 
   const server = createServer(async (request, response) => {
     try {
@@ -521,180 +533,199 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
         void request.abort();
       } else void request.continue();
     });
-    for (const [width, height, label] of [[1440, 1000, 'desktop'], [390, 844, 'mobile']]) {
-      await page.setViewport({ width, height });
-      for (const [index, chapter] of chapters.entries()) {
-        await load(page, chapter);
-        await check(`${label}: ${chapter} has no page overflow`, () => noOverflow(page));
-        await check(`${label}: ${chapter} previous and next follow chapter order`, async () => {
-          const navigation = await page.evaluate(() => ({
-            previous: document.querySelector('.nav-page-previous a')?.getAttribute('href'),
-            next: document.querySelector('.nav-page-next a')?.getAttribute('href')
-          }));
-          assert.equal(htmlChapterName(navigation.previous, origin), chapters[index - 1]);
-          assert.equal(htmlChapterName(navigation.next, origin), chapters[index + 1]);
-        });
-        const source = sources.find(item => item.chapter.replace(/\.md$/, '.html') === chapter);
-        if (source) {
-          await check(`${label}: ${chapter} retains its source title`, async () => {
-            assert.equal(headingText(await page.$eval('main h1', node => node.textContent)), headingText(source.title));
+    if (reviewHtml) {
+      for (const [width, height, label] of [[1440, 1000, 'desktop'], [390, 844, 'mobile']]) {
+        await page.setViewport({ width, height });
+        for (const [index, chapter] of chapters.entries()) {
+          await load(page, chapter);
+          await check(`${label}: ${chapter} has no page overflow`, () => noOverflow(page));
+          await check(`${label}: ${chapter} previous and next follow chapter order`, async () => {
+            const navigation = await page.evaluate(() => ({
+              previous: document.querySelector('.nav-page-previous a')?.getAttribute('href'),
+              next: document.querySelector('.nav-page-next a')?.getAttribute('href')
+            }));
+            assert.equal(htmlChapterName(navigation.previous, origin), chapters[index - 1]);
+            assert.equal(htmlChapterName(navigation.next, origin), chapters[index + 1]);
           });
-          await check(`${label}: ${chapter} retains exact code text`, () => exactCode(page, source));
-          await check(`${label}: ${chapter} source images load and fit`, () => images(page, source));
-        }
-        const requiredOverflow = build.mode === 'specimen' && [
-          'content/cases/guaranteeing-logarithmic-retrieval/README.md',
-          'content/libraries/requiring-element-behavior/README.md'
-        ].includes(source?.source);
-        await check(`${label}: ${chapter} overflowing code remains horizontally reachable`,
-          () => codeOverflow(page, 'main pre', requiredOverflow));
-        await check(`${label}: ${chapter} navigation follows the book and source headings`,
-          () => navigationChrome(page, chapter, label));
-        if (localHeadings.get(chapter).length) await check(`${label}: ${chapter} local navigation works by keyboard`,
-          () => localKeyboard(page, chapter, label));
-        if (label === 'mobile') await check(`${label}: ${chapter} navigation stays clear of the article`,
-          () => mobileNavigationPlacement(page, chapter));
-      }
-      await load(page, lessonHtml);
-      await check(`${label}: real lesson note forms, sketch, and wide figure fit`, () => realLessonNotes(page, label));
-      await check(`${label}: viewport capture preserves mixed-note geometry`, () => realLessonCapture(page, label));
-      if (label === 'mobile') await check('mobile: book navigation expands and collapses', async () => {
-        await load(page, lessonHtml);
-        await page.click('button.quarto-btn-toggle');
-        await page.waitForFunction(() => document.querySelector('#quarto-sidebar').classList.contains('show'));
-        assert.ok(await page.$eval('#quarto-sidebar .sidebar-menu-container', node =>
-          node.getBoundingClientRect().width > 100));
-        await page.click('button.quarto-btn-toggle');
-        await page.waitForFunction(() => {
-          const nav = document.querySelector('#quarto-sidebar');
-          return !nav.classList.contains('show') && !nav.classList.contains('collapsing');
-        });
-      });
-      await load(page, 'index.html');
-      await screenshot(page, `html-${label}.png`);
-      if (fixture) {
-        await load(page, fixtureHtml);
-        await check(`${label}: both notes remain available near their references`, async () => {
-          const notes = await page.evaluate(() => [...document.querySelectorAll('a.footnote-ref')].map(ref => {
-            const note = document.getElementById(new URL(ref.href).hash.slice(1));
-            const reference = ref.getBoundingClientRect();
-            const box = note?.getBoundingClientRect();
-            return { reference: reference.top, top: box?.top, width: box?.width, height: box?.height,
-              visible: note && getComputedStyle(note).visibility !== 'hidden', text: note?.textContent };
-          }));
-          assert.equal(notes.length, 2);
-          for (const note of notes) {
-            assert.ok(note.visible && note.width > 100 && note.height > 10,
-              'Linked note text remains visibly available.');
-            assert.ok(Math.abs(note.top - note.reference) < 500,
-              'The note remains associated with the nearby reference.');
-          }
-        });
-        await check(`${label}: selected static diagrams load and fit`, () => images(page, fixture));
-        await check(`${label}: full-width aside preserves complete text and formatting`, () => fullWidthContent(page));
-        await check(`${label}: full-width aside uses its reading area without overlap`, () => fullWidthLayout(page, label));
-        await page.evaluate(() => window.scrollTo(0, 0));
-        await screenshot(page, `html-notation-${label}.png`);
-        if (await page.$('#full-width-note')) await screenshot(page, `html-full-width-${label}.png`, '#full-width-note');
-        if (label === 'desktop') {
-          await screenshot(page, 'html-railroad.png', '#fig-grammar');
-          await screenshot(page, 'html-sequent.png', '#fig-inference');
-        }
-      }
-    }
-    await check('HTML has no uncaught JavaScript errors', () => assert.deepEqual(errors, []));
-    await page.setViewport({ width: 1024, height: 900 });
-    await load(page, fixtureHtml ?? lessonHtml);
-    await check('tablet: in-chapter navigation remains visible at 1024px', async () => {
-      const visible = await page.$eval('#TOC', node => {
-        const box = node.getBoundingClientRect();
-        return box.width > 100 && box.height > 0 && box.top < innerHeight && box.left >= 0 && box.right <= innerWidth;
-      });
-      assert.equal(visible, true, 'The floating chapter TOC remains available above the mobile cutoff.');
-    });
-    await page.setViewport({ width: 390, height: 844 });
-    await check('EPUB: source chapters follow manifest order', () => assert.deepEqual(
-      epubChapters.filter(chapter => chapter.source).map(chapter => chapter.source.chapter),
-      sources.map(source => source.chapter)));
-    for (const chapter of epubChapters) {
-      await load(page, `epub/${chapter.href}`);
-      await page.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
-      await check(`EPUB at enlarged text: ${chapter.href} reflows without overflow`, () => noOverflow(page));
-      const source = chapter.source;
-      if (source) {
-        await check(`EPUB: ${chapter.href} retains exact code text`, () => exactCode(page, source, 'pre > code'));
-        await check(`EPUB: ${chapter.href} source images load and fit`, () => images(page, source, 'img'));
-      }
-      await check(`EPUB: ${chapter.href} overflowing code remains reachable`, () => codeOverflow(page, 'pre'));
-      if (source?.source === lessonSource.source) {
-        await check('EPUB at enlarged text: real lesson notes and figures reflow', () => realLessonNotes(page, 'epub'));
-        await check('EPUB: graphical note reference and history return work', () => realLessonReference(page));
-        await check('EPUB: real lesson viewport capture preserves note geometry', () => realLessonCapture(page, 'epub'));
-      }
-    }
-    const epubFixture = fixture && epubChapters.find(chapter => chapter.source === fixture);
-    const epubLesson = epubChapters.find(chapter => chapter.source === lessonSource);
-    const preview = epubFixture ?? epubLesson;
-    await load(page, `epub/${preview.href}`);
-    await page.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
-    if (epubFixture) {
-      await check('EPUB: selected SVG diagrams and linked notes remain available', async () => {
-        await images(page, fixture, 'img');
-        const reference = await page.$eval('.footnote-ref', node => node.getAttribute('href'));
-        await page.click('.footnote-ref');
-        assert.equal(new URL(page.url()).hash, reference);
-        assert.ok(await page.$eval(reference, node => node.getBoundingClientRect().height > 10));
-      });
-      await check('EPUB: full-width aside preserves complete text and formatting', () => fullWidthContent(page));
-      await check('EPUB: full-width aside reflows at enlarged text', () => fullWidthLayout(page, 'epub'));
-    }
-    await check('Chrome HTML and EPUB previews require no external requests', () => assert.deepEqual(externalRequests, []));
-    await page.evaluate(() => window.scrollTo(0, 0));
-    await screenshot(page, 'epub-reflow-chrome.png', undefined, false);
-    await page.close();
-    let firefoxStarted = false;
-    try {
-      await access('/usr/bin/firefox');
-      await rm(join(qa, 'firefox-profile'), { recursive: true, force: true });
-      await mkdir(join(qa, 'firefox-profile'), { recursive: true });
-      const firefox = await puppeteer.launch({ browser: 'firefox', executablePath: '/usr/bin/firefox',
-        userDataDir: join(qa, 'firefox-profile'),
-        env: { ...process.env, MOZ_DISABLE_CONTENT_SANDBOX: '1' } });
-      firefoxStarted = true;
-      try {
-        const second = await firefox.newPage();
-        await second.setViewport({ width: 390, height: 844 });
-        for (const chapter of epubChapters) {
-          await load(second, `epub/${chapter.href}`);
-          await second.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
-          await check(`EPUB at enlarged text in Firefox: ${chapter.href} reflows without overflow`, () => noOverflow(second));
-          const source = chapter.source;
+          const source = sources.find(item => item.chapter.replace(/\.md$/, '.html') === chapter);
           if (source) {
-            await check(`EPUB in Firefox: ${chapter.href} retains exact code text`, () => exactCode(second, source, 'pre > code'));
-            await check(`EPUB in Firefox: ${chapter.href} source images load and fit`, () => images(second, source, 'img'));
+            await check(`${label}: ${chapter} retains its source title`, async () => {
+              assert.equal(headingText(await page.$eval('main h1', node => node.textContent)), headingText(source.title));
+            });
+            await check(`${label}: ${chapter} retains exact code text`, () => exactCode(page, source));
+            await check(`${label}: ${chapter} source images load and fit`, () => images(page, source));
           }
-          await check(`EPUB in Firefox: ${chapter.href} overflowing code remains reachable`, () => codeOverflow(second, 'pre'));
-          if (source?.source === lessonSource.source) {
-            await check('EPUB in Firefox: real lesson notes and figures reflow at enlarged text',
-              () => realLessonNotes(second, 'epub'));
-            await check('EPUB in Firefox: viewport capture preserves mixed-note geometry',
-              () => realLessonCapture(second, 'epub-firefox', 'epub'));
+          const requiredOverflow = build.mode === 'specimen' && [
+            'content/cases/guaranteeing-logarithmic-retrieval/README.md',
+            'content/libraries/requiring-element-behavior/README.md'
+          ].includes(source?.source);
+          await check(`${label}: ${chapter} overflowing code remains horizontally reachable`,
+            () => codeOverflow(page, 'main pre', requiredOverflow));
+          await check(`${label}: ${chapter} navigation follows the book and source headings`,
+            () => navigationChrome(page, chapter, label));
+          if (localHeadings.get(chapter).length) await check(`${label}: ${chapter} local navigation works by keyboard`,
+            () => localKeyboard(page, chapter, label));
+          if (label === 'mobile') await check(`${label}: ${chapter} navigation stays clear of the article`,
+            () => mobileNavigationPlacement(page, chapter));
+        }
+        if (lessonSource) {
+          await load(page, lessonHtml);
+          await check(`${label}: real lesson note forms, sketch, and wide figure fit`, () => realLessonNotes(page, label));
+          await check(`${label}: viewport capture preserves mixed-note geometry`, () => realLessonCapture(page, label));
+        }
+        if (label === 'mobile') await check('mobile: book navigation expands and collapses', async () => {
+          await load(page, lessonHtml ?? chapters[0]);
+          await page.click('button.quarto-btn-toggle');
+          await page.waitForFunction(() => document.querySelector('#quarto-sidebar').classList.contains('show'));
+          assert.ok(await page.$eval('#quarto-sidebar .sidebar-menu-container', node =>
+            node.getBoundingClientRect().width > 100));
+          await page.click('button.quarto-btn-toggle');
+          await page.waitForFunction(() => {
+            const nav = document.querySelector('#quarto-sidebar');
+            return !nav.classList.contains('show') && !nav.classList.contains('collapsing');
+          });
+        });
+        await load(page, 'index.html');
+        await screenshot(page, `html-${label}.png`);
+        if (fixture) {
+          await load(page, fixtureHtml);
+          await check(`${label}: both notes remain available near their references`, async () => {
+            const notes = await page.evaluate(() => [...document.querySelectorAll('a.footnote-ref')].map(ref => {
+              const note = document.getElementById(new URL(ref.href).hash.slice(1));
+              const reference = ref.getBoundingClientRect();
+              const box = note?.getBoundingClientRect();
+              return { reference: reference.top, top: box?.top, width: box?.width, height: box?.height,
+                visible: note && getComputedStyle(note).visibility !== 'hidden', text: note?.textContent };
+            }));
+            assert.equal(notes.length, 2);
+            for (const note of notes) {
+              assert.ok(note.visible && note.width > 100 && note.height > 10,
+                'Linked note text remains visibly available.');
+              assert.ok(Math.abs(note.top - note.reference) < 500,
+                'The note remains associated with the nearby reference.');
+            }
+          });
+          await check(`${label}: selected static diagrams load and fit`, () => images(page, fixture));
+          await check(`${label}: full-width aside preserves complete text and formatting`, () => fullWidthContent(page));
+          await check(`${label}: full-width aside uses its reading area without overlap`, () => fullWidthLayout(page, label));
+          await page.evaluate(() => window.scrollTo(0, 0));
+          await screenshot(page, `html-notation-${label}.png`);
+          if (await page.$('#full-width-note')) await screenshot(page, `html-full-width-${label}.png`, '#full-width-note');
+          if (label === 'desktop') {
+            await screenshot(page, 'html-railroad.png', '#fig-grammar');
+            await screenshot(page, 'html-sequent.png', '#fig-inference');
           }
         }
-        await load(second, `epub/${preview.href}`);
-        await second.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
-        if (epubFixture) {
-          await check('EPUB: Firefox loads selected static diagrams', () => images(second, fixture, 'img'));
-          await check('EPUB in Firefox: full-width aside preserves complete text and formatting', () => fullWidthContent(second));
-          await check('EPUB in Firefox: full-width aside reflows at enlarged text', () => fullWidthLayout(second, 'epub'));
-        }
-        await screenshot(second, 'epub-reflow-firefox.png', undefined, false);
-        report.secondaryEngine = { browser: await firefox.version(), status: 'previewed' };
-      } finally { await firefox.close(); }
-    } catch (error) {
-      report.secondaryEngine = { status: firefoxStarted ? 'failed' : 'unavailable', message: error.message };
-      if (firefoxStarted) report.checks.push({ name: 'Firefox EPUB preview completes', status: 'fail', message: error.message });
+      }
+      await check('HTML has no uncaught JavaScript errors', () => assert.deepEqual(errors, []));
+      await page.setViewport({ width: 1024, height: 900 });
+      const tocChapter = fixtureHtml ?? lessonHtml ?? chapters.find(chapter => chapter !== 'index.html' && localHeadings.get(chapter).length);
+      if (tocChapter) {
+        await load(page, tocChapter);
+        await check('tablet: in-chapter navigation remains available at 1024px', async () => {
+          const navigation = await page.evaluate(() => {
+            const visible = node => {
+              const box = node?.getBoundingClientRect();
+              return box && box.width > 100 && box.height > 0 && box.top >= 0 &&
+                box.top < innerHeight && box.left >= 0 && box.right <= innerWidth;
+            };
+            if (visible(document.querySelector('#TOC'))) return 'floating';
+            if (visible(document.querySelector('.on-this-page summary'))) return 'disclosure';
+          });
+          assert.ok(navigation, 'A visible local TOC or disclosure remains available on tablets.');
+          if (navigation === 'disclosure') {
+            await navigationChrome(page, tocChapter, 'mobile');
+            await localKeyboard(page, tocChapter, 'mobile');
+            await mobileNavigationPlacement(page, tocChapter);
+          }
+        });
+      }
     }
+    if (reviewEpub) {
+      await page.setViewport({ width: 390, height: 844 });
+      await check('EPUB: source chapters follow manifest order', () => assert.deepEqual(
+        epubChapters.filter(chapter => chapter.source).map(chapter => chapter.source.chapter),
+        sources.map(source => source.chapter)));
+      for (const chapter of epubChapters) {
+        await load(page, `epub/${chapter.href}`);
+        await page.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
+        await check(`EPUB at enlarged text: ${chapter.href} reflows without overflow`, () => noOverflow(page));
+        const source = chapter.source;
+        if (source) {
+          await check(`EPUB: ${chapter.href} retains exact code text`, () => exactCode(page, source, 'pre > code'));
+          await check(`EPUB: ${chapter.href} source images load and fit`, () => images(page, source, 'img'));
+        }
+        await check(`EPUB: ${chapter.href} overflowing code remains reachable`, () => codeOverflow(page, 'pre'));
+        if (lessonSource && source?.source === lessonSource.source) {
+          await check('EPUB at enlarged text: real lesson notes and figures reflow', () => realLessonNotes(page, 'epub'));
+          await check('EPUB: graphical note reference and history return work', () => realLessonReference(page));
+          await check('EPUB: real lesson viewport capture preserves note geometry', () => realLessonCapture(page, 'epub'));
+        }
+      }
+      const epubFixture = fixture && epubChapters.find(chapter => chapter.source === fixture);
+      const epubLesson = epubChapters.find(chapter => chapter.source === lessonSource);
+      const preview = epubFixture ?? epubLesson ?? epubChapters.find(chapter => chapter.source) ?? epubChapters[0];
+      await load(page, `epub/${preview.href}`);
+      await page.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
+      if (epubFixture) {
+        await check('EPUB: selected SVG diagrams and linked notes remain available', async () => {
+          await images(page, fixture, 'img');
+          const reference = await page.$eval('.footnote-ref', node => node.getAttribute('href'));
+          await page.click('.footnote-ref');
+          assert.equal(new URL(page.url()).hash, reference);
+          assert.ok(await page.$eval(reference, node => node.getBoundingClientRect().height > 10));
+        });
+        await check('EPUB: full-width aside preserves complete text and formatting', () => fullWidthContent(page));
+        await check('EPUB: full-width aside reflows at enlarged text', () => fullWidthLayout(page, 'epub'));
+      }
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await screenshot(page, 'epub-reflow-chrome.png', undefined, false);
+      let firefoxStarted = false;
+      try {
+        await access('/usr/bin/firefox');
+        await rm(join(qa, 'firefox-profile'), { recursive: true, force: true });
+        await mkdir(join(qa, 'firefox-profile'), { recursive: true });
+        const firefox = await puppeteer.launch({ browser: 'firefox', executablePath: '/usr/bin/firefox',
+          userDataDir: join(qa, 'firefox-profile'),
+          env: { ...process.env, MOZ_DISABLE_CONTENT_SANDBOX: '1' } });
+        firefoxStarted = true;
+        try {
+          const second = await firefox.newPage();
+          await second.setViewport({ width: 390, height: 844 });
+          for (const chapter of epubChapters) {
+            await load(second, `epub/${chapter.href}`);
+            await second.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
+            await check(`EPUB at enlarged text in Firefox: ${chapter.href} reflows without overflow`, () => noOverflow(second));
+            const source = chapter.source;
+            if (source) {
+              await check(`EPUB in Firefox: ${chapter.href} retains exact code text`, () => exactCode(second, source, 'pre > code'));
+              await check(`EPUB in Firefox: ${chapter.href} source images load and fit`, () => images(second, source, 'img'));
+            }
+            await check(`EPUB in Firefox: ${chapter.href} overflowing code remains reachable`, () => codeOverflow(second, 'pre'));
+            if (lessonSource && source?.source === lessonSource.source) {
+              await check('EPUB in Firefox: real lesson notes and figures reflow at enlarged text',
+                () => realLessonNotes(second, 'epub'));
+              await check('EPUB in Firefox: viewport capture preserves mixed-note geometry',
+                () => realLessonCapture(second, 'epub-firefox', 'epub'));
+            }
+          }
+          await load(second, `epub/${preview.href}`);
+          await second.evaluate(() => { document.documentElement.style.fontSize = '28px'; });
+          if (epubFixture) {
+            await check('EPUB: Firefox loads selected static diagrams', () => images(second, fixture, 'img'));
+            await check('EPUB in Firefox: full-width aside preserves complete text and formatting', () => fullWidthContent(second));
+            await check('EPUB in Firefox: full-width aside reflows at enlarged text', () => fullWidthLayout(second, 'epub'));
+          }
+          await screenshot(second, 'epub-reflow-firefox.png', undefined, false);
+          report.secondaryEngine = { browser: await firefox.version(), status: 'previewed' };
+        } finally { await firefox.close(); }
+      } catch (error) {
+        report.secondaryEngine = { status: firefoxStarted ? 'failed' : 'unavailable', message: error.message };
+        if (firefoxStarted) report.checks.push({ name: 'Firefox EPUB preview completes', status: 'fail', message: error.message });
+      }
+    }
+    await check('Selected Chrome previews require no external requests', () => assert.deepEqual(externalRequests, []));
+    await page.close();
   } finally {
     await browser?.close();
     await new Promise(complete => server.close(complete));

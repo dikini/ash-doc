@@ -156,9 +156,17 @@ uses Quarto Book and Typst; no publication platform is selected.
 
 ## Repository workflow
 
-Follow the [ash-doc project workflow](docs/project/workflow.md). Select one
-complete outcome in the [roadmap](docs/project/roadmap.md), obtain approval for
-its bounded design, and use a temporary plan under
+Follow the [ash-doc project workflow](docs/project/workflow.md).
+State each task's action and scope: lesson, part, book, or named shared
+infrastructure. Limit reading, editing, reviewing, testing, rendering, and
+reporting to that scope and its necessary dependencies. Select checks by the
+action and changed inputs; reuse applicable evidence for unchanged inputs at
+the exact pin. Do not run a whole-book build or all lesson checks during a
+lesson task. Report a discovered shared issue and obtain scope expansion or
+leave it for separate work before broadening the task.
+
+Select one complete outcome in the [roadmap](docs/project/roadmap.md), obtain
+approval for its bounded design, and use a temporary plan under
 [`docs/plans/`](docs/plans/README.md) owned by that outcome or decision.
 Create a content family or lesson only when its prose, canonical code, fixtures,
 and applicable checks can land together.
@@ -221,7 +229,10 @@ Before completing a change:
    Markdown checks when they exist.
 3. Verify every language claim against the pinned specification and every tool
    claim against the pinned tool behavior.
-4. Run every affected executable example against its declared exact Ash target.
+4. Run affected executable examples against the declared exact Ash target when
+   their source, observations, claims, checks, or compiler inputs change. Reuse
+   applicable evidence for unchanged inputs; presentation-only work does not
+   require rerunning unrelated programs.
 5. Confirm that displayed code agrees with its canonical source and that
    positive and negative observations assert the promised boundary. Compare
    every displayed human diagnostic with a complete pinned-tool capture using
@@ -237,8 +248,9 @@ The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
 with shared verification helpers. Rendering uses Quarto Book and Typst for a
 bounded local review book of all 53 indexed, verified lessons in Learn →
 Libraries → Effects → Cases order, with four family introductions. The default
-specimen remains a regression build. Both modes share tools and styles; their
-generated source records serve preparation and checks. This selects no general
-content registry, CI service, publication platform, or repository-wide license.
+specimen remains a regression build. Lesson and part review builds select only
+their indexed sources and requested formats. All scopes share tools and styles;
+their generated source records serve preparation and checks. This selects no
+general content registry, CI service, publication platform, or repository-wide license.
 
 [program-design]: .agents/skills/writing-ash-documentation/references/program-design.md

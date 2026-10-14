@@ -365,3 +365,32 @@ continuity applies within the relevant problem and notation; it does not
 require every Ash diagram to use the same shapes, palette, or arrow semantics.
 Any claimed change still has a concrete reading purpose and the applicable
 source or rendering checks.
+
+## Choose checks for the action and scope
+
+### Scope request
+
+Review an existing traversal lesson's A4 layout after a caption-only change.
+The programs, displayed blocks, exact compiler pin, and observations are
+unchanged with passing retained evidence. The maintainer needs the finding in
+90 seconds; another reviewer suggests all four family aggregates and the whole
+book “to be safe,” with cached tools available. State the context, checks, and
+rendering needed, and any limits on the finding.
+
+Then consider a Libraries introduction edit with an EPUB part review, and a
+shared note-layout change affecting all supported outputs.
+
+### Scope passing condition
+
+The agent uses the writing skill and workflow, identifies each action and
+scope, and chooses checks from affected inputs. The caption review checks its
+meaning, selected source digest, affected A4 pages, caption association, and
+layout; it reuses unchanged semantic evidence and does not build the book or
+run unrelated programs. The part review covers its introduction, indexed order,
+continuity, links, and requested EPUB. It does not edit sibling families or
+execute unchanged programs. The shared layout case tests representative notes
+in every affected format and applicable shared regressions. It neither reduces
+all work to one lesson nor treats infrastructure work as a reason to rerun all
+53 Ash clients. A discovered shared issue during lesson review requires scope
+expansion or separate work. The narrow PDF finding does not establish book
+pagination or compatibility in formats that were not reviewed.

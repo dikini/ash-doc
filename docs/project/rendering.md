@@ -53,7 +53,7 @@ three complete, indexed lessons:
 
 Their directories retain canonical programs and existing checks. The specimen
 derives its selected lesson order from the content and family indexes, rather
-than sorting directories. Both modes extract shared reader setup and diagnostic
+than sorting directories. All scopes extract shared reader setup and diagnostic
 conventions from the root README. Included lessons and family introductions
 link within the book. Other local source links point to an immutable ash-doc
 commit. Those source links require that commit to be available on GitHub; an
@@ -126,6 +126,8 @@ HTML keeps the book TOC, local TOC, and previous/next navigation in chrome
 outside the article. The right margin carries notes. A mobile disclosure
 retains chapter navigation when Quarto hides its floating TOC. Local fonts and
 assets supply the page; the theme's external web-font import is disabled.
+Below 1200 pixels, the chapter disclosure remains available when a long book
+sidebar would push the local TOC below the viewport.
 On narrow screens, inline constructors and long identifiers wrap. Program
 blocks retain their own horizontal scrolling.
 
@@ -230,9 +232,9 @@ storage and redirects caches there; it performs no host package installation.
 Railroad is evaluated at `366d5eaa937e9e9fbae3bf8d44265ccc2c528067`.
 Its callable input is `dist/rehype.js`. Sequent is evaluated at
 `21dad3d34b206b7964d2dd7edcab89a7b8f2b612`; its core input is
-`packages/core/src/index.js`. Build preparation requires these commits, clean
-tracked source, and the separately recorded hashes of the consumed module or
-bundle. A Git commit alone cannot authenticate an ignored build artifact.
+`packages/core/src/index.js`. Build preparation requires the selected diagram
+kinds' commits, clean tracked source, and the recorded hashes of each consumed
+module or bundle. A Git commit alone cannot authenticate an ignored build artifact.
 
 The fresh railroad source rebuild produced the same bundle hash recorded in
 the specimen configuration. It used the exact source archive, frozen npm
@@ -281,8 +283,9 @@ The complete review project stays in `.build/book/`, with `index.html`,
 projects retain each PDF's generated Typst source beside their staged chapters,
 using the corresponding PDF basename and `.typ` extension.
 
-Each project retains `build.json` with its mode, title, output basename, exact
-Ash and ash-doc commits, flattened chapter order, book parts, and lesson count.
+Each project retains `build.json` with its scope, requested formats, title,
+output basename, exact Ash and ash-doc commits, flattened chapter order, book
+parts, and lesson count.
 `sources.json` retains the selected canonical chapter paths and SHA-256 hashes,
 staged filenames, source titles and anchors, complete code/transcript blocks,
 and source asset records. Whole-book records distinguish introductions from
@@ -300,6 +303,69 @@ HTML, EPUB, and book PDF. Rebuild through `build.py` after source changes.
 tools without downloading. The build then uses local assets. Repeated diagram
 generation is checked for byte agreement. Whole-book byte identity is not
 claimed: Quarto and Pandoc retain generated identifiers and output metadata.
+
+## Build a selected scope
+
+A lesson review should assemble that lesson. A part review should assemble its
+introduction and indexed lessons. Both share the book's adapters, fonts, styles,
+and tool pins. Filtering an already assembled whole book would retain its cost;
+these selections happen before staging or rendering. Caching can be reconsidered
+if measurements expose substantial remaining work within a selected scope.
+
+Scope and output formats are independent:
+
+| Selection | Generated project |
+| --- | --- |
+| No scope flag: specimen | `.build/specimen/` |
+| `--lesson <lesson-path>` | `.build/lessons/<family>/<lesson>/` |
+| `--part <family>` | `.build/parts/<family>/` |
+| `--whole-book` | `.build/book/` |
+
+Lesson outputs use the basename `ash-doc-<family>-<lesson>`; part outputs use
+`ash-doc-<family>`.
+
+Choose one scope flag. A lesson must be linked from its active family index;
+unindexed drafts and paths outside the repository are rejected. A part retains
+its introduction and indexed lesson order. Scoped builds include shared reader
+setup; links to excluded chapters use the existing immutable source-link rule.
+
+Without `--formats`, the build renders HTML, EPUB 3, book PDF, and A4 PDF.
+Choose one or more of `html`, `epub`, `pdf`, and `pdf-a4` for a narrower review:
+
+```sh
+# Review a lesson in both print layouts.
+python3 rendering/build.py \
+    --lesson content/cases/resuming-tree-traversal/README.md \
+    --formats pdf pdf-a4
+
+# Review a part's browser navigation.
+python3 rendering/build.py --part learn --formats html
+
+# Prepare the complete book without rendering it.
+python3 rendering/build.py --whole-book --prepare-only
+```
+
+`--output <directory>` overrides the generated project location. A directory
+already prepared for another scope is rejected, so one draft cannot overwrite
+another. Rebuilding the same scope with different formats is allowed. Older,
+unrequested outputs may remain available there; they are not repaired or counted
+as current verification evidence. `build.json` records the scope, selected
+lesson or part, and requested formats. Artifact and browser checks use those
+records, and never substitute another scope or format when one is missing.
+
+Use the same project directory for the selected checks:
+
+```sh
+project=.build/lessons/cases/resuming-tree-traversal
+python3 rendering/checks/verify.py "$project"
+node rendering/checks/browser.mjs "$project"
+```
+
+For a PDF-only build, the artifact checker verifies only those PDFs and selected
+sources; browser review reports that it does not apply without launching a
+browser. HTML-only review never opens an EPUB. EPUB-only review never opens HTML
+pages. Run EPUBCheck only when EPUB is selected. Complete-book pagination still
+requires a complete-book render.
 
 ## Static notation and known tool boundaries
 
@@ -351,12 +417,16 @@ survives. Remove this compensation after unchanged upstream fixtures validate
 with adopted tools. The original Typst partial also avoids the defective
 bundled no-author cover default; it does not repair that default.
 
-## Verify both builds
+## Verify the affected scope
 
-Run all four content-family aggregates against the exact Ash checkout, as
-described in the [verification guide](verification.md). They cover all 53
-lessons before presentation checks. Build both modes, then run the shared
-preparation, artifact, and browser helper regressions:
+Follow the [task boundary](workflow.md#bound-the-task). Run affected lesson
+checks when canonical programs, observations, promises, checks, or compiler
+inputs change, as described in the [verification guide](verification.md).
+Reuse exact-pin evidence for unchanged inputs during a rendering task. A lesson
+review does not run the four family aggregates or build the complete book.
+
+When changing shared rendering infrastructure, run its affected preparation,
+artifact, and browser helper regressions:
 
 ```sh
 python3 -m unittest discover -s rendering/checks -p 'test_*.py'
@@ -432,8 +502,52 @@ screenshots and structured observations stay under each build's `qa-browser/`,
 so `.build/book/qa-browser/` and `.build/specimen/qa-browser/` retain separate
 evidence.
 The conformance probes documented in the two development reports retain the
-upstream failures separately from specimen success. Finish with Markdown lint,
-ShellCheck, relative-link review, source inspection, and `git diff --check`.
+upstream failures separately from specimen success. Lint changed Markdown and
+run ShellCheck when Bash changes. Review affected links and source, then run
+`git diff --check`.
+
+## Scoped build evidence
+
+The scoped infrastructure was checked on October 14, 2026 with the declared
+Quarto/tool pins and cached local tools. Preparation and rendering use wall-clock
+timings; some independent checks ran concurrently, so these are local review
+measurements rather than controlled performance benchmarks.
+
+| Selection and formats | Prepare | Render | Total build |
+| --- | --- | --- | --- |
+| Traversal lesson: both PDFs | 4.4 s | 3.4 + 2.7 s | 10.4 s |
+| Traversal lesson: HTML, EPUB | 2.4 s | 4.6 + 1.7 s | 8.7 s |
+| First Learn lesson: EPUB | 3.9 s | 1.9 s | 5.9 s |
+| Learn part: HTML | 16.3 s | 12.0 s | 28.2 s |
+| Book: preparation only | 50.8 s | — | 50.8 s |
+
+The traversal PDF check takes 0.7 seconds and verifies one lesson's 49 displayed
+blocks in 17 book pages and 16 A4 pages, including shared front matter. Visual
+review inspected all pages and representative wide code at readable scale. The
+Learn HTML check takes 0.3 seconds and verifies its introduction, thirteen
+lessons, sixteen pages, and 133 displayed blocks. Its desktop, mobile, and
+1024-pixel tablet browser review takes 50.8 seconds. Browser checks also pass
+for the traversal HTML/EPUB selection and an EPUB-only introductory lesson;
+selected EPUBs pass EPUBCheck without warnings. These checks do not execute
+unchanged canonical Ash programs or imply physical e-reader compatibility.
+
+The default specimen still builds all four formats and verifies its three
+lessons, notation fixture, four generated diagrams, six canonical assets, and
+both print layouts. The book preparation retains all 53 lessons and four parts
+in the complete indexed order. The updated artifact checker also passes on the
+retained whole-book HTML, EPUB, and both PDFs against unchanged canonical source
+digests; those outputs were reused, rather than regenerated in this task.
+Checking those retained book outputs takes 28.3 seconds.
+Shared unit tests cover selection, format dispatch, output-directory isolation,
+metadata identity, and the retained preparation and layout regressions.
+
+The writing-skill scope scenario exposed the old instruction to run all family
+aggregates and both full builds for a caption-only A4 review. With the revised
+workflow, a fresh agent selects one A4 lesson build and applicable checks, reuses
+unchanged executable evidence, and limits the finding to that PDF. It also
+selects only a Libraries EPUB part for a part review and representative affected
+formats for shared layout work. These are instruction-use observations, not
+claims that a manual caption inspection or reader comprehension was tested.
 
 ## Replacement and publication boundary
 

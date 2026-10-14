@@ -19,6 +19,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / ".build/toolchain"
 BOOK_FAMILIES = ("learn", "libraries", "effects", "cases")
+FORMATS = ("html", "epub", "pdf", "pdf-a4")
 
 
 def run(args, **kwargs):
@@ -87,7 +88,7 @@ def family_indexes(quarto):
     return families
 
 
-def family_lessons(quarto, index):
+def family_lessons(quarto, index, require_sources=True):
     indexed = []
     for node in walk(parse(quarto, index.read_text())["blocks"]):
         if node.get("t") != "Link":
@@ -97,7 +98,7 @@ def family_lessons(quarto, index):
             continue
         path = (index.parent / unquote(target.path)).resolve()
         if path.parent.parent == index.parent and path.name == "README.md":
-            if not path.is_file():
+            if require_sources and not path.is_file():
                 raise ValueError(f"{index}: indexed lesson is missing: {target.path}")
             relative = path.relative_to(ROOT).as_posix()
             if relative not in indexed:
@@ -106,8 +107,10 @@ def family_lessons(quarto, index):
 
 
 def ordered_sources(quarto, selected):
+    families = {Path(source).parts[1] for source in selected}
     indexed = [source for index in family_indexes(quarto)
-               for source in family_lessons(quarto, index)]
+               if index.parent.name in families
+               for source in family_lessons(quarto, index, require_sources=False)]
     for source in selected:
         if source not in indexed:
             raise ValueError(f"{source}: not an indexed lesson")
@@ -138,6 +141,56 @@ def whole_book_sources(quarto):
         parts.append({"family": family, "introduction": chapter_name(introduction),
                       "chapters": [chapter_name(source) for source in lessons]})
     return sources, parts
+
+
+def select_sources(args, config):
+    """Resolve one declared scope without opening unrelated lesson sources."""
+    lesson = getattr(args, "lesson", None)
+    part = getattr(args, "part", None)
+    book = getattr(args, "whole_book", False)
+    if sum(bool(value) for value in (lesson, part, book)) > 1:
+        raise ValueError("select only one build scope")
+    if lesson:
+        path = (ROOT / lesson).resolve()
+        if not path.is_relative_to(ROOT):
+            raise ValueError("lesson must be inside the repository")
+        relative = path.relative_to(ROOT)
+        if (len(relative.parts) != 4 or relative.parts[0] != "content"
+                or relative.parts[1] not in BOOK_FAMILIES or relative.name != "README.md"):
+            raise ValueError("lesson must name an indexed lesson README.md")
+        family, name = relative.parts[1:3]
+        index = ROOT / "content" / family / "README.md"
+        if (index not in family_indexes(args.quarto) or relative.as_posix() not in
+                family_lessons(args.quarto, index, require_sources=False)):
+            raise ValueError(f"{relative}: not an indexed lesson")
+        return {"mode": "lesson", "selection": relative.as_posix(),
+                "sources": [relative.as_posix()], "parts": [],
+                "title": "Ash documentation lesson review", "output_file": f"ash-doc-{family}-{name}",
+                "directory": f".build/lessons/{family}/{name}"}
+    if part:
+        if part not in BOOK_FAMILIES:
+            raise ValueError(f"unknown part: {part}")
+        index = ROOT / "content" / part / "README.md"
+        if index not in family_indexes(args.quarto):
+            raise ValueError(f"{part}: not an indexed part")
+        lessons = family_lessons(args.quarto, index)
+        if not lessons:
+            raise ValueError(f"{index}: family has no indexed lessons")
+        introduction = index.relative_to(ROOT).as_posix()
+        return {"mode": "part", "selection": part, "sources": [introduction, *lessons],
+                "parts": [{"family": part, "introduction": chapter_name(introduction),
+                           "chapters": [chapter_name(source) for source in lessons]}],
+                "title": f"Ash documentation {part.title()} review", "output_file": f"ash-doc-{part}",
+                "directory": f".build/parts/{part}"}
+    if book:
+        sources, parts = whole_book_sources(args.quarto)
+        return {"mode": "book", "selection": None, "sources": sources, "parts": parts,
+                "title": "Ash documentation review draft", "output_file": "ash-doc-review",
+                "directory": ".build/book"}
+    return {"mode": "specimen", "selection": None,
+            "sources": ordered_sources(args.quarto, config["sources"]) + config["fixtures"], "parts": [],
+            "title": "Ash documentation rendering specimen", "output_file": "ash-doc-specimen",
+            "directory": ".build/specimen"}
 
 
 def transform_links(document, source, mapping, commit):
@@ -351,19 +404,26 @@ def prepare(args):
         raise ValueError(f"Quarto {config['quarto_version']} required; found {version}")
     if config["ash_commit"] not in (ROOT / "README.md").read_text():
         raise ValueError("specimen Ash target differs from the current edition")
-    whole_book = getattr(args, "whole_book", False)
-    if whole_book:
-        sources, parts = whole_book_sources(args.quarto)
-        title, output_file = "Ash documentation review draft", "ash-doc-review"
-    else:
-        sources = ordered_sources(args.quarto, config["sources"]) + config["fixtures"]
-        parts = []
-        title, output_file = "Ash documentation rendering specimen", "ash-doc-specimen"
+    scope = select_sources(args, config)
+    sources, parts = scope["sources"], scope["parts"]
+    title, output_file = scope["title"], scope["output_file"]
+    formats = list(FORMATS) if getattr(args, "formats", None) is None else args.formats
+    if not formats or len(set(formats)) != len(formats) or any(value not in FORMATS for value in formats):
+        raise ValueError("formats must be distinct choices from html, epub, pdf, pdf-a4")
+    formats = [value for value in FORMATS if value in formats]
+    args.output = getattr(args, "output", None) or ROOT / scope["directory"]
+    args.output = args.output.resolve()
     config["output_file"] = output_file
+    config["formats"] = formats
     mapping = {source: chapter_name(source) for source in sources}
     if len(set(mapping.values())) != len(mapping):
         raise ValueError("chapter filenames collide")
     commit = run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    previous = args.output / "build.json"
+    if previous.is_file():
+        identity = json.loads(previous.read_text())
+        if (identity["mode"], identity.get("selection")) != (scope["mode"], scope["selection"]):
+            raise ValueError("output directory belongs to another build scope; choose a separate --output")
     args.output.mkdir(parents=True, exist_ok=True)
     marker = args.output / ".ash-doc-rendering"
     if any(args.output.iterdir()) and not marker.exists():
@@ -399,15 +459,20 @@ def prepare(args):
         "reusable abstractions; the effects chapters develop requests, control, "
         "and scoped resources. The Cases then calculate algorithms and apply "
         "those ideas to larger problems. Follow each part in order, using its "
-        "introduction for reading and practice guidance.\n") if whole_book else (
+        "introduction for reading and practice guidance.\n") if scope["mode"] == "book" else (
+        "# Ash documentation\n\nBegin with reader setup, then follow the selected "
+        "lesson or part. References to other chapters retain their source links.\n") if scope["mode"] in ("lesson", "part") else (
         "# Ash documentation\n\nThis local specimen tests the presentation of verified lessons "
         "and labelled notation fixtures in three formats.\n\nThe lessons target `diag-ash`, commit `"
         + config["ash_commit"] + "`. The edition remains unpublished.\n\n"
         "Begin with reader setup, then use the contents to select a chapter.\n")
     (args.output / "index.md").write_text(introduction, encoding="utf-8")
     chapters = ([{"part": part["introduction"], "chapters": part["chapters"]} for part in parts]
-                if whole_book else list(mapping.values()))
-    (args.output / "_quarto.yml").write_text(json.dumps(configuration(chapters, title, output_file), indent=2), encoding="utf-8")
+                if parts else list(mapping.values()))
+    settings = configuration(chapters, title, output_file)
+    requested = {"typst" if value.startswith("pdf") else value for value in formats}
+    settings["format"] = {key: value for key, value in settings["format"].items() if key in requested}
+    (args.output / "_quarto.yml").write_text(json.dumps(settings, indent=2), encoding="utf-8")
     (args.output / "_quarto-a4.yml").write_text(json.dumps({
         "book": {"output-file": output_file + "-a4"},
         "pdf-a4": True,
@@ -415,7 +480,7 @@ def prepare(args):
     }, indent=2), encoding="utf-8")
     (args.output / "sources.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
     (args.output / "build.json").write_text(json.dumps({
-        "mode": "book" if whole_book else "specimen", "title": title,
+        "mode": scope["mode"], "selection": scope["selection"], "formats": formats, "title": title,
         "output_file": output_file, "source_commit": commit, "ash_commit": config["ash_commit"],
         "chapters": ["index.md", "setup.md", *mapping.values()], "parts": parts,
         "lesson_count": sum(record["role"] == "lesson" for record in records),
@@ -425,19 +490,21 @@ def prepare(args):
     return config
 
 
-def repair_figure_wrappers(output, output_file="ash-doc-specimen"):
+def repair_figure_wrappers(output, output_file="ash-doc-specimen", formats=FORMATS):
     """Compensate for QT-01 without changing the valid image alt attribute."""
     wrapper = re.compile(r'<div\b[^>]*\bclass="[^"]*\bquarto-float\b[^"]*"[^>]*>')
 
     def repair(text):
         return wrapper.sub(lambda match: re.sub(r'\s+alt="[^"]*"', '', match.group()), text)
 
-    for path in output.glob("*.html"):
+    for path in output.glob("*.html") if "html" in formats else ():
         text = path.read_text(encoding="utf-8")
         corrected = repair(text)
         if corrected != text:
             path.write_text(corrected, encoding="utf-8")
     path = output / (output_file + ".epub")
+    if "epub" not in formats or not path.is_file():
+        return
     temporary = path.with_suffix(".epub.partial")
     try:
         with zipfile.ZipFile(path) as original, zipfile.ZipFile(temporary, "w") as corrected:
@@ -451,10 +518,24 @@ def repair_figure_wrappers(output, output_file="ash-doc-specimen"):
         temporary.unlink(missing_ok=True)
 
 
+def render_formats(args, formats, environment, output_file):
+    for format in formats:
+        command = [args.quarto, "render", "--to", "typst" if format.startswith("pdf") else format, "--no-clean"]
+        if format == "pdf-a4":
+            command += ["--profile", "a4"]
+        run(command, cwd=args.output, env=environment)
+        if format.startswith("pdf"):
+            suffix = "-a4" if format == "pdf-a4" else ""
+            shutil.copyfile(args.output / "index.typ", args.output / (output_file + suffix + ".typ"))
+
+
 def build(args, config):
     job_path = args.output / "diagram-jobs.json"
     jobs = json.loads(job_path.read_text())
-    for key, path in (("railroad", args.railroad), ("sequent", args.sequent)):
+    kinds = {job["kind"] for job in jobs["diagrams"]}
+    for key, path, kind in (("railroad", args.railroad, "ebnf"), ("sequent", args.sequent, "sequent")):
+        if kind not in kinds:
+            continue
         actual = run(["git", "rev-parse", "HEAD"], cwd=path, capture_output=True, text=True).stdout.strip()
         if actual != config["renderers"][key]:
             raise ValueError(f"{key} commit {config['renderers'][key]} required; found {actual}")
@@ -469,7 +550,8 @@ def build(args, config):
                  "browser": str(args.browser), "fonts": str(ROOT / "rendering/fonts"),
                  "pdftocairo": shutil.which("pdftocairo")})
     job_path.write_text(json.dumps(jobs, indent=2), encoding="utf-8")
-    run(["node", ROOT / "rendering/diagrams.mjs", job_path])
+    if jobs["diagrams"]:
+        run(["node", ROOT / "rendering/diagrams.mjs", job_path])
     environment = os.environ.copy()
     environment["XDG_CACHE_HOME"] = str(TOOLS / "cache")
     environment["TYPST_FONT_PATHS"] = str(ROOT / "rendering/fonts")
@@ -477,25 +559,27 @@ def build(args, config):
     environment.pop("QUARTO_PROFILE", None)
     environment["SOURCE_DATE_EPOCH"] = run(["git", "show", "-s", "--format=%ct", "HEAD"], cwd=ROOT,
                                           capture_output=True, text=True).stdout.strip()
-    run([args.quarto, "render", "--to", "all"], cwd=args.output, env=environment)
     output_file = config["output_file"]
-    shutil.copyfile(args.output / "index.typ", args.output / (output_file + ".typ"))
-    run([args.quarto, "render", "--to", "typst", "--profile", "a4", "--no-clean"],
-        cwd=args.output, env=environment)
-    shutil.copyfile(args.output / "index.typ", args.output / (output_file + "-a4.typ"))
-    repair_figure_wrappers(args.output / "output", output_file)
-    for name in ("index.html", output_file + ".epub", output_file + ".pdf",
-                 output_file + "-a4.pdf"):
+    formats = config.get("formats", FORMATS)
+    render_formats(args, formats, environment, output_file)
+    repair_figure_wrappers(args.output / "output", output_file, formats)
+    names = {"html": "index.html", "epub": output_file + ".epub",
+             "pdf": output_file + ".pdf", "pdf-a4": output_file + "-a4.pdf"}
+    for name in (names[value] for value in formats):
         if not (args.output / "output" / name).is_file():
             raise ValueError(f"required output missing: {name}")
-    print(f"Built HTML, EPUB 3, book PDF, and A4 PDF in {args.output / 'output'}")
+    print(f"Built {', '.join(formats)} in {args.output / 'output'}")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prepare-only", action="store_true")
-    parser.add_argument("--whole-book", action="store_true",
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--whole-book", action="store_true",
                         help="render all indexed lessons in Learn, Libraries, Effects, Cases order")
+    scope.add_argument("--lesson", type=Path, help="render one indexed lesson README.md")
+    scope.add_argument("--part", choices=BOOK_FAMILIES, help="render one indexed family and its introduction")
+    parser.add_argument("--formats", nargs="+", choices=FORMATS, help="requested outputs (default: all four)")
     parser.add_argument("--specimen", type=Path, default=ROOT / "rendering/specimen.json")
     parser.add_argument("--quarto", type=Path, default=TOOLS / "quarto-1.10.19/bin/quarto")
     parser.add_argument("--output", type=Path)
@@ -503,14 +587,13 @@ def main():
     parser.add_argument("--sequent", type=Path)
     parser.add_argument("--browser", type=Path, default=TOOLS / "browser-cache/chrome/linux-152.0.7977.75/chrome-linux64/chrome")
     args = parser.parse_args()
-    args.output = args.output or ROOT / (".build/book" if args.whole_book else ".build/specimen")
     os.environ.setdefault("XDG_CACHE_HOME", str(TOOLS / "cache"))
     common = run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
                  cwd=ROOT, capture_output=True, text=True).stdout.strip()
     siblings = Path(common).parent.parent
     args.railroad = args.railroad or siblings / "railroad"
     args.sequent = args.sequent or siblings / "sequent-md"
-    for key in ("specimen", "quarto", "output", "railroad", "sequent", "browser"):
+    for key in ("specimen", "quarto", "railroad", "sequent", "browser"):
         setattr(args, key, getattr(args, key).resolve())
     try:
         config = prepare(args)

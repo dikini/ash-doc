@@ -33,6 +33,15 @@ decisions, evidence, state, and exclusions. The root owns the edition target
 and the learning index owns setup and order. Lessons assume both and hide
 administration. Add YAML metadata only for a concrete consumer.
 
+## Keep work within its scope
+
+Follow the [workflow's task boundary](../../../docs/project/workflow.md#bound-the-task):
+state the action and selected lesson, part, book, or shared infrastructure.
+Reconstruct only the context needed for that action. Choose executable and
+presentation checks from changed inputs and requested outputs; reuse applicable
+exact-pin evidence for unchanged inputs. Report shared issues discovered in a
+lesson task before expanding its scope.
+
 ## Write a learning chapter
 
 - Before the first command, give the reader a reason and a working model,
@@ -141,6 +150,10 @@ departures in project records. Write original prose and code, with required
 attribution.
 
 ## Review
+
+Apply these questions to the material affected by the task, within its declared
+scope. Check a new formatting choice in the formats it must support; reviewing
+one existing PDF layout does not require regenerating every other format.
 
 - Does the chapter work without an assistant?
 - Does its opening establish a reason and model before directing the reader?

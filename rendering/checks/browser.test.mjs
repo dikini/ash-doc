@@ -127,3 +127,15 @@ test('EPUB mapping rejects a missing or ambiguous lesson instead of skipping its
     { href: 'EPUB/text/b.xhtml', headings: [heading] }
   ], [], [source]), /one\/README.md.*ambiguous/);
 });
+
+test('lesson and part browser plans follow only requested formats and selected chapters', async () => {
+  const browserPlan = await helper('browserPlan');
+  const source={source:'content/cases/first/README.md',chapter:'cases-first.md'};
+  const build={mode:'lesson',formats:['pdf','pdf-a4'],chapters:['index.md','setup.md','cases-first.md']};
+  assert.deepEqual(browserPlan(build,[source],[]).chapters,[]);
+  assert.equal(browserPlan(build,[source],[]).reviewEpub,false);
+  const epub=browserPlan({...build,formats:['epub']},[source],[]);
+  assert.equal(epub.reviewEpub,true);
+  assert.deepEqual(epub.chapters,[]);
+  assert.equal(browserPlan({...build,mode:'part',formats:['html']},[source],[]).reviewHtml,true);
+});

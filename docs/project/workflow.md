@@ -32,6 +32,40 @@ is ignored by Git; its worktrees and build artifacts remain local. Give each
 worktree its own branch, and perform the complete planning, writing, and
 verification cycle there.
 
+## Bound the task
+
+State the action and scope before work: for example, edit one lesson, review a
+part, test the book, or change shared rendering infrastructure. Scope bounds
+context reconstruction, edits, review, executable checks, rendering, and the
+completion report. It is an upper bound, not a requirement to run every check
+inside it.
+
+- **Lesson:** its prose, canonical programs, observations, assets, and local
+  checks; read prerequisites only where the explanation needs them.
+- **Part:** its introduction, indexed order, and affected lessons; check
+  continuity and links within that part.
+- **Book:** cross-part order, shared infrastructure, navigation, and
+  complete-book pagination where the task changes them.
+
+Choose checks from the action and changed inputs. A prose edit that changes an
+executable promise needs the affected canonical and observation checks. A
+layout review needs the selected outputs and their presentation checks. Reuse
+recorded evidence for unchanged programs, observations, and the exact compiler
+pin; a layout change alone does not require executing every lesson again.
+A source change invalidates any evidence that depends on that source.
+
+Prepare only the selected lesson or part, and request only the formats needed
+for the review. The [rendering guide](rendering.md#build-a-selected-scope) gives
+commands. Checking a lesson PDF does not establish the whole book's pagination.
+Whole-book checks belong to a book task or an explicitly approved expansion.
+
+If a lesson task exposes a shared style, tool, or policy issue, report it and
+request expansion of the task or retain it for separate work. Do not silently
+edit shared infrastructure, inspect unrelated chapters, or launch whole-book
+verification. A task already scoped to shared infrastructure checks the affected
+shared paths, using representative lessons and retained book/specimen
+regressions where needed.
+
 ## Plan one complete lesson
 
 Use the [beginning learning path](beginning-learning-path.md) to understand the
@@ -113,7 +147,8 @@ Before marking a lesson verified:
 
 1. Check language claims against the specification at the declared commit.
 2. Check tool claims and commands against the tool at the same commit.
-3. Run the lesson's positive, negative, and source-agreement checks.
+3. Run affected positive, negative, and source-agreement checks within the
+   task's scope; retain applicable evidence for unchanged inputs.
 4. Review continuity, prerequisites, outcomes, navigation, attribution, and
    licenses.
 5. Classify every discovery without promoting it into Ash truth.
