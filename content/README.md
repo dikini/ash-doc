@@ -4,6 +4,10 @@ This root contains material intended for a coherent, version-pinned Ash
 documentation edition. Content explains and tests Ash; it does not define the
 language.
 
+The shared [cover illustration](ash-cover.png) is retained for PDF, ebook,
+and HTML use. Its [project record](../docs/project/cover-illustration.md)
+contains the generation prompt, provenance, and placement guidance.
+
 All four families are verified at the current Diag Ash target declared by the
 [repository](../README.md#current-edition-diag-ash). Code, prose, and
 checks share that exact baseline:

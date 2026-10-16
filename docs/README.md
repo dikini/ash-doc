@@ -15,6 +15,8 @@ does not contain published Ash instruction or define Ash behavior.
   covers stepwise calculation and readable code; its
   [formatting reference][formatting] covers notes, visual continuity, and output
   layouts. [Writing scenarios][writing-scenarios] test application of the rules.
+- [Cover illustration](project/cover-illustration.md) records the retained
+  artwork, its use, and the generation prompt.
 - [Rendering](project/rendering.md) gives the complete local review book and
   regression specimen in HTML, EPUB 3, and both PDFs, with their tool boundary
   and checks. The
