@@ -558,6 +558,9 @@ no framework or tooling. The three observations pass at the current baseline.
 ## Application Cases from DN-0052
 
 **State: proposed; implementation and verification remain open.**
+[The coordination plan](../plans/2026-10-16-application-cases-integration.md)
+and its eight standalone briefs record the selected implementation design,
+parallel ownership, GitHub issues and PRs, and final rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
@@ -581,6 +584,8 @@ active navigation.
 
 ### A1. How can cleanup failures preserve the primary outcome?
 
+[Implementation plan](../plans/2026-10-16-a1-cleanup-reporting.md).
+
 Follow [E9 cleanup](../../content/effects/running-cleanup/README.md) with a
 finite batch calculation whose body returns success or a primary error.
 Derive a report API that retains that outcome alongside ordered cleanup
@@ -599,6 +604,8 @@ Keep reporting separate from native release, retries, and internal termination;
 these completion failures are source-level application models.
 
 ### A2. How can a local pricing policy capture configuration?
+
+[Implementation plan](../plans/2026-10-16-a2-scoped-pricing.md).
 
 Continue [requested order prices](../../content/cases/supplying-order-prices/README.md)
 after [nominal wrappers](../../content/libraries/wrapping-a-representation/README.md)
@@ -620,6 +627,8 @@ evidence fact. The reader can explain lexical selection without treating it
 as global implementation search or runtime-fresh nominal identity.
 
 ### A3. How can a generic system query an immutable ECS world?
+
+[Implementation plan](../plans/2026-10-16-a3-immutable-ecs.md).
 
 Build an entity-component-system (ECS) world with named position and velocity
 stores over ordinary immutable collections. Follow the
@@ -644,6 +653,8 @@ extension is separate follow-up work if the fixed schema establishes a need.
 
 ### A4. How can cancellation explicitly roll back a journal?
 
+[Implementation plan](../plans/2026-10-16-a4-cancellable-journal.md).
+
 Follow [E7 cells](../../content/effects/counting-with-a-cell/README.md),
 [E6 discard](../../content/effects/stopping-a-calculation/README.md), and
 [E9 cleanup](../../content/effects/running-cleanup/README.md).
@@ -661,6 +672,8 @@ the compensation protocol. This models in-memory application behavior; it
 claims neither automatic rollback nor database isolation.
 
 ### A5. When must an event be redacted before publication?
+
+[Implementation plan](../plans/2026-10-16-a5-event-redaction.md).
 
 Continue the [hook pipeline](../../content/cases/controlling-a-hook-pipeline/README.md)
 after [E10 hooks](../../content/effects/transforming-publications/README.md).
@@ -681,6 +694,8 @@ or introspection.
 
 ### A6. How can a controller check a worker's proposed edits?
 
+[Implementation plan](../plans/2026-10-16-a6-controlled-edits.md).
+
 Continue [scripted sessions](../../content/cases/running-a-scripted-session/README.md)
 after [E5 resumption](../../content/effects/resuming-a-calculation/README.md)
 and [E6 discard](../../content/effects/stopping-a-calculation/README.md).
@@ -699,6 +714,8 @@ and artifact correctness. This simulates an interaction; it runs no LLM,
 external process, tool, filesystem operation, or sandbox.
 
 ### A7. What can a cancellable stable sorter promise?
+
+[Implementation plan](../plans/2026-10-16-a7-stable-sort.md).
 
 Follow [explicit ordering](../../content/cases/searching-ordered-tree/README.md),
 [comparison measurement](../../content/cases/measuring-tree-search/README.md),
@@ -719,6 +736,8 @@ and never labels a partial sequence as a complete sorted result. The new
 outcome is the sorting contract, beyond reusing a budget handler.
 
 ### A8. How can a tagged frame preserve messages through a round trip?
+
+[Implementation plan](../plans/2026-10-16-a8-tagged-frames.md).
 
 Continue [bounded message decoding](../../content/cases/reading-a-bounded-message/README.md)
 after [E11 native buffers](../../content/effects/acquiring-a-buffer/README.md)
@@ -844,8 +863,9 @@ teach the cumulative current baseline.
 
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
 Case are complete. A1–A8 are proposed application outcomes; none has new
-executable evidence from this planning change. Their implementation requires
-one bounded design and approval at a time under the existing workflow.
+executable evidence from this planning change. Each implementation requires its
+own bounded design and approval under the existing workflow. The linked
+coordination plan defines separate Case ownership during parallel work.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording
