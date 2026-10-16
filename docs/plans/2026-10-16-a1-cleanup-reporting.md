@@ -98,6 +98,13 @@ observations establish this finite model; they cannot strengthen cleanup rules.
 
 ## Execution and handoff
 
+Tracking: [A1 issue #1](https://github.com/dikini/ash-doc/issues/1).
+The plan bundle is published on `main` at
+`e610e918b085b6e342b72cd08870e41c0ceb8069`. At issue creation, no
+foundation PR, integration issue, or integrator branch existed. Shared runner
+and Case navigation updates still need an integrator on this Case branch
+before final review; keep the Case PR draft until that dependency is resolved.
+
 Follow the [shared execution contract][execution] for dispatch, worktree,
 issue, integration, and final review. PM uses `gpt-6.1-sol` at `medium`,
 development at `xhigh`, and independent review at `max`.
