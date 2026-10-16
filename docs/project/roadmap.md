@@ -12,7 +12,7 @@ Ash-doc targets `diag-ash` at
 diagnostics, effects and resources, library abstractions, modules, and the
 earlier language foundation.
 
-All content is verified at this baseline:
+All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
 - [Algorithms and effects](../../content/cases/README.md): twenty Cases,
@@ -167,7 +167,7 @@ establish reader comprehension or review every chapter's rendered layout.
 
 ## Curriculum direction
 
-The next learning stage asks: how can a reader design a calculation that
+The effects learning stage asks: how can a reader design a calculation that
 requests behavior, explain the effects in its contract, and keep control and
 resource access within their scopes?
 
@@ -188,8 +188,14 @@ Continue that foundation through three connected strands:
   scoped exact evidence, extending the existing library path.
 
 E1–E12, F1–F2, and L1–L3 are **verified**. Their identifiers express curricular
-relationships, not task identifiers or delivery batches. The current effect
-Cases outcome is complete at the current baseline.
+relationships, not task identifiers or delivery batches. The initial short
+effect Cases outcome is complete at the current baseline.
+
+The proposed [application Cases](#application-cases-from-dn-0052) continue that
+foundation: how can a reader combine these mechanisms while preserving an
+application's outcome, data invariant, or control policy? Each study develops
+one application question and distinguishes what Ash checks from what the
+program and its tests must establish.
 
 ### Teaching approach
 
@@ -549,6 +555,189 @@ handler. The pinned hook and effect rules below govern callback context, rows,
 and continuation ownership. This is original teaching code and prose; it adds
 no framework or tooling. The three observations pass at the current baseline.
 
+## Application Cases from DN-0052
+
+**State: proposed; implementation and verification remain open.**
+[DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
+outcomes. The note is exploring and informative; it reports no new executable
+results and accepts no Ash semantics or architecture. Its source commit is
+`9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all planned programs still target
+`diag-ash` at `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
+
+Place these studies in the existing Cases family. The completed short Cases
+isolate mechanisms; these continuations derive application data, operations,
+invariants, and costs from a meaningful example. Reuse constituent lessons
+as prerequisites. Introduce a smaller teaching example only when the new
+boundary needs it, and use a pure reference or contrasting implementation
+when it supplies an independent comparison. This creates no new content family
+or application framework.
+
+Start with A1 cleanup reporting, A2 scoped pricing, and A3 immutable ECS, as
+DN-0052 suggests. This is a proposed development order, not a prerequisite
+chain or authorization to implement all three together. A1–A8 identify roadmap
+outcomes rather than assigned lesson numbers. Select and design one complete
+outcome under the workflow before creating its lesson directory or adding
+active navigation.
+
+### A1. How can cleanup failures preserve the primary outcome?
+
+Follow [E9 cleanup](../../content/effects/running-cleanup/README.md) with a
+finite batch calculation whose body returns success or a primary error.
+Derive a report API that retains that outcome alongside ordered cleanup
+errors, with explicit sums for distinct error categories and an explicit
+caller policy for interpreting the report.
+
+Check normal return, owned abandonment, no failures, and several failures.
+Use the [specified reporting pattern][reporting] to resume each report so
+remaining actions can finish. Develop a reporting handler that attempts to
+discard required completion as a rejection and repair episode. Compare it
+with a well-typed action that constructs an error but never reports it.
+
+The reader can explain why a successful body or primary failure survives the
+reports, and distinguish command rejection from modeled completion failure.
+Keep reporting separate from native release, retries, and internal termination;
+these completion failures are source-level application models.
+
+### A2. How can a local pricing policy capture configuration?
+
+Continue [requested order prices](../../content/cases/supplying-order-prices/README.md)
+after [nominal wrappers](../../content/libraries/wrapping-a-representation/README.md)
+and [scoped exact evidence](../../content/libraries/supplying-scoped-evidence/README.md).
+Derive distinct money and quantity types and a local nominal policy key whose
+exact methods capture an integer tariff. Compare explicit function arguments,
+selected imported evidence, and sequential local `with` evidence.
+
+Compare two configurations and a nested policy, returning an ordinary quote
+whose type contains no local identity. Develop mixed units, a constrained call
+before evidence becomes available, and an outward local identity as candidate
+diagnostic episodes. Use a documented scaled-integer domain; assume neither
+Float nor division nor inferred units of measure.
+
+The [local nominal][nominals] and [exact evidence][evidence] rules govern the
+boundary: the complete selection key must contain the active local nominal.
+An identity-free closure may retain selected methods without exporting an
+evidence fact. The reader can explain lexical selection without treating it
+as global implementation search or runtime-fresh nominal identity.
+
+### A3. How can a generic system query an immutable ECS world?
+
+Build an entity-component-system (ECS) world with named position and velocity
+stores over ordinary immutable collections. Follow the
+[dictionary Case](../../content/cases/dictionary-as-list/README.md) and
+[implementation evidence](../../content/libraries/choosing-implementation-evidence/README.md).
+Begin with direct world-specific operations and independently enumerated join
+rows, then compare a generic movement system with explicit component and
+query-result types.
+
+Explore `StoreAccess<W, C>` with both world and component in the selection
+key under the [interface rules][interfaces]. One world supports several
+component types, so `W -> C` would describe the wrong relationship. Require
+argument or result context to fix the requested component. Develop missing
+selected store evidence and mismatched component values as diagnostic episodes.
+
+Check absent components, joins by entity identifier, repeated steps, and the
+unchanged original world as a snapshot. Explain lookup and rebuilding work for
+the chosen representation. The reader can identify the useful abstraction
+without assuming automatic type-index search, open registries, associated
+outputs, mutable component stores, or packed layout. A heterogeneous-path
+extension is separate follow-up work if the fixed schema establishes a need.
+
+### A4. How can cancellation explicitly roll back a journal?
+
+Follow [E7 cells](../../content/effects/counting-with-a-cell/README.md),
+[E6 discard](../../content/effects/stopping-a-calculation/README.md), and
+[E9 cleanup](../../content/effects/running-cleanup/README.md).
+Snapshot an integer cell, stage updates, and either commit or request
+cancellation. An explicit cleanup action restores uncommitted state.
+
+Check final state and closing order for normal completion, cancellation, and
+nesting. Compare handler placements where the action's interpreter survives
+and where abandonment removes it; develop the latter as a diagnostic repair
+under the [cleanup rules][cleanup]. Include an application comparison that
+abandons control without restoring earlier mutations.
+
+The reader can distinguish closing owned control from undoing state and explain
+the compensation protocol. This models in-memory application behavior; it
+claims neither automatic rollback nor database isolation.
+
+### A5. When must an event be redacted before publication?
+
+Continue the [hook pipeline](../../content/cases/controlling-a-hook-pipeline/README.md)
+after [E10 hooks](../../content/effects/transforming-publications/README.md).
+Define separate internal and public event types, project a public view, and
+publish through synchronous transformations. Use an unmistakable sensitive
+field and collect returned ordinary data before and after redaction.
+
+Check transformation order and nested-root isolation. Develop an attempted
+type-changing registration as a diagnostic episode: the [hook contract][hooks]
+requires publication to preserve its payload type. Project before publication
+or use a separate public-type hook. Compare a well-typed collector installed
+too early, where the sensitive field is still visible.
+
+The reader can explain which module interfaces prevent passing internal events
+to a public collector and which redaction properties depend on application
+code. This establishes neither automatic secrecy nor runtime observer grants
+or introspection.
+
+### A6. How can a controller check a worker's proposed edits?
+
+Continue [scripted sessions](../../content/cases/running-a-scripted-session/README.md)
+after [E5 resumption](../../content/effects/resuming-a-calculation/README.md)
+and [E6 discard](../../content/effects/stopping-a-calculation/README.md).
+A deterministic worker proposes integer-list edits; a controller checks
+permitted positions and the resulting artifact against an independent pure
+model. Local scripts supply every decision.
+
+Check allow, reject, and cancellation branches. Develop double resumption and
+a normally completing branch that leaves its continuation unconsumed as
+diagnostic episodes under the [effect rules][effects]. Repair each with one
+permitted resume or owned discard. Separately test a well-typed controller
+that approves an invalid edit.
+
+The reader can distinguish continuation safety from application authorization
+and artifact correctness. This simulates an interaction; it runs no LLM,
+external process, tool, filesystem operation, or sandbox.
+
+### A7. What can a cancellable stable sorter promise?
+
+Follow [explicit ordering](../../content/cases/searching-ordered-tree/README.md),
+[comparison measurement](../../content/cases/measuring-tree-search/README.md),
+and [search budgets](../../content/cases/bounding-search-work/README.md).
+Sort records with a finite nominal priority and an identifier. Derive a result
+that distinguishes a complete sorted sequence from cancellation, and charge
+comparisons before performing them through a scripted or budgeted handler.
+
+Check order, permutation, and preservation of input order among equal
+priorities against a pure reference sort. Include a well-typed unstable
+implementation that fails the stability examples. A handler that attempts
+double resumption to explore alternatives supplies a separate [control][effects]
+mistake; alternatives require ordinary data or fresh calls.
+
+The reader can explain the chosen algorithm's invariant and work separately
+from charged requests and wall-clock measurements. Cancellation is synchronous
+and never labels a partial sequence as a complete sorted result. The new
+outcome is the sorting contract, beyond reusing a budget handler.
+
+### A8. How can a tagged frame preserve messages through a round trip?
+
+Continue [bounded message decoding](../../content/cases/reading-a-bounded-message/README.md)
+after [E11 native buffers](../../content/effects/acquiring-a-buffer/README.md)
+and [E8 access scope](../../content/effects/keeping-access-in-scope/README.md).
+State a small format profile with several message constructors and checked
+integer byte tags. Derive encoding and decoding operations that return copied
+ordinary message data from the buffer scope.
+
+Check round trips, malformed tags, truncation, invalid byte values, and
+acquisition versus operation failures, retaining nested outcomes under the
+[buffer rules][buffers]. Develop an escaping cursor closure as a diagnostic
+episode and decode within its live owner as the repair. Compare a well-typed
+but inconsistent encoder and decoder to show the need for format checks.
+
+The reader can explain both the representation contract and the access boundary.
+Compare a direct decoder with a materialized intermediate representation only
+for a concrete question. This teaches the declared format without assuming
+String/Bytes APIs, standard JSON/BSON support, reflection, or derivation.
+
 ## Prerequisites and governing sources
 
 The dependencies above describe reading order, not delivery commitments:
@@ -560,6 +749,8 @@ The dependencies above describe reading order, not delivery commitments:
 - The existing library path precedes L1, then L2 and L3.
 - The first twelve Cases provide optional pure comparisons; completing them is
   not a prerequisite for entering the effects path.
+- A1–A8 each name their existing lesson prerequisites. The suggested first
+  batch does not make cleanup reporting a prerequisite for pricing or ECS.
 
 Language claims and future examples must use the specification at the current
 baseline. These sections govern the proposed boundaries:
@@ -576,6 +767,15 @@ baseline. These sections govern the proposed boundaries:
 - [Implementations][implementations]: L1.
 - [Specification overview][overview], [local nominal scope][nominals], and
   [scoped exact evidence][evidence]: L2 and L3.
+- [Typed failure reporting][reporting]: A1; [cleanup][cleanup] and
+  [cells][cells] also govern A4's completion and compensation boundaries.
+- [Interfaces and constrained schemes][interfaces],
+  [local nominal scope][nominals], and [scoped exact evidence][evidence]:
+  A2 and A3's abstraction choices.
+- [Hooks][hooks], [effects][effects], and [native buffers][buffers]:
+  A5, A6–A7, and A8 respectively. Application invariants require their own
+  independent comparisons; these rules do not establish redaction, edit
+  authorization, sorting correctness, or codec agreement.
 
 [rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
 [effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
@@ -590,6 +790,9 @@ baseline. These sections govern the proposed boundaries:
 [overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
 [nominals]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#local-nominal-scope
 [evidence]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-exact-evidence
+[interfaces]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes
+[reporting]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#typed-failure-reporting
+[dn0052]: https://github.com/dikini/ash-lang/blob/9f8738b7e0d7f280f9744bf808343d2c97ce6661/docs/design/DN-0052-diag-ash-case-studies-and-teaching.md
 
 ## Evidence and completion expectations
 
@@ -610,6 +813,26 @@ E12 additionally requires a coherent account of interacting boundaries.
 A compiler regression or unresolved semantic question leaves the affected
 material incomplete and follows the project's discovery classification.
 
+For A1–A8, derive public operation types from the application data and invariant.
+Use independently specified examples or a reference calculation for successful
+and incorrect application behavior. Distinguish source rejection, ordinary
+typed failure, internal resource failure, and a wrong application result.
+The diagnostic episodes above remain candidates until developed and captured
+at the pin; DN-0052 supplies no transcripts or verification receipts.
+
+Keep fixtures and scripts deterministic and hermetic. Add a bounded scaled
+case only to answer a stated cost question, separating logical operations,
+compiler exhaustion, and physical measurements. A finite run proves neither
+a complexity bound nor soundness. Record source traditions and adaptation
+limits when selecting each design; historical motivation supplies no current
+Ash behavior. Simplify or revise a study if it duplicates an existing lesson
+or its evidence plumbing obscures the application question.
+
+When a Case verifies, update its family index, affected runner, and coverage
+expectations in the same change. The current Cases inventory remains twenty
+until new units satisfy these conditions. Incomplete studies stay outside
+active navigation and rendering selection.
+
 ## Scope and delivery state
 
 This roadmap covers the proposed continuation, not an exhaustive reference
@@ -620,7 +843,9 @@ Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
-Case are complete.
+Case are complete. A1–A8 are proposed application outcomes; none has new
+executable evidence from this planning change. Their implementation requires
+one bounded design and approval at a time under the existing workflow.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording
