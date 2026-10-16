@@ -6,10 +6,13 @@ This plan owns the bounded coordination work: GitHub delivery, shared indexes
 and checks, and final book integration. Each Case has its own implementation
 brief and remains a separate outcome.
 
-**State:** planned; no implementation issues or PRs have been created by this
-planning change. Expected observations in this bundle are acceptance targets,
-not captured results. The user selected parallel Case development and deferred
-all rendering to final integration.
+**State:** A1 is locally verified with nine canonical sources and one complete
+human rejection capture. [Issue #1](https://github.com/dikini/ash-doc/issues/1)
+and [PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery; human review
+and signoff remain open. The remaining briefs retain acceptance targets rather
+than captured results. The user selected parallel Case development and deferred
+all rendering to final integration. Broader foundation and final integration
+gates remain unclaimed by A1.
 
 **Target:** `diag-ash`, Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. All source, claims, diagnostics,
@@ -39,9 +42,9 @@ assignable to an integrator. Read [AGENTS.md](../../AGENTS.md), the required
 before starting. A new chat needs no previous conversation to use this bundle.
 
 <!-- markdownlint-disable MD013 -->
-| Outcome | Implementation brief | Case destination |
+| Outcome | Brief or verified lesson | Case destination |
 | --- | --- | --- |
-| A1: cleanup reporting | [A1](2026-10-16-a1-cleanup-reporting.md) | `preserving-outcomes-through-cleanup` |
+| A1: cleanup reporting | [Verified lesson](../../content/cases/preserving-outcomes-through-cleanup/README.md); [issue #1](https://github.com/dikini/ash-doc/issues/1), [PR #2](https://github.com/dikini/ash-doc/pull/2) | `preserving-outcomes-through-cleanup` |
 | A2: scoped pricing | [A2](2026-10-16-a2-scoped-pricing.md) | `supplying-a-local-pricing-policy` |
 | A3: immutable ECS | [A3](2026-10-16-a3-immutable-ecs.md) | `querying-an-immutable-world` |
 | A4: cancellable journal | [A4](2026-10-16-a4-cancellable-journal.md) | `rolling-back-a-cancellable-journal` |
@@ -209,6 +212,15 @@ remove it and its incoming links. Never maintain a completed-plan archive.
 Use branch `codex/application-cases-foundation` and PR title
 “Prepare Diag Ash application Case delivery”.
 
+The plan bundle is now published on `main` at
+`e610e918b085b6e342b72cd08870e41c0ceb8069`. A1 carries the runner's required
+count derivation in its Case PR. Bash syntax, ShellCheck, and throwaway
+inventory probes check that narrow change while preserving the first twenty
+destinations. The probes use compiler and leaf-verifier stubs; they do not run
+existing Cases. The broader foundation assignment and its acceptance below,
+including the unchanged twenty-Case aggregate and foundation review, remain
+unclaimed. Final book integration also remains separately assigned.
+
 At planning time, local `main` was `1c6dd1f364c5dcd815354dfd1aa8f4cc5c4d35a7`;
 remote `main` was `0b6b9c8a9fba9e9b87f0c8c047001743e81682c1`. The local
 history additionally contains accepted commits `4838213` (roadmap) and
@@ -216,7 +228,7 @@ history additionally contains accepted commits `4838213` (roadmap) and
 still-unpublished accepted commits and this plan bundle through the foundation
 PR without rewriting `main` or duplicating already integrated changes.
 
-The current Cases runner repeats the number twenty in its slot-count check
+At planning time, the Cases runner repeated twenty in its slot-count check
 and loop while separately retaining an explicit ordered destination array.
 Compare changing those literals in every Case PR with deriving the count from
 that array once. Select derivation: it preserves the existing inventory and

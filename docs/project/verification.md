@@ -35,11 +35,11 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 57 sources, twenty Cases /
-65 sources, eight library lessons / 43 sources, and twelve effects lessons / 71
-sources. They check successful values, types, stdout, stderr, and exit status;
-agreement between displayed
-and canonical code; and the source properties each Case teaches.
+The four aggregates cover thirteen Learn lessons / 57 sources, twenty-one
+Cases / 74 sources, eight library lessons / 43 sources, and twelve effects
+lessons / 71 sources. They check successful values, types, stdout, stderr, and
+exit status; agreement between displayed and canonical code; and the source
+properties each Case teaches.
 
 Rejection checks request `--message-format json`. Each lesson's
 `checks/<entry>.diagnostic.json` records the expected diagnostic data, including
@@ -57,7 +57,7 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 60 active captures: sixteen Learn, seven Cases, sixteen Libraries,
+There are 61 active captures: sixteen Learn, eight Cases, sixteen Libraries,
 and 21 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each
@@ -100,8 +100,10 @@ separate from the lesson's source observations.
 The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
 The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
-and twenty Cases lessons, in that order, plus four family introductions. The
-default build retains the smaller specimen and its notation regressions.
+and twenty-one Cases lessons, in that order, plus four family introductions.
+Retained book outputs cover the earlier 53-lesson inventory; the added
+cleanup-reporting Case awaits final rendering integration. The default build
+retains the smaller specimen and its notation regressions.
 
 Build the selected scope and requested formats through the guide, then run
 `verify.py` and, for HTML or EPUB, `browser.mjs` on that generated project. Run

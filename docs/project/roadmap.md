@@ -15,8 +15,8 @@ earlier language foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty Cases,
-  65 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-one Cases,
+  74 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -26,8 +26,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 60 demonstrated rejections through complete
-English human messages: sixteen in Learn, seven in Cases, sixteen in Libraries,
+The active edition now teaches all 61 demonstrated rejections through complete
+English human messages: sixteen in Learn, eight in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -67,18 +67,19 @@ support selecting scope before considering incremental whole-book caching.
 The [rendering guide](rendering.md#scoped-build-evidence) records coverage and
 phase timings.
 
-The complete local review draft assembles all 53 indexed lessons in Learn →
-Libraries → Effects → Cases order, with four family introductions and shared
+The retained local review draft assembles the earlier 53-lesson inventory in
+Learn → Libraries → Effects → Cases order, with four family introductions and shared
 reader setup. The 59 HTML pages and reflowable EPUB 3 retain 633 displayed code
 and transcript blocks. The double-sided book PDF has 360 pages; the one-sided
 A4 copy has 319. Artifact checks verify indexed coverage, chapter order, source
 hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering guide](rendering.md) gives both builds'
-commands. The edition remains local and unpublished.
+commands. The current indexed inventory has 54 lessons; the cleanup-reporting
+Case awaits final rendering integration. The edition remains local and unpublished.
 
-Browser checks pass for all 59 HTML pages at desktop and mobile sizes and all
-57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
+Retained browser checks pass for all 59 HTML pages at desktop and mobile sizes
+and all 57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
 its separate browser and artifact checks. The original whole-book review
 inspected 74 selected PDF pages. The traversal revision additionally reviews
 all thirteen book pages and twelve A4 pages of that chapter; its widened
@@ -557,10 +558,12 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: proposed; implementation and verification remain open.**
+**State: A1 is locally verified; A2–A8 remain proposed.** A1 awaits human
+review and signoff; its presentation awaits final rendering integration.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-and its eight standalone briefs record the selected implementation design,
-parallel ownership, GitHub issues and PRs, and final rendering acceptance.
+links the verified A1 lesson and seven remaining briefs. It records the selected
+implementation design, parallel ownership, GitHub delivery, and final rendering
+acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
@@ -584,24 +587,28 @@ active navigation.
 
 ### A1. How can cleanup failures preserve the primary outcome?
 
-[Implementation plan](../plans/2026-10-16-a1-cleanup-reporting.md).
+[Preserving outcomes through cleanup](../../content/cases/preserving-outcomes-through-cleanup/README.md)
+is locally verified with nine canonical sources and one complete human rejection
+capture. [Issue #1](https://github.com/dikini/ash-doc/issues/1) and
+[PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery and human review.
 
-Follow [E9 cleanup](../../content/effects/running-cleanup/README.md) with a
-finite batch calculation whose body returns success or a primary error.
-Derive a report API that retains that outcome alongside ordered cleanup
-errors, with explicit sums for distinct error categories and an explicit
-caller policy for interpreting the report.
+The chapter follows [E9 cleanup](../../content/effects/running-cleanup/README.md)
+with a finite batch calculation whose body returns success or a primary error.
+Its report API retains that outcome alongside ordered completion errors, with
+explicit sums for distinct categories and a caller policy for interpreting the
+report.
 
-Check normal return, owned abandonment, no failures, and several failures.
-Use the [specified reporting pattern][reporting] to resume each report so
-remaining actions can finish. Develop a reporting handler that attempts to
-discard required completion as a rejection and repair episode. Compare it
-with a well-typed action that constructs an error but never reports it.
+Checks cover normal return, owned abandonment, no failures, and several
+failures. The [specified reporting pattern][reporting] resumes each report so
+remaining actions can finish. An abortive collector supplies a rejection and
+repair episode; a well-typed action that constructs an error without reporting
+it supplies an incorrect application comparison. Cancellation returns an
+explicit replacement outcome after discarding the unfinished body.
 
 The reader can explain why a successful body or primary failure survives the
 reports, and distinguish command rejection from modeled completion failure.
-Keep reporting separate from native release, retries, and internal termination;
-these completion failures are source-level application models.
+These source-level completion models make no native release, retry, or internal
+termination guarantee.
 
 ### A2. How can a local pricing policy capture configuration?
 
@@ -848,9 +855,9 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory remains twenty
-until new units satisfy these conditions. Incomplete studies stay outside
-active navigation and rendering selection.
+expectations in the same change. The current Cases inventory is twenty-one
+after A1; further units join only when they satisfy these conditions. Incomplete
+studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
 
@@ -862,10 +869,11 @@ Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
-Case are complete. A1–A8 are proposed application outcomes; none has new
-executable evidence from this planning change. Each implementation requires its
-own bounded design and approval under the existing workflow. The linked
-coordination plan defines separate Case ownership during parallel work.
+Case are complete. A1 has local executable verification and awaits human review
+and signoff; its presentation remains pending. A2–A8 are proposed application
+outcomes, each requiring its own bounded design and approval under the existing
+workflow. The linked coordination plan defines separate Case ownership during
+parallel work.
 The documentation remains unpublished; no ash-doc `diag-ash`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording
