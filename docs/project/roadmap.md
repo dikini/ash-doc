@@ -15,8 +15,8 @@ earlier language foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty-one Cases,
-  74 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-two Cases,
+  88 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -26,8 +26,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 61 demonstrated rejections through complete
-English human messages: sixteen in Learn, eight in Cases, sixteen in Libraries,
+The active edition now teaches all 64 demonstrated rejections through complete
+English human messages: sixteen in Learn, eleven in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -75,8 +75,9 @@ A4 copy has 319. Artifact checks verify indexed coverage, chapter order, source
 hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering guide](rendering.md) gives both builds'
-commands. The current indexed inventory has 54 lessons; the cleanup-reporting
-Case awaits final rendering integration. The edition remains local and unpublished.
+commands. The current indexed inventory has 55 lessons; the cleanup-reporting
+and local-pricing Cases await final rendering integration. The edition remains
+local and unpublished.
 
 Retained browser checks pass for all 59 HTML pages at desktop and mobile sizes
 and all 57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
@@ -558,12 +559,12 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: A1 is verified and approved; A2–A8 remain proposed.** The user approved
-A1 for merge on 2026-10-17; its presentation awaits final rendering integration.
+**State: A1 is merged; A2 is locally verified; A3–A8 remain proposed.** Both
+verified Cases await final rendering integration.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1 lesson and seven remaining briefs. It records the selected
-implementation design, parallel ownership, GitHub delivery, and final rendering
-acceptance.
+links the verified A1 and A2 lessons and six remaining briefs. It records the
+selected implementation design, parallel ownership, GitHub delivery, and
+final rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
@@ -612,20 +613,27 @@ termination guarantee.
 
 ### A2. How can a local pricing policy capture configuration?
 
-[Implementation plan](../plans/2026-10-16-a2-scoped-pricing.md).
+[Supplying a local pricing policy](../../content/cases/supplying-a-local-pricing-policy/README.md)
+is locally verified with fourteen canonical sources and three complete human
+rejection captures. [Issue #3](https://github.com/dikini/ash-doc/issues/3) and
+[draft PR #4](https://github.com/dikini/ash-doc/pull/4) track delivery and review.
 
-Continue [requested order prices](../../content/cases/supplying-order-prices/README.md)
+The chapter continues
+[requested order prices](../../content/cases/supplying-order-prices/README.md)
 after [nominal wrappers](../../content/libraries/wrapping-a-representation/README.md)
 and [scoped exact evidence](../../content/libraries/supplying-scoped-evidence/README.md).
-Derive distinct money and quantity types and a local nominal policy key whose
-exact methods capture an integer tariff. Compare explicit function arguments,
-selected imported evidence, and sequential local `with` evidence.
+It derives distinct money and quantity types, then compares explicit pricing
+functions, selected imported evidence, and sequential local `with` evidence
+whose methods capture an integer tariff.
 
-Compare two configurations and a nested policy, returning an ordinary quote
-whose type contains no local identity. Develop mixed units, a constrained call
-before evidence becomes available, and an outward local identity as candidate
-diagnostic episodes. Use a documented scaled-integer domain; assume neither
-Float nor division nor inferred units of measure.
+Checks compare the literal total `4900`, two tariffs producing `5400` and
+`5900`, nested policies, and returned quote closures whose exposed type has no
+local identity. Boundary orders distinguish zero quantity, free prices, and
+unavailable prices, including an unavailable zero-quantity line. Mixed units,
+a constrained call before evidence, and local identity escape each have an
+isolated rejection, complete human capture, and tested repair. The declared
+domain uses finite nonnegative counts and integer cents, without range
+validation, Float, division, or inferred units of measure.
 
 The [local nominal][nominals] and [exact evidence][evidence] rules govern the
 boundary: the complete selection key must contain the active local nominal.
@@ -855,9 +863,9 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory is twenty-one
-after A1; further units join only when they satisfy these conditions. Incomplete
-studies stay outside active navigation and rendering selection.
+expectations in the same change. The current Cases inventory is twenty-two
+after A1 and A2; further units join only when they satisfy these conditions.
+Incomplete studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
 
@@ -869,8 +877,8 @@ Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
-Case are complete. A1 has local executable verification and user approval for
-merge; its presentation remains pending. A2–A8 are proposed application
+Case are complete. A1 is merged; A2 is locally verified and its draft PR remains
+open. Both presentations remain pending. A3–A8 are proposed application
 outcomes, each requiring its own bounded design and approval under the existing
 workflow. The linked coordination plan defines separate Case ownership during
 parallel work.

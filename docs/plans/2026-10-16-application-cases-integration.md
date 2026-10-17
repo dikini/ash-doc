@@ -10,10 +10,14 @@ brief and remains a separate outcome.
 human rejection capture. [Issue #1](https://github.com/dikini/ash-doc/issues/1)
 and [PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery. Independent
 review passed; the user approved A1 for merge on 2026-10-17 despite the separate
-foundation gate. The remaining briefs retain acceptance targets rather
-than captured results. The user selected parallel Case development and deferred
+foundation gate. A2 is locally verified with fourteen canonical sources and
+three complete human rejection captures.
+[Issue #3](https://github.com/dikini/ash-doc/issues/3) and
+[draft PR #4](https://github.com/dikini/ash-doc/pull/4) track its delivery and
+review. The six remaining briefs retain acceptance targets rather than captured
+results. The user selected parallel Case development and deferred
 all rendering to final integration. Broader foundation and final integration
-gates remain unclaimed by A1.
+gates remain unclaimed by A1 or A2.
 
 **Target:** `diag-ash`, Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. All source, claims, diagnostics,
@@ -46,7 +50,7 @@ before starting. A new chat needs no previous conversation to use this bundle.
 | Outcome | Brief or verified lesson | Case destination |
 | --- | --- | --- |
 | A1: cleanup reporting | [Verified lesson](../../content/cases/preserving-outcomes-through-cleanup/README.md); [issue #1](https://github.com/dikini/ash-doc/issues/1), [PR #2](https://github.com/dikini/ash-doc/pull/2) | `preserving-outcomes-through-cleanup` |
-| A2: scoped pricing | [A2](2026-10-16-a2-scoped-pricing.md) | `supplying-a-local-pricing-policy` |
+| A2: scoped pricing | [Verified lesson](../../content/cases/supplying-a-local-pricing-policy/README.md); [issue #3](https://github.com/dikini/ash-doc/issues/3), [draft PR #4](https://github.com/dikini/ash-doc/pull/4) | `supplying-a-local-pricing-policy` |
 | A3: immutable ECS | [A3](2026-10-16-a3-immutable-ecs.md) | `querying-an-immutable-world` |
 | A4: cancellable journal | [A4](2026-10-16-a4-cancellable-journal.md) | `rolling-back-a-cancellable-journal` |
 | A5: event redaction | [A5](2026-10-16-a5-event-redaction.md) | `redacting-before-publication` |

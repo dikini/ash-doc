@@ -19,9 +19,11 @@ Each isolates one
 concept in a small program; its introduction names the relevant effects
 prerequisites.
 
-An application Case continues those mechanisms through a finite batch model.
-It retains the batch's primary outcome alongside ordered completion reports,
-then gives the caller an explicit policy for interpreting them.
+The application Cases continue through finite models. A batch retains its
+primary outcome alongside ordered completion reports, then gives the caller an
+explicit policy for interpreting them. An order calculation compares explicit
+pricing functions, selected imported evidence, and locally supplied policies
+whose methods retain a tariff.
 
 ## How to work through a case
 
@@ -142,3 +144,7 @@ storage strategy.
     cleanup](preserving-outcomes-through-cleanup/README.md) — retain the body
     outcome and ordered completion reports, distinguish reporting from merely
     constructing an error, and choose a caller policy explicitly.
+22. [Supplying a local pricing
+    policy](supplying-a-local-pricing-policy/README.md) — distinguish money from
+    quantity, supply methods that capture a tariff, and retain a quote closure
+    whose exposed type contains no local identity.
