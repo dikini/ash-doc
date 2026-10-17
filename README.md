@@ -17,7 +17,7 @@ This repository targets **`diag-ash`** at Ash commit
 human and JSON diagnostics, the migration repairs, effects and resources,
 library abstractions, modules, and the earlier language foundation.
 
-All thirteen Learn lessons, twenty algorithm and effect Cases, eight library
+All thirteen Learn lessons, twenty-one algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -129,7 +129,9 @@ The first twelve Cases derive recursive algorithms from explicit
 representations and account for their work. Eight short effect Cases then
 illustrate scoped numbering and measurement, dependency injection, scripted
 sessions, search budgets, parent-path compression, bounded byte input, and
-hook pipelines controlled by ordinary handlers.
+hook pipelines controlled by ordinary handlers. The application continuation
+retains primary outcomes alongside ordered completion reports and makes the
+caller's interpretation policy explicit.
 
 ## Authority
 
@@ -199,10 +201,12 @@ can land together.
 Verification uses the shared Bash helper and Python JSON comparison described
 in the verification guide. The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
-assemble all 53 verified lessons in Learn → Libraries → Effects → Cases order,
+select all 54 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and
-book and A4 PDFs. The default build retains the smaller regression specimen;
-its static figures cover Mermaid graphs and interaction sequences, railroad
+book and A4 PDFs. Retained book outputs cover the earlier 53-lesson inventory;
+the cleanup-reporting Case awaits final rendering integration. The default
+build retains the smaller regression specimen; its static figures cover Mermaid
+graphs and interaction sequences, railroad
 grammar, and sequent inference rules. Both modes share tools and styles. No
 CI service or publication platform is selected.
 

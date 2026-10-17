@@ -23,7 +23,7 @@ compatible capability that the project skill does not cover.
 The current edition and all new work target `diag-ash` at Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. This cumulative checkpoint includes
 diagnostics, migration repairs, effects and resources, library abstractions,
-and modules. All thirteen Learn lessons, twenty Cases, eight library lessons,
+and modules. All thirteen Learn lessons, twenty-one Cases, eight library lessons,
 and twelve effects lessons are verified; the
 [verification guide](docs/project/verification.md) names their baseline checks.
 Publication has not occurred.
@@ -246,9 +246,11 @@ Before completing a change:
 The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
 `rendering/` roots, four content families, and lesson-local source and checks
 with shared verification helpers. Rendering uses Quarto Book and Typst for a
-bounded local review book of all 53 indexed, verified lessons in Learn →
-Libraries → Effects → Cases order, with four family introductions. The default
-specimen remains a regression build. Lesson and part review builds select only
+bounded local review book selecting all 54 indexed, verified lessons in Learn →
+Libraries → Effects → Cases order, with four family introductions. Retained
+rendering evidence covers the earlier 53-lesson inventory; the cleanup-reporting
+Case awaits final rendering integration. The default specimen remains a
+regression build. Lesson and part review builds select only
 their indexed sources and requested formats. All scopes share tools and styles;
 their generated source records serve preparation and checks. This selects no
 general content registry, CI service, publication platform, or repository-wide license.

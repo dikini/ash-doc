@@ -12,12 +12,16 @@ algorithmic choice visible in complete Ash programs, and then accounts for the
 work and retained data caused by that choice. Later cases change the
 representation when an operation or invariant demands it.
 
-The short effect Cases at the end apply the
+The short effect Cases then apply the
 [effects path](../effects/README.md) to scoped state, replaceable dependencies,
 scripted sessions, search budgets, checked byte storage, and hook pipelines.
 Each isolates one
 concept in a small program; its introduction names the relevant effects
 prerequisites.
+
+An application Case continues those mechanisms through a finite batch model.
+It retains the batch's primary outcome alongside ordered completion reports,
+then gives the caller an explicit policy for interpreting them.
 
 ## How to work through a case
 
@@ -134,3 +138,7 @@ storage strategy.
     step?](controlling-a-hook-pipeline/README.md) — combine local hook
     transformations with ordinary policy and trace handlers; connect the
     synchronous pipeline to reactive composition.
+21. [Preserving outcomes through
+    cleanup](preserving-outcomes-through-cleanup/README.md) — retain the body
+    outcome and ordered completion reports, distinguish reporting from merely
+    constructing an error, and choose a caller policy explicitly.

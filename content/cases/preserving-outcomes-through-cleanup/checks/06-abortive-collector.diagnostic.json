@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "reason": "effect.discard-unsafe",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "completion_owner",
+      "kind": "completion-owner",
+      "value": "cleanup"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "discard",
+      "path": "src/06-abortive-collector.ash",
+      "byte_start": 487,
+      "byte_end": 494,
+      "facts": [
+        {
+          "name": "completion_owner",
+          "kind": "completion-owner",
+          "value": "cleanup"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "capturing_request",
+      "path": "src/reporting.ash",
+      "byte_start": 458,
+      "byte_end": 496,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "cleanup_action",
+      "path": "src/06-abortive-collector.ash",
+      "byte_start": 297,
+      "byte_end": 329,
+      "facts": []
+    }
+  ]
+}

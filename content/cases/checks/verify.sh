@@ -29,6 +29,31 @@ readonly verifiers
 
 [[ ${#verifiers[@]} -gt 0 ]] || ash_doc_fail "no case verifiers found"
 
+readonly active_destinations=(
+    folding-recursive-lists
+    building-finite-lists
+    accumulating-list-results
+    dictionary-as-list
+    folding-branching-data
+    searching-ordered-tree
+    abstracting-key-order
+    protecting-dictionary-invariant
+    guaranteeing-logarithmic-retrieval
+    resuming-tree-traversal
+    implementing-persistent-fifo-frontier
+    choosing-a-search-frontier
+    numbering-tree-leaves
+    measuring-tree-search
+    supplying-order-prices
+    running-a-scripted-session
+    bounding-search-work
+    compressing-parent-paths
+    reading-a-bounded-message
+    controlling-a-hook-pipeline
+    preserving-outcomes-through-cleanup
+)
+readonly expected_case_count=${#active_destinations[@]}
+
 readonly index="$cases_root/README.md"
 mapfile -t numbered_slots < <(
     awk '
@@ -41,8 +66,8 @@ mapfile -t numbered_slots < <(
     ' "$index"
 )
 readonly numbered_slots
-[[ ${#numbered_slots[@]} -eq 20 ]] ||
-    ash_doc_fail "Cases index must expose exactly twenty numbered slots"
+[[ ${#numbered_slots[@]} -eq $expected_case_count ]] ||
+    ash_doc_fail "Cases index must expose exactly $expected_case_count numbered slots"
 
 for slot_index in "${!numbered_slots[@]}"; do
     expected_slot=$((slot_index + 1))
@@ -70,31 +95,10 @@ read_slot() {
     ' "$index"
 }
 
-readonly active_destinations=(
-    folding-recursive-lists
-    building-finite-lists
-    accumulating-list-results
-    dictionary-as-list
-    folding-branching-data
-    searching-ordered-tree
-    abstracting-key-order
-    protecting-dictionary-invariant
-    guaranteeing-logarithmic-retrieval
-    resuming-tree-traversal
-    implementing-persistent-fifo-frontier
-    choosing-a-search-frontier
-    numbering-tree-leaves
-    measuring-tree-search
-    supplying-order-prices
-    running-a-scripted-session
-    bounding-search-work
-    compressing-parent-paths
-    reading-a-bounded-message
-    controlling-a-hook-pipeline
-)
-for slot in {1..20}; do
+for destination_index in "${!active_destinations[@]}"; do
+    slot=$((destination_index + 1))
     slot_source=$(read_slot "$slot")
-    destination=${active_destinations[$((slot - 1))]}
+    destination=${active_destinations[$destination_index]}
     [[ $(grep -Foc "]($destination/README.md)" <<< "$slot_source") -eq 1 ]] ||
         ash_doc_fail "Cases index slot $slot must retain its active destination"
 done

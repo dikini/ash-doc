@@ -1,9 +1,11 @@
 # Rendering
 
-This directory prepares a local review book from all 53 indexed, verified
-lessons and retains the smaller specimen as a regression build. The book follows
+This directory selects all 54 indexed, verified lessons for a local review book
+and retains the smaller specimen as a regression build. The book follows
 Learn → Libraries → Effects → Cases and includes the four family introductions.
 Learning source remains in `content/`; notation fixtures remain project material.
+Retained book outputs cover the earlier 53-lesson inventory; the cleanup-reporting
+Case awaits final rendering integration.
 
 Read the [rendering guide](../docs/project/rendering.md) for the selected
 sources, tool pins, commands, checks, and replacement conditions. The

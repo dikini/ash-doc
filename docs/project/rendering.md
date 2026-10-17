@@ -25,13 +25,15 @@ Whole-book mode derives all lessons from the existing family indexes:
 - [Learn](../../content/learn/README.md): thirteen lessons;
 - [Libraries](../../content/libraries/README.md): eight lessons;
 - [Effects](../../content/effects/README.md): twelve lessons; and
-- [Cases](../../content/cases/README.md): twenty lessons.
+- [Cases](../../content/cases/README.md): twenty-one lessons.
 
 Each family keeps its indexed lesson order. Its reader-facing introduction
 becomes a native Quarto book part before those lessons. Reader setup comes from
 the root README. The book contains no project notation fixture; that fixture
 remains in the specimen. Unindexed lesson directories do not enter either
-selection merely because they exist.
+selection merely because they exist. The current selection has 54 lessons.
+Retained book outputs cover the earlier 53-lesson inventory; the cleanup-reporting
+Case awaits final rendering integration.
 
 The default [specimen configuration](../../rendering/specimen.json) selects
 three complete, indexed lessons:
@@ -533,9 +535,9 @@ unchanged canonical Ash programs or imply physical e-reader compatibility.
 
 The default specimen still builds all four formats and verifies its three
 lessons, notation fixture, four generated diagrams, six canonical assets, and
-both print layouts. The book preparation retains all 53 lessons and four parts
-in the complete indexed order. The updated artifact checker also passes on the
-retained whole-book HTML, EPUB, and both PDFs against unchanged canonical source
+both print layouts. The retained book preparation covers the earlier 53 lessons
+and four parts in their indexed order. The updated artifact checker also passed
+on the retained whole-book HTML, EPUB, and both PDFs against unchanged source
 digests; those outputs were reused, rather than regenerated in this task.
 Checking those retained book outputs takes 28.3 seconds.
 Shared unit tests cover selection, format dispatch, output-directory isolation,
