@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/08-before-evidence.ash",
+      "byte_start": 203,
+      "byte_end": 214,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/pricing.ash",
+      "byte_start": 116,
+      "byte_end": 127,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/08-before-evidence.ash",
+      "byte_start": 65,
+      "byte_end": 76,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/pricing.ash",
+      "byte_start": 25,
+      "byte_end": 110,
+      "facts": []
+    }
+  ]
+}

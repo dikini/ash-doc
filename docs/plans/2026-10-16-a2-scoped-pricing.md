@@ -8,7 +8,11 @@ Action and scope: implement one complete Cases lesson under the fixed subtree
 below, including prose, canonical programs, fixtures, and local checks.
 This is selected application design, not a language or architecture decision.
 
-**State:** planned; application code and observations remain unverified.
+**State:** implementation assigned; application code and observations remain
+unverified. Track delivery in [A2 issue #3](https://github.com/dikini/ash-doc/issues/3).
+The plan bundle is published on `main`; broader foundation verification and
+final rendering remain separately owned and pending. Keep the Case PR draft
+and obtain fresh A2 approval before merge.
 
 Target: `diag-ash`, Ash commit
 `9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Read the
@@ -65,6 +69,9 @@ Use `content/cases/supplying-a-local-pricing-policy/` with:
   `06-boundary-orders.ash`: accepted independent comparisons.
 - `src/07-mixed-units.ash`, `08-before-evidence.ash`, `09-local-escape.ash`:
   minimal rejection entries.
+- `src/07-mixed-units-fixed.ash`, `08-before-evidence-fixed.ash`: complete
+  minimal accepted repairs. The returned closure in `05-returned-closure.ash`
+  supplies the accepted local-escape repair.
 - `checks/verify.sh`; `checks/07-mixed-units.diagnostic.json`,
   `08-before-evidence.diagnostic.json`, `09-local-escape.diagnostic.json`.
 - Complete human captures in `README.md`, checked by the shared helper.
