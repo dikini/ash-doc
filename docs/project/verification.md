@@ -35,7 +35,7 @@ locked dependencies, and runs the lesson-local verifiers. Verification needs
 Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 57 sources, twenty-one
+The four aggregates cover thirteen Learn lessons / 56 sources, twenty-one
 Cases / 74 sources, eight library lessons / 43 sources, and twelve effects
 lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
@@ -57,7 +57,7 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 61 active captures: sixteen Learn, eight Cases, sixteen Libraries,
+There are 60 active captures: fifteen Learn, eight Cases, sixteen Libraries,
 and 21 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each

@@ -14,7 +14,7 @@ earlier language foundation.
 
 All indexed lessons are verified at this baseline:
 
-- [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
+- [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
 - [Algorithms and effects](../../content/cases/README.md): twenty-one Cases,
   74 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
@@ -26,8 +26,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 61 demonstrated rejections through complete
-English human messages: sixteen in Learn, eight in Cases, sixteen in Libraries,
+The active edition now teaches all 60 demonstrated rejections through complete
+English human messages: fifteen in Learn, eight in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -52,6 +52,17 @@ together outside canonical source trees. All eight chapters retain their
 original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Rendering infrastructure outcome
+
+Lesson 3 now introduces type colors, then distinguishes types and values
+through split boxes. The accepted
+[visualization experiment](../../rendering/experiments/partial-application/README.md)
+retains three SVG figures in one grouped margin note, with uniform square and
+label sizes. Figure 3 folds into two rows to retain that scale. The lesson
+names currying before the first program and uses `let add_20 = add 20` inside
+`main` to demonstrate partial application. The former input-type rejection
+section and its evidence were removed. The revised lesson passes its three
+canonical-source checks and scoped HTML, EPUB, and both PDF reviews.
+Drive retains the earlier single-figure review.
 
 Scoped review builds select one indexed lesson, one family part, the complete
 book, or the default specimen, with independent output-format selection.
