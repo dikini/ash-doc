@@ -1,4 +1,4 @@
-# Deliver A1–A8 at Diag Ash
+# Deliver A1–A8 at FFI Base
 
 How can independently developed application Cases join one verified edition
 without changing its language target or sharing unfinished implementations?
@@ -6,17 +6,15 @@ This plan owns the bounded coordination work: GitHub delivery, shared indexes
 and checks, and final book integration. Each Case has its own implementation
 brief and remains a separate outcome.
 
-**State:** A1 is locally verified with nine canonical sources and one complete
-human rejection capture. [Issue #1](https://github.com/dikini/ash-doc/issues/1)
-and [PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery. Independent
-review passed; the user approved A1 for merge on 2026-10-17 despite the separate
-foundation gate. The remaining briefs retain acceptance targets rather
-than captured results. The user selected parallel Case development and deferred
-all rendering to final integration. Broader foundation and final integration
-gates remain unclaimed by A1.
+**State:** A1 is integrated and verified at FFI Base with nine canonical sources
+and one complete human rejection capture.
+[Issue #1](https://github.com/dikini/ash-doc/issues/1) and
+[PR #2](https://github.com/dikini/ash-doc/pull/2) retain its delivery record.
+A2–A8 remain unimplemented and unverified at this target. Their independent
+Case delivery and later integration require their own acceptance checks.
 
-**Target:** `diag-ash`, Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. All source, claims, diagnostics,
+**Target:** `ffi-base`, Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. All source, claims, diagnostics,
 and checks retain this exact target. [DN-0052][dn0052], inspected at
 `9f8738b7e0d7f280f9744bf808343d2c97ce6661`, supplies informative motivation;
 it changes neither the target nor Ash semantics.
@@ -26,19 +24,20 @@ it changes neither the target nor Ash semantics.
 For the whole programme, give an agent this request:
 
 > Implement docs/plans/2026-10-16-application-cases-integration.md. Coordinate
-> the foundation, eight independent Cases, and final integration through the
-> specified GitHub issues and PRs. Keep every observation at the exact Diag
-> Ash pin and use the specified role settings. Respect the shared-file owner
+> the seven remaining Cases and final integration through the specified
+> GitHub issues and PRs. Keep every observation at the exact FFI Base pin and
+> use the specified role settings. Respect the shared-file owner
 > and final-review gates.
 
 For one Case, give an agent its brief; for example:
 
 > Implement only docs/plans/2026-10-16-a6-controlled-edits.md. Read its shared
-> execution contract, use its exact Diag Ash pin, and deliver its issue and
+> execution contract, use its exact FFI Base pin, and deliver its issue and
 > complete Case PR. Do not take ownership of other Cases or global integration.
 
-The foundation and final integration sections below are independently
-assignable to an integrator. Read [AGENTS.md](../../AGENTS.md), the required
+The final integration section below is independently assignable to an
+integrator; the foundation is already incorporated. Read
+[AGENTS.md](../../AGENTS.md), the required
 [writing skill][writing], [workflow][workflow], and [verification guide][verify]
 before starting. A new chat needs no previous conversation to use this bundle.
 
@@ -67,7 +66,7 @@ Historical discussions supply problem ideas only. Write original prose and
 programs, with adaptation and license records where actual reuse requires them.
 
 Use one dedicated, clean, detached Ash checkout at the exact target. Create
-it under the project's ignored `.worktrees/diag-ash` if no suitable dedicated
+it under the project's ignored `.worktrees/ffi-base` if no suitable dedicated
 checkout exists. Do not switch or modify the sibling Ash working tree, reuse
 an obsolete compiler pin, or recreate a compiler checkout under lesson content.
 Verify its exact HEAD and clean status before each run. The existing
@@ -116,25 +115,23 @@ current issues and PRs before creating anything; reuse matching work instead
 of creating duplicates. Use GitHub CLI if the connector cannot access the
 repository. Use body files for multiline issue and PR descriptions.
 
-The PM creates one integration issue, titled “Deliver A1–A8 at Diag Ash”,
-and eight linked Case issues with the brief titles. The integration issue
-tracks the foundation PR, Case issue/PR links, and final integration PR. This
-gives nine issues and ten planned PRs. Record actual URLs in the relevant
-briefs and issue checklist once they exist; do not invent issue numbers.
+The PM reuses a matching integration issue or creates one titled
+“Deliver A1–A8 at FFI Base”, then finds or creates issues for the seven remaining
+Cases. Keep A1's existing issue and merged PR as its delivery record. Track the
+remaining Case PRs and final integration PR; do not recreate foundation work.
+Record actual URLs in the briefs and checklist, without inventing issue numbers.
 
 Each Case issue contains its reader question, exact pin, chosen design,
 prerequisites, acceptance targets, exclusions, file ownership, and completion
 checks. Link the source brief. A directly assigned Case agent may find or
 create only its own issue; it must not create or take over the whole programme.
 
-Publish the plan bundle in the foundation before distributing new independent
-checkouts. Uncommitted files in a primary checkout are not inherited by Git
-worktrees. A Case author may develop its local subtree before foundation merge,
-but must keep its PR draft and report the integration dependency. Only the
-integrator takes responsibility for the foundation.
+The plan bundle and count derivation are already integrated. Base new work on
+the current FFI Base edition; do not reopen the old foundation publication
+or import an older compiler target from an existing Case branch.
 
 All PRs target `main`. Attach each created PR to its working Codex chat.
-Use `Refs #<integration-issue>` for the foundation and
+Use `Refs #<integration-issue>` for shared integration work and
 `Closes #<case-issue>` for each Case. The final integration PR closes the
 integration issue. Default to human approval before merge and use merge
 commits to preserve the accepted history.
@@ -147,11 +144,11 @@ brief fixes the teaching question and data/API boundary. Expand its file list
 only for a concrete observation within that boundary; do not create empty
 scaffolds or a shared application framework.
 
-For an assigned Case, set `case_slug` to its destination and `diag_checkout`
+For an assigned Case, set `case_slug` to its destination and `ffi_checkout`
 to the absolute clean compiler checkout, then run:
 
 ```sh
-bash "content/cases/$case_slug/checks/verify.sh" "$diag_checkout"
+bash "content/cases/$case_slug/checks/verify.sh" "$ffi_checkout"
 bash -n "content/cases/$case_slug/checks/verify.sh"
 shellcheck -x -P SCRIPTDIR "content/cases/$case_slug/checks/verify.sh"
 markdownlint "content/cases/$case_slug/README.md"
@@ -207,55 +204,16 @@ verified lesson and actual issue/PR references. Git retains the plan history.
 Keep this coordination plan until final book integration completes, then
 remove it and its incoming links. Never maintain a completed-plan archive.
 
-## Foundation implementation
+## Foundation state
 
-**Assignable scope:** shared Cases verification and delivery preparation.
-Use branch `codex/application-cases-foundation` and PR title
-“Prepare Diag Ash application Case delivery”.
+A1 is already indexed. Its 21-Case runner derives its count from the ordered
+`active_destinations` array. The FFI Base migration verifies that runner and
+all 54 current lessons. Earlier foundation publication and twenty-Case gates
+are superseded; do not reopen them or republish their old commits.
 
-The plan bundle is now published on `main` at
-`e610e918b085b6e342b72cd08870e41c0ceb8069`. A1 carries the runner's required
-count derivation in its Case PR. Bash syntax, ShellCheck, and throwaway
-inventory probes check that narrow change while preserving the first twenty
-destinations. The probes use compiler and leaf-verifier stubs; they do not run
-existing Cases. The broader foundation assignment and its acceptance below,
-including the unchanged twenty-Case aggregate and foundation review, remain
-unclaimed. Final book integration also remains separately assigned.
-
-At planning time, local `main` was `1c6dd1f364c5dcd815354dfd1aa8f4cc5c4d35a7`;
-remote `main` was `0b6b9c8a9fba9e9b87f0c8c047001743e81682c1`. The local
-history additionally contains accepted commits `4838213` (roadmap) and
-`1c6dd1f` (cover). Refresh remote state before implementation. Publish any
-still-unpublished accepted commits and this plan bundle through the foundation
-PR without rewriting `main` or duplicating already integrated changes.
-
-At planning time, the Cases runner repeated twenty in its slot-count check
-and loop while separately retaining an explicit ordered destination array.
-Compare changing those literals in every Case PR with deriving the count from
-that array once. Select derivation: it preserves the existing inventory and
-avoids repeated parallel edits. Deferral would make the first added Case fail
-the twenty-slot check.
-
-1. Move the existing `active_destinations` array before slot validation.
-2. Derive one expected count from that array and iterate its indices. Retain
-   strict numbering, each slot's exact destination, and verifier/index count
-   agreement. Add no registry or extra metadata source.
-3. Run Bash syntax and ShellCheck, then the unchanged twenty-Case aggregate:
-
-   ```sh
-   bash -n content/cases/checks/verify.sh
-   shellcheck -x -P SCRIPTDIR content/cases/checks/verify.sh
-   bash content/cases/checks/verify.sh "$diag_checkout"
-   ```
-
-4. In a throwaway copy, check that broken numbering, a wrong destination, and
-   an extra unindexed verifier still fail. Preserve the real source tree.
-5. Review the final foundation diff and merge after approval. Update the
-   integration issue with its commit and PR URL. This preparation is complete
-   when the existing twenty Cases still pass and the count has one owner.
-
-Revisit the derived-count choice only if a real indexed lesson cannot be
-represented by the current destination array and local verifier convention.
+Future Case acceptance remains unverified at FFI Base until each complete
+lesson passes its own checks. Run inventory mutation probes when a future
+Case changes numbering or destinations; retain strict index/verifier agreement.
 
 ## Final integration implementation
 
@@ -268,7 +226,7 @@ have merged. Use branch `codex/application-cases-integration` and PR title
    prerequisite links, shared introductions, actual source/capture counts,
    roadmap state, and current inventory statements. Do not infer counts from
    these plans' proposed source inventories.
-2. Run the Cases aggregate at the exact Diag Ash pin. Reuse applicable evidence
+2. Run the Cases aggregate at the exact FFI Base pin. Reuse applicable evidence
    for unchanged Learn, Libraries, and Effects inputs; do not rerun their
    aggregates merely because the book grew.
 3. Use the existing pinned rendering toolchain and documented dependency paths.
@@ -301,6 +259,6 @@ have merged. Use branch `codex/application-cases-integration` and PR title
 [workflow]: ../project/workflow.md
 [verify]: ../project/verification.md
 [discoveries]: ../project/workflow.md#classify-discoveries
-[spec]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[tool]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md
+[spec]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[tool]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md
 [dn0052]: https://github.com/dikini/ash-lang/blob/9f8738b7e0d7f280f9744bf808343d2c97ce6661/docs/design/DN-0052-diag-ash-case-studies-and-teaching.md

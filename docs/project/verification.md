@@ -1,7 +1,7 @@
 # Verify the documentation
 
 Every active program, language claim, and tool observation targets Ash
-`diag-ash`, commit `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
+`ffi-base`, commit `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
 
 ## Select the affected checks
 
@@ -10,7 +10,7 @@ action, scope, and changed inputs. For a lesson edit affecting programs,
 observations, or executable promises, run that lesson's local verifier:
 
 ```sh
-bash content/cases/resuming-tree-traversal/checks/verify.sh /path/to/diag-ash
+bash content/cases/resuming-tree-traversal/checks/verify.sh /path/to/ffi-base
 ```
 
 For a part task, run its affected lesson checks; use the family aggregate when
@@ -24,15 +24,19 @@ Use a clean Ash checkout at that exact commit. For complete-edition verification
 or a baseline migration, run all four family aggregates from ash-doc:
 
 ```text
-bash content/learn/checks/verify.sh /path/to/diag-ash
-bash content/cases/checks/verify.sh /path/to/diag-ash
-bash content/libraries/checks/verify.sh /path/to/diag-ash
-bash content/effects/checks/verify.sh /path/to/diag-ash
+bash content/learn/checks/verify.sh /path/to/ffi-base
+bash content/cases/checks/verify.sh /path/to/ffi-base
+bash content/libraries/checks/verify.sh /path/to/ffi-base
+bash content/effects/checks/verify.sh /path/to/ffi-base
 ```
 
 The shared Bash helper checks the compiler pin, builds the executable with
-locked dependencies, and runs the lesson-local verifiers. Verification needs
-Bash, Cargo with the pinned toolchain, ordinary Unix text tools, and Python 3
+locked dependencies, and runs the lesson-local verifiers. Its temporary build
+and observation directory lives under ignored `.build/`, or `TMPDIR` when
+explicitly supplied, and is removed on exit. Native debug dependencies need
+several GiB; use a filesystem with sufficient space rather than a small tmpfs.
+Verification needs Bash, Cargo with the pinned toolchain, ordinary Unix text
+tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
 The four aggregates cover thirteen Learn lessons / 56 sources, twenty-one
@@ -40,6 +44,50 @@ Cases / 74 sources, eight library lessons / 43 sources, and twelve effects
 lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
 properties each Case teaches.
+
+### Native buffer observations
+
+Eight positive entries use the imported source buffer library. Their local
+verifiers call `ash_doc_run_native_accepted` with separate expected value and
+type strings. `native-observe.rs` compiles each entry once, reads the checked
+`CompiledProgram::type_display()`, builds from that same compiled program, and
+captures its generated host. The Bash helper asserts the exact type, complete
+value-only stdout, empty stderr, and status zero. Observer/build logs cannot
+substitute for child output; a failed build cannot reuse a previous executable.
+Each observation has a fresh directory, removed on success or failure.
+
+`native_prepare.py` builds the test-only observer once per prepared run. Its
+generated manifest
+uses the supplied exact checkout as a path dependency and seeds its lock from
+that checkout. Offline Cargo metadata selects the supported Linux x86-64 GNU
+platform; every selected package's name, version, source and checksum must
+match the upstream lock, except the observer itself. Unused workspace/dev
+packages may be omitted. The final observer build uses `--locked --offline`.
+No third-party dependency is added by ash-doc. One temporary dependency cache
+is shared by its native hosts; completed executables and generated projects
+are removed after each observation, avoiding accumulation of large debug hosts.
+
+Python 3.11 or later supplies the standard-library TOML reader for this lock
+check. Native checks also require the supported Linux x86-64 GNU host and its
+Rust/native linker toolchain. Ordinary lessons retain the interpreter route.
+The buffer escape rejection remains on the actual CLI, with the pinned
+`--root ffi=...` added. Its displayed command uses `"$ASH_LIBRARIES"` from the
+root setup; the capture helper expands that variable to the verified checkout
+without normalizing another path in the diagnostic.
+
+Run the comparison and command controls with:
+
+```sh
+python3 -m unittest discover -s content/checks -p 'test_native_observe.py'
+```
+
+The real observer refusal controls additionally use `ASH_DOC_TEST_OBSERVER`,
+`ASH_DOC_TEST_LIBRARIES`, `ASH_DOC_TEST_CACHE`, and `ASH_DOC_TEST_SCRATCH` to
+select a prepared observer, the exact library directory, its build cache, and
+scratch directory. Without those inputs the four real controls are skipped;
+the eight canonical positive observations remain mandatory in their lessons.
+The controls cover wrong type/value, unexpected stderr, child failure, failed
+build, fresh-output refusal, source rejection, and unsupported target.
 
 Rejection checks request `--message-format json`. Each lesson's
 `checks/<entry>.diagnostic.json` records the expected diagnostic data, including
@@ -65,7 +113,7 @@ explanation's source boundary.
 
 The shared [reading notes](../../README.md#read-a-diagnostic) document the
 working-directory and path conventions. The pinned tool's
-[format controls](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#diagnostic-formats-and-locales)
+[format controls](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md#diagnostic-formats-and-locales)
 select English human output. Its `src/presentation.rs::write_human` emits plain
 text without terminal styling, so no unsupported color flag is used. The
 comparison rejects ANSI output and JSON fallback. It replaces only the
@@ -94,6 +142,24 @@ cargo test --locked --lib module_newtype_wrapper_allocates_no_constructor_cell
 The test builds a validated wrap around an ordinary constructor and checks that
 only the representation's constructor cell is allocated. Keep this evidence
 separate from the lesson's source observations.
+
+## FFI Base executable evidence
+
+On 2026-10-17 all four family aggregates passed at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`: Learn 13/56 canonical sources,
+Libraries 8/43, Effects 12/71, and Cases 21/74. All 54 indexed lessons retain
+244 sources and 60 complete English captures. The eight native positives
+matched their checked result types and value-only host output, with status
+zero and empty stderr. The escape rejection retains `type.resource-escape`;
+its primary label now covers the body returning access and its related label
+identifies acquisition. Callback mismatch output names `Bonus` rather than
+an internal effect spelling; its semantic rejection is unchanged.
+
+All 16 harness controls passed with the real observer configured, including
+an intentionally wrong type for an otherwise matching native value. The pinned
+wrapper allocation test also passed (one selected test). These observations
+establish this edition's checked boundaries; they neither verify every possible
+Ash program nor establish a native allocation guarantee.
 
 ## Review the rest
 

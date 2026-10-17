@@ -96,11 +96,11 @@ below imports it, so every run loads and checks this complete source before it
 checks the entry.
 
 The pinned [interface
-grammar](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#grammar)
+grammar](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#grammar)
 makes `Order<A>` a method-only declaration. Its parameter occurs in
 `compare : A -> A -> Ordering`, and the method's outer type constructor is a
 function arrow, as required by the static [interface
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes).
 An interface is not an ordinary value type. It names a checking requirement
 whose evidence supplies the method when a constrained occurrence is used.
 
@@ -109,7 +109,7 @@ The four implementation equations preserve the previous Natural comparison:
 `Next` values compare their payloads. The implementation must be `pub` because
 only public facts can be selected by a dependent. Under the pinned [public
 declaration
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations),
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations),
 a private implementation remains available only in its defining module, while
 `pub impl` publishes a body-free fact in this module's summary. There is no
 implementation name or value for an importer to call.
@@ -125,7 +125,7 @@ lookup_counted : K -> Tree<K, V> -> (Option<V>, Int) where Order<K>
 The `where` clause is not another function argument and is not part of the
 result type. Ash keeps requirements explicit on global signatures instead of
 inferring them from bodies, as specified by [interfaces and constrained
-schemes](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes).
+schemes](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes).
 Inside each `Node` equation, `compare` creates an `Order<K>` obligation.
 The recursive `lookup`, `insert`, or `lookup_counted` occurrence creates the
 same obligation.
@@ -134,9 +134,9 @@ While checking one of these constrained globals, its declared requirement is
 available as abstract evidence. Abstract evidence is considered before a
 concrete implementation, so both the method occurrence and the recursive
 global occurrence reuse the same declared `Order<K>` evidence. The pinned
-[global rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules)
+[global rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#globals-and-modules)
 keep recursive self-occurrences at the same rigid type arguments, and the
-[selection order](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+[selection order](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 accounts for that abstract reuse.
 
 The final Natural implementation equation is recursive for a different
@@ -145,7 +145,7 @@ right` occurrence uses exact current-implementation evidence for
 `Order<Natural>`. It does not start a new search for a concrete implementation.
 That current-evidence rule belongs to implementation-method checking and the
 same ordered [evidence
-selection](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence).
+selection](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence).
 
 ## Select Natural order at an imported call
 
@@ -179,7 +179,7 @@ The two import lines use independent channels. The complete import binds the
 public names beneath `Trees`, but selects no implementations. The `impl Order`
 item binds no name; it makes the dependency's public `Order` implementation
 facts available for evidence selection in this entry. The pinned [import
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#imports-and-namespaces)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#imports-and-namespaces)
 define that separation. This private selector neither re-exports the facts nor
 creates ambient evidence for another module.
 
@@ -188,7 +188,7 @@ query key and its tree key as `Trees.Natural`. Instantiating the imported
 constrained global therefore creates an `Order<Trees.Natural>` obligation.
 The selected public Natural implementation is the unique matching concrete
 candidate. The static [constraint
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 select only after ordinary typing has fixed the obligation's type argument.
 
 Predict the paths. Query `three` compares `Greater` at root `two` and `Equal`
@@ -221,9 +221,9 @@ applications. The miss performs
 method arrives, not which equations these finite inputs enter.
 
 The exact structural result and type follow the pinned [observation
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation).
 The tool's [successful-output
-contract](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md#successful-output)
 gives one standard-output line, empty standard error, and status `0`.
 
 ## Preserve replacement and expose malformed data
@@ -281,7 +281,7 @@ The three observations confirm replacement, retention of the older tree, and
 the malformed miss. `Tree<K, V>` remains a public transparent type, so an
 importer may use `Trees.Node` directly under the pinned [public, private, and
 opaque declaration
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations).
 Neither the nominal type nor `Order<K>` certifies descendant placement.
 
 ## Observe the same unbalanced insertion
@@ -352,18 +352,18 @@ value applications come last. Abstract selections lower to evidence
 parameters; concrete selections lower to occurrences of the selected
 implementation-method binders. These are the pinned
 [interface-evidence lowering
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md#interface-evidence-lowering).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/elaboration.md#interface-evidence-lowering).
 
 Three exact retained tests exercise or inspect compiler stages that a CLI
 result cannot reveal:
 
-- [`cross_module_constraint_lowers_to_method_evidence`](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/tests/interfaces.rs#L1035)
+- [`cross_module_constraint_lowers_to_method_evidence`](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/tests/interfaces.rs#L1112)
   inspects the evidence binder and concrete method application before the
   source argument;
-- [`recursive_constrained_global_reuses_its_declared_abstract_evidence`](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/tests/interface_selection.rs#L1553)
+- [`recursive_constrained_global_reuses_its_declared_abstract_evidence`](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/tests/interface_selection.rs#L1635)
   inspects the abstract selections on a method and recursive global
   occurrence; and
-- [`generic_exact_current_self_carries_abstract_prerequisite_evidence`](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/tests/interfaces.rs#L1598)
+- [`generic_exact_current_self_carries_abstract_prerequisite_evidence`](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/tests/interfaces.rs#L1675)
   exercises recursive exact-current evidence in an implementation method.
 
 The tests support the specified checking and lowering account. They do not add
@@ -373,7 +373,7 @@ Once the selected relationships have lowered, their interface,
 implementation, and requirement identities erase. The evaluator receives
 ordinary functions, binder lookups, and applications under the pinned
 [generated-evidence
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#generated-interface-evidence).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#generated-interface-evidence).
 There is no runtime interface value, implementation registry, registration
 step, implementation lookup, or interface-specific dispatch.
 
@@ -445,7 +445,7 @@ while the selected implementation supplies only `Order<Natural>`.
 Use Natural keys, as in the accepted entries, to match the selected fact.
 Keeping integer keys would instead require a public `Order<Int>`
 implementation selected by this client. The pinned [selection
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 require evidence for the complete application. This failure is classified as
 `constraint.unsatisfied`; checking stops before evaluation can begin.
 
@@ -496,9 +496,9 @@ A completed return claim also needs the finite entered path and returning
 comparisons on that path. A required nonreturning comparison can prevent
 lookup from returning. The nominal type does not prove finiteness: Ash permits
 constructor-guarded cyclic values under its static [recursive block-group
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#recursive-block-groups)
 and dynamic [recursive binding
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#recursive-bindings).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#recursive-bindings).
 A reachable cycle along the selected path may prevent return, while a cycle in
 an unentered branch need not affect that lookup.
 

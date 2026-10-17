@@ -1,5 +1,8 @@
 # A8: Round-trip tagged frames
 
+**Migration status:** retargeted to FFI Base; acceptance remains unverified.
+The migration does not implement this Case.
+
 The reader asks how encoding and decoding can preserve a message while buffer
 access remains scoped. The observable boundary separates format agreement,
 logical frame length, acquisition failure, operation failure, and escaping
@@ -9,8 +12,8 @@ access. Scope is one lesson implementing roadmap A8.
 
 **State:** planned; application code and observations remain unverified.
 
-Use `diag-ash`, exact Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`, throughout.
+Use `ffi-base`, exact Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`, throughout.
 Read README, workflow, writing skill, and roadmap A8. Continue
 `content/cases/reading-a-bounded-message/`,
 `content/effects/acquiring-a-buffer/`, and
@@ -111,7 +114,7 @@ network, string, or external-process fixtures are required.
 Run from ash-doc after implementation:
 
 ```sh
-bash content/cases/round-tripping-tagged-frames/checks/verify.sh /path/to/diag-ash
+bash content/cases/round-tripping-tagged-frames/checks/verify.sh /path/to/ffi-base
 bash -n content/cases/round-tripping-tagged-frames/checks/verify.sh
 shellcheck -x -P SCRIPTDIR content/cases/round-tripping-tagged-frames/checks/verify.sh
 markdownlint content/cases/round-tripping-tagged-frames/README.md
@@ -155,7 +158,7 @@ semantics to Ash design. Retain other pressure as evidence. A regression leaves
 the promised outcome incomplete: do not weaken it, modify ash-lang, or move the
 pin. Report a required lab/shared change for separately bounded ownership.
 
-[overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[buffers]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-native-buffers
-[resources]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#scoped-native-buffer-execution
+[overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[buffers]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-native-buffers
+[resources]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[execution]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#scoped-native-buffer-execution

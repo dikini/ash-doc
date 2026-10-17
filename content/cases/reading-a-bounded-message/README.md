@@ -14,23 +14,24 @@ buffer and cursor access. Only ordinary result data leaves those scopes.
 From the Cases directory, enter `reading-a-bounded-message/src`. The buffer is
 zero-initialized, so writing just the prefix leaves zero-valued payload bytes.
 The four runs request a complete two-byte payload, a truncated payload, an empty
-payload, and an invalid allocation length. Predict each wrapper before running
-`ash main.ash`.
+payload, and an invalid allocation length. Predict each wrapper before
+building and running the generated executable with the buffer lesson's
+native setup.
 
 <!-- source: src/main.ash -->
 <!-- markdownlint-disable MD013 -->
 ```ash
 import @builtin.cell as Cell
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
-type Bytes = End
-    | Byte(Int, Bytes)
+type Payload = End
+    | Byte(Int, Payload)
 
 effect Stream {
     next : Unit -> Buffer.Outcome<Int>
 }
 
-read_payload : (Int, Int) -> Buffer.Outcome<Bytes> ! {Stream}
+read_payload : (Int, Int) -> Buffer.Outcome<Payload> ! {Stream}
 read_payload (length, read) = match read == length {
     true => Buffer.Success(End)
     false => match perform Stream.next () {
@@ -42,14 +43,14 @@ read_payload (length, read) = match read == length {
     }
 }
 
-decode : Unit -> Buffer.Outcome<Bytes> ! {Stream}
+decode : Unit -> Buffer.Outcome<Payload> ! {Stream}
 decode () = match perform Stream.next () {
     Buffer.Failure(error) => Buffer.Failure(error)
     Buffer.Success(length) => read_payload (length, 0)
 }
 
-run : (Int, Int) -> Buffer.Outcome<Buffer.Outcome<Bytes>>
-run (capacity, length) = resource native_buffer<R> bytes = capacity {
+run : (Int, Int) -> Buffer.Outcome<Buffer.Outcome<Payload>>
+run (capacity, length) = resource Buffer.Buffer<R> bytes = capacity {
     match Buffer.write (bytes, 0, length) {
         Buffer.Failure(error) => Buffer.Failure(error)
         Buffer.Success(()) => resource cell<C> cursor = 0 {
@@ -68,17 +69,21 @@ run (capacity, length) = resource native_buffer<R> bytes = capacity {
     }
 }
 
-main : Unit -> (Buffer.Outcome<Buffer.Outcome<Bytes>>,
-    Buffer.Outcome<Buffer.Outcome<Bytes>>, Buffer.Outcome<Buffer.Outcome<Bytes>>,
-    Buffer.Outcome<Buffer.Outcome<Bytes>>)
+main : Unit -> (Buffer.Outcome<Buffer.Outcome<Payload>>,
+    Buffer.Outcome<Buffer.Outcome<Payload>>, Buffer.Outcome<Buffer.Outcome<Payload>>,
+    Buffer.Outcome<Buffer.Outcome<Payload>>)
 main () = (run (3, 2), run (2, 2), run (1, 0), run (0, 2))
 ```
 <!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 -->
 ```text
-$ ash main.ash
-(Success(Success(Byte(0, Byte(0, End)))), Success(Failure(InvalidIndex)), Success(Success(End)), Failure(InvalidLength)) : (Outcome<Outcome<Bytes>>, Outcome<Outcome<Bytes>>, Outcome<Outcome<Bytes>>, Outcome<Outcome<Bytes>>)
+$ ash build --output ./message \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" main.ash
+/path/to/ash-doc/content/cases/reading-a-bounded-message/src/message
+$ ./message
+(Success(Success(Byte(0, Byte(0, End)))), Success(Failure(InvalidIndex)), Success(Success(End)), Failure(InvalidLength))
 ```
 <!-- markdownlint-enable MD013 -->
 

@@ -635,9 +635,9 @@ those forms supplies no constructor binding to client source. Test that
 separate boundary next.
 
 [balanced]: ../guaranteeing-logarithmic-retrieval/README.md
-[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application
-[observation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation
-[opacity]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations
+[application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application
+[observation]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation
+[opacity]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations
 
 ## Test the source boundary in patterns and values
 
@@ -815,7 +815,7 @@ These return and traversal claims apply to finite acyclic dictionary spines
 reached through completed public operations and to iterator states produced
 from them. A defining module can construct malformed or constructor-guarded
 cyclic spines despite opacity under Ash's static
-[recursive block-group rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups).
+[recursive block-group rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#recursive-block-groups).
 An initial left-edge cycle can prevent `iterator` from returning. A cycle in a
 saved right subtree may permit earlier results and then prevent the `next` call
 that enters it from returning. The spine premise does not require acyclic keys

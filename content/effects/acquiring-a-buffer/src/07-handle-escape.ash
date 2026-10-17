@@ -1,8 +1,8 @@
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 main : Unit -> Int
 main () = {
-    let leaked = resource native_buffer<R> bytes = 2 {
+    let leaked = resource Buffer.Buffer<R> bytes = 2 {
         bytes
     }
     0

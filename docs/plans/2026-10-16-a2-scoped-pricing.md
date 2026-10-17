@@ -1,5 +1,8 @@
 # A2: Supplying a local pricing policy
 
+**Migration status:** retargeted to FFI Base; acceptance remains unverified.
+The migration does not implement this Case.
+
 Reader question: how can a pricing method retain a tariff without exporting
 local evidence?
 The observable boundary is nominal units, lexical evidence selection, and an
@@ -10,8 +13,8 @@ This is selected application design, not a language or architecture decision.
 
 **State:** planned; application code and observations remain unverified.
 
-Target: `diag-ash`, Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Read the
+Target: `ffi-base`, Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. Read the
 [specification overview][overview] and the governing sections before coding.
 The [tool guide][tool]
 at that same pin governs commands, diagnostics, and output. DN-0052 at
@@ -147,8 +150,8 @@ the complete lesson. Continue unaffected work and report shared needs to the PM.
 [workflow]: ../project/workflow.md
 [verification]: ../project/verification.md
 [writing]: ../../.agents/skills/writing-ash-documentation/SKILL.md
-[overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[tool]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md
-[nominals]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#local-nominal-scope
-[evidence]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-exact-evidence
-[interfaces]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes
+[overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[tool]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md
+[nominals]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-exact-evidence
+[interfaces]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes

@@ -2,8 +2,8 @@
 
 Learn lesson 3 asks how a function's type relates to its inputs and result,
 and how supplying one input leaves a function. This accepted visualization
-experiment targets `diag-ash`, Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The pinned
+experiment targets `ffi-base`, Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. The pinned
 [application rules][application] govern the calls.
 
 The existing unnumbered margin aside contains three numbered figures:
@@ -79,5 +79,5 @@ The accepted experiment is merged into the active documentation source;
 it does not publish the edition. Google Drive still holds an earlier
 single-figure review and has not been refreshed with this version.
 
-[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application
+[application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application
 [reference]: https://media.licdn.com/dms/image/v2/D4D12AQEkJw3PenxFlw/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1672944261013?e=2147483647&v=beta&t=LOeI0l95GEXwQiqPeHYwBnmlYA3ClDhrgMw8Lgl2YEw

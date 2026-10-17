@@ -7,10 +7,11 @@ a delivery schedule, publication promise, or source of Ash semantics.
 
 ## Current baseline
 
-Ash-doc targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. This cumulative checkpoint includes
-diagnostics, effects and resources, library abstractions, modules, and the
-earlier language foundation.
+Ash-doc targets `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. This cumulative checkpoint includes
+source
+foreign contracts, resource families, strings and bytes, generated native hosts,
+diagnostics, effects, library abstractions, modules, and the earlier foundation.
 
 All indexed lessons are verified at this baseline:
 
@@ -50,6 +51,21 @@ complete requirements, declaration access, and lexical scope to causal labels
 and repairs. Every practice task names a fresh baseline; sibling modules stay
 together outside canonical source trees. All eight chapters retain their
 original 43 sources, 17 accepted observations, and 16 complete captures.
+
+## FFI Base migration outcome
+
+**State: approved migration in progress; executable and rendering gates pending.**
+The selected bounded outcome is to preserve all 54 current lessons and their
+verification while moving the edition from FFI Base to `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`.
+The [design](../plans/2026-10-17-ffi-base-migration-design.md) compares
+verification approaches and bounds the native observation helper. The
+[execution plan](../plans/2026-10-17-ffi-base-migration.md) names the cutover,
+lesson repairs, all-family verification, and complete 54-lesson rendering gate.
+New FFI lessons and implementation of further application Cases are excluded.
+The current edition and existing verification remain at the baseline above
+until an approved migration begins. This outcome does not change publication
+status or authorize changes to another task's worktree.
 
 ## Rendering infrastructure outcome
 
@@ -579,7 +595,7 @@ acceptance.
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
 `9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all planned programs still target
-`diag-ash` at `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
+`ffi-base` at `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
 
 Place these studies in the existing Cases family. The completed short Cases
 isolate mechanisms; these continuations derive application data, operations,
@@ -814,21 +830,21 @@ baseline. These sections govern the proposed boundaries:
   independent comparisons; these rules do not establish redaction, edit
   authorization, sorting correctness, or codec agreement.
 
-[rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
-[effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
-[cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[buffers]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-native-buffers
-[cleanup]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cleanup-actions
-[hooks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#synchronous-typed-hooks
-[blocks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#blocks
-[rank1]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#inference-and-rank-1-restrictions
-[recursion]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups
-[implementations]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#implementations
-[overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[nominals]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#local-nominal-scope
-[evidence]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-exact-evidence
-[interfaces]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes
-[reporting]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#typed-failure-reporting
+[rows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[buffers]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-native-buffers
+[cleanup]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cleanup-actions
+[hooks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#synchronous-typed-hooks
+[blocks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#blocks
+[rank1]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#inference-and-rank-1-restrictions
+[recursion]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#recursive-block-groups
+[implementations]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#implementations
+[overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[nominals]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-exact-evidence
+[interfaces]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes
+[reporting]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#typed-failure-reporting
 [dn0052]: https://github.com/dikini/ash-lang/blob/9f8738b7e0d7f280f9744bf808343d2c97ce6661/docs/design/DN-0052-diag-ash-case-studies-and-teaching.md
 
 ## Evidence and completion expectations
@@ -885,7 +901,7 @@ merge; its presentation remains pending. A2–A8 are proposed application
 outcomes, each requiring its own bounded design and approval under the existing
 workflow. The linked coordination plan defines separate Case ownership during
 parallel work.
-The documentation remains unpublished; no ash-doc `diag-ash`
+The documentation remains unpublished; no ash-doc `ffi-base`
 publication tag exists. Refine chapter boundaries when executable design
 exposes a dependency or an overloaded question, and replace superseded wording
 rather than keeping parallel roadmaps.

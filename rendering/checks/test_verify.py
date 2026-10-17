@@ -78,11 +78,11 @@ class BookCoverageTests(unittest.TestCase):
             parts.append({"family": family, "introduction": introduction, "chapters": chapters})
         (self.root / "rendering").mkdir()
         (self.root / "rendering/specimen.json").write_text(json.dumps({
-            "ash_commit": "9ec5920e8c395f9a36125805ee93b7f58c0f4764"}))
+            "ash_commit": "354c76b391fe4af665cf6a03479a9874a57cb3e3"}))
         self.metadata = {
             "mode": "book", "title": "Ash documentation review book",
             "output_file": "ash-doc-review",
-            "ash_commit": "9ec5920e8c395f9a36125805ee93b7f58c0f4764",
+            "ash_commit": "354c76b391fe4af665cf6a03479a9874a57cb3e3",
             "source_commit": "a" * 40, "parts": parts, "lesson_count": 8,
             "chapters": ["index.md", "setup.md"] + [record["chapter"] for record in self.records],
         }

@@ -9,21 +9,31 @@ The buffer API also returns ordinary outcomes for checked reads and writes.
 We will keep those outcomes separate: acquiring a buffer successfully does
 not guarantee that every operation on it succeeds.
 
+The buffer library calls the native allocator. Its programs need a generated
+executable, built on Linux x86-64 GNU with the selected Rust toolchain and a
+native linker. Keep `ASH_LIBRARIES` from the [shared setup][setup] in this
+terminal; it points at the selected Ash checkout's `libraries` directory.
+`ASH_NATIVE_CACHE` lets these builds reuse their compiled dependencies.
+The `ffi` root connects imports to that directory. Building reports the
+executable's absolute path; running it prints the value without a type suffix.
+The `main` signature still states the result type checked during compilation.
+
 ## Read an initially zero byte
 
 `01-zeroed-bytes.ash` acquires four bytes and reads index zero:
 
 <!-- source: src/01-zeroed-bytes.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
-main () = resource native_buffer<R> bytes = 4 {
+main () = resource Buffer.Buffer<R> bytes = 4 {
     Buffer.read (bytes, 0)
 }
 ```
 
-`@builtin.native_buffer` supplies the fixed buffer API. Like a cell, an acquired
+`@ffi.native_buffer` imports the source buffer library through the `ffi` root.
+`Buffer.Buffer<R>` names its declared resource family. Like a cell, an acquired
 buffer has a handle, an exact provider relation, an operation interpreter, and
 one scope owning release. Its bytes start at zero.
 
@@ -35,8 +45,12 @@ layers here: the read and the surrounding acquisition. Predict both before
 running from this lesson's `src` directory:
 
 ```text
-$ ash 01-zeroed-bytes.ash
-Success(Success(0)) : Outcome<Outcome<Int>>
+$ ash build --output ./buffer-example \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" 01-zeroed-bytes.ash
+/path/to/ash-doc/content/effects/acquiring-a-buffer/src/buffer-example
+$ ./buffer-example
+Success(Success(0))
 ```
 
 The inner `Success(0)` is the read outcome. The outer `Success` says acquisition
@@ -52,10 +66,10 @@ exceptions or automatically stop surrounding work.
 
 <!-- source: src/02-write-and-read.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
-main () = resource native_buffer<R> bytes = 4 {
+main () = resource Buffer.Buffer<R> bytes = 4 {
     match Buffer.write (bytes, 1, 42) {
         Buffer.Success(()) => Buffer.read (bytes, 1)
         Buffer.Failure(error) => Buffer.Failure error
@@ -70,8 +84,12 @@ that error instead. Predict which
 branch this write selects, then the read's value and its acquisition wrapper:
 
 ```text
-$ ash 02-write-and-read.ash
-Success(Success(42)) : Outcome<Outcome<Int>>
+$ ash build --output ./buffer-example \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" 02-write-and-read.ash
+/path/to/ash-doc/content/effects/acquiring-a-buffer/src/buffer-example
+$ ./buffer-example
+Success(Success(42))
 ```
 
 The body chooses an ordinary outcome, and acquisition wraps that body result.
@@ -85,13 +103,13 @@ whether the body runs:
 
 <!-- source: src/03-acquisition-failure.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 import @builtin.cell as Cell
 
 main : Unit -> (Buffer.Outcome<Int>, Int)
 main () = resource cell<C> entered = 0 {
-    let result = resource native_buffer<R> bytes = 0 {
+    let result = resource Buffer.Buffer<R> bytes = 0 {
         let ignored = Cell.write (entered, 1)
         42
     }
@@ -103,8 +121,12 @@ Use the positive-length requirement to decide whether the body is entered.
 Predict the acquisition outcome and the cell's final value separately:
 
 ```text
-$ ash 03-acquisition-failure.ash
-(Failure(InvalidLength), 0) : (Outcome<Int>, Int)
+$ ash build --output ./buffer-example \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" 03-acquisition-failure.ash
+/path/to/ash-doc/content/effects/acquiring-a-buffer/src/buffer-example
+$ ./buffer-example
+(Failure(InvalidLength), 0)
 ```
 
 Zero is invalid, so no buffer is acquired and the body never writes to
@@ -124,10 +146,10 @@ For a length of two, the valid indices are zero and one.
 
 <!-- source: src/04-invalid-index.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
-main () = resource native_buffer<R> bytes = 2 {
+main () = resource Buffer.Buffer<R> bytes = 2 {
     Buffer.read (bytes, 2)
 }
 ```
@@ -136,8 +158,12 @@ The length is valid, but is the read index within its bounds? Predict the
 read's outcome and whether the enclosing acquisition still returns `Success`:
 
 ```text
-$ ash 04-invalid-index.ash
-Success(Failure(InvalidIndex)) : Outcome<Outcome<Int>>
+$ ash build --output ./buffer-example \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" 04-invalid-index.ash
+/path/to/ash-doc/content/effects/acquiring-a-buffer/src/buffer-example
+$ ./buffer-example
+Success(Failure(InvalidIndex))
 ```
 
 Acquisition succeeded and the body returned normally, but its value was the
@@ -150,12 +176,12 @@ the write outcome and a later read in ordinary data:
 
 <!-- source: src/05-invalid-byte.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 type Checked = Checked(Buffer.Outcome<Unit>, Buffer.Outcome<Int>)
 
 main : Unit -> Buffer.Outcome<Checked>
-main () = resource native_buffer<R> bytes = 2 {
+main () = resource Buffer.Buffer<R> bytes = 2 {
     let written = Buffer.write (bytes, 0, 256)
     Checked(written, Buffer.read (bytes, 0))
 }
@@ -165,8 +191,12 @@ Predict both fields of `Checked`. If the write is outside the byte range,
 what will a later read find at the unchanged position?
 
 ```text
-$ ash 05-invalid-byte.ash
-Success(Checked(Failure(InvalidByte), Success(0))) : Outcome<Checked>
+$ ash build --output ./buffer-example \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" 05-invalid-byte.ash
+/path/to/ash-doc/content/effects/acquiring-a-buffer/src/buffer-example
+$ ./buffer-example
+Success(Checked(Failure(InvalidByte), Success(0)))
 ```
 
 `Checked` is our data constructor for the two observations. The invalid write
@@ -181,11 +211,11 @@ to acquire an invalid inner one:
 
 <!-- source: src/06-nested-acquisition.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 main : Unit -> Buffer.Outcome<Buffer.Outcome<Int>>
-main () = resource native_buffer<R> outer = 1 {
-    resource native_buffer<S> inner = 0 {
+main () = resource Buffer.Buffer<R> outer = 1 {
+    resource Buffer.Buffer<S> inner = 0 {
         Buffer.length outer
     }
 }
@@ -195,8 +225,12 @@ Trace entry into each body. Which acquisition can return a value without
 running its body, and what will the outer body return and wrap?
 
 ```text
-$ ash 06-nested-acquisition.ash
-Success(Failure(InvalidLength)) : Outcome<Outcome<Int>>
+$ ash build --output ./buffer-example \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" 06-nested-acquisition.ash
+/path/to/ash-doc/content/effects/acquiring-a-buffer/src/buffer-example
+$ ./buffer-example
+Success(Failure(InvalidLength))
 ```
 
 The inner body does not run. The outer body returns the inner failure as an
@@ -214,7 +248,7 @@ These examples separate the producer of each outcome layer:
 | Invalid byte (`05`) | `Success(...)` | `Checked` with both access outcomes |
 | Nested acquisition (`06`) | `Success(...)` | Inner `Failure(InvalidLength)` |
 
-All six programs so far return ordinary values with tool status `0`,
+All six generated programs so far return ordinary values with exit status `0`,
 including those containing `Failure`. The [buffer evaluation rules][execution]
 keep acquisition, access outcomes, and normal release distinct.
 
@@ -225,11 +259,11 @@ return a buffer handle from its owner:
 
 <!-- source: src/07-handle-escape.ash -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 main : Unit -> Int
 main () = {
-    let leaked = resource native_buffer<R> bytes = 2 {
+    let leaked = resource Buffer.Buffer<R> bytes = 2 {
         bytes
     }
     0
@@ -242,13 +276,17 @@ E8's dependency rule before reading this source rejection:
 <!-- diagnostic: src/07-handle-escape.ash -->
 <!-- markdownlint-disable MD013 -->
 ```text
-$ ash --message-format human --locale en 07-handle-escape.ash
+$ ash --message-format human --locale en --root ffi="$ASH_LIBRARIES" 07-handle-escape.ash
 This value or computation depends on a resource that would be out of scope.
-  --> /path/to/ash-doc/content/effects/acquiring-a-buffer/src/07-handle-escape.ash:6:9
+  --> /path/to/ash-doc/content/effects/acquiring-a-buffer/src/07-handle-escape.ash:5:54
+5 |     let leaked = resource Buffer.Buffer<R> bytes = 2 {
+  |                                                      ^ This value or computation depends on a resource that would be out of scope.
 6 |         bytes
-  |         ^ This value or computation depends on a resource that would be out of scope.
+  | ^ This value or computation depends on a resource that would be out of scope.
+7 |     }
+  | ^ This value or computation depends on a resource that would be out of scope.
   --> /path/to/ash-doc/content/effects/acquiring-a-buffer/src/07-handle-escape.ash:5:18
-5 |     let leaked = resource native_buffer<R> bytes = 2 {
+5 |     let leaked = resource Buffer.Buffer<R> bytes = 2 {
   |                  ^ This resource is acquired here and must remain within its scope.
 6 |         bytes
   | ^ This resource is acquired here and must remain within its scope.
@@ -259,19 +297,21 @@ reason: type.resource-escape
 <!-- markdownlint-enable MD013 -->
 
 The returned handle would depend on the closed acquisition, even inside its
-success wrapper. The labels connect the escaping value to the owner. Return
+success wrapper. The primary label covers the body returning that handle;
+the related label begins at the acquisition that owns it. Return
 copied data, such as a read outcome, while keeping all handle access inside
 the resource body.
 
 The [buffer rules][buffers] define these outcomes, dependencies, and release
-boundaries. This provider introduces no source pointers, manual release, or
-general foreign-function interface.
+boundaries. The client acquires scoped access and returns ordinary data; the library
+owns native allocation and release. No client pointer or manual release is
+needed for this calculation.
 
 ## Practice: identify which operation failed
 
 For each task, make a fresh copy of its named program in a scratch directory
-outside this lesson's `src` tree. Predict the outcome, then run that copy from
-its directory.
+outside this lesson's `src` tree. Predict the outcome, then build and run the
+copy from its directory with the same `ffi` root.
 
 1. Give `03-acquisition-failure.ash` a valid small length. Predict the outcome
    and the `entered` count before running.
@@ -285,5 +325,7 @@ outcomes describe operations within it. Both remain ordinary typed values,
 while access belongs to a live owner. The final lesson will put requests,
 state, early stopping, and cleanup together in one finite-list calculation.
 
-[buffers]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-native-buffers
-[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#scoped-native-buffer-execution
+[buffers]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-native-buffers
+[execution]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#scoped-native-buffer-execution
+
+[setup]: ../../../README.md#prepare-ash

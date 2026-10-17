@@ -10,8 +10,8 @@ outer margins, a one-sided A4 PDF with left binding space, and evaluation of
 the existing railroad and sequent renderers. The complete review book extends
 that local choice with Learn → Libraries → Effects → Cases order and the four
 family introductions. Canonical learning source remains authoritative.
-All lesson material still targets `diag-ash`, Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. The edition remains unpublished.
+All lesson material still targets `ffi-base`, Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. The edition remains unpublished.
 
 The writing skill's
 [formatting reference](../../.agents/skills/writing-ash-documentation/references/formatting.md)
@@ -568,4 +568,4 @@ part-anchor regressions.
 This decision establishes a bounded local review book and retained regression
 specimen. It selects no hosting, CI service, publication mechanism, or
 repository-wide license. A publication still requires the complete edition's
-checks and its immutable `diag-ash` tag under the existing project workflow.
+checks and its immutable `ffi-base` tag under the existing project workflow.

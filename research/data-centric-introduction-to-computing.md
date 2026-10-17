@@ -72,8 +72,8 @@ establish permission.
 
 ## Ash-specific departures and exclusions
 
-All Ash claims remain governed by `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. DCIC's Pyret and Python behavior,
+All Ash claims remain governed by `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. DCIC's Pyret and Python behavior,
 libraries, testing syntax, and execution models are not Ash semantics. An Ash
 trace must agree with the pinned specification and actual tool observations.
 

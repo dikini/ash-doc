@@ -463,7 +463,7 @@ def prepare(args):
         "# Ash documentation\n\nBegin with reader setup, then follow the selected "
         "lesson or part. References to other chapters retain their source links.\n") if scope["mode"] in ("lesson", "part") else (
         "# Ash documentation\n\nThis local specimen tests the presentation of verified lessons "
-        "and labelled notation fixtures in three formats.\n\nThe lessons target `diag-ash`, commit `"
+        "and labelled notation fixtures in three formats.\n\nThe lessons target `ffi-base`, commit `"
         + config["ash_commit"] + "`. The edition remains unpublished.\n\n"
         "Begin with reader setup, then use the contents to select a chapter.\n")
     (args.output / "index.md").write_text(introduction, encoding="utf-8")

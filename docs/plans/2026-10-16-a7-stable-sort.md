@@ -1,5 +1,8 @@
 # A7: Cancel a stable sort
 
+**Migration status:** retargeted to FFI Base; acceptance remains unverified.
+The migration does not implement this Case.
+
 The reader asks what a sort can promise when permission to compare can stop.
 The observable boundary separates a complete stable result, charged comparison
 work, and cancellation. Scope is one lesson implementing roadmap A7.
@@ -8,8 +11,8 @@ work, and cancellation. Scope is one lesson implementing roadmap A7.
 
 **State:** planned; application code and observations remain unverified.
 
-Use `diag-ash`, exact Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`, throughout.
+Use `ffi-base`, exact Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`, throughout.
 Read README, workflow, writing skill, and roadmap A7. Continue
 `content/cases/searching-ordered-tree/`,
 `content/cases/measuring-tree-search/`, and
@@ -108,7 +111,7 @@ comparison-count question; do not introduce benchmarks or external inputs.
 Run from ash-doc after implementation:
 
 ```sh
-bash content/cases/cancelling-a-stable-sort/checks/verify.sh /path/to/diag-ash
+bash content/cases/cancelling-a-stable-sort/checks/verify.sh /path/to/ffi-base
 bash -n content/cases/cancelling-a-stable-sort/checks/verify.sh
 shellcheck -x -P SCRIPTDIR content/cases/cancelling-a-stable-sort/checks/verify.sh
 markdownlint content/cases/cancelling-a-stable-sort/README.md
@@ -153,6 +156,6 @@ semantics to Ash design. Retain other pressure as evidence. A regression leaves
 the promised outcome incomplete: do not weaken it, modify ash-lang, or move the
 pin. Report a required lab/shared change for separately bounded ownership.
 
-[overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
-[completion]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#effect-handlers-and-completion
+[overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[effects]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#effects
+[completion]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#effect-handlers-and-completion

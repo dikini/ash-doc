@@ -5,9 +5,9 @@ contributors preserve the path's intended outcome and progression. It is not a
 table of contents, a backlog, a publication promise, or a source of Ash
 semantics.
 
-The active path targets `diag-ash` at commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`, as declared by the
-[repository](../../README.md#current-edition-diag-ash). Language details
+The active path targets `ffi-base` at commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`, as declared by the
+[repository](../../README.md#current-edition-ffi-base). Language details
 come from the specification at that commit. The [project roadmap](roadmap.md)
 owns the one next complete increment. The
 [learning index](../../content/learn/README.md) lists only lessons that readers

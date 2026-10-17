@@ -9,7 +9,7 @@ rendering specimen. It is a development handoff, not an Ash language proposal.
 
 The observations use these exact source commits:
 
-- Ash `diag-ash`: `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
+- Ash `ffi-base`: `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
 - [`sequent-md`][sequent]: `21dad3d34b206b7964d2dd7edcab89a7b8f2b612`.
 - [`railroad`][railroad]: `366d5eaa937e9e9fbae3bf8d44265ccc2c528067`.
 
@@ -26,9 +26,9 @@ The current corpus has these results:
 
 | Pinned source | Observation |
 | --- | --- |
-| `spec/syntax.md` | All 84 productions in its EBNF fence render without errors. |
+| `spec/syntax.md` | The complete FFI Base fence exhausts the 256 MiB conformance worker heap (RR-05); no complete SVG result is accepted. |
 | `spec/static-semantics.md` | Eight of 22 sequent fences parse; 14 reject continuation indentation. |
-| `spec/dynamic-semantics.md` | All fourteen sequent fences parse. |
+| `spec/dynamic-semantics.md` | All seventeen sequent fences parse. |
 | `spec/elaboration.md` | No sequent fences occur. |
 
 <!-- markdownlint-enable MD013 -->
@@ -37,6 +37,23 @@ The sequent renderer's own seven test suites passed. Its archived source built
 successfully with `npm run build`. The railroad renderer's existing tests and
 build also passed during evaluation. These checks cover their tested contracts;
 they do not establish full Ash notation conformance or standalone export.
+
+## Full grammar resource limit
+
+The complete FFI Base syntax fence exhausted Node's default heap during the
+migration check. A separate 256 MiB worker reproduces heap exhaustion; the
+conformance probe records `RR-05` instead of accepting a partial grammar or
+terminating the other controls. Its input is the unchanged complete EBNF fence
+read from the exact Ash commit above. Successful small grammar and invalid-input
+controls still run in the parent process. The new sequent corpus has 39 fences:
+25 parse and the same 14 static-semantics fences reject continuation indentation.
+
+This is a resource limitation of the pinned railroad renderer on the complete
+specification, not a claim that the Ash grammar is invalid. The learning book
+uses its own bounded notation fixtures, checked separately. Investigate the
+whole-fence expansion upstream without changing Ash grammar or dropping
+productions; remove this retained refusal only after the unchanged fence renders
+within the bounded probe and its complete output is reviewed.
 
 ## Reproduce the observations
 
@@ -110,19 +127,19 @@ finds the same diagnostic in these static-semantics fences:
 | Fence opening line | Diagnostic lines within the fence |
 | --- | --- |
 | 121 | 48 |
-| 231 | 6, 12, 20 |
-| 472 | 23 |
-| 513 | 8, 12, 15 |
-| 1027 | 5, 6, 7, 11, 19 |
-| 1472 | 7, 9, 10, 15, 23, 26 |
-| 1516 | 3, 4, 8, 9, 10 |
-| 1575 | 9, 11, 12 |
-| 1667 | 6, 9, 13, 15, 17, 20, 23 |
-| 1729 | 12, 20, 22, 25 |
-| 1807 | 7 |
-| 1974 | 7, 15, 23, 30, 33, 36 |
-| 2161 | 6, 9, 19, 20, 24, 27, 31, 33, 41, 43, 46 |
-| 2262 | 8, 10, 24, 27, 29, 30, 37 |
+| 240 | 6, 12, 20 |
+| 486 | 23 |
+| 527 | 8, 12, 15 |
+| 1387 | 5, 6, 7, 11, 19 |
+| 1832 | 7, 9, 10, 15, 23, 26 |
+| 1876 | 3, 4, 8, 9, 10 |
+| 1935 | 9, 11, 12 |
+| 2027 | 6, 9, 13, 15, 17, 20, 23 |
+| 2089 | 12, 20, 22, 25 |
+| 2167 | 7 |
+| 2334 | 7, 15, 23, 30, 33, 36 |
+| 2521 | 6, 9, 19, 20, 24, 27, 31, 33, 41, 43, 46 |
+| 2622 | 8, 10, 24, 27, 29, 30, 37 |
 
 These locations refer to [the pinned static semantics][static-source]. Add a
 diagnostic's fence-relative line to the fence opening line to get its source
@@ -365,10 +382,10 @@ positive controls and artifact checks; Git retains the superseded evidence.
 
 [sequent]: https://github.com/dikini/sequent-md/tree/21dad3d34b206b7964d2dd7edcab89a7b8f2b612
 [railroad]: https://github.com/dikini/railroad/tree/366d5eaa937e9e9fbae3bf8d44265ccc2c528067
-[notation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/project/notation.md#rendering-and-ports
-[decision]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/decisions/AD-0003-formal-notation-fences.md#consequences
-[kind-source]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#kinds-monotypes-and-schemes
-[static-source]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md
+[notation]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/project/notation.md#rendering-and-ports
+[decision]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/decisions/AD-0003-formal-notation-fences.md#consequences
+[kind-source]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#kinds-monotypes-and-schemes
+[static-source]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md
 [sequent-core]: https://github.com/dikini/sequent-md/blob/21dad3d34b206b7964d2dd7edcab89a7b8f2b612/packages/core/src/index.js
 [railroad-rehype]: https://github.com/dikini/railroad/blob/366d5eaa937e9e9fbae3bf8d44265ccc2c528067/src/rehype.js
 [railroad-package]: https://github.com/dikini/railroad/blob/366d5eaa937e9e9fbae3bf8d44265ccc2c528067/package.json

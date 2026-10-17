@@ -149,4 +149,4 @@ module.
 Our functions still take one input each. The next chapter asks what the arrows
 and calls mean when a function needs more than one input.
 
-[visibility]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations
+[visibility]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations

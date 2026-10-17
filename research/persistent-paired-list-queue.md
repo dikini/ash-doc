@@ -80,7 +80,7 @@ it rebuilds a growing path on every operation of one kind.
 Okasaki's later construction in the selected paper uses lazy lists and
 incremental work to improve individual-operation bounds. It is a credible
 queue design in a language with the required lazy and memoizing behavior.
-Pinned Diag Ash instead evaluates ordinary applications and constructors
+Pinned FFI Base instead evaluates ordinary applications and constructors
 eagerly and supplies no selected lazy-list mechanism.
 
 The case does not translate that construction, encode
@@ -131,12 +131,12 @@ partial removal. `empty` is a function from `Unit` because a pinned Ash
 module contains declarations rather than an evaluated module value.
 
 Every language claim must come from the
-[pinned specification](https://github.com/dikini/ash-lang/tree/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec),
+[pinned specification](https://github.com/dikini/ash-lang/tree/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec),
 and every command observation must follow the pinned
 [`ash` tool
-guide](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md).
-The target is `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Neither the selected sources nor
+guide](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md).
+The target is `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. Neither the selected sources nor
 current `ash-lang/main` can add behavior to that edition.
 
 ## Deliberate exclusions

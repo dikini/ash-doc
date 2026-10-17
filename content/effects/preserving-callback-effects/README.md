@@ -72,10 +72,10 @@ handler in view as you check whether the supplied function fits that parameter:
 <!-- markdownlint-disable MD013 -->
 ```text
 $ ash --message-format human --locale en 02-pure-contract.ash
-This function argument must have type `(Int -> Int, Int)`, but has type `(Int -> Int ! {<effect:1:0:0>}, Int)`.
+This function argument must have type `(Int -> Int, Int)`, but has type `(Int -> Int ! {Bonus}, Int)`.
   --> /path/to/ash-doc/content/effects/preserving-callback-effects/src/02-pure-contract.ash:12:31
 12 | main () = handle (apply_twice (score, 40)) with Bonus {
-   |                               ^ This has type `(Int -> Int ! {<effect:1:0:0>}, Int)`.
+   |                               ^ This has type `(Int -> Int ! {Bonus}, Int)`.
   --> /path/to/ash-doc/content/effects/preserving-callback-effects/src/02-pure-contract.ash:8:15
 8 | apply_twice : (Int -> Int, Int) -> Int
   |               ^ This function requires an argument of type `(Int -> Int, Int)`.
@@ -96,9 +96,9 @@ The outer handler can answer a request made during a valid calculation; it
 does not change [the helper's required argument type][functions]. The callback
 contract has to describe the function being supplied.
 
-In this message, `<effect:1:0:0>` is the tool's rendering of the effect identity
-for `Bonus` in this program. It is not syntax to copy into a signature. The
-important difference is the nonempty row on the supplied function.
+The message names `Bonus` in the supplied function's nonempty row. The
+callback may request a bonus; the helper's pure callback contract permits
+no such request.
 
 We could specialize `apply_twice` to `Bonus`. Instead, its body gives us a more
 useful contract: it needs whatever effects the supplied function needs.
@@ -354,5 +354,5 @@ So far each successful effectful calculation has used one handler for
 `Bonus`. Next we can ask which handler receives a request when handlers are
 nested or when a program uses different effect instances.
 
-[rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
-[functions]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application
+[rows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#computation-types-and-effect-rows
+[functions]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application

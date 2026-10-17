@@ -35,7 +35,7 @@ Without a determination edge, every interface parameter must occur in each
 method type. Here only the determinant `Key` is required. `Result` may be
 absent from `measure : Key -> Int` because a source for the known key can fill
 it before selection. These conditions come from Ash's
-[interface well-formedness rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes).
+[interface well-formedness rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes).
 
 The published implementation is one such source. Its head records both
 arguments of the complete `Measure` application, while the method signature
@@ -87,7 +87,7 @@ known Bool key -> determine Unit -> select Measure<Bool, Unit>
 Determination changes only static evidence checking. It creates no result-type
 projection, runtime search, or dynamic mapping from `Bool` to `Unit`. Checked
 evidence still
-[lowers to ordinary functions and erased type operations](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md#interface-evidence-lowering).
+[lowers to ordinary functions and erased type operations](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/elaboration.md#interface-evidence-lowering).
 
 ## A known key is not enough by itself
 
@@ -138,7 +138,7 @@ is available to determine `Result`. The obligation therefore remains
 incomplete when its evidence scope closes. This is `constraint.ambiguous`, not
 `constraint.unsatisfied`: Ash has not reached a complete application for which
 it could establish that no candidate exists. The
-[checked-evidence rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+[checked-evidence rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 do not invent the dependent type or infer it from an implementation that the
 client did not select.
 

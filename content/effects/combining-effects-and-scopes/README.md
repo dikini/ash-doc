@@ -304,8 +304,9 @@ reason: entry.main-effects
 <!-- markdownlint-enable MD013 -->
 
 The label points at the entry declaration whose row still contains `Bonus`.
-The [entry requirement][entry] is an empty latent row: calling `main` must
-need no effect answers from its caller. Restore the bonus handler from
+The [entry requirement][entry] leaves no ordinary effect for an outside caller
+to answer. Admitted native effects can receive a checked interpretation from
+the tool; the ordinary `Bonus` effect still needs our handler. Restore it from
 `01-finished.ash` to answer that remaining request. The module's private
 handlers and resources fulfill their own requirements and leave this policy
 to the entry.
@@ -333,7 +334,7 @@ result types and rows describe the outward contracts; the scope structure
 explains how the program satisfies them. Hooks and buffers can serve other
 problems without being added to this calculation merely to use every feature.
 
-[effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
-[cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[cleanup]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cleanup-actions
-[entry]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules
+[effects]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[cleanup]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cleanup-actions
+[entry]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#globals-and-modules

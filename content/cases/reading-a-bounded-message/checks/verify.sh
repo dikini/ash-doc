@@ -25,5 +25,5 @@ mapfile -t actual_sources < <(
 [[ ${actual_sources[*]} == "${sources[*]}" ]] ||
     ash_doc_fail "canonical source inventory differs from the declared inventory"
 ash_doc_check_sources "$unit_root" "$unit_root/README.md" "${sources[@]}"
-ash_doc_run_accepted "$unit_root" src/main.ash '(Success(Success(Byte(0, Byte(0, End)))), Success(Failure(InvalidIndex)), Success(Success(End)), Failure(InvalidLength)) : (Outcome<Outcome<Bytes>>, Outcome<Outcome<Bytes>>, Outcome<Outcome<Bytes>>, Outcome<Outcome<Bytes>>)'
+ash_doc_run_native_accepted "$unit_root" src/main.ash '(Success(Success(Byte(0, Byte(0, End)))), Success(Failure(InvalidIndex)), Success(Success(End)), Failure(InvalidLength))' '(Outcome<Outcome<Payload>>, Outcome<Outcome<Payload>>, Outcome<Outcome<Payload>>, Outcome<Outcome<Payload>>)'
 ash_doc_finish 1
