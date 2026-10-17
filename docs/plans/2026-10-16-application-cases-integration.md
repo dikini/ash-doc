@@ -8,8 +8,9 @@ brief and remains a separate outcome.
 
 **State:** A1 is locally verified with nine canonical sources and one complete
 human rejection capture. [Issue #1](https://github.com/dikini/ash-doc/issues/1)
-and [PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery; human review
-and signoff remain open. The remaining briefs retain acceptance targets rather
+and [PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery. Independent
+review passed; the user approved A1 for merge on 2026-10-17 despite the separate
+foundation gate. The remaining briefs retain acceptance targets rather
 than captured results. The user selected parallel Case development and deferred
 all rendering to final integration. Broader foundation and final integration
 gates remain unclaimed by A1.

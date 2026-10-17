@@ -558,8 +558,8 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: A1 is locally verified; A2–A8 remain proposed.** A1 awaits human
-review and signoff; its presentation awaits final rendering integration.
+**State: A1 is verified and approved; A2–A8 remain proposed.** The user approved
+A1 for merge on 2026-10-17; its presentation awaits final rendering integration.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
 links the verified A1 lesson and seven remaining briefs. It records the selected
 implementation design, parallel ownership, GitHub delivery, and final rendering
@@ -869,8 +869,8 @@ Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
-Case are complete. A1 has local executable verification and awaits human review
-and signoff; its presentation remains pending. A2–A8 are proposed application
+Case are complete. A1 has local executable verification and user approval for
+merge; its presentation remains pending. A2–A8 are proposed application
 outcomes, each requiring its own bounded design and approval under the existing
 workflow. The linked coordination plan defines separate Case ownership during
 parallel work.
