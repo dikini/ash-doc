@@ -32,8 +32,7 @@ becomes a native Quarto book part before those lessons. Reader setup comes from
 the root README. The book contains no project notation fixture; that fixture
 remains in the specimen. Unindexed lesson directories do not enter either
 selection merely because they exist. The current selection has 54 lessons.
-Retained book outputs cover the earlier 53-lesson inventory; the cleanup-reporting
-Case awaits final rendering integration.
+Current book outputs cover all 54 lessons, including the cleanup-reporting Case.
 
 The default [specimen configuration](../../rendering/specimen.json) selects
 three complete, indexed lessons:
@@ -510,46 +509,34 @@ run ShellCheck when Bash changes. Review affected links and source, then run
 
 ## Scoped build evidence
 
-The scoped infrastructure was checked on October 14, 2026 with the declared
-Quarto/tool pins and cached local tools. Preparation and rendering use wall-clock
-timings; some independent checks ran concurrently, so these are local review
-measurements rather than controlled performance benchmarks.
+On October 17, 2026, the complete review book and default specimen were rebuilt
+for FFI Base at `354c76b391fe4af665cf6a03479a9874a57cb3e3`, using the declared
+Quarto, Typst, and renderer pins. The book selects all 54 lessons and four
+family introductions in indexed order. Artifact checks verify 60 HTML pages,
+58 source chapters, nine canonical assets, and 648 complete code and transcript
+blocks across HTML, EPUB, and the two PDFs.
 
-| Selection and formats | Prepare | Render | Total build |
-| --- | --- | --- | --- |
-| Traversal lesson: both PDFs | 4.4 s | 3.4 + 2.7 s | 10.4 s |
-| Traversal lesson: HTML, EPUB | 2.4 s | 4.6 + 1.7 s | 8.7 s |
-| First Learn lesson: EPUB | 3.9 s | 1.9 s | 5.9 s |
-| Learn part: HTML | 16.3 s | 12.0 s | 28.2 s |
-| Book: preparation only | 50.8 s | — | 50.8 s |
+The specimen separately verifies three lessons, six HTML pages, four static
+diagrams, six canonical assets, and 87 complete code and transcript blocks.
+Its book PDF has 54 pages and its A4 PDF has 46. Both EPUBs pass EPUBCheck
+without errors or warnings. Browser checks cover desktop and mobile HTML and
+enlarged EPUB text in Chromium and Firefox; these previews do not establish
+physical e-reader compatibility.
 
-The traversal PDF check takes 0.7 seconds and verifies one lesson's 49 displayed
-blocks in 17 book pages and 16 A4 pages, including shared front matter. Visual
-review inspected all pages and representative wide code at readable scale. The
-Learn HTML check takes 0.3 seconds and verifies its introduction, thirteen
-lessons, sixteen pages, and 133 displayed blocks. Its desktop, mobile, and
-1024-pixel tablet browser review takes 50.8 seconds. Browser checks also pass
-for the traversal HTML/EPUB selection and an EPUB-only introductory lesson;
-selected EPUBs pass EPUBCheck without warnings. These checks do not execute
-unchanged canonical Ash programs or imply physical e-reader compatibility.
+PDF checks retain exact code characters, page order, paper sizes, and print
+geometry. Where a margin caption interleaves with code in Poppler's full-page
+text, the comparison uses words inside the measured body column. It cannot
+borrow missing code from a margin note. Four focused controls cover odd and
+even book pages, the A4 note column, and the original wide-code comparison.
+The rendering suite passes 86 tests; browser helpers pass twelve.
 
-The default specimen still builds all four formats and verifies its three
-lessons, notation fixture, four generated diagrams, six canonical assets, and
-both print layouts. The retained book preparation covers the earlier 53 lessons
-and four parts in their indexed order. The updated artifact checker also passed
-on the retained whole-book HTML, EPUB, and both PDFs against unchanged source
-digests; those outputs were reused, rather than regenerated in this task.
-Checking those retained book outputs takes 28.3 seconds.
-Shared unit tests cover selection, format dispatch, output-directory isolation,
-metadata identity, and the retained preparation and layout regressions.
-
-The writing-skill scope scenario exposed the old instruction to run all family
-aggregates and both full builds for a caption-only A4 review. With the revised
-workflow, a fresh agent selects one A4 lesson build and applicable checks, reuses
-unchanged executable evidence, and limits the finding to that PDF. It also
-selects only a Libraries EPUB part for a part review and representative affected
-formats for shared layout work. These are instruction-use observations, not
-claims that a manual caption inspection or reader comprehension was tested.
+Visual review inspected all pages of the eight affected chapters in both PDF
+layouts, including currying, the native-buffer examples, callback diagnostics,
+and the cleanup-reporting Case. It corrected an overlapping table cell and
+kept a short native build command together. Shared checks continue to cover
+selection, format dispatch, output isolation, source identity, and layout.
+Scoped tasks still select only their affected lessons, parts, and formats;
+this complete rebuild is evidence for the approved edition migration.
 
 ## Replacement and publication boundary
 

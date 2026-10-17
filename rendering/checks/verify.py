@@ -332,6 +332,25 @@ def verify_full_width_markup(examples, expected, label):
           f"{label}: full-width note loses table or inline formatting")
 
 
+def pdf_code_matches(pages, text, layout_text, a4=False):
+    """Keep exact characters when margin captions interrupt layout extraction."""
+    expected = re.sub(r"\s+", "", text)
+    if expected in re.sub(r"\s+", "", layout_text):
+        return True
+    body = []
+    mm = 72 / 25.4
+    for number, page in enumerate(pages, 1):
+        left, right = ((25 * mm, 134 * mm) if a4 else
+                       (54, 378) if number % 2 else (198, 522))
+        top, bottom = (20 * mm, 277 * mm) if a4 else (54, 666)
+        for word in pdf_words(page):
+            bounds = word_bounds([word])
+            if (bounds["left"] >= left - 1 and bounds["right"] <= right + 1
+                    and bounds["top"] >= top - 1 and bounds["bottom"] <= bottom + 1):
+                body.append(word.text or "")
+    return expected in re.sub(r"\s+", "", "".join(body))
+
+
 def find_pdf_phrase(pages, text):
     """Match complete phrase characters across inline-font word boundaries."""
     expected = re.sub(r"\s+", "", text)
@@ -748,7 +767,7 @@ def verify_pdf(project, records, notes, full_width, filename, a4=False, lesson=N
     compact_pdf = re.sub(r"\s+", "", "\n".join(body))
     for record in records:
         for block in record["code"]:
-            check(re.sub(r"\s+", "", block["text"]) in compact_pdf,
+            check(pdf_code_matches(pages, block["text"], compact_pdf, a4),
                   f"{filename}: {record['source']}: PDF loses code/transcript characters")
     return len(pages)
 

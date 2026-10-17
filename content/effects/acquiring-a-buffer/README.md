@@ -243,7 +243,7 @@ These examples separate the producer of each outcome layer:
 
 | Example | Acquisition result | Body's returned value |
 | --- | --- | --- |
-| Zero length (`03`) | `Failure(InvalidLength)` | Body never entered |
+| Zero length (`03`) | Invalid length | Body never entered |
 | Invalid index (`04`) | `Success(...)` | Read's `Failure(InvalidIndex)` |
 | Invalid byte (`05`) | `Success(...)` | `Checked` with both access outcomes |
 | Nested acquisition (`06`) | `Success(...)` | Inner `Failure(InvalidLength)` |

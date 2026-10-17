@@ -54,18 +54,17 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## FFI Base migration outcome
 
-**State: approved migration in progress; executable and rendering gates pending.**
-The selected bounded outcome is to preserve all 54 current lessons and their
-verification while moving the edition from FFI Base to `ffi-base` at
-`354c76b391fe4af665cf6a03479a9874a57cb3e3`.
-The [design](../plans/2026-10-17-ffi-base-migration-design.md) compares
-verification approaches and bounds the native observation helper. The
-[execution plan](../plans/2026-10-17-ffi-base-migration.md) names the cutover,
-lesson repairs, all-family verification, and complete 54-lesson rendering gate.
-New FFI lessons and implementation of further application Cases are excluded.
-The current edition and existing verification remain at the baseline above
-until an approved migration begins. This outcome does not change publication
-status or authorize changes to another task's worktree.
+**State: complete and locally verified.** All 54 lessons now target `ffi-base`
+at `354c76b391fe4af665cf6a03479a9874a57cb3e3`. The migration preserves 244
+canonical sources and 60 complete human diagnostic captures. Native positives
+use a bounded observer that checks the type and generated host result from the
+same compiled program; source rejections still use the CLI. All four family
+aggregates and the complete book and specimen checks pass. The
+[verification guide](verification.md#ffi-base-executable-evidence) records
+executable coverage; the [rendering guide](rendering.md#scoped-build-evidence)
+records presentation coverage and limits. Completed migration plans leave the
+working tree. New FFI lessons, A2–A8 implementation, and publication remain
+outside this outcome.
 
 ## Rendering infrastructure outcome
 
@@ -87,30 +86,15 @@ and requested formats. The [workflow](workflow.md#bound-the-task) also bounds
 editing, reading, review, executable checks, and reporting by the task's action
 and scope. Unchanged inputs retain applicable exact-pin evidence.
 
-The traversal lesson's two PDFs build in 10.4 seconds and verify in 0.7 seconds
-with cached tools on the local review host. The Learn part's HTML build takes
-28.2 seconds; full-book preparation alone takes 50.8 seconds. These measurements
-support selecting scope before considering incremental whole-book caching.
-The [rendering guide](rendering.md#scoped-build-evidence) records coverage and
-phase timings.
-
-The retained local review draft assembles the earlier 53-lesson inventory in
-Learn → Libraries → Effects → Cases order, with four family introductions and shared
-reader setup. The 59 HTML pages and reflowable EPUB 3 retain 633 displayed code
-and transcript blocks. The double-sided book PDF has 360 pages; the one-sided
-A4 copy has 319. Artifact checks verify indexed coverage, chapter order, source
-hashes, links, code text, and both print geometries. The original three-lesson
-specimen remains the default regression build, with its notation fixture and
-separate browser evidence. The [rendering guide](rendering.md) gives both builds'
-commands. The current indexed inventory has 54 lessons; the cleanup-reporting
-Case awaits final rendering integration. The edition remains local and unpublished.
-
-Retained browser checks pass for all 59 HTML pages at desktop and mobile sizes
-and all 57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
-its separate browser and artifact checks. The original whole-book review
-inspected 74 selected PDF pages. The traversal revision additionally reviews
-all thirteen book pages and twelve A4 pages of that chapter; its widened
-blocks remain complete on one printable page in both variants.
+The local review book assembles all 54 lessons in Learn → Libraries → Effects →
+Cases order, with four family introductions and shared reader setup. Its 60 HTML
+pages and 58 EPUB source chapters retain 648 displayed code and transcript
+blocks. Artifact checks verify coverage, chapter order, source hashes, links,
+code text, and both print geometries. The original three-lesson specimen remains
+the default regression build, with its notation fixture and separate browser
+evidence. The [rendering guide](rendering.md#scoped-build-evidence) records the
+current complete-book and specimen review. The edition remains local and
+unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -586,7 +570,7 @@ no framework or tooling. The three observations pass at the current baseline.
 ## Application Cases from DN-0052
 
 **State: A1 is verified and approved; A2–A8 remain proposed.** The user approved
-A1 for merge on 2026-10-17; its presentation awaits final rendering integration.
+A1 for merge on 2026-10-17; it now passes complete-book presentation checks.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
 links the verified A1 lesson and seven remaining briefs. It records the selected
 implementation design, parallel ownership, GitHub delivery, and final rendering
@@ -897,7 +881,8 @@ teach the cumulative current baseline.
 
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
 Case are complete. A1 has local executable verification and user approval for
-merge; its presentation remains pending. A2–A8 are proposed application
+merge; its presentation passes complete-book checks. A2–A8 are proposed
+application
 outcomes, each requiring its own bounded design and approval under the existing
 workflow. The linked coordination plan defines separate Case ownership during
 parallel work.

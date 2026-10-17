@@ -181,8 +181,9 @@ updates, and reruns affected checks. Review of an earlier revision does not
 cover later integration edits. Record the final commit, exact Ash pin, commands,
 results, and remaining limitations in the PR.
 
-All rendering is deferred to final integration. A Case PR establishes content
-and executable verification; its presentation remains pending. Do not claim
+For A2–A8, rendering is deferred to final integration. A Case PR establishes
+content and executable verification; its presentation remains pending until
+checked. A1 now passes the complete 54-lesson FFI Base book checks. Do not claim
 fresh book verification or rewrite older rendering receipts after adding a Case.
 
 ### Merge, discovery, and plan retirement

@@ -248,9 +248,9 @@ The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
 `rendering/` roots, four content families, and lesson-local source and checks
 with shared verification helpers. Rendering uses Quarto Book and Typst for a
 bounded local review book selecting all 54 indexed, verified lessons in Learn →
-Libraries → Effects → Cases order, with four family introductions. Retained
-rendering evidence covers the earlier 53-lesson inventory; the cleanup-reporting
-Case awaits final rendering integration. The default specimen remains a
+Libraries → Effects → Cases order, with four family introductions. Rendering
+evidence covers all 54 lessons, including the cleanup-reporting
+Case, in HTML, EPUB, and both PDF layouts. The default specimen remains a
 regression build. Lesson and part review builds select only
 their indexed sources and requested formats. All scopes share tools and styles;
 their generated source records serve preparation and checks. This selects no

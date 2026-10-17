@@ -90,6 +90,8 @@ main () = (run false, run true)
 Build and run from the Cases directory, using the buffer lesson's native
 [setup](../../effects/acquiring-a-buffer/README.md):
 
+{{< pagebreak >}}
+
 ```text
 ash build --output ./parent-paths \
     --cargo-target-dir "$ASH_NATIVE_CACHE" \

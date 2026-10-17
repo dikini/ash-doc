@@ -212,9 +212,9 @@ in the verification guide. The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
 select all 54 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and
-book and A4 PDFs. Retained book outputs cover the earlier 53-lesson inventory;
-the cleanup-reporting Case awaits final rendering integration. The default
-build retains the smaller regression specimen; its static figures cover Mermaid
+book and A4 PDFs. The complete book includes the cleanup-reporting Case and
+passes artifact, EPUB, browser, and PDF review. The default build retains the
+smaller regression specimen; its static figures cover Mermaid
 graphs and interaction sequences, railroad
 grammar, and sequent inference rules. Both modes share tools and styles. No
 CI service or publication platform is selected.

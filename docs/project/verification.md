@@ -167,9 +167,8 @@ The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
 The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
 and twenty-one Cases lessons, in that order, plus four family introductions.
-Retained book outputs cover the earlier 53-lesson inventory; the added
-cleanup-reporting Case awaits final rendering integration. The default build
-retains the smaller specimen and its notation regressions.
+Current book outputs cover all 54 lessons, including the cleanup-reporting
+Case. The default build retains the smaller specimen and its notation regressions.
 
 Build the selected scope and requested formats through the guide, then run
 `verify.py` and, for HTML or EPUB, `browser.mjs` on that generated project. Run
