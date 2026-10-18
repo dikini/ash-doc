@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "reason": "type.definition-result",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "Store<Position>"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "Store<Velocity>"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "definition_result",
+      "path": "src/07-wrong-component.ash",
+      "byte_start": 106,
+      "byte_end": 147,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "Store<Velocity>"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "result_annotation",
+      "path": "src/07-wrong-component.ash",
+      "byte_start": 80,
+      "byte_end": 95,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "Store<Position>"
+        }
+      ]
+    }
+  ]
+}
