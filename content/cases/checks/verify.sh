@@ -55,6 +55,7 @@ readonly active_destinations=(
     querying-an-immutable-world
     rolling-back-a-cancellable-journal
     redacting-before-publication
+    checking-proposed-edits
 )
 readonly expected_case_count=${#active_destinations[@]}
 
