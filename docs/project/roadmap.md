@@ -16,8 +16,8 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty-six Cases,
-  125 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-seven Cases,
+  133 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 70 demonstrated rejections through complete
-English human messages: fifteen in Learn, eighteen in Cases, sixteen in Libraries,
+The active edition now teaches all 71 demonstrated rejections through complete
+English human messages: fifteen in Learn, nineteen in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -94,9 +94,10 @@ hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering
 guide](rendering.md#scoped-build-evidence) records the current complete-book and
-specimen review. The current indexed selection has 59 lessons; the local-pricing,
-immutable-world, cancellable-journal, event-redaction, and controlled-edits
-Cases await presentation checks. The edition remains local and unpublished.
+specimen review. The current indexed selection has 60 lessons; the local-pricing,
+immutable-world, cancellable-journal, event-redaction, controlled-edits, and
+stable-sort Cases await presentation checks. The edition remains local and
+unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -572,11 +573,11 @@ no framework or tooling. The three observations pass at the current baseline.
 ## Application Cases from DN-0052
 
 **State: A1 is integrated; A2 and A5 are locally verified and approved;
-A3, A4, and A6 are locally verified; A7–A8 remain proposed.** A1 passes
+A3, A4, A6, and A7 are locally verified; A8 remains proposed.** A1 passes
 complete-book presentation checks. The user approved A2 and A5 for squash
-merge on 2026-10-18. A2–A6 await presentation checks.
+merge on 2026-10-18. A2–A7 await presentation checks.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1–A6 lessons and two remaining briefs. It records the
+links the verified A1–A7 lessons and the remaining A8 brief. It records the
 selected implementation design, parallel ownership, GitHub delivery, and final
 rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
@@ -767,25 +768,35 @@ sandbox, or concurrent worker.
 
 ### A7. What can a cancellable stable sorter promise?
 
-[Implementation plan](../plans/2026-10-16-a7-stable-sort.md).
+[Cancel a stable sort](../../content/cases/cancelling-a-stable-sort/README.md)
+is locally verified with eight canonical sources and one complete human
+rejection capture. [Issue #13](https://github.com/dikini/ash-doc/issues/13) and
+[PR #14](https://github.com/dikini/ash-doc/pull/14) track
+delivery and review. Presentation remains pending.
 
-Follow [explicit ordering](../../content/cases/searching-ordered-tree/README.md),
+The chapter continues
+[explicit ordering](../../content/cases/searching-ordered-tree/README.md),
 [comparison measurement](../../content/cases/measuring-tree-search/README.md),
 and [search budgets](../../content/cases/bounding-search-work/README.md).
-Sort records with a finite nominal priority and an identifier. Derive a result
-that distinguishes a complete sorted sequence from cancellation, and charge
-comparisons before performing them through a scripted or budgeted handler.
+It derives records with a finite priority and a result that separates
+complete sorting from cancellation, then inserts each original head before
+equal priorities in its sorted tail. Permission
+precedes each comparator invocation. An independent pure reference uses
+three stable filters rather than insertion or its comparator.
 
-Check order, permutation, and preservation of input order among equal
-priorities against a pure reference sort. Include a well-typed unstable
-implementation that fails the stability examples. A handler that attempts
-double resumption to explore alternatives supplies a separate [control][effects]
-mistake; alternatives require ordinary data or fresh calls.
+Checks retain the complete expected records, identifier order `2,5,1,3,4`,
+and seven performed comparisons. Budgets zero and six cancel without a
+partial sorted result; seven and eight complete with seven comparisons.
+Empty, singleton, and equal-priority inputs preserve their stated results.
+A well-typed alternative that inserts after equals reverses ties. A double
+resumption supplies an isolated rejection, complete human capture, and
+one-resume repair under the [effect rules][effects].
 
-The reader can explain the chosen algorithm's invariant and work separately
-from charged requests and wall-clock measurements. Cancellation is synchronous
-and never labels a partial sequence as a complete sorted result. The new
-outcome is the sorting contract, beyond reusing a budget handler.
+The reader can explain the invariant for the sorted tail, preservation of
+all records, and original tie order, then derive quadratic source work
+separately from charged requests and physical time. Cancellation is
+synchronous and returns no partial sequence labelled
+as complete. The Case adds no general sorting library or multi-shot control.
 
 ### A8. How can a tagged frame preserve messages through a round trip?
 
@@ -900,8 +911,8 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory is twenty-six
-after A1–A6; further units join only when they satisfy these conditions.
+expectations in the same change. The current Cases inventory is twenty-seven
+after A1–A7; further units join only when they satisfy these conditions.
 Incomplete studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
@@ -918,9 +929,9 @@ Case are complete. A1 has local executable verification and user approval for
 merge; its presentation passes complete-book checks. A2 is locally verified
 and approved for squash merge on 2026-10-18. A3 and A4 are locally verified;
 A5 is locally verified and approved for squash merge on 2026-10-18.
-A6 is locally verified. A2–A6 await presentation checks. A7–A8 are proposed
-application outcomes, each requiring its own bounded design and approval under
-the existing workflow. The linked coordination plan defines separate Case
+A6 and A7 are locally verified. A2–A7 await presentation checks. A8 remains a
+proposed application outcome requiring its own bounded design and approval
+under the existing workflow. The linked coordination plan defines separate Case
 ownership during parallel work.
 The documentation remains unpublished; no ash-doc `ffi-base` publication tag
 exists. Refine chapter boundaries when executable design exposes a dependency
