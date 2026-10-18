@@ -52,6 +52,7 @@ readonly active_destinations=(
     controlling-a-hook-pipeline
     preserving-outcomes-through-cleanup
     supplying-a-local-pricing-policy
+    querying-an-immutable-world
 )
 readonly expected_case_count=${#active_destinations[@]}
 

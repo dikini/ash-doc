@@ -18,7 +18,7 @@ source foreign contracts, resource families,
 immutable strings and bytes, and generated native hosts to the earlier
 diagnostics, effects, libraries, modules, and language foundation.
 
-All thirteen Learn lessons, twenty-two algorithm and effect Cases, eight library
+All thirteen Learn lessons, twenty-three algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -140,7 +140,8 @@ illustrate scoped numbering and measurement, dependency injection, scripted
 sessions, search budgets, parent-path compression, bounded byte input, and
 hook pipelines controlled by ordinary handlers. The application continuation
 retains primary outcomes alongside ordered completion reports and makes the
-caller's interpretation policy explicit.
+caller's interpretation policy explicit. Another calculation joins immutable
+component stores by entity identifier while preserving the original world.
 
 ## Authority
 
@@ -210,11 +211,11 @@ can land together.
 Verification uses the shared Bash helper and Python JSON comparison described
 in the verification guide. The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
-select all 55 verified lessons in Learn → Libraries → Effects → Cases order,
+select all 56 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and
 book and A4 PDFs. The existing 54-lesson book includes the cleanup-reporting
-Case and passes artifact, EPUB, browser, and PDF review. The local-pricing Case
-awaits presentation checks. The default build retains the
+Case and passes artifact, EPUB, browser, and PDF review. The local-pricing and
+immutable-world Cases await presentation checks. The default build retains the
 smaller regression specimen; its static figures cover Mermaid
 graphs and interaction sequences, railroad
 grammar, and sequent inference rules. Both modes share tools and styles. No

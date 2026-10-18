@@ -16,8 +16,8 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty-two Cases,
-  88 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-three Cases,
+  98 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 63 demonstrated rejections through complete
-English human messages: fifteen in Learn, eleven in Cases, sixteen in Libraries,
+The active edition now teaches all 65 demonstrated rejections through complete
+English human messages: fifteen in Learn, thirteen in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -94,8 +94,9 @@ hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering
 guide](rendering.md#scoped-build-evidence) records the current complete-book and
-specimen review. The current indexed selection has 55 lessons; the local-pricing
-Case awaits presentation checks. The edition remains local and unpublished.
+specimen review. The current indexed selection has 56 lessons; the local-pricing
+and immutable-world Cases await presentation checks. The edition remains local
+and unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -570,13 +571,14 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: A1 is integrated; A2 is locally verified and approved; A3–A8 remain
-proposed.** A1 passes complete-book presentation checks. The user approved A2
-for squash merge on 2026-10-18; its presentation remains pending.
+**State: A1 is integrated; A2 is locally verified and approved; A3 is locally
+verified; A4–A8 remain proposed.** A1 passes complete-book presentation checks.
+The user approved A2 for squash merge on 2026-10-18. A2 and A3 await presentation
+checks.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1 and A2 lessons and six remaining briefs. It records the selected
-implementation design, parallel ownership, GitHub delivery, and final rendering
-acceptance.
+links the verified A1–A3 lessons and five remaining briefs. It records the
+selected implementation design, parallel ownership, GitHub delivery, and final
+rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
@@ -656,28 +658,31 @@ as global implementation search or runtime-fresh nominal identity.
 
 ### A3. How can a generic system query an immutable ECS world?
 
-[Implementation plan](../plans/2026-10-16-a3-immutable-ecs.md).
+[Querying an immutable world](../../content/cases/querying-an-immutable-world/README.md)
+is locally verified with ten canonical sources and two complete human rejection
+captures. [Issue #5](https://github.com/dikini/ash-doc/issues/5) and
+[PR #6](https://github.com/dikini/ash-doc/pull/6) track
+delivery and review. Presentation remains pending.
 
-Build an entity-component-system (ECS) world with named position and velocity
-stores over ordinary immutable collections. Follow the
+The chapter continues the
 [dictionary Case](../../content/cases/dictionary-as-list/README.md) and
 [implementation evidence](../../content/libraries/choosing-implementation-evidence/README.md).
-Begin with direct world-specific operations and independently enumerated join
-rows, then compare a generic movement system with explicit component and
-query-result types.
+It derives unique-identifier position and velocity stores, enumerates the join
+rows independently, and compares direct movement with a generic system using
+`StoreAccess<W, C>` evidence. Both the world and component belong to the
+selection key under the [interface rules][interfaces]; one world supports both
+component types.
 
-Explore `StoreAccess<W, C>` with both world and component in the selection
-key under the [interface rules][interfaces]. One world supports several
-component types, so `W -> C` would describe the wrong relationship. Require
-argument or result context to fix the requested component. Develop missing
-selected store evidence and mismatched component values as diagnostic episodes.
+Checks compare exact stores after one and two steps, retain the original
+snapshot, and cover insertion, replacement, empty stores, missing components,
+and absent lookup. A well-typed positional zip demonstrates the wrong entity
+pairing. Missing selected evidence and a wrong component each supply an isolated
+rejection, complete human capture, and tested repair.
 
-Check absent components, joins by entity identifier, repeated steps, and the
-unchanged original world as a snapshot. Explain lookup and rebuilding work for
-the chosen representation. The reader can identify the useful abstraction
-without assuming automatic type-index search, open registries, associated
-outputs, mutable component stores, or packed layout. A heterogeneous-path
-extension is separate follow-up work if the fixed schema establishes a need.
+The reader can explain identifier joins, explicit evidence selection, and the
+nested lookup and repeated linear update work of this representation. The
+fixed schema assumes no automatic type-index search, open registry, associated
+output, mutation, packed layout, or heterogeneous-path extension.
 
 ### A4. How can cancellation explicitly roll back a journal?
 
@@ -876,8 +881,8 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory is twenty-two
-after A1 and A2; further units join only when they satisfy these conditions.
+expectations in the same change. The current Cases inventory is twenty-three
+after A1–A3; further units join only when they satisfy these conditions.
 Incomplete studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
@@ -889,16 +894,17 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline Case
-are complete. A1 has local executable verification and user approval for merge;
-its presentation passes complete-book checks. A2 is locally verified and
-approved for squash merge on 2026-10-18; its presentation remains pending. A3–A8
-are proposed application outcomes, each requiring its own bounded design and
-approval under the existing workflow. The linked coordination plan defines
-separate Case ownership during parallel work. The documentation remains
-unpublished; no ash-doc `ffi-base` publication tag exists. Refine chapter
-boundaries when executable design exposes a dependency or an overloaded
-question, and replace superseded wording rather than keeping parallel roadmaps.
+E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
+Case are complete. A1 has local executable verification and user approval for
+merge; its presentation passes complete-book checks. A2 is locally verified
+and approved for squash merge on 2026-10-18. A3 is locally verified; A2 and A3
+await presentation checks. A4–A8 are proposed application outcomes, each
+requiring its own bounded design and approval under the existing workflow. The
+linked coordination plan defines separate Case ownership during parallel work.
+The documentation remains unpublished; no ash-doc `ffi-base` publication tag
+exists. Refine chapter boundaries when executable design exposes a dependency
+or an overloaded question, and replace superseded wording rather than keeping
+parallel roadmaps.
 
 ## Selecting work
 

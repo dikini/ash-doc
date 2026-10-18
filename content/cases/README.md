@@ -23,7 +23,9 @@ The application Cases continue through finite models. A batch retains its
 primary outcome alongside ordered completion reports, then gives the caller an
 explicit policy for interpreting them. An order calculation compares explicit
 pricing functions, selected imported evidence, and locally supplied policies
-whose methods retain a tariff.
+whose methods retain a tariff. An immutable world joins component stores by
+entity identifier, then compares direct and generic movement while preserving
+the original snapshot.
 
 ## How to work through a case
 
@@ -148,3 +150,7 @@ storage strategy.
     policy](supplying-a-local-pricing-policy/README.md) — distinguish money from
     quantity, supply methods that capture a tariff, and retain a quote closure
     whose exposed type contains no local identity.
+23. [How can one movement system query an immutable
+    world?](querying-an-immutable-world/README.md) — join position and velocity
+    stores by entity identifier, select component evidence explicitly, and
+    preserve the original world through repeated movement.
