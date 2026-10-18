@@ -39,15 +39,15 @@ Verification needs Bash, Cargo with the pinned toolchain, ordinary Unix text
 tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 56 sources, twenty-seven
-Cases / 133 sources, eight library lessons / 43 sources, and twelve effects
+The four aggregates cover thirteen Learn lessons / 56 sources, twenty-eight
+Cases / 141 sources, eight library lessons / 43 sources, and twelve effects
 lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
 properties each Case teaches.
 
 ### Native buffer observations
 
-Eight positive entries use the imported source buffer library. Their local
+Thirteen positive entries use the imported source buffer library. Their local
 verifiers call `ash_doc_run_native_accepted` with separate expected value and
 type strings. `native-observe.rs` compiles each entry once, reads the checked
 `CompiledProgram::type_display()`, builds from that same compiled program, and
@@ -70,8 +70,8 @@ are removed after each observation, avoiding accumulation of large debug hosts.
 Python 3.11 or later supplies the standard-library TOML reader for this lock
 check. Native checks also require the supported Linux x86-64 GNU host and its
 Rust/native linker toolchain. Ordinary lessons retain the interpreter route.
-The buffer escape rejection remains on the actual CLI, with the pinned
-`--root ffi=...` added. Its displayed command uses `"$ASH_LIBRARIES"` from the
+Buffer escape rejections remain on the actual CLI, with the pinned
+`--root ffi=...` added. Their displayed commands use `"$ASH_LIBRARIES"` from the
 root setup; the capture helper expands that variable to the verified checkout
 without normalizing another path in the diagnostic.
 
@@ -85,7 +85,7 @@ The real observer refusal controls additionally use `ASH_DOC_TEST_OBSERVER`,
 `ASH_DOC_TEST_LIBRARIES`, `ASH_DOC_TEST_CACHE`, and `ASH_DOC_TEST_SCRATCH` to
 select a prepared observer, the exact library directory, its build cache, and
 scratch directory. Without those inputs the four real controls are skipped;
-the eight canonical positive observations remain mandatory in their lessons.
+the thirteen canonical positive observations remain mandatory in their lessons.
 The controls cover wrong type/value, unexpected stderr, child failure, failed
 build, fresh-output refusal, source rejection, and unsupported target.
 
@@ -105,7 +105,7 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 71 active captures: fifteen Learn, nineteen Cases, sixteen Libraries,
+There are 72 active captures: fifteen Learn, twenty Cases, sixteen Libraries,
 and 21 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each
@@ -187,7 +187,12 @@ and 70 captures.
 
 The stable-sort Case passed its lesson verifier on 2026-10-18 at the
 same exact target, adding eight canonical sources and one complete human
-capture. The active inventory now has 60 lessons, 303 sources, and 71 captures.
+capture. That addition brought the inventory to 60 lessons, 303 sources,
+and 71 captures.
+
+The tagged-frame Case passed its lesson verifier on 2026-10-18 at the
+same exact target, adding eight canonical sources and one complete human
+capture. The active inventory now has 61 lessons, 311 sources, and 72 captures.
 Unchanged lessons retain their migration evidence above.
 
 ## Review the rest
@@ -195,10 +200,11 @@ Unchanged lessons retain their migration evidence above.
 The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
 The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
-and twenty-seven Cases lessons, in that order, plus four family introductions.
+and twenty-eight Cases lessons, in that order, plus four family introductions.
 Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
 The local-pricing, immutable-world, cancellable-journal, event-redaction,
-controlled-edits, and stable-sort Cases await presentation checks. The
+controlled-edits, stable-sort, and tagged-frame Cases await presentation
+checks. The
 default build retains the smaller specimen and its notation regressions.
 
 Build the selected scope and requested formats through the guide, then run

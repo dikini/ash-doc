@@ -16,8 +16,8 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty-seven Cases,
-  133 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-eight Cases,
+  141 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 71 demonstrated rejections through complete
-English human messages: fifteen in Learn, nineteen in Cases, sixteen in Libraries,
+The active edition now teaches all 72 demonstrated rejections through complete
+English human messages: fifteen in Learn, twenty in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -94,10 +94,10 @@ hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering
 guide](rendering.md#scoped-build-evidence) records the current complete-book and
-specimen review. The current indexed selection has 60 lessons; the local-pricing,
-immutable-world, cancellable-journal, event-redaction, controlled-edits, and
-stable-sort Cases await presentation checks. The edition remains local and
-unpublished.
+specimen review. The current indexed selection has 61 lessons; the local-pricing,
+immutable-world, cancellable-journal, event-redaction, controlled-edits,
+stable-sort, and tagged-frame Cases await presentation checks. The edition
+remains local and unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -572,14 +572,14 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: A1 is integrated; A2 and A5 are locally verified and approved;
-A3, A4, A6, and A7 are locally verified; A8 remains proposed.** A1 passes
+**State: all eight application Cases are locally verified.** A1 passes
 complete-book presentation checks. The user approved A2 and A5 for squash
-merge on 2026-10-18. A2–A7 await presentation checks.
+merge on 2026-10-18. A2–A8 await presentation checks. Final book integration
+remains a separate outcome after all eight Case PRs merge.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1–A7 lessons and the remaining A8 brief. It records the
-selected implementation design, parallel ownership, GitHub delivery, and final
-rendering acceptance.
+links all eight verified lessons and retains final book integration. It
+records the selected implementation design, parallel ownership, GitHub
+delivery, and final rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
@@ -800,25 +800,35 @@ as complete. The Case adds no general sorting library or multi-shot control.
 
 ### A8. How can a tagged frame preserve messages through a round trip?
 
-[Implementation plan](../plans/2026-10-16-a8-tagged-frames.md).
+[Round-trip a tagged frame](../../content/cases/round-tripping-tagged-frames/README.md)
+is locally verified with eight canonical sources and one complete human
+rejection capture. [Issue #15](https://github.com/dikini/ash-doc/issues/15) and
+[PR #16](https://github.com/dikini/ash-doc/pull/16) track
+delivery and review. Presentation remains pending.
 
-Continue [bounded message decoding](../../content/cases/reading-a-bounded-message/README.md)
-after [E11 native buffers](../../content/effects/acquiring-a-buffer/README.md)
+The chapter continues
+[bounded message decoding](../../content/cases/reading-a-bounded-message/README.md),
+[E11 native buffers](../../content/effects/acquiring-a-buffer/README.md),
 and [E8 access scope](../../content/effects/keeping-access-in-scope/README.md).
-State a small format profile with several message constructors and checked
-integer byte tags. Derive encoding and decoding operations that return copied
-ordinary message data from the buffer scope.
+It derives one tagged frame for `Ping`, `Reading`, and `Pair`, encodes
+ordinary integer lists, and decodes within one live buffer owner. The cursor
+derives logical length from the supplied byte list, independently of capacity.
 
-Check round trips, malformed tags, truncation, invalid byte values, and
-acquisition versus operation failures, retaining nested outcomes under the
-[buffer rules][buffers]. Develop an escaping cursor closure as a diagnostic
-episode and decode within its live owner as the repair. Compare a well-typed
-but inconsistent encoder and decoder to show the need for format checks.
+Checks compare golden encoding and decoding separately before round trips,
+including distinct pair fields and byte boundaries zero and 255. Malformed
+tags, truncation, trailing bytes, and spare capacity distinguish logical input
+from allocated storage. Acquisition refusal omits body entry; invalid index
+and byte writes remain inner operation failures, and a refused byte write
+preserves the previous byte. A well-typed swapped-pair encoder breaks golden
+agreement. An escaping cursor supplies an isolated rejection, complete human
+capture, and a repair that decodes within the live scope and returns copied
+data under the [buffer rules][buffers] and
+[execution rules][buffer-execution].
 
-The reader can explain both the representation contract and the access boundary.
-Compare a direct decoder with a materialized intermediate representation only
-for a concrete question. This teaches the declared format without assuming
-String/Bytes APIs, standard JSON/BSON support, reflection, or derivation.
+The reader can explain format agreement, logical length, nested ordinary
+outcomes, and scoped access separately. The declared profile adds no standard
+codec, String/Bytes API, intermediate representation framework, pointer,
+general FFI, or external I/O.
 
 ## Prerequisites and governing sources
 
@@ -863,6 +873,7 @@ baseline. These sections govern the proposed boundaries:
 [effects]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#effects
 [cells]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cells-and-resource-dependencies
 [buffers]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-native-buffers
+[buffer-execution]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#scoped-native-buffer-execution
 [cleanup]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cleanup-actions
 [hooks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#synchronous-typed-hooks
 [blocks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#blocks
@@ -899,8 +910,8 @@ For A1–A8, derive public operation types from the application data and invaria
 Use independently specified examples or a reference calculation for successful
 and incorrect application behavior. Distinguish source rejection, ordinary
 typed failure, internal resource failure, and a wrong application result.
-The diagnostic episodes above remain candidates until developed and captured
-at the pin; DN-0052 supplies no transcripts or verification receipts.
+The A1–A8 diagnostic episodes now retain exact-pin captures and semantic
+checks. DN-0052 supplies motivation, not transcripts or verification receipts.
 
 Keep fixtures and scripts deterministic and hermetic. Add a bounded scaled
 case only to answer a stated cost question, separating logical operations,
@@ -911,8 +922,8 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory is twenty-seven
-after A1–A7; further units join only when they satisfy these conditions.
+expectations in the same change. The current Cases inventory is twenty-eight
+after A1–A8; further units join only when they satisfy these conditions.
 Incomplete studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
@@ -929,10 +940,9 @@ Case are complete. A1 has local executable verification and user approval for
 merge; its presentation passes complete-book checks. A2 is locally verified
 and approved for squash merge on 2026-10-18. A3 and A4 are locally verified;
 A5 is locally verified and approved for squash merge on 2026-10-18.
-A6 and A7 are locally verified. A2–A7 await presentation checks. A8 remains a
-proposed application outcome requiring its own bounded design and approval
-under the existing workflow. The linked coordination plan defines separate Case
-ownership during parallel work.
+A6–A8 are locally verified. A2–A8 await presentation checks. The linked
+coordination plan retains final book integration as a separate outcome after
+all eight Case PRs have merged.
 The documentation remains unpublished; no ash-doc `ffi-base` publication tag
 exists. Refine chapter boundaries when executable design exposes a dependency
 or an overloaded question, and replace superseded wording rather than keeping
