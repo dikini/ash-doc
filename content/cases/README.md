@@ -29,7 +29,9 @@ the original snapshot. A journal compares cancellation with explicit
 compensation, then uses saved snapshots and commit flags to restore staged
 state across nested scopes. An event pipeline compares internal snapshots
 with an explicit public view, then separates the public shape from the
-application policy that keeps sensitive values out of it.
+application policy that keeps sensitive values out of it. A controller
+checks a proposed batch against its own artifact and allowed positions
+before returning a decision, then compares rejection with cancellation.
 
 ## How to work through a case
 
@@ -166,3 +168,7 @@ storage strategy.
     publication](redacting-before-publication/README.md) — project an explicit
     public event, observe internal snapshots around redaction, and distinguish
     the payload type boundary from the application secrecy policy.
+26. [Check proposed
+    edits](checking-proposed-edits/README.md) — validate a complete proposal
+    against an independent model and controller-owned inputs, then distinguish
+    edit authorization from continuation consumption.

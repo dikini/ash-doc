@@ -16,8 +16,8 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty-five Cases,
-  114 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-six Cases,
+  125 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 68 demonstrated rejections through complete
-English human messages: fifteen in Learn, sixteen in Cases, sixteen in Libraries,
+The active edition now teaches all 70 demonstrated rejections through complete
+English human messages: fifteen in Learn, eighteen in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -94,9 +94,9 @@ hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering
 guide](rendering.md#scoped-build-evidence) records the current complete-book and
-specimen review. The current indexed selection has 58 lessons; the local-pricing,
-immutable-world, cancellable-journal, and event-redaction Cases await
-presentation checks. The edition remains local and unpublished.
+specimen review. The current indexed selection has 59 lessons; the local-pricing,
+immutable-world, cancellable-journal, event-redaction, and controlled-edits
+Cases await presentation checks. The edition remains local and unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -572,12 +572,11 @@ no framework or tooling. The three observations pass at the current baseline.
 ## Application Cases from DN-0052
 
 **State: A1 is integrated; A2 and A5 are locally verified and approved;
-A3 and A4 are locally verified; A6–A8 remain proposed.** A1 passes complete-book
-presentation checks. The user approved A2 and A5 for squash merge on
-2026-10-18. A2–A5 await
-presentation checks.
+A3, A4, and A6 are locally verified; A7–A8 remain proposed.** A1 passes
+complete-book presentation checks. The user approved A2 and A5 for squash
+merge on 2026-10-18. A2–A6 await presentation checks.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1–A5 lessons and three remaining briefs. It records the
+links the verified A1–A6 lessons and two remaining briefs. It records the
 selected implementation design, parallel ownership, GitHub delivery, and final
 rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
@@ -739,24 +738,32 @@ asynchronous delivery, or external I/O.
 
 ### A6. How can a controller check a worker's proposed edits?
 
-[Implementation plan](../plans/2026-10-16-a6-controlled-edits.md).
+[Check proposed edits](../../content/cases/checking-proposed-edits/README.md)
+is locally verified with eleven canonical sources and two complete human
+rejection captures. [Issue #11](https://github.com/dikini/ash-doc/issues/11) and
+[PR #12](https://github.com/dikini/ash-doc/pull/12) track
+delivery and review. Presentation remains pending.
 
-Continue [scripted sessions](../../content/cases/running-a-scripted-session/README.md)
-after [E5 resumption](../../content/effects/resuming-a-calculation/README.md)
+The chapter continues
+[scripted sessions](../../content/cases/running-a-scripted-session/README.md),
+[E5 resumption](../../content/effects/resuming-a-calculation/README.md),
 and [E6 discard](../../content/effects/stopping-a-calculation/README.md).
-A deterministic worker proposes integer-list edits; a controller checks
-permitted positions and the resulting artifact against an independent pure
-model. Local scripts supply every decision.
+A worker builds one immutable edit proposal with prefix/suffix reconstruction.
+The controller checks it with an independent indexed model, using its own
+original artifact and allowed positions.
 
-Check allow, reject, and cancellation branches. Develop double resumption and
-a normally completing branch that leaves its continuation unconsumed as
-diagnostic episodes under the [effect rules][effects]. Repair each with one
-permitted resume or owned discard. Separately test a well-typed controller
-that approves an invalid edit.
+Checks distinguish allowed completion, resumed rejection, and owned
+cancellation that omits the worker completion suffix. Boundary proposals
+cover forbidden and missing positions, a wrong candidate, repeated writes,
+and empty batches. An approving controller remains well typed while
+completing an unauthorized edit. Double and missing resumption each supply
+an isolated rejection and complete human capture, with one-resume and
+owned-discard repairs under the [effect rules][effects].
 
-The reader can distinguish continuation safety from application authorization
-and artifact correctness. This simulates an interaction; it runs no LLM,
-external process, tool, filesystem operation, or sandbox.
+The reader can distinguish continuation consumption from edit authorization
+and artifact correctness. The finite scripted interaction claims no security
+isolation and runs no LLM, external process, filesystem operation, tool,
+sandbox, or concurrent worker.
 
 ### A7. What can a cancellable stable sorter promise?
 
@@ -893,8 +900,8 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory is twenty-five
-after A1–A5; further units join only when they satisfy these conditions.
+expectations in the same change. The current Cases inventory is twenty-six
+after A1–A6; further units join only when they satisfy these conditions.
 Incomplete studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
@@ -911,10 +918,10 @@ Case are complete. A1 has local executable verification and user approval for
 merge; its presentation passes complete-book checks. A2 is locally verified
 and approved for squash merge on 2026-10-18. A3 and A4 are locally verified;
 A5 is locally verified and approved for squash merge on 2026-10-18.
-A2–A5 await presentation checks. A6–A8 are proposed application
-outcomes, each requiring its own bounded design and approval under the existing
-workflow. The linked coordination plan defines separate Case ownership during
-parallel work.
+A6 is locally verified. A2–A6 await presentation checks. A7–A8 are proposed
+application outcomes, each requiring its own bounded design and approval under
+the existing workflow. The linked coordination plan defines separate Case
+ownership during parallel work.
 The documentation remains unpublished; no ash-doc `ffi-base` publication tag
 exists. Refine chapter boundaries when executable design exposes a dependency
 or an overloaded question, and replace superseded wording rather than keeping

@@ -1,12 +1,12 @@
 # Rendering
 
-This directory selects all 58 indexed, verified lessons for a local review book
+This directory selects all 59 indexed, verified lessons for a local review book
 and retains the smaller specimen as a regression build. The book follows
 Learn → Libraries → Effects → Cases and includes the four family introductions.
 Learning source remains in `content/`; notation fixtures remain project material.
 Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
-The local-pricing, immutable-world, cancellable-journal, and event-redaction
-Cases await presentation checks.
+The local-pricing, immutable-world, cancellable-journal, event-redaction,
+and controlled-edits Cases await presentation checks.
 
 Read the [rendering guide](../docs/project/rendering.md) for the selected
 sources, tool pins, commands, checks, and replacement conditions. The
