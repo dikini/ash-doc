@@ -54,6 +54,7 @@ readonly active_destinations=(
     supplying-a-local-pricing-policy
     querying-an-immutable-world
     rolling-back-a-cancellable-journal
+    redacting-before-publication
 )
 readonly expected_case_count=${#active_destinations[@]}
 

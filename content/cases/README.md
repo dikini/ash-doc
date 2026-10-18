@@ -27,7 +27,9 @@ whose methods retain a tariff. An immutable world joins component stores by
 entity identifier, then compares direct and generic movement while preserving
 the original snapshot. A journal compares cancellation with explicit
 compensation, then uses saved snapshots and commit flags to restore staged
-state across nested scopes.
+state across nested scopes. An event pipeline compares internal snapshots
+with an explicit public view, then separates the public shape from the
+application policy that keeps sensitive values out of it.
 
 ## How to work through a case
 
@@ -160,3 +162,7 @@ storage strategy.
     journal?](rolling-back-a-cancellable-journal/README.md) — distinguish control
     abandonment from restoring state, record commitment with explicit flags,
     and compare nested snapshots and surviving cleanup interpreters.
+25. [Redact before
+    publication](redacting-before-publication/README.md) — project an explicit
+    public event, observe internal snapshots around redaction, and distinguish
+    the payload type boundary from the application secrecy policy.
