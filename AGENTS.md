@@ -24,7 +24,7 @@ The current edition and all new work target `ffi-base` at Ash commit
 `354c76b391fe4af665cf6a03479a9874a57cb3e3`. This cumulative checkpoint includes
 source foreign contracts, resource families, strings and bytes, generated
 native hosts, diagnostics, effects, library abstractions, and modules. All
-thirteen Learn lessons, twenty-seven Cases, eight library lessons,
+thirteen Learn lessons, twenty-eight Cases, eight library lessons,
 and twelve effects lessons are verified; the
 [verification guide](docs/project/verification.md) names their baseline checks.
 Publication has not occurred.
@@ -247,12 +247,12 @@ Before completing a change:
 The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`,
 and `rendering/` roots, four content families, and lesson-local source and
 checks with shared verification helpers. Rendering uses Quarto Book and Typst
-for a bounded local review book selecting all 60 indexed, verified lessons in
+for a bounded local review book selecting all 61 indexed, verified lessons in
 Learn → Libraries → Effects → Cases order, with four family introductions.
 Rendering evidence covers 54 lessons, including the cleanup-reporting Case, in
 HTML, EPUB, and both PDF layouts. The local-pricing, immutable-world,
-cancellable-journal, event-redaction, controlled-edits, and stable-sort Cases
-await presentation checks.
+cancellable-journal, event-redaction, controlled-edits, stable-sort, and
+tagged-frame Cases await presentation checks.
 The default specimen remains a regression build.
 Lesson and part review builds select only their indexed sources and requested
 formats. All scopes share tools and styles; their generated source records
