@@ -232,6 +232,14 @@ for stem, reason, excerpt in [
     assert label["path"] == f"src/{stem}.ash"
     source = (unit / label["path"]).read_bytes()
     assert source[label["byte_start"]:label["byte_end"]].decode() == excerpt, stem
+# The rejection explanations depend on the capability's preceding state,
+# not just on the bytes selected by the final diagnostic label.
+double = (unit / "src/06-double-resume.ash").read_text()
+assert "propose ignored => {\n        let result = resume true\n        resume result\n    }" in double
+assert double.count("resume ") == 2
+missing = (unit / "src/07-missing-resume.ash").read_text()
+assert "propose ignored => false\n}" in missing
+assert "resume " not in missing and "discard" not in missing
 once = (unit / "src/08-resume-once.ash").read_text()
 assert "let result = resume true\n        result" in once
 assert once.count("resume ") == 1
