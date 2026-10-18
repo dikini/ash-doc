@@ -271,3 +271,12 @@ it.
 [program-design]: ../../.agents/skills/writing-ash-documentation/references/program-design.md
 [formatting]: ../../.agents/skills/writing-ash-documentation/references/formatting.md
 [writing-scenarios]: ../../.agents/skills/writing-ash-documentation/tests/writing-scenarios.md
+
+## Synchronize shared HTML tokens locally
+
+When editing shared HTML presentation, use the
+[local token workflow](design-tokens.md). HTML builds synchronize token edits
+with the selected ash-site checkout; verification checks drift without changing
+files. Review and commit both token and baseline changes in each affected
+repository. This workflow uses no hosted CI and leaves the Ash edition target
+and executable evidence unchanged.

@@ -482,6 +482,8 @@ def prepare(args):
     (args.output / "sources.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
     (args.output / "build.json").write_text(json.dumps({
         "mode": scope["mode"], "selection": scope["selection"], "formats": formats, "title": title,
+        "design_tokens_sha256": (hashlib.sha256((args.output / "styles/ash-tokens.css").read_bytes()).hexdigest()
+                                 if "html" in formats and (args.output / "styles/ash-tokens.css").is_file() else None),
         "output_file": output_file, "source_commit": commit, "ash_commit": config["ash_commit"],
         "chapters": ["index.md", "setup.md", *mapping.values()], "parts": parts,
         "lesson_count": sum(record["role"] == "lesson" for record in records),
@@ -600,6 +602,9 @@ def main():
     for key in ("specimen", "quarto", "railroad", "sequent", "browser"):
         setattr(args, key, getattr(args, key).resolve())
     try:
+        if args.formats is None or "html" in args.formats:
+            from token_sync import synchronize
+            synchronize(ROOT)
         config = prepare(args)
         if not args.prepare_only:
             build(args, config)

@@ -8,6 +8,7 @@ import os
 import posixpath
 import re
 import subprocess
+import sys
 import xml.etree.ElementTree as ET
 import zipfile
 from html.parser import HTMLParser
@@ -795,6 +796,11 @@ def verify_generated_diagrams(project, jobs, published=False):
 def verify(project):
     output = project / "output"
     metadata = json.loads((project / "build.json").read_text())
+    token_hash = metadata.get("design_tokens_sha256")
+    if token_hash is not None:
+        for token_file in [project / "styles/ash-tokens.css", output / "styles/ash-tokens.css"]:
+            check(hashlib.sha256(token_file.read_bytes()).hexdigest() == token_hash,
+                  f"design token hash mismatch: {token_file}")
     records = json.loads((project / "sources.json").read_text())
     basename = verify_build_metadata(metadata, records)
     specimen = metadata["mode"] == "specimen"
@@ -930,6 +936,10 @@ if __name__ == "__main__":
     parser.add_argument("project", nargs="?", type=Path,
                         default=Path(__file__).resolve().parents[2] / ".build/specimen")
     try:
-        verify(parser.parse_args().project.resolve())
+        args = parser.parse_args()
+        project = args.project.resolve()
+        if "html" in json.loads((project / "build.json").read_text()).get("formats", FORMATS):
+            subprocess.run([sys.executable, str(ROOT / "rendering/token_sync.py"), "--check"], check=True)
+        verify(project)
     except (OSError, ValueError, KeyError, ET.ParseError, subprocess.CalledProcessError) as error:
         raise SystemExit(f"verification: {error}") from error
