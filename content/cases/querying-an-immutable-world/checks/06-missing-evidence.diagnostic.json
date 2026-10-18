@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "reason": "constraint.unsatisfied",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "interface_obligation",
+      "path": "src/06-missing-evidence.ash",
+      "byte_start": 90,
+      "byte_end": 100,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "obligation_declaration",
+      "path": "src/systems.ash",
+      "byte_start": 1402,
+      "byte_end": 1412,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "declaration_import",
+      "path": "src/06-missing-evidence.ash",
+      "byte_start": 16,
+      "byte_end": 26,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "selection_interface",
+      "path": "src/systems.ash",
+      "byte_start": 106,
+      "byte_end": 216,
+      "facts": []
+    }
+  ]
+}
