@@ -25,16 +25,17 @@ Whole-book mode derives all lessons from the existing family indexes:
 - [Learn](../../content/learn/README.md): thirteen lessons;
 - [Libraries](../../content/libraries/README.md): eight lessons;
 - [Effects](../../content/effects/README.md): twelve lessons; and
-- [Cases](../../content/cases/README.md): twenty-seven lessons.
+- [Cases](../../content/cases/README.md): twenty-eight lessons.
 
 Each family keeps its indexed lesson order. Its reader-facing introduction
 becomes a native Quarto book part before those lessons. Reader setup comes from
 the root README. The book contains no project notation fixture; that fixture
 remains in the specimen. Unindexed lesson directories do not enter either
-selection merely because they exist. The current selection has 60 lessons.
+selection merely because they exist. The current selection has 61 lessons.
 Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
 The local-pricing, immutable-world, cancellable-journal, event-redaction,
-controlled-edits, and stable-sort Cases await presentation checks.
+controlled-edits, stable-sort, and tagged-frame Cases await presentation
+checks.
 
 The default [specimen configuration](../../rendering/specimen.json) selects
 three complete, indexed lessons:

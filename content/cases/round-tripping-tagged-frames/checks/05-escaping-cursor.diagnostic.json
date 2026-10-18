@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "reason": "type.resource-escape",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "escaping_dependency",
+      "path": "src/05-escaping-cursor.ash",
+      "byte_start": 182,
+      "byte_end": 398,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "resource_acquisition",
+      "path": "src/05-escaping-cursor.ash",
+      "byte_start": 145,
+      "byte_end": 398,
+      "facts": []
+    }
+  ]
+}

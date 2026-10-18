@@ -57,6 +57,7 @@ readonly active_destinations=(
     redacting-before-publication
     checking-proposed-edits
     cancelling-a-stable-sort
+    round-tripping-tagged-frames
 )
 readonly expected_case_count=${#active_destinations[@]}
 

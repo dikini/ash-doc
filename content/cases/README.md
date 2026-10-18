@@ -34,7 +34,10 @@ checks a proposed batch against its own artifact and allowed positions
 before returning a decision, then compares rejection with cancellation.
 A sorter charges comparisons before performing them and returns either a
 complete stable ordering or cancellation. An independent reference exposes
-how the insertion position preserves the original order of ties.
+how the insertion position preserves the original order of ties. A tagged
+frame pairs golden byte lists with a scoped direct decoder, keeping logical
+input length separate from allocated capacity and copied messages separate
+from live buffer access.
 
 ## How to work through a case
 
@@ -179,3 +182,7 @@ storage strategy.
     sort](cancelling-a-stable-sort/README.md) — preserve input order among ties,
     request permission before each comparison, and distinguish a complete
     sorted result from cancelled work.
+28. [Round-trip a tagged
+    frame](round-tripping-tagged-frames/README.md) — check golden encoding and
+    decoding independently, distinguish logical length from capacity, and
+    return copied messages from scoped buffer access.
