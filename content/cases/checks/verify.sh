@@ -53,6 +53,7 @@ readonly active_destinations=(
     preserving-outcomes-through-cleanup
     supplying-a-local-pricing-policy
     querying-an-immutable-world
+    rolling-back-a-cancellable-journal
 )
 readonly expected_case_count=${#active_destinations[@]}
 
