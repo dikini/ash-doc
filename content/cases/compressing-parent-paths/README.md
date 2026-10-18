@@ -25,7 +25,7 @@ access failure.
 <!-- source: src/main.ash -->
 <!-- markdownlint-disable MD013 -->
 ```ash
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 type Lookup = Root(Int, Int, Int)
 
@@ -65,7 +65,7 @@ repeat_lookup compress = match find_root (3, compress) {
 }
 
 run : Bool -> Buffer.Outcome<Buffer.Outcome<(Lookup, Lookup)>>
-run compress = resource native_buffer<R> parents = 4 {
+run compress = resource Buffer.Buffer<R> parents = 4 {
     match Buffer.write (parents, 2, 1) {
         Buffer.Failure(error) => Buffer.Failure(error)
         Buffer.Success(()) => match Buffer.write (parents, 3, 2) {
@@ -87,17 +87,24 @@ main () = (run false, run true)
 ```
 <!-- markdownlint-enable MD013 -->
 
-Run the program from the Cases directory:
+Build and run from the Cases directory, using the buffer lesson's native
+[setup](../../effects/acquiring-a-buffer/README.md):
+
+{{< pagebreak >}}
 
 ```text
-ash compressing-parent-paths/src/main.ash
+ash build --output ./parent-paths \
+    --cargo-target-dir "$ASH_NATIVE_CACHE" \
+    --root ffi="$ASH_LIBRARIES" \
+    compressing-parent-paths/src/main.ash
+./parent-paths
 ```
 
 The result is:
 
 <!-- markdownlint-disable MD013 -->
 ```text
-(Success(Success(Root(0, 4, 0), Root(0, 4, 0))), Success(Success(Root(0, 4, 3), Root(0, 2, 1)))) : (Outcome<Outcome<(Lookup, Lookup)>>, Outcome<Outcome<(Lookup, Lookup)>>)
+(Success(Success(Root(0, 4, 0), Root(0, 4, 0))), Success(Success(Root(0, 4, 3), Root(0, 2, 1))))
 ```
 <!-- markdownlint-enable MD013 -->
 

@@ -7,7 +7,10 @@ import sys
 
 actual_path = Path(sys.argv[1])
 unit = Path(sys.argv[2]).resolve()
-entry, argument = sys.argv[3:]
+entry, argument = sys.argv[3:5]
+mode = sys.argv[5] if len(sys.argv) == 6 else "ordinary"
+if mode not in ("ordinary", "native"):
+    sys.exit("unknown capture mode")
 readme = unit / "README.md"
 marker = f"<!-- diagnostic: {entry} -->"
 text = readme.read_bytes().decode("utf-8")
@@ -26,7 +29,8 @@ if "\x1b" in actual or actual.startswith("{") or not actual.endswith("\n"):
 repo = unit.parents[2]
 actual = actual.replace(str(repo) + "/", "/path/to/ash-doc/")
 expected = match.group(1) + "\n"
-observed = f"$ ash --message-format human --locale en {argument}\n" + actual
+root_option = ' --root ffi="$ASH_LIBRARIES"' if mode == "native" else ""
+observed = f"$ ash --message-format human --locale en{root_option} {argument}\n" + actual
 if observed != expected:
     print("".join(difflib.unified_diff(
         expected.splitlines(True), observed.splitlines(True),

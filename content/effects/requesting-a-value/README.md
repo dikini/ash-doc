@@ -194,9 +194,11 @@ reason: entry.main-effects
 
 There is no handler here to answer the request. The message points at the
 local `main` declaration, whose `! {Bonus}` records the requirement left by
-calling `score`. Ash's [entry contract][entry] requires `main` to have an empty
-effect row: there is no source caller outside the program's entry to handle
-that requirement. The file is rejected before the calculation runs.
+calling `score`. Ash's [entry contract][entry] rejects this unanswered ordinary
+effect: there is no source caller outside the program's entry to handle it.
+The tool can install an interpretation for certain declared native effects,
+but `Bonus` is an ordinary effect requiring our handler. The file is rejected
+before the calculation runs.
 `entry.main-effects` identifies this entry-contract rejection.
 
 Restore the handled `main` from `02-handled.ash`, including its `Unit -> Int`
@@ -227,7 +229,7 @@ This example puts one call inside one handler. The next question is how the
 requirement travels when one function calls another, or returns a function
 that will make the request later.
 
-[effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
-[rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
-[evaluation]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#effect-handlers-and-completion
-[entry]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules
+[effects]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#effects
+[rows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#computation-types-and-effect-rows
+[evaluation]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#effect-handlers-and-completion
+[entry]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#globals-and-modules

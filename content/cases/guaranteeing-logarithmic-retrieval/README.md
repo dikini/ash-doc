@@ -88,7 +88,7 @@ rule against adjacent red nodes limits how much longer a path can become.
 
 The opaque declaration controls source access. Importers can name
 `Dictionary<K, V>`, but cannot name its constructors under Ash's
-[public and opaque declaration rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations).
+[public and opaque declaration rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations).
 The defining module can construct any of its forms, including invalid ones.
 Neither the nominal type nor `Order<K>` proves the representation laws. We
 must design the operations to preserve them.
@@ -212,7 +212,7 @@ We can already check how these operations fit together. Once we supply
 Its output is `D`, which is exactly what public insertion promises.
 We have calculated the connection between the two operations before
 choosing either body. Ash checks application inputs and results under its
-[function and application typing rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application).
+[function and application typing rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application).
 
 These signatures describe the shapes of inputs and outputs. The purposes add
 requirements that the types do not express. Completed dictionaries and
@@ -505,9 +505,9 @@ restore color RArg(a, k, v) b = Node(color, a, k, v, b)
 Ash tries these patterns in source order and selects the first matching
 equation once the arguments have arrived. The final equation handles every
 remaining color and subtree shape. The
-[pattern and coverage rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#patterns-matches-and-coverage)
+[pattern and coverage rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#patterns-matches-and-coverage)
 check that the equations cover the input type. The
-[evaluation rules for matches and equations](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+[evaluation rules for matches and equations](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 explain which body executes. Neither check establishes the ordering or
 black-height premises used in the repair calculation.
 
@@ -593,7 +593,7 @@ restore_three first second third d = {
 
 This definition is a non-executable excerpt from the complete companion
 module. Its three local patterns each bind their own input group under Ash's
-[block and pattern rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#blocks).
+[block and pattern rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#blocks).
 It constructs three dictionary nodes and passes the four subtree values
 unchanged into them. It needs no comparison: its caller must supply the
 associations and subtrees in the required order.
@@ -654,7 +654,7 @@ red `2` with black `1` and `3` as children.
 
 The nested recursive expression is evaluated before `restore` receives that
 child value, under Ash's strict
-[application rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application).
+[application rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application).
 The calculation therefore descends through comparisons, then reconstructs
 from the returned child toward the root. A repair can return a red root
 beneath a red ancestor; the next black grandparent handles that edge.
@@ -714,7 +714,7 @@ checks inherited key bounds. A separate pass obtains each child's
 black-height, rejects red-red edges and unequal counts, and a final check
 examines the root. Both passes bind both recursive child results before
 combining them. Ash's strict
-[binding rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings)
+[binding rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#bindings)
 mean that a completed validation enters both branches.
 
 The defining module's private `main` constructs five trees to distinguish
@@ -1028,9 +1028,9 @@ client therefore does more work than its insertions alone. The logarithmic
 bound later in the chapter concerns the search path; validation has its own
 cost.
 
-The [global scope rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#global-scope)
+The [global scope rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#global-scope)
 allow these bodies to call helpers defined later in the complete source.
-The [function and application rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application)
+The [function and application rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application)
 check that the argument and result types fit. The list-order promise comes
 from the equations we just calculated.
 
@@ -1364,7 +1364,7 @@ dictionaries have the same structure and associations because the finite build
 applies public insertion in input order.
 
 `Red`, `Black`, `Node`, and `Empty` appear because Ash's
-[observation rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation)
+[observation rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation)
 render nominal data structurally. That output does not export the private color
 type or either opaque dictionary constructor. It gives client source no new
 name to construct or match.
@@ -1473,7 +1473,7 @@ comparisons return and satisfy the premises already used for ordered trees:
 `Less` and `Greater`, strict order is transitive, and equivalent keys relate to
 every other key in the same way. The interface requirement supplies checked
 comparison evidence under Ash's
-[constrained-scheme rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes);
+[constrained-scheme rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes);
 it does not encode those laws.
 
 The return and height claims apply to finite valid dictionary spines produced
@@ -1482,7 +1482,7 @@ comparison that does not return can prevent lookup, insertion, build, or
 ordering validation from returning. Code in the defining module can still
 construct an invalid value, a constructor-guarded cyclic spine, or a bad public
 operation. The static
-[recursive block-group rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups)
+[recursive block-group rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#recursive-block-groups)
 admit guarded recursive data; opacity and red-black checks do not turn
 finiteness into a type proposition.
 

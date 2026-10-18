@@ -168,28 +168,28 @@ Okasaki's paper implements a set in Haskell. The Ash case instead needs
 a dictionary with key-value entries and later-equal replacement while keeping
 the existing public client API. Its programs follow the pinned dynamic
 [application
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application)
-and use only forms supported by the pinned Diag Ash edition.
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application)
+and use only forms supported by the pinned FFI Base edition.
 
 The case must derive preservation from its own ordering equations, balance
 equations, and explicit ordering-law premises. An `Order<K>` interface
 requirement follows the pinned [interfaces and constrained
-schemes](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes)
+schemes](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes)
 and [constraint satisfaction and checked
-evidence](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
+evidence](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence)
 rules; those rules do not prove that the comparison forms a total order.
 Likewise, a nominal dictionary declaration does not prove the red-black
 invariant. The guarantee comes from the pinned [public opaque declaration
-boundary](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations)
+boundary](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations)
 together with the selected invariant-preserving public operations.
 
 All language claims must come from the
-[pinned specification](https://github.com/dikini/ash-lang/tree/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec),
+[pinned specification](https://github.com/dikini/ash-lang/tree/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec),
 and all command observations must follow the pinned
 [`ash` tool
-guide](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md).
-The target remains `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. Neither the sources in this
+guide](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md).
+The target remains `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. Neither the sources in this
 record nor current `ash-lang/main` can add behavior to that edition.
 
 ## Deliberate exclusions

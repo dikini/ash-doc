@@ -9,7 +9,9 @@ functions, signatures, values, and pattern bindings; it needs no library or
 algorithm Case as a prerequisite.
 
 Use the `ash` command from the repository's [shared setup](../../README.md#prepare-ash).
-Each lesson keeps complete programs in its `src` directory. Change into that
+The buffer chapter builds native executables; earlier chapters use ordinary
+`ash` execution. Each lesson keeps complete programs in its `src` directory.
+Change into that
 directory before running the commands shown in the lesson. For the first one:
 
 ```text

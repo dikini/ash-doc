@@ -184,5 +184,5 @@ Tuples describe combinations chosen at the point of use. Programs also need
 data with names that express what a value means and which forms it may take.
 The next lesson shows how an Ash program defines such data for itself.
 
-[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application
-[call-syntax]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#precedence-and-associativity
+[application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application
+[call-syntax]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#precedence-and-associativity

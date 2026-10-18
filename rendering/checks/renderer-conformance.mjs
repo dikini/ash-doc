@@ -4,12 +4,31 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 
 const run = promisify(execFile);
-const ashTarget = '9ec5920e8c395f9a36125805ee93b7f58c0f4764';
+const ashTarget = '354c76b391fe4af665cf6a03479a9874a57cb3e3';
 const sequentTarget = '21dad3d34b206b7964d2dd7edcab89a7b8f2b612';
 const railroadTarget = '366d5eaa937e9e9fbae3bf8d44265ccc2c528067';
+
+// The expanded foreign grammar can exhaust the renderer. Isolate this corpus
+// probe so known resource refusal cannot kill the controls and their report.
+if (process.argv.includes('--grammar-corpus-worker')) {
+  const railroad = await import(pathToFileURL(process.env.RAILROAD_BUNDLE));
+  const { stdout } = await run('git', ['-C', process.env.ASH_REPO, 'show', `${ashTarget}:spec/syntax.md`],
+    { maxBuffer: 2 * 1024 * 1024 });
+  const records = [];
+  for (const match of stdout.matchAll(/```ebnf\n([\s\S]*?)\n```/g)) {
+    const tree = fenceTree(match[1]);
+    const messages = [];
+    await railroad.rehypeRailroad()(tree, { message(value) { messages.push(value); } });
+    records.push({ chapter: 'syntax', fenceLine: stdout.slice(0, match.index).split('\n').length,
+      messages, svgCount: nodes(tree, 'svg').length });
+  }
+  process.stdout.write(JSON.stringify(records));
+  process.exit(0);
+}
+
 const args = process.argv.slice(2);
 const reproduce = args.includes('--reproduce');
 const expectFixed = args.includes('--expect-fixed');
@@ -146,8 +165,8 @@ if (process.env.ASH_REPO) {
     }
   }
   if (!expectFixed) {
-    assert.equal(corpus.length, 36);
-    assert.equal(corpus.filter(fence => fence.diagnostics.length === 0).length, 22);
+    assert.equal(corpus.length, 39);
+    assert.equal(corpus.filter(fence => fence.diagnostics.length === 0).length, 25);
     for (const item of corpus.filter(fence => fence.diagnostics.length)) {
       const row = `| ${item.fenceLine} | ${item.diagnostics.map(diagnostic => diagnostic.line).join(', ')} |`;
       assert.ok(prose.includes(row), `The report must catalogue ${item.chapter}:${item.fenceLine}.`);
@@ -157,19 +176,18 @@ if (process.env.ASH_REPO) {
 
 let railroadCorpus = null;
 if (process.env.ASH_REPO && railroad) {
-  const { stdout } = await run('git', ['-C', process.env.ASH_REPO, 'show', `${ashTarget}:spec/syntax.md`], { maxBuffer: 2 * 1024 * 1024 });
-  railroadCorpus = [];
-  for (const [index, match] of [...stdout.matchAll(/```ebnf\n([\s\S]*?)\n```/g)].entries()) {
-    const tree = fenceTree(match[1]);
-    const messages = [];
-    await railroad.rehypeRailroad()(tree, { message(message) { messages.push(message); } });
-    railroadCorpus.push({ chapter: 'syntax', fence: index + 1,
-      fenceLine: stdout.slice(0, match.index).split('\n').length, messages, svgCount: nodes(tree, 'svg').length });
-  }
-  if (!expectFixed) {
-    assert.equal(railroadCorpus.length, 1);
-    assert.equal(railroadCorpus[0].svgCount, 84);
-    assert.deepEqual(railroadCorpus[0].messages, []);
+  try {
+    const { stdout } = await run(process.execPath,
+      ['--max-old-space-size=256', fileURLToPath(import.meta.url), '--grammar-corpus-worker'],
+      { timeout: 30000, maxBuffer: 2 * 1024 * 1024 });
+    railroadCorpus = JSON.parse(stdout);
+    if (!expectFixed) assert.fail('Inspect the newly successful full grammar before updating this baseline.');
+  } catch (error) {
+    if (!/heap out of memory/i.test(error.stderr ?? '')) throw error;
+    railroadCorpus = [{ chapter: 'syntax', status: 'worker-heap-exhausted', heapLimitMiB: 256 }];
+    observations.push({ id: 'RR-05', classification: 'Full grammar resource limitation',
+      expected: 'Render the complete pinned EBNF fence within the bounded worker.',
+      actual: railroadCorpus[0], fixed: false });
   }
 }
 
@@ -188,5 +206,5 @@ if (reproduce) {
     railroadCorpus
   } : report, null, 2) + '\n');
   if (expectFixed && (observations.some(item => item.fixed === false) || corpus?.some(item => item.diagnostics.length)
-      || railroadCorpus?.some(item => item.messages.length))) process.exitCode = 1;
+      || railroadCorpus?.some(item => item.status || item.messages.length))) process.exitCode = 1;
 }

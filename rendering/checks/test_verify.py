@@ -78,11 +78,11 @@ class BookCoverageTests(unittest.TestCase):
             parts.append({"family": family, "introduction": introduction, "chapters": chapters})
         (self.root / "rendering").mkdir()
         (self.root / "rendering/specimen.json").write_text(json.dumps({
-            "ash_commit": "9ec5920e8c395f9a36125805ee93b7f58c0f4764"}))
+            "ash_commit": "354c76b391fe4af665cf6a03479a9874a57cb3e3"}))
         self.metadata = {
             "mode": "book", "title": "Ash documentation review book",
             "output_file": "ash-doc-review",
-            "ash_commit": "9ec5920e8c395f9a36125805ee93b7f58c0f4764",
+            "ash_commit": "354c76b391fe4af665cf6a03479a9874a57cb3e3",
             "source_commit": "a" * 40, "parts": parts, "lesson_count": 8,
             "chapters": ["index.md", "setup.md"] + [record["chapter"] for record in self.records],
         }
@@ -417,6 +417,43 @@ class RepairReadingUnitTests(unittest.TestCase):
         document = page([("f : D -> D f value = value", 72, 410, 100, 110)])
         with self.assertRaisesRegex(ValueError, "body column"):
             self.verify([document], a4=True)
+
+
+class BodyColumnCodeTests(unittest.TestCase):
+    def matches(self, pages, text, layout_text, a4=False):
+        function = getattr(VERIFY, 'pdf_code_matches', None)
+        self.assertTrue(callable(function), 'column-aware PDF code comparison is missing')
+        return function(pages, text, layout_text, a4)
+
+    def test_margin_caption_does_not_interrupt_intact_body_code(self):
+        source = 'f : Int -> Int\nf value = value'
+        for number, left, margin in [(1, 54, 396), (2, 198, 36)]:
+            with self.subTest(number=number):
+                sheets = [page([])] * (number - 1) + [page([
+                    ('f : Int -> Int', left, left + 100, 100, 110),
+                    ('Figure 1', margin, margin + 80, 112, 122),
+                    ('f value = value', left, left + 100, 125, 135),
+                ])]
+                self.assertTrue(self.matches(sheets, source,
+                                             'f : Int -> Int Figure 1 f value = value'))
+
+    def test_margin_arrow_cannot_repair_missing_body_character(self):
+        sheet = page([('f : Int > Int', 54, 154, 100, 110),
+                      ('Figure ->', 396, 476, 112, 122),
+                      ('f value = value', 54, 154, 125, 135)])
+        self.assertFalse(self.matches([sheet], 'f : Int -> Int\nf value = value',
+                                      'f : Int > Int Figure -> f value = value'))
+
+    def test_a4_fixed_note_column_is_excluded(self):
+        mm = 72 / 25.4
+        sheet = page([('f : Int -> Int', 25 * mm, 65 * mm, 100, 110),
+                      ('Figure 1', 140 * mm, 170 * mm, 112, 122),
+                      ('f value = value', 25 * mm, 65 * mm, 125, 135)])
+        self.assertTrue(self.matches([sheet], 'f : Int -> Int\nf value = value',
+                                     'f : Int -> Int Figure 1 f value = value', True))
+
+    def test_complete_wide_code_keeps_existing_full_layout_check(self):
+        self.assertTrue(self.matches([], 'f : Int -> Int', 'f : Int -> Int'))
 
 
 if __name__ == "__main__":

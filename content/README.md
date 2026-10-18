@@ -8,8 +8,8 @@ The shared [cover illustration](ash-cover.png) is retained for PDF, ebook,
 and HTML use. Its [project record](../docs/project/cover-illustration.md)
 contains the generation prompt, provenance, and placement guidance.
 
-All four families are verified at the current Diag Ash target declared by the
-[repository](../README.md#current-edition-diag-ash). Code, prose, and
+All four families are verified at the current FFI Base target declared by the
+[repository](../README.md#current-edition-ffi-base). Code, prose, and
 checks share that exact baseline:
 
 - [`learn/`](learn/README.md) for thirteen verified lessons covering the beginning

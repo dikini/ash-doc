@@ -5,7 +5,7 @@
 
 Ash-doc is a separate, version-pinned learning and evidence stream governed by
 the experiment in
-[DN-0024](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 It may discover language, tool, library, diagnostic, and application pressure.
 It cannot define Ash semantics or accept Ash architecture.
 
@@ -20,10 +20,11 @@ compatible capability that the project skill does not cover.
 
 ## Authority and target
 
-The current edition and all new work target `diag-ash` at Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. This cumulative checkpoint includes
-diagnostics, migration repairs, effects and resources, library abstractions,
-and modules. All thirteen Learn lessons, twenty-two Cases, eight library lessons,
+The current edition and all new work target `ffi-base` at Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. This cumulative checkpoint includes
+source foreign contracts, resource families, strings and bytes, generated
+native hosts, diagnostics, effects, library abstractions, and modules. All
+thirteen Learn lessons, twenty-two Cases, eight library lessons,
 and twelve effects lessons are verified; the
 [verification guide](docs/project/verification.md) names their baseline checks.
 Publication has not occurred.
@@ -45,9 +46,9 @@ published documentation tag.
 
 Use sources according to the claim you are making:
 
-1. The [Diag Ash specification](https://github.com/dikini/ash-lang/tree/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec)
+1. The [FFI Base specification](https://github.com/dikini/ash-lang/tree/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec)
    governs current work and all active material.
-2. The [Diag Ash tool guide](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md),
+2. The [FFI Base tool guide](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md),
    implementation, and tests at that commit govern new tool observations.
    Remove observations that no longer describe this baseline.
 3. Accepted architectural decisions in `ash-lang` govern the non-language
@@ -58,7 +59,7 @@ Use sources according to the claim you are making:
 
 Use the pinned Ash checkpoint for project process, future pressure, and
 the
-[Ash writing guide](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/project/writing.md).
+[Ash writing guide](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/project/writing.md).
 Do not import language behavior from `main` into the pinned edition.
 
 The repository README declares the current target, verification and
@@ -190,7 +191,7 @@ Do not establish a second specification, duplicate every tutorial program in
 `ash-lang`, or add compatibility machinery for old Ash editions.
 
 The repository has one active forward line on `main`, targeting
-`diag-ash`. Preserve a published edition with the immutable tag named by its
+`ffi-base`. Preserve a published edition with the immutable tag named by its
 target Ash milestone. During content cutover, move `main` to one exact Ash
 commit, expose incomplete
 coverage, and restore lessons only after their examples pass. Do not backport
@@ -247,12 +248,13 @@ The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`, and
 `rendering/` roots, four content families, and lesson-local source and checks
 with shared verification helpers. Rendering uses Quarto Book and Typst for a
 bounded local review book selecting all 55 indexed, verified lessons in Learn →
-Libraries → Effects → Cases order, with four family introductions. Retained
-rendering evidence covers the earlier 53-lesson inventory; the cleanup-reporting
-and local-pricing Cases await final rendering integration. The default specimen
-remains a regression build. Lesson and part review builds select only
-their indexed sources and requested formats. All scopes share tools and styles;
-their generated source records serve preparation and checks. This selects no
-general content registry, CI service, publication platform, or repository-wide license.
+Libraries → Effects → Cases order, with four family introductions. Rendering
+evidence covers 54 lessons, including the cleanup-reporting Case, in HTML, EPUB,
+and both PDF layouts. The local-pricing Case awaits presentation checks. The
+default specimen remains a regression build. Lesson and part review builds
+select only their indexed sources and requested formats. All scopes share tools
+and styles; their generated source records serve preparation and checks. This
+selects no general content registry, CI service, publication platform, or
+repository-wide license.
 
 [program-design]: .agents/skills/writing-ash-documentation/references/program-design.md

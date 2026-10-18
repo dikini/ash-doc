@@ -148,4 +148,4 @@ One name can stand for one value. Sometimes two or more values belong to the
 same step and should travel together. The next lesson introduces a value that
 keeps such parts side by side.
 
-[bindings]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings
+[bindings]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#bindings

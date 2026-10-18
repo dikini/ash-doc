@@ -1,4 +1,4 @@
-import @builtin.native_buffer as Buffer
+import @ffi.native_buffer as Buffer
 
 type Lookup = Root(Int, Int, Int)
 
@@ -38,7 +38,7 @@ repeat_lookup compress = match find_root (3, compress) {
 }
 
 run : Bool -> Buffer.Outcome<Buffer.Outcome<(Lookup, Lookup)>>
-run compress = resource native_buffer<R> parents = 4 {
+run compress = resource Buffer.Buffer<R> parents = 4 {
     match Buffer.write (parents, 2, 1) {
         Buffer.Failure(error) => Buffer.Failure(error)
         Buffer.Success(()) => match Buffer.write (parents, 3, 2) {

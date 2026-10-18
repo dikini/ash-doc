@@ -7,14 +7,15 @@ a delivery schedule, publication promise, or source of Ash semantics.
 
 ## Current baseline
 
-Ash-doc targets `diag-ash` at
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. This cumulative checkpoint includes
-diagnostics, effects and resources, library abstractions, modules, and the
-earlier language foundation.
+Ash-doc targets `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. This cumulative checkpoint includes
+source
+foreign contracts, resource families, strings and bytes, generated native hosts,
+diagnostics, effects, library abstractions, modules, and the earlier foundation.
 
 All indexed lessons are verified at this baseline:
 
-- [Learn Ash](../../content/learn/README.md): thirteen lessons, 57 sources.
+- [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
 - [Algorithms and effects](../../content/cases/README.md): twenty-two Cases,
   88 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
@@ -26,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 64 demonstrated rejections through complete
-English human messages: sixteen in Learn, eleven in Cases, sixteen in Libraries,
+The active edition now teaches all 63 demonstrated rejections through complete
+English human messages: fifteen in Learn, eleven in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -51,7 +52,32 @@ and repairs. Every practice task names a fresh baseline; sibling modules stay
 together outside canonical source trees. All eight chapters retain their
 original 43 sources, 17 accepted observations, and 16 complete captures.
 
+## FFI Base migration outcome
+
+**State: complete and locally verified.** All 54 lessons now target `ffi-base`
+at `354c76b391fe4af665cf6a03479a9874a57cb3e3`. The migration preserves 244
+canonical sources and 60 complete human diagnostic captures. Native positives
+use a bounded observer that checks the type and generated host result from the
+same compiled program; source rejections still use the CLI. All four family
+aggregates and the complete book and specimen checks pass. The
+[verification guide](verification.md#ffi-base-executable-evidence) records
+executable coverage; the [rendering guide](rendering.md#scoped-build-evidence)
+records presentation coverage and limits. Completed migration plans leave the
+working tree. New FFI lessons, A2–A8 implementation, and publication remain
+outside this outcome.
+
 ## Rendering infrastructure outcome
+
+Lesson 3 now introduces type colors, then distinguishes types and values
+through split boxes. The accepted
+[visualization experiment](../../rendering/experiments/partial-application/README.md)
+retains three SVG figures in one grouped margin note, with uniform square and
+label sizes. Figure 3 folds into two rows to retain that scale. The lesson
+names currying before the first program and uses `let add_20 = add 20` inside
+`main` to demonstrate partial application. The former input-type rejection
+section and its evidence were removed. The revised lesson passes its three
+canonical-source checks and scoped HTML, EPUB, and both PDF reviews.
+Drive retains the earlier single-figure review.
 
 Scoped review builds select one indexed lesson, one family part, the complete
 book, or the default specimen, with independent output-format selection.
@@ -60,31 +86,16 @@ and requested formats. The [workflow](workflow.md#bound-the-task) also bounds
 editing, reading, review, executable checks, and reporting by the task's action
 and scope. Unchanged inputs retain applicable exact-pin evidence.
 
-The traversal lesson's two PDFs build in 10.4 seconds and verify in 0.7 seconds
-with cached tools on the local review host. The Learn part's HTML build takes
-28.2 seconds; full-book preparation alone takes 50.8 seconds. These measurements
-support selecting scope before considering incremental whole-book caching.
-The [rendering guide](rendering.md#scoped-build-evidence) records coverage and
-phase timings.
-
-The retained local review draft assembles the earlier 53-lesson inventory in
-Learn → Libraries → Effects → Cases order, with four family introductions and shared
-reader setup. The 59 HTML pages and reflowable EPUB 3 retain 633 displayed code
-and transcript blocks. The double-sided book PDF has 360 pages; the one-sided
-A4 copy has 319. Artifact checks verify indexed coverage, chapter order, source
+The retained local review book assembles 54 lessons in Learn → Libraries →
+Effects → Cases order, with four family introductions and shared reader setup.
+Its 60 HTML pages and 58 EPUB source chapters retain 648 displayed code and
+transcript blocks. Artifact checks verify coverage, chapter order, source
 hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
-separate browser evidence. The [rendering guide](rendering.md) gives both builds'
-commands. The current indexed inventory has 55 lessons; the cleanup-reporting
-and local-pricing Cases await final rendering integration. The edition remains
-local and unpublished.
-
-Retained browser checks pass for all 59 HTML pages at desktop and mobile sizes
-and all 57 EPUB source chapters in Chromium and Firefox previews. The specimen passes
-its separate browser and artifact checks. The original whole-book review
-inspected 74 selected PDF pages. The traversal revision additionally reviews
-all thirteen book pages and twelve A4 pages of that chapter; its widened
-blocks remain complete on one printable page in both variants.
+separate browser evidence. The [rendering
+guide](rendering.md#scoped-build-evidence) records the current complete-book and
+specimen review. The current indexed selection has 55 lessons; the local-pricing
+Case awaits presentation checks. The edition remains local and unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -559,17 +570,18 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: A1 is merged; A2 is locally verified; A3–A8 remain proposed.** Both
-verified Cases await final rendering integration.
+**State: A1 is integrated; A2 is locally verified and approved; A3–A8 remain
+proposed.** A1 passes complete-book presentation checks. The user approved A2
+for squash merge on 2026-10-18; its presentation remains pending.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1 and A2 lessons and six remaining briefs. It records the
-selected implementation design, parallel ownership, GitHub delivery, and
-final rendering acceptance.
+links the verified A1 and A2 lessons and six remaining briefs. It records the selected
+implementation design, parallel ownership, GitHub delivery, and final rendering
+acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
 `9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all planned programs still target
-`diag-ash` at `9ec5920e8c395f9a36125805ee93b7f58c0f4764`.
+`ffi-base` at `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
 
 Place these studies in the existing Cases family. The completed short Cases
 isolate mechanisms; these continuations derive application data, operations,
@@ -616,7 +628,8 @@ termination guarantee.
 [Supplying a local pricing policy](../../content/cases/supplying-a-local-pricing-policy/README.md)
 is locally verified with fourteen canonical sources and three complete human
 rejection captures. [Issue #3](https://github.com/dikini/ash-doc/issues/3) and
-[draft PR #4](https://github.com/dikini/ash-doc/pull/4) track delivery and review.
+[PR #4](https://github.com/dikini/ash-doc/pull/4) track delivery and review.
+The user approved squash merge on 2026-10-18.
 
 The chapter continues
 [requested order prices](../../content/cases/supplying-order-prices/README.md)
@@ -811,21 +824,21 @@ baseline. These sections govern the proposed boundaries:
   independent comparisons; these rules do not establish redaction, edit
   authorization, sorting correctness, or codec agreement.
 
-[rows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#computation-types-and-effect-rows
-[effects]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#effects
-[cells]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cells-and-resource-dependencies
-[buffers]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-native-buffers
-[cleanup]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-cleanup-actions
-[hooks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#synchronous-typed-hooks
-[blocks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#blocks
-[rank1]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#inference-and-rank-1-restrictions
-[recursion]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups
-[implementations]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#implementations
-[overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[nominals]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#local-nominal-scope
-[evidence]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#scoped-exact-evidence
-[interfaces]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#interfaces-and-constrained-schemes
-[reporting]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#typed-failure-reporting
+[rows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#computation-types-and-effect-rows
+[effects]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#effects
+[cells]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cells-and-resource-dependencies
+[buffers]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-native-buffers
+[cleanup]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-cleanup-actions
+[hooks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#synchronous-typed-hooks
+[blocks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#blocks
+[rank1]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#inference-and-rank-1-restrictions
+[recursion]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#recursive-block-groups
+[implementations]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#implementations
+[overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[nominals]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#local-nominal-scope
+[evidence]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-exact-evidence
+[interfaces]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#interfaces-and-constrained-schemes
+[reporting]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#typed-failure-reporting
 [dn0052]: https://github.com/dikini/ash-lang/blob/9f8738b7e0d7f280f9744bf808343d2c97ce6661/docs/design/DN-0052-diag-ash-case-studies-and-teaching.md
 
 ## Evidence and completion expectations
@@ -876,16 +889,16 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
-Case are complete. A1 is merged; A2 is locally verified and its draft PR remains
-open. Both presentations remain pending. A3–A8 are proposed application
-outcomes, each requiring its own bounded design and approval under the existing
-workflow. The linked coordination plan defines separate Case ownership during
-parallel work.
-The documentation remains unpublished; no ash-doc `diag-ash`
-publication tag exists. Refine chapter boundaries when executable design
-exposes a dependency or an overloaded question, and replace superseded wording
-rather than keeping parallel roadmaps.
+E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline Case
+are complete. A1 has local executable verification and user approval for merge;
+its presentation passes complete-book checks. A2 is locally verified and
+approved for squash merge on 2026-10-18; its presentation remains pending. A3–A8
+are proposed application outcomes, each requiring its own bounded design and
+approval under the existing workflow. The linked coordination plan defines
+separate Case ownership during parallel work. The documentation remains
+unpublished; no ash-doc `ffi-base` publication tag exists. Refine chapter
+boundaries when executable design exposes a dependency or an overloaded
+question, and replace superseded wording rather than keeping parallel roadmaps.
 
 ## Selecting work
 

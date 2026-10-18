@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="398" viewBox="0 0 480 398" role="img" aria-labelledby="figure-title figure-description">
+  <title id="figure-title">Partial application followed by application</title>
+  <desc id="figure-description">Read the two rows from top to bottom. The first shows add receiving the integer 20. A downward application arrow leads to the remaining function add_20 : Int → Int. Its value half is orange. Applying this function to violet 22 gives green 42. Upper halves retain red for function and blue for Int. Both rows use the same box and label scale as the preceding figures. The rows are a source-level explanation, not a runtime memory layout.</desc>
+  <text x="70" y="35" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#98323c">add</text>
+  <text x="210" y="35" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#285f94">Int</text>
+  <defs>
+    <clipPath id="partial-original">
+      <rect x="38" y="54" width="64" height="64" rx="3" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#partial-original)">
+    <rect x="38" y="54" width="64" height="32" fill="#bd3e49" />
+    <rect x="38" y="86" width="64" height="32" fill="#d98188" />
+  </g>
+  <rect x="38" y="54" width="64" height="64" rx="3" fill="none" stroke="#555555" stroke-width="1" />
+  <path d="M38 86 H102" stroke="#ffffff" stroke-width="1" />
+  <defs>
+    <clipPath id="partial-fixed">
+      <rect x="178" y="54" width="64" height="64" rx="3" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#partial-fixed)">
+    <rect x="178" y="54" width="64" height="32" fill="#3975af" />
+    <rect x="178" y="86" width="64" height="32" fill="#efc34d" />
+  </g>
+  <rect x="178" y="54" width="64" height="64" rx="3" fill="none" stroke="#555555" stroke-width="1" />
+  <path d="M178 86 H242" stroke="#ffffff" stroke-width="1" />
+  <text x="70" y="155" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#98323c">add</text>
+  <text x="210" y="155" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#946c00">20</text>
+  <path d="M240 180 V215 M232 207 L240 215 L248 207" fill="none" stroke="#333333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="70" y="251" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#98323c">add_20</text>
+  <text x="140" y="251" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#222222">:</text>
+  <text x="210" y="251" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#285f94">Int</text>
+  <text x="320" y="251" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#222222">→</text>
+  <text x="440" y="251" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#285f94">Int</text>
+  <defs>
+    <clipPath id="partial-function">
+      <rect x="38" y="270" width="64" height="64" rx="3" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#partial-function)">
+    <rect x="38" y="270" width="64" height="32" fill="#bd3e49" />
+    <rect x="38" y="302" width="64" height="32" fill="#e59b63" />
+  </g>
+  <rect x="38" y="270" width="64" height="64" rx="3" fill="none" stroke="#555555" stroke-width="1" />
+  <path d="M38 302 H102" stroke="#ffffff" stroke-width="1" />
+  <defs>
+    <clipPath id="partial-input">
+      <rect x="178" y="270" width="64" height="64" rx="3" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#partial-input)">
+    <rect x="178" y="270" width="64" height="32" fill="#3975af" />
+    <rect x="178" y="302" width="64" height="32" fill="#9673be" />
+  </g>
+  <rect x="178" y="270" width="64" height="64" rx="3" fill="none" stroke="#555555" stroke-width="1" />
+  <path d="M178 302 H242" stroke="#ffffff" stroke-width="1" />
+  <defs>
+    <clipPath id="partial-result">
+      <rect x="408" y="270" width="64" height="64" rx="3" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#partial-result)">
+    <rect x="408" y="270" width="64" height="32" fill="#3975af" />
+    <rect x="408" y="302" width="64" height="32" fill="#4e9d79" />
+  </g>
+  <rect x="408" y="270" width="64" height="64" rx="3" fill="none" stroke="#555555" stroke-width="1" />
+  <path d="M408 302 H472" stroke="#ffffff" stroke-width="1" />
+  <path d="M290 302 H350 M342 294 L350 302 L342 310" fill="none" stroke="#333333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="70" y="371" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#91521e">add_20</text>
+  <text x="210" y="371" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#71518f">22</text>
+  <text x="440" y="371" font-family="DejaVu Sans Mono, monospace" font-size="30" text-anchor="middle" fill="#286447">42</text>
+</svg>

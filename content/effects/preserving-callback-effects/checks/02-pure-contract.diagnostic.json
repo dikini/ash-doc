@@ -11,7 +11,7 @@
     {
       "name": "found",
       "kind": "code",
-      "value": "(Int -> Int ! {<effect:1:0:0>}, Int)"
+      "value": "(Int -> Int ! {Bonus}, Int)"
     }
   ],
   "labels": [
@@ -25,7 +25,7 @@
         {
           "name": "found",
           "kind": "code",
-          "value": "(Int -> Int ! {<effect:1:0:0>}, Int)"
+          "value": "(Int -> Int ! {Bonus}, Int)"
         }
       ]
     },

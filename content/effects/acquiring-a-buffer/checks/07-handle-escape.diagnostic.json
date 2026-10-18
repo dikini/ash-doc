@@ -8,16 +8,16 @@
       "role": "primary",
       "relationship": "escaping_dependency",
       "path": "src/07-handle-escape.ash",
-      "byte_start": 135,
-      "byte_end": 140,
+      "byte_start": 121,
+      "byte_end": 142,
       "facts": []
     },
     {
       "role": "related",
       "relationship": "resource_acquisition",
       "path": "src/07-handle-escape.ash",
-      "byte_start": 89,
-      "byte_end": 146,
+      "byte_start": 85,
+      "byte_end": 142,
       "facts": []
     }
   ]

@@ -255,4 +255,4 @@ and type. Every program here fits in one source file, but Ash programs need not
 stop there. The next question is how a definition in one file can be used from
 another.
 
-[entry]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules
+[entry]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#globals-and-modules

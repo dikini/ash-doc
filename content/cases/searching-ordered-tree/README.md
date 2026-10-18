@@ -26,10 +26,10 @@ The shared module uses four transparent data types. `Tree<K, V>` stores keys
 and values at its nodes. `Ordering` names the three outcomes needed to choose
 a branch. `Option<A>` distinguishes a found value from absence, and `Natural`
 provides the visible unary keys and heights in the observations. The pinned
-[syntax grammar](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#grammar)
+[syntax grammar](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#grammar)
 provides parameterized declarations, constructor patterns, curried functions,
 blocks, and matches. The [type and constructor
-scope](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#type-and-constructor-scope)
+scope](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#type-and-constructor-scope)
 makes each type visible in its own recursive constructor payload and associates
 each constructor with its nominal type.
 
@@ -104,10 +104,10 @@ The four `compare_natural` equations follow the two forms of `Natural`. Two
 `Zero` values are equal. `Zero` precedes every `Next` value, and every `Next`
 value follows `Zero`. Comparing two `Next` values removes their outside forms
 and compares the two payloads. The pinned [global function
-presentation](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#global-function-presentations)
+presentation](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#global-function-presentations)
 makes the four equations one curried function, while the static [patterns,
 matches, and coverage
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#patterns-matches-and-coverage)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#patterns-matches-and-coverage)
 check that the equations cover both constructors.
 
 The type `Natural -> Natural -> Ordering` does not make every function of that
@@ -129,24 +129,24 @@ only the two immediate child keys would not constrain a misplaced grandchild.
 Now derive `lookup` from the invariant. `Empty` contains no key, so it returns
 `None`. At a node, Ash completes the curried application `compare query key`
 before choosing an `Ordering` arm under the dynamic [application
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application)
 and [constructor-match
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#tuples-constructors-and-matches).
 Only the selected arm body evaluates. Under the invariant, `Less` rules out the
 current key and the whole right subtree; `Greater` rules out the current key
 and the whole left subtree. `Equal` returns the current value.
 
 The function globals in this module enter its simultaneous [global
-scope](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#global-scope).
+scope](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#global-scope).
 The nominal types and constructors use the type and constructor scope described
 above. The [global and module
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#globals-and-modules)
 check the function signatures and bodies. Marking declarations `pub` governs
 their availability to importers under the pinned [public, private, and opaque
 declaration
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations),
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations),
 and the entries use those public names through an [import
-namespace](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#imports-and-namespaces).
+namespace](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#imports-and-namespaces).
 
 ## Follow a successful and a missing path
 
@@ -199,21 +199,21 @@ The first `(Option<Int>, Int)` contains the found value `Some(30)` and visit
 count `2`. The second contains `None` and the same count. The complete type is
 a pair of those result-and-count pairs. Ash's static [tuple, constructor,
 function, and application
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#tuples-and-constructors)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#tuples-and-constructors)
 check the constructed tree and result; the function rules continue in the
 [functions and application
-section](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application).
+section](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application).
 The pinned [observation
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation)
 and tool [successful-output
-contract](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md#successful-output)
 account for the exact structural line, empty standard error, and status `0`.
 
 `lookup_counted` counts visited `Node` forms. At each visited node, it makes one
 top-level comparator application; reaching `Empty` adds zero. It does not count
 recursive applications made inside `compare_natural`. The additions in its
 recursive arms have type `Int` under the pinned static [primitive-operation
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#primitive-operations).
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#primitive-operations).
 
 The difference appears when we count the comparator's own source work. For
 finite unary values whose `Next` chains end at `Zero`, write `|Zero| = 0` and
@@ -243,9 +243,9 @@ key values may belong to the same equivalence class.
 
 The next entry retains each earlier tree in a separate sequential binding. The
 pinned static [block
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#blocks)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#blocks)
 check the bindings and result, while the dynamic [binding
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#bindings)
 complete each initializer before extending the following scope.
 
 <!-- source: src/02-replace-and-malformed.ash -->
@@ -297,12 +297,12 @@ The first two fields confirm that `original` remains observable with `10` and
 The structurally present `two` sits in the skipped left branch. A public
 transparent `Tree<K, V>` lets an importer construct this value under the pinned
 [public, private, and opaque declaration
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md#public-private-and-opaque-declarations);
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations);
 its nominal type does not certify descendant placement. The complete tuple is
 rendered by the pinned [observation
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation),
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation),
 and the tool's [successful-output
-contract](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md#successful-output)
 again gives one standard-output line, empty standard error, and status `0`.
 
 Under the stated comparator premises, insertion preserves the invariant for a
@@ -359,12 +359,12 @@ ash searching-ordered-tree/src/03-ascending.ash
 The first field displays the predicted right chain. The second gives its
 height `3`, and the third contains `Some(30)` with three visited nodes. The
 dynamic [primitive-operation
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#primitive-operations)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#primitive-operations)
 treat the count additions as mathematical integer operations, and structural
-[observation](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation)
+[observation](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation)
 accounts for the rendered tree and type. The pinned tool's
 [successful-output
-contract](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md#successful-output)
+contract](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md#successful-output)
 again requires empty standard error and status `0` with that exact line.
 
 For this input, `n = 3` and `h = 3`. More generally, ascending insertion can
@@ -397,9 +397,9 @@ does not return can prevent lookup from returning.
 
 The nominal type also does not establish finiteness. Ash's static [recursive
 block-group
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#recursive-block-groups)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#recursive-block-groups)
 and dynamic [recursive binding
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#recursive-bindings)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#recursive-bindings)
 admit constructor-guarded cyclic values. A reachable cycle along the selected
 path may prevent lookup from returning. A cycle in an unentered branch need not
 affect that lookup.

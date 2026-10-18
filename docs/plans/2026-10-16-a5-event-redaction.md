@@ -1,5 +1,8 @@
 # A5: Redact before publication
 
+**Migration status:** retargeted to FFI Base; acceptance remains unverified.
+The migration does not implement this Case.
+
 The reader asks when an event must lose its sensitive field before publication.
 The observable boundary is between an internal hook transformation, an ordinary
 snapshot collector, and a public event interface. This is a lesson implementation
@@ -9,8 +12,8 @@ brief for roadmap A5, not a language or publication decision.
 
 **State:** planned; application code and observations remain unverified.
 
-Use `diag-ash`, exact Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`, throughout.
+Use `ffi-base`, exact Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`, throughout.
 Read the repository README, workflow, writing skill, and roadmap A5.
 Continue `content/cases/controlling-a-hook-pipeline/` and
 `content/effects/transforming-publications/`, including their local checks.
@@ -110,7 +113,7 @@ observation within this boundary; shared tooling needs separate ownership.
 Run from the ash-doc checkout after implementation:
 
 ```sh
-bash content/cases/redacting-before-publication/checks/verify.sh /path/to/diag-ash
+bash content/cases/redacting-before-publication/checks/verify.sh /path/to/ffi-base
 bash -n content/cases/redacting-before-publication/checks/verify.sh
 shellcheck -x -P SCRIPTDIR content/cases/redacting-before-publication/checks/verify.sh
 markdownlint content/cases/redacting-before-publication/README.md
@@ -154,7 +157,7 @@ semantics to Ash design. Retain other pressure as evidence. A regression leaves
 the promised outcome incomplete: do not weaken it, modify ash-lang, or move the
 pin. Report a required lab/shared change for separately bounded ownership.
 
-[overview]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md
-[hooks]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#synchronous-typed-hooks
-[modules]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md
-[execution]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#synchronous-hook-execution
+[overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md
+[hooks]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#synchronous-typed-hooks
+[modules]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md
+[execution]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#synchronous-hook-execution

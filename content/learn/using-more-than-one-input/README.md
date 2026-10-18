@@ -4,10 +4,12 @@ Our functions have received one value at a time. `double` received one number;
 `Arithmetic.answer` received `()`. Many calculations need more information. To
 add two numbers, for example, a function must receive both of them.
 
-Ash does not require a new kind of call for this. A function receives the first
-input and leaves a function ready to receive the second. Supplying both inputs
-in one line is the same process written without a pause. We can see the two
-steps by starting with a complete call and then stopping halfway through it.
+Ash does not require a new kind of call for this. We can use a technique called
+*currying*. A function receives the first input and leaves a function ready to
+receive the second.
+Supplying both inputs in one line is the same process written without a pause.
+We can see the two steps by starting with a complete call and then stopping
+halfway through it.
 
 ## Supplying two inputs
 
@@ -55,10 +57,6 @@ The first `Int` is the first input. After that input arrives, what remains has
 the type `Int -> Int`: a function waiting for the second input. When the second
 `Int` arrives, the calculation produces the final `Int`.
 
-Receiving several inputs through successive calls is called *currying*.
-A function written this way is *curried*: each call supplies one value,
-and the result may be another function ready for the next value.
-
 ## Pausing after the first input
 
 To make that middle step visible, remove `22` from the call. Since `main` now
@@ -88,78 +86,49 @@ does not show its body. Such a call is often called a *partial call*, or
 function's inputs. The result is still useful. It remembers the input already
 supplied and can receive the rest later.
 
-We can give the waiting calculation a descriptive name:
+::: {#note-add-one-input .column-margin}
+
+::: {.block}
+
+<!-- markdownlint-disable MD013 -->
+
+![Curried function](assets/fig-add-types.svg){#fig-add-types fig-alt="The signature add : Int -> Int -> Int aligns with a red function box and three blue boxes for the integer positions." width=100%}
+
+![Function application](assets/fig-add-type-value.svg){#fig-add-type-value fig-alt="The same signature appears above split boxes. Upper halves show types: red for the function, blue for Int. Lower halves distinguish add, 20, 22, and result 42 by color, with labels beneath. Arrows in the lower row are schematic application guides, not conversions between integers." width=100%}
+
+![Partial application](assets/fig-add-20-application.svg){#fig-add-20-application fig-alt="Applying add to 20 produces the function add_20 of type Int -> Int. Its separate function square has a red type half and an orange value half labelled add 20. The input 22 and result 42 have blue type halves and violet and green value halves. The value row labels the function add_20." width=100%}
+
+<!-- markdownlint-enable MD013 -->
+
+:::
+
+:::
+
+We can name the waiting function and use it in the next line:
 
 <!-- source: src/03-reuse-a-partial-call.ash -->
 ```ash
 add : Int -> Int -> Int
 add left right = left + right
 
-add_twenty : Int -> Int
-add_twenty number = add 20 number
-
 main : Unit -> Int
-main () = add_twenty 22
+main () = {
+    let add_20 = add 20
+    add_20 22
+}
 ```
 
-Read the body of `add_twenty` from left to right. `add 20` first produces a
-function that remembers `20`. The remaining `number` is then supplied to that
-function. Predict what `add_twenty 22` produces, then run and compare its
-`42 : Int` observation with these steps:
+The binding `let add_20 = add 20` gives the waiting function the name `add_20`.
+It remembers `20` and has type `Int -> Int`. The next line supplies `22` as
+its remaining input. Predict the result, then run the program and compare
+Ash's `42 : Int` with these steps:
 
 ```text
-add_twenty 22
+add_20 22
 add 20 22
 20 + 22
 42
 ```
-
-Run the program and compare Ash's `42 : Int` with these steps.
-
-## Each input keeps its type
-
-Pausing partway through a call does not loosen what the function accepts. After
-`add 20`, the waiting function still requires an `Int`. The value `true`
-belongs to `Bool`, the Boolean type whose other value is `false`. We will
-use those values to make decisions next. For now, compare their type with
-the remaining input requirement:
-
-<!-- source: src/04-wrong-input.ash -->
-```ash
-add : Int -> Int -> Int
-add left right = left + right
-
-main : Unit -> Int
-main () = add 20 true
-```
-
-Which call step has an input of the required type, and which does not?
-Run this version from `content/learn` and compare the labels with your account:
-
-<!-- diagnostic: src/04-wrong-input.ash -->
-<!-- markdownlint-disable MD013 -->
-```text
-$ ash --message-format human --locale en using-more-than-one-input/src/04-wrong-input.ash
-This function argument must have type `Int`, but has type `Bool`.
-  --> /path/to/ash-doc/content/learn/using-more-than-one-input/src/04-wrong-input.ash:5:18
-5 | main () = add 20 true
-  |                  ^ This has type `Bool`.
-  --> /path/to/ash-doc/content/learn/using-more-than-one-input/src/04-wrong-input.ash:1:14
-1 | add : Int -> Int -> Int
-  |              ^ This function requires an argument of type `Int`.
-  --> /path/to/ash-doc/content/learn/using-more-than-one-input/src/04-wrong-input.ash:5:11
-5 | main () = add 20 true
-  |           ^ This is the containing function application.
-reason: type.argument
-```
-<!-- markdownlint-enable MD013 -->
-
-The message compares the required `Int` with the supplied `Bool`. Its first
-label points into the `true` argument, its next identifies the required input
-in `add`'s signature, and the final label places the mismatch in the call.
-The first call step is sound: `20` is an `Int`. The next step tries to give the
-waiting `Int -> Int` function a `Bool`. Replacing `true` with `22` supplies the
-integer that the remaining arrow requires and restores `42 : Int`.
 
 ## Exercise: multiply three numbers
 
@@ -192,5 +161,5 @@ All the calculations so far have followed one fixed route. The next question
 is how a program can examine a value and choose which expression should
 produce its result.
 
-[arrows]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md#precedence-and-associativity
-[application]: https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application
+[arrows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#precedence-and-associativity
+[application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application

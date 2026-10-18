@@ -6,24 +6,25 @@ from established programming works, and exercises the language with programs
 that expose real design pressure.
 
 This repository follows the experiment described by
-[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
+[DN-0024: Executable Learning and Evidence Stream](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/design/DN-0024-executable-learning-and-evidence-stream.md).
 That design note is informative. This repository explains and tests Ash; it
 does not define the language.
 
-## Current edition: Diag Ash
+## Current edition: FFI Base
 
-This repository targets **`diag-ash`** at Ash commit
-`9ec5920e8c395f9a36125805ee93b7f58c0f4764`. It is the cumulative Ash checkpoint:
-human and JSON diagnostics, the migration repairs, effects and resources,
-library abstractions, modules, and the earlier language foundation.
+This repository targets **`ffi-base`** at Ash commit
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. This cumulative checkpoint adds
+source foreign contracts, resource families,
+immutable strings and bytes, and generated native hosts to the earlier
+diagnostics, effects, libraries, modules, and language foundation.
 
 All thirteen Learn lessons, twenty-two algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
-unpublished; no ash-doc `diag-ash` publication tag has been created.
+unpublished; no ash-doc `ffi-base` publication tag has been created.
 
-**Code, prose, and checks target Diag Ash.** Remove obsolete evidence and
+**Code, prose, and checks target FFI Base.** Remove obsolete evidence and
 records from the working tree; Git retains earlier states.
 
 ## Prepare Ash
@@ -35,7 +36,7 @@ commit for this edition, and build it:
 ```text
 git clone git@github.com:dikini/ash-lang.git
 cd ash-lang
-git switch --detach 9ec5920e8c395f9a36125805ee93b7f58c0f4764
+git switch --detach 354c76b391fe4af665cf6a03479a9874a57cb3e3
 cargo build --locked
 ```
 
@@ -44,9 +45,17 @@ in the current terminal:
 
 ```text
 export PATH="$PWD/target/debug:$PATH"
+export ASH_LIBRARIES="$PWD/libraries"
+export ASH_NATIVE_CACHE="$PWD/target/ash-doc-native"
 ```
 
 Keep this terminal open while you work through the learning path.
+`ASH_LIBRARIES` selects the same checkout's source libraries. The buffer lesson
+uses it with `--root ffi="$ASH_LIBRARIES"`; ordinary lessons need no root option.
+`ASH_NATIVE_CACHE` lets successive native builds reuse their dependencies.
+Native buffer builds currently require Linux x86-64 GNU, the matching Rust
+toolchain, cached Cargo dependencies, and a native linker. Their generated
+executables print a value without the interpreter's `: Type` suffix.
 
 ## Read a diagnostic
 
@@ -79,22 +88,22 @@ recursive data, functions as values, and definitions parameterized by types.
 The continuation develops local generalization and annotated recursive groups.
 
 The examples use the
-[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/docs/tools/ash.md).
+[pinned `ash` tool](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/docs/tools/ash.md).
 When you need the precise language rules, begin with the
-[pinned specification overview](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/README.md),
+[pinned specification overview](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md),
 then follow the question into the applicable chapter:
 
-- [lexical structure](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/lexical-structure.md)
+- [lexical structure](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/lexical-structure.md)
   for source text and tokens;
-- [syntax](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/syntax.md)
+- [syntax](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md)
   for modules, declarations, expressions, and patterns;
-- [name resolution](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/name-resolution.md)
+- [name resolution](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md)
   for modules, imports, scope, and identity;
-- [static semantics](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md)
+- [static semantics](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md)
   for typing and checked programs;
-- [elaboration](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/elaboration.md)
+- [elaboration](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/elaboration.md)
   for the connection between checked source and typed Core; and
-- [dynamic semantics](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md)
+- [dynamic semantics](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md)
   for values and evaluation.
 
 You do not need to read the specification before the first lesson. Use it when
@@ -135,7 +144,7 @@ caller's interpretation policy explicit.
 
 ## Authority
 
-- Language claims and executable observations derive from the exact Diag Ash
+- Language claims and executable observations derive from the exact FFI Base
   specification and tool. Earlier results do not establish current correctness.
 - `ash` invocation, output, and failures come from the tool guide and executable
   at the same commit as the content being verified.
@@ -203,10 +212,11 @@ in the verification guide. The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
 select all 55 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and
-book and A4 PDFs. Retained book outputs cover the earlier 53-lesson inventory;
-the cleanup-reporting and local-pricing Cases await final rendering integration.
-The default build retains the smaller regression specimen; its static figures
-cover Mermaid graphs and interaction sequences, railroad
+book and A4 PDFs. The existing 54-lesson book includes the cleanup-reporting
+Case and passes artifact, EPUB, browser, and PDF review. The local-pricing Case
+awaits presentation checks. The default build retains the
+smaller regression specimen; its static figures cover Mermaid
+graphs and interaction sequences, railroad
 grammar, and sequent inference rules. Both modes share tools and styles. No
 CI service or publication platform is selected.
 

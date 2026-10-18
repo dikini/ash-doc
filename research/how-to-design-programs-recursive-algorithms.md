@@ -84,7 +84,7 @@ broader reuse rights.
 ## Ash-specific departures
 
 HtDP's examples and teaching languages do not govern Ash. An ash-doc case must
-derive every language claim from the pinned Diag Ash specification and every
+derive every language claim from the pinned FFI Base specification and every
 command observation from the pinned tool. In particular:
 
 - Ash uses nominal parameterized data and exhaustive equational definitions;

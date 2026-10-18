@@ -77,10 +77,10 @@ means; `unfold` owns the repeated application and list construction.
 
 These are ordinary Ash types, matches, and recursive global definitions. The
 [static pattern and match
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#patterns-matches-and-coverage)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#patterns-matches-and-coverage)
 check the two `Step` arms and make their payload bindings available only in the
 matching arm. The [global-definition
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#globals-and-modules)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#globals-and-modules)
 make every local global scheme available before any body is checked, so
 `unfold` can refer to itself. It is neither special syntax nor a built-in list
 producer.
@@ -129,7 +129,7 @@ More(42, More(42, More(42, Empty))) : List<Int>
 
 The value has one `More` for each `Emit` and one ending `Empty` for `Stop`.
 Ash's [observation
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#observation)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#observation)
 render constructors structurally and pair the result with the checked type of
 `main`; the displayed line is a tool observation, not a new notation defined
 by this case.
@@ -171,7 +171,7 @@ that returns `Stop`. The source-level total is therefore `n + 1` transition
 applications. The `n` emitting arms construct `n` result `More` values.
 
 The pinned [dynamic match
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#tuples-constructors-and-matches)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#tuples-constructors-and-matches)
 evaluate the scrutinee once and enter only the first matching arm. Here the
 scrutinee is `transition state`, so each recursive call contributes one
 transition application and selects one arm. The count describes this source
@@ -216,7 +216,7 @@ Inside `unfold`, the `produced_rest` binding evaluates its initializer before
 the block continues to `More(value, produced_rest)`. Production therefore
 reaches `Stop` and returns outward through every recursive binding before the
 outermost call can return its complete list. The pinned [dynamic binding
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#bindings)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#bindings)
 make that initializer-before-remainder order explicit.
 
 The next entry creates a second boundary. Its `produced` binding completes the
@@ -261,7 +261,7 @@ preserves that source relationship in its nonempty equation,
 `More(transform first, mapped_rest)`. After this `unfold` constructs three
 `More` values, `map` constructs three additional `More` values. The [dynamic
 application
-rules](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/dynamic-semantics.md#application)
+rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application)
 evaluate a constructor's argument before allocating its payload constructor
 cell. Together with the explicit recursive bindings, that rule supports the
 construction order used in this account.
@@ -290,7 +290,7 @@ main () = Lists.unfold (Lists.repeat_step 42) true
 `(S -> Step<S, A>) -> S -> List<A>` fix `S` as `Natural` and `A` as `Int`.
 The remaining seed argument must therefore be a `Natural`, not a `Bool`.
 This follows from the [static function-application
-rule](https://github.com/dikini/ash-lang/blob/9ec5920e8c395f9a36125805ee93b7f58c0f4764/spec/static-semantics.md#functions-and-application),
+rule](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application),
 which synthesizes the function type and checks its argument against the
 function domain.
 
