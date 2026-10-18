@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reason": "effect.resume-already-consumed",
+  "responsibility": "source",
+  "facts": [],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "continuation_usage",
+      "path": "src/05-double-resume.ash",
+      "byte_start": 182,
+      "byte_end": 191,
+      "facts": []
+    }
+  ]
+}

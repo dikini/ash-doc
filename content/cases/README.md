@@ -32,6 +32,9 @@ with an explicit public view, then separates the public shape from the
 application policy that keeps sensitive values out of it. A controller
 checks a proposed batch against its own artifact and allowed positions
 before returning a decision, then compares rejection with cancellation.
+A sorter charges comparisons before performing them and returns either a
+complete stable ordering or cancellation. An independent reference exposes
+how the insertion position preserves the original order of ties.
 
 ## How to work through a case
 
@@ -172,3 +175,7 @@ storage strategy.
     edits](checking-proposed-edits/README.md) — validate a complete proposal
     against an independent model and controller-owned inputs, then distinguish
     edit authorization from continuation consumption.
+27. [Cancel a stable
+    sort](cancelling-a-stable-sort/README.md) — preserve input order among ties,
+    request permission before each comparison, and distinguish a complete
+    sorted result from cancelled work.

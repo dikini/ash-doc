@@ -56,6 +56,7 @@ readonly active_destinations=(
     rolling-back-a-cancellable-journal
     redacting-before-publication
     checking-proposed-edits
+    cancelling-a-stable-sort
 )
 readonly expected_case_count=${#active_destinations[@]}
 

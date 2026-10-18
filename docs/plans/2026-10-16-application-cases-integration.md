@@ -32,7 +32,11 @@ A6 is locally verified at this target with eleven canonical sources and two
 complete human rejection captures. [Issue #11](https://github.com/dikini/ash-doc/issues/11)
 and [PR #12](https://github.com/dikini/ash-doc/pull/12)
 track its delivery; its presentation remains pending.
-A7–A8 remain unimplemented and unverified at this target. Their independent
+A7 is locally verified at this target with eight canonical sources and one
+complete human rejection capture. [Issue #13](https://github.com/dikini/ash-doc/issues/13)
+and [PR #14](https://github.com/dikini/ash-doc/pull/14)
+track its delivery; its presentation remains pending.
+A8 remains unimplemented and unverified at this target. Its independent
 Case delivery and later integration require their own acceptance checks.
 
 **Target:** `ffi-base`, Ash commit
@@ -46,14 +50,14 @@ it changes neither the target nor Ash semantics.
 For the whole programme, give an agent this request:
 
 > Implement docs/plans/2026-10-16-application-cases-integration.md. Coordinate
-> the two remaining Cases and final integration through the specified
+> the remaining Case and final integration through the specified
 > GitHub issues and PRs. Keep every observation at the exact FFI Base pin and
 > use the specified role settings. Respect the shared-file owner
 > and final-review gates.
 
 For one Case, give an agent its brief; for example:
 
-> Implement only docs/plans/2026-10-16-a7-stable-sort.md. Read its shared
+> Implement only docs/plans/2026-10-16-a8-tagged-frames.md. Read its shared
 > execution contract, use its exact FFI Base pin, and deliver its issue and
 > complete Case PR. Do not take ownership of other Cases or global integration.
 
@@ -72,7 +76,7 @@ before starting. A new chat needs no previous conversation to use this bundle.
 | A4: cancellable journal | [Verified lesson](../../content/cases/rolling-back-a-cancellable-journal/README.md); [issue #7](https://github.com/dikini/ash-doc/issues/7), [PR #8](https://github.com/dikini/ash-doc/pull/8) | `rolling-back-a-cancellable-journal` |
 | A5: event redaction | [Verified lesson](../../content/cases/redacting-before-publication/README.md); [issue #9](https://github.com/dikini/ash-doc/issues/9), [PR #10](https://github.com/dikini/ash-doc/pull/10) | `redacting-before-publication` |
 | A6: controlled edits | [Verified lesson](../../content/cases/checking-proposed-edits/README.md); [issue #11](https://github.com/dikini/ash-doc/issues/11), [PR #12](https://github.com/dikini/ash-doc/pull/12) | `checking-proposed-edits` |
-| A7: stable sorting | [A7](2026-10-16-a7-stable-sort.md) | `cancelling-a-stable-sort` |
+| A7: stable sorting | [Verified lesson](../../content/cases/cancelling-a-stable-sort/README.md); [issue #13](https://github.com/dikini/ash-doc/issues/13), [PR #14](https://github.com/dikini/ash-doc/pull/14) | `cancelling-a-stable-sort` |
 | A8: tagged frames | [A8](2026-10-16-a8-tagged-frames.md) | `round-tripping-tagged-frames` |
 <!-- markdownlint-enable MD013 -->
 

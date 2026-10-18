@@ -18,7 +18,7 @@ maintain a second archive or completed-plans index.
 ## Active work
 
 The [A1–A8 coordination plan](2026-10-16-application-cases-integration.md)
-links the locally verified A1–A6 lessons and two remaining standalone Case
-briefs. Assign the whole programme, its foundation or final integration, or one
+links the locally verified A1–A7 lessons and the remaining standalone A8
+brief. Assign the whole programme, its foundation or final integration, or one
 named Case. The plans retain the exact FFI Base
 target and specify GitHub delivery, role settings, ownership, and checks.
