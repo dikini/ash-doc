@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "reason": "type.argument",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "(Money, Quantity)"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "(Money, Money)"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "argument",
+      "path": "src/07-mixed-units.ash",
+      "byte_start": 77,
+      "byte_end": 100,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "(Money, Money)"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "function_domain",
+      "path": "src/orders.ash",
+      "byte_start": 234,
+      "byte_end": 244,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "(Money, Quantity)"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "application",
+      "path": "src/07-mixed-units.ash",
+      "byte_start": 66,
+      "byte_end": 100,
+      "facts": []
+    }
+  ]
+}

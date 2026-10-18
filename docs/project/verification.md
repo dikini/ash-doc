@@ -39,8 +39,8 @@ Verification needs Bash, Cargo with the pinned toolchain, ordinary Unix text
 tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 56 sources, twenty-one
-Cases / 74 sources, eight library lessons / 43 sources, and twelve effects
+The four aggregates cover thirteen Learn lessons / 56 sources, twenty-two
+Cases / 88 sources, eight library lessons / 43 sources, and twelve effects
 lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
 properties each Case teaches.
@@ -105,7 +105,7 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 60 active captures: fifteen Learn, eight Cases, sixteen Libraries,
+There are 63 active captures: fifteen Learn, eleven Cases, sixteen Libraries,
 and 21 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each
@@ -161,14 +161,20 @@ wrapper allocation test also passed (one selected test). These observations
 establish this edition's checked boundaries; they neither verify every possible
 Ash program nor establish a native allocation guarantee.
 
+The local-pricing Case passed its lesson verifier on 2026-10-18 at the same
+exact FFI Base target, adding fourteen canonical sources and three complete
+human captures. The active inventory now has 55 lessons, 258 sources, and 63
+captures. Unchanged lessons retain their migration evidence above.
+
 ## Review the rest
 
 The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
 The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
-and twenty-one Cases lessons, in that order, plus four family introductions.
-Current book outputs cover all 54 lessons, including the cleanup-reporting
-Case. The default build retains the smaller specimen and its notation regressions.
+and twenty-two Cases lessons, in that order, plus four family introductions.
+Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
+The local-pricing Case awaits presentation checks. The default build retains the
+smaller specimen and its notation regressions.
 
 Build the selected scope and requested formats through the guide, then run
 `verify.py` and, for HTML or EPUB, `browser.mjs` on that generated project. Run

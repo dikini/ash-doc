@@ -10,7 +10,12 @@ brief and remains a separate outcome.
 and one complete human rejection capture.
 [Issue #1](https://github.com/dikini/ash-doc/issues/1) and
 [PR #2](https://github.com/dikini/ash-doc/pull/2) retain its delivery record.
-A2–A8 remain unimplemented and unverified at this target. Their independent
+A2 is locally verified at this target with fourteen canonical sources and
+three complete human rejection captures.
+[Issue #3](https://github.com/dikini/ash-doc/issues/3) and
+[PR #4](https://github.com/dikini/ash-doc/pull/4) track its delivery. The user
+approved A2 for squash merge on 2026-10-18; its presentation remains pending.
+A3–A8 remain unimplemented and unverified at this target. Their independent
 Case delivery and later integration require their own acceptance checks.
 
 **Target:** `ffi-base`, Ash commit
@@ -24,7 +29,7 @@ it changes neither the target nor Ash semantics.
 For the whole programme, give an agent this request:
 
 > Implement docs/plans/2026-10-16-application-cases-integration.md. Coordinate
-> the seven remaining Cases and final integration through the specified
+> the six remaining Cases and final integration through the specified
 > GitHub issues and PRs. Keep every observation at the exact FFI Base pin and
 > use the specified role settings. Respect the shared-file owner
 > and final-review gates.
@@ -45,7 +50,7 @@ before starting. A new chat needs no previous conversation to use this bundle.
 | Outcome | Brief or verified lesson | Case destination |
 | --- | --- | --- |
 | A1: cleanup reporting | [Verified lesson](../../content/cases/preserving-outcomes-through-cleanup/README.md); [issue #1](https://github.com/dikini/ash-doc/issues/1), [PR #2](https://github.com/dikini/ash-doc/pull/2) | `preserving-outcomes-through-cleanup` |
-| A2: scoped pricing | [A2](2026-10-16-a2-scoped-pricing.md) | `supplying-a-local-pricing-policy` |
+| A2: scoped pricing | [Verified lesson](../../content/cases/supplying-a-local-pricing-policy/README.md); [issue #3](https://github.com/dikini/ash-doc/issues/3), [PR #4](https://github.com/dikini/ash-doc/pull/4) | `supplying-a-local-pricing-policy` |
 | A3: immutable ECS | [A3](2026-10-16-a3-immutable-ecs.md) | `querying-an-immutable-world` |
 | A4: cancellable journal | [A4](2026-10-16-a4-cancellable-journal.md) | `rolling-back-a-cancellable-journal` |
 | A5: event redaction | [A5](2026-10-16-a5-event-redaction.md) | `redacting-before-publication` |
