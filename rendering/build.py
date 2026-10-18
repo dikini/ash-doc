@@ -382,6 +382,7 @@ def configuration(chapters, title="Ash documentation rendering specimen",
         "syntax-highlighting": "none",
         "format": {
             "html": {"theme": ["cosmo", "styles/html.scss"], "toc": True,
+                     "css": "styles/ash-tokens.css",
                      "toc-location": "left", "reference-location": "margin",
                      "code-copy": False, "code-overflow": "scroll",
                      "grid": {"sidebar-width": "220px", "body-width": "650px", "margin-width": "210px"},

@@ -558,3 +558,8 @@ This decision establishes a bounded local review book and retained regression
 specimen. It selects no hosting, CI service, publication mechanism, or
 repository-wide license. A publication still requires the complete edition's
 checks and its immutable `ffi-base` tag under the existing project workflow.
+
+## Shared HTML palette
+
+See [shared design tokens](design-tokens.md) for the website token contract,
+HTML ownership, and synchronization commands.

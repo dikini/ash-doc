@@ -42,3 +42,21 @@ table { font-size: .9rem; }
   main.content :not(pre) > code { white-space: pre-wrap; overflow-wrap: anywhere; }
   table { display: block; overflow-x: auto; }
 }
+
+// Shared Ash HTML colors; retain the book's bundled reading fonts and layout.
+body {
+  background: var(--paper);
+  color: var(--ink);
+  --bs-body-bg: var(--paper);
+  --bs-body-color: var(--ink);
+  --bs-link-color: var(--accent);
+  --bs-link-hover-color: var(--accent);
+  --bs-border-color: var(--line);
+}
+main.content a { color: var(--accent); }
+#quarto-sidebar { background: var(--paper); }
+main.content :not(pre) > code { color: var(--ink); background: var(--inline-code); }
+main.content pre { background: var(--panel); color: var(--code-ink); border-radius: var(--radius-code); padding: var(--space-5); }
+main.content pre code { color: inherit; background: transparent; }
+:focus-visible { outline: var(--focus-width) solid var(--accent); outline-offset: var(--focus-offset); }
+::selection { background: var(--color-selection); }
