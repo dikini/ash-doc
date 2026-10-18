@@ -25,7 +25,9 @@ explicit policy for interpreting them. An order calculation compares explicit
 pricing functions, selected imported evidence, and locally supplied policies
 whose methods retain a tariff. An immutable world joins component stores by
 entity identifier, then compares direct and generic movement while preserving
-the original snapshot.
+the original snapshot. A journal compares cancellation with explicit
+compensation, then uses saved snapshots and commit flags to restore staged
+state across nested scopes.
 
 ## How to work through a case
 
@@ -154,3 +156,7 @@ storage strategy.
     world?](querying-an-immutable-world/README.md) — join position and velocity
     stores by entity identifier, select component evidence explicitly, and
     preserve the original world through repeated movement.
+24. [How can cancellation explicitly roll back a
+    journal?](rolling-back-a-cancellable-journal/README.md) — distinguish control
+    abandonment from restoring state, record commitment with explicit flags,
+    and compare nested snapshots and surviving cleanup interpreters.

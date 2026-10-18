@@ -39,8 +39,8 @@ Verification needs Bash, Cargo with the pinned toolchain, ordinary Unix text
 tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover thirteen Learn lessons / 56 sources, twenty-three
-Cases / 98 sources, eight library lessons / 43 sources, and twelve effects
+The four aggregates cover thirteen Learn lessons / 56 sources, twenty-four
+Cases / 106 sources, eight library lessons / 43 sources, and twelve effects
 lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
 properties each Case teaches.
@@ -105,7 +105,7 @@ and working directory. The helper reruns that entry with
 `--message-format human --locale en`, requires status `1` and empty stdout,
 and compares complete stderr with the marked `text` fence in its README.
 The fence includes the command, so agreement also checks the invocation.
-There are 65 active captures: fifteen Learn, thirteen Cases, sixteen Libraries,
+There are 66 active captures: fifteen Learn, fourteen Cases, sixteen Libraries,
 and 21 in Effects. Effects checks cover row contracts, exact handler selection,
 continuation use, provider evidence, resource escape, cleanup completion and
 context, hook qualification, and the final entry contract. Labels retain each
@@ -168,18 +168,23 @@ and 63 captures.
 
 The immutable-world Case passed its lesson verifier on 2026-10-18 at the same
 exact target, adding ten canonical sources and two complete human captures.
-The active inventory now has 56 lessons, 268 sources, and 65 captures. Unchanged
-lessons retain their migration evidence above.
+That addition brought the inventory to 56 lessons, 268 sources, and 65 captures.
+
+The cancellable-journal Case passed its lesson verifier on 2026-10-18 at the
+same exact target, adding eight canonical sources and one complete human
+capture. The active inventory now has 57 lessons, 276 sources, and 66 captures.
+Unchanged lessons retain their migration evidence above.
 
 ## Review the rest
 
 The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
 The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
-and twenty-three Cases lessons, in that order, plus four family introductions.
+and twenty-four Cases lessons, in that order, plus four family introductions.
 Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
-The local-pricing and immutable-world Cases await presentation checks. The
-default build retains the smaller specimen and its notation regressions.
+The local-pricing, immutable-world, and cancellable-journal Cases await
+presentation checks. The default build retains the smaller specimen and its
+notation regressions.
 
 Build the selected scope and requested formats through the guide, then run
 `verify.py` and, for HTML or EPUB, `browser.mjs` on that generated project. Run

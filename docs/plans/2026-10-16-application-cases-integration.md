@@ -19,7 +19,11 @@ A3 is locally verified at this target with ten canonical sources and two
 complete human rejection captures. [Issue #5](https://github.com/dikini/ash-doc/issues/5)
 and [PR #6](https://github.com/dikini/ash-doc/pull/6)
 track its delivery; its presentation remains pending.
-A4–A8 remain unimplemented and unverified at this target. Their independent
+A4 is locally verified at this target with eight canonical sources and one
+complete human rejection capture. [Issue #7](https://github.com/dikini/ash-doc/issues/7)
+and [PR #8](https://github.com/dikini/ash-doc/pull/8)
+track its delivery; its presentation remains pending.
+A5–A8 remain unimplemented and unverified at this target. Their independent
 Case delivery and later integration require their own acceptance checks.
 
 **Target:** `ffi-base`, Ash commit
@@ -33,7 +37,7 @@ it changes neither the target nor Ash semantics.
 For the whole programme, give an agent this request:
 
 > Implement docs/plans/2026-10-16-application-cases-integration.md. Coordinate
-> the five remaining Cases and final integration through the specified
+> the four remaining Cases and final integration through the specified
 > GitHub issues and PRs. Keep every observation at the exact FFI Base pin and
 > use the specified role settings. Respect the shared-file owner
 > and final-review gates.
@@ -56,7 +60,7 @@ before starting. A new chat needs no previous conversation to use this bundle.
 | A1: cleanup reporting | [Verified lesson](../../content/cases/preserving-outcomes-through-cleanup/README.md); [issue #1](https://github.com/dikini/ash-doc/issues/1), [PR #2](https://github.com/dikini/ash-doc/pull/2) | `preserving-outcomes-through-cleanup` |
 | A2: scoped pricing | [Verified lesson](../../content/cases/supplying-a-local-pricing-policy/README.md); [issue #3](https://github.com/dikini/ash-doc/issues/3), [PR #4](https://github.com/dikini/ash-doc/pull/4) | `supplying-a-local-pricing-policy` |
 | A3: immutable ECS | [Verified lesson](../../content/cases/querying-an-immutable-world/README.md); [issue #5](https://github.com/dikini/ash-doc/issues/5), [PR #6](https://github.com/dikini/ash-doc/pull/6) | `querying-an-immutable-world` |
-| A4: cancellable journal | [A4](2026-10-16-a4-cancellable-journal.md) | `rolling-back-a-cancellable-journal` |
+| A4: cancellable journal | [Verified lesson](../../content/cases/rolling-back-a-cancellable-journal/README.md); [issue #7](https://github.com/dikini/ash-doc/issues/7), [PR #8](https://github.com/dikini/ash-doc/pull/8) | `rolling-back-a-cancellable-journal` |
 | A5: event redaction | [A5](2026-10-16-a5-event-redaction.md) | `redacting-before-publication` |
 | A6: controlled edits | [A6](2026-10-16-a6-controlled-edits.md) | `checking-proposed-edits` |
 | A7: stable sorting | [A7](2026-10-16-a7-stable-sort.md) | `cancelling-a-stable-sort` |

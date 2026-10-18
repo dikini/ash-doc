@@ -16,8 +16,8 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 All indexed lessons are verified at this baseline:
 
 - [Learn Ash](../../content/learn/README.md): thirteen lessons, 56 sources.
-- [Algorithms and effects](../../content/cases/README.md): twenty-three Cases,
-  98 sources.
+- [Algorithms and effects](../../content/cases/README.md): twenty-four Cases,
+  106 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
   43 sources.
 - [Effects and scoped resources](../../content/effects/README.md): twelve lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 65 demonstrated rejections through complete
-English human messages: fifteen in Learn, thirteen in Cases, sixteen in Libraries,
+The active edition now teaches all 66 demonstrated rejections through complete
+English human messages: fifteen in Learn, fourteen in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -94,9 +94,9 @@ hashes, links, code text, and both print geometries. The original three-lesson
 specimen remains the default regression build, with its notation fixture and
 separate browser evidence. The [rendering
 guide](rendering.md#scoped-build-evidence) records the current complete-book and
-specimen review. The current indexed selection has 56 lessons; the local-pricing
-and immutable-world Cases await presentation checks. The edition remains local
-and unpublished.
+specimen review. The current indexed selection has 57 lessons; the local-pricing,
+immutable-world, and cancellable-journal Cases await presentation checks. The
+edition remains local and unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -571,12 +571,12 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: A1 is integrated; A2 is locally verified and approved; A3 is locally
-verified; A4–A8 remain proposed.** A1 passes complete-book presentation checks.
-The user approved A2 for squash merge on 2026-10-18. A2 and A3 await presentation
-checks.
+**State: A1 is integrated; A2 is locally verified and approved; A3 and A4 are
+locally verified; A5–A8 remain proposed.** A1 passes complete-book presentation
+checks. The user approved A2 for squash merge on 2026-10-18. A2, A3, and A4 await
+presentation checks.
 [The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links the verified A1–A3 lessons and five remaining briefs. It records the
+links the verified A1–A4 lessons and four remaining briefs. It records the
 selected implementation design, parallel ownership, GitHub delivery, and final
 rendering acceptance.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
@@ -686,23 +686,28 @@ output, mutation, packed layout, or heterogeneous-path extension.
 
 ### A4. How can cancellation explicitly roll back a journal?
 
-[Implementation plan](../plans/2026-10-16-a4-cancellable-journal.md).
+[Rolling back a cancellable journal](../../content/cases/rolling-back-a-cancellable-journal/README.md)
+is locally verified with eight canonical sources and one complete human
+rejection capture. [Issue #7](https://github.com/dikini/ash-doc/issues/7) and
+[PR #8](https://github.com/dikini/ash-doc/pull/8) track
+delivery and review. Presentation remains pending.
 
-Follow [E7 cells](../../content/effects/counting-with-a-cell/README.md),
+The chapter continues [E7 cells](../../content/effects/counting-with-a-cell/README.md),
 [E6 discard](../../content/effects/stopping-a-calculation/README.md), and
-[E9 cleanup](../../content/effects/running-cleanup/README.md).
-Snapshot an integer cell, stage updates, and either commit or request
-cancellation. An explicit cleanup action restores uncommitted state.
+[E9 cleanup](../../content/effects/running-cleanup/README.md). It compares bare
+cancellation, which retains staged writes, with an explicit compensation
+protocol using an entry snapshot and a commit flag for each journal scope.
 
-Check final state and closing order for normal completion, cancellation, and
-nesting. Compare handler placements where the action's interpreter survives
-and where abandonment removes it; develop the latter as a diagnostic repair
-under the [cleanup rules][cleanup]. Include an application comparison that
-abandons control without restoring earlier mutations.
+Checks cover normal commit, cancellation, nested completion, and outer
+cancellation while inner work remains live. They assert explicit outcomes,
+copied final states, closing order, and omitted abandoned suffixes. A removed
+nearest interpreter supplies a rejection, complete human capture, and
+placement repair under the [cleanup rules][cleanup].
 
-The reader can distinguish closing owned control from undoing state and explain
-the compensation protocol. This models in-memory application behavior; it
-claims neither automatic rollback nor database isolation.
+The reader can distinguish closing owned control from restoring state and
+explain why an outer snapshot can undo an inner commit. The in-memory model
+claims no automatic rollback, database isolation, durable storage, or
+successful compensation under internal termination.
 
 ### A5. When must an event be redacted before publication?
 
@@ -881,8 +886,8 @@ Ash behavior. Simplify or revise a study if it duplicates an existing lesson
 or its evidence plumbing obscures the application question.
 
 When a Case verifies, update its family index, affected runner, and coverage
-expectations in the same change. The current Cases inventory is twenty-three
-after A1–A3; further units join only when they satisfy these conditions.
+expectations in the same change. The current Cases inventory is twenty-four
+after A1–A4; further units join only when they satisfy these conditions.
 Incomplete studies stay outside active navigation and rendering selection.
 
 ## Scope and delivery state
@@ -897,10 +902,11 @@ teach the cumulative current baseline.
 E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
 Case are complete. A1 has local executable verification and user approval for
 merge; its presentation passes complete-book checks. A2 is locally verified
-and approved for squash merge on 2026-10-18. A3 is locally verified; A2 and A3
-await presentation checks. A4–A8 are proposed application outcomes, each
-requiring its own bounded design and approval under the existing workflow. The
-linked coordination plan defines separate Case ownership during parallel work.
+and approved for squash merge on 2026-10-18. A3 and A4 are locally verified;
+A2, A3, and A4 await presentation checks. A5–A8 are proposed application
+outcomes, each requiring its own bounded design and approval under the existing
+workflow. The linked coordination plan defines separate Case ownership during
+parallel work.
 The documentation remains unpublished; no ash-doc `ffi-base` publication tag
 exists. Refine chapter boundaries when executable design exposes a dependency
 or an overloaded question, and replace superseded wording rather than keeping
