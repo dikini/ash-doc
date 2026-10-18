@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "reason": "type.mismatch",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "InternalEvent -> InternalEvent"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "InternalEvent -> PublicEvent"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "expression",
+      "path": "src/06-type-changing-registration.ash",
+      "byte_start": 102,
+      "byte_end": 238,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "InternalEvent -> PublicEvent"
+        }
+      ]
+    }
+  ]
+}

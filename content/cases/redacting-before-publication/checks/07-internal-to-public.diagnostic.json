@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "reason": "type.argument",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "PublicEvent"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "InternalEvent"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "argument",
+      "path": "src/07-internal-to-public.ash",
+      "byte_start": 91,
+      "byte_end": 127,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "InternalEvent"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "function_domain",
+      "path": "src/events.ash",
+      "byte_start": 669,
+      "byte_end": 683,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "PublicEvent"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "application",
+      "path": "src/07-internal-to-public.ash",
+      "byte_start": 69,
+      "byte_end": 127,
+      "facts": []
+    }
+  ]
+}
