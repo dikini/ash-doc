@@ -57,7 +57,7 @@ ash_doc_run_rejected "$unit_root" src/07-missing-resume.ash 1
 ash_doc_check_human "$unit_root" src/06-double-resume.ash "$unit_root/src"
 ash_doc_check_human "$unit_root" src/07-missing-resume.ash "$unit_root/src"
 # All displayed observations derive from the same literal full-result oracles
-# checked above. In particular, 04's tables select fields of one CLI result.
+# checked above. In particular, 04's list and table select one CLI result's fields.
 python3 - "$unit_root" "$boundary_result" \
     "(Completed($valid), true) : $result_type" \
     "(Rejected(ScriptedRejection), true) : $result_type" \
@@ -119,17 +119,21 @@ def table_rows(marker):
     assert rows and all(re.fullmatch(r"[- :]+", cell) for cell in rows[1])
     return rows[2:]
 
-decisions = table_rows("<!-- boundary-decisions: src/04-batch-boundaries.ash -->")
-assert [row[2] for row in decisions] == [
-    f"`{decision}`" for decision in groups[0] + groups[1]
+marker = "<!-- boundary-decisions: src/04-batch-boundaries.ash -->"
+assert readme.count(marker) == 1
+selected = readme.split(marker, 1)[1].split("\nThe third and fourth groups", 1)[0]
+items = re.findall(r"^- (.*?)(?=\n- |\Z)", selected.strip(), re.M | re.S)
+inputs = [
+    "First group, `0 := 10`, unchanged candidate",
+    "First group, `7 := 99`, unchanged candidate",
+    "First group, valid edits, unchanged candidate",
+    "Second group, `1 := 25`, then `1 := 27`",
+    "Second group, empty edits, original candidate",
+    "Second group, empty edits, changed candidate",
 ]
-assert [row[:2] for row in decisions] == [
-    ["First", "`0 := 10`, unchanged candidate"],
-    ["First", "`7 := 99`, unchanged candidate"],
-    ["First", "Valid edits, unchanged candidate"],
-    ["Second", "`1 := 25`, then `1 := 27`"],
-    ["Second", "Empty edits, original candidate"],
-    ["Second", "Empty edits, changed candidate"],
+assert [" ".join(item.split()) for item in items] == [
+    f"{proposed}: `{decision}`."
+    for proposed, decision in zip(inputs, groups[0] + groups[1], strict=True)
 ]
 artifacts = table_rows("<!-- boundary-artifacts: src/04-batch-boundaries.ash -->")
 assert artifacts == [

@@ -56,6 +56,7 @@ done
 
 python3 - "$unit_root" "$ASH_DOC_VERIFY_DIR" <<'PY'
 from pathlib import Path
+import re
 import sys
 
 unit, captures = map(Path, sys.argv[1:])
@@ -78,9 +79,9 @@ for entry, wanted in expected.items():
         displayed = readme.split(marker, 1)[1].split("\n```", 1)[0]
         assert displayed == f"$ ash rolling-back-a-cancellable-journal/src/{entry}.ash\n{wanted}", entry
 
-# The matrix is a selected view of one complete captured three-scenario value.
+# These blocks select complete components of one captured three-scenario value.
 # Independent expected full values above check the implementation; these checks
-# tie each displayed row to its own part of that same capture.
+# tie every displayed component to that same capture, in source order.
 matrix = (captures / "04-nested-completion.stdout").read_text()
 rows = [
     ("both commit", "Committed(17)", "Committed(17)", 17, 21, 1717, 0),
@@ -88,11 +89,16 @@ rows = [
     ("outer cancels", "Committed(17)", "Cancelled(Requested)", 10, 21, 1710, 0),
 ]
 positions = []
-for label, inner, outer, state, order, states, suffix in rows:
+marker = "<!-- nested-observations: src/04-nested-completion.ash -->"
+assert readme.count(marker) == 1
+selected = readme.split(marker, 1)[1].split("\nWhen both commit,", 1)[0]
+blocks = re.findall(r"```text\n(.*?)\n```", selected, re.S)
+assert len(blocks) == len(rows)
+for block, (label, inner, outer, state, order, states, suffix) in zip(blocks, rows, strict=True):
     part = f"({inner}, Observation({outer}, {state}, {order}, {states}, {suffix}))"
     positions.append(matrix.index(part))
-    row = f"| {label} | `{inner}` | `{outer}` | {state} | {order} | {states} | {suffix} |"
-    assert row in readme, row
+    assert block == part, (label, block, part)
+    assert f"{label.capitalize()}:\n\n```text\n{part}\n```" in selected
 assert positions == sorted(positions)
 
 # Check the rejection's causal spans against syntax and structural containment,

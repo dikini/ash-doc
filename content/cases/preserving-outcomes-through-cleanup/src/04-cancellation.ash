@@ -19,7 +19,9 @@ main () = resource cell<R> action_trace = 0 {
     }
     let audit = fn(ignored) {
         let _ = Cell.write(action_trace, (Cell.read action_trace) * 10 + 2)
-        Reporting.report_close(Reporting.CloseFailed(Reporting.AuditFailed(22)))
+        Reporting.report_close(
+            Reporting.CloseFailed(Reporting.AuditFailed(22))
+        )
     }
     let calculation : (
         Unit -> Batch.Execution ! {CleanupFailure<CompletionError>, Cell.Ops<R>}

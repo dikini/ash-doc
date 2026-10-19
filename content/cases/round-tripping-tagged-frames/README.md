@@ -325,20 +325,32 @@ Building reports the executable path. Running prints one value without a
 `: Type` suffix; the source signature supplies the checked result type.
 The entry groups encoded lists in a tuple and each sequence of decoder
 results in `Checked(outcome, rest)` ending with `Done`. Its private
-`check_frames` visits each explicit fixture once. The following table
-summarizes all three groups from the one captured value. The decoder columns
-preserve both outcome layers; the surrounding fixture grouping is omitted:
+`check_frames` visits each explicit fixture once. The following table selects
+the encoded integers from the first group of that one captured value. It uses
+the chapter's list notation; the surrounding fixture grouping is omitted:
 
 <!-- golden-observations: src/01-round-trips.ash -->
-<!-- markdownlint-disable MD013 -->
-| Message | Encoded integers | Decode literal golden | Decode encoded result |
-| --- | --- | --- | --- |
-| `Ping` | `[0]` | `Success(Success(Decoded(Ping)))` | `Success(Success(Decoded(Ping)))` |
-| `Reading(0)` | `[1,0]` | `Success(Success(Decoded(Reading(0))))` | `Success(Success(Decoded(Reading(0))))` |
-| `Reading(255)` | `[1,255]` | `Success(Success(Decoded(Reading(255))))` | `Success(Success(Decoded(Reading(255))))` |
-| `Pair(0,255)` | `[2,0,255]` | `Success(Success(Decoded(Pair(0, 255))))` | `Success(Success(Decoded(Pair(0, 255))))` |
-| `Pair(255,0)` | `[2,255,0]` | `Success(Success(Decoded(Pair(255, 0))))` | `Success(Success(Decoded(Pair(255, 0))))` |
-<!-- markdownlint-enable MD013 -->
+| Message | Encoded integers |
+| --- | --- |
+| `Ping` | `[0]` |
+| `Reading(0)` | `[1,0]` |
+| `Reading(255)` | `[1,255]` |
+| `Pair(0,255)` | `[2,0,255]` |
+| `Pair(255,0)` | `[2,255,0]` |
+
+The literal-golden decoder group and encoded-result decoder group each contain
+these five complete outcomes in the same order. These are selected components
+of that same captured value, with the `Checked` and `Done` grouping omitted.
+Both outcome layers remain visible:
+
+<!-- decoded-observations: src/01-round-trips.ash -->
+```text
+Success(Success(Decoded(Ping)))
+Success(Success(Decoded(Reading(0))))
+Success(Success(Decoded(Reading(255))))
+Success(Success(Decoded(Pair(0, 255))))
+Success(Success(Decoded(Pair(255, 0))))
+```
 
 Each direction agrees with the format independently. Round-trip agreement then
 checks their connection. These five observations do not prove the general
@@ -382,20 +394,33 @@ main () = {
 ```
 <!-- markdownlint-enable MD013 -->
 
-The generated program returns seven nested outcomes in source order, grouped
-by `Checked` and `Done`. This table selects each whole outcome from that one
-result:
+The generated program returns seven nested outcomes, grouped by `Checked`
+and `Done`. The table lists the supplied inputs in source order:
 
 <!-- malformed-observations: src/02-malformed.ash -->
-| Capacity | Supplied integers | Observed outcome |
-| --- | --- | --- |
-| `1` | `[9]` | `Success(Success(BadTag))` |
-| `1` | `[1]` | `Success(Success(Truncated))` |
-| `2` | `[2,7]` | `Success(Success(Truncated))` |
-| `2` | `[0,9]` | `Success(Success(TrailingData))` |
-| `1` | `[]` | `Success(Success(Truncated))` |
-| `2` | `[1]` | `Success(Success(Truncated))` |
-| `3` | `[0]` | `Success(Success(Decoded(Ping)))` |
+| Capacity | Supplied integers |
+| --- | --- |
+| `1` | `[9]` |
+| `1` | `[1]` |
+| `2` | `[2,7]` |
+| `2` | `[0,9]` |
+| `1` | `[]` |
+| `2` | `[1]` |
+| `3` | `[0]` |
+
+These seven complete outcomes are selected from that one captured result in
+the same order, with the surrounding `Checked` and `Done` grouping omitted:
+
+<!-- malformed-results: src/02-malformed.ash -->
+```text
+Success(Success(BadTag))
+Success(Success(Truncated))
+Success(Success(Truncated))
+Success(Success(TrailingData))
+Success(Success(Truncated))
+Success(Success(Truncated))
+Success(Success(Decoded(Ping)))
+```
 
 Tag `9` names no case. Tag `1` needs one field, and tag `2` needs two, so the
 next two inputs are truncated. `Ping` needs no payload, making the supplied
@@ -467,15 +492,35 @@ which wrapper each failure belongs to. The five fields of its one captured
 result are:
 
 <!-- buffer-observations: src/03-buffer-failures.ash -->
-<!-- markdownlint-disable MD013 -->
-| Observation | Captured value |
-| --- | --- |
-| Capacity one, two supplied values | `Success(Failure(InvalidIndex))` |
-| Public `run_frame` at capacity zero | `Failure(InvalidLength)` |
-| Independent zero-capacity body-entry check | `(Failure(InvalidLength), 0)` |
-| Write `256` at valid index zero | `Success(Failure(InvalidByte))` |
-| Write `42`, reject `256`, then read | `Success(Success(WriteControl(Failure(InvalidByte), Success(42))))` |
-<!-- markdownlint-enable MD013 -->
+Capacity one, two supplied values:
+
+```text
+Success(Failure(InvalidIndex))
+```
+
+Public `run_frame` at capacity zero:
+
+```text
+Failure(InvalidLength)
+```
+
+Independent zero-capacity body-entry check:
+
+```text
+(Failure(InvalidLength), 0)
+```
+
+Write `256` at valid index zero:
+
+```text
+Success(Failure(InvalidByte))
+```
+
+Write `42`, reject `256`, then read:
+
+```text
+Success(Success(WriteControl(Failure(InvalidByte), Success(42))))
+```
 
 The first result is not logical truncation. Its second write has no valid
 index, so `write_all` returns that operation failure. The decoder never runs.
