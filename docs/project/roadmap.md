@@ -202,7 +202,7 @@ E1–E12, F1–F2, and L1–L3 are **verified**. Their identifiers express curri
 relationships, not task identifiers or delivery batches. The initial short
 effect Cases outcome is complete at the current baseline.
 
-The proposed [application Cases](#application-cases-from-dn-0052) continue that
+The eight [application Cases](#application-cases-from-dn-0052) continue that
 foundation: how can a reader combine these mechanisms while preserving an
 application's outcome, data invariant, or control policy? Each study develops
 one application question and distinguishes what Ash checks from what the
@@ -577,7 +577,7 @@ and merge.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
-`9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all planned programs still target
+`9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all programs target
 `ffi-base` at `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
 
 Place these studies in the existing Cases family. The completed short Cases
@@ -831,11 +831,11 @@ The dependencies above describe reading order, not delivery commitments:
 - The existing library path precedes L1, then L2 and L3.
 - The first twelve Cases provide optional pure comparisons; completing them is
   not a prerequisite for entering the effects path.
-- A1–A8 each name their existing lesson prerequisites. The suggested first
-  batch does not make cleanup reporting a prerequisite for pricing or ECS.
+- A1–A8 each name their existing lesson prerequisites. Their numbering
+  does not make cleanup reporting a prerequisite for pricing or ECS.
 
 Language claims and future examples must use the specification at the current
-baseline. These sections govern the proposed boundaries:
+baseline. These sections govern these boundaries:
 
 - [Computation types and effect rows][rows]: E1–E3, including row kinds,
   exact instances, exclusions, and inference boundaries.
