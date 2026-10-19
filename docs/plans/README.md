@@ -17,8 +17,7 @@ maintain a second archive or completed-plans index.
 
 ## Active work
 
-The [A1–A8 coordination plan](2026-10-16-application-cases-integration.md)
-links all eight locally verified application Cases. No standalone Case brief
-remains. Final book integration is a separate outcome, assignable after all
-Case PRs merge. The plan retains the exact FFI Base target and specifies
-GitHub delivery, role settings, ownership, and final integration checks.
+No temporary execution plan is active. The [roadmap](../project/roadmap.md)
+records the verified outcomes. [Issue #17](https://github.com/dikini/ash-doc/issues/17)
+and [PR #18](https://github.com/dikini/ash-doc/pull/18)
+retain final book integration evidence; the PR awaits human review and merge.

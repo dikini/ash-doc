@@ -54,17 +54,15 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## FFI Base migration outcome
 
-**State: complete and locally verified.** All 54 lessons now target `ffi-base`
-at `354c76b391fe4af665cf6a03479a9874a57cb3e3`. The migration preserves 244
-canonical sources and 60 complete human diagnostic captures. Native positives
-use a bounded observer that checks the type and generated host result from the
-same compiled program; source rejections still use the CLI. All four family
-aggregates and the complete book and specimen checks pass. The
+**State: complete and locally verified.** The edition targets `ffi-base` at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. Native positives use a bounded
+observer that checks the type and generated host result from the same compiled
+program; source rejections still use the CLI. The
 [verification guide](verification.md#ffi-base-executable-evidence) records
-executable coverage; the [rendering guide](rendering.md#scoped-build-evidence)
-records presentation coverage and limits. Completed migration plans leave the
-working tree. New FFI lessons, A2–A8 implementation, and publication remain
-outside this outcome.
+current executable coverage and applicable retained exact-pin evidence; the
+[rendering guide](rendering.md#scoped-build-evidence) records current book
+presentation coverage and limits. Completed migration plans leave the working
+tree. New FFI lessons and publication remain outside this outcome.
 
 ## Rendering infrastructure outcome
 
@@ -86,18 +84,16 @@ and requested formats. The [workflow](workflow.md#bound-the-task) also bounds
 editing, reading, review, executable checks, and reporting by the task's action
 and scope. Unchanged inputs retain applicable exact-pin evidence.
 
-The retained local review book assembles 54 lessons in Learn → Libraries →
+The retained local review book assembles all 61 lessons in Learn → Libraries →
 Effects → Cases order, with four family introductions and shared reader setup.
-Its 60 HTML pages and 58 EPUB source chapters retain 648 displayed code and
-transcript blocks. Artifact checks verify coverage, chapter order, source
-hashes, links, code text, and both print geometries. The original three-lesson
-specimen remains the default regression build, with its notation fixture and
-separate browser evidence. The [rendering
-guide](rendering.md#scoped-build-evidence) records the current complete-book and
-specimen review. The current indexed selection has 61 lessons; the local-pricing,
-immutable-world, cancellable-journal, event-redaction, controlled-edits,
-stable-sort, and tagged-frame Cases await presentation checks. The edition
-remains local and unpublished.
+Artifact checks verify coverage, chapter order, source hashes, links, code text,
+and both print geometries. Desktop and mobile HTML, enlarged EPUB text, and
+both PDF layouts pass review, including all eight application Cases. The
+original three-lesson specimen remains the default regression build, with its
+notation fixture and separate browser evidence. The
+[rendering guide](rendering.md#scoped-build-evidence) records fresh complete-book
+results and fresh specimen evidence. The edition remains local and
+unpublished.
 
 The [traversal calculation](../../content/cases/resuming-tree-traversal/README.md)
 now develops the three-entry problem, frame data and invariant, operation
@@ -206,7 +202,7 @@ E1–E12, F1–F2, and L1–L3 are **verified**. Their identifiers express curri
 relationships, not task identifiers or delivery batches. The initial short
 effect Cases outcome is complete at the current baseline.
 
-The proposed [application Cases](#application-cases-from-dn-0052) continue that
+The eight [application Cases](#application-cases-from-dn-0052) continue that
 foundation: how can a reader combine these mechanisms while preserving an
 application's outcome, data invariant, or control policy? Each study develops
 one application question and distinguishes what Ash checks from what the
@@ -572,18 +568,16 @@ no framework or tooling. The three observations pass at the current baseline.
 
 ## Application Cases from DN-0052
 
-**State: all eight application Cases are locally verified.** A1 passes
-complete-book presentation checks. The user approved A2 and A5 for squash
-merge on 2026-10-18. A2–A8 await presentation checks. Final book integration
-remains a separate outcome after all eight Case PRs merge.
-[The coordination plan](../plans/2026-10-16-application-cases-integration.md)
-links all eight verified lessons and retains final book integration. It
-records the selected implementation design, parallel ownership, GitHub
-delivery, and final rendering acceptance.
+**State: all eight application Cases are integrated and verified.** Their
+individual PRs have merged, and all eight pass complete-book presentation
+review. [Issue #17](https://github.com/dikini/ash-doc/issues/17) and
+[PR #18](https://github.com/dikini/ash-doc/pull/18)
+retain final book integration evidence. The integration PR awaits human review
+and merge.
 [DN-0052: Diag Ash Case Studies and Teaching][dn0052] supplies these eight
 outcomes. The note is exploring and informative; it reports no new executable
 results and accepts no Ash semantics or architecture. Its source commit is
-`9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all planned programs still target
+`9f8738b7e0d7f280f9744bf808343d2c97ce6661`; all programs target
 `ffi-base` at `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
 
 Place these studies in the existing Cases family. The completed short Cases
@@ -594,19 +588,17 @@ boundary needs it, and use a pure reference or contrasting implementation
 when it supplies an independent comparison. This creates no new content family
 or application framework.
 
-Start with A1 cleanup reporting, A2 scoped pricing, and A3 immutable ECS, as
-DN-0052 suggests. This is a proposed development order, not a prerequisite
-chain or authorization to implement all three together. A1–A8 identify roadmap
-outcomes rather than assigned lesson numbers. Select and design one complete
-outcome under the workflow before creating its lesson directory or adding
-active navigation.
+A1–A8 identify the verified outcomes at Cases 21–28. Their linked lessons and
+individual issue and PR records retain each reader boundary and its delivery
+evidence.
 
 ### A1. How can cleanup failures preserve the primary outcome?
 
 [Preserving outcomes through cleanup](../../content/cases/preserving-outcomes-through-cleanup/README.md)
-is locally verified with nine canonical sources and one complete human rejection
+is verified with nine canonical sources and one complete human rejection
 capture. [Issue #1](https://github.com/dikini/ash-doc/issues/1) and
-[PR #2](https://github.com/dikini/ash-doc/pull/2) track delivery and human review.
+[PR #2](https://github.com/dikini/ash-doc/pull/2) retain delivery and human review
+records.
 
 The chapter follows [E9 cleanup](../../content/effects/running-cleanup/README.md)
 with a finite batch calculation whose body returns success or a primary error.
@@ -629,10 +621,9 @@ termination guarantee.
 ### A2. How can a local pricing policy capture configuration?
 
 [Supplying a local pricing policy](../../content/cases/supplying-a-local-pricing-policy/README.md)
-is locally verified with fourteen canonical sources and three complete human
+is verified with fourteen canonical sources and three complete human
 rejection captures. [Issue #3](https://github.com/dikini/ash-doc/issues/3) and
-[PR #4](https://github.com/dikini/ash-doc/pull/4) track delivery and review.
-The user approved squash merge on 2026-10-18.
+[PR #4](https://github.com/dikini/ash-doc/pull/4) retain delivery and review records.
 
 The chapter continues
 [requested order prices](../../content/cases/supplying-order-prices/README.md)
@@ -660,10 +651,10 @@ as global implementation search or runtime-fresh nominal identity.
 ### A3. How can a generic system query an immutable ECS world?
 
 [Querying an immutable world](../../content/cases/querying-an-immutable-world/README.md)
-is locally verified with ten canonical sources and two complete human rejection
+is verified with ten canonical sources and two complete human rejection
 captures. [Issue #5](https://github.com/dikini/ash-doc/issues/5) and
-[PR #6](https://github.com/dikini/ash-doc/pull/6) track
-delivery and review. Presentation remains pending.
+[PR #6](https://github.com/dikini/ash-doc/pull/6) retain
+delivery and review records.
 
 The chapter continues the
 [dictionary Case](../../content/cases/dictionary-as-list/README.md) and
@@ -688,10 +679,10 @@ output, mutation, packed layout, or heterogeneous-path extension.
 ### A4. How can cancellation explicitly roll back a journal?
 
 [Rolling back a cancellable journal](../../content/cases/rolling-back-a-cancellable-journal/README.md)
-is locally verified with eight canonical sources and one complete human
+is verified with eight canonical sources and one complete human
 rejection capture. [Issue #7](https://github.com/dikini/ash-doc/issues/7) and
-[PR #8](https://github.com/dikini/ash-doc/pull/8) track
-delivery and review. Presentation remains pending.
+[PR #8](https://github.com/dikini/ash-doc/pull/8) retain
+delivery and review records.
 
 The chapter continues [E7 cells](../../content/effects/counting-with-a-cell/README.md),
 [E6 discard](../../content/effects/stopping-a-calculation/README.md), and
@@ -713,11 +704,10 @@ successful compensation under internal termination.
 ### A5. When must an event be redacted before publication?
 
 [Redact before publication](../../content/cases/redacting-before-publication/README.md)
-is locally verified with eight canonical sources and two complete human
+is verified with eight canonical sources and two complete human
 rejection captures. [Issue #9](https://github.com/dikini/ash-doc/issues/9) and
-[PR #10](https://github.com/dikini/ash-doc/pull/10) track
-delivery and review. The user approved squash merge on 2026-10-18.
-Presentation remains pending.
+[PR #10](https://github.com/dikini/ash-doc/pull/10) retain
+delivery and review records.
 
 The chapter continues the
 [hook pipeline](../../content/cases/controlling-a-hook-pipeline/README.md)
@@ -740,10 +730,10 @@ asynchronous delivery, or external I/O.
 ### A6. How can a controller check a worker's proposed edits?
 
 [Check proposed edits](../../content/cases/checking-proposed-edits/README.md)
-is locally verified with eleven canonical sources and two complete human
+is verified with eleven canonical sources and two complete human
 rejection captures. [Issue #11](https://github.com/dikini/ash-doc/issues/11) and
-[PR #12](https://github.com/dikini/ash-doc/pull/12) track
-delivery and review. Presentation remains pending.
+[PR #12](https://github.com/dikini/ash-doc/pull/12) retain
+delivery and review records.
 
 The chapter continues
 [scripted sessions](../../content/cases/running-a-scripted-session/README.md),
@@ -769,10 +759,10 @@ sandbox, or concurrent worker.
 ### A7. What can a cancellable stable sorter promise?
 
 [Cancel a stable sort](../../content/cases/cancelling-a-stable-sort/README.md)
-is locally verified with eight canonical sources and one complete human
+is verified with eight canonical sources and one complete human
 rejection capture. [Issue #13](https://github.com/dikini/ash-doc/issues/13) and
-[PR #14](https://github.com/dikini/ash-doc/pull/14) track
-delivery and review. Presentation remains pending.
+[PR #14](https://github.com/dikini/ash-doc/pull/14) retain
+delivery and review records.
 
 The chapter continues
 [explicit ordering](../../content/cases/searching-ordered-tree/README.md),
@@ -801,10 +791,10 @@ as complete. The Case adds no general sorting library or multi-shot control.
 ### A8. How can a tagged frame preserve messages through a round trip?
 
 [Round-trip a tagged frame](../../content/cases/round-tripping-tagged-frames/README.md)
-is locally verified with eight canonical sources and one complete human
+is verified with eight canonical sources and one complete human
 rejection capture. [Issue #15](https://github.com/dikini/ash-doc/issues/15) and
-[PR #16](https://github.com/dikini/ash-doc/pull/16) track
-delivery and review. Presentation remains pending.
+[PR #16](https://github.com/dikini/ash-doc/pull/16) retain
+delivery and review records.
 
 The chapter continues
 [bounded message decoding](../../content/cases/reading-a-bounded-message/README.md),
@@ -841,11 +831,11 @@ The dependencies above describe reading order, not delivery commitments:
 - The existing library path precedes L1, then L2 and L3.
 - The first twelve Cases provide optional pure comparisons; completing them is
   not a prerequisite for entering the effects path.
-- A1–A8 each name their existing lesson prerequisites. The suggested first
-  batch does not make cleanup reporting a prerequisite for pricing or ECS.
+- A1–A8 each name their existing lesson prerequisites. Their numbering
+  does not make cleanup reporting a prerequisite for pricing or ECS.
 
 Language claims and future examples must use the specification at the current
-baseline. These sections govern the proposed boundaries:
+baseline. These sections govern these boundaries:
 
 - [Computation types and effect rows][rows]: E1–E3, including row kinds,
   exact instances, exclusions, and inference boundaries.
@@ -935,14 +925,13 @@ general FFI, and new language mechanisms are not assumed by these examples.
 Historical Ash remains reference evidence only; all planned code and prose
 teach the cumulative current baseline.
 
-E1–E12, F1–F2, L1–L3, the seven initial effect Cases, and the hook pipeline
-Case are complete. A1 has local executable verification and user approval for
-merge; its presentation passes complete-book checks. A2 is locally verified
-and approved for squash merge on 2026-10-18. A3 and A4 are locally verified;
-A5 is locally verified and approved for squash merge on 2026-10-18.
-A6–A8 are locally verified. A2–A8 await presentation checks. The linked
-coordination plan retains final book integration as a separate outcome after
-all eight Case PRs have merged.
+E1–E12, F1–F2, L1–L3, the seven initial effect Cases, the hook pipeline Case,
+and A1–A8 are complete. All eight application Case PRs have merged. Their
+aggregate passes at the exact FFI Base target, and the complete 61-lesson book
+passes presentation checks in all four formats. Final integration
+[PR #18](https://github.com/dikini/ash-doc/pull/18)
+awaits human review and merge under
+[issue #17](https://github.com/dikini/ash-doc/issues/17).
 The documentation remains unpublished; no ash-doc `ffi-base` publication tag
 exists. Refine chapter boundaries when executable design exposes a dependency
 or an overloaded question, and replace superseded wording rather than keeping

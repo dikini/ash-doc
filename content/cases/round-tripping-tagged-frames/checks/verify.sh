@@ -127,7 +127,7 @@ def decoded(message):
     return ("Success", ("Success", ("Decoded", message)))
 
 
-# Table rows are projections of the SAME complete checked literal captures.
+# Selected displays are projections of the SAME complete checked literal captures.
 def table(marker):
     tail = readme.split(f"<!-- {marker} -->", 1)[1]
     lines = tail.splitlines()
@@ -168,12 +168,16 @@ assert list(direct) == [decoded(message) for message in messages]
 assert list(round_trip) == [decoded(message) for message in messages]
 rows = table("golden-observations: src/01-round-trips.ash")
 assert len(rows) == 5
-for row, message, golden, first, second in zip(
-        rows, messages, goldens, direct, round_trip):
+for row, message, golden in zip(rows, messages, goldens, strict=True):
+    assert len(row) == 2
     assert parse_value(code(row[0])) == message
     assert json.loads(code(row[1])) == golden
-    assert parse_value(code(row[2])) == first
-    assert parse_value(code(row[3])) == second
+marker = "<!-- decoded-observations: src/01-round-trips.ash -->"
+assert readme.count(marker) == 1
+match = re.search(re.escape(marker) + r"\n```text\n(.*?)\n```", readme, re.S)
+assert match
+observations = [parse_value(line) for line in match[1].splitlines()]
+assert observations == direct == round_trip
 
 malformed = checked_values(parse_value(sys.argv[3]))
 expected_malformed = [("BadTag",), ("Truncated",), ("Truncated",),
@@ -185,10 +189,16 @@ malformed_inputs = [(1, [9]), (1, [1]), (2, [2, 7]), (2, [0, 9]),
                     (1, []), (2, [1]), (3, [0])]
 rows = table("malformed-observations: src/02-malformed.ash")
 assert len(rows) == 7
-for row, (capacity, supplied), observation in zip(rows, malformed_inputs, malformed):
+for row, (capacity, supplied) in zip(rows, malformed_inputs, strict=True):
+    assert len(row) == 2
     assert int(code(row[0])) == capacity
     assert json.loads(code(row[1])) == supplied
-    assert parse_value(code(row[2])) == observation
+marker = "<!-- malformed-results: src/02-malformed.ash -->"
+assert readme.count(marker) == 1
+match = re.search(re.escape(marker) + r"\n```text\n(.*?)\n```", readme, re.S)
+assert match
+observations = [parse_value(line) for line in match[1].splitlines()]
+assert observations == malformed
 
 failures = parse_value(sys.argv[4])
 assert failures == (
@@ -198,9 +208,21 @@ assert failures == (
     ("Success", ("Failure", ("InvalidByte",))),
     ("Success", ("Success", ("WriteControl", ("Failure", ("InvalidByte",)),
                               ("Success", 42)))))
-rows = table("buffer-observations: src/03-buffer-failures.ash")
-assert len(rows) == 5
-assert [parse_value(code(row[1])) for row in rows] == list(failures)
+marker = "<!-- buffer-observations: src/03-buffer-failures.ash -->"
+assert readme.count(marker) == 1
+selected = readme.split(marker, 1)[1].split("\nThe first result is not logical truncation.", 1)[0]
+blocks = re.findall(r"```text\n(.*?)\n```", selected, re.S)
+assert len(blocks) == 5
+assert [parse_value(block) for block in blocks] == list(failures)
+labels = [
+    "Capacity one, two supplied values",
+    "Public `run_frame` at capacity zero",
+    "Independent zero-capacity body-entry check",
+    "Write `256` at valid index zero",
+    "Write `42`, reject `256`, then read",
+]
+for label, block in zip(labels, blocks, strict=True):
+    assert f"{label}:\n\n```text\n{block}\n```" in selected
 
 for filename, observation in [("04-swapped-pair.ash", sys.argv[5]),
                               ("06-decode-in-scope.ash", sys.argv[6])]:

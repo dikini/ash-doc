@@ -249,10 +249,8 @@ and `rendering/` roots, four content families, and lesson-local source and
 checks with shared verification helpers. Rendering uses Quarto Book and Typst
 for a bounded local review book selecting all 61 indexed, verified lessons in
 Learn → Libraries → Effects → Cases order, with four family introductions.
-Rendering evidence covers 54 lessons, including the cleanup-reporting Case, in
-HTML, EPUB, and both PDF layouts. The local-pricing, immutable-world,
-cancellable-journal, event-redaction, controlled-edits, stable-sort, and
-tagged-frame Cases await presentation checks.
+Rendering evidence covers all 61 lessons and four family introductions in
+HTML, EPUB, and both PDF layouts.
 The default specimen remains a regression build.
 Lesson and part review builds select only their indexed sources and requested
 formats. All scopes share tools and styles; their generated source records

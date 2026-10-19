@@ -138,10 +138,10 @@ The first twelve Cases derive recursive algorithms from explicit
 representations and account for their work. Eight short effect Cases then
 illustrate scoped numbering and measurement, dependency injection, scripted
 sessions, search budgets, parent-path compression, bounded byte input, and
-hook pipelines controlled by ordinary handlers. The application continuation
-retains primary outcomes alongside ordered completion reports and makes the
-caller's interpretation policy explicit. Another calculation joins immutable
-component stores by entity identifier while preserving the original world.
+hook pipelines controlled by ordinary handlers. The eight application Cases
+combine completion reporting, local pricing, immutable component stores, journal
+compensation, event redaction, controlled edits, cancellable stable sorting, and
+tagged frames.
 
 ## Authority
 
@@ -213,12 +213,9 @@ in the verification guide. The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
 select all 61 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and
-book and A4 PDFs. The existing 54-lesson book includes the cleanup-reporting
-Case and passes artifact, EPUB, browser, and PDF review. The local-pricing,
-immutable-world, cancellable-journal, event-redaction, controlled-edits,
-stable-sort, and tagged-frame Cases await presentation checks. The default
-build retains the smaller regression specimen; its static figures cover
-Mermaid graphs and interaction sequences, railroad grammar, and sequent
+book and A4 PDFs. All 61 lessons pass artifact, EPUB, browser, and PDF review.
+The default build retains the smaller regression specimen; its static figures
+cover Mermaid graphs and interaction sequences, railroad grammar, and sequent
 inference rules. Both modes share tools and styles. No CI service or publication
 platform is selected.
 

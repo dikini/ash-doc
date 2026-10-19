@@ -403,16 +403,28 @@ ash rolling-back-a-cancellable-journal/src/04-nested-completion.ash
 ```
 
 It returns one tuple containing three scenario results, in the order listed
-below. The table selects their fields from that single complete result; the
-surrounding tuple and constructor structure are omitted.
+below. Each block selects one complete scenario component from that single
+captured result; the surrounding tuple and type annotation are omitted. Each
+component pairs the inner outcome with the outer journal's `Observation`.
 
-<!-- markdownlint-disable MD013 -->
-| Choices | Inner outcome | Outer outcome | Balance | Order | Closing balances | Suffixes |
-| --- | --- | --- | --- | --- | --- | --- |
-| both commit | `Committed(17)` | `Committed(17)` | 17 | 21 | 1717 | 0 |
-| inner cancels | `Cancelled(Requested)` | `Committed(15)` | 15 | 21 | 1515 | 0 |
-| outer cancels | `Committed(17)` | `Cancelled(Requested)` | 10 | 21 | 1710 | 0 |
-<!-- markdownlint-enable MD013 -->
+<!-- nested-observations: src/04-nested-completion.ash -->
+Both commit:
+
+```text
+(Committed(17), Observation(Committed(17), 17, 21, 1717, 0))
+```
+
+Inner cancels:
+
+```text
+(Cancelled(Requested), Observation(Committed(15), 15, 21, 1515, 0))
+```
+
+Outer cancels:
+
+```text
+(Committed(17), Observation(Cancelled(Requested), 10, 21, 1710, 0))
+```
 
 When both commit, inner closing keeps `17`, then outer closing keeps `17`.
 When the inner cancels, its action restores `15`; the outer then commits that

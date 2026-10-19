@@ -306,7 +306,9 @@ observe commands = resource cell<R> action_trace = 0 {
     }
     let audit = fn(ignored) {
         let _ = Cell.write(action_trace, (Cell.read action_trace) * 10 + 2)
-        Reporting.report_close(Reporting.CloseFailed(Reporting.AuditFailed(22)))
+        Reporting.report_close(
+            Reporting.CloseFailed(Reporting.AuditFailed(22))
+        )
     }
     let report = Reporting.collect(fn(ignored) {
         cleanup summary {
@@ -397,7 +399,9 @@ main () = resource cell<R> action_trace = 0 {
     }
     let audit = fn(ignored) {
         let _ = Cell.write(action_trace, (Cell.read action_trace) * 10 + 2)
-        Reporting.report_close(Reporting.CloseFailed(Reporting.AuditFailed(22)))
+        Reporting.report_close(
+            Reporting.CloseFailed(Reporting.AuditFailed(22))
+        )
     }
     let calculation : (
         Unit -> Batch.Execution ! {CleanupFailure<CompletionError>, Cell.Ops<R>}
@@ -494,6 +498,10 @@ following collector discards when the audit reports and substitutes a report
 containing `0`. At that moment the audit has started and has not returned.
 The discard would skip required completion.
 
+{{< pagebreak >}}
+
+::: {#wide-abortive-collector .column-page-right}
+
 <!-- source: src/06-abortive-collector.ash -->
 ```ash
 import reporting as Reporting
@@ -514,6 +522,8 @@ main () = handle {
     }
 }
 ```
+
+:::
 
 Run the explicit English human format from `content/cases/`:
 
@@ -550,6 +560,10 @@ Resume the request with unit, then retain the error in the returned report.
 `07-resuming-collector.ash` makes that repair explicit and adds the outer
 summary to show that a later report survives too:
 
+{{< pagebreak >}}
+
+::: {#wide-resuming-collector .column-page-right}
+
 <!-- source: src/07-resuming-collector.ash -->
 ```ash
 import reporting as Reporting
@@ -576,6 +590,8 @@ main () = handle {
     }
 }
 ```
+
+:::
 
 ```text
 ash preserving-outcomes-through-cleanup/src/07-resuming-collector.ash

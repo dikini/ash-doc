@@ -14,8 +14,8 @@ checks share that exact baseline:
 
 - [`learn/`](learn/README.md) for thirteen verified lessons covering the beginning
   path, local generalization, and local recursion;
-- [`cases/`](cases/README.md) for twenty verified algorithm and effect Cases in
-  numeric order;
+- [`cases/`](cases/README.md) for twenty-eight verified algorithm and effect Cases
+  in numeric order;
 - [`libraries/`](libraries/README.md) for eight verified lessons about choosing
   and forwarding evidence, accepting type constructors, and polymorphic
   and relational interface methods, generic element prerequisites, newtypes,
@@ -31,7 +31,7 @@ Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
 After the complete Learn path, continue with
 [*Working with effects and scoped resources*](effects/README.md),
 [*Design library abstractions in Ash*](libraries/README.md) or
-[*Design recursive algorithms in Ash*](cases/README.md). The
+[*Explore algorithms and effects in Ash*](cases/README.md). The
 [verification guide](../docs/project/verification.md) names the checks
 for every family.
 

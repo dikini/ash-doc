@@ -453,19 +453,21 @@ main () = {
 ```
 
 Run `ash 04-batch-boundaries.ash`. It returns one four-part tuple. The following
-tables select every field of that one captured result; the surrounding tuple
-structure and type annotation are omitted. The first two groups contain these
-decisions, in source order:
+list and table select every field of that one captured result; the surrounding
+tuple structure and type annotation are omitted. The first two groups contain
+these decisions, in source order:
 
 <!-- boundary-decisions: src/04-batch-boundaries.ash -->
-| Group | Proposed batch or candidate | Observed decision |
-| --- | --- | --- |
-| First | `0 := 10`, unchanged candidate | `Reject(ForbiddenPosition(0))` |
-| First | `7 := 99`, unchanged candidate | `Reject(MissingPosition(7))` |
-| First | Valid edits, unchanged candidate | `Reject(CandidateMismatch)` |
-| Second | `1 := 25`, then `1 := 27` | `Allow` |
-| Second | Empty edits, original candidate | `Allow` |
-| Second | Empty edits, changed candidate | `Reject(CandidateMismatch)` |
+
+- First group, `0 := 10`, unchanged candidate:
+  `Reject(ForbiddenPosition(0))`.
+- First group, `7 := 99`, unchanged candidate:
+  `Reject(MissingPosition(7))`.
+- First group, valid edits, unchanged candidate:
+  `Reject(CandidateMismatch)`.
+- Second group, `1 := 25`, then `1 := 27`: `Allow`.
+- Second group, empty edits, original candidate: `Allow`.
+- Second group, empty edits, changed candidate: `Reject(CandidateMismatch)`.
 
 The third and fourth groups hold complete worker and model artifacts:
 

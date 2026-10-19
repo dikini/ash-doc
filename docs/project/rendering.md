@@ -32,10 +32,8 @@ becomes a native Quarto book part before those lessons. Reader setup comes from
 the root README. The book contains no project notation fixture; that fixture
 remains in the specimen. Unindexed lesson directories do not enter either
 selection merely because they exist. The current selection has 61 lessons.
-Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
-The local-pricing, immutable-world, cancellable-journal, event-redaction,
-controlled-edits, stable-sort, and tagged-frame Cases await presentation
-checks.
+The complete selection passes artifact checks, EPUB validation, browser
+review, and both PDF reviews.
 
 The default [specimen configuration](../../rendering/specimen.json) selects
 three complete, indexed lessons:
@@ -512,34 +510,52 @@ run ShellCheck when Bash changes. Review affected links and source, then run
 
 ## Scoped build evidence
 
-On October 17, 2026, the complete review book and default specimen were rebuilt
-for FFI Base at `354c76b391fe4af665cf6a03479a9874a57cb3e3`, using the declared
-Quarto, Typst, and renderer pins. The book selects all 54 lessons and four
-family introductions in indexed order. Artifact checks verify 60 HTML pages,
-58 source chapters, nine canonical assets, and 648 complete code and transcript
-blocks across HTML, EPUB, and the two PDFs.
+On October 19, 2026, the complete review book was rebuilt for FFI Base at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`, using the declared Quarto, Typst,
+and renderer pins. Its ash-doc build identity is
+`e3df89c731a3dd6c47b924f3f556c7d5cdd0f79a`. It selects all 61 lessons and
+four family introductions in indexed order. Artifact checks verify
+67 HTML pages, 65 source chapters, nine canonical assets, and 780 complete code
+and transcript blocks across HTML, EPUB, and the two PDFs. The book PDF has
+476 pages; the one-sided A4 PDF has 419.
 
-The specimen separately verifies three lessons, six HTML pages, four static
-diagrams, six canonical assets, and 87 complete code and transcript blocks.
-Its book PDF has 54 pages and its A4 PDF has 46. Both EPUBs pass EPUBCheck
-without errors or warnings. Browser checks cover desktop and mobile HTML and
-enlarged EPUB text in Chromium and Firefox; these previews do not establish
-physical e-reader compatibility.
+The book EPUB passes EPUBCheck without errors or warnings. Browser checks cover
+desktop and mobile HTML and enlarged EPUB text in Chromium and Firefox. These
+previews do not establish physical e-reader compatibility. Visual review
+inspected all pages of A1–A8 in both PDF layouts, including their complete code,
+diagnostics, pagination, tables, chapter order, and navigation. These Cases
+add no notes or diagrams; shared checks retain the existing note and figure
+regressions.
 
 PDF checks retain exact code characters, page order, paper sizes, and print
 geometry. Where a margin caption interleaves with code in Poppler's full-page
 text, the comparison uses words inside the measured body column. It cannot
 borrow missing code from a margin note. Four focused controls cover odd and
 even book pages, the A4 note column, and the original wide-code comparison.
-The rendering suite passes 86 tests; browser helpers pass twelve.
+The rendering suite passes 98 tests; browser helpers pass twelve.
 
-Visual review inspected all pages of the eight affected chapters in both PDF
-layouts, including currying, the native-buffer examples, callback diagnostics,
-and the cleanup-reporting Case. It corrected an overlapping table cell and
-kept a short native build command together. Shared checks continue to cover
-selection, format dispatch, output isolation, source identity, and layout.
-Scoped tasks still select only their affected lessons, parts, and formats;
-this complete rebuild is evidence for the approved edition migration.
+The default specimen was also rebuilt on October 19 at ash-doc commit
+`8a9072f18dd6f0bb8f88daf7d9db53f64fc77730`, with the same FFI Base and
+rendering pins, including the shared HTML tokens adopted after the earlier
+receipt. It verifies three lessons, six HTML pages, four static diagrams,
+six canonical assets, and 87 complete code and transcript blocks. Its book PDF
+has 54 pages and its A4 PDF has 46. Its EPUB passes EPUBCheck without errors or
+warnings; browser checks cover desktop and mobile HTML and enlarged EPUB text
+in Chromium and Firefox. The sequent renderer uses an isolated clean checkout
+at its declared pin because the sibling development checkout has advanced.
+The later presentation commit changes only unselected Cases, so these specimen
+inputs and results remain applicable.
+
+Later project-record edits reuse these outputs only while canonical chapter
+hashes, the extracted reader-setup AST, styles, tool pins, assets, shared HTML
+token bytes, and indexed selection remain unchanged. Read-only artifact checks
+must pass again at the final record revision. These checks preserve the build
+identities above; a later record commit is not another render.
+
+Shared checks continue to cover selection, format dispatch, output isolation,
+source identity, and layout. Scoped tasks still select only their affected
+lessons, parts, and formats. This complete rebuild verifies local book
+integration; it does not publish the edition.
 
 ## Replacement and publication boundary
 

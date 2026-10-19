@@ -145,55 +145,28 @@ separate from the lesson's source observations.
 
 ## FFI Base executable evidence
 
-On 2026-10-17 all four family aggregates passed at
-`354c76b391fe4af665cf6a03479a9874a57cb3e3`: Learn 13/56 canonical sources,
-Libraries 8/43, Effects 12/71, and Cases 21/74. All 54 indexed lessons retain
-244 sources and 60 complete English captures. The eight native positives
+On October 19, 2026, the Cases aggregate passed at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`: twenty-eight Cases, 141 canonical
+sources, and twenty complete English human captures. The active inventory has
+61 lessons, 311 canonical sources, and 72 complete captures. Canonical counts
+cover the canonical files in lesson `src/` directories. After presentation
+repairs, the four affected Case verifiers also passed: cleanup reporting
+(nine sources), cancellable journals (eight), controlled edits (eleven), and
+tagged frames (eight). Their complete value, type, stream, status, diagnostic,
+and source/display checks retain the promised outcomes.
+
+Unchanged Learn, Libraries, and Effects inputs retain their exact-pin evidence
+from October 17, 2026: Learn 13/56 sources and fifteen captures, Libraries 8/43
+and sixteen captures, and Effects 12/71 and 21 captures. Those aggregates were
+not rerun for this book integration. The six native positives in Effects
 matched their checked result types and value-only host output, with status
-zero and empty stderr. The escape rejection retains `type.resource-escape`;
-its primary label now covers the body returning access and its related label
-identifies acquisition. Callback mismatch output names `Bonus` rather than
-an internal effect spelling; its semantic rejection is unchanged.
+zero and empty stderr.
 
-All 16 harness controls passed with the real observer configured, including
-an intentionally wrong type for an otherwise matching native value. The pinned
-wrapper allocation test also passed (one selected test). These observations
-establish this edition's checked boundaries; they neither verify every possible
-Ash program nor establish a native allocation guarantee.
-
-The local-pricing Case passed its lesson verifier on 2026-10-18 at the same
-exact FFI Base target, adding fourteen canonical sources and three complete
-human captures. That addition brought the inventory to 55 lessons, 258 sources,
-and 63 captures.
-
-The immutable-world Case passed its lesson verifier on 2026-10-18 at the same
-exact target, adding ten canonical sources and two complete human captures.
-That addition brought the inventory to 56 lessons, 268 sources, and 65 captures.
-
-The cancellable-journal Case passed its lesson verifier on 2026-10-18 at the
-same exact target, adding eight canonical sources and one complete human
-capture. That addition brought the inventory to 57 lessons, 276 sources,
-and 66 captures.
-
-The event-redaction Case passed its lesson verifier on 2026-10-18 at the
-same exact target, adding eight canonical sources and two complete human
-captures. That addition brought the inventory to 58 lessons, 284 sources,
-and 68 captures.
-
-The controlled-edits Case passed its lesson verifier on 2026-10-18 at the
-same exact target, adding eleven canonical sources and two complete human
-captures. That addition brought the inventory to 59 lessons, 295 sources,
-and 70 captures.
-
-The stable-sort Case passed its lesson verifier on 2026-10-18 at the
-same exact target, adding eight canonical sources and one complete human
-capture. That addition brought the inventory to 60 lessons, 303 sources,
-and 71 captures.
-
-The tagged-frame Case passed its lesson verifier on 2026-10-18 at the
-same exact target, adding eight canonical sources and one complete human
-capture. The active inventory now has 61 lessons, 311 sources, and 72 captures.
-Unchanged lessons retain their migration evidence above.
+The October 17 migration also passed all sixteen harness controls with the real
+observer configured and the pinned wrapper allocation test (one selected test).
+These unchanged checks retain that evidence. Neither the retained results nor
+the fresh Cases run verifies every possible Ash program or establishes a general
+native allocation guarantee.
 
 ## Review the rest
 
@@ -201,11 +174,10 @@ The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
 The complete review book includes thirteen Learn, eight Libraries, twelve Effects,
 and twenty-eight Cases lessons, in that order, plus four family introductions.
-Retained book outputs cover 54 lessons, including the cleanup-reporting Case.
-The local-pricing, immutable-world, cancellable-journal, event-redaction,
-controlled-edits, stable-sort, and tagged-frame Cases await presentation
-checks. The
-default build retains the smaller specimen and its notation regressions.
+All 61 lessons pass artifact, EPUB, browser, and both PDF reviews; the
+[rendering receipt](rendering.md#scoped-build-evidence) records fresh book
+results and fresh specimen evidence. The default build keeps
+the smaller specimen and its notation regressions.
 
 Build the selected scope and requested formats through the guide, then run
 `verify.py` and, for HTML or EPUB, `browser.mjs` on that generated project. Run
