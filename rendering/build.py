@@ -325,7 +325,7 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
         if block.get("t") == "CodeBlock":
             attributes, code = block["c"]
             kind = attributes[1][0] if attributes[1] else ""
-            if kind in ("mermaid", "ebnf", "sequent"):
+            if kind in ("mermaid", "ebnf", "sequent", "split"):
                 if diagram_number >= len(descriptions):
                     raise ValueError(f"{source}: {kind} needs caption and description metadata")
                 description = {key: literal(value) for key, value in descriptions[diagram_number]["c"].items()}
@@ -350,7 +350,7 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
             continue
         attributes, code = block["c"]
         kind = attributes[1][0] if attributes[1] else ""
-        if kind not in ("mermaid", "ebnf", "sequent"):
+        if kind not in ("mermaid", "ebnf", "sequent", "split"):
             code_records.append({"kind": kind, "text": code})
     # Namespace note labels without changing source anchors or literal code.
     prefix = Path(chapter_name(source)).stem + "-"
@@ -538,7 +538,8 @@ def build(args, config):
     job_path = args.output / "diagram-jobs.json"
     jobs = json.loads(job_path.read_text())
     kinds = {job["kind"] for job in jobs["diagrams"]}
-    for key, path, kind in (("railroad", args.railroad, "ebnf"), ("sequent", args.sequent, "sequent")):
+    for key, path, kind in (("railroad", args.railroad, "ebnf"), ("sequent", args.sequent, "sequent"),
+                            ("split", args.split, "split")):
         if kind not in kinds:
             continue
         actual = run(["git", "rev-parse", "HEAD"], cwd=path, capture_output=True, text=True).stdout.strip()
@@ -550,6 +551,7 @@ def build(args, config):
             raise ValueError(f"{key} bundle differs from its evaluated source hash")
     jobs.update({"railroad": str(args.railroad / "dist/rehype.js"),
                  "sequent": str(args.sequent / "packages/core/src/index.js"),
+                 "split": str(args.split / "packages/core/src/index.js"),
                  "mermaid": str(TOOLS / "mermaid/node_modules/.bin/mmdc"),
                  "puppeteer": str(TOOLS / "mermaid/node_modules/puppeteer/lib/puppeteer/puppeteer.js"),
                  "browser": str(args.browser), "fonts": str(ROOT / "rendering/fonts"),
@@ -591,6 +593,7 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--railroad", type=Path)
     parser.add_argument("--sequent", type=Path)
+    parser.add_argument("--split", type=Path)
     parser.add_argument("--browser", type=Path, default=TOOLS / "browser-cache/chrome/linux-152.0.7977.75/chrome-linux64/chrome")
     args = parser.parse_args()
     os.environ.setdefault("XDG_CACHE_HOME", str(TOOLS / "cache"))
@@ -599,7 +602,8 @@ def main():
     siblings = Path(common).parent.parent
     args.railroad = args.railroad or siblings / "railroad"
     args.sequent = args.sequent or siblings / "sequent-md"
-    for key in ("specimen", "quarto", "railroad", "sequent", "browser"):
+    args.split = args.split or siblings / "split-md"
+    for key in ("specimen", "quarto", "railroad", "sequent", "split", "browser"):
         setattr(args, key, getattr(args, key).resolve())
     try:
         if args.formats is None or "html" in args.formats:

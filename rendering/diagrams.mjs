@@ -40,14 +40,14 @@ function validate(job) {
       throw new Error(`Invalid or duplicate diagram identifier: ${diagram.id}`);
     }
     identifiers.add(diagram.id);
-    if (!['mermaid', 'ebnf', 'sequent'].includes(diagram.kind)) throw new Error(`Unknown diagram kind: ${diagram.kind}`);
+    if (!['mermaid', 'ebnf', 'sequent', 'split'].includes(diagram.kind)) throw new Error(`Unknown diagram kind: ${diagram.kind}`);
     if (typeof diagram.source !== 'string' || !diagram.source.trim()) throw new Error(`${diagram.id}: empty diagram source`);
     if (!diagram.description || !diagram.path || !Number.isInteger(diagram.line) || diagram.line < 1) {
       throw new Error(`${diagram.id}: description, source path, and positive source line are required`);
     }
   }
   const required = ['puppeteer', 'browser', 'fonts', 'pdftocairo'];
-  for (const diagram of job.diagrams ?? []) required.push({ mermaid: 'mermaid', ebnf: 'railroad', sequent: 'sequent' }[diagram.kind]);
+  for (const diagram of job.diagrams ?? []) required.push({ mermaid: 'mermaid', ebnf: 'railroad', sequent: 'sequent', split: 'split' }[diagram.kind]);
   for (const key of new Set(required)) {
     if (!isAbsolute(job[key] ?? '')) throw new Error(`The pinned ${key} tool must have an absolute path.`);
   }
@@ -138,6 +138,15 @@ async function sequentSvg(diagram, job, page) {
   });
 }
 
+async function splitSvg(diagram, job) {
+  const { render } = await import(pathToFileURL(job.split));
+  const result = render(diagram.source);
+  if (result.diagnostics.length) {
+    throw new Error(result.diagnostics.map(({ line, column, message }) => `Line ${line}, column ${column}: ${message}`).join('\n'));
+  }
+  return result.svg;
+}
+
 async function mermaidSvg(diagram, job, temporary) {
   const decoded = diagram.source.replace(/\\(["'\\])/g, '$1')
     .replace(/\\([0-9a-f]{1,6})\s?|\\([^\r\n])/gi, (_, hex, character) => character ?? String.fromCodePoint(Number.parseInt(hex, 16)));
@@ -208,7 +217,7 @@ async function accessibleSvg(source, diagram, page, displaySize) {
 }
 
 async function outlineSvg(source, diagram, job, page, temporary) {
-  const family = diagram.kind === 'ebnf' ? monospace : serif;
+  const family = diagram.kind === 'ebnf' || diagram.kind === 'split' ? monospace : serif;
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><style>${job.fontCss}body{margin:0}svg{display:block;max-width:none!important}svg text,svg tspan{font-family:"${family}"!important}</style></head><body>${source}</body></html>`);
   const displaySize = await page.evaluate(async () => {
     await Promise.all([...document.fonts].map((font) => font.load()));
@@ -247,7 +256,8 @@ export async function renderDiagrams(job) {
       try {
         const source = diagram.kind === 'ebnf' ? await railroadSvg(diagram, job, page)
           : diagram.kind === 'sequent' ? await sequentSvg(diagram, job, page)
-            : await mermaidSvg(diagram, job, temporary);
+            : diagram.kind === 'split' ? await splitSvg(diagram, job)
+              : await mermaidSvg(diagram, job, temporary);
         const normalized = await accessibleSvg(source, diagram, page);
         await writeFile(destination, `${await outlineSvg(normalized, diagram, job, page, temporary)}\n`);
       } catch (error) {

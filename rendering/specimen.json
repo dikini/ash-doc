@@ -9,7 +9,8 @@
   "fixtures": ["rendering/specimen/notation.md"],
   "renderers": {
     "railroad": "366d5eaa937e9e9fbae3bf8d44265ccc2c528067",
-    "sequent": "21dad3d34b206b7964d2dd7edcab89a7b8f2b612"
+    "sequent": "21dad3d34b206b7964d2dd7edcab89a7b8f2b612",
+    "split": "b9d1298c16314b0d0b66223041b8937eeaece1e8"
   },
   "renderer_bundles": {
     "railroad": {
@@ -19,6 +20,10 @@
     "sequent": {
       "path": "packages/core/src/index.js",
       "sha256": "10a503718fb6ae501d3b8dc3cec3b71c0a62e42937477abff873cf74f9dd5cda"
+    },
+    "split": {
+      "path": "packages/core/src/index.js",
+      "sha256": "a047c75e5ca0f183847594d5a118d7d510d38b53eaf7819ee8e27df96970a1c3"
     }
   }
 }

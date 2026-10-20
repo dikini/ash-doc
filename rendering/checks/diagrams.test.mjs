@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import http from 'node:http';
 
 const environment = {
-  railroad: 'RAILROAD_BUNDLE', sequent: 'SEQUENT_BUNDLE', mermaid: 'MMDC',
+  railroad: 'RAILROAD_BUNDLE', sequent: 'SEQUENT_BUNDLE', split: 'SPLIT_BUNDLE', mermaid: 'MMDC',
   puppeteer: 'PUPPETEER_MODULE', browser: 'CHROME_BIN', fonts: 'DIAGRAM_FONTS', pdftocairo: 'PDFTOCAIRO'
 };
 function tools() {
@@ -36,7 +36,11 @@ const diagrams = [
   { id: 'grouped', kind: 'sequent', source: 'family primitive-typing:\n  T-Int :=\n    ===>\n    GAMMA |- n ⇒ Int\n\n  T-Unit :=\n    ===>\n    GAMMA |- () ⇒ Unit\n',
     path: 'notation.md', line: 38, description: 'Integer and unit rules remain a labeled family.' },
   { id: 'nested', kind: 'sequent', source: 'Chain :=\n    [ A\n      ===>\n      B ]\n    ===>\n    C\n',
-    path: 'notation.md', line: 51, description: 'A derived premise remains above its parent inference.' }
+    path: 'notation.md', line: 51, description: 'A derived premise remains above its parent inference.' },
+  { id: 'squares', kind: 'split', source: 'sig: [add] : [Int] -> [Int] -> [Int]\nrow: fn/add int/20 int/22 int/42\narrows: 3->4\n',
+    path: 'notation.md', line: 124, description: 'A signature aligns over split squares; lower halves name the values.' },
+  { id: 'circles', kind: 'split', source: 'tree:\n  black/(k1,v1)\n    red/(k2,v2)\n      red/(k3,v3)\n        a\n        b\n      c\n    d\n\ntree:\n  red/(k2,v2)\n    black/(k3,v3)\n      a\n      b\n    black/(k1,v1)\n      c\n      d\n',
+    path: 'notation.md', line: 133, description: 'A candidate tree repairs to a reconstructed tree with unchanged subtrees.' }
 ];
 
 test('all notation kinds produce deterministic, accessible standalone SVGs', async () => {
@@ -73,7 +77,8 @@ test('all notation kinds produce deterministic, accessible standalone SVGs', asy
 for (const [kind, source, reason] of [
   ['ebnf', 'rule ::= ( "x" ;\n', /EBNF error at/],
   ['sequent', 'T-Int :=\n    GAMMA |- n ⇒ Int\n', /deduction operator/],
-  ['mermaid', 'flowchart LR\n    A -->[\n', /Parse error/]
+  ['mermaid', 'flowchart LR\n    A -->[\n', /Parse error/],
+  ['split', 'row: bool/20\n', /unknown square top/]
 ]) {
   test(`invalid ${kind} fails at its source location without an SVG`, async () => {
     const renderDiagrams = await renderer();

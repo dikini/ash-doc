@@ -16,6 +16,14 @@ diagrams:
     id: fig-inference
     caption: Two premises support one conclusion.
     description: From P and P implies Q, modus ponens derives Q; a nested fixture derives R.
+  - kind: split
+    id: fig-split-application
+    caption: Types sit above the values they describe.
+    description: The signature aligns over split squares; lower halves name the values, and the arrow marks the application guide.
+  - kind: split
+    id: fig-split-repair
+    caption: A candidate tree repairs to a reconstructed tree.
+    description: The before phase nests red nodes below a black node; the after phase rewires the same associations and subtrees.
 ---
 
 # Notes and notation
@@ -105,6 +113,41 @@ family examples:
     Q -> R
     ===>
     R
+```
+
+## Split-shape figures
+
+Split squares and split circles carry two layers in one shape: the upper
+half names a category, the lower half names the instance. The fence source
+replaces hand-drawn SVG; the renderer derives every coordinate.
+
+```split
+sig: [add] : [Int] -> [Int] -> [Int]
+row: fn/add int/20 int/22 int/42
+arrows: 3->4
+```
+
+A tree figure stacks before and after phases with an implicit transformation
+arrow. Subtree names render as markers on a shared baseline.
+
+```split
+tree:
+  black/(k1,v1)
+    red/(k2,v2)
+      red/(k3,v3)
+        a
+        b
+      c
+    d
+
+tree:
+  red/(k2,v2)
+    black/(k3,v3)
+      a
+      b
+    black/(k1,v1)
+      c
+      d
 ```
 
 ## A compact comparison
