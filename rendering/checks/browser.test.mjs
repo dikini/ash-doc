@@ -100,12 +100,12 @@ test('EPUB mapping accepts a chapter anchor on its section through navigation', 
   assert.equal(mapEpubChapters(spine, navigation, [source])[0].source, source);
 });
 
-test('EPUB mapping preserves the element behavior lesson through smart punctuation', async () => {
+test('EPUB mapping preserves the order prices lesson through smart punctuation', async () => {
   const mapEpubChapters = await helper('mapEpubChapters');
-  const source = { source: 'content/libraries/requiring-element-behavior/README.md',
-    title: "How can an implementation depend on its element's behavior?",
-    anchor: 'how-can-an-implementation-depend-on-its-elements-behavior' };
-  const rendered = 'How can an implementation depend on its element’s behavior?';
+  const source = { source: 'content/cases/supplying-order-prices/README.md',
+    title: "Supply an order's dependencies",
+    anchor: 'supply-an-orders-dependencies' };
+  const rendered = 'Supply an order’s dependencies';
   const spine = [{ href: 'EPUB/text/ch005.xhtml', headings: [{ title: rendered, anchor: '' }] }];
   const navigation = [{ href: `EPUB/text/ch005.xhtml#${source.anchor}`, title: rendered }];
   assert.equal(mapEpubChapters(spine, navigation, [source])[0].source, source);

@@ -1,4 +1,4 @@
-# How can one lexical scope supply its own exact behavior?
+# Supplying scoped evidence
 
 A module newtype gives a representation a meaning shared by that module's
 clients. Sometimes a calculation needs a distinction only within one block.

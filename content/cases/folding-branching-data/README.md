@@ -1,4 +1,4 @@
-# How does the data-directed method extend from lists to trees?
+# Folding branching data
 
 The dictionary offered one possible `rest` after its current entry. A tree
 crosses a wider boundary: every `Node` offers both a `left` tree and a `right`

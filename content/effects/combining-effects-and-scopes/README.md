@@ -1,4 +1,4 @@
-# How do these boundaries fit together?
+# Combining effects and scopes
 
 We can now give the list calculation one complete contract. Each nonzero item
 earns its points plus a requested bonus. Zero stops processing. The result

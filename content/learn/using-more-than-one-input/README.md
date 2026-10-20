@@ -1,4 +1,4 @@
-# How can a function use more than one input?
+# Using more than one input
 
 Our functions have received one value at a time. `double` received one number;
 `Arithmetic.answer` received `()`. Many calculations need more information. To

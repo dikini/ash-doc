@@ -1,4 +1,4 @@
-# How can two lists preserve queue order?
+# Implementing a persistent FIFO frontier
 
 An unfinished computation can retain work in a list of frames. If each new
 frame is added at the front and the next step removes from that front, the

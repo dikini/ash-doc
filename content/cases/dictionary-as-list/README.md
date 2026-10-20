@@ -1,4 +1,4 @@
-# What does lookup cost when a dictionary is a recursive list?
+# Representing a dictionary as a list
 
 The preceding case placed new list elements at the front of an accumulated
 result. A dictionary can use the same front construction for key-value entries.

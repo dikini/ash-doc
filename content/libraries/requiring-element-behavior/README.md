@@ -1,4 +1,4 @@
-# How can an implementation depend on its element's behavior?
+# Requiring element behavior
 
 The first library lesson compared integers through `Equal<Int>`. A container
 can also support equality, but its implementation must explain what makes its

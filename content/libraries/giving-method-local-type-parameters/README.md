@@ -1,4 +1,4 @@
-# How can one method work at unrelated element types?
+# Giving a method local type parameters
 
 The previous lesson gave `F` the kind `Type -> Type`, so a definition could
 accept a type constructor and apply it to an element type. A reusable mapping

@@ -1,4 +1,4 @@
-# How can changing finite state produce a recursive list?
+# Building finite lists
 
 The preceding case used `fold` to consume a finite list. Its input already had
 every `More` and the ending `Empty`; the recursive equations replaced those

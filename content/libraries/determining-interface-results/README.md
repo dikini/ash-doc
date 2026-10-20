@@ -1,4 +1,4 @@
-# How can one interface argument determine another?
+# Determining interface results
 
 The previous lesson used one complete requirement, `Functor<Box>`, while each
 `map` occurrence chose its own method-local types. Some interfaces relate two

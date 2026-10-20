@@ -1,4 +1,4 @@
-# How can acquiring a resource fail?
+# Acquiring a buffer
 
 A cell scope begins with an integer value. A native buffer must first acquire
 space for a requested number of bytes. That acquisition can fail before its

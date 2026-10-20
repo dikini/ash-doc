@@ -1,4 +1,4 @@
-# How can a handler stop a calculation early?
+# Stopping a calculation
 
 A list of scores can contain a marker meaning that processing should stop.
 Use zero as that marker. We want the total before the marker, and we want to

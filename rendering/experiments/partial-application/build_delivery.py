@@ -33,7 +33,7 @@ subprocess.run([
     str(quarto), 'pandoc', 'learn-using-more-than-one-input.md',
     '--standalone', '--embed-resources', '--section-divs',
     '--metadata', 'lang=en', '--metadata',
-    'pagetitle=How can a function use more than one input?',
+    'pagetitle=Using more than one input',
     '--css', str(HERE / 'preview.css'), '--output', str(html),
 ], cwd=PROJECT, check=True)
 for source, name in [

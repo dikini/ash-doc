@@ -34,24 +34,24 @@ For each boundary, use the same cycle:
 
 ## Lessons in order
 
-1. [Choose implementation evidence](choosing-implementation-evidence/README.md)
+1. [Choosing implementation evidence](choosing-implementation-evidence/README.md)
    — separate an imported constrained name from the public implementation fact
    that satisfies its concrete requirement.
-2. [Forward capability evidence](forwarding-capability-evidence/README.md)
+2. [Forwarding capability evidence](forwarding-capability-evidence/README.md)
    — carry public names and implementation authorization through a facade
    without redefining the capability.
-3. [Accept a type constructor](accepting-type-constructors/README.md)
+3. [Accepting a type constructor](accepting-type-constructors/README.md)
    — use an explicit function kind when an abstraction applies a type
    constructor to different element types.
-4. [Give a method local type parameters](giving-method-local-type-parameters/README.md)
+4. [Giving a method local type parameters](giving-method-local-type-parameters/README.md)
    — instantiate one interface method at unrelated element types while
    retaining one complete implementation requirement.
-5. [Let one interface argument determine another](determining-interface-results/README.md)
+5. [Determining interface results](determining-interface-results/README.md)
    — use one total forward edge to complete an interface obligation before
    implementation selection.
-6. [How can an implementation depend on its element's behavior?](requiring-element-behavior/README.md)
+6. [Requiring element behavior](requiring-element-behavior/README.md)
    — derive container behavior from explicit element prerequisites.
-7. [How can a wrapper give an existing representation a distinct meaning?](wrapping-a-representation/README.md)
+7. [Wrapping a representation](wrapping-a-representation/README.md)
    — use explicit newtype conversions and nominal interface behavior.
-8. [How can one lexical scope supply its own exact behavior?](supplying-scoped-evidence/README.md)
+8. [Supplying scoped evidence](supplying-scoped-evidence/README.md)
    — combine local nominal types with sequential exact method evidence.

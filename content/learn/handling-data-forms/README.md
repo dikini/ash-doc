@@ -1,4 +1,4 @@
-# How can a function handle each form of data?
+# Handling data forms
 
 The preceding lesson gave `Result` two possible forms. We can construct
 `Found(42)` or `Missing`, and their shared type tells us that either value may

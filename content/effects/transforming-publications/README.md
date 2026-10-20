@@ -1,4 +1,4 @@
-# How can several scopes transform one publication?
+# Transforming publications
 
 A score may pass through several adjustments: add one point, then double the
 result. We could compose two functions directly. A hook gives surrounding

@@ -1,4 +1,4 @@
-# What happens when a handler resumes a calculation?
+# Resuming a calculation
 
 A request pauses some work. Its handler clause can supply the operation's
 answer through `resume`, but that answer is not necessarily the value returned

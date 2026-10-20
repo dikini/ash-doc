@@ -1,4 +1,4 @@
-# How can modules reuse an ordering capability without passing it manually?
+# Abstracting key order
 
 The preceding entries supply `Trees.compare_natural` to each tree operation
 they call. Each operation receives it as `compare` and passes that parameter

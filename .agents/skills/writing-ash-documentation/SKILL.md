@@ -51,6 +51,12 @@ lesson task before expanding its scope.
 - Shape a conceptual arc: an introduction supplies the model, an exploration
   lets examples create the need for later examples, and a conclusion gathers
   the answer and opens the next question. These parts need no explicit heading.
+- Title the chapter with the concept it teaches: a gerund or noun phrase in
+  sentence case, no period. Keep a question title only when it voices a
+  boundary, permission, or selection question the reader genuinely arrives
+  holding — a when, which, or why. The opening poses and motivates the
+  chapter's question in its first paragraphs either way; the family index
+  repeats the title as its link text.
 - Continue earlier chapters and introduce only the next needed idea.
 - Use the tool cycle: edit, predict, run `ash`, inspect, and explain.
   Weave these actions into the account; do not repeat the cycle as the prose
@@ -162,6 +168,8 @@ one existing PDF layout does not require regenerating every other format.
   project?
 - Read the prose aloud. Do repeated imperatives, stock transitions, identical
   paragraph shapes, or filler make the teaching method sound mechanical?
+- Does the title name the concept the chapter teaches, keeping a question
+  title only for a boundary, permission, or selection question?
 - Does vocabulary follow the example that needs it?
 - Can the reader follow the problem through its data, operation types, and
   smaller calculations, with enough explanation for new concepts?

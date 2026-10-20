@@ -1,4 +1,4 @@
-# How can a program choose the implementation a library abstraction needs?
+# Choosing implementation evidence
 
 Suppose a library needs to compare two values. It could accept a comparison
 function every time, but then every caller must carry that choice as an

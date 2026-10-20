@@ -1,4 +1,4 @@
-# How can the representation prevent a search tree from degenerating?
+# Guaranteeing logarithmic retrieval
 
 The dictionary from the preceding case hides its constructors, but insertion
 can still build a long chain. Insert the associations `(3, 30)`, `(2, 20)`,
@@ -1517,4 +1517,4 @@ bound.
 
 Balanced lookup enters only one logarithmic path. An in-order traversal must
 eventually visit every association, but it need not produce them all at once.
-How can traversal pause and resume without laziness?
+The next case asks how a traversal can pause and resume without laziness.

@@ -1,4 +1,4 @@
-# How can a calculation request a value from its caller's context?
+# Requesting a value
 
 A score might combine points earned with a bonus chosen for the round. The
 calculation needs that bonus, but it need not decide what the bonus is. So far,

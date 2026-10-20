@@ -1,4 +1,4 @@
-# How can local definitions refer to one another?
+# Defining local recursion
 
 Ordinary local bindings extend a block one step at a time. A later function
 can use an earlier value, but a definition cannot normally use its own new

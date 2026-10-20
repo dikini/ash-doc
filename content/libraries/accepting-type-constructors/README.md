@@ -1,4 +1,4 @@
-# How can an abstraction accept a type constructor?
+# Accepting a type constructor
 
 The first two library lessons worked with the completed type `Int` and the
 complete requirement `Equal<Int>`. Some abstractions need a different input.

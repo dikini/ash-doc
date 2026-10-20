@@ -1,4 +1,4 @@
-# How can a program choose a result?
+# Choosing a result
 
 Every calculation in the preceding lessons followed one route. Once a call
 began, we could trace it from expression to expression without asking which

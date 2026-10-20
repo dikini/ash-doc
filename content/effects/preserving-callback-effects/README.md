@@ -1,4 +1,4 @@
-# How can a reusable function preserve its caller's effects?
+# Preserving callback effects
 
 A function such as `apply_twice` does not need to know what calculation its
 argument performs. It calls the supplied function twice. But its signature

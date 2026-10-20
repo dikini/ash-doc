@@ -1,4 +1,4 @@
-# How can a facade forward a capability without redefining it?
+# Forwarding capability evidence
 
 The previous lesson made a client choose `Equal<Int>` directly from the source
 that defines it. A larger program may not want every client to depend on that

@@ -1,4 +1,4 @@
-# How can a program define its own data?
+# Defining data
 
 An integer says how many; a Boolean says yes or no; a tuple keeps a fixed set
 of parts together. These types are useful, but their names do not always say

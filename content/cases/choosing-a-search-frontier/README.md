@@ -1,4 +1,4 @@
-# How does frontier representation change a search algorithm?
+# Choosing a search frontier
 
 The [resumable traversal case](../resuming-tree-traversal/README.md) stored
 unfinished tree work in a list stack. The [queue

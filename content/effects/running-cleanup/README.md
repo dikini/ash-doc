@@ -1,4 +1,4 @@
-# How can work run when a scope finishes?
+# Running cleanup
 
 A calculation may need to record that a scope has finished, even when a
 handler stops its body early. `cleanup action { body }` gives the scope one

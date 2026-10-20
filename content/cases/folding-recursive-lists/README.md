@@ -1,4 +1,4 @@
-# How can one recursive traversal define many list algorithms?
+# Folding recursive lists
 
 The beginning path ended with `map`, a function whose equations follow the two
 forms of `List<A>`. Other list calculations repeat that shape. A sum returns

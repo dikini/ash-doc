@@ -234,7 +234,7 @@ E1 follows the complete [Learn path](../../content/learn/README.md). E2 through
 E12 follow in order. The additional bridges below are conceptual prerequisites,
 not requirements to complete every library lesson or algorithm Case.
 
-### E1. How can a calculation request a value from its caller's context?
+### E1. Requesting a value
 
 **State: verified.** [Read the lesson](../../content/effects/requesting-a-value/README.md).
 
@@ -252,7 +252,7 @@ The chapter asks for predictions before revealing each score and connects the
 unhandled entry rejection to its source declaration and handler repair. Each
 practice task starts from a fresh copy of the handled program.
 
-### E2. What does an effectful function promise?
+### E2. Following effect contracts
 
 **State: verified.** [Read the lesson](../../content/effects/following-effect-contracts/README.md).
 
@@ -269,7 +269,7 @@ Trace construction and invocation separately before comparing the two
 returned-function contracts. Each practice task starts from a fresh copy
 of its named program.
 
-### E3. How can a reusable function preserve its caller's effects?
+### E3. Preserving callback effects
 
 **State: verified.** [Read the lesson](../../content/effects/preserving-callback-effects/README.md).
 
@@ -309,7 +309,7 @@ two paths that produce the same score. Trace saved closure values separately
 from the handler around the later call, and keep module exercise copies beside
 their sibling imports.
 
-### E5. What happens when a handler resumes a calculation?
+### E5. Resuming a calculation
 
 **State: verified.** [Read the lesson](../../content/effects/resuming-a-calculation/README.md).
 
@@ -322,7 +322,7 @@ once on each normally completing clause path. Compare a valid resumption with
 missing consumption, repeated consumption, or attempted capture, using separate
 small examples. Do not introduce resource ownership yet.
 
-### E6. How can a handler stop a calculation early?
+### E6. Stopping a calculation
 
 **State: verified.** [Read the lesson](../../content/effects/stopping-a-calculation/README.md).
 
@@ -337,7 +337,7 @@ and a no-marker input that reaches no request. State that safe discard
 has further obligations when scopes own completion; E9 develops those cases.
 Do not imply that discard is universally pure.
 
-### E7. How can a calculation keep scoped mutable state?
+### E7. Counting with a cell
 
 **State: verified.** [Read the lesson](../../content/effects/counting-with-a-cell/README.md).
 
@@ -370,7 +370,7 @@ closure, aggregate, and payload escape, including hidden dependencies beyond
 visible types. A copied payload distinguishes a suspended resource from one
 released during resumed normal completion.
 
-### E9. How can work run when a scope finishes?
+### E9. Running cleanup
 
 **State: verified.** [Read the lesson](../../content/effects/running-cleanup/README.md).
 
@@ -387,7 +387,7 @@ or relying on a removed interpreter. Separate the normal-completion,
 abandonment-order, and rejected-context examples so each has one causal point.
 No source-cleanup guarantee is implied for internal termination or exhaustion.
 
-### E10. How can several scopes transform one publication?
+### E10. Transforming publications
 
 **State: verified.** [Read the lesson](../../content/effects/transforming-publications/README.md).
 
@@ -402,7 +402,7 @@ abandonment. Compare a qualifying API with a nonqualifying one, then connect
 retained callback access to E8. Registration introduces no escaping token or
 arbitrary removal mechanism.
 
-### E11. How can acquiring a resource fail?
+### E11. Acquiring a buffer
 
 **State: verified.** [Read the lesson](../../content/effects/acquiring-a-buffer/README.md).
 
@@ -417,7 +417,7 @@ acquisitions. Invalid access returns ordinary values with tool status zero;
 retained handle escape is a source rejection. Apply the lifetime model from
 cells; introduce neither source pointers nor general FFI.
 
-### E12. How do these boundaries fit together?
+### E12. Combining effects and scopes
 
 **State: verified.** [Read the lesson](../../content/effects/combining-effects-and-scopes/README.md).
 
@@ -451,7 +451,7 @@ value positions remain rank-1. Keep initial observations pure, then connect
 eligible row parameters with the global row-polymorphic helpers already
 taught in E3. Generalization does not create new interface requirements.
 
-### F2. How can local definitions refer to one another?
+### F2. Defining local recursion
 
 **State: verified.** [Read the lesson](../../content/learn/defining-local-recursion/README.md).
 
@@ -472,7 +472,7 @@ These chapters continue the opening five lessons of the
 The effects path does not require completing this strand; later synthesis may
 reuse it after its concepts have been introduced.
 
-### L1. How can an implementation depend on its element's behavior?
+### L1. Requiring element behavior
 
 **State: verified.** [Read the lesson](../../content/libraries/requiring-element-behavior/README.md).
 
@@ -486,7 +486,7 @@ prerequisites. Choose separate small rejections for missing evidence and an
 inadmissible implementation. Connect determination to selection keys without
 re-teaching the existing determination lesson.
 
-### L2. How can a wrapper give an existing representation a distinct meaning?
+### L2. Wrapping a representation
 
 **State: verified.** [Read the lesson](../../content/libraries/wrapping-a-representation/README.md).
 
@@ -499,7 +499,7 @@ inherited implementation evidence, and allocation-free wrapping after checked
 lowering. A runtime-cost explanation must use appropriate pinned evidence;
 printed values alone do not demonstrate allocation behavior.
 
-### L3. How can one lexical scope supply its own exact behavior?
+### L3. Supplying scoped evidence
 
 **State: verified.** [Read the lesson](../../content/libraries/supplying-scoped-evidence/README.md).
 
@@ -554,7 +554,7 @@ claims, and asymptotic analysis outside these examples.
 
 ## Hook pipeline Case
 
-**Verified.** [Who controls the next pipeline step?](../../content/cases/controlling-a-hook-pipeline/README.md)
+**Verified.** [Controlling a hook pipeline](../../content/cases/controlling-a-hook-pipeline/README.md)
 combines three registered transformations with ordinary policy and trace
 operations. Separate entries show permitted processing, rejection before later
 stages, and omitted enrichment. The source, transformations, and consumer form
@@ -592,7 +592,7 @@ A1–A8 identify the verified outcomes at Cases 21–28. Their linked lessons an
 individual issue and PR records retain each reader boundary and its delivery
 evidence.
 
-### A1. How can cleanup failures preserve the primary outcome?
+### A1. Preserving outcomes through cleanup
 
 [Preserving outcomes through cleanup](../../content/cases/preserving-outcomes-through-cleanup/README.md)
 is verified with nine canonical sources and one complete human rejection
@@ -618,7 +618,7 @@ reports, and distinguish command rejection from modeled completion failure.
 These source-level completion models make no native release, retry, or internal
 termination guarantee.
 
-### A2. How can a local pricing policy capture configuration?
+### A2. Supplying a local pricing policy
 
 [Supplying a local pricing policy](../../content/cases/supplying-a-local-pricing-policy/README.md)
 is verified with fourteen canonical sources and three complete human
@@ -648,7 +648,7 @@ An identity-free closure may retain selected methods without exporting an
 evidence fact. The reader can explain lexical selection without treating it
 as global implementation search or runtime-fresh nominal identity.
 
-### A3. How can a generic system query an immutable ECS world?
+### A3. Querying an immutable world
 
 [Querying an immutable world](../../content/cases/querying-an-immutable-world/README.md)
 is verified with ten canonical sources and two complete human rejection
@@ -676,7 +676,7 @@ nested lookup and repeated linear update work of this representation. The
 fixed schema assumes no automatic type-index search, open registry, associated
 output, mutation, packed layout, or heterogeneous-path extension.
 
-### A4. How can cancellation explicitly roll back a journal?
+### A4. Rolling back a cancellable journal
 
 [Rolling back a cancellable journal](../../content/cases/rolling-back-a-cancellable-journal/README.md)
 is verified with eight canonical sources and one complete human
@@ -701,7 +701,7 @@ explain why an outer snapshot can undo an inner commit. The in-memory model
 claims no automatic rollback, database isolation, durable storage, or
 successful compensation under internal termination.
 
-### A5. When must an event be redacted before publication?
+### A5. Redact before publication
 
 [Redact before publication](../../content/cases/redacting-before-publication/README.md)
 is verified with eight canonical sources and two complete human
@@ -727,7 +727,7 @@ shape and why field contents still depend on application code. The finite
 synchronous model claims no automatic secrecy, observer grants, introspection,
 asynchronous delivery, or external I/O.
 
-### A6. How can a controller check a worker's proposed edits?
+### A6. Check proposed edits
 
 [Check proposed edits](../../content/cases/checking-proposed-edits/README.md)
 is verified with eleven canonical sources and two complete human
@@ -756,7 +756,7 @@ and artifact correctness. The finite scripted interaction claims no security
 isolation and runs no LLM, external process, filesystem operation, tool,
 sandbox, or concurrent worker.
 
-### A7. What can a cancellable stable sorter promise?
+### A7. Cancel a stable sort
 
 [Cancel a stable sort](../../content/cases/cancelling-a-stable-sort/README.md)
 is verified with eight canonical sources and one complete human
@@ -788,7 +788,7 @@ separately from charged requests and physical time. Cancellation is
 synchronous and returns no partial sequence labelled
 as complete. The Case adds no general sorting library or multi-shot control.
 
-### A8. How can a tagged frame preserve messages through a round trip?
+### A8. Round-trip a tagged frame
 
 [Round-trip a tagged frame](../../content/cases/round-tripping-tagged-frames/README.md)
 is verified with eight canonical sources and one complete human

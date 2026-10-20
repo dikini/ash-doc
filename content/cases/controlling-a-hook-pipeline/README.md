@@ -1,4 +1,4 @@
-# Who controls the next pipeline step?
+# Controlling a hook pipeline
 
 A middleware pipeline lets surrounding code choose transformations while the
 producer publishes one value. Each callback observes the value at its stage,

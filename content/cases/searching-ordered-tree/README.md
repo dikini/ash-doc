@@ -1,4 +1,4 @@
-# How can an invariant let lookup ignore most of a tree?
+# Searching an ordered tree
 
 The previous chapter's direct search could stop after a match, but a mismatch
 gave it no reason to rule out either branch. An ordered tree supplies that

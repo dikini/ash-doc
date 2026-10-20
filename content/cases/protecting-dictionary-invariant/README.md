@@ -1,4 +1,4 @@
-# How can clients use a dictionary without constructing invalid trees?
+# Protecting the dictionary invariant
 
 The preceding case made key order reusable, but its tree remained transparent.
 A client could still construct a `Node` whose keys occupied the wrong branches.

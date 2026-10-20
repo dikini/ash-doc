@@ -1,4 +1,4 @@
-# How can a function itself be a value?
+# Functions as values
 
 In the lesson on several inputs, the partial call `add 20` produced a function.
 That function could wait for another integer because functions are values in

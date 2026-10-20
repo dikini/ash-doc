@@ -83,49 +83,38 @@ storage strategy.
 
 ## Cases in order
 
-1. [How can one recursive traversal define many list
-   algorithms?](folding-recursive-lists/README.md) — separate a list traversal
+1. [Folding recursive lists](folding-recursive-lists/README.md) — separate a list traversal
    from the operations supplied to a strict right fold.
-2. [How can changing finite state produce a recursive
-   list?](building-finite-lists/README.md) — use a transition and a structural
+2. [Building finite lists](building-finite-lists/README.md) — use a transition and a structural
    measure to produce a complete eager list.
 3. [When should recursion retain knowledge from earlier
    elements?](accumulating-list-results/README.md) — use accumulator state to
    avoid repeated append traversal while preserving the same reversed value.
-4. [What does lookup cost when a dictionary is a recursive
-   list?](dictionary-as-list/README.md) — use explicit equality for selective
+4. [Representing a dictionary as a list](dictionary-as-list/README.md) — use explicit equality for selective
    lookup, contrast its work with a strict fold, and observe older dictionary
    versions retained behind new front entries.
-5. [How does the data-directed method extend from lists to
-   trees?](folding-branching-data/README.md) — fold both branches, compare
+5. [Folding branching data](folding-branching-data/README.md) — fold both branches, compare
    equal-size trees with different heights, and contrast selective search with
    whole-tree fold work.
-6. [How can an invariant let lookup ignore most of a
-   tree?](searching-ordered-tree/README.md) — pass an explicit comparator to
+6. [Searching an ordered tree](searching-ordered-tree/README.md) — pass an explicit comparator to
    ordered lookup and insertion, state the descendant invariant, and observe
    why an unbalanced tree provides no logarithmic guarantee.
-7. [How can modules reuse an ordering capability without passing it
-   manually?](abstracting-key-order/README.md) — replace repeated comparator
+7. [Abstracting key order](abstracting-key-order/README.md) — replace repeated comparator
    arguments with an `Order<K>` requirement and explicitly select the
    implementation evidence used by each client.
-8. [How can clients use a dictionary without constructing invalid
-   trees?](protecting-dictionary-invariant/README.md) — keep `Dictionary`
+8. [Protecting the dictionary invariant](protecting-dictionary-invariant/README.md) — keep `Dictionary`
    nameable while hiding its constructors, and combine that opacity with
    explicitly selected ordering evidence.
-9. [How can the representation prevent a search tree from
-   degenerating?](guaranteeing-logarithmic-retrieval/README.md) — maintain an
+9. [Guaranteeing logarithmic retrieval](guaranteeing-logarithmic-retrieval/README.md) — maintain an
    opaque persistent red-black representation whose ordering and color
    invariants bound height while preserving the dictionary API.
-10. [How can traversal pause and resume without
-    laziness?](resuming-tree-traversal/README.md) — use an opaque eager iterator
+10. [Resuming tree traversal](resuming-tree-traversal/README.md) — use an opaque eager iterator
     whose private frames retain unfinished in-order work, then distinguish one
     step's worst-case cost from one linear traversal's amortized frame work.
-11. [How can two lists preserve queue
-    order?](implementing-persistent-fifo-frontier/README.md) — split logical
+11. [Implementing a persistent FIFO frontier](implementing-persistent-fifo-frontier/README.md) — split logical
     order between a front and reversed rear, transfer eagerly only when
     removal needs it, and bound list-node work along one successor history.
-12. [How does frontier representation change a search
-    algorithm?](choosing-a-search-frontier/README.md) — hold one shared search
+12. [Choosing a search frontier](choosing-a-search-frontier/README.md) — hold one shared search
     transition fixed, let LIFO return a longer path and FIFO return the
     shortest path, guard the cycle by marking before addition, and account for
     logical pending entries separately.
@@ -150,8 +139,7 @@ storage strategy.
 19. [How can a decoder request bytes from bounded
     storage?](reading-a-bounded-message/README.md) — separate parsing from a
     scoped cursor, and distinguish truncation from acquisition failure.
-20. [Who controls the next pipeline
-    step?](controlling-a-hook-pipeline/README.md) — combine local hook
+20. [Controlling a hook pipeline](controlling-a-hook-pipeline/README.md) — combine local hook
     transformations with ordinary policy and trace handlers; connect the
     synchronous pipeline to reactive composition.
 21. [Preserving outcomes through
@@ -162,12 +150,10 @@ storage strategy.
     policy](supplying-a-local-pricing-policy/README.md) — distinguish money from
     quantity, supply methods that capture a tariff, and retain a quote closure
     whose exposed type contains no local identity.
-23. [How can one movement system query an immutable
-    world?](querying-an-immutable-world/README.md) — join position and velocity
+23. [Querying an immutable world](querying-an-immutable-world/README.md) — join position and velocity
     stores by entity identifier, select component evidence explicitly, and
     preserve the original world through repeated movement.
-24. [How can cancellation explicitly roll back a
-    journal?](rolling-back-a-cancellable-journal/README.md) — distinguish control
+24. [Rolling back a cancellable journal](rolling-back-a-cancellable-journal/README.md) — distinguish control
     abandonment from restoring state, record commitment with explicit flags,
     and compare nested snapshots and surviving cleanup interpreters.
 25. [Redact before

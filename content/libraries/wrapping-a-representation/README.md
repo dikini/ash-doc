@@ -1,4 +1,4 @@
-# How can a wrapper give an existing representation a distinct meaning?
+# Wrapping a representation
 
 Two quantities may both be stored as integers while meaning different things
 to a program. A nominal type lets their contracts keep that distinction.

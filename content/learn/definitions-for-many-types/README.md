@@ -1,4 +1,4 @@
-# How can one definition work with many types?
+# Definitions for many types
 
 Several definitions in this path have depended on integers. `IntList` contains
 integers, and `apply_twice` accepts an `Int -> Int` function. Yet some of their

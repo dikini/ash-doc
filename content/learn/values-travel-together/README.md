@@ -1,4 +1,4 @@
-# How can several values travel together?
+# Making values travel together
 
 A `let` binding gives one value a local name. That value may be the result of a
 long calculation, but it is still passed and returned as a unit. Sometimes two

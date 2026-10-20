@@ -62,26 +62,26 @@ with `ash` to test what it does.
 <!-- markdownlint-disable MD029 -->
 1. [What is an Ash program?](what-is-an-ash-program/README.md) — produce values
    with expressions and functions.
-2. [How can one source file use another?](using-another-source-file/README.md) —
+2. [Using another source file](using-another-source-file/README.md) —
    connect modules through imports, public declarations, and qualified names.
-3. [How can a function use more than one input?](using-more-than-one-input/README.md)
+3. [Using more than one input](using-more-than-one-input/README.md)
    — supply chained inputs, pause at a partial call, and read function arrows.
-4. [How can a program choose a result?](choosing-a-result/README.md) — use
+4. [Choosing a result](choosing-a-result/README.md) — use
    integer equality, Boolean values, and exhaustive matching to select a result.
-5. [How can a calculation name an intermediate value?](naming-intermediate-values/README.md)
+5. [Naming intermediate values](naming-intermediate-values/README.md)
    — make a block's steps visible with local bindings.
-6. [How can several values travel together?](values-travel-together/README.md) —
+6. [Making values travel together](values-travel-together/README.md) —
    keep fixed collections of typed values together with tuples and tuple
    patterns.
-7. [How can a program define its own data?](defining-data/README.md) — name a
+7. [Defining data](defining-data/README.md) — name a
    new type and the constructors for its possible values.
-8. [How can a function handle each form of data?](handling-data-forms/README.md)
+8. [Handling data forms](handling-data-forms/README.md)
    — follow a data definition with patterns and exhaustive cases.
-9. [How can a function follow recursive data?](following-recursive-data/README.md)
+9. [Following recursive data](following-recursive-data/README.md)
    — follow a self-reference with a recursive function and a stopping form.
-10. [How can a function itself be a value?](functions-as-values/README.md) —
+10. [Functions as values](functions-as-values/README.md) —
     receive, construct, and return function values.
-11. [How can one definition work with many types?](definitions-for-many-types/README.md)
+11. [Definitions for many types](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
 
 ### Continuation chapters
@@ -89,7 +89,7 @@ with `ash` to test what it does.
 12. [When can a local function work at several types?](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
-13. [How can local definitions refer to one another?](defining-local-recursion/README.md)
+13. [Defining local recursion](defining-local-recursion/README.md)
     — use annotated recursive groups and distinguish guarded construction
     from forcing unfinished data.
 <!-- markdownlint-enable MD029 -->

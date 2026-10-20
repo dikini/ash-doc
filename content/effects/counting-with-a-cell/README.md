@@ -1,4 +1,4 @@
-# How can a calculation keep scoped mutable state?
+# Counting with a cell
 
 The preceding list calculation carried its total through ordinary arguments.
 Sometimes a calculation needs several helpers to read and update one shared

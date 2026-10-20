@@ -1,4 +1,4 @@
-# What does an effectful function promise?
+# Following effect contracts
 
 In the previous lesson, `score` requested a bonus and `main` supplied a handler.
 A larger calculation may reach `score` through other functions. Each caller

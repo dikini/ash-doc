@@ -1,4 +1,4 @@
-# How can one movement system query an immutable world?
+# Querying an immutable world
 
 An entity can have a position without a velocity. Another entity can have a
 velocity without a position. A movement step needs both components for the

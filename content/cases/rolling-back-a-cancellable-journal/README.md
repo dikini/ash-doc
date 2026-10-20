@@ -1,4 +1,4 @@
-# How can cancellation explicitly roll back a journal?
+# Rolling back a cancellable journal
 
 Suppose a calculation starts with a balance of `10` and stages an addition of
 `5`. A caller then cancels it. Stopping the remaining work answers a control

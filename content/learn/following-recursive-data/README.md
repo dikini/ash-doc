@@ -1,4 +1,4 @@
-# How can a function follow recursive data?
+# Following recursive data
 
 The data definitions so far have been shallow. A `Found` value contains an
 integer, and a `Missing` value contains nothing. Once a pattern exposes those

@@ -1,4 +1,4 @@
-# How can traversal pause and resume without laziness?
+# Resuming tree traversal
 
 Suppose a caller needs the first association in a dictionary, then wants to
 stop and decide whether to ask for another. [Balanced lookup][balanced] finds

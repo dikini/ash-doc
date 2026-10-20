@@ -1,4 +1,4 @@
-# How can one source file use another?
+# Using another source file
 
 The programs in the first chapter kept every definition in one source file.
 That kept each calculation in view as a whole. As a program grows, some

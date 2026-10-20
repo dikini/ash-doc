@@ -1,4 +1,4 @@
-# How can a calculation name an intermediate value?
+# Naming intermediate values
 
 A short expression often tells its own story. We can read `double (increment
 20)` from the inside out and keep the intermediate value in mind. As more steps
