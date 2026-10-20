@@ -8,19 +8,14 @@ const execute = promisify(execFile);
 const escapeText = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const escapeAttribute = (value) => escapeText(value).replaceAll('"', '&quot;');
 const browserArguments = ['--no-sandbox', '--disable-dev-shm-usage', '--font-render-hinting=none'];
-const serif = 'DejaVu Serif';
-const monospace = 'DejaVu Sans Mono';
 
-async function pinnedFonts(directory) {
-  const faces = [
-    ['DejaVuSerif.ttf', serif, 'normal', 400], ['DejaVuSerif-Italic.ttf', serif, 'italic', 400],
-    ['DejaVuSerif-Bold.ttf', serif, 'normal', 700], ['DejaVuSerif-BoldItalic.ttf', serif, 'italic', 700],
-    ['DejaVuSansMono.ttf', monospace, 'normal', 400], ['DejaVuSansMono-Bold.ttf', monospace, 'normal', 700]
-  ];
-  return (await Promise.all(faces.map(async ([filename, family, style, weight]) => {
+async function pinnedFonts(directory, families) {
+  const css = await Promise.all(Object.entries(families).flatMap(([family, faces]) => faces.map(async ([filename, style, weight]) => {
     const bytes = await readFile(join(directory, filename));
-    return `@font-face{font-family:"${family}";font-style:${style};font-weight:${weight};src:url(data:font/ttf;base64,${bytes.toString('base64')}) format("truetype")}`;
-  }))).join('\n');
+    const format = filename.endsWith('.otf') ? 'opentype' : 'truetype';
+    return `@font-face{font-family:"${family}";font-style:${style};font-weight:${weight};src:url(data:font/${format};base64,${bytes.toString('base64')}) format("${format}")}`;
+  })));
+  return css.join('\n');
 }
 
 function serialize(node) {
@@ -47,6 +42,9 @@ function validate(job) {
     }
   }
   const required = ['puppeteer', 'browser', 'fonts', 'pdftocairo'];
+  if (!job.style?.fonts?.serif || !job.style?.fonts?.monospace || !job.style?.palette || !job.style?.kinds) {
+    throw new Error('The diagram style contract must supply fonts, palette, and kinds.');
+  }
   for (const diagram of job.diagrams ?? []) required.push({ mermaid: 'mermaid', ebnf: 'railroad', sequent: 'sequent', split: 'split' }[diagram.kind]);
   for (const key of new Set(required)) {
     if (!isAbsolute(job[key] ?? '')) throw new Error(`The pinned ${key} tool must have an absolute path.`);
@@ -64,6 +62,7 @@ function locatedError(diagram, error) {
 
 async function railroadSvg(diagram, job, page) {
   const { default: rehypeRailroad } = await import(pathToFileURL(job.railroad));
+  const monospace = job.style.fonts.monospace;
   const tree = { type: 'root', children: [{ type: 'element', tagName: 'pre', properties: {}, children: [{
     type: 'element', tagName: 'code', properties: { className: ['language-ebnf'] },
     children: [{ type: 'text', value: diagram.source }]
@@ -96,7 +95,7 @@ async function railroadSvg(diagram, job, page) {
     return `<g transform="translate(8 ${top})"><text x="0" y="14" font-family="DejaVu Sans Mono" font-size="14">${escapeText(production.name)}</text>`
       + `<g transform="translate(${-production.x} ${24 - production.y})">${production.content}</g></g>`;
   });
-  const paint = '.librrd-rail,.librrd-station rect,path{fill:none;stroke:#111;stroke-width:1px}text{fill:#111}';
+  const paint = job.style.kinds.ebnf.paint;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${Math.ceil(viewportWidth)}" height="${Math.ceil(height)}" viewBox="0 0 ${Math.ceil(viewportWidth)} ${Math.ceil(height)}"><style>${paint}</style>${groups.join('')}</svg>`;
 }
 
@@ -106,8 +105,9 @@ async function sequentSvg(diagram, job, page) {
   if (rendered.diagnostics.length) {
     throw new Error(rendered.diagnostics.map(({ line, column, message }) => `Line ${line}, column ${column}: ${message}`).join('\n'));
   }
-  const css = `body{margin:0;color:#111;font:17px/1.3 "DejaVu Serif",serif}#capture{padding:16px;width:max-content}`
-    + `${styles}.sequent-family-grid{grid-template-columns:1fr}.sequent-proof-container{overflow:visible}`;
+  const ink = job.style.palette.ink.value;
+  const css = `body{margin:0;color:${ink};font:17px/1.3 "${job.style.fonts.serif}",serif}#capture{padding:16px;width:max-content}`
+    + `${styles}.sequent-family-grid{grid-template-columns:1fr}.sequent-proof-container{overflow:visible}${job.style.kinds.sequent.css}`;
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><style>${job.fontCss}${css}</style></head><body><main id="capture">${rendered.html}</main></body></html>`);
   return page.evaluate(async () => {
     await document.fonts.ready;
@@ -140,7 +140,9 @@ async function sequentSvg(diagram, job, page) {
 
 async function splitSvg(diagram, job) {
   const { render } = await import(pathToFileURL(job.split));
-  const result = render(diagram.source);
+  const result = render(diagram.source, {
+    style: { ...job.style.kinds.split.style, categorical: job.style.categorical }
+  });
   if (result.diagnostics.length) {
     throw new Error(result.diagnostics.map(({ line, column, message }) => `Line ${line}, column ${column}: ${message}`).join('\n'));
   }
@@ -155,15 +157,17 @@ async function mermaidSvg(diagram, job, temporary) {
   for (const match of decoded.matchAll(/url\(\s*(["']?)(.*?)\1\s*\)/gi)) {
     if (!match[2].trim().startsWith('#')) throw new Error('External CSS resources are not supported in diagram notation.');
   }
+  const { themeCSS, ...mermaid } = job.style.kinds.mermaid;
   const input = join(temporary, `${diagram.id}.mmd`);
   const output = join(temporary, `${diagram.id}.svg`);
   const configuration = join(temporary, `${diagram.id}-mermaid.json`);
   const puppeteer = join(temporary, 'puppeteer.json');
-  await writeFile(input, diagram.source);
+  const source = themeCSS ? `%%{init: {"themeCSS": ${JSON.stringify(themeCSS)}}}%%\n${diagram.source}` : diagram.source;
+  await writeFile(input, source);
   await writeFile(configuration, JSON.stringify({
-    securityLevel: 'strict', theme: 'neutral', look: 'classic', htmlLabels: false,
+    securityLevel: 'strict', htmlLabels: false,
     deterministicIds: true, deterministicIDSeed: diagram.id,
-    fontFamily: serif, flowchart: { htmlLabels: false }
+    flowchart: { htmlLabels: false }, ...mermaid
   }));
   await writeFile(puppeteer, JSON.stringify({ executablePath: job.browser, args: browserArguments }));
   await execute(job.mermaid, ['-i', input, '-o', output, '-c', configuration, '-p', puppeteer, '-b', 'transparent', '--no-font-embed'], {
@@ -217,7 +221,7 @@ async function accessibleSvg(source, diagram, page, displaySize) {
 }
 
 async function outlineSvg(source, diagram, job, page, temporary) {
-  const family = diagram.kind === 'ebnf' || diagram.kind === 'split' ? monospace : serif;
+  const family = diagram.kind === 'ebnf' || diagram.kind === 'split' ? job.style.fonts.monospace : job.style.fonts.serif;
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8"><style>${job.fontCss}body{margin:0}svg{display:block;max-width:none!important}svg text,svg tspan{font-family:"${family}"!important}</style></head><body>${source}</body></html>`);
   const displaySize = await page.evaluate(async () => {
     await Promise.all([...document.fonts].map((font) => font.load()));
@@ -244,8 +248,8 @@ export async function renderDiagrams(job) {
   let browser;
   try {
     const { default: puppeteer } = await import(pathToFileURL(job.puppeteer));
-    job = { ...job, fontCss: await pinnedFonts(job.fonts), fontconfig: join(temporary, 'fonts.conf') };
-    await writeFile(job.fontconfig, `<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>${escapeText(job.fonts)}</dir><cachedir>${escapeText(join(temporary, 'font-cache'))}</cachedir><alias><family>serif</family><prefer><family>${serif}</family></prefer></alias><alias><family>monospace</family><prefer><family>${monospace}</family></prefer></alias></fontconfig>`);
+    job = { ...job, fontCss: await pinnedFonts(job.fonts, job.style.fonts.faces), fontconfig: join(temporary, 'fonts.conf') };
+    await writeFile(job.fontconfig, `<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd"><fontconfig><dir>${escapeText(job.fonts)}</dir><cachedir>${escapeText(join(temporary, 'font-cache'))}</cachedir><alias><family>serif</family><prefer><family>${job.style.fonts.serif}</family></prefer></alias><alias><family>monospace</family><prefer><family>${job.style.fonts.monospace}</family></prefer></alias></fontconfig>`);
     browser = await puppeteer.launch({ executablePath: job.browser, headless: true, args: browserArguments,
       env: { ...process.env, FONTCONFIG_FILE: job.fontconfig } });
     const page = await browser.newPage();

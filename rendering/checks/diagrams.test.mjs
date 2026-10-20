@@ -5,16 +5,19 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import http from 'node:http';
 
+const contract = JSON.parse(await readFile(new URL('../styles/diagram-style.json', import.meta.url), 'utf8'));
+
 const environment = {
   railroad: 'RAILROAD_BUNDLE', sequent: 'SEQUENT_BUNDLE', split: 'SPLIT_BUNDLE', mermaid: 'MMDC',
   puppeteer: 'PUPPETEER_MODULE', browser: 'CHROME_BIN', fonts: 'DIAGRAM_FONTS', pdftocairo: 'PDFTOCAIRO'
 };
 function tools() {
-  return Object.fromEntries(Object.entries(environment).map(([key, name]) => {
+  const paths = Object.fromEntries(Object.entries(environment).map(([key, name]) => {
     const value = process.env[name] ?? (key === 'pdftocairo' ? '/usr/bin/pdftocairo' : undefined);
     assert.ok(value, `Set ${name} to the pinned ${key} tool path.`);
     return [key, value];
   }));
+  return { ...paths, style: contract };
 }
 async function renderer() {
   try {
@@ -71,6 +74,51 @@ test('all notation kinds produce deterministic, accessible standalone SVGs', asy
     }
   } finally {
     await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('every generated figure stays inside the style contract palette', async () => {
+  const renderDiagrams = await renderer();
+  const output = await mkdtemp(join(tmpdir(), 'ash-doc-style-contract-'));
+  const allowed = new Set();
+  const collect = (value) => {
+    if (typeof value === 'string') {
+      for (const match of value.matchAll(/#[0-9a-f]{6}/gi)) allowed.add(match[0].toLowerCase());
+    } else if (Array.isArray(value)) {
+      value.forEach(collect);
+    } else if (value && typeof value === 'object') {
+      Object.values(value).forEach(collect);
+    }
+  };
+  collect(contract);
+  const toChannels = (hex) => [1, 3, 5].map((at) => Number.parseInt(hex.slice(at, at + 2), 16));
+  const parsePaint = (value) => {
+    if (value === 'none') return null;
+    const hex = /^#([0-9a-f]{6})$/i.exec(value);
+    if (hex) return toChannels(hex[0].toLowerCase());
+    const percent = /^rgb\(\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*,\s*([0-9.]+)%\s*\)$/.exec(value);
+    if (percent) return percent.slice(1, 4).map((part) => Math.round(Number(part) * 255 / 100));
+    const absolute = /^rgb\(\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*\)$/.exec(value);
+    if (absolute) return absolute.slice(1, 4).map((part) => Math.round(Number(part)));
+    return undefined;
+  };
+  try {
+    await renderDiagrams({ ...tools(), output, diagrams });
+    for (const diagram of diagrams) {
+      const svg = await readFile(join(output, `${diagram.id}.svg`), 'utf8');
+      for (const match of svg.matchAll(/(?:fill|stroke)="([^"]+)"/g)) {
+        const channels = parsePaint(match[1]);
+        assert.notEqual(channels, undefined, `${diagram.id} carries an unrecognised paint ${match[1]}`);
+        if (channels === null) continue;
+        const ok = [...allowed].some((hex) => {
+          const expected = toChannels(hex);
+          return expected.every((channel, index) => Math.abs(channel - channels[index]) <= 1);
+        });
+        assert.ok(ok, `${diagram.id} carries ${match[1]} outside the style contract`);
+      }
+    }
+  } finally {
+    await rm(output, { recursive: true, force: true });
   }
 });
 
