@@ -59,6 +59,7 @@ with `ash` to test what it does.
 
 ## Contents
 
+<!-- markdownlint-disable MD029 -->
 1. [What is an Ash program?](what-is-an-ash-program/README.md) — produce values
    with expressions and functions.
 2. [How can one source file use another?](using-another-source-file/README.md) —
@@ -83,12 +84,15 @@ with `ash` to test what it does.
 11. [How can one definition work with many types?](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
 
+### Continuation chapters
+
 12. [When can a local function work at several types?](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
 13. [How can local definitions refer to one another?](defining-local-recursion/README.md)
     — use annotated recursive groups and distinguish guarded construction
     from forcing unfinished data.
+<!-- markdownlint-enable MD029 -->
 
 ## Continue learning
 

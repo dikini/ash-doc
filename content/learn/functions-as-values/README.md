@@ -42,9 +42,8 @@ increment 41
 42
 ```
 
-Run the program. Ash reports `42 : Int`. No special call syntax is needed for
-the function parameter; `transform number` works like every named function
-call we have written.
+No special call syntax is needed for the function parameter; `transform number`
+works like every named function call we have written.
 
 ## Writing a function where it is needed
 

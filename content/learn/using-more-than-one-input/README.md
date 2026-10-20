@@ -82,9 +82,13 @@ Run the program to compare that prediction:
 No second integer has arrived, so the result is a function of type
 `Int -> Int`. The tool displays the function as `<function>`; that display
 does not show its body. Such a call is often called a *partial call*, or
-[*partial application*][application]: it supplies some, but not all, of a
+*partial application*: it supplies some, but not all, of a
 function's inputs. The result is still useful. It remembers the input already
 supplied and can receive the rest later.
+
+The story also appears in three figures: the first aligns the signature with
+its boxes, the second layers types over values in the complete call, and the
+third follows the partial call from `add 20` through `add_20` to `42`.
 
 ::: {#note-add-one-input .column-margin}
 
@@ -118,10 +122,11 @@ main () = {
 }
 ```
 
-The binding `let add_20 = add 20` gives the waiting function the name `add_20`.
-It remembers `20` and has type `Int -> Int`. The next line supplies `22` as
-its remaining input. Predict the result, then run the program and compare
-Ash's `42 : Int` with these steps:
+The braces collect these lines into one *block*; its last line gives the
+block's value. The binding `let add_20 = add 20` gives the waiting function
+the name `add_20`. It remembers `20` and has type `Int -> Int`. The next
+line supplies `22` as its remaining input. Predict the result, then run the
+program and compare Ash's `42 : Int` with these steps:
 
 ```text
 add_20 22
@@ -162,4 +167,3 @@ is how a program can examine a value and choose which expression should
 produce its result.
 
 [arrows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#precedence-and-associativity
-[application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application

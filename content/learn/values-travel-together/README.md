@@ -20,7 +20,7 @@ main : Unit -> (Int, Bool)
 main () = (42, true)
 ```
 
-The expression puts two values into one pair. Predict its field order and
+The expression puts two values into one pair. Predict its part order and
 the corresponding type order, then run the program:
 
 ```text
@@ -53,7 +53,7 @@ main () = sum_pair (20, 22)
 The signature has one arrow. `sum_pair` receives one `(Int, Int)` value and
 produces an `Int`. The pattern `(left, right)` has the same shape as that
 input. Predict what each name binds and what their addition produces.
-Running confirms `42 : Int`; the pattern assigns the fields in order:
+Running confirms `42 : Int`; the pattern assigns the parts in order:
 
 ```text
 sum_pair (20, 22)
@@ -61,7 +61,8 @@ sum_pair (20, 22)
 42
 ```
 
-This differs from the earlier function `add : Int -> Int -> Int`. `add`
+This differs from the earlier function `add : Int -> Int -> Int`, defined
+in the [multiple-inputs lesson](../using-more-than-one-input/README.md). `add`
 receives one integer and then another; `sum_pair` receives one pair. Both can
 perform the same addition, but their inputs have different shapes and their
 signatures say so. Compare the complete calls with what remains after the
@@ -76,12 +77,11 @@ signatures say so. Compare the complete calls with what remains after the
 
 The curried `add` can pause after receiving `20`; its second integer arrives
 in a later call. The one input to `sum_pair` contains both integers, so that
-call produces their sum. This follows from these two signatures. A function
-receiving a tuple can also return a function if its signature says so.
+call produces their sum. This follows from these two signatures.
 
 `sum_pair(20, 22)` is [the same call][call-syntax] as `sum_pair (20, 22)`.
 The space before `(` is optional. The comma inside the parentheses makes
-`(20, 22)` one pair argument containing two fields.
+`(20, 22)` one pair argument containing two parts.
 
 ## Naming the parts inside a block
 
@@ -101,7 +101,7 @@ The first binding gives the whole pair one name. The second binding takes that
 value apart by matching its shape. Afterward, the rest of the block can use
 `left` and `right` separately.
 
-Predict the two field bindings and the final sum before running. The program
+Predict the two part bindings and the final sum before running. The program
 reports `42 : Int`. Trace how the whole pair supplies the separate names:
 
 ```text
@@ -128,7 +128,7 @@ main : Unit -> Int
 main () = sum_pair (20, 21, 22)
 ```
 
-Count the fields in the supplied value and in `sum_pair`'s input type.
+Count the parts in the supplied value and in `sum_pair`'s input type.
 Does the one tuple argument have the required shape? Run from `content/learn`:
 
 <!-- diagnostic: src/04-triple-is-not-a-pair.ash -->
@@ -152,7 +152,7 @@ reason: type.argument
 The first label identifies the triple, and the signature label identifies the
 pair required by `sum_pair`. There is no missing second call and no extra
 curried input. The one input has the wrong tuple shape. Supplying `(20, 22)`
-restores the two-field input and produces `42 : Int`.
+restores the two-part input and produces `42 : Int`.
 
 ## Exercise: keep two results
 

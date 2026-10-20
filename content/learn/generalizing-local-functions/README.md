@@ -297,7 +297,7 @@ follows each argument. Generalization preserves the row's constraints and
 retains its effects. It introduces no interface requirements; those come from
 the contracts and evidence taught in the library path.
 
-## Practice: locate the type choice
+## Exercise: locate the type choice
 
 For each task, make a fresh copy of its named source in a scratch directory
 outside this lesson's `src` tree. Predict the observation, then run that copy

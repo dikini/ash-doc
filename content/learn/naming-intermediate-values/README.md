@@ -5,8 +5,10 @@ A short expression often tells its own story. We can read `double (increment
 join the calculation, that silent value becomes easier to lose. A name can
 record what a step produced and give the next step something clear to use.
 
-Ash uses a *block* when an expression needs such local names. The block still
-produces one value, just as the smaller expressions in earlier lessons did.
+Ash uses a *block* when an expression needs such local names. The
+[multiple-inputs lesson](../using-more-than-one-input/README.md#pausing-after-the-first-input)
+already used one to group a program's lines. The block still produces one
+value, just as the smaller expressions in earlier lessons did.
 The difference is that it lets us describe the route to that value in several
 ordered steps.
 
@@ -94,8 +96,7 @@ main () = {
 ```
 
 At the initializer `later + 2`, which names have already been introduced?
-Does the following binding belong to that preceding scope? Run this version
-from `content/learn` to check your account:
+Run this version from `content/learn` to check your account:
 
 <!-- diagnostic: src/03-forward-reference.ash -->
 <!-- markdownlint-disable MD013 -->

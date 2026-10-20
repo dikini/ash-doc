@@ -32,7 +32,7 @@ The vertical bar means “or.” It separates one possible form from the next. T
 indentation keeps the alternatives together as one definition.
 
 The expression `Go` is already a complete value. Predict which constructor
-and type name the tool will report, then run:
+and type name Ash will report, then run:
 
 ```text
 Go : Signal

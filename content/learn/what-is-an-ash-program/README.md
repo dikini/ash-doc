@@ -42,7 +42,7 @@ the type of integer values.
 Because `main` receives `()`, it needs no input information before calculating
 its integer result. Together, the signature and definition describe the
 calculation where this program begins. The [entry rules][entry] require that
-starting definition in the file selected for execution.
+starting definition to live in the file selected for execution.
 
 ## Expressions calculate values
 

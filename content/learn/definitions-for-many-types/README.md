@@ -29,7 +29,8 @@ the body assumes that the value is an integer, a Boolean, or any other
 particular type.
 
 For each call, identify the type replacing `A` and use it consistently for
-the input and result. Predict the pair's value and type before running:
+the input and result. Predict the pair's value and type before running, then
+compare the program's report with your prediction:
 
 ```text
 (42, true) : (Int, Bool)
@@ -143,7 +144,7 @@ Lists.More(42, Lists.Empty)
 The name `increment` in this trace stands for the anonymous function in the
 program.
 
-This one example brings together the beginning path: a module exports data and
+This one example brings together the path so far: a module exports data and
 a function; the data is recursive; the function follows its forms; and another
 function value determines how each element changes.
 

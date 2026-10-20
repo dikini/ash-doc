@@ -86,9 +86,8 @@ value_or_zero Missing
 ```
 
 This definition and the explicit match answer the same question. Use the shape
-that keeps the explanation close to the data. An explicit match is useful when
-it forms one part of a larger expression. Separate equations are useful when
-the entire definition follows the input's forms.
+that keeps the explanation close to the data. Separate equations are useful
+when the entire definition follows the input's forms.
 
 ## Following every branch of the definition
 

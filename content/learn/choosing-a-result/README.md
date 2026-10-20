@@ -6,7 +6,6 @@ step should come next. A useful program must sometimes let a value decide.
 
 Ash makes that decision in two parts. First, an expression produces either
 `true` or `false`. Then a `match` provides one expression for each possibility.
-Let us begin with the value that guides the choice.
 
 ## Asking a question
 
