@@ -298,6 +298,9 @@ def stage_images(document, source, output):
     return list(assets.values())
 
 
+DIAGRAM_KINDS = ("mermaid", "ebnf", "sequent", "split")
+
+
 def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=None,
                     details=None):
     text = (ROOT / source).read_text(encoding="utf-8")
@@ -313,7 +316,42 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
     if assets is not None:
         assets.extend(staged_assets)
     descriptions = document["meta"].pop("diagrams", {"c": []})["c"]
-    diagram_number = 0
+    state = {"diagram": 0, "offset": 0}
+
+    def diagram_image(kind, code):
+        number = state["diagram"]
+        if number >= len(descriptions):
+            raise ValueError(f"{source}: {kind} needs caption and description metadata")
+        description = {key: literal(value) for key, value in descriptions[number]["c"].items()}
+        if description["kind"] != kind:
+            raise ValueError(f"{source}: diagram metadata order does not match {kind}")
+        state["diagram"] = number + 1
+        at = text.index(code, state["offset"])
+        state["offset"] = at + len(code)
+        line = text[:at].count("\n") + 1
+        jobs.append({**description, "source": code, "path": source, "line": line})
+        image_attributes = [description["id"], [], [["fig-alt", description["description"]], ["width", "100%"]]]
+        return {"t": "Para", "c": [{"t": "Image", "c": [image_attributes,
+                               [{"t": "Str", "c": description["caption"]}],
+                               ["assets/" + description["id"] + ".svg", ""]]}]}
+
+    def convert_diagram_fences(node):
+        """Replace diagram fences with generated figures, in source order, at any depth."""
+        if isinstance(node, dict):
+            if node.get("t") == "CodeBlock":
+                attributes, code = node["c"]
+                kind = attributes[1][0] if attributes[1] else ""
+                if kind in DIAGRAM_KINDS:
+                    node.clear()
+                    node.update(diagram_image(kind, code))
+                    return
+            for key, value in node.items():
+                if key == "c":
+                    convert_diagram_fences(value)
+        elif isinstance(node, list):
+            for child in node:
+                convert_diagram_fences(child)
+
     blocks = []
     for block in document["blocks"]:
         if block.get("t") == "Para" and literal(block["c"]) == "{{< pagebreak >}}":
@@ -322,25 +360,9 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
             continue
         if block.get("t") == "RawBlock" and block["c"][0] == "html" and block["c"][1].lstrip().startswith("<!--"):
             continue
-        if block.get("t") == "CodeBlock":
-            attributes, code = block["c"]
-            kind = attributes[1][0] if attributes[1] else ""
-            if kind in ("mermaid", "ebnf", "sequent", "split"):
-                if diagram_number >= len(descriptions):
-                    raise ValueError(f"{source}: {kind} needs caption and description metadata")
-                description = {key: literal(value) for key, value in descriptions[diagram_number]["c"].items()}
-                if description["kind"] != kind:
-                    raise ValueError(f"{source}: diagram metadata order does not match {kind}")
-                diagram_number += 1
-                line = text[:text.index(code)].count("\n") + 1
-                jobs.append({**description, "source": code, "path": source, "line": line})
-                image_attributes = [description["id"], [], [["fig-alt", description["description"]], ["width", "100%"]]]
-                blocks.append({"t": "Para", "c": [{"t": "Image", "c": [image_attributes,
-                               [{"t": "Str", "c": description["caption"]}],
-                               ["assets/" + description["id"] + ".svg", ""]]}]})
-                continue
+        convert_diagram_fences(block)
         blocks.append(block)
-    if diagram_number != len(descriptions):
+    if state["diagram"] != len(descriptions):
         raise ValueError(f"{source}: unused diagram descriptions")
     document["blocks"] = blocks
     document["meta"] = {}
@@ -350,7 +372,7 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
             continue
         attributes, code = block["c"]
         kind = attributes[1][0] if attributes[1] else ""
-        if kind not in ("mermaid", "ebnf", "sequent", "split"):
+        if kind not in DIAGRAM_KINDS:
             code_records.append({"kind": kind, "text": code})
     # Namespace note labels without changing source anchors or literal code.
     prefix = Path(chapter_name(source)).stem + "-"
@@ -552,6 +574,7 @@ def build(args, config):
     jobs.update({"railroad": str(args.railroad / "dist/rehype.js"),
                  "sequent": str(args.sequent / "packages/core/src/index.js"),
                  "split": str(args.split / "packages/core/src/index.js"),
+                 "style": json.loads((ROOT / "rendering/styles/diagram-style.json").read_text(encoding="utf-8")),
                  "mermaid": str(TOOLS / "mermaid/node_modules/.bin/mmdc"),
                  "puppeteer": str(TOOLS / "mermaid/node_modules/puppeteer/lib/puppeteer/puppeteer.js"),
                  "browser": str(args.browser), "fonts": str(ROOT / "rendering/fonts"),

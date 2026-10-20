@@ -450,6 +450,69 @@ class PreparationTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("not an indexed lesson", result.stderr)
 
+    def test_nested_diagram_fences_become_figures_in_source_order(self):
+        source = "content/cases/figures/README.md"
+        text = """---
+diagrams:
+  - kind: split
+    id: fig-margin-note
+    caption: A margin figure.
+    description: A split figure inside a margin note.
+  - kind: split
+    id: fig-body
+    caption: A body figure.
+    description: A split figure at the top level.
+---
+# Lesson
+
+::: {#note-figures .column-margin}
+
+```split
+row: fn/fn
+```
+
+:::
+
+```split
+row: fn/fn fn/fn
+```
+"""
+        with self.asset_book({source: text}, {}) as (builder, root, args):
+            builder.prepare(args)
+            jobs = json.loads((args.output / "diagram-jobs.json").read_text())
+            self.assertEqual([job["id"] for job in jobs["diagrams"]],
+                             ["fig-margin-note", "fig-body"])
+            self.assertEqual(jobs["diagrams"][0]["source"], "row: fn/fn")
+            self.assertEqual(jobs["diagrams"][1]["source"], "row: fn/fn fn/fn")
+            self.assertLess(jobs["diagrams"][0]["line"], jobs["diagrams"][1]["line"])
+            record = json.loads((args.output / "sources.json").read_text())[0]
+            staged = (args.output / record["chapter"]).read_text()
+            self.assertNotIn("```split", staged)
+            self.assertLess(staged.index("fig-margin-note"), staged.index("fig-body"))
+            self.assertIn("assets/fig-margin-note.svg", staged)
+            reparsed = builder.parse(QUARTO, staged)
+            figures = [block for block in builder.walk(reparsed["blocks"])
+                       if block.get("t") == "Figure"]
+            self.assertEqual(len(figures), 2)
+
+    def test_nested_diagram_fences_require_metadata(self):
+        source = "content/cases/figures/README.md"
+        text = ("# Lesson\n\n::: {#note-figures .column-margin}\n\n"
+                "```split\nrow: fn/fn\n```\n\n:::\n")
+        with self.asset_book({source: text}, {}) as (builder, root, args):
+            with self.assertRaisesRegex(ValueError, "caption and description"):
+                builder.prepare(args)
+
+    def test_nested_diagram_metadata_order_must_match_fences(self):
+        source = "content/cases/figures/README.md"
+        text = ("---\ndiagrams:\n  - kind: mermaid\n    id: fig-wrong-kind\n"
+                "    caption: Wrong kind.\n    description: Metadata kind order differs.\n---\n"
+                "# Lesson\n\n::: {#note-figures .column-margin}\n\n"
+                "```split\nrow: fn/fn\n```\n\n:::\n")
+        with self.asset_book({source: text}, {}) as (builder, root, args):
+            with self.assertRaisesRegex(ValueError, "order does not match"):
+                builder.prepare(args)
+
 
 if __name__ == "__main__":
     unittest.main()
