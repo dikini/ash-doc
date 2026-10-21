@@ -528,19 +528,14 @@ run ShellCheck when Bash changes. Review affected links and source, then run
 
 ## Scoped build evidence
 
-On October 19, 2026, the complete review book was rebuilt for FFI Base at
+On October 21, 2026, the complete review book was rebuilt for FFI Base at
 `354c76b391fe4af665cf6a03479a9874a57cb3e3`, using the declared Quarto, Typst,
 and renderer pins. Its ash-doc build identity is
-`e3df89c731a3dd6c47b924f3f556c7d5cdd0f79a`. It selects all 61 lessons and
+`73f11abc03d26bae2b9f20e4f908509dd5c12c2d`. It selects all 61 lessons and
 four family introductions in indexed order. Artifact checks verify
-67 HTML pages, 65 source chapters, nine canonical assets, and 780 complete code
+67 HTML pages, 65 source chapters, one canonical asset, and 780 complete code
 and transcript blocks across HTML, EPUB, and the two PDFs. The book PDF has
-476 pages; the one-sided A4 PDF has 419.
-
-The figure migration of October 21 changed the currying and search-tree
-chapters, so this complete-book evidence no longer matches the current tree;
-the scoped lesson and specimen builds below carry the migrated figures, and
-rebuilding the complete book restores this paragraph's reuse condition.
+474 pages; the one-sided A4 PDF has 415.
 
 The book EPUB passes EPUBCheck without errors or warnings. Browser checks cover
 desktop and mobile HTML and enlarged EPUB text in Chromium and Firefox. These
@@ -555,7 +550,7 @@ geometry. Where a margin caption interleaves with code in Poppler's full-page
 text, the comparison uses words inside the measured body column. It cannot
 borrow missing code from a margin note. Four focused controls cover odd and
 even book pages, the A4 note column, and the original wide-code comparison.
-The rendering suite passes 98 tests; browser helpers pass twelve.
+The rendering suite passes 101 tests; browser helpers pass twelve.
 
 The default specimen was rebuilt on October 21 at ash-doc commit
 `f5c36bdae0e17b3297376939ca8d9a7c81ced609`, with the same FFI Base and
