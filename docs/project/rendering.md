@@ -557,17 +557,15 @@ borrow missing code from a margin note. Four focused controls cover odd and
 even book pages, the A4 note column, and the original wide-code comparison.
 The rendering suite passes 98 tests; browser helpers pass twelve.
 
-The default specimen was also rebuilt on October 19 at ash-doc commit
-`8a9072f18dd6f0bb8f88daf7d9db53f64fc77730`, with the same FFI Base and
-rendering pins, including the shared HTML tokens adopted after the earlier
-receipt. It verifies three lessons, six HTML pages, four static diagrams,
-six canonical assets, and 87 complete code and transcript blocks. Its book PDF
-has 54 pages and its A4 PDF has 46. Its EPUB passes EPUBCheck without errors or
+The default specimen was rebuilt on October 21 at ash-doc commit
+`f5c36bdae0e17b3297376939ca8d9a7c81ced609`, with the same FFI Base and
+rendering pins, after the split-shape figures migrated to notation fences.
+It verifies three lessons, six HTML pages, eleven generated diagrams, one
+canonical asset, and 87 complete code and transcript blocks. Its book PDF
+has 56 pages and its A4 PDF has 46. Its EPUB passes EPUBCheck without errors or
 warnings; browser checks cover desktop and mobile HTML and enlarged EPUB text
 in Chromium and Firefox. The sequent renderer uses an isolated clean checkout
 at its declared pin because the sibling development checkout has advanced.
-The later presentation commit changes only unselected Cases, so these specimen
-inputs and results remain applicable.
 
 Later project-record edits reuse these outputs only while canonical chapter
 hashes, the extracted reader-setup AST, styles, tool pins, assets, shared HTML
