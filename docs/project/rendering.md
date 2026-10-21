@@ -116,8 +116,9 @@ Unnumbered `.column-margin` notes supply brief local reminders, including
 legible supplementary sketches. Full-width regions can hold diagrams,
 illustrations, tables, or other content needing the space. Notes must assist
 understanding without competing with the main account. Native note placement
-and a prepared wide SVG have been checked in all four layouts; bare diagram
-fences retain the top-level conversion boundary described below.
+and a prepared wide SVG have been checked in all four layouts; generated
+figures now sit inside notes and wide regions through the same fence
+conversion described below.
 
 Preparation gives each chapter's note references and definitions a distinct
 prefix while preserving source anchors and literal code. Pandoc still writes
@@ -210,8 +211,9 @@ The search-tree derivation also uses native wide Divs for selected long
 signatures and equation groups. Their extra width makes parameters and cases
 easier to follow at the shared 8.5 pt code size. Preparation records ordinary
 code recursively, including code inside wide Divs, so source and output checks
-retain these blocks in reading order. It still converts bare diagram fences
-only at chapter top level. Each wide code block must fit one page in both PDFs
+retain these blocks in reading order. It converts diagram fences recursively
+as well, so figures keep their positions inside wide regions and notes. Each
+wide code block must fit one page in both PDFs
 and stay clear of notes; narrow HTML and EPUB wrap the unchanged source text.
 The formatting reference gives the authoring example and selection criteria.
 
@@ -373,14 +375,24 @@ requires a complete-book render.
 
 The fixture's YAML `diagrams` list is a concrete metadata consumer. Each entry
 has `kind`, unique `id`, `caption`, and `description`, in fence order. The
-supported fences are bare `mermaid`, `ebnf`, and `sequent`. Mermaid covers both
-graphs and interaction sequences. Invalid notation fails the build with its
-source path, line, and column; no malformed figure silently replaces it.
+supported fences are bare `mermaid`, `ebnf`, `sequent`, and `split`. Mermaid
+covers both graphs and interaction sequences. Invalid notation fails the build
+with its source path, line, and column; no malformed figure silently replaces
+it.
 
-The asset adapter reuses the existing railroad and sequent parsers. Railroad
-geometry receives standalone dimensions and painting styles. Sequent HTML
-layout supplies measured text and inference bars. A pinned browser and fonts
-then derive vector glyph paths for all four figures. This avoids font
+Every generated figure takes its typefaces and palette from the normative
+[style contract](../../rendering/styles/diagram-style.json): TeX Gyre Pagella
+and IBM Plex Mono, the book's own faces, and palette roles mirroring the
+design tokens, with the split vocabulary's categorical hues recorded as
+contract data. A whitelist check fails the build on any generated paint
+outside the contract, so renderer defaults cannot ship silently. The
+formatting reference names the contract for authors.
+
+The asset adapter reuses the existing railroad and sequent parsers, and the
+pinned split-md renderer consumes the contract through render options.
+Railroad geometry receives standalone dimensions and painting styles. Sequent
+HTML layout supplies measured text and inference bars. A pinned browser and
+fonts then derive vector glyph paths for all figures. This avoids font
 substitution in standalone SVG images across outputs. SVG descriptions retain
 the canonical notation and explanation; captions and surrounding prose remain
 readable. Diagram glyphs are shapes and are not selectable text. Body programs
@@ -390,18 +402,24 @@ Self-contained assets have explicit viewports, no browser scripts or HTML
 foreign objects, and no external image or font resources. Short railroad
 figures use a bounded width so responsive scaling keeps their labels readable.
 
-Native Markdown images can also reference checked-in, outlined SVG files within
-their lesson directory. Preparation visits images inside notes and Divs as
-well as ordinary paragraphs, preserves captions and layout attributes, and
-copies unchanged bytes into distinct generated asset paths. Each chapter's
-source record retains its image paths and SHA-256 values. Missing, escaping,
-or nonportable SVG inputs fail preparation. This boundary does not add nested
-diagram-fence conversion or a placement schema for generated notation.
+Native Markdown images can also reference checked-in, outlined SVG files
+within their lesson directory. Preparation visits images inside notes and
+Divs as well as ordinary paragraphs, preserves captions and layout
+attributes, and copies unchanged bytes into distinct generated asset paths.
+Each chapter's source record retains its image paths and SHA-256 values.
+Missing, escaping, or nonportable SVG inputs fail preparation. Diagram fences
+themselves convert at any depth — body column, notes, margin Divs, and wide
+Divs — keeping each figure where its fence sits, and their YAML entries
+follow source order wherever the fences appear.
 
-The search-tree figures are original source diagrams with labels derived from
-the canonical program. Their descriptions retain the editable SVG source.
-The evaluated font-outline helpers generated their standalone glyph paths;
-regeneration of the book uses the checked-in figures directly.
+The split-shape figures in the currying and search-tree lessons render from
+`split` fences at their accepted positions, including the grouped margin note
+and the numbered footnote sketches. Their vocabulary and captions are
+unchanged; the figure sources are the fences. The annotated wide
+`tree-repair` composite remains a checked-in static SVG whose bespoke
+annotations sit outside the v1 notation. The [split-md conformance
+corpus](https://github.com/dikini/split-md) pins the eight figures' structure
+and geometry at the renderer's commit.
 
 The [notation renderer report](notation-renderer-bugs.md) retains three
 confirmed defects, separately classified integration gaps, executable controls,
@@ -518,6 +536,11 @@ four family introductions in indexed order. Artifact checks verify
 67 HTML pages, 65 source chapters, nine canonical assets, and 780 complete code
 and transcript blocks across HTML, EPUB, and the two PDFs. The book PDF has
 476 pages; the one-sided A4 PDF has 419.
+
+The figure migration of October 21 changed the currying and search-tree
+chapters, so this complete-book evidence no longer matches the current tree;
+the scoped lesson and specimen builds below carry the migrated figures, and
+rebuilding the complete book restores this paragraph's reuse condition.
 
 The book EPUB passes EPUBCheck without errors or warnings. Browser checks cover
 desktop and mobile HTML and enlarged EPUB text in Chromium and Firefox. These

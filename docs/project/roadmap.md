@@ -69,13 +69,14 @@ tree. New FFI lessons and publication remain outside this outcome.
 Lesson 3 now introduces type colors, then distinguishes types and values
 through split boxes. The accepted
 [visualization experiment](../../rendering/experiments/partial-application/README.md)
-retains three SVG figures in one grouped margin note, with uniform square and
-label sizes. Figure 3 folds into two rows to retain that scale. The lesson
+retains its three figures in one grouped margin note, rendered from `split`
+notation fences by the pinned split-md renderer at uniform square and label
+sizes. Figure 3 folds into two rows to retain that scale. The lesson
 names currying before the first program and uses `let add_20 = add 20` inside
 `main` to demonstrate partial application. The former input-type rejection
 section and its evidence were removed. The revised lesson passes its three
-canonical-source checks and scoped HTML, EPUB, and both PDF reviews.
-Drive retains the earlier single-figure review.
+canonical-source checks and scoped HTML, EPUB, and both PDF reviews with the
+generated figures.
 
 Scoped review builds select one indexed lesson, one family part, the complete
 book, or the default specimen, with independent output-format selection.
@@ -121,12 +122,15 @@ destructures three groups with explicit patterns before rebuilding the tree.
 A small public client demonstrates the three-key repair, and private probes
 check every repair and the fallback boundaries with distinct nonempty subtrees.
 
-Four optional sidenote sketches show before and after trees above and below.
-Each circle's upper half records Red or Black; its stable lower color tracks
-the association through the rewiring. Colored triangles track whole subtrees.
-The ordinary body column holds each complete repair equation and helper on one
-page in both PDFs. Selected longer signatures, the insertion definition, and
-the common labeled diagram use wider space at the unchanged type sizes.
+Four optional sidenote sketches show before and after trees above and below,
+rendered from `split` fences; the numbered red-root sketch and the annotated
+wide comparison keep their accepted placements. Each circle's upper half
+records Red or Black; its stable lower color tracks the association through
+the rewiring. Colored triangles track whole subtrees. The ordinary body column
+holds each complete repair equation and helper on one page in both PDFs.
+Selected longer signatures, the insertion definition, and the common labeled
+diagram use wider space at the unchanged type sizes; the annotated diagram
+remains a prepared static SVG.
 
 The prefix-check continuation is also verified. It develops observation data,
 operation types, scenario composition, and recursive checks through sixteen
@@ -144,6 +148,16 @@ and evaluates the existing railroad and sequent renderers separately from
 Mermaid sequence diagrams. The [rendering guide](rendering.md) records its
 selected sources, verification, current development handoffs, and replacement
 condition. This work does not publish the edition or change its Ash target.
+
+Generated figures now share one style contract. The currying and search-tree
+figures render from `split` fences through the pinned split-md renderer, and
+chapter preparation converts diagram fences inside notes, margin Divs, and
+wide regions, so each figure keeps its accepted position. The normative
+style contract fixes the book's typefaces and palette roles for every
+generated figure and fails the build on paint outside it; the split
+vocabulary's categorical hues are contract data. Eight migrated figures keep
+their established vocabulary, captions, and accessibility descriptions. This
+work selects no publication platform and leaves the Ash target unchanged.
 
 The book PDF retains mirrored margins and outer margin notes for double-sided
 printing. The one-sided A4 PDF keeps 25 mm of left binding space and a fixed

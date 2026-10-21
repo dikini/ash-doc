@@ -1,3 +1,19 @@
+---
+diagrams:
+  - kind: split
+    id: fig-add-types
+    caption: Curried function.
+    description: "The signature add : Int -> Int -> Int aligns with a red function box and three blue boxes for the integer positions."
+  - kind: split
+    id: fig-add-type-value
+    caption: Function application.
+    description: The same signature appears above split boxes. Upper halves show types, red for the function and blue for Int. Lower halves distinguish add, 20, 22, and result 42 by color, with labels beneath. Arrows in the lower row are schematic application guides, not conversions between integers.
+  - kind: split
+    id: fig-add-20-application
+    caption: Partial application.
+    description: Applying add to 20 produces the function add_20 of type Int -> Int. Its separate function square has a red type half and an orange value half labelled add 20. The input 22 and result 42 have blue type halves and violet and green value halves. The value row labels the function add_20.
+---
+
 # Using more than one input
 
 Our functions have received one value at a time. `double` received one number;
@@ -94,15 +110,27 @@ third follows the partial call from `add 20` through `add_20` to `42`.
 
 ::: {.block}
 
-<!-- markdownlint-disable MD013 -->
+```split
+sig: [add] : [Int] -> [Int] -> [Int]
+row: fn int int int
+arrows: 3->4
+```
 
-![Curried function](assets/fig-add-types.svg){#fig-add-types fig-alt="The signature add : Int -> Int -> Int aligns with a red function box and three blue boxes for the integer positions." width=100%}
+```split
+sig: [add] : [Int] -> [Int] -> [Int]
+row: fn/add int/20 int/22 int/42
+arrows: 3->4
+```
 
-![Function application](assets/fig-add-type-value.svg){#fig-add-type-value fig-alt="The same signature appears above split boxes. Upper halves show types: red for the function, blue for Int. Lower halves distinguish add, 20, 22, and result 42 by color, with labels beneath. Arrows in the lower row are schematic application guides, not conversions between integers." width=100%}
+```split
+sig: [add] [Int]
+row: fn/add int/20
 
-![Partial application](assets/fig-add-20-application.svg){#fig-add-20-application fig-alt="Applying add to 20 produces the function add_20 of type Int -> Int. Its separate function square has a red type half and an orange value half labelled add 20. The input 22 and result 42 have blue type halves and violet and green value halves. The value row labels the function add_20." width=100%}
-
-<!-- markdownlint-enable MD013 -->
+sig: [add_20] : [Int] -> [Int]
+row: fn/add_20 int/22 int/42
+arrows: 2->3
+hues: add_20=#e59b63/#91521e 22=#9673be/#71518f 42=#4e9d79/#286447
+```
 
 :::
 

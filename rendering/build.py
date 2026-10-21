@@ -301,6 +301,18 @@ def stage_images(document, source, output):
 DIAGRAM_KINDS = ("mermaid", "ebnf", "sequent", "split")
 
 
+def locate_fence(text, code, kind, offset):
+    """Find a fence's first code line, tolerating indentation stripped by parsing."""
+    first = code.split("\n", 1)[0]
+    at = offset
+    while True:
+        at = text.index(first, at)
+        line_start = text.rindex("\n", 0, at) + 1
+        if text[line_start:at].strip() == "" and text[:line_start].rstrip().endswith("```" + kind):
+            return at
+        at += len(first)
+
+
 def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=None,
                     details=None):
     text = (ROOT / source).read_text(encoding="utf-8")
@@ -326,8 +338,8 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
         if description["kind"] != kind:
             raise ValueError(f"{source}: diagram metadata order does not match {kind}")
         state["diagram"] = number + 1
-        at = text.index(code, state["offset"])
-        state["offset"] = at + len(code)
+        at = locate_fence(text, code, kind, state["offset"])
+        state["offset"] = at + 1
         line = text[:at].count("\n") + 1
         jobs.append({**description, "source": code, "path": source, "line": line})
         image_attributes = [description["id"], [], [["fig-alt", description["description"]], ["width", "100%"]]]

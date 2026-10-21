@@ -1,3 +1,27 @@
+---
+diagrams:
+  - kind: split
+    id: fig-red-root-sketch
+    caption: A red root with two black Empty forms.
+    description: A root circle with a red upper half and a yellow association half connects to two terminal Empty circles with black upper halves and white lower halves. Empty has no key/value association. Each path contains one black form; the red root contributes none.
+  - kind: split
+    id: fig-restore-left-left
+    caption: Rewire the same pieces - left-left.
+    description: "Before above: black violet above a red blue left child and a red yellow left grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
+  - kind: split
+    id: fig-restore-left-right
+    caption: Rewire the same pieces - left-right.
+    description: "Before above: black violet above a red yellow left child, whose right child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
+  - kind: split
+    id: fig-restore-right-left
+    caption: Rewire the same pieces - right-left.
+    description: "Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
+  - kind: split
+    id: fig-restore-right-right
+    caption: Rewire the same pieces - right-right.
+    description: "Before above: black yellow above a red blue right child and a red violet right grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
+---
+
 # Guaranteeing logarithmic retrieval
 
 The dictionary from the preceding case hides its constructors, but insertion
@@ -78,7 +102,14 @@ rule against adjacent red nodes limits how much longer a path can become.
 
 [^red-root-example]:
 
-    ![A red root with two black Empty forms.](assets/red-root-sketch.svg){#red-root-sketch fig-alt="A root circle with a red upper half and a yellow association half connects to two terminal Empty circles with black upper halves and white lower halves. Empty has no key/value association. Each path contains one black form; the red root contributes none." width=100%}
+    ```split
+    scale: 1.5
+    tree:
+      red/root
+        Empty
+        Empty
+    hues: root=#f1c84e/#946c00
+    ```
 
     Both paths contain one black form: their terminal `Empty`.
     A red root adds no black form. The yellow lower half identifies the root's
@@ -373,7 +404,26 @@ restore Black RArg(
 
 [^restore-left-left]:
 
-    ![Rewire the same pieces - left-left.](assets/restore-left-left.svg){#restore-left-left-sketch fig-alt="Before above: black violet above a red blue left child and a red yellow left grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ```split
+    tree:
+      black/(k1,v1)
+        red/(k2,v2)
+          red/(k3,v3)
+            a
+            b
+          c
+        d
+
+    tree:
+      red/(k2,v2)
+        black/(k3,v3)
+          a
+          b
+        black/(k1,v1)
+          c
+          d
+    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```
 
 <!-- markdownlint-enable MD013 -->
 
@@ -415,7 +465,26 @@ restore Black RArg(
 
 [^restore-left-right]:
 
-    ![Rewire the same pieces - left-right.](assets/restore-left-right.svg){#restore-left-right-sketch fig-alt="Before above: black violet above a red yellow left child, whose right child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ```split
+    tree:
+      black/(k1,v1)
+        red/(k3,v3)
+          a
+          red/(k2,v2)
+            b
+            c
+        d
+
+    tree:
+      red/(k2,v2)
+        black/(k3,v3)
+          a
+          b
+        black/(k1,v1)
+          c
+          d
+    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```
 
 <!-- markdownlint-enable MD013 -->
 
@@ -451,7 +520,26 @@ restore Black RArg(a, k1, v1) Node(
 
 [^restore-right-left]:
 
-    ![Rewire the same pieces - right-left.](assets/restore-right-left.svg){#restore-right-left-sketch fig-alt="Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ```split
+    tree:
+      black/(k3,v3)
+        a
+        red/(k1,v1)
+          red/(k2,v2)
+            b
+            c
+          d
+
+    tree:
+      red/(k2,v2)
+        black/(k3,v3)
+          a
+          b
+        black/(k1,v1)
+          c
+          d
+    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```
 
 <!-- markdownlint-enable MD013 -->
 
@@ -484,7 +572,26 @@ restore Black RArg(a, k1, v1) Node(
 
 [^restore-right-right]:
 
-    ![Rewire the same pieces - right-right.](assets/restore-right-right.svg){#restore-right-right-sketch fig-alt="Before above: black yellow above a red blue right child and a red violet right grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order." width=100%}
+    ```split
+    tree:
+      black/(k3,v3)
+        a
+        red/(k2,v2)
+          b
+          red/(k1,v1)
+            c
+            d
+
+    tree:
+      red/(k2,v2)
+        black/(k3,v3)
+          a
+          b
+        black/(k1,v1)
+          c
+          d
+    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```
 
 <!-- markdownlint-enable MD013 -->
 

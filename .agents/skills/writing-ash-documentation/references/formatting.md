@@ -171,8 +171,10 @@ Preparation copies used images from within the lesson directory, including
 images in notes and Divs, while preserving their attributes. These SVGs must
 have an explicit viewport and outlined labels, with no scripts, HTML elements,
 or external resources. Other source-image formats remain outside this checked
-preparation boundary. The [search-tree lesson][tree-lesson] supplies a graphical
-sidenote, an unnumbered counting cue, and a full-width repair comparison.
+preparation boundary. Generated diagram fences also convert inside notes and
+margin Divs, as described below; the [search-tree lesson][tree-lesson]
+supplies a graphical sidenote, an unnumbered counting cue, and a full-width
+repair comparison.
 
 The image must work in grayscale and when its note returns to EPUB reading
 order. In browser review, let fonts, images, and native margin positioning
@@ -309,11 +311,11 @@ Inspect narrow HTML and enlarged EPUB text as well: their available width
 shrinks, so a full-width print choice alone cannot make a dense image readable
 there. Explain the figure's relationships in prose and its description.
 
-The current adapter generates body-column figures from bare diagram fences.
-Keep those fences at the top level as described below. The wide-image layout
-has been checked with a prepared static SVG; choosing full width for generated
-fences still needs an explicit source-preparation option. Do not wrap a diagram
-fence in a wide Div and assume the current adapter will convert it.
+The adapter generates figures from bare diagram fences at the top level or
+inside a note or Div, keeping the figure where its fence sits. The wide-image
+layout has been checked with a prepared static SVG and with generated fences;
+review a wide figure in both PDFs and clear of nearby notes before accepting
+it.
 
 ## Keep a visual vocabulary
 
@@ -365,6 +367,22 @@ through `(k3, v3)` beside them. It connects the compact sketches to the code's
 names. A large repetition needs a teaching purpose, such as readable
 annotations or a useful comparison; size alone supplies none.
 
+## Figure style
+
+Generated diagrams take their typefaces and palette from the machine-readable
+contract at `rendering/styles/diagram-style.json`: TeX Gyre Pagella and IBM
+Plex Mono, the same faces as the book, and palette roles mirroring the design
+tokens. The build fails when a renderer emits a color outside the contract,
+so figure paint cannot drift from the rest of the page. The contract also
+records the ordered categorical hues that split-shape figures assign to
+identities. Changing the figure style is a single-file edit plus a specimen
+rebuild.
+
+Prepared static SVGs should follow the same palette roles and font families.
+A lesson-defined local vocabulary remains legitimate where the lesson defines
+its own visual idiom, as the split-shape figures do; record those values in
+the contract so the whitelist can recognize them.
+
 ## Diagrams and their descriptions
 
 Choose the notation that expresses the relationship:
@@ -377,15 +395,15 @@ Choose the notation that expresses the relationship:
   the specialised sequent-calculus renderer with its own simplified notation.
   It is separate from Mermaid sequences and does not accept general LaTeX.
 
-Use bare diagram fences at the top level of the chapter. The current adapter
-does not convert diagrams nested in a list, note, or Div, including a
-full-width Div. Introduce and interpret each figure in ordinary prose.
+Use bare diagram fences, at the top level or nested inside a note, margin
+Div, or wide Div; the adapter replaces them in source order wherever they
+appear. Introduce and interpret each figure in ordinary prose.
 
-Each fence needs one entry in the chapter's YAML `diagrams` list. Match entries
-to fences in source order. Give each entry `kind`, `id`, `caption`, and
-`description`. IDs must be unique across the rendered book, start with a
-lowercase letter, and contain only lowercase letters, digits, and hyphens.
-Use the `fig-` prefix for figures.
+Each fence needs one entry in the chapter's YAML `diagrams` list. Match
+entries to fences in source order, wherever the fences sit. Give each entry
+`kind`, `id`, `caption`, and `description`. IDs must be unique across the
+rendered book, start with a lowercase letter, and contain only lowercase
+letters, digits, and hyphens. Use the `fig-` prefix for figures.
 
 The following complete Markdown example uses the notation exercised by the
 [specimen](../../../../rendering/specimen/notation.md). Its letters and grammar
