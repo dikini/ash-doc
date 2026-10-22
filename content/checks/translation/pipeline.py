@@ -394,8 +394,12 @@ def glossary_renderings() -> dict[str, str]:
 
 def scan_never_translate(text: str, terms: list[str]) -> list[str]:
     prose = INLINE_CODE_RE.sub("", text)
+    prose = re.sub(r"\([^)\s]+\)", "", prose)
+    prose = BARE_URL_RE.sub("", prose)
     hits = []
     for term in terms:
+        if not term.isidentifier():
+            continue
         if re.search(r"(?<![\w])" + re.escape(term) + r"(?![\w])", prose):
             hits.append(term)
     return hits

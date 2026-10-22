@@ -178,6 +178,12 @@ class PlantedViolationTest(unittest.TestCase):
                     if v.startswith("glossary")]
             self.assertTrue(hits)
 
+    def test_glossary_scan_ignores_urls_and_paren_wrapped_spans(self) -> None:
+        text = ("Вижте [правилата](https://github.com/dikini/ash-lang/blob/x) "
+                "и примера (`01`) за анонимна функция.")
+        self.assertEqual(pipeline.scan_never_translate(
+            text, pipeline.glossary_never_translate()), [])
+
     @staticmethod
     def write_bg_corrupted_fence(fx: LessonFixture) -> None:
         text = fx.bg_text()
