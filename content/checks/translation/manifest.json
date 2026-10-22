@@ -1,0 +1,10 @@
+{
+  "created": "2026-10-22",
+  "engine": "codex-cli",
+  "engine_version": "0.163.0",
+  "model": "gpt-6-luna",
+  "sandbox": "read-only",
+  "prompt_template": "prompt-bg.txt",
+  "glossary": "glossary-bg.md",
+  "notes": "Engine and model recorded from `codex --version` and the owner's direction. Per-run prompt and glossary hashes are recorded in each lesson's checks/translation.json, so this manifest stays stable while the glossary grows."
+}
