@@ -19,8 +19,9 @@ example from the learning-path directory:
 cd /path/to/ash-doc/content/learn
 ```
 
-The first fifteen lessons use that shared directory for diagnostic commands.
-The two continuation chapters state their own lesson-local `src` directory.
+The first seventeen lessons use that shared directory for diagnostic commands.
+The two continuation chapters and the closing lesson state their own
+lesson-local `src` directory.
 The diagnostic commands use checked-in files even when the exploration asks
 you to edit your own `program.ash` or `main.ash`. Follow the shared
 [diagnostic reading notes](../../README.md#read-a-diagnostic) for the prompt,
@@ -92,15 +93,25 @@ with `ash` to test what it does.
     receive, construct, and return function values.
 15. [Definitions for many types](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
+16. [Module channels](module-channels/README.md) — choose which public
+    names cross a module boundary, and re-export them through a facade.
+17. [Opaque types](opaque-types/README.md) — keep a type nameable across a
+    boundary while hiding how its values are built.
 
 ### Continuation chapters
 
-16. [Generalizing local functions](generalizing-local-functions/README.md)
+18. [Generalizing local functions](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
-17. [Defining local recursion](defining-local-recursion/README.md)
+19. [Defining local recursion](defining-local-recursion/README.md)
     — use annotated recursive groups and distinguish guarded construction
     from forcing unfinished data.
+
+### Closing chapter
+
+20. [Where Ash goes next](where-ash-goes-next/README.md) — meet interfaces,
+    effects, and scoped resources in small programs, and follow them into
+    the paths that develop them.
 <!-- markdownlint-enable MD029 -->
 
 ## Continue learning

@@ -258,7 +258,9 @@ The examples have grown from one integer expression to a public, recursive
 list transformation without changing that central model: definitions describe
 expressions, and expressions calculate values.
 
-The next chapter asks which local function bindings can retain this reuse
-across different input types, and which bindings hold one chosen function
-value. Continue with
-[local generalization](../generalizing-local-functions/README.md).
+The next two lessons widen the module boundary this chapter used: they choose
+which public spellings cross it, re-export them through a facade, and keep a
+type nameable while hiding how its values are built. The continuation chapters
+then ask which local function bindings can retain this reuse across different
+input types, and which bindings hold one chosen function value. Continue with
+[module channels](../module-channels/README.md).

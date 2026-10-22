@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "resolve.opaque-constructor",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "name",
+      "kind": "identifier",
+      "value": "Score"
+    },
+    {
+      "name": "access",
+      "kind": "name-access",
+      "value": "opaque-constructor"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "inaccessible_name",
+      "path": "src/02-constructing.ash",
+      "byte_start": 53,
+      "byte_end": 58,
+      "facts": [
+        {
+          "name": "name",
+          "kind": "identifier",
+          "value": "Score"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "inaccessible_declaration",
+      "path": "src/score.ash",
+      "byte_start": 24,
+      "byte_end": 34,
+      "facts": []
+    }
+  ]
+}

@@ -15,7 +15,7 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 
 All indexed lessons are verified at this baseline:
 
-- [Learn Ash](../../content/learn/README.md): seventeen lessons, 78 sources.
+- [Learn Ash](../../content/learn/README.md): twenty lessons, 90 sources.
 - [Algorithms and effects](../../content/cases/README.md): twenty-eight Cases,
   141 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 81 demonstrated rejections through complete
-English human messages: twenty-four in Learn, twenty in Cases, sixteen in Libraries,
+The active edition now teaches all 83 demonstrated rejections through complete
+English human messages: twenty-six in Learn, twenty in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -54,17 +54,17 @@ original 43 sources, 17 accepted observations, and 16 complete captures.
 
 ## Extend Learn Ash outcome
 
-**State: in progress.** The
-[plan](../plans/2026-10-22-extend-learn-ash.md) extends the Learn path's main
-sequence from eleven lessons toward a beginner-to-intermediate arc, landing
-lesson by lesson at the declared baseline. The approved candidates: strings
-and bytes (surface, flagged volatile), patterns in depth, the edges of the
-language, ordering from data, module channels, opaque types (surface), and a
-closing orientation to interfaces and effects. Each lesson lands with
-canonical sources and checks; each authoring session also records language
-pressure in the [language-pressure register](language-pressure.md), which
+**State: complete and locally verified.** The Learn path's main sequence grew
+from eleven lessons to seventeen, with two continuation chapters and a closing
+lesson; all twenty landed at the declared baseline. The seven candidates —
+Working with text (volatile, flagged), Patterns in depth, The edges of the
+language, Ordering from data, Module channels, Opaque types, and the closing
+Where Ash goes next — each carry canonical sources, lesson-local checks, and
+captured diagnostics where they teach a rejection. Each authoring session
+recorded language pressure in the
+[language-pressure register](language-pressure.md), which
 `content/checks/language-pressure-sync.sh` keeps in agreement with volatile
-lesson flags.
+lesson flags. The temporary plan left the working tree at completion.
 
 ## Multilingual workflow decision
 
@@ -118,7 +118,7 @@ and requested formats. The [workflow](workflow.md#bound-the-task) also bounds
 editing, reading, review, executable checks, and reporting by the task's action
 and scope. Unchanged inputs retain applicable exact-pin evidence.
 
-The retained local review book assembles all 65 lessons in Learn → Libraries →
+The retained local review book assembles all 68 lessons in Learn → Libraries →
 Effects → Cases order, with four family introductions and shared reader setup.
 Artifact checks verify coverage, chapter order, source hashes, links, code text,
 and both print geometries. Desktop and mobile HTML, enlarged EPUB text, and
