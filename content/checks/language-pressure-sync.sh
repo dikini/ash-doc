@@ -29,7 +29,8 @@ while IFS= read -r lesson; do
     fi
 done < <(grep -rln '^volatile:' "$content_root/learn" \
     "$content_root/cases" "$content_root/libraries" \
-    "$content_root/effects" 2>/dev/null | sed "s|^$content_root/||")
+    "$content_root/effects" 2>/dev/null | grep '/README\.md$' |
+    sed "s|^$content_root/||")
 
 while IFS= read -r path; do
     if [[ ! -d "$repo_root/$path" ]]; then
