@@ -39,7 +39,7 @@ Verification needs Bash, Cargo with the pinned toolchain, ordinary Unix text
 tools, and Python 3
 for JSON comparison. No third-party Python packages are required.
 
-The four aggregates cover sixteen Learn lessons / 73 sources, twenty-eight
+The four aggregates cover seventeen Learn lessons / 78 sources, twenty-eight
 Cases / 141 sources, eight library lessons / 43 sources, and twelve effects
 lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
@@ -102,7 +102,7 @@ The real observer refusal controls additionally use `ASH_DOC_TEST_OBSERVER`,
 `ASH_DOC_TEST_LIBRARIES`, `ASH_DOC_TEST_CACHE`, and `ASH_DOC_TEST_SCRATCH` to
 select a prepared observer, the exact library directory, its build cache, and
 scratch directory. Without those inputs the four real controls are skipped;
-the sixteen canonical positive observations remain mandatory in their lessons.
+the seventeen canonical positive observations remain mandatory in their lessons.
 The controls cover wrong type/value, unexpected stderr, child failure, failed
 build, fresh-output refusal, source rejection, and unsupported target.
 
@@ -165,7 +165,7 @@ separate from the lesson's source observations.
 On October 19, 2026, the Cases aggregate passed at
 `354c76b391fe4af665cf6a03479a9874a57cb3e3`: twenty-eight Cases, 141 canonical
 sources, and twenty complete English human captures. The active inventory has
-64 lessons, 328 canonical sources, and 80 complete captures. Canonical counts
+65 lessons, 333 canonical sources, and 81 complete captures. Canonical counts
 cover the canonical files in lesson `src/` directories. After presentation
 repairs, the four affected Case verifiers also passed: cleanup reporting
 (nine sources), cancellable journals (eight), controlled edits (eleven), and
@@ -173,7 +173,7 @@ tagged frames (eight). Their complete value, type, stream, status, diagnostic,
 and source/display checks retain the promised outcomes.
 
 The Learn extension lessons re-verified at the pin on October 22, 2026:
-sixteen lessons, 73 sources, and twenty-three captures. Libraries and Effects
+seventeen lessons, 78 sources, and twenty-four captures. Libraries and Effects
 retain their
 exact-pin evidence from October 17, 2026: Libraries 8/43 and sixteen captures,
 and Effects 12/71 and 21 captures. Those aggregates were not rerun for the
@@ -191,7 +191,7 @@ native allocation guarantee.
 
 The [rendering guide](rendering.md#verify-the-affected-scope) gives separate
 checks for local HTML, EPUB 3, a double-sided book PDF, and a one-sided A4 PDF.
-The complete review book includes sixteen Learn, eight Libraries, twelve Effects,
+The complete review book includes seventeen Learn, eight Libraries, twelve Effects,
 and twenty-eight Cases lessons, in that order, plus four family introductions.
 Their recorded artifact, EPUB, browser, and both PDF reviews predate the Learn
 extension and refresh at the next whole-book build; the

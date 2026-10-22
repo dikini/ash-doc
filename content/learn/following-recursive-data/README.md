@@ -168,6 +168,6 @@ recursing into the data's own fields, is called *structural recursion*.
 
 So far, every function has been called by name where it is used. Functions are
 also values — they can be received, returned, and made for a particular
-calculation. The next lesson first maps what this language declines and the
-idioms that cover each absence; the lesson after develops functions as values
-directly.
+calculation. The next two lessons map what this language declines and then
+build its missing arithmetic from data; the lesson after those develops
+functions as values directly.

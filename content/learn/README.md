@@ -19,7 +19,7 @@ example from the learning-path directory:
 cd /path/to/ash-doc/content/learn
 ```
 
-The first fourteen lessons use that shared directory for diagnostic commands.
+The first fifteen lessons use that shared directory for diagnostic commands.
 The two continuation chapters state their own lesson-local `src` directory.
 The diagnostic commands use checked-in files even when the exploration asks
 you to edit your own `program.ash` or `main.ash`. Follow the shared
@@ -86,17 +86,19 @@ with `ash` to test what it does.
     — follow a self-reference with a recursive function and a stopping form.
 12. [The edges of the language](edges-of-the-language/README.md) — meet the
     forms Ash declines and the idioms that cover each absence.
-13. [Functions as values](functions-as-values/README.md) —
+13. [Ordering from data](ordering-from-data/README.md) — build the natural
+    numbers and comparison from a data definition.
+14. [Functions as values](functions-as-values/README.md) —
     receive, construct, and return function values.
-14. [Definitions for many types](definitions-for-many-types/README.md)
+15. [Definitions for many types](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
 
 ### Continuation chapters
 
-15. [Generalizing local functions](generalizing-local-functions/README.md)
+16. [Generalizing local functions](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
-16. [Defining local recursion](defining-local-recursion/README.md)
+17. [Defining local recursion](defining-local-recursion/README.md)
     — use annotated recursive groups and distinguish guarded construction
     from forcing unfinished data.
 <!-- markdownlint-enable MD029 -->

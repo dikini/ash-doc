@@ -12,7 +12,7 @@ All four families are verified at the current FFI Base target declared by the
 [repository](../README.md#current-edition-ffi-base). Code, prose, and
 checks share that exact baseline:
 
-- [`learn/`](learn/README.md) for sixteen verified lessons covering the beginning
+- [`learn/`](learn/README.md) for seventeen verified lessons covering the beginning
   path, local generalization, and local recursion;
 - [`cases/`](cases/README.md) for twenty-eight verified algorithm and effect Cases
   in numeric order;

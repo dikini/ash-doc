@@ -45,7 +45,7 @@ Recording and synchronisation rules:
   the language's edges both need this; application cases repeatedly define
   comparators where one operator would do.
 - Affected lessons: `content/learn/edges-of-the-language/` records the
-  boundary; the future counting and comparison lessons build the idiom.
+  boundary; `content/learn/ordering-from-data/` builds the idiom.
 
 ## P-02: Integer literal patterns
 

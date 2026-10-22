@@ -2,7 +2,7 @@
 
 The [Learn Ash path](../learn/README.md) builds the language model needed here:
 modules, functions, patterns, recursive data, higher-order functions, and
-parameterized definitions. Complete its first fourteen lessons before beginning these
+parameterized definitions. Complete its first fifteen lessons before beginning these
 cases. The cases are written for intermediate and advanced readers: the
 algorithm cases assume comfort with recursive data and higher-order
 functions, and the later cases assume the effects path. Keep the same `ash`

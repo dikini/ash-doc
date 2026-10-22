@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "coverage.non-exhaustive",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "uncovered_value",
+      "kind": "code",
+      "value": "Zero Zero"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "coverage",
+      "path": "src/05-missing-equal.ash",
+      "byte_start": 97,
+      "byte_end": 295,
+      "facts": [
+        {
+          "name": "uncovered_value",
+          "kind": "code",
+          "value": "Zero Zero"
+        }
+      ]
+    }
+  ]
+}

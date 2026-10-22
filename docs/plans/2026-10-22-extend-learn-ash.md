@@ -39,7 +39,8 @@ Lessons are numbered by their proposed slot in the main sequence; the
 existing lessons 1–11 keep their order, and the continuation chapters stay
 last. Slot numbers shift as lessons land. Landed so far: candidate 1 as
 lesson 7, Working with text (`cc1b041`); candidate 2 as lesson 10, Patterns
-in depth (`2791a53`); candidate 3 as lesson 12, The edges of the language.
+in depth (`2791a53`); candidate 3 as lesson 12, The edges of the language
+(`141b326`); candidate 4 as lesson 13, Ordering from data.
 
 1. **Strings and bytes (surface)** — proposed slot 7, after the tuple lesson.
    `String` literals and escapes, display of string values, one or two
