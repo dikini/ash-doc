@@ -128,8 +128,8 @@ reverse_through_append [1, 2, 3, 4]
 => [4, 3, 2, 1]
 ```
 
-Predict the same `[4, 3, 2, 1]` target for the accumulator field. Its different
-mechanism becomes the next part of the chapter.
+Predict the same `[4, 3, 2, 1]` target for the accumulator field. Counting
+the source work separates the two mechanisms.
 
 Run it from `content/cases`:
 
@@ -222,10 +222,12 @@ description is a measurement or promise of elapsed time.
 
 ## Carrying the reversed prefix
 
-`fold_left` gives retained knowledge a separate type. In its signature,
-`List<A>` supplies elements of type `A`, while `B` is the type of the
-accumulated result. The `combine` function accepts the current `B`, then the
-current `A`, and returns the next `B`:
+`fold_left` is the *left fold* matching the preceding case's right fold: it
+carries its result into the next recursive call instead of combining after the
+recursive result returns. The extra parameter carrying that result is called
+an *accumulator*. In the signature, `List<A>` supplies elements of type `A`,
+while `B` is the type of the accumulated result. The `combine` function
+accepts the current `B`, then the current `A`, and returns the next `B`:
 
 ```text
 (B -> A -> B) -> B -> List<A> -> B

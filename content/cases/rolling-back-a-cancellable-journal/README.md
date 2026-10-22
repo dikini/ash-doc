@@ -161,7 +161,9 @@ measurement owners surround them all.
 
 The action first tests the flag, restores the snapshot for `0`, then records
 the close and the resulting balance. A normal commit sets the flag to `1`
-before returning. Keeping these steps separate makes their order visible.
+before returning. Keeping these steps separate makes their order visible. A
+closing action that undoes a scope's staged effect when the scope did not
+commit is *compensation*; restoring one saved snapshot is *rollback*.
 
 <!-- source: src/02-compensated-cancellation.ash -->
 <!-- markdownlint-disable MD013 -->

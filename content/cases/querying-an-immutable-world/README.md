@@ -12,7 +12,10 @@ same key, however. A component store must enumerate each entity once, or one
 movement step could visit the same entity more than once. We will replace an
 existing binding at its enumeration position and append an absent binding.
 Then we can separate two questions: which component store does a system need,
-and which entities occur in both stores?
+and which entities occur in both stores? This arrangement — entities, one
+store per component type, and systems that query those stores — is called an
+*entity-component system*; this world is its finite form, with two fixed
+stores rather than an open registry.
 
 Use three entities with positions in this order:
 

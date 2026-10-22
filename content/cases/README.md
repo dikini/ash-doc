@@ -3,7 +3,10 @@
 The [Learn Ash path](../learn/README.md) builds the language model needed here:
 modules, functions, patterns, recursive data, higher-order functions, and
 parameterized definitions. Complete its first eleven lessons before beginning these
-cases. Keep the same `ash` executable available through the
+cases. The cases are written for intermediate and advanced readers: the
+algorithm cases assume comfort with recursive data and higher-order
+functions, and the later cases assume the effects path. Keep the same `ash`
+executable available through the
 [shared setup](../../README.md#prepare-ash).
 
 The Cases path asks what changes when a program must do more than produce the

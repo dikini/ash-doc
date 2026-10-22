@@ -89,8 +89,7 @@ The nonempty nodes are admitted in order `10`, `20`, `30`. A zero budget
 stops before testing the first value; a budget of two admits the first two
 nodes but stops before the target. Three permits the target comparison. With
 the same budget, the absent query finishes the frontier and returns `Missing`.
-The
-count includes each admitted node even when it contains the answer.
+The count includes each admitted node even when it contains the answer.
 
 Change the budget or child order and predict whether the target is reached
 before exhaustion. This policy limits expansions before they happen; the next

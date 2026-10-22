@@ -123,8 +123,9 @@ form one coherent total order:
 For that comparator, `Empty` is valid. A finite
 `Node(left, key, value, right)` is valid when both branches are valid, every key
 anywhere in `left` compares with `key` as `Less`, and every key anywhere in
-`right` compares with `key` as `Greater`. The word *anywhere* matters. Checking
-only the two immediate child keys would not constrain a misplaced grandchild.
+`right` compares with `key` as `Greater`. A tree valid under this condition is
+called a *binary search tree*. The word *anywhere* matters. Checking only the
+two immediate child keys would not constrain a misplaced grandchild.
 
 Now derive `lookup` from the invariant. `Empty` contains no key, so it returns
 `None`. At a node, Ash completes the curried application `compare query key`
@@ -180,7 +181,7 @@ main () = {
 }
 ```
 
-Predict both paths before running. Query `three` is `Greater` than root key
+Work out both paths before running. Query `three` is `Greater` than root key
 `two`, then `Equal` to the right child key. Query `Zero` is `Less` than `two`,
 then `Less` than `one`, after which lookup reaches the left `Empty`. Each path
 therefore visits two `Node` forms.
@@ -339,10 +340,10 @@ main () = {
 ```
 <!-- markdownlint-enable MD013 -->
 
-Predict the result before running. Inserting `one`, then `two`, then `three`
-sends each later key to the right. The final tree is a three-node right chain.
-Its unary height is `Next(Next(Next(Zero)))`, and lookup for `three` visits all
-three nodes before finding `30`.
+Decide the complete result before running. Inserting `one`, then `two`, then
+`three` sends each later key to the right. The final tree is a three-node right
+chain. Its unary height is `Next(Next(Next(Zero)))`, and lookup for `three`
+visits all three nodes before finding `30`.
 
 Run the ascending entry:
 

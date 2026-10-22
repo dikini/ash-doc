@@ -206,7 +206,7 @@ repeat_without_progress value state = Emit(value, state)
 ```
 
 This sketch is intentionally non-executable and is not run. Generic `unfold`
-would keep asking the same question, so eager evaluation would not produce a
+would keep asking the same question, so strict evaluation would not produce a
 completed result. Ash accepting a transition type is not a proof that the
 transition reaches `Stop`.
 
@@ -240,7 +240,7 @@ main () = {
 }
 ```
 
-Run it:
+Run the complete entry:
 
 ```text
 ash building-finite-lists/src/03-map-produced-list.ash
@@ -268,8 +268,8 @@ construction order used in this account.
 
 These are counts of constructor expressions completed by these definitions.
 They do not determine exact heap bytes, elapsed time, host stack use, or a
-compiler optimization. The example uses ordinary eager lists; it introduces no
-lazy data, infinite data, or generic fold/build fusion interface.
+compiler optimization. The example relies on strict evaluation throughout; it
+introduces no lazy data, infinite data, or generic fold/build fusion interface.
 
 ## One state type throughout the unfold
 
@@ -343,4 +343,5 @@ depends only on how its state reaches `Stop`?
 
 `unfold` carries only the current state forward. Some recursive algorithms
 need to retain a result derived from earlier elements instead. The next case
-asks when an accumulator should carry that knowledge and what work it avoids.
+asks when that knowledge belongs inside the recursive call and what work it
+avoids.

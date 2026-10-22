@@ -10,8 +10,9 @@ pending work becomes current next.
 We will keep every other search decision fixed. One transition records the
 same visited vertices, retained paths, and counts. Ordinary function arguments
 supply either list-stack operations or paired-list queue operations. Comparing
-the two results will isolate what last-in, first-out and first-in, first-out
-removal change.
+the two results will isolate what the two removal orders change: last-in,
+first-out removal gives *depth-first search*, and first-in, first-out removal
+gives *breadth-first search*.
 
 ## Follow one ordered graph
 

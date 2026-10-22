@@ -8,8 +8,10 @@ the two checked writes establish the remaining links. Valid parent links and
 an acyclic path to a self-parent are assumptions of this fixed input.
 
 `find_root` requests parent access through `Parents`. With compression enabled,
-it writes the discovered root into every non-root entry on the return path.
-The handler interprets those requests as checked scoped-buffer operations.
+it writes the discovered root into every non-root entry on the return path;
+this rewrite toward the root is called *path compression*, and later lookups
+from those entries start nearer the root. The handler interprets those
+requests as checked scoped-buffer operations.
 `Root` records the root, reads, and writes for one lookup. Two lookups without
 compression should each read four entries and write none. With compression,
 the first should read four and write three; the second should read two and

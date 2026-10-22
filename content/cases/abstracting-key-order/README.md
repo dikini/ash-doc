@@ -267,7 +267,7 @@ The malformed tree places `two` in the left branch of `one`. Lookup compares
 `two` as `Greater` than the root and enters the empty right branch, so predict
 `None` even though the key occurs structurally.
 
-Run the entry:
+Run the complete entry:
 
 ```text
 ash abstracting-key-order/src/02-replace-and-malformed.ash
@@ -324,10 +324,10 @@ ash abstracting-key-order/src/03-ascending.ash
 ```
 <!-- markdownlint-enable MD013 -->
 
-The tree, height, value, and visit count are again unchanged. For this input,
-`n = 3` and `h = 3`. In general, ascending insertion can produce a right chain
-with `h = n`. An interface requirement supplies comparison evidence; it adds
-no balancing rule or logarithmic-height guarantee.
+The tree, height, value, and visit count are again unchanged: ascending
+insertion can still produce a right chain with `h = n`. An interface
+requirement supplies comparison evidence; it adds no balancing rule or
+logarithmic-height guarantee.
 
 `height` does not require `Order<K>` because it never compares keys. At each
 node it evaluates both recursive heights and then invokes the private

@@ -374,10 +374,9 @@ new front value shadows it in the newer dictionary. One call to `insert`
 completes one `Entry` application and one `More` application; it performs no
 equality application and reconstructs no older entry. The two
 `(Option<Int>, Int)` fields make each version's selected value and comparison
-count observable. The two earlier entries are reachable from
-`older_dictionary`. From
-`newer_dictionary`, the new front entry is followed by those two entries
-reachable through `older_dictionary`.
+count observable. The two earlier entries remain reachable from
+`older_dictionary` and, behind the new front entry, from
+`newer_dictionary`.
 
 This is a source-level construction and reachability account. It does not
 establish object or pointer identity, exact heap bytes, garbage-collection or

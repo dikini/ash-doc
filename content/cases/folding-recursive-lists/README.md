@@ -89,8 +89,8 @@ The equations mirror the datatype:
 - `More(first, rest)` first folds `rest`, then combines that result with
   `first`.
 
-This definition is commonly called a *right fold* because the result for the
-rest becomes the combiner's second input. `fold` is not special Ash syntax or a
+This definition is a *right fold*: the result for the rest becomes the
+combiner's second input. `fold` is not special Ash syntax or a
 built-in operation. It is an ordinary higher-order function checked by the
 [function-application
 rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application)
@@ -246,7 +246,7 @@ ash folding-recursive-lists/src/03-eager-fold.ash
 (Some(42), 3) : (Option<Int>, Int)
 ```
 
-The result follows from Ash's strict binding and application order. The
+The result follows from *strict evaluation*. The
 `folded_rest` binding evaluates its initializer before the block continues, so
 the recursive fold becomes a value before `combine first folded_rest` is
 evaluated. The [dynamic binding
@@ -325,7 +325,9 @@ Then define `keep_all : List<A> -> List<A>` through `fold`. Its result should
 have the same elements and order as its input. Explain why it constructs one
 output `More` per input element even though none of the element values change.
 
-This fold consumes a finite recursive list by replacing each form with a
-result. The next case turns the direction around: how can a changing finite
-state *produce* a recursive list, and what termination argument makes that
-production safe to run eagerly?
+One traversal definition now serves a counting pair, two rebuilding
+functions, and a selective one: the list decides where recursion goes, and
+each algorithm supplies what the two forms become. The next case turns the
+direction around: how can a changing finite state *produce* a recursive
+list, and what termination argument makes that production safe to run
+eagerly?

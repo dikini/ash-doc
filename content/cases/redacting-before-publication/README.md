@@ -25,9 +25,10 @@ redact(InternalEvent(id, code, secret)) = InternalEvent(id, code, 0)
 ```
 
 These operations answer different questions. Redaction preserves the internal
-shape so it can participate in an internal hook. Projection changes the shape
-so the secret field has no position in the public result. Both operations must
-preserve the identifier and code. We also assume those two input fields are
+shape so it can participate in an internal hook. Projection — choosing a
+subset of fields to form the new value — changes the shape so the secret
+field has no position in the public result. Both operations must preserve the
+identifier and code. We also assume those two input fields are
 suitable for publication; a type with two integers cannot establish that policy.
 
 Work backward from the consumer. Give `collect_public` input type

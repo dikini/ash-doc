@@ -94,9 +94,10 @@ $ ash main.ash
 ```
 <!-- markdownlint-enable MD013 -->
 
-The two runs use the same transition rules and loop. Only the supplied script
-changes. Each run starts its own cursor at zero, and both scripts eventually
-supply `Close`.
+The two runs use the same transition rules and loop; only the supplied script
+changes. Supplying a calculation's inputs from its enclosing handler this way
+is *dependency injection*, as in the pricing Case. Each run starts its own
+cursor at zero, and both scripts eventually supply `Close`.
 
 In the `reply` clause, `resume ()` runs the remaining session and returns its
 `Replies`. Prepending the current reply to that result retains chronological

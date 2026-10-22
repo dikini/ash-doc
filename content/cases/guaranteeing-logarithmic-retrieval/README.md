@@ -38,8 +38,12 @@ The change belongs in how insertion constructs the tree.
 
 A hidden color on each nonempty node will tell insertion when a local path
 needs repair. We will develop that data, state the operations it needs, then
-calculate their bodies using the three-association example. Insertion remains
-persistent: it returns a new dictionary, leaving the earlier value available.
+calculate their bodies using the three-association example. Insertion is
+*persistent*: it returns a new dictionary, leaving the earlier value available.
+A data structure is called *persistent* when every update returns a new
+version while earlier versions remain usable. The structure this case
+develops — a sorted tree whose nonempty nodes hide a color, kept short by
+local rearrangements after insertion — is the literature's *red-black tree*.
 
 {{< pagebreak >}}
 
@@ -200,8 +204,9 @@ restore : Color -> RArg<K, V> -> Dictionary<K, V> -> Dictionary<K, V>
 
 :::
 
-That repair rearranges three associations with four intervening subtrees.
-Three `RArg` values carry the first three subtrees and their following
+That repair rearranges three associations with four intervening subtrees;
+the rearrangement itself is the literature's *rotation*. Three `RArg` values
+carry the first three subtrees and their following
 associations; one final `D` supplies the rightmost subtree. All four inputs
 produce one `D`. The different orientations will supply these same groups to
 one construction:

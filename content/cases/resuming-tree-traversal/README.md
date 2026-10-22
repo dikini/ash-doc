@@ -28,7 +28,7 @@ What information must it contain?
 
 ## Represent the unfinished traversal
 
-Recall the order at a node:
+Recall the visitation order at a node, called *in-order traversal*:
 
 ```text
 visit left subtree; produce current association; visit right subtree
@@ -796,9 +796,11 @@ operations over the `n` produced pairs:
 ```
 
 The quotient gives two frame operations per pair across the complete linear
-chain. This is amortized constant frame work. One individual `next` can still
-pop one frame and push `d_i` frames, so its worst-case work remains `O(h)`.
-The complete sequence uses frame work within `O(n + h)`.
+chain. Dividing a sequence's total work across its steps this way is called
+*amortized analysis*; here it yields amortized constant frame work. One
+individual `next` can still pop one frame and push `d_i` frames, so its
+worst-case work remains `O(h)`. The complete sequence uses frame work within
+`O(n + h)`.
 
 The amortized account does not extend across arbitrary branching histories.
 Calling `next` again on an older state can repeat its saved right-subtree

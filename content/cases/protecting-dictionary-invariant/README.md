@@ -242,9 +242,9 @@ ash protecting-dictionary-invariant/src/01-public-api.ash
 ```
 <!-- markdownlint-enable MD013 -->
 
-The result confirms what this complete program does. Clients obtained a named
+Clients obtained a named
 `Dictionary<Natural, Int>` and composed its public operations without naming
-either dictionary constructor.
+either dictionary constructor, and the result matches the prediction.
 
 The result alone does not prove preservation. Fix one `Order<K>` implementation
 whose required comparisons return and satisfy these premises:
@@ -256,7 +256,8 @@ whose required comparisons return and satisfy these premises:
 
 A finite dictionary is valid when both subtrees are valid, every key in the
 left subtree compares `Less` than the current key, and every key in the right
-subtree compares `Greater`.
+subtree compares `Greater`. A condition of this kind, which every value of the
+representation must satisfy, is called a *representation invariant*.
 
 Under those premises, `empty` is valid. For a finite valid input whose
 entered-path comparisons return, completed `insert` preserves validity. Its
@@ -316,7 +317,7 @@ insert two 99
 The final insertion compares equal at `two`. It replaces `20` with `99`, so
 the later list entry wins.
 
-Run the entry:
+Run the build entry:
 
 ```text
 ash protecting-dictionary-invariant/src/02-build.ash
@@ -488,7 +489,7 @@ rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a
 and [coverage
 rules](https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#patterns-matches-and-coverage).
 
-Run the entry:
+Run the pattern entry:
 
 <!-- diagnostic: src/05-match.ash -->
 <!-- markdownlint-disable MD013 -->

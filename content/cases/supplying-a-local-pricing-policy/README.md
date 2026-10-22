@@ -132,8 +132,9 @@ The printed `4900` is the representation of the `Money` inside `Priced`;
 [the tool renders a newtype through its representation][output]. The source
 result remains `Quote`, whose `Priced` field is `Money`.
 
-Passing the function solves this calculation's dependency. The next question
-is where a generic operation obtains behavior for a particular policy type.
+Passing the function supplies this calculation's dependency directly. The
+next question is where a generic operation obtains behavior for a particular
+policy type.
 
 ## Select an imported policy
 

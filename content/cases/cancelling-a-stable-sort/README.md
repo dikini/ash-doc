@@ -56,7 +56,8 @@ the recursive result has three properties:
 Insertion must preserve those properties while adding the head. If the current
 tail record has lower priority, retain it and insert into the remaining tail.
 If it has equal or greater priority, put the incoming record before it.
-At an empty tail, construct a singleton.
+At an empty tail, construct a singleton. Sorting the tail first and inserting
+the head into that sorted result is the *insertion sort* algorithm.
 
 The equal case follows from the recursion direction. The incoming head
 occurred before every record in its original tail, including equal-priority
