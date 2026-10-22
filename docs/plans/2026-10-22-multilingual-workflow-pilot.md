@@ -69,13 +69,25 @@ repository architecture.
 5. **Convergence contract.** One arbiter (the meaning core: spec-governed
    claims plus transplanted evidence), one writer per artifact, star-shaped
    sync — insights travel Lang → En → all Langs only, never peer-to-peer.
-   Quiescence (empty feedback queues, matching drift hashes) is the
-   machine-checkable fixed point. Non-contradiction is human-certified
-   incrementally, only on sections whose English changed since the last
-   certification. Overrides are hash-keyed: when the English text under the
-   key changes, the override demands re-review — silent re-application and
+   The model is non-deterministic: no byte-reproducible regeneration is
+   promised or needed. Instead, each convergence pass retranslates the
+   current English into a fresh candidate, aligns it with the stored
+   translation, and flags spans where the two disagree — including spans
+   where a human edit conflicts with the model's current reading. That
+   disagreement surface is the divergence report: rule-adjudicable classes
+   (a glossary violation or transplant drift in the fresh text) resolve
+   mechanically; every other flagged span goes to the human with the
+   English, the stored text, and the fresh text side by side. The
+   adjudication keeps the override, adopts the fresh reading, rewrites,
+   or escalates to English as feedback. Quiescence — the machine-checkable
+   fixed point — means no unadjudicated flagged spans and empty feedback
+   queues. Non-contradiction is human-certified on exactly the flagged
+   surface. Overrides are hash-keyed: when the English text under the key
+   changes, the override demands re-review — silent re-application and
    silent dropping are both prohibited. Language-specific exceptions cover
    expression only; an exception that touches the claim is a proposal.
+   Recorded artifacts, provenance, and adjudications make every decision
+   auditable; auditability replaces reproducibility.
 6. **Tiered honesty.** Reviewed lessons are certified against the meaning
    core; mt-draft lessons are certified for structure only — skeleton,
    transplants, glossary. Draft status appears in book chrome, never inside
@@ -130,12 +142,16 @@ content/checks/translation/
                             prompt template and glossary hashes, output-hash
                             records
   pipeline.py               segmentation, MT call, assembly, provenance
-                            writing (Python standard library)
+                            writing, and the convergence-pass comparison
+                            (Python standard library)
   sync.sh                   drift, quiescence, skeleton, glossary, and
                             transplant checks for all translated lessons
 content/learn/<lesson>/
   README.bg.md              the translated chapter
-  checks/translation.json   tier, claimed English hash, provenance
+  checks/translation.json   tier, claimed English hash, provenance,
+                            adjudications
+  checks/divergence.json    flagged spans with English, stored, and fresh
+                            text; written by each convergence pass
   translation/overrides.json   present only after promotion; hash-keyed
                             human corrections
 ```
@@ -152,13 +168,14 @@ Strict, machine-run for every translated lesson:
 - skeleton identity: headings, anchors, and block order match English;
 - transplanted blocks byte-identical to the English source;
 - zero glossary violations;
-- drift hash matches the current English file, or the lesson is quiescently
-  flagged with a named changed surface;
+- the drift marker names the English state the translation claims, and the
+  divergence report is empty or fully adjudicated;
 - feedback queues empty (quiescence).
 
-Semantic, human, incremental: certification renews only for sections whose
-English changed since the last certification; the tier and the certified
-surface are recorded in `checks/translation.json`.
+Semantic, human, incremental: a convergence pass flags the spans where the
+stored and fresh readings disagree; certification renews only on flagged
+spans, and the tier, the certified surface, and the adjudications are
+recorded in `checks/translation.json`.
 
 Rendering: the Bulgarian scoped builds for the three lessons pass the existing
 artifact and browser checks in HTML and A4 PDF, the draft notice is visible in
@@ -170,14 +187,15 @@ run against the Bulgarian text.
 The pilot is complete only when all hold:
 
 1. Lessons 1–3 translate to at least `mt-draft` with all strict checks green.
-2. A deliberate English prose edit to lesson 2 retranslates and the drift
-   report names exactly the changed section.
+2. A deliberate English prose edit to lesson 2 triggers a convergence
+   pass whose divergence report names exactly the changed section.
 3. A human correction on lesson 1 promotes the lesson; regeneration does not
    clobber the correction; the override is hash-keyed and persists.
 4. The glossary check fires at least once as a negative control.
 5. The scoped Bulgarian book builds in HTML and A4 PDF with the draft notice
    visible and passing artifact and browser checks.
-6. Quiescence holds after exercises 2–4: queues empty, hashes matched.
+6. Quiescence holds after exercises 2–4: queues empty, every flagged span
+   adjudicated.
 7. The review owner signs the tiered-honesty wording and sets the human
    review effort budget for any continuation.
 
@@ -193,8 +211,9 @@ The pilot is complete only when all hold:
 5. Rendering micro-design: confirm TeX Gyre Pagella Cyrillic coverage and
    select an approved face if absent; `--lang` selection; chrome notice;
    scoped HTML and A4 PDF builds; artifact and browser checks.
-6. Loop exercises: the lesson 2 retranslation cycle (condition 2) and the
-   lesson 1 promotion event (condition 3); quiescence checked after each.
+6. Loop exercises: the lesson 2 convergence pass after an English edit
+   (condition 2) and the lesson 1 promotion event (condition 3); quiescence
+   checked after each.
 7. Pilot review: record observations against this plan; decide continue
    (extend across the Learn part), revise (segment store or different model,
    by manifest revision with recorded output-diff review), or stop and remove
