@@ -36,8 +36,11 @@ repository architecture.
   the pinned sources. A systemic MT failure pattern is tooling pressure,
   recorded in a register and fixed in the glossary or prompt — not lesson by
   lesson.
-- The MT toolchain is version-pinned like the rendering toolchain. No hosted
-  service, no third-party content path, no lesson text leaves the machine.
+- The MT engine is the codex CLI at a pinned version calling the pinned
+  `gpt-6-luna` model: the one hosted dependency this decision approves, with
+  lesson prose reaching no other third party. Outputs are checked-in
+  artifacts and regeneration is an explicit recorded action, like the
+  rendering toolchain's pins.
 
 ## Design
 
@@ -105,7 +108,8 @@ debt.
   conventions.
 - **Language:** Bulgarian. Cyrillic script exercises the full design,
   including font and repagination work.
-- **MT runtime:** local pinned model, recorded in a toolchain-style manifest.
+- **MT runtime:** codex CLI with the pinned `gpt-6-luna` model, recorded in
+  the manifest; a local quantized model is the recorded fallback.
 - **Book policy:** mt-draft chapters render with a visible status notice in
   book chrome (HTML, EPUB, and both PDFs); never in lesson prose.
 - **Out of scope:** translated lessons do not enter family indexes or active
@@ -122,8 +126,9 @@ The pilot adds no repository root; shared pieces live under the existing
 content/checks/translation/
   glossary-bg.md            pinned terminology: never-translate terms,
                             approved renderings
-  manifest.json             local model identity, prompt template and
-                            glossary hashes, output-hash records
+  manifest.json             engine identity (codex CLI version, model id),
+                            prompt template and glossary hashes, output-hash
+                            records
   pipeline.py               segmentation, MT call, assembly, provenance
                             writing (Python standard library)
   sync.sh                   drift, quiescence, skeleton, glossary, and
@@ -197,6 +202,11 @@ The pilot is complete only when all hold:
 
 ## Deferred decisions
 
+- A local pinned quantized model as the MT engine; trigger: escalation away
+  from the hosted engine, decided at the pilot review or on availability
+  changes. The RTX 4050's 6 GB VRAM fits 4B-class Q4 weights with context
+  headroom; 7-8B fits only with CPU offload at markedly lower Bulgarian
+  quality and speed.
 - A dedicated `translation/` root, if the tooling outgrows `content/checks/`;
   trigger: a second language or pipeline features the checks directory cannot
   express.
