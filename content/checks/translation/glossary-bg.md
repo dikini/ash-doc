@@ -98,7 +98,7 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | partial call | частично извикване | |
 | block | блок | |
 | binding | свързване | |
-| predict | предвиждане | |
+| predict | предсказване | Instructions use the imperative Предскажете. Review ruling 2026-10-22: предвиждане and предвидете mean foresight, not predicting a concrete result. |
 | run | стартиране | |
 | report (the tool reports) | отчита | |
 | exercise | упражнение | |

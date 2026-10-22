@@ -2,14 +2,13 @@
   "language": "bg",
   "tier": "mt-draft",
   "claimed_english_sha256": "efa8e6d3fce7fafedf045423f3c521e633d03d15c965b7f0312f77a5f409dec2",
-  "generated_at": "2026-10-22T11:29:42.437491+00:00",
+  "generated_at": "2026-10-22T13:29:40.856883+00:00",
   "provenance": {
     "engine": "codex-cli",
     "engine_version": "0.163.0",
     "model": "gpt-6-luna",
-    "prompt_sha256": "7153ca5d07489bdd0c3b3b88db21b9fab3e0ca2250094759db6dfb491e33b337",
-    "glossary_sha256": "f7c24b8c52e7c211f590149c11deaeed4ffe8ef971f095ef4a82a5af5943bc4e",
-    "segments": 26,
-    "last_convergence": "2026-10-22T13:20:43.256172+00:00"
+    "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
+    "glossary_sha256": "922cac4807689c18c489c05f18cbb345be82ae1682b98f272f1a975cd806d31e",
+    "segments": 26
   }
 }
