@@ -24,11 +24,9 @@ main () = (Tagged(42), Points(42))
 
 `Tagged` is ordinary data with one constructor and one integer field. `Points`
 is a newtype whose sole, same-spelled constructor takes one representation
-value. Both are distinct from `Int` and from each other. The tool prints a
-newtype through its representation while retaining its nominal type in the
-reported type. Use that [rendering rule][rendering] to predict the two printed
-fields, then identify their types separately. Run from this lesson's `src`
-directory:
+value. Both are distinct from `Int` and from each other. Use the
+[rendering rule][rendering] to predict the two printed fields and their types.
+Run from this lesson's `src` directory:
 
 ```text
 $ ash 01-data-and-newtype.ash
@@ -354,9 +352,10 @@ Start each task with a fresh copy in a scratch directory: use
    Explain the representation cost through the lowering and execution rules;
    explain separately whether either declaration makes the type equal to `Int`.
 
-A newtype separates meaning in source contracts while reusing an existing
-runtime representation. Explicit construction, patterns, and evidence keep
-the intended interpretation visible. The next chapter brings that nominal
+Across the runs, the integer inside never changed what the type meant:
+`add_one` kept the `Points` contract, the two reward calls selected different
+implementations for the same representation, and the opaque constructor
+stayed out of the client's reach. The next chapter brings that nominal
 distinction into [one local scope and supplies exact behavior there](../supplying-scoped-evidence/README.md).
 
 [overview]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/README.md#current-ash

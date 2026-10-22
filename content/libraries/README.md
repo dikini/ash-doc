@@ -4,7 +4,8 @@ This path asks how reusable source libraries can state the behavior and type
 structure they need, then carry those abstractions across module boundaries.
 It continues from the complete [Learn Ash](../learn/README.md) path. Finish
 that path first so functions, parameterized definitions, public declarations,
-and source imports are already familiar.
+and source imports are already familiar. The lessons are written for readers
+growing from beginner toward intermediate.
 
 Use the `ash` command prepared by the repository's
 [shared setup](../../README.md#prepare-ash). Each lesson keeps its program in a

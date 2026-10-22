@@ -5,7 +5,7 @@ that defines it. A larger program may not want every client to depend on that
 source. It may place a smaller public boundary in front of several libraries
 and let clients depend on that boundary instead.
 
-Such a boundary is often called a *facade*. An Ash facade can re-export public
+Such a boundary is called a *facade*. An Ash facade can re-export public
 names, but equality behavior needs more than names. The implementation owner,
 facade, and client form a route: the owner publishes an implementation fact,
 the facade authorizes that fact for its dependents, and the client selects it.
@@ -186,8 +186,8 @@ together. For task three, copy `equality.ash`, `names_only_facade.ash`, and
    facts remain usable inside that facade. Predict what its client can import,
    then check your prediction.
 
-A facade forwards a capability only when its public boundary carries both the
-needed names and an implementation authorization route. A dependent still
-chooses that route explicitly. The next lesson asks how a library abstraction
+Both facades contain a single import line, and neither copies a declaration;
+what differed was whether `impl Equal` rode the public boundary and was
+selected again at the client. The next lesson asks how a library abstraction
 can accept a type constructor such as `Option`, rather than only a completed
 type such as `Int`.

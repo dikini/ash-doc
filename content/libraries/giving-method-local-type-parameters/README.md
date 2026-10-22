@@ -165,7 +165,7 @@ Start each task with fresh copies of `api.ash`, `carrier.ash`, and
    declared method parameters supply what this call needs, then run it and
    explain the diagnostic's labels through the separate parameter roles.
 
-One implementation can support unrelated element types because each method
-occurrence instantiates the method's own parameters while retaining one
-complete interface requirement. The next lesson asks how one known interface
-argument can [determine another before evidence selection](../determining-interface-results/README.md).
+In the entry's two calls, `map` ran once at `Int -> Bool` and once at
+`Bool -> Int`, and the single selected `Functor<Box>` fact supported both:
+the element types varied, the requirement did not. The next lesson asks how
+one known interface argument can [determine another before evidence selection](../determining-interface-results/README.md).

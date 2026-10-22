@@ -101,10 +101,10 @@ reason: kind.not-applicable
 
 Ash exits with status `1` and writes this message on standard error.
 
-An omitted declaration kind is fixed to `Type`; Ash does not infer a function
-kind from later use. The primary label covers the first `F<A>` application,
-while the related label points back to the declaration of `F`. The diagnostic
-explains that the applied type has kind `Type` and cannot take type arguments.
+The message states the cause directly: the applied type has kind `Type` and
+cannot take type arguments. The primary label marks the first `F<A>`
+application, and the related label points to `F`'s declaration, which fixes
+that kind.
 
 Applying a type requires a function kind. The declared `F` has kind `Type`, so it
 cannot accept `A`. Adding the annotation changes the declaration, not a runtime
@@ -136,7 +136,8 @@ directory.
 4. Try to use bare `Option` as `main`'s result type. Predict whether its kind
    satisfies that value boundary, then run it and follow the causal labels.
 
-An abstraction accepts a one-argument type constructor by declaring a parameter
-of kind `Type -> Type`. Ash keeps omission deliberately different: omitted
-declaration kinds are `Type`. The next lesson uses this constructor parameter
-inside an [interface method that has its own type parameters](../giving-method-local-type-parameters/README.md).
+The two `keep` programs differed by one annotation, and the runs turned on
+it: with `F : Type -> Type` the call returned its `Option<Int>` value
+unchanged; without it, checking stopped at the first type application. The
+next lesson uses this constructor parameter inside an [interface method that
+has its own type parameters](../giving-method-local-type-parameters/README.md).

@@ -254,7 +254,6 @@ The labels compare `Box<A>` with the unchanged `Box<A>` prerequisite. The
 prerequisite repeats the head instead of removing a constructor layer. In the
 working implementation, `A` is a strict part of `Box<A>`, so the prerequisite
 makes structural progress.
-Use `where Equal<A>` and the unwrapping method from `boxes.ash`.
 
 This admission rule applies to nonground prerequisites: those still containing
 parameters. A fully concrete prerequisite is exempt from this decrease
@@ -381,11 +380,12 @@ tasks three and four, copy `01-box-equality.ash` with those two libraries.
 4. Explain why removing the prerequisite from the box implementation would
    leave its method unable to compare arbitrary elements.
 
-A generic implementation describes how to build one behavior from explicitly
-required smaller behaviors. Imports make its facts available, structural rules
-keep selection coherent, and the method explains the actual calculation.
-The next chapter gives an [existing representation a new nominal meaning](../wrapping-a-representation/README.md)
-without allocating an ordinary constructor wrapper.
+One generic declaration served every layer: the nested run reached the
+integer fact through two unwrappings, and the rejected sources each broke a
+guard on that same path — selected evidence, a shrinking key, coherent heads,
+an owning module. The next chapter gives an [existing representation a new
+nominal meaning](../wrapping-a-representation/README.md) without allocating
+an ordinary constructor wrapper.
 
 [implementations]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#implementations
 [selection]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#constraint-satisfaction-and-checked-evidence

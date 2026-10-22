@@ -441,8 +441,7 @@ and the local token needed for the call. Its outward type exposes only
 
 After `make_reader` returns, calling this closure uses those retained ordinary
 functions and values. It does not search the caller's block for evidence or
-export a new evidence fact that other calls can select. No local identity
-appears in the outward function contract.
+export a new evidence fact that other calls can select.
 
 The [scoped evidence rules][evidence] distinguish selecting in a lexical scope
 from retaining the selected functions. Local nominals and exact evidence add
@@ -467,13 +466,11 @@ Start each task with a fresh copy in a scratch directory: use
    outward function type on paper and identify any local identity it contains.
    Compare that boundary with the current `Unit -> Int` result.
 
-A local nominal gives one scope a distinct type, and exact evidence gives its
-following code a specific method contract. Identity-free results and checked
-closures can leave while new evidence selection remains lexical. Together
-with generic implementations and module wrappers, these tools let a library
-state which behavior it needs and where that behavior comes from.
-Continue with the [algorithm and effect Cases](../../cases/README.md) to use
-explicit capabilities while deriving calculations, invariants, and costs.
+In every run, the local machinery stayed invisible at the boundary: the
+results were plain `42` and `(41, 42)`, the rejected sources were marked at
+their own occurrences, and each `with` governed only the code that followed
+it. Continue with the [algorithm and effect Cases](../../cases/README.md) to
+use explicit capabilities while deriving calculations, invariants, and costs.
 
 [nominals]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#local-nominal-scope
 [evidence]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#scoped-exact-evidence

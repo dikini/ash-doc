@@ -11,6 +11,11 @@ type, and keep the requirement visible on any definition that uses it. A
 client then chooses which public implementation facts are available in its
 module.
 
+Choosing the implementation by type, rather than fixing one in the
+definition, is *ad-hoc polymorphism* — the form the Learn path promised at
+the close of [Definitions for many types](../../learn/definitions-for-many-types/README.md).
+An interface is Ash's form of the literature's *type class*.
+
 Read the library source, `equality.ash`:
 
 <!-- source: src/equality.ash -->

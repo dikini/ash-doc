@@ -171,8 +171,8 @@ together in a scratch directory.
 4. Remove the determination clause. Identify which interface parameter the
    method type mentions, predict the checking outcome, and follow its labels.
 
-A determination edge lets an inference-free key and an eligible selected
-source complete an interface obligation in one forward direction. It does not
-make evidence ambient or turn interface arguments into runtime values. The
-next chapter asks how [container behavior can depend on its elements](../requiring-element-behavior/README.md),
+In the two runs the call itself never changed. `true` gave the checker its
+key, the selected source filled `Result`, and the program returned `42`;
+without that source, the same call stopped with its obligation still
+incomplete. The next chapter asks how [container behavior can depend on its elements](../requiring-element-behavior/README.md),
 so selecting one implementation may require further evidence.
