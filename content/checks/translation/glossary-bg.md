@@ -38,7 +38,7 @@ prose and must pass through unchanged there.
 <!-- markdownlint-disable MD013 -->
 
 - Keywords: `main`, `pub`, `import`, `as`, `let`
-- Builtins and types: `Unit`, `Int`, `<function>`
+- Builtins and types: `Unit`, `Int`, `Bool`, `String`, `Bytes`, `<function>`
 - Syntax tokens: `()`, `->`
 - Commands and flags: `ash`, `ash program.ash`, `ash main.ash`,
   `--message-format human`, `--locale en`
@@ -107,6 +107,21 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | rejection | отхвърляне | |
 | entry module | начален модул | |
 | entry file | начален файл | |
+| text | текст | |
+| line break | нов ред | |
+| byte | байт | |
+| equality | равенство | |
+| matching | съпоставяне | |
+| equation (in patterns) | уравнение | |
+| field | поле | |
+| branch | клон | |
+| exhaustive | изчерпателен | |
+| constructor | конструктор | |
+| recursive call | рекурсивно извикване | |
+| mutually recursive | взаимно рекурсивен | |
+| anonymous function | анонимна функция | |
+| type parameter | типов параметър | |
+| data definition | дефиниция на данни | |
 
 <!-- markdownlint-enable MD013 -->
 
@@ -124,6 +139,26 @@ confirm one choice for the whole book:
 | отчита | report | съобщава | Whether the tool's reports and the prose's "reports" share one verb. |
 | извикване | call | повикване | Older texts use `повикване`; newer ones `извикване`. One choice. |
 | частен | private | частен за модула | Short form vs the unambiguous longer form. |
+| strict evaluation | стриктно оценяване | нетърпеливо оценяване | One choice for the strict/lazy pair across all lessons. |
+| lazy evaluation | мързеливо оценяване | отложено оценяване | Pair with strict evaluation above. |
+| structural recursion | структурна рекурсия | рекурсия по структурата | |
+| in scope | в областта на видимост | в scope | Diagnostic prose uses this heavily. |
+| arm (of a match) | клон | случай | |
+| pattern | образец | шаблон | The pattern-matching sense. |
+| tuple | кортеж | наредена двойка | |
+| product type | тип произведение | product тип | |
+| sum type | тип сума | sum тип | |
+| algebraic data type | алгебраичен тип данни | АДТ | |
+| abstract data type | абстрактен тип данни | АТД | |
+| closure | затваряне | клозър | |
+| higher-order function | функция от по-висок ред | | |
+| generics | обобщени типове | обобщено програмиране | |
+| parameterized algebraic data type | параметризиран алгебраичен тип | | |
+| ad-hoc polymorphism | ad-hoc полиморфизъм | презареждащ полиморфизъм | Keep the Latin prefix or coin a Bulgarian one? |
+| parametric polymorphism | параметричен полиморфизъм | | |
+| kind | kind | кайнд | Keeping the English word avoids collision with „вид“; transliterate instead? |
+| local generalization | локално обобщение | | |
+| monomorphic | мономорфен | | |
 
 <!-- markdownlint-enable MD013 -->
 

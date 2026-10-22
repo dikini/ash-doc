@@ -230,6 +230,21 @@ since the owner's preview finding; only the generated book chrome
 choice. EPUB was not exercised in the pilot builds. Remaining: the step
 7 pilot review.
 
+## Continuation
+
+The step 7 review selected continue. The pilot extends across the
+remaining Learn lessons on this branch (4-15: choosing-a-result through
+the two continuation chapters), with the machinery unchanged and
+certification at the review owner's pace. The glossary grows to v1
+first: curriculum terms named in the new lessons enter Approved only
+when they are ordinary Bulgarian vocabulary, everything else enters
+Provisional for the owner to confirm or reject in batches. Each lesson
+lands as mt-draft with strict checks green; the volatile
+working-with-text lesson translates like any other, flagged as the
+English lesson is. Chapters render through the same --lang scopes.
+Remaining after translation: batch review of the Provisional table and
+per-lesson certification.
+
 ## Execution order
 
 1. Approval of this design; roadmap records the decision and links this plan;
