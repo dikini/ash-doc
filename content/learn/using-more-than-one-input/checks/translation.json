@@ -1,6 +1,6 @@
 {
   "language": "bg",
-  "tier": "mt-draft",
+  "tier": "reviewed",
   "claimed_english_sha256": "06dc83684c225ea73e6e660ed1b2ad5010c7b8061899e0d42f52374bd11e1beb",
   "generated_at": "2026-10-22T14:03:20.822638+00:00",
   "provenance": {
@@ -10,5 +10,10 @@
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
     "glossary_sha256": "922cac4807689c18c489c05f18cbb345be82ae1682b98f272f1a975cd806d31e",
     "segments": 29
+  },
+  "certification": {
+    "at": "2026-10-22T14:11:59.143681+00:00",
+    "by": "review owner",
+    "surface": "full chapter read on the rendered Bulgarian preview; terminology rulings (currying, predict) applied; owner corrections promoted; figure captions verified"
   }
 }

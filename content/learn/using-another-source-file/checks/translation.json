@@ -16,5 +16,10 @@
     "at": "2026-10-22T13:44:45.544790+00:00",
     "by": "review owner",
     "note": "human-owned from here on; machine output arrives as proposals only"
+  },
+  "certification": {
+    "at": "2026-10-22T14:11:59.143681+00:00",
+    "by": "review owner",
+    "surface": "full chapter read on the rendered Bulgarian preview; terminology rulings (currying, predict) applied; owner corrections promoted; figure captions verified"
   }
 }
