@@ -52,6 +52,20 @@ and repairs. Every practice task names a fresh baseline; sibling modules stay
 together outside canonical source trees. All eight chapters retain their
 original 43 sources, 17 accepted observations, and 16 complete captures.
 
+## Extend Learn Ash outcome
+
+**State: in progress.** The
+[plan](../plans/2026-10-22-extend-learn-ash.md) extends the Learn path's main
+sequence from eleven lessons toward a beginner-to-intermediate arc, landing
+lesson by lesson at the declared baseline. The approved candidates: strings
+and bytes (surface, flagged volatile), patterns in depth, the edges of the
+language, ordering from data, module channels, opaque types (surface), and a
+closing orientation to interfaces and effects. Each lesson lands with
+canonical sources and checks; each authoring session also records language
+pressure in the [language-pressure register](language-pressure.md), which
+`content/checks/language-pressure-sync.sh` keeps in agreement with volatile
+lesson flags.
+
 ## FFI Base migration outcome
 
 **State: complete and locally verified.** The edition targets `ffi-base` at
