@@ -32,7 +32,8 @@ let answer = 40 + 2
 ```
 
 Ash evaluates the expression on the right and associates the resulting value
-with the name on the left. That name is available in the rest of the block.
+with the name on the left. That name is available in the rest of the block;
+we say it is *in scope* there.
 
 The last line is different. It is the expression whose value becomes the value
 of the whole block. Predict the value bound to `answer` and the value returned
@@ -110,8 +111,9 @@ reason: resolve.unknown-name
 ```
 <!-- markdownlint-enable MD013 -->
 
-The message names `later` and labels its use in `answer`'s initializer. It is
-that use, before the binding, that cannot be resolved.
+The message says `later` is not in scope and labels the use in `answer`'s
+initializer. Only names bound before a use are in scope there; `later`'s
+binding comes after it.
 
 Move `let later = 40` above the binding for `answer`, then run the program
 again. The revised order mirrors the dependency: first obtain `later`, then use
@@ -140,13 +142,12 @@ calculation should still produce `42 : Int`.
 
 ## A calculation with visible steps
 
-A block is an expression that can introduce local names before producing its
-final value. Each `let` binding makes its name available to the lines that
-follow, so source order should follow the flow of the calculation. The last
-expression determines what leaves the block.
+A block is an expression that introduces local names before producing its
+final value; read its bindings top to bottom and the source order is the
+calculation's order. The last expression decides what leaves the block.
 
-One name can stand for one value. Sometimes two or more values belong to the
-same step and should travel together. The next lesson introduces a value that
-keeps such parts side by side.
+One name stands for one value. When two values belong to the same step, they
+need to travel together — the next lesson introduces a value that keeps such
+parts side by side.
 
 [bindings]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#bindings

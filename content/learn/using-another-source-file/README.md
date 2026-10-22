@@ -128,25 +128,24 @@ leave supporting calculations inside their own module. The
 ## Exercise: move `square`
 
 Make a new two-file program in a fresh scratch directory, with
-`arithmetic.ash` and `main.ash` beside each other:
+`arithmetic.ash` and `main.ash` beside each other. This time the module
+offers a public `square`, and `main` asks for `Arithmetic.square 6`:
 
-1. In `arithmetic.ash`, define a public function `square : Int -> Int` that
-   multiplies its input by itself.
-2. In `main.ash`, import the file as `Arithmetic`.
-3. Make `main` call `Arithmetic.square 6`.
-4. Predict the value and type, then run `ash main.ash`.
-5. Remove `pub` from `square`, run the program once more, and explain the
+1. Define `square : Int -> Int` in `arithmetic.ash`, multiplying its input
+   by itself, and mark it public.
+2. Import the file in `main.ash` as `Arithmetic`, predict the value and type
+   of the call, and run `ash main.ash`.
+3. Remove `pub` from `square`, run the program once more, and explain the
    change in terms of the two modules.
 
 ## One program, two files
 
-An Ash program begins with the source file passed to `ash`. An import connects
-that entry module to another module. The importing file gives the module an
-alias, and a qualified name uses that alias to reach one of the module's public
-definitions. Definitions without `pub` remain available inside their own
+The entry file passed to `ash` is the program; an import only extends it.
+The alias belongs to the importing file, `pub` marks what crosses the module
+boundary, and definitions without it remain available only inside their own
 module.
 
-Our functions still take one input each. The next chapter asks what the arrows
-and calls mean when a function needs more than one input.
+Our functions still take one input each. What do the arrows and calls mean
+when a function needs more than one?
 
 [visibility]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/name-resolution.md#public-private-and-opaque-declarations

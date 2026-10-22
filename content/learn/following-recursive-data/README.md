@@ -6,8 +6,8 @@ fields, the function has reached the end of the value.
 
 Some data grows by repeating one shape. A line of integers may contain a first
 integer followed by the rest of the line. That rest is itself another line of
-integers. The data definition can express this repetition by referring to the
-type it is defining.
+integers. An algebraic data type can express this repetition: its definition
+refers to the very type it defines.
 
 ## A finite list of integers
 
@@ -68,10 +68,11 @@ main : Unit -> Int
 main () = sum (More(20, More(22, Empty)))
 ```
 
-For `Empty`, there is no integer to add, so the result is `0`. For `More`, the
-pattern gives names to the first integer and the rest of the list. We can add
-`first` directly. To find what the entire `rest` contributes, the function
-applies itself to that smaller list.
+For `Empty`, there is no integer to add, so the result is `0` — the *base
+case*, answered directly, without another call. For `More`, the pattern gives
+names to the first integer and the rest of the list. We can add `first`
+directly. To find what the entire `rest` contributes, the function applies
+itself to that smaller list.
 
 This is a *recursive call*. It follows the recursive field in the data.
 For this finite input, count the `More` layers still to visit at each call.
@@ -142,10 +143,9 @@ result from which the longer cases can be calculated.
 
 ## Exercise: count the integers
 
-Start from a fresh copy of `src/02-sum.ash` in your scratch directory.
-Replace the function and its calls while keeping the data definition.
-
-Define `length : IntList -> Int`. Follow the two forms of the data:
+Start from a fresh copy of `src/02-sum.ash` in your scratch directory, keeping
+the data definition. Define `length : IntList -> Int` by following the two
+forms of the data:
 
 - the length of `Empty` is `0`;
 - the length of `More(first, rest)` is one more than the length of `rest`.
@@ -160,11 +160,12 @@ the expression that combines the first part with the recursive result changes.
 
 ## Recursion follows self-reference
 
-In these finite lists, `rest` contains fewer layers of the same type.
-The recursive call follows that field, and the non-recursive `Empty` form
-supplies the ending result. The data definition guides the cases; the chosen
-input and recursive argument explain the progress of this calculation.
+In these finite lists, every `rest` holds fewer layers of the same type, so
+the call that follows it makes progress, and `Empty` supplies the ending
+result. The data definition guides the cases; the input and the recursive
+argument explain why this traversal ends. One equation per constructor,
+recursing into the data's own fields, is called *structural recursion*.
 
 So far, every function has been called by name where it is used. Functions are
-also values: they can be received, returned, and made for a particular
+also values — they can be received, returned, and made for a particular
 calculation. The next lesson develops that idea directly.

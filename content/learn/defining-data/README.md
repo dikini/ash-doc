@@ -31,6 +31,15 @@ to construct a value of that type.
 The vertical bar means “or.” It separates one possible form from the next. The
 indentation keeps the alternatives together as one definition.
 
+A type defined by listing its constructors is called an *algebraic data
+type* (ADT).[^adt-abbreviation] The separated alternatives give the *sum*,
+and the fields of one constructor give the *product*; both parts appear as
+the definitions in this lesson grow.
+
+[^adt-abbreviation]:
+    Some literature abbreviates *abstract data type* as ADT instead. In this
+    path, ADT always means *algebraic data type*.
+
 The expression `Go` is already a complete value. Predict which constructor
 and type name Ash will report, then run:
 
@@ -124,29 +133,27 @@ the value; changing only its contained integer could not repair this mismatch.
 ## Exercise: describe a reading
 
 Start from a fresh copy of `src/02-result-with-value.ash` in your scratch
-directory. Replace its data definition and entry result as you build the new
-representation.
+directory.
 
-Define a type named `Reading` with these two forms:
+Define a type named `Reading` for a sensor that may or may not have a value:
 
 - `Exact(Int)` carries a measured integer;
 - `Unavailable` carries no fields.
 
-Write `main : Unit -> Reading` and construct an `Exact` reading. Predict its
-value and type before running. Then change only the result expression to
-construct an unavailable reading; predict that observation before running too.
+Write `main : Unit -> Reading` and construct an `Exact` reading, predicting
+its value and type before running. Then change only the result expression to
+an unavailable reading and predict that observation too.
 
-Finish by explaining, in one sentence for each constructor, what information
-that form represents. A data definition should describe the values of the
-program, not merely demonstrate syntax.
+Finish by explaining, in one sentence per constructor, what information that
+form represents. A data definition should describe the values of the program,
+not merely demonstrate syntax.
 
 ## Data shaped for the program
 
-A data definition creates a type and names every way to construct its values.
-Some constructors are complete values; others carry fields. Even when two
-types carry fields with the same shape, their type names keep the values
-distinct.
+A data definition creates a type by naming every way to construct its values —
+some constructors are complete on their own, others carry fields, and the type
+name keeps even same-shaped values distinct.
 
-We can now construct every form of `Result`, but a useful function must also be
-able to handle them. The next lesson connects these data definitions to the
-matches and patterns we already know.
+We can now build every form of `Result`. A useful function must also be able
+to handle them; the next lesson connects these definitions to the matches and
+patterns we already know.

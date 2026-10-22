@@ -6,9 +6,10 @@ values describe one piece of information: a number and whether it is ready, or
 the two numbers at the ends of an interval. We want to keep the parts together
 without losing their individual types.
 
-A *tuple* is one value made from a fixed number of other values. Its commas are
-important. They show where one part ends and the next begins, both in the value
-and in its type.
+A *tuple* is one value made from a fixed number of other values. Its type is
+a *product type*, because the parts are present together rather than chosen
+between. Its commas are important. They show where one part ends and the next
+begins, both in the value and in its type.
 
 ## Making a pair
 
@@ -157,32 +158,29 @@ restores the two-part input and produces `42 : Int`.
 ## Exercise: keep two results
 
 Start from a fresh copy of `src/02-pair-input.ash` in your scratch directory.
-Replace `sum_pair` and its uses with the new calculation.
 
-Define this function:
+Give one pair of integers to a function that answers with two results at once:
 
 ```text
 sum_and_product : (Int, Int) -> (Int, Int)
 ```
 
-Its input is a pair of integers. Its result should be another pair containing
-the input's sum and product. Then use a local tuple pattern in `main` to name
-the two results and add them.
+Its result pair should hold the input's sum and product. In `main`, use a
+local tuple pattern to name those two results and add them.
 
-With `(6, 7)` as the input, predict the pair that `sum_and_product` produces and
-the integer that `main` reports. Account for the type of each intermediate
-value before running the program.
+With `(6, 7)` as the input, predict the pair the function produces and the
+integer `main` reports, accounting for the type of each intermediate value
+before you run the program.
 
 ## One value, several parts
 
-A tuple keeps a fixed collection of values together. The tuple's type records
-the number, order, and type of its parts. A pattern with the same shape gives
-those parts names, whether it appears in a function definition or a local
-binding.
+A tuple is one value with a fixed set of parts, and its type records their
+number, order, and types. A pattern of the same shape gives those parts names,
+in a definition or a local binding alike.
 
-Tuples describe combinations chosen at the point of use. Programs also need
-data with names that express what a value means and which forms it may take.
-The next lesson shows how an Ash program defines such data for itself.
+Tuples suit combinations chosen at the point of use. A program also needs data
+whose names say what a value means and which forms it may take; the next
+lesson defines such data.
 
 [application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/static-semantics.md#functions-and-application
 [call-syntax]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#precedence-and-associativity

@@ -19,8 +19,8 @@ main () = 42
 
 The second line defines the calculation: its right side is the integer
 `42`. The first line is its *signature*. Read `Unit -> Int` as “takes a
-`Unit` value and produces an `Int` value.” `Unit` has one value, written
-`()`; `Int` is the type of integer values.
+`Unit` value and produces an `Int` value.” `Unit`, the *unit type*, has one
+value, written `()`; `Int` is the type of integer values.
 
 Predict the value that `main ()` produces, then run the file from your terminal:
 
@@ -34,15 +34,13 @@ Ash reports:
 42 : Int
 ```
 
-Let us slow down and read the two lines. The second line defines `main`. Its
-right side, `42`, is an *expression*. Evaluating that expression produces the
-value `42`. `ash` reports the value together with its type, `Int`, which is
-the type of integer values.
+The report keeps the promise of the two lines. The right side of `main` is an
+*expression*, and evaluating it produces the reported value; the signature
+supplies the type.
 
-Because `main` receives `()`, it needs no input information before calculating
-its integer result. Together, the signature and definition describe the
-calculation where this program begins. The [entry rules][entry] require that
-starting definition to live in the file selected for execution.
+Because `main` receives `()`, it needs no input before calculating its result.
+The [entry rules][entry] require this starting definition to live in the file
+selected for execution.
 
 ## Expressions calculate values
 
@@ -137,7 +135,8 @@ The expression `number + 1` describes how the result is calculated.
 
 The last line uses the expression `increment 41`. This is a *function call*,
 and `41` is its *argument*. To understand the call, use `41` wherever the
-definition uses its parameter. Predict the result before running:
+definition uses its parameter. This replacement of a parameter by its argument
+is called *substitution*. Predict the result before running:
 
 ```text
 ash program.ash
@@ -171,8 +170,8 @@ main () = double (increment 20)
 ```
 
 The parentheses keep `increment 20` together as the argument to `double`.
-Start with that inner call and work outward to predict the result. Run the
-program, then compare its `42 : Int` observation with the trace:
+Start with that inner call and work outward to predict the result. Running
+the program reports `42 : Int`, matching the trace:
 
 ```text
 double (increment 20)
@@ -181,9 +180,8 @@ double 21
 42
 ```
 
-Ash reports `42 : Int`, just as the calculation predicts. Here the result of
-`increment` becomes the input to `double`. Connecting functions in this way is
-called *function composition*.
+Here the result of `increment` becomes the input to `double`. Connecting
+functions in this way is called *function composition*.
 
 ## Where does evaluation begin?
 
@@ -229,13 +227,12 @@ included that name.
 ## Exercise: square, then double
 
 Start with a fresh copy of `src/06-composition.ash` in your scratch directory,
-saved as `program.ash`. Replace `increment` with a function that squares an
-integer:
+saved as `program.ash`. Then compose a different pair of functions:
 
-1. Define `square : Int -> Int`. Multiply its input by itself.
-2. Change `main` so it calls `double (square 3)`.
-3. Work from the inner call outward and predict the result.
-4. Run the program and compare the result with your calculation.
+1. Define `square : Int -> Int` that multiplies its input by itself, and
+   call it from `main` as `double (square 3)`.
+2. Work from the inner call outward and predict the result.
+3. Run the program and compare the result with your calculation.
 
 > **With a learning assistant:** Show the assistant your program, prediction,
 > and actual result from `ash`. Ask it to point to one expression at a time and

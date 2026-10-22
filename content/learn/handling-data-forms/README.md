@@ -137,11 +137,8 @@ the expression needs.
 
 ## Exercise: respond to a signal
 
-Start from a fresh copy of `src/02-equations.ash` in your scratch directory.
-Replace the data definition and function, then use the same scratch program
-for the equivalent match.
-
-Return to the earlier definition:
+Start from a fresh copy of `src/02-equations.ash` in your scratch directory,
+and return to the earlier definition:
 
 ```text
 type Signal =
@@ -149,22 +146,19 @@ type Signal =
     | Stop
 ```
 
-Define `signal_value : Signal -> Int` with one equation per constructor. Let
-`Go` produce `1` and `Stop` produce `0`. Call the function with each value and
-predict both results.
+Give `Signal` a function again: `signal_value : Signal -> Int`, with one
+equation per constructor — `Go` produces `1`, `Stop` produces `0`. Call it
+with each value and predict both results.
 
-Next, rewrite the equations as one explicit match. Keep the signature and the
-two observations unchanged. Explain how each line in the data definition leads
-to one equation and one match arm.
+Then rewrite the equations as one explicit match, keeping the signature and
+both observations unchanged. Explain how each line of the data definition
+leads to one equation and one match arm.
 
 ## Functions that follow data
 
-To handle a data type, write a pattern for every form the data definition
-permits. A constructor pattern identifies the form and names any fields it
-carries. Ash checks that the match or group of equations is exhaustive, so the
-function has an expression for every accepted input.
-
-The data so far has contained only existing values. A data definition may also
-refer to the type being defined, allowing one value to lead to another of the
-same shape. The next lesson follows that self-reference with a recursive
-function.
+Handling a data type means one pattern per permitted form: the constructor
+identifies the form, the pattern names its fields, and Ash checks the coverage
+before running. The data so far has contained only existing values, but a
+definition may also refer to the type it defines, letting one value lead to
+another of the same shape. The next lesson follows that self-reference with a
+recursive function.

@@ -43,7 +43,8 @@ increment 41
 ```
 
 No special call syntax is needed for the function parameter; `transform number`
-works like every named function call we have written.
+works like every named function call we have written. A function that receives
+another function, like `apply_twice`, is called a *higher-order function*.
 
 ## Writing a function where it is needed
 
@@ -92,7 +93,8 @@ main () = make_adder 20 22
 
 `make_adder` first receives `amount`. Its result is the anonymous function
 `fn(number) { amount + number }`. That function remembers the particular
-`amount` from the call that created it.
+`amount` from the call that created it; a function value that carries bindings
+from where it was made is called a *closure*.
 
 Which input is saved when the function is created, and which arrives when it
 is called? Predict the final value before running. Ash reports `42 : Int`.
@@ -161,20 +163,19 @@ inputs must itself be callable.
 ## Exercise: apply three times
 
 Start from a fresh copy of `src/01-named-function.ash` in your scratch
-directory. Keep `increment` and replace `apply_twice` and its call.
+directory, keeping `increment`.
 
-Define:
+Define a repetition that goes one step further:
 
 ```text
 apply_three_times : (Int -> Int) -> Int -> Int
 ```
 
-Its body should apply `transform` three times, using the result of each call as
-the input to the next. First give it a named `increment` function and the value
-`39`. Then replace `increment` with an anonymous function that adds one.
-
-Trace both programs before running them. They should produce the same integer
-and make three calls to the supplied function.
+Its body applies `transform` three times, each call's result feeding the next.
+First run it with the named `increment` and the value `39`; then replace
+`increment` with an anonymous function that adds one. Trace both programs
+before running them — they should produce the same integer and make three
+calls to the supplied function.
 
 ## Calculations as data
 

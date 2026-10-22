@@ -28,9 +28,9 @@ The uppercase name `A` in the signature is a type parameter. Read `A -> A` as
 the body assumes that the value is an integer, a Boolean, or any other
 particular type.
 
-For each call, identify the type replacing `A` and use it consistently for
-the input and result. Predict the pair's value and type before running, then
-compare the program's report with your prediction:
+For each call, decide which type replaces `A` and use that choice for both
+input and result. Predict the pair's value and type, then run the program to
+compare:
 
 ```text
 (42, true) : (Int, Bool)
@@ -56,7 +56,9 @@ main () = (Box(42), Box(false))
 
 In `Box<A>`, `A` names the type of the constructor's field. Replacing `A` with
 `Int` gives `Box<Int>`, whose constructor carries an integer. Replacing it with
-`Bool` gives `Box<Bool>`, whose constructor carries a Boolean.
+`Bool` gives `Box<Bool>`, whose constructor carries a Boolean. `Box<A>` is a
+*parameterized algebraic data type*: the same sum-and-product structure as
+before, with one type left as a parameter.
 
 Predict the complete type of each constructor expression before running the
 program. These two fields account for the tuple it reports:
@@ -144,9 +146,9 @@ Lists.More(42, Lists.Empty)
 The name `increment` in this trace stands for the anonymous function in the
 program.
 
-This one example brings together the path so far: a module exports data and
-a function; the data is recursive; the function follows its forms; and another
-function value determines how each element changes.
+This one example draws on nearly every lesson so far: a module boundary, a
+recursive data definition, a function that follows its forms, and a function
+value that decides how each element changes.
 
 > **With a learning assistant:** Draw the input and output list values from the
 > program above as nested `More` and `Empty` forms. First trace and explain how
@@ -217,31 +219,33 @@ structure work for any element type, like `identity` and `map`.
 
 ## Exercise: change the element type
 
-Start with fresh copies of `src/lists.ash` and `src/03-list-main.ash` beside
-each other in your scratch directory. Keep the module unchanged. In the entry,
-define:
+Place fresh copies of `src/lists.ash` and `src/03-list-main.ash` beside each
+other in your scratch directory, and keep the module unchanged. In the entry,
+define a test for one particular number:
 
 ```text
 is_42 : Int -> Bool
 is_42 number = number == 42
 ```
 
-Map `is_42` over a two-element `List<Int>` and update `main`'s result type
-to describe that transformation. Before running the program:
+Map `is_42` over a two-element `List<Int>`. Before running, decide which types
+replace `A` and `B` in `map`, construct the expected `List<Bool>` value, and
+trace one `map` call for each `More` layer and one for `Empty`. Update
+`main`'s result type to describe the transformation.
 
-1. decide which types replace `A` and `B` in `map`;
-2. construct the expected `List<Bool>` value; and
-3. trace one `map` call for each `More` layer and one for `Empty`.
-
-Then change the integer elements so that one produces `true` and the other
-produces `false`. The list shape should remain unchanged while its element type
-and values change.
+Then change the integer elements so one produces `true` and the other `false`.
+The list shape should stay the same while its element type and values change.
 
 ## The beginning model
 
 A parameterized definition names the types it does not need to fix. Each use
 supplies consistent types for those parameters, while the definition follows
-the same structure. This form of reuse is called *parametric polymorphism*.
+the same structure. This form of reuse is called *parametric polymorphism*,
+or *generics*. It is one of two principal forms of polymorphism; the other,
+*ad-hoc polymorphism*, gives one operation different implementations for
+different types. Ash provides that form through interfaces and their
+implementations, developed in the
+[libraries path](../../libraries/README.md).
 
 We can now give a fuller answer to the question that began this path. An Ash
 program is a group of source modules containing definitions. Its expressions

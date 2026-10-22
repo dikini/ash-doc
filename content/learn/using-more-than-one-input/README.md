@@ -57,7 +57,7 @@ add 20 22
 ```
 
 The signature tells the same story as the definition. Function arrows
-[group from the right][arrows], so we read
+[group from the right][arrows] — the arrow is *right-associative* — so we read
 
 ```text
 Int -> Int -> Int
@@ -97,14 +97,14 @@ Run the program to compare that prediction:
 
 No second integer has arrived, so the result is a function of type
 `Int -> Int`. The tool displays the function as `<function>`; that display
-does not show its body. Such a call is often called a *partial call*, or
+does not show its body. Such a call is called a *partial call*, or
 *partial application*: it supplies some, but not all, of a
 function's inputs. The result is still useful. It remembers the input already
 supplied and can receive the rest later.
 
-The story also appears in three figures: the first aligns the signature with
-its boxes, the second layers types over values in the complete call, and the
-third follows the partial call from `add 20` through `add_20` to `42`.
+Three margin figures show the same progression visually: the signature
+against its boxes, types layered over values in the complete call, and the
+partial call followed from `add 20` through `add_20` to `42`.
 
 ::: {#note-add-one-input .column-margin}
 
@@ -165,33 +165,26 @@ add 20 22
 
 ## Exercise: multiply three numbers
 
-Start from a fresh copy of `src/01-two-inputs.ash` in your scratch directory.
-Replace `add` and its uses as you build the new calculation.
-
-Define a function with this signature:
+Start from a fresh copy of `src/01-two-inputs.ash` in your scratch directory,
+and build a three-input multiplication with this signature:
 
 ```text
 multiply_three : Int -> Int -> Int -> Int
 ```
 
-Give the definition three parameters and multiply them. Then try these in
-`main`, one at a time:
-
-1. Supply all three inputs and predict the integer result.
-2. Supply two inputs and predict the type of the waiting function.
-3. Give the waiting function its final input and check the result.
-
-Use the arrows in the signature to account for every input and every result.
+Then try three calls in `main`, one at a time: supply every input and predict
+the integer; supply only two and predict the waiting function's type; give
+that function its final input and check the result. Use the arrows in the
+signature to account for every input and every result.
 
 ## From inputs to decisions
 
-A function can therefore use several inputs without packing them together.
-Each call supplies one value from the left, and each arrow tells us what remains
-after that value arrives. A complete call reaches the final result; a partial
-call produces a function that is still waiting.
+Several inputs change nothing about how a call reads: each value arrives from
+the left, each arrow says what remains, and a complete call reaches the final
+result. A partial call simply stops earlier, leaving a function that is still
+waiting.
 
-All the calculations so far have followed one fixed route. The next question
-is how a program can examine a value and choose which expression should
-produce its result.
+Every calculation so far has followed one fixed route. What happens when the
+program must examine a value and choose the route?
 
 [arrows]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/syntax.md#precedence-and-associativity

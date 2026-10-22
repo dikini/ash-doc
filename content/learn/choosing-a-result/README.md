@@ -18,8 +18,8 @@ main : Unit -> Bool
 main () = 20 + 22 == 42
 ```
 
-Work through the addition before the equality and predict the Boolean result.
-Run the program, then compare its observation with the calculation:
+Work through the addition before the equality, and predict the Boolean
+result. Running the program answers the equality:
 
 ```text
 true : Bool
@@ -75,7 +75,8 @@ result would be `0`. Both arms produce an `Int`, which agrees with the final
 
 `choose` receives its inputs as evaluated values. The match selects one arm
 body after receiving the condition; it does not delay evaluation of the
-function's arguments. The [application][application] and
+function's arguments. Evaluating arguments before the body runs is called
+*strict evaluation*. The [application][application] and
 [matching][evaluation] rules distinguish those steps.
 
 ## Calculating the condition
@@ -96,8 +97,8 @@ main () = choose (20 + 22 == 42) 42 0
 ```
 
 The parentheses keep the equality together as the first input to `choose`.
-Predict the condition first, then the selected result. Run the program and
-compare its `42 : Int` observation with the trace:
+Predict the condition first, then the selected result. Running the program
+reports `42 : Int`, matching the trace:
 
 ```text
 choose (20 + 22 == 42) 42 0
@@ -157,32 +158,29 @@ arrive at a choice with no corresponding expression.
 ## Exercise: keep or double
 
 Start from a fresh copy of `src/02-choose.ash` in your scratch directory.
-Replace the function and its calls as you implement the new behavior.
 
-Define a function with this signature:
+Build a gate for one integer. When the gate is `true`, the number passes
+through unchanged; when it is `false`, the number doubles:
 
 ```text
 keep_or_double : Bool -> Int -> Int
 ```
 
-When its first input is `true`, return the number unchanged. When it is
-`false`, return the number multiplied by two. Then:
-
-1. call it with each Boolean value;
-2. predict both results before running them; and
-3. replace the direct Boolean with an integer equality.
-
-Check that both match arms produce an `Int`, as the signature promises.
+Call the function once with each Boolean value, predicting both results
+before you run them. Then replace the direct Boolean in the call with an
+integer equality, and check that both arms still produce an `Int`, as the
+signature promises.
 
 ## A complete decision
 
-A program chooses by first producing a value that represents the question and
-then matching every possible form of that value. For `Bool`, those forms are
-`true` and `false`. The selected arm supplies the result of the whole match.
+A choice now has two parts: one expression answers the question, and the
+match spends that answer, giving each possible value of `Bool` its own arm.
+Ash checks the coverage before running, so no call can reach a value the
+match leaves unanswered.
 
-Our matches still contain short expressions. When one route needs several
-steps, repeating a growing expression becomes hard to read. The next lesson
-shows how to name the intermediate values in a calculation.
+Each arm so far has held a short expression. When one route needs several
+steps, repeating a growing expression becomes hard to read; the next lesson
+gives the steps names.
 
 [evaluation]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#tuples-constructors-and-matches
 [application]: https://github.com/dikini/ash-lang/blob/354c76b391fe4af665cf6a03479a9874a57cb3e3/spec/dynamic-semantics.md#application

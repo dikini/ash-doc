@@ -1,18 +1,16 @@
 # When can a local function work at several types?
 
-The previous chapter gave a global identity function the signature `A -> A`.
-Each use chose its own type for `A`. A block can also name a function whose
-work does not depend on one particular input type. We need to distinguish
-that reusable definition from a binding that holds one already chosen
-function value.
-
-The distinction concerns how the local binding is written and checked. Two
-functions that return their inputs can have different reuse contracts.
+The previous chapter gave a global identity function the signature `A -> A`,
+and each use chose its own type for `A`. A block can hold that kind of
+reusable function too — when the binding is written one way. Written another
+way, the same body yields one *monomorphic* function value — one fixed type
+for every use. Two functions that return their inputs can carry different
+reuse contracts, and the difference lies in how the local binding is written
+and checked.
 
 ## Give each use its own type choice
 
-In `01-local-identity.ash`, the initializer is an anonymous function and the
-binding has no annotation:
+The first program binds an anonymous function with no annotation:
 
 <!-- source: src/01-local-identity.ash -->
 ```ash
@@ -48,7 +46,7 @@ every local binding polymorphic.
 
 ## An annotation chooses one contract
 
-`02-annotated-identity.ash` supplies an ordinary function type explicitly:
+The next program supplies an ordinary function type explicitly:
 
 <!-- source: src/02-annotated-identity.ash -->
 ```ash
@@ -94,7 +92,7 @@ name can appear in the annotation.
 
 ## A call produces one function value
 
-The initializer in `03-returned-function.ash` is a call:
+This time the initializer is a call:
 
 <!-- source: src/03-returned-function.ash -->
 ```ash
@@ -179,7 +177,7 @@ The similar function bodies have different places for choosing types:
 ## Keep captured types fixed
 
 A local function can capture an enclosing value while leaving its own input
-open. `05-captured-input.ash` pairs each input with a saved value:
+open. The program below saves one value and pairs it with every input:
 
 <!-- source: src/05-captured-input.ash -->
 ```ash

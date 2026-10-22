@@ -34,8 +34,8 @@ $ ash 01-sequential-bindings.ash
 42 : Int
 ```
 
-The new name `add_base` enters scope after its initializer. This sequential
-rule is the same one used throughout Learn.
+The new name `add_base` enters scope after its initializer, the same
+sequential rule every lesson has used so far.
 
 ## Name a local recursive calculation
 
@@ -114,6 +114,7 @@ main () = {
 `Count` represents a nonnegative count by repeated `Next` constructors.
 `Zero` is even and not odd. Removing one `Next` reverses the question: evenness
 of the whole asks for oddness of the rest, and oddness asks for evenness.
+Definitions that call each other in this way are *mutually recursive*.
 
 Both names enter scope before either initializer is checked. Both initializers
 are anonymous functions, so their calls to the other member wait until the
@@ -218,7 +219,8 @@ The cycle is finite stored structure, but an unrestricted walk has no ending
 case. The finite-list traversals in Learn and the Cases rely on reaching a
 base constructor; that assumption does not hold here.
 
-Constructor guarding is not general laziness. Initializers still evaluate
+Constructor guarding is not general *lazy evaluation*: Ash does not delay
+every subexpression until its value is needed. Initializers still evaluate
 ordinary nonrecursive subexpressions. The special allowance is for retaining
 recursive references through constructor or tuple construction, or delaying
 them inside an anonymous function body. It does not make arbitrary unfinished
@@ -323,10 +325,11 @@ outside this lesson's `src` tree. Run the copy from that directory.
 4. Extend `05-guarded-cycle.ash` to observe exactly three scores. Predict which
    node supplies the third, and keep a fixed observation bound.
 
-A recursive group provides simultaneous names with explicit contracts and
-safe initialization. Functions delay their bodies until called; constructor
-fields can retain guarded links. What happens after initialization still
-depends on the program's calls and data. With this boundary understood, the
+A recursive group gives its names one shared scope, with explicit contracts
+and safe initialization: functions delay their bodies until called, and
+constructor fields can retain guarded links. What happens after
+initialization still depends on the program's calls and data. With this
+boundary understood, the
 [effects](../../effects/README.md) and [library](../../libraries/README.md)
 paths can build on local functions without assuming they are all polymorphic
 or that every recursive structure is a finite list.
