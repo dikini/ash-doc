@@ -19,7 +19,7 @@ example from the learning-path directory:
 cd /path/to/ash-doc/content/learn
 ```
 
-The first eleven lessons use that shared directory for diagnostic commands.
+The first twelve lessons use that shared directory for diagnostic commands.
 The two continuation chapters state their own lesson-local `src` directory.
 The diagnostic commands use checked-in files even when the exploration asks
 you to edit your own `program.ash` or `main.ash`. Follow the shared
@@ -74,23 +74,25 @@ with `ash` to test what it does.
 6. [Making values travel together](values-travel-together/README.md) —
    keep fixed collections of typed values together with tuples and tuple
    patterns.
-7. [Defining data](defining-data/README.md) — name a
+7. [Working with text](working-with-text/README.md) — display, measure, and
+   convert text with `String` values.
+8. [Defining data](defining-data/README.md) — name a
    new type and the constructors for its possible values.
-8. [Handling data forms](handling-data-forms/README.md)
+9. [Handling data forms](handling-data-forms/README.md)
    — follow a data definition with patterns and exhaustive cases.
-9. [Following recursive data](following-recursive-data/README.md)
-   — follow a self-reference with a recursive function and a stopping form.
-10. [Functions as values](functions-as-values/README.md) —
+10. [Following recursive data](following-recursive-data/README.md)
+    — follow a self-reference with a recursive function and a stopping form.
+11. [Functions as values](functions-as-values/README.md) —
     receive, construct, and return function values.
-11. [Definitions for many types](definitions-for-many-types/README.md)
+12. [Definitions for many types](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
 
 ### Continuation chapters
 
-12. [Generalizing local functions](generalizing-local-functions/README.md)
+13. [Generalizing local functions](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
-13. [Defining local recursion](defining-local-recursion/README.md)
+14. [Defining local recursion](defining-local-recursion/README.md)
     — use annotated recursive groups and distinguish guarded construction
     from forcing unfinished data.
 <!-- markdownlint-enable MD029 -->

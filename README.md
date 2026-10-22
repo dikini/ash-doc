@@ -18,7 +18,7 @@ source foreign contracts, resource families,
 immutable strings and bytes, and generated native hosts to the earlier
 diagnostics, effects, libraries, modules, and language foundation.
 
-All thirteen Learn lessons, twenty-eight algorithm and effect Cases, eight library
+All fourteen Learn lessons, twenty-eight algorithm and effect Cases, eight library
 lessons, and twelve effects lessons are verified at this exact target. The
 [verification guide](docs/project/verification.md) gives the checks for this
 baseline. The documentation remains
@@ -81,7 +81,7 @@ messages on standard error, leave standard output empty, and exit with status
 ## Learn Ash
 
 Begin at [Learn Ash](content/learn/README.md). It contains the one-time tool
-setup, the method used throughout the learning path, and all thirteen verified
+setup, the method used throughout the learning path, and all fourteen verified
 chapters in reading order. The path begins with one source file and one value,
 then builds through functions, modules, choices, local bindings, structured and
 recursive data, functions as values, and definitions parameterized by types.
@@ -211,9 +211,10 @@ can land together.
 Verification uses the shared Bash helper and Python JSON comparison described
 in the verification guide. The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
-select all 61 verified lessons in Learn → Libraries → Effects → Cases order,
+select all 62 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and
-book and A4 PDFs. All 61 lessons pass artifact, EPUB, browser, and PDF review.
+book and A4 PDFs. Their recorded artifact, EPUB, browser, and PDF reviews
+predate the Learn extension and refresh at the next whole-book build.
 The default build retains the smaller regression specimen; its static figures
 cover Mermaid graphs and interaction sequences, railroad grammar, and sequent
 inference rules. Both modes share tools and styles. No CI service or publication

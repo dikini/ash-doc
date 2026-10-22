@@ -85,17 +85,20 @@ Recording and synchronisation rules:
 - Source tradition: strings are the first non-numeric type in most
   introductions.
 - Executable observation: `String` and `Bytes` are primitive with literals
-  and escapes, but the operation set lives in `@builtin.string` and
-  `@builtin.bytes` with only `to_utf8`, `from_utf8`, and `byte_length`
-  observed in the pinned tests; there is no concatenation or string
-  equality in the baseline. Literal syntax, the operation sets, curriculum
-  placement, and representation all remain open upstream.
+  and escapes, and the operations live in `@builtin.string` and
+  `@builtin.bytes`: `byte_length`, `to_utf8`, and an `equal` comparison by
+  name are observable at this pin (`spec/name-resolution.md`, the
+  independent byte and string modules table); no operator concatenates or
+  compares strings — `+` and `==` remain integer-only
+  (`spec/static-semantics.md`, family `primitive-operation-typing`).
+  Literal syntax, the operation sets, curriculum placement, and
+  representation all remain open upstream.
 - Blocked boundary: text-processing lessons must stay surface-level and
   flagged volatile.
 - Why it matters beyond one example: files, memory, and library-level memory
   management are the active implementation focus, so this area will move.
-- Affected lessons: the future strings-and-bytes lesson, flagged
-  `volatile: strings-bytes` when it lands.
+- Affected lessons: `content/learn/working-with-text/`, flagged
+  `volatile: strings-bytes`.
 
 ## P-05: Source comments excluded
 

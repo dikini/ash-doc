@@ -21,7 +21,8 @@ fi
 failures=0
 
 while IFS= read -r lesson; do
-    if ! grep -q "$lesson" "$register"; then
+    lesson_dir=${lesson%/README.md}
+    if ! grep -q "content/$lesson_dir" "$register"; then
         printf 'pressure-sync: %s is volatile but names no register entry\n' \
             "$lesson" >&2
         failures=$((failures + 1))
