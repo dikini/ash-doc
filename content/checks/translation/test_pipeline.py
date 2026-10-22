@@ -180,5 +180,57 @@ class PlantedViolationTest(unittest.TestCase):
         fx.write_bg(corrupted)
 
 
+class FrontMatterTranslationTest(unittest.TestCase):
+    lesson = pipeline.REPO_ROOT / "content" / "learn" / "using-more-than-one-input"
+
+    @staticmethod
+    def echo_mt(prompt: str) -> str:
+        segments = prompt.split("## Segments\n\n")[1].strip().split("\n")
+        body = "\n".join(line for line in segments if line.startswith("[bg-seg-"))
+        return f"<<<BG-START>>>\n{body}\n<<<BG-END>>>"
+
+    def test_identity_translate_round_trips_lesson3(self) -> None:
+        source = (self.lesson / "README.md").read_text()
+        with tempfile.TemporaryDirectory() as tmp:
+            lesson = Path(tmp) / self.lesson.name
+            shutil.copytree(self.lesson, lesson)
+            (lesson / "README.bg.md").unlink(missing_ok=True)
+            original = pipeline.run_mt
+            pipeline.run_mt = self.echo_mt
+            try:
+                pipeline.cmd_translate(lesson)
+            finally:
+                pipeline.run_mt = original
+            bg_text = (lesson / "README.bg.md").read_text()
+            en_blocks, _, _, _ = pipeline.parse(source)
+            bg_blocks, bg_blanks, bg_trailing, bg_nl = pipeline.parse(bg_text)
+            self.assertEqual(en_blocks[0].lines, bg_blocks[0].lines)
+            self.assertEqual(bg_text, pipeline.assemble(
+                bg_blocks, bg_blanks, bg_trailing, bg_nl))
+
+    def test_front_matter_structure_checked_values_free(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            lesson = Path(tmp) / "synthetic"
+            (lesson / "checks").mkdir(parents=True)
+            en = ("---\ndiagrams:\n  - kind: split\n    id: fig-one\n"
+                  "    caption: Curried function.\n"
+                  '    description: "The signature add : Int -> Int."\n---\n\n# Урок\n\nТекст.\n')
+            (lesson / "README.md").write_text(en)
+            (lesson / "README.bg.md").write_text(en.replace(
+                "caption: Curried function.", 'caption: "Кърингната функция."'))
+            (lesson / "checks" / "translation.json").write_text(json.dumps({
+                "language": "bg", "tier": "mt-draft",
+                "claimed_english_sha256": pipeline.sha256_text(en),
+                "provenance": {}}))
+            self.assertEqual(pipeline.check_lesson(lesson), [])
+            (lesson / "README.bg.md").write_text(
+                (lesson / "README.bg.md").read_text().replace(
+                    "diagrams:", "diagrams-x:", 1))
+            violations = pipeline.check_lesson(lesson)
+            self.assertTrue(
+                any(v.startswith("transplant: front matter") for v in violations),
+                violations)
+
+
 if __name__ == "__main__":
     unittest.main()

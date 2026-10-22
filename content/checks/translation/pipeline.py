@@ -36,6 +36,7 @@ PLACEHOLDER_RE = re.compile(r"<!--t(\d+)-->")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
 LIST_ITEM_RE = re.compile(r"^(\s*)(\d+\.|[-*])\s+(.*)$")
 LINKDEF_RE = re.compile(r"^\[[^\]]+\]:\s*\S+")
+FRONT_MATTER_VALUE_RE = re.compile(r"^(\s*(?:caption|description):\s*)(.*)$")
 
 TRANSLATABLE = {"heading", "quote", "list_item", "paragraph"}
 TRANSPLANT_KINDS = {"front_matter", "comment", "fence", "divfence", "linkdef"}
@@ -193,6 +194,30 @@ def protect(text: str) -> tuple[str, list[str]]:
     return "".join(out), spans
 
 
+def yaml_needs_quotes(text: str) -> bool:
+    return (": " in text or text != text.strip() or text.startswith(
+        ("-", "?", ":", ",", "[", "]", "{", "}", "#", "&", "*", "!",
+         "|", ">", "'", '"', "%", "@", "`")))
+
+
+def quote_yaml(text: str) -> str:
+    return '"' + text.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def front_matter_values(block: Block) -> list[tuple[int, str, str, bool]]:
+    """Translatable caption/description values inside a front matter block:
+    (line index, key prefix, bare value, whether the source was quoted)."""
+    values = []
+    for line_index, line in enumerate(block.lines):
+        match = FRONT_MATTER_VALUE_RE.match(line)
+        if not match:
+            continue
+        prefix, value = match.groups()
+        quoted = len(value) >= 2 and value.startswith('"') and value.endswith('"')
+        values.append((line_index, prefix, value[1:-1] if quoted else value, quoted))
+    return values
+
+
 def restore(text: str, spans: list[str]) -> str:
     for index, span in enumerate(spans):
         text = text.replace(placeholder_token(index, len(span)), span, 1)
@@ -263,19 +288,30 @@ def prepare_segments(blocks: list[Block]) -> dict[int, tuple[str, list[str]]]:
     return prepared
 
 
-def build_prompt(blocks: list[Block]) -> tuple[list[int], str]:
+def collect_segments(blocks: list[Block]) -> tuple[list[list], list[dict]]:
+    """Translatable units: block prose plus front matter caption and
+    description values. Returns (entries, front) where entries are
+    [kind, key, protected text] and front locates each value's line."""
     prepared = prepare_segments(blocks)
-    ids = sorted(prepared)
-    segments = "\n".join(f"[bg-seg-{i}] {prepared[i][0]}" for i in ids)
-    prompt = (
-        PROMPT_TEMPLATE
-        + "\n## Glossary\n\n"
-        + GLOSSARY_TEXT
-        + "\n## Segments\n\n"
-        + segments
-        + "\n"
-    )
-    return ids, prompt
+    entries: list[list] = [["block", index, prepared[index][0]]
+                           for index in sorted(prepared)]
+    front: list[dict] = []
+    for block_index, block in enumerate(blocks):
+        if block.kind != "front_matter":
+            continue
+        for line_index, prefix, text, quoted in front_matter_values(block):
+            protected, spans = protect(text)
+            front.append({"block": block_index, "line": line_index,
+                          "prefix": prefix, "quoted": quoted, "spans": spans,
+                          "english": text})
+            entries.append(["fm", len(front) - 1, protected])
+    return entries, front
+
+
+def build_prompt(entries: list[list]) -> str:
+    segments = "\n".join(f"[bg-seg-{n}] {entry[2]}" for n, entry in enumerate(entries))
+    return (PROMPT_TEMPLATE + "\n## Glossary\n\n" + GLOSSARY_TEXT
+            + "\n## Segments\n\n" + segments + "\n")
 
 
 def run_mt(prompt_text: str) -> str:
@@ -310,12 +346,25 @@ def parse_mt_output(stdout: str, expected: list[int]) -> dict[int, str]:
     return found
 
 
-def translate_blocks(
-    blocks: list[Block], mt_output: str, expected: list[int]
-) -> dict[int, str]:
-    raw = parse_mt_output(mt_output, expected)
-    prepared = {i: blocks[i].spans for i in expected}
-    return {i: restore(raw[i], prepared[i]) for i in expected}
+def run_translation(blocks: list[Block]) -> tuple[dict[int, str], list[dict], list[str]]:
+    """One MT pass over every translatable unit. Returns block
+    translations plus the front matter entries and their restored texts."""
+    entries, front = collect_segments(blocks)
+    raw = parse_mt_output(run_mt(build_prompt(entries)), list(range(len(entries))))
+    block_translations: dict[int, str] = {}
+    fm_texts: list[str] = []
+    for n, (kind, key, _) in enumerate(entries):
+        if kind == "block":
+            block_translations[key] = restore(raw[n], blocks[key].spans)
+        else:
+            fm_texts.append(restore(raw[n], front[key]["spans"]))
+    return block_translations, front, fm_texts
+
+
+def apply_front_matter(blocks: list[Block], front: list[dict], fm_texts: list[str]) -> None:
+    for entry, text in zip(front, fm_texts):
+        value = quote_yaml(text) if entry["quoted"] or yaml_needs_quotes(text) else text
+        blocks[entry["block"]].lines[entry["line"]] = entry["prefix"] + value
 
 
 def glossary_never_translate() -> list[str]:
@@ -401,6 +450,25 @@ def check_lesson(lesson_dir: Path) -> list[str]:
 
     terms = glossary_never_translate()
     for index, (en_block, bg_block) in enumerate(zip(en_blocks, bg_blocks)):
+        if en_block.kind == "front_matter":
+            en_values = front_matter_values(en_block)
+            bg_values = front_matter_values(bg_block)
+            if len(en_values) != len(bg_values):
+                violations.append(
+                    f"skeleton: front matter caption/description count differs in block {index}")
+                continue
+            for (line, prefix, _, _), (_, bg_prefix, bg_text, _) in zip(en_values, bg_values):
+                if prefix != bg_prefix:
+                    violations.append(
+                        f"transplant: front matter key line differs in block {index}")
+            en_rest = [line for line in en_block.lines
+                       if not FRONT_MATTER_VALUE_RE.match(line)]
+            bg_rest = [line for line in bg_block.lines
+                       if not FRONT_MATTER_VALUE_RE.match(line)]
+            if en_rest != bg_rest:
+                violations.append(
+                    f"transplant: front matter structure differs in block {index}")
+            continue
         if en_block.kind in TRANSPLANT_KINDS:
             if en_block.lines != bg_block.lines:
                 violations.append(
@@ -419,24 +487,28 @@ def check_lesson(lesson_dir: Path) -> list[str]:
     return violations
 
 
-def fresh_candidate(lesson_dir: Path) -> tuple[list[Block], list[int], list[int], bool, dict[int, str], str]:
+def fresh_candidate(lesson_dir: Path) -> tuple:
     """Run the MT engine over current English and return parsed blocks plus
-    restored fresh translations."""
+    restored fresh translations for prose and front matter values."""
     en = (lesson_dir / "README.md").read_text()
     blocks, blanks_before, trailing_blanks, trailing_newline = parse(en)
-    ids, prompt = build_prompt(blocks)
-    output = run_mt(prompt)
-    fresh = translate_blocks(blocks, output, ids)
-    return blocks, blanks_before, trailing_blanks, trailing_newline, fresh, output
+    fresh, front, fm_texts = run_translation(blocks)
+    return (blocks, blanks_before, trailing_blanks, trailing_newline,
+            fresh, front, fm_texts)
 
 
 def cmd_translate(lesson_dir: Path) -> None:
     en = (lesson_dir / "README.md").read_text()
     bg_path, state_path, _ = translation_paths(lesson_dir)
+    if state_path.exists():
+        existing = json.loads(state_path.read_text())
+        if existing.get("tier") == "corrected":
+            raise SystemExit(
+                f"{lesson_dir}: lesson is human-owned (tier corrected); "
+                "machine output arrives via compare, never translate")
     blocks, blanks_before, trailing_blanks, trailing_newline = parse(en)
-    ids, prompt = build_prompt(blocks)
-    output = run_mt(prompt)
-    translated = translate_blocks(blocks, output, ids)
+    translated, front, fm_texts = run_translation(blocks)
+    apply_front_matter(blocks, front, fm_texts)
     bg_path.write_text(assemble(
         blocks, blanks_before, trailing_blanks, trailing_newline, translated))
     state_path.parent.mkdir(parents=True, exist_ok=True)
@@ -451,16 +523,15 @@ def cmd_translate(lesson_dir: Path) -> None:
             "model": MANIFEST["model"],
             "prompt_sha256": hash256(PROMPT_TEMPLATE.encode()),
             "glossary_sha256": hash256(GLOSSARY_TEXT.encode()),
-            "segments": len(ids),
+            "segments": len(translated) + len(fm_texts),
         },
     }, indent=2) + "\n")
     print(f"wrote {bg_path} and {state_path}")
 
 
 def cmd_compare(lesson_dir: Path) -> None:
-    _, state_path, divergence_path = translation_paths(lesson_dir)
-    blocks, _, _, _, fresh, _ = fresh_candidate(lesson_dir)
-    bg_path, _, _ = translation_paths(lesson_dir)
+    bg_path, _, divergence_path = translation_paths(lesson_dir)
+    blocks, _, _, _, fresh, front, fm_texts = fresh_candidate(lesson_dir)
     bg_blocks, _, _, _ = parse(bg_path.read_text())
     terms = glossary_never_translate()
     flags = []
@@ -481,6 +552,23 @@ def cmd_compare(lesson_dir: Path) -> None:
             "english": blocks[index].text,
             "stored": stored_text,
             "fresh": fresh_text,
+            "mechanical": mechanical,
+            "adjudication": "keep-stored" if mechanical else None,
+        })
+    for n, entry in enumerate(front):
+        match = FRONT_MATTER_VALUE_RE.match(bg_blocks[entry["block"]].lines[entry["line"]])
+        stored_value = match.group(2) if match else ""
+        if len(stored_value) >= 2 and stored_value.startswith('"') and stored_value.endswith('"'):
+            stored_value = stored_value[1:-1]
+        if normalize(stored_value) == normalize(fm_texts[n]):
+            continue
+        mechanical = "reject-fresh" if scan_never_translate(fm_texts[n], terms) else None
+        flags.append({
+            "segment": f"fm:{n}",
+            "kind": "front_matter",
+            "english": entry["english"],
+            "stored": stored_value,
+            "fresh": fm_texts[n],
             "mechanical": mechanical,
             "adjudication": "keep-stored" if mechanical else None,
         })
@@ -511,8 +599,21 @@ def cmd_converge(lesson_dir: Path) -> None:
                  if f.get("adjudication") == "adopt-fresh"}
         if adopt:
             bg_blocks, bg_blanks, bg_trailing, bg_nl = parse(bg_path.read_text())
+            block_adopt = {segment: text for segment, text in adopt.items()
+                           if isinstance(segment, int)}
+            fm_adopt = {int(str(segment).split(":")[1]): text
+                        for segment, text in adopt.items()
+                        if isinstance(segment, str) and str(segment).startswith("fm:")}
+            if fm_adopt:
+                en_blocks, _, _, _ = parse(en)
+                _, front = collect_segments(en_blocks)
+                for n, text in fm_adopt.items():
+                    entry = front[n]
+                    value = (quote_yaml(text)
+                             if entry["quoted"] or yaml_needs_quotes(text) else text)
+                    bg_blocks[entry["block"]].lines[entry["line"]] = entry["prefix"] + value
             bg_path.write_text(assemble(
-                bg_blocks, bg_blanks, bg_trailing, bg_nl, adopt))
+                bg_blocks, bg_blanks, bg_trailing, bg_nl, block_adopt))
         state["provenance"]["last_convergence"] = datetime.now(
             timezone.utc).isoformat()
         divergence_path.unlink()
