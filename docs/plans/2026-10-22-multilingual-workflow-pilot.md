@@ -219,10 +219,16 @@ adjudication as the normal mode); lessons 1-2 then took real owner
 corrections (imperative exercise heading, на ръка phrasing), promoted to
 human-owned, and their wording survived fresh machine passes through
 keep-stored adjudication - including one fresh grammatical regression
-the adjudication rejected. Known gap: figure captions and descriptions
-stay English until front matter translation lands; EPUB was not
-exercised in the pilot builds. Remaining: the review owner's
-certification pass and the step 7 pilot review.
+the adjudication rejected. Step 4 is complete: the review owner read all
+three chapters on the rendered preview, applied the terminology
+rulings, promoted two corrections, verified the translated figure
+captions, and certified the chapters - lessons 1-2 at tier corrected,
+lesson 3 at tier reviewed with its draft notice dropped from the
+render. Figure captions and descriptions translate through the pipeline
+since the owner's preview finding; only the generated book chrome
+(landing, reader setup) stays English, deferred as a rendering-scope
+choice. EPUB was not exercised in the pilot builds. Remaining: the step
+7 pilot review.
 
 ## Execution order
 
