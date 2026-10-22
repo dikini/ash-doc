@@ -209,7 +209,10 @@ content family or lesson only when its prose and applicable executable evidence
 can land together.
 
 Verification uses the shared Bash helper and Python JSON comparison described
-in the verification guide. The approved
+in the verification guide. Translated lessons add
+`content/checks/translation/sync.sh`, described in the
+[verification guide](docs/project/verification.md#check-translated-lessons).
+The approved
 [local review book](docs/project/rendering.md) uses Quarto Book and Typst to
 select all 64 verified lessons in Learn → Libraries → Effects → Cases order,
 with each family's introduction, for responsive HTML, reflowable EPUB 3, and

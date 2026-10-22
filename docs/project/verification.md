@@ -247,3 +247,24 @@ and the accuracy of explanations. Finish with `git diff --check` and inspect
 A green run establishes this baseline only. When the baseline changes, update
 code, prose, and checks together, verify every active unit, and remove obsolete
 plans, observations, and comparison harnesses.
+
+## Check translated lessons
+
+Every lesson carrying a translated chapter (`README.<lang>.md` beside its
+English `README.md`) checks through the translation pipeline:
+
+```sh
+bash content/checks/translation/sync.sh
+```
+
+The sync verifies, per translated lesson: skeleton order against the English
+chapter; byte-identical transplants (fenced programs, complete diagnostic
+captures, comments, link definitions); no bare never-translate terms outside
+code; a drift marker naming the English state the translation claims; and
+quiescence (no unadjudicated divergence flags). Run it when a translated
+lesson, its English source, the glossary, or the shared translation checks
+change. The pipeline also translates new lessons
+(`pipeline.py translate --lesson <dir>`), refreshes the divergence report
+against a fresh machine reading (`compare`), and applies recorded human
+adjudications (`converge`). Rendering a translated scope requires the checks
+to pass first; see the rendering guide's scoped builds with `--lang`.

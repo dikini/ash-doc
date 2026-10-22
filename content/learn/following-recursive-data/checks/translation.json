@@ -1,7 +1,7 @@
 {
   "language": "bg",
   "tier": "reviewed",
-  "claimed_english_sha256": "8f475b4f8c8b1cd03defb3b302f9a4eee196a778f8b532084172eda9f802a7ff",
+  "claimed_english_sha256": "8b734aa08c16648b1b36415b37821e5e0499719767df83041db635a2d202c778",
   "generated_at": "2026-10-22T14:23:20.284008+00:00",
   "provenance": {
     "engine": "codex-cli",
@@ -9,7 +9,8 @@
     "model": "gpt-6-luna",
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
     "glossary_sha256": "4e7b1009ba90c375596eeda32f62b471a846270673d186b2af75c8238cd2c090",
-    "segments": 30
+    "segments": 30,
+    "last_convergence": "2026-10-22T14:53:46.209645+00:00"
   },
   "certification": {
     "at": "2026-10-22T14:35:12.741468+00:00",

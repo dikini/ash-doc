@@ -246,7 +246,9 @@ Before completing a change:
 6. Review attribution, adaptation notes, and license constraints.
 7. Confirm that facts, proposals, experiments, and unknowns retain their actual
    status.
-8. Run `git diff --check` and inspect `git status --short` before committing.
+8. Run `content/checks/translation/sync.sh` when translated lessons, their
+   English sources, or the shared translation checks change.
+9. Run `git diff --check` and inspect `git status --short` before committing.
 
 The repository selects the indexed `docs/`, `content/`, `lab/`, `research/`,
 and `rendering/` roots, four content families, and lesson-local source and

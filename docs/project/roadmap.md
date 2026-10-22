@@ -68,16 +68,18 @@ lesson flags.
 
 ## Multilingual workflow decision
 
-**State: approved; pilot in preparation.** The
-[plan](../plans/2026-10-22-multilingual-workflow-pilot.md) tests machine
-translation with lagging human review as the vehicle for translated prose,
-starting from Learn 1-3 in Bulgarian. English lessons, canonical programs,
-and diagnostic captures remain the source of truth and stay byte-identical
-across languages; translated lessons carry mt-draft, reviewed, or corrected
-status and stay outside family indexes until they verify. The pilot adds
-shared translation checks under `content/checks/translation/`, completes
-with a retranslation cycle, a human-correction promotion, and quiescence,
-and defines no Ash semantics and no publication mechanism.
+**State: complete for the Learn path; later families remain future work.**
+Machine translation with lagging human review carries translated prose,
+with the codex CLI (`gpt-6-luna`) as the pinned engine. English lessons,
+canonical programs, and diagnostic captures remain the source of truth
+and stay byte-identical across languages. The Learn path is fully
+Bulgarian: lessons 1-2 human-owned at `corrected` after promoted owner
+corrections, the other thirteen at `reviewed` after owner
+certification. The machinery lives under `content/checks/translation/`
+(segmentation, transplant, glossary with the coinage rule, drift and
+convergence passes), and `--lang` renders translated lesson scopes in
+PT Serif with tier notices in the chrome. The workflow defines no Ash
+semantics and no publication mechanism.
 
 ## FFI Base migration outcome
 
