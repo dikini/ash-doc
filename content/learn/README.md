@@ -19,7 +19,7 @@ example from the learning-path directory:
 cd /path/to/ash-doc/content/learn
 ```
 
-The first twelve lessons use that shared directory for diagnostic commands.
+The first thirteen lessons use that shared directory for diagnostic commands.
 The two continuation chapters state their own lesson-local `src` directory.
 The diagnostic commands use checked-in files even when the exploration asks
 you to edit your own `program.ash` or `main.ash`. Follow the shared
@@ -80,19 +80,21 @@ with `ash` to test what it does.
    new type and the constructors for its possible values.
 9. [Handling data forms](handling-data-forms/README.md)
    — follow a data definition with patterns and exhaustive cases.
-10. [Following recursive data](following-recursive-data/README.md)
+10. [Patterns in depth](patterns-in-depth/README.md) — name exactly what a
+    value contains with wildcards, nested patterns, and literal patterns.
+11. [Following recursive data](following-recursive-data/README.md)
     — follow a self-reference with a recursive function and a stopping form.
-11. [Functions as values](functions-as-values/README.md) —
+12. [Functions as values](functions-as-values/README.md) —
     receive, construct, and return function values.
-12. [Definitions for many types](definitions-for-many-types/README.md)
+13. [Definitions for many types](definitions-for-many-types/README.md)
     — reuse functions and data definitions through type parameters.
 
 ### Continuation chapters
 
-13. [Generalizing local functions](generalizing-local-functions/README.md)
+14. [Generalizing local functions](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
-14. [Defining local recursion](defining-local-recursion/README.md)
+15. [Defining local recursion](defining-local-recursion/README.md)
     — use annotated recursive groups and distinguish guarded construction
     from forcing unfinished data.
 <!-- markdownlint-enable MD029 -->

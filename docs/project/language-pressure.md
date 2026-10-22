@@ -61,7 +61,8 @@ Recording and synchronisation rules:
   equality-then-branch chains.
 - Why it matters beyond one example: it shapes how exercises in several
   future lessons are phrased.
-- Affected lessons: none yet.
+- Affected lessons: `content/learn/patterns-in-depth/`, whose exercises
+  dispatch on constructors only.
 
 ## P-03: Boolean operators
 

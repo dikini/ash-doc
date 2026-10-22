@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "coverage.non-exhaustive",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "uncovered_value",
+      "kind": "code",
+      "value": "Blank"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "coverage",
+      "path": "src/02-missing-case.ash",
+      "byte_start": 48,
+      "byte_end": 118,
+      "facts": [
+        {
+          "name": "uncovered_value",
+          "kind": "code",
+          "value": "Blank"
+        }
+      ]
+    }
+  ]
+}
