@@ -42,9 +42,12 @@ behavior, which remains the pinned specification's role.
 
 ## Adaptation boundaries
 
+The three works are inspiration, not direct adaptation: examples and prose
+remain original, derived from the pinned specification and tool; the sources
+inform order and method only. Bibliographic citation carries no licensing
+constraint; no text, figures, or code are redistributed.
+
 The Learn book stays far shorter than any source, serves readers new to
 programming and experienced readers reviewing Ash, and stops at the
 intermediate threshold; generative recursion, mutation, metacircular
-evaluation, and language implementation are outside its arc. Examples and
-prose are original, derived from the pinned specification and tool; these
-sources inform order and method only.
+evaluation, and language implementation are outside its arc.

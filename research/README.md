@@ -32,3 +32,6 @@ for source integrity and adaptation style.
 - [*A Data-Centric Introduction to Computing*](data-centric-introduction-to-computing.md)
   contributes meaningful data, development from examples, prediction, and
   revision through small distinguishing cases.
+- [Sequencing traditions](sequencing-three-traditions.md) contributes the
+  content sequencing of *How to Design Programs*, SICP, and Wirth's
+  *Algorithms + Data Structures = Programs* for the Learn extension.
