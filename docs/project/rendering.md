@@ -316,7 +316,18 @@ and tool pins. Filtering an already assembled whole book would retain its cost;
 these selections happen before staging or rendering. Caching can be reconsidered
 if measurements expose substantial remaining work within a selected scope.
 
-Scope and output formats are independent:
+Scope and output formats are independent. Translated scopes add one
+dimension: `--lang <code>` renders the Bulgarian edition (`bg`) of a
+lesson (`--lesson <path>/README.bg.md`) or a whole part (`--part
+<family>`), staging each chapter's translated file after its
+translation checks pass. A translated part includes the translated
+family introduction as its front matter. Translated builds carry the
+`--lang` suffix in their project directory and output basename, set the
+language in Quarto metadata, use PT Serif for Cyrillic prose, localize
+the generated landing and reader-setup pages from checked-in Bulgarian
+sources, keep English anchors on translated headings, and mark
+`mt-draft` chapters with a status notice in every format. Book and
+specimen scopes remain English-only in this edition.
 
 | Selection | Generated project |
 | --- | --- |

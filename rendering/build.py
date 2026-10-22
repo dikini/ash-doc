@@ -172,9 +172,7 @@ def select_sources(args, config):
         if not (ROOT / relative).is_file():
             raise ValueError(f"{relative}: translation file missing")
         suffix = "" if lang == "en" else f"-{lang}"
-        title = "Ash documentation lesson review"
-        if lang != "en":
-            title += f" ({lang})"
+        title = "Ash documentation lesson review" if lang == "en" else f"Преглед на урок ({lang})"
         return {"mode": "lesson", "selection": relative.as_posix(),
                 "sources": [relative.as_posix()], "parts": [],
                 "title": title, "output_file": f"ash-doc-{family}-{name}{suffix}",
@@ -190,9 +188,8 @@ def select_sources(args, config):
             raise ValueError(f"{index}: family has no indexed lessons")
         introduction = index.relative_to(ROOT).as_posix()
         suffix = "" if lang == "en" else f"-{lang}"
-        title = f"Ash documentation {part.title()} review"
-        if lang != "en":
-            title += f" ({lang})"
+        title = (f"Ash documentation {part.title()} review" if lang == "en"
+                 else f"Преглед на {part} ({lang})")
         return {"mode": "part", "selection": part, "sources": [introduction, *lessons],
                 "parts": [{"family": part, "introduction": chapter_name(introduction),
                            "chapters": [chapter_name(source) for source in lessons]}],
@@ -505,8 +502,14 @@ def prepare(args):
         partial = args.output / "styles" / "book.typ"
         partial.write_text(partial.read_text(encoding="utf-8").replace(
             '#set text(font: "TeX Gyre Pagella", size: 11pt, lang: "en")',
-            f'#set text(font: "PT Serif", size: 11pt, lang: "{lang}")'),
+            f'#set text(font: "PT Serif", size: 11pt, lang: "{lang}")'
+        ).replace(
+            "#outline(title: [Contents], indent: 1em, depth: 2)",
+            "#outline(title: [Съдържание], indent: 1em, depth: 2)"),
             encoding="utf-8")
+        navigation = args.output / "styles" / "navigation.html"
+        navigation.write_text(navigation.read_text(encoding="utf-8").replace(
+            "On this page", "На тази страница"), encoding="utf-8")
     jobs, records = [], []
     for source in sources:
         assets = []
@@ -536,22 +539,33 @@ def prepare(args):
         if path.parts[0] == "content":
             record["family"] = path.parts[1]
         records.append(record)
-    (args.output / "setup.md").write_text(reader_setup(args.quarto), encoding="utf-8")
-    introduction = ("# Ash documentation\n\n"
-        "The book begins with small calculations and follows how their data and "
-        "functions connect. Work through the programs, predict their results, "
-        "and use the observations to explain each step.\n\n"
-        "Begin with reader setup and Learn Ash. The library chapters develop "
-        "reusable abstractions; the effects chapters develop requests, control, "
-        "and scoped resources. The Cases then calculate algorithms and apply "
-        "those ideas to larger problems. Follow each part in order, using its "
-        "introduction for reading and practice guidance.\n") if scope["mode"] == "book" else (
-        "# Ash documentation\n\nBegin with reader setup, then follow the selected "
-        "lesson or part. References to other chapters retain their source links.\n") if scope["mode"] in ("lesson", "part") else (
-        "# Ash documentation\n\nThis local specimen tests the presentation of verified lessons "
-        "and labelled notation fixtures in three formats.\n\nThe lessons target `ffi-base`, commit `"
-        + config["ash_commit"] + "`. The edition remains unpublished.\n\n"
-        "Begin with reader setup, then use the contents to select a chapter.\n")
+    (args.output / "setup.md").write_text(
+        reader_setup(args.quarto) if lang == "en" else
+        (ROOT / "content/checks/translation/setup-bg.md").read_text(encoding="utf-8"),
+        encoding="utf-8")
+    if lang != "en":
+        introduction = ("# Документация на Ash\n\n"
+            "Започнете с настройката на четеца, после следвайте избрания урок "
+            "или част. Препратките към други глави запазват връзките си към "
+            "източника.\n")
+    elif scope["mode"] == "book":
+        introduction = ("# Ash documentation\n\n"
+            "The book begins with small calculations and follows how their data and "
+            "functions connect. Work through the programs, predict their results, "
+            "and use the observations to explain each step.\n\n"
+            "Begin with reader setup and Learn Ash. The library chapters develop "
+            "reusable abstractions; the effects chapters develop requests, control, "
+            "and scoped resources. The Cases then calculate algorithms and apply "
+            "those ideas to larger problems. Follow each part in order, using its "
+            "introduction for reading and practice guidance.\n")
+    elif scope["mode"] in ("lesson", "part"):
+        introduction = ("# Ash documentation\n\nBegin with reader setup, then follow the selected "
+            "lesson or part. References to other chapters retain their source links.\n")
+    else:
+        introduction = ("# Ash documentation\n\nThis local specimen tests the presentation of verified lessons "
+            "and labelled notation fixtures in three formats.\n\nThe lessons target `ffi-base`, commit `"
+            + config["ash_commit"] + "`. The edition remains unpublished.\n\n"
+            "Begin with reader setup, then use the contents to select a chapter.\n")
     (args.output / "index.md").write_text(introduction, encoding="utf-8")
     chapters = ([{"part": part["introduction"], "chapters": part["chapters"]} for part in parts]
                 if parts else list(mapping.values()))
