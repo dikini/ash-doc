@@ -138,11 +138,15 @@ def verify_build_metadata(metadata, records, root=ROOT):
     selection = metadata.get("selection")
     if mode == "lesson":
         path = Path(selection or "")
+        lang = metadata.get("lang", "en")
+        chapter_readme = "README.md" if lang == "en" else f"README.{lang}.md"
         check(len(path.parts) == 4 and path.parts[0] == "content"
-              and path.parts[1] in BOOK_FAMILIES and path.name == "README.md",
+              and path.parts[1] in BOOK_FAMILIES and path.name == chapter_readme,
               "lesson selection must name an indexed lesson")
         families = (path.parts[1],)
         expected_basename = f"ash-doc-{path.parts[1]}-{path.parts[2]}"
+        if lang != "en":
+            expected_basename += f"-{lang}"
     elif mode == "part":
         check(selection in BOOK_FAMILIES, "part selection is not an indexed family")
         families = (selection,)
@@ -183,7 +187,8 @@ def verify_build_metadata(metadata, records, root=ROOT):
         check(metadata["parts"] == expected_parts, "book part introductions/chapters differ from indexed sources")
         expected_count = sum(len(sources) for sources in lessons.values())
     elif mode == "lesson":
-        check(selection in lessons[families[0]], "lesson selection is not an indexed lesson")
+        selected = Path(selection).with_name("README.md").as_posix()
+        check(selected in lessons[families[0]], "lesson selection is not an indexed lesson")
         check(sources == [selection], "lesson records differ from their selection")
         check(records[0].get("role") == "lesson" and records[0].get("family") == families[0],
               "lesson record has incorrect role or family")

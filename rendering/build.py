@@ -148,25 +148,37 @@ def select_sources(args, config):
     lesson = getattr(args, "lesson", None)
     part = getattr(args, "part", None)
     book = getattr(args, "whole_book", False)
+    lang = getattr(args, "lang", "en")
     if sum(bool(value) for value in (lesson, part, book)) > 1:
         raise ValueError("select only one build scope")
+    if lang != "en" and not lesson:
+        raise ValueError("--lang is supported for lesson scope only in this pilot")
     if lesson:
         path = (ROOT / lesson).resolve()
         if not path.is_relative_to(ROOT):
             raise ValueError("lesson must be inside the repository")
         relative = path.relative_to(ROOT)
+        chapter_readme = "README.md" if lang == "en" else f"README.{lang}.md"
         if (len(relative.parts) != 4 or relative.parts[0] != "content"
-                or relative.parts[1] not in BOOK_FAMILIES or relative.name != "README.md"):
-            raise ValueError("lesson must name an indexed lesson README.md")
+                or relative.parts[1] not in BOOK_FAMILIES
+                or relative.name != chapter_readme):
+            raise ValueError(f"lesson must name an indexed lesson {chapter_readme}")
         family, name = relative.parts[1:3]
         index = ROOT / "content" / family / "README.md"
-        if (index not in family_indexes(args.quarto) or relative.as_posix() not in
+        english = relative.with_name("README.md")
+        if (index not in family_indexes(args.quarto) or english.as_posix() not in
                 family_lessons(args.quarto, index, require_sources=False)):
-            raise ValueError(f"{relative}: not an indexed lesson")
+            raise ValueError(f"{english}: not an indexed lesson")
+        if not (ROOT / relative).is_file():
+            raise ValueError(f"{relative}: translation file missing")
+        suffix = "" if lang == "en" else f"-{lang}"
+        title = "Ash documentation lesson review"
+        if lang != "en":
+            title += f" ({lang})"
         return {"mode": "lesson", "selection": relative.as_posix(),
                 "sources": [relative.as_posix()], "parts": [],
-                "title": "Ash documentation lesson review", "output_file": f"ash-doc-{family}-{name}",
-                "directory": f".build/lessons/{family}/{name}"}
+                "title": title, "output_file": f"ash-doc-{family}-{name}{suffix}",
+                "directory": f".build/lessons/{family}/{name}{suffix}"}
     if part:
         if part not in BOOK_FAMILIES:
             raise ValueError(f"unknown part: {part}")
@@ -405,17 +417,21 @@ def reader_setup(quarto):
 
 
 def configuration(chapters, title="Ash documentation rendering specimen",
-                  output_file="ash-doc-specimen"):
+                  output_file="ash-doc-specimen", lang="en"):
+    body_font = "PT Serif" if lang != "en" else "TeX Gyre Pagella"
+    html_theme = ["cosmo", "styles/html.scss"]
+    if lang != "en":
+        html_theme.append(f"styles/lang-{lang}.scss")
     return {
         "project": {"type": "book", "output-dir": "output", "resources": ["fonts/**"]},
         "book": {"title": title,
                  "author": "Ash documentation project", "output-file": output_file,
                  "chapters": ["index.md", "setup.md"] + chapters},
-        "lang": "en", "execute": {"enabled": False}, "number-sections": False,
+        "lang": lang, "execute": {"enabled": False}, "number-sections": False,
         "pdf-a4": False,
         "syntax-highlighting": "none",
         "format": {
-            "html": {"theme": ["cosmo", "styles/html.scss"], "toc": True,
+            "html": {"theme": html_theme, "toc": True,
                      "css": "styles/ash-tokens.css",
                      "toc-location": "left", "reference-location": "margin",
                      "code-copy": False, "code-overflow": "scroll",
@@ -424,7 +440,7 @@ def configuration(chapters, title="Ash documentation rendering specimen",
                      "include-after-body": "styles/navigation.html"},
             "epub": {"toc": True, "epub-version": 3, "css": "styles/epub.css",
                      "filters": [{"path": "styles/book-links.lua", "at": "pre-quarto"}]},
-            "typst": {"toc": True, "keep-typ": True, "mainfont": "TeX Gyre Pagella",
+            "typst": {"toc": True, "keep-typ": True, "mainfont": body_font,
                       "monofont": "IBM Plex Mono", "reference-location": "margin",
                       "filters": [{"path": "styles/book-links.lua", "at": "pre-quarto"}],
                       "template-partials": ["styles/typst-show.typ", "styles/book.typ"]},
@@ -440,6 +456,20 @@ def prepare(args):
     if config["ash_commit"] not in (ROOT / "README.md").read_text():
         raise ValueError("specimen Ash target differs from the current edition")
     scope = select_sources(args, config)
+    lang = getattr(args, "lang", "en")
+    if lang != "en":
+        for source in scope["sources"]:
+            lesson_dir = ROOT / Path(source).parent
+            if not (lesson_dir / "checks" / "translation.json").is_file():
+                raise ValueError(
+                    f"{source}: checks/translation.json missing; translate the lesson first")
+            try:
+                run(["python3", "content/checks/translation/pipeline.py", "check",
+                     "--lesson", lesson_dir.relative_to(ROOT)],
+                    cwd=ROOT, capture_output=True, text=True)
+            except subprocess.CalledProcessError as error:
+                raise ValueError(
+                    f"{source}: translation checks fail:\n{error.stdout}") from error
     sources, parts = scope["sources"], scope["parts"]
     title, output_file = scope["title"], scope["output_file"]
     formats = list(FORMATS) if getattr(args, "formats", None) is None else args.formats
@@ -457,7 +487,8 @@ def prepare(args):
     previous = args.output / "build.json"
     if previous.is_file():
         identity = json.loads(previous.read_text())
-        if (identity["mode"], identity.get("selection")) != (scope["mode"], scope["selection"]):
+        if (identity["mode"], identity.get("selection"), identity.get("lang", "en")) != (
+                scope["mode"], scope["selection"], lang):
             raise ValueError("output directory belongs to another build scope; choose a separate --output")
     args.output.mkdir(parents=True, exist_ok=True)
     marker = args.output / ".ash-doc-rendering"
@@ -466,6 +497,12 @@ def prepare(args):
     marker.write_text("Generated by ash-doc rendering/build.py\n", encoding="utf-8")
     shutil.copytree(ROOT / "rendering/styles", args.output / "styles", dirs_exist_ok=True)
     shutil.copytree(ROOT / "rendering/fonts", args.output / "fonts", dirs_exist_ok=True)
+    if lang != "en":
+        partial = args.output / "styles" / "book.typ"
+        partial.write_text(partial.read_text(encoding="utf-8").replace(
+            '#set text(font: "TeX Gyre Pagella", size: 11pt, lang: "en")',
+            f'#set text(font: "PT Serif", size: 11pt, lang: "{lang}")'),
+            encoding="utf-8")
     jobs, records = [], []
     for source in sources:
         assets = []
@@ -474,6 +511,13 @@ def prepare(args):
                                        output=args.output, assets=assets, details=details)
         chapter = mapping[source]
         (args.output / chapter).write_text(staged, encoding="utf-8")
+        if lang != "en":
+            state = json.loads((ROOT / Path(source).parent / "checks" /
+                                "translation.json").read_text(encoding="utf-8"))
+            if state.get("tier") == "mt-draft":
+                notice = ("> **Статус на превода:** това е машинен превод "
+                          "(mt-draft), който очаква човешка проверка.\n\n")
+                (args.output / chapter).write_text(notice + staged, encoding="utf-8")
         path = Path(source)
         if path.parts[0] == "content":
             role = "introduction" if len(path.parts) == 3 else "lesson"
@@ -504,7 +548,7 @@ def prepare(args):
     (args.output / "index.md").write_text(introduction, encoding="utf-8")
     chapters = ([{"part": part["introduction"], "chapters": part["chapters"]} for part in parts]
                 if parts else list(mapping.values()))
-    settings = configuration(chapters, title, output_file)
+    settings = configuration(chapters, title, output_file, lang=lang)
     requested = {"typst" if value.startswith("pdf") else value for value in formats}
     settings["format"] = {key: value for key, value in settings["format"].items() if key in requested}
     (args.output / "_quarto.yml").write_text(json.dumps(settings, indent=2), encoding="utf-8")
@@ -516,6 +560,7 @@ def prepare(args):
     (args.output / "sources.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
     (args.output / "build.json").write_text(json.dumps({
         "mode": scope["mode"], "selection": scope["selection"], "formats": formats, "title": title,
+        "lang": lang,
         "design_tokens_sha256": (hashlib.sha256((args.output / "styles/ash-tokens.css").read_bytes()).hexdigest()
                                  if "html" in formats and (args.output / "styles/ash-tokens.css").is_file() else None),
         "output_file": output_file, "source_commit": commit, "ash_commit": config["ash_commit"],
@@ -620,9 +665,10 @@ def main():
     scope = parser.add_mutually_exclusive_group()
     scope.add_argument("--whole-book", action="store_true",
                         help="render all indexed lessons in Learn, Libraries, Effects, Cases order")
-    scope.add_argument("--lesson", type=Path, help="render one indexed lesson README.md")
+    scope.add_argument("--lesson", type=Path, help="render one indexed lesson README.md (or README.<lang>.md with --lang)")
     scope.add_argument("--part", choices=BOOK_FAMILIES, help="render one indexed family and its introduction")
     parser.add_argument("--formats", nargs="+", choices=FORMATS, help="requested outputs (default: all four)")
+    parser.add_argument("--lang", default="en", help="chapter language: en or a translated edition such as bg")
     parser.add_argument("--specimen", type=Path, default=ROOT / "rendering/specimen.json")
     parser.add_argument("--quarto", type=Path, default=TOOLS / "quarto-1.10.19/bin/quarto")
     parser.add_argument("--output", type=Path)
