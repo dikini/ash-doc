@@ -212,9 +212,17 @@ with a translation-check pre-flight, a blockquote draft notice visible
 in HTML and both PDFs, and PT Serif in the HTML theme and the patched
 project-local Typst partial. All three lessons pass artifact checks in
 HTML and A4 PDF; lesson 3 renders its three split figures from
-transplanted notation. Known gap: figure captions and descriptions stay
-English until front matter translation lands; EPUB was not exercised in
-the pilot builds.
+transplanted notation. Step 6: the convergence loop fired on a real
+English edit and named the changed span exactly amid heavy model jitter
+(a second fresh run flagged a different jitter set, fixing batch
+adjudication as the normal mode); lessons 1-2 then took real owner
+corrections (imperative exercise heading, на ръка phrasing), promoted to
+human-owned, and their wording survived fresh machine passes through
+keep-stored adjudication - including one fresh grammatical regression
+the adjudication rejected. Known gap: figure captions and descriptions
+stay English until front matter translation lands; EPUB was not
+exercised in the pilot builds. Remaining: the review owner's
+certification pass and the step 7 pilot review.
 
 ## Execution order
 
