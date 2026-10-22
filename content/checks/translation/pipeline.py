@@ -38,7 +38,7 @@ LIST_ITEM_RE = re.compile(r"^(\s*)(\d+\.|[-*])\s+(.*)$")
 LINKDEF_RE = re.compile(r"^\[[^\]]+\]:\s*\S+")
 
 TRANSLATABLE = {"heading", "quote", "list_item", "paragraph"}
-TRANSPLANT_KINDS = {"front_matter", "comment", "fence", "linkdef"}
+TRANSPLANT_KINDS = {"front_matter", "comment", "fence", "divfence", "linkdef"}
 
 
 @dataclass
@@ -76,6 +76,7 @@ def parse(source: str) -> tuple[list[Block], list[int], int, bool]:
     def starts_block(line: str) -> bool:
         return (
             line.startswith("```")
+            or line.startswith(":::")
             or line.startswith("<!--")
             or line.startswith(">")
             or bool(HEADING_RE.match(line))
@@ -106,6 +107,9 @@ def parse(source: str) -> tuple[list[Block], list[int], int, bool]:
             while i < n and lines[i].startswith("<!--"):
                 i += 1
             blocks.append(Block("comment", lines[start:i]))
+        elif line.startswith(":::"):
+            blocks.append(Block("divfence", lines[start : start + 1]))
+            i += 1
         elif line.startswith(">"):
             while i < n and lines[i].startswith(">"):
                 i += 1

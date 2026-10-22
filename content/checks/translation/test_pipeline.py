@@ -15,6 +15,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import pipeline
 
 LESSON = pipeline.REPO_ROOT / "content" / "learn" / "what-is-an-ash-program"
+LESSONS = [
+    LESSON,
+    pipeline.REPO_ROOT / "content" / "learn" / "using-another-source-file",
+    pipeline.REPO_ROOT / "content" / "learn" / "using-more-than-one-input",
+]
 
 
 class LessonFixture:
@@ -60,10 +65,11 @@ class LessonFixture:
 
 class RoundTripTest(unittest.TestCase):
     def test_english_reassembles_byte_identically(self) -> None:
-        source = (LESSON / "README.md").read_text()
-        blocks, blanks, trailing, newline = pipeline.parse(source)
-        rebuilt = pipeline.assemble(blocks, blanks, trailing, newline)
-        self.assertEqual(source, rebuilt)
+        for lesson in LESSONS:
+            source = (lesson / "README.md").read_text()
+            blocks, blanks, trailing, newline = pipeline.parse(source)
+            rebuilt = pipeline.assemble(blocks, blanks, trailing, newline)
+            self.assertEqual(source, rebuilt, lesson.name)
 
     def test_protect_restore_round_trip(self) -> None:
         text = "Use `main` and see [entry rules][entry] at (https://x.y) end"
