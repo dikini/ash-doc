@@ -66,6 +66,19 @@ pressure in the [language-pressure register](language-pressure.md), which
 `content/checks/language-pressure-sync.sh` keeps in agreement with volatile
 lesson flags.
 
+## Multilingual workflow decision
+
+**State: approved; pilot in preparation.** The
+[plan](../plans/2026-10-22-multilingual-workflow-pilot.md) tests machine
+translation with lagging human review as the vehicle for translated prose,
+starting from Learn 1-3 in Bulgarian. English lessons, canonical programs,
+and diagnostic captures remain the source of truth and stay byte-identical
+across languages; translated lessons carry mt-draft, reviewed, or corrected
+status and stay outside family indexes until they verify. The pilot adds
+shared translation checks under `content/checks/translation/`, completes
+with a retranslation cycle, a human-correction promotion, and quiescence,
+and defines no Ash semantics and no publication mechanism.
+
 ## FFI Base migration outcome
 
 **State: complete and locally verified.** The edition targets `ffi-base` at
