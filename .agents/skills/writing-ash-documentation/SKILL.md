@@ -60,7 +60,8 @@ lesson task before expanding its scope.
 - Continue earlier chapters and introduce only the next needed idea.
 - Use the tool cycle: edit, predict, run `ash`, inspect, and explain.
   Weave these actions into the account; do not repeat the cycle as the prose
-  skeleton after every example.
+  skeleton after every example. Vary the framing of each predict-run-compare
+  step so the cycle does not read as a chant.
 - Use needed vocabulary in the opening model; name source parts after
   observation.
 - Make one conceptual move at a time. Show calculations that aid prediction.
@@ -144,6 +145,23 @@ solutions until the learner reasons. The CLI observation tests behavior.
 - Never call an idea easy, obvious, trivial, magical, or intuitive. Explain it.
 - Introduce an Ash term only when the reader needs it, define it through
   the example, and then use it consistently.
+- Name the literature term when a chapter teaches a concept that has an
+  established one — *algebraic data type*, *closure*, *base case*,
+  *higher-order function*, *strict evaluation*. State it at the observation
+  that needs it and use it consistently after. The term links Ash's concrete
+  behavior to the literature; it is a reference point, not a theory lesson.
+- Let terms stand on their own: assert "X is called Y." Do not hedge with
+  "sometimes called" or pad with attribution such as "in the terminology
+  of." A note may still record a genuine ambiguity, as the ADT note records
+  *abstract data type*.
+- Prefer the pinned specification's and design notes' vocabulary when they
+  name the concept, and verify claimed source usage before writing it; if
+  they do not use a term, present it as general literature vocabulary or
+  omit it. Keep theory out of lessons: encodings, dualities, and proofs
+  belong in research records, and a concept link is one precise sentence at
+  most.
+- Teach the words your quoted diagnostics use: when a compiler message
+  reports a name is "not in scope," the chapter owns *scope*.
 - Prefer nouns and verbs. State concrete properties instead of praise.
 
 ## Keep evidence behind the lesson
@@ -171,6 +189,14 @@ one existing PDF layout does not require regenerating every other format.
 - Does the title name the concept the chapter teaches, keeping a question
   title only for a boundary, permission, or selection question?
 - Does vocabulary follow the example that needs it?
+- Does each chapter name the established literature term for the concept it
+  teaches, introduced at the observation that needs it and standing on its
+  own?
+- Does the chapter teach the vocabulary its quoted diagnostics use?
+- Does the ending gather the answer from the concrete work rather than
+  restate the rules abstractly?
+- Are exercises framed as problems in varied shapes, rather than one
+  repeated scaffold of imperatives?
 - Can the reader follow the problem through its data, operation types, and
   smaller calculations, with enough explanation for new concepts?
 - Do patterns, names, and argument groups expose the wiring? Are compact local

@@ -45,6 +45,23 @@ lessons / 71 sources. They check successful values, types, stdout, stderr, and
 exit status; agreement between displayed and canonical code; and the source
 properties each Case teaches.
 
+Repeated verifier runs each rebuild the compiler. For a batch of lesson
+checks in one working session, build once against the clean exact checkout
+and reuse the prepared executable:
+
+```sh
+mkdir -p /path/to/prepared
+(cd /path/to/ffi-base && CARGO_TARGET_DIR=/path/to/prepared/target cargo build --locked)
+export ASH_DOC_VERIFY_DIR=/path/to/prepared
+export ASH_DOC_ASH_BIN=/path/to/prepared/target/debug/ash
+export ASH_DOC_PREPARED_PIN=354c76b391fe4af665cf6a03479a9874a57cb3e3
+```
+
+With those variables set, each verifier's preparation step reuses the
+recorded binary and skips its build and checkout examination; the pin is
+carried by `ASH_DOC_PREPARED_PIN`. The prepared directory is not removed by
+the verifier, so delete it when the batch finishes.
+
 ### Native buffer observations
 
 Thirteen positive entries use the imported source buffer library. Their local

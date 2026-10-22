@@ -98,7 +98,11 @@ historical Ash.
 
 The required writing skill owns ash-doc's voice, vocabulary, exposition shape,
 teaching recipe, and source-adaptation style. The current Ash writing guide
-remains its baseline. This file owns repository authority, executable-example,
+remains its baseline. Terminology follows the same source authority as every
+other claim: prefer the pinned specification's and design notes' names for
+the concepts they define, verify claimed usage before citing it, and present
+general literature terms as concept links without theory. This file owns
+repository authority, executable-example,
 workflow, discovery classification, and verification rules.
 
 `content/learn/` is one sequential self-learning work. Its index owns shared
