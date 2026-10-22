@@ -4,3 +4,6 @@
 # Local renderer tools, generated sources, and output
 .build/
 __pycache__/
+
+# Local preview server root (machine-specific symlinks)
+/.preview/
