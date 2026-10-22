@@ -1,0 +1,14 @@
+{
+  "language": "bg",
+  "tier": "mt-draft",
+  "claimed_english_sha256": "3a972c18cc2a0990836c854a296c349ccb807ca3a48098b1e5bedc79578bba66",
+  "generated_at": "2026-10-22T14:22:41.871015+00:00",
+  "provenance": {
+    "engine": "codex-cli",
+    "engine_version": "0.163.0",
+    "model": "gpt-6-luna",
+    "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
+    "glossary_sha256": "4e7b1009ba90c375596eeda32f62b471a846270673d186b2af75c8238cd2c090",
+    "segments": 25
+  }
+}
