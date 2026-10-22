@@ -220,7 +220,13 @@ def front_matter_values(block: Block) -> list[tuple[int, str, str, bool]]:
 
 def restore(text: str, spans: list[str]) -> str:
     for index, span in enumerate(spans):
-        text = text.replace(placeholder_token(index, len(span)), span, 1)
+        token = placeholder_token(index, len(span))
+        if token in text:
+            text = text.replace(token, span, 1)
+        else:
+            base = f"<!--t{index}-->"
+            if base in text:
+                text = text.replace(base, span, 1)
     leftover = PLACEHOLDER_RE.search(text)
     if leftover:
         raise ValueError(f"unresolved placeholder {leftover.group(0)}")

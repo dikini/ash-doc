@@ -78,6 +78,13 @@ class RoundTripTest(unittest.TestCase):
         self.assertIn("<!--t0-->", protected)
         self.assertEqual(text, pipeline.restore(protected, spans))
 
+    def test_restore_tolerates_stripped_placeholder_padding(self) -> None:
+        text = "Дефиниция `multiply_three : Int -> Int -> Int -> Int` тук"
+        protected, spans = pipeline.protect(text)
+        damaged = protected.replace(
+            pipeline.placeholder_token(0, len(spans[0])), "<!--t0-->")
+        self.assertEqual(text, pipeline.restore(damaged, spans))
+
     def test_formatting_never_splits_inline_spans(self) -> None:
         text = ("В извикването `add 20 22` входовете съответстват на параметрите "
                 "отляво надясно в този файл и още малко текст за ширина")
