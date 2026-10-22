@@ -232,18 +232,17 @@ choice. EPUB was not exercised in the pilot builds. Remaining: the step
 
 ## Continuation
 
-The step 7 review selected continue. The pilot extends across the
-remaining Learn lessons on this branch (4-15: choosing-a-result through
-the two continuation chapters), with the machinery unchanged and
-certification at the review owner's pace. The glossary grows to v1
-first: curriculum terms named in the new lessons enter Approved only
-when they are ordinary Bulgarian vocabulary, everything else enters
-Provisional for the owner to confirm or reject in batches. Each lesson
-lands as mt-draft with strict checks green; the volatile
-working-with-text lesson translates like any other, flagged as the
-English lesson is. Chapters render through the same --lang scopes.
-Remaining after translation: batch review of the Provisional table and
-per-lesson certification.
+The step 7 review selected continue, and the continuation is complete.
+All twelve remaining lessons translated to mt-draft with strict checks
+green; the review owner batch-approved the Provisional table (twenty-
+five rows to Approved, dated; the table stands empty by rule) and
+certified the new chapters at tier reviewed. The full Learn path is now
+Bulgarian and certified: lessons 1-2 human-owned at corrected, the
+other thirteen at reviewed, draft notices dropped from every rendered
+preview. The guard layer's first full-family run is recorded: one real
+footnote repair, one placeholder tolerance fix, two scanner false
+positives hardened with tests. Later families, chrome translation,
+EPUB, and a second language remain post-pilot decisions.
 
 ## Execution order
 
