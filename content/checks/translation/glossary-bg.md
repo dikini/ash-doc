@@ -10,6 +10,10 @@ and the pinned specification at
 `354c76b391fe4af665cf6a03479a9874a57cb3e3`; a glossary entry can never
 widen, narrow, or soften what the English lesson teaches.
 
+An entry that claims an established Bulgarian rendering must carry its
+source. An unverified claim is a coinage and belongs in Provisional
+choices for the review owner to confirm or reject.
+
 ## Transplant rule
 
 Anything inside a fenced block, inline code span, or diagnostic transcript
@@ -76,7 +80,7 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | operator precedence | приоритет на операциите | |
 | unit type | unit тип | `Unit` itself stays |
 | input | вход | |
-| currying | каринг | literature term, transliterated |
+| currying | къринг | Project coinage approved 2026-10-22: transliteration of /ˈkʌri/ with ъ. The first mention in a lesson adds a brief inline note tying it to English *currying*. |
 | right-associative | дясно асоциативен | |
 | partial application | частично прилагане | |
 | partial call | частично извикване | |

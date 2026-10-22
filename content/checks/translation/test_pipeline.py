@@ -84,6 +84,11 @@ class RoundTripTest(unittest.TestCase):
         block = pipeline.Block("paragraph", [], text=text)
         for line in pipeline.format_block(block, text):
             self.assertEqual(line.count("`") % 2, 0, line)
+            self.assertLessEqual(len(line), 80, line)
+        long_span = ("Дефинирайте `multiply_three : Int -> Int -> Int -> Int` в "
+                     "файла, като умножите входа сам по себе си, и маркирайте")
+        for line in pipeline.format_block(block, long_span):
+            self.assertLessEqual(len(line), 80, line)
 
     def test_glossary_parsing(self) -> None:
         never = pipeline.glossary_never_translate()
@@ -91,7 +96,7 @@ class RoundTripTest(unittest.TestCase):
                      "entry.missing-main", "resolve.unavailable-export"):
             self.assertIn(term, never)
         renderings = pipeline.glossary_renderings()
-        self.assertEqual(renderings["currying"], "каринг")
+        self.assertEqual(renderings["currying"], "къринг")
         self.assertEqual(renderings["partial application"], "частично прилагане")
 
 

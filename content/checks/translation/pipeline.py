@@ -160,6 +160,15 @@ def parse(source: str) -> tuple[list[Block], list[int], int, bool]:
     return blocks, blanks_before, pending_blanks, trailing_newline
 
 
+def placeholder_token(index: int, length: int) -> str:
+    """A single unbreakable word standing in for a protected span, padded
+    to the span's length so wrapping accounts for the restored text."""
+    base = f"<!--t{index}-->"
+    if len(base) >= length:
+        return base
+    return base + "#" * (length - len(base))
+
+
 def protect(text: str) -> tuple[str, list[str]]:
     """Replace inline code, reference labels, and URLs with placeholders."""
     matches: list[tuple[int, int, str]] = []
@@ -177,7 +186,7 @@ def protect(text: str) -> tuple[str, list[str]]:
     pos = 0
     for index, (start, end, group) in enumerate(chosen):
         out.append(text[pos:start])
-        out.append(f"<!--t{index}-->")
+        out.append(placeholder_token(index, len(group)))
         spans.append(group)
         pos = end
     out.append(text[pos:])
@@ -186,7 +195,7 @@ def protect(text: str) -> tuple[str, list[str]]:
 
 def restore(text: str, spans: list[str]) -> str:
     for index, span in enumerate(spans):
-        text = text.replace(f"<!--t{index}-->", span, 1)
+        text = text.replace(placeholder_token(index, len(span)), span, 1)
     leftover = PLACEHOLDER_RE.search(text)
     if leftover:
         raise ValueError(f"unresolved placeholder {leftover.group(0)}")

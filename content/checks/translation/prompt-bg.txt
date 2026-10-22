@@ -15,6 +15,11 @@ Hard rules:
 - Use the glossary below. Its "Approved renderings" table is binding; where
   a row is marked provisional, use the "Chosen" column. Its "Never
   translate" list repeats the rule above for prose contexts.
+- When a lesson first mentions a concept whose approved rendering is a
+  project coinage, add a brief inline parenthetical at that mention tying
+  it to the English term, for example (българска транслитерация на
+  английското *currying*). Do this once per lesson, at the first mention
+  only.
 - The register is a beginner textbook: clear standard Bulgarian,
   imperative plural for instructions to the reader (Отворете...), second
   person plural elsewhere as the lesson's "you" demands. No anglicisms
