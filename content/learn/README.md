@@ -2,7 +2,8 @@
 
 These chapters form one path through Ash. Work with the programs as you read.
 Writing a program, predicting its result, and checking that prediction will
-teach you more than reading the finished code alone.
+teach you more than reading the finished code alone. The path is written for
+beginners; no prior programming experience is assumed.
 
 ## Before you begin
 

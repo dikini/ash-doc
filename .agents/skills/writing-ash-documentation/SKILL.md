@@ -64,6 +64,13 @@ lesson task before expanding its scope.
   step so the cycle does not read as a chant.
 - Use needed vocabulary in the opening model; name source parts after
   observation.
+- Match vocabulary density to the family's reader level. Learn addresses
+  beginners: name the essential term and stop. Libraries and Effects address
+  readers growing from beginner toward intermediate: at most one literature
+  term per concept. Cases address intermediate and advanced readers: name
+  the algorithmic tradition freely — depth-first search, amortized analysis,
+  red-black trees, rotations, path compression — wherever the observation
+  supports it. No level receives encodings, proofs, or theory.
 - Make one conceptual move at a time. Show calculations that aid prediction.
 - Make each paragraph a connected move: establish an idea or question, examine
   evidence, then interpret it or create the next question. Vary sentence length
@@ -168,6 +175,8 @@ solutions until the learner reasons. The CLI observation tests behavior.
 
 Before using an `ash` fence, identify its canonical source and check. A hidden
 marker may connect them. Explain the example, not its verification machinery.
+Lesson checks may also assert that the README states a taught boundary in
+prose; run the lesson verifier before cutting a sentence that states a rule.
 
 For adapted work, keep permission, source, license, classification, and Ash
 departures in project records. Write original prose and code, with required
