@@ -15,7 +15,7 @@ diagnostics, effects, library abstractions, modules, and the earlier foundation.
 
 All indexed lessons are verified at this baseline:
 
-- [Learn Ash](../../content/learn/README.md): fifteen lessons, 66 sources.
+- [Learn Ash](../../content/learn/README.md): sixteen lessons, 73 sources.
 - [Algorithms and effects](../../content/cases/README.md): twenty-eight Cases,
   141 sources.
 - [Library abstractions](../../content/libraries/README.md): eight lessons,
@@ -27,8 +27,8 @@ The [verification guide](verification.md) names the commands and checks.
 Code, prose, and verifiers use the same exact baseline. Obsolete evidence and
 records leave the working tree; Git retains earlier states.
 
-The active edition now teaches all 74 demonstrated rejections through complete
-English human messages: seventeen in Learn, twenty in Cases, sixteen in Libraries,
+The active edition now teaches all 80 demonstrated rejections through complete
+English human messages: twenty-three in Learn, twenty in Cases, sixteen in Libraries,
 and 21 in Effects.
 Each transcript includes the command, source excerpts, causal labels, and
 reason line. Lesson-local capture checks supplement the retained semantic JSON
@@ -99,7 +99,7 @@ and requested formats. The [workflow](workflow.md#bound-the-task) also bounds
 editing, reading, review, executable checks, and reporting by the task's action
 and scope. Unchanged inputs retain applicable exact-pin evidence.
 
-The retained local review book assembles all 63 lessons in Learn → Libraries →
+The retained local review book assembles all 64 lessons in Learn → Libraries →
 Effects → Cases order, with four family introductions and shared reader setup.
 Artifact checks verify coverage, chapter order, source hashes, links, code text,
 and both print geometries. Desktop and mobile HTML, enlarged EPUB text, and

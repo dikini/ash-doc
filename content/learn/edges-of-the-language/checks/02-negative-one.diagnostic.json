@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "parse.expected-form",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "syntax",
+      "value": "expression"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "-"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "expected_form",
+      "path": "src/02-negative-one.ash",
+      "byte_start": 29,
+      "byte_end": 30,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "synchronization",
+      "path": "src/02-negative-one.ash",
+      "byte_start": 31,
+      "byte_end": 32,
+      "facts": [
+        {
+          "name": "boundary",
+          "kind": "syntax",
+          "value": "logical-line-end"
+        }
+      ]
+    }
+  ]
+}

@@ -22,7 +22,7 @@ retains the implementation and verification boundary.
 
 Whole-book mode derives all lessons from the existing family indexes:
 
-- [Learn](../../content/learn/README.md): fifteen lessons;
+- [Learn](../../content/learn/README.md): sixteen lessons;
 - [Libraries](../../content/libraries/README.md): eight lessons;
 - [Effects](../../content/effects/README.md): twelve lessons; and
 - [Cases](../../content/cases/README.md): twenty-eight lessons.
@@ -31,7 +31,7 @@ Each family keeps its indexed lesson order. Its reader-facing introduction
 becomes a native Quarto book part before those lessons. Reader setup comes from
 the root README. The book contains no project notation fixture; that fixture
 remains in the specimen. Unindexed lesson directories do not enter either
-selection merely because they exist. The current selection has 63 lessons.
+selection merely because they exist. The current selection has 64 lessons.
 The complete selection's artifact, EPUB, browser, and both PDF reviews
 predate the Learn extension; the next whole-book build refreshes them.
 

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "reason": "lex.comment",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "// explain this"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "invalid_token",
+      "path": "src/01-comment.ash",
+      "byte_start": 0,
+      "byte_end": 15,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "// explain this"
+        }
+      ]
+    }
+  ]
+}

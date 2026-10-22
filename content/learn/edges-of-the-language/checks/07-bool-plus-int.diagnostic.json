@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "reason": "type.operator-operand",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "code",
+      "value": "Int"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "Bool"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "operator_operand",
+      "path": "src/07-bool-plus-int.ash",
+      "byte_start": 29,
+      "byte_end": 33,
+      "facts": [
+        {
+          "name": "found",
+          "kind": "code",
+          "value": "Bool"
+        }
+      ]
+    },
+    {
+      "role": "related",
+      "relationship": "operator_requirement",
+      "path": "src/07-bool-plus-int.ash",
+      "byte_start": 34,
+      "byte_end": 35,
+      "facts": [
+        {
+          "name": "expected",
+          "kind": "code",
+          "value": "Int"
+        }
+      ]
+    }
+  ]
+}

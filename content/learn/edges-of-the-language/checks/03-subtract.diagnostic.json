@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "reason": "parse.expected-form",
+  "responsibility": "source",
+  "facts": [
+    {
+      "name": "expected",
+      "kind": "syntax",
+      "value": "line-end"
+    },
+    {
+      "name": "found",
+      "kind": "code",
+      "value": "-"
+    }
+  ],
+  "labels": [
+    {
+      "role": "primary",
+      "relationship": "expected_form",
+      "path": "src/03-subtract.ash",
+      "byte_start": 32,
+      "byte_end": 33,
+      "facts": []
+    },
+    {
+      "role": "related",
+      "relationship": "synchronization",
+      "path": "src/03-subtract.ash",
+      "byte_start": 35,
+      "byte_end": 36,
+      "facts": [
+        {
+          "name": "boundary",
+          "kind": "syntax",
+          "value": "logical-line-end"
+        }
+      ]
+    }
+  ]
+}

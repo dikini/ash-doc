@@ -44,7 +44,8 @@ Recording and synchronisation rules:
 - Why it matters beyond one example: lesson candidates on comparison and on
   the language's edges both need this; application cases repeatedly define
   comparators where one operator would do.
-- Affected lessons: future counting and comparison lessons.
+- Affected lessons: `content/learn/edges-of-the-language/` records the
+  boundary; the future counting and comparison lessons build the idiom.
 
 ## P-02: Integer literal patterns
 
@@ -76,7 +77,8 @@ Recording and synchronisation rules:
   condition lesson.
 - Why it matters beyond one example: recurring small cost across conditional
   examples, not one blocked lesson.
-- Affected lessons: none yet.
+- Affected lessons: `content/learn/edges-of-the-language/` teaches the named
+  helper idiom.
 
 ## P-04: Strings and Bytes design unsettled
 
@@ -113,7 +115,7 @@ Recording and synchronisation rules:
   explain programs through prose instead.
 - Why it matters beyond one example: teaching-material tooling may keep
   requesting annotations; this entry records that the exclusion is settled.
-- Affected lessons: the future edges-of-the-language lesson records the
+- Affected lessons: `content/learn/edges-of-the-language/` records the
   exclusion honestly.
 
 ## P-06: No shipped prelude for common data types

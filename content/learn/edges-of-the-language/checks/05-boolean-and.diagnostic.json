@@ -1,0 +1,58 @@
+[
+  {
+    "schema_version": 1,
+    "reason": "lex.unknown-character",
+    "responsibility": "source",
+    "facts": [
+      {
+        "name": "found",
+        "kind": "code",
+        "value": "&"
+      }
+    ],
+    "labels": [
+      {
+        "role": "primary",
+        "relationship": "invalid_token",
+        "path": "src/05-boolean-and.ash",
+        "byte_start": 35,
+        "byte_end": 36,
+        "facts": [
+          {
+            "name": "found",
+            "kind": "code",
+            "value": "&"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schema_version": 1,
+    "reason": "lex.unknown-character",
+    "responsibility": "source",
+    "facts": [
+      {
+        "name": "found",
+        "kind": "code",
+        "value": "&"
+      }
+    ],
+    "labels": [
+      {
+        "role": "primary",
+        "relationship": "invalid_token",
+        "path": "src/05-boolean-and.ash",
+        "byte_start": 36,
+        "byte_end": 37,
+        "facts": [
+          {
+            "name": "found",
+            "kind": "code",
+            "value": "&"
+          }
+        ]
+      }
+    ]
+  }
+]
