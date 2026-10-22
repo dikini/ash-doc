@@ -182,6 +182,25 @@ For adapted work, keep permission, source, license, classification, and Ash
 departures in project records. Write original prose and code, with required
 attribution.
 
+## Respect unsettled design areas
+
+Some pinned-baseline areas remain unsettled upstream; their literal syntax,
+operation sets, curriculum placement, or internal representation may change
+and force lesson revisions. Strings and Bytes are the current case: literal
+syntax and escapes, the `@builtin.string` and `@builtin.bytes` operations,
+where text enters the curriculum, and the representation are all open.
+
+When a lesson covers an unsettled area:
+
+- Keep coverage surface-level and consolidated in as few lessons as
+  possible, so one upstream change has few places to touch.
+- Do not build later concepts on unsettled operations; use them as
+  illustrations, never as foundations.
+- Present current behavior without asserting permanence; never teach an
+  unsettled design decision as settled Ash.
+- Give the lesson YAML front matter a `volatile` key naming the unsettled
+  area, so a later design change can find every affected lesson.
+
 ## Review
 
 Apply these questions to the material affected by the task, within its declared
@@ -230,6 +249,8 @@ one existing PDF layout does not require regenerating every other format.
 - Have new formatting elements been checked in narrow HTML, enlarged EPUB
   text, and both PDF layouts for clipping, page breaks, and note collisions?
 - Do project records retain authority, target, and evidence?
+- Does coverage of an unsettled area stay surface-level, consolidated, and
+  flagged with the `volatile` front-matter key?
 
 [liquid]: https://docs.racket-lang.org/liquid-shplait/
 [dcic]: https://dcic-world.org/2025-08-27/index.html
