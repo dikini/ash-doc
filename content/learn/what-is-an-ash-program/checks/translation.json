@@ -1,6 +1,6 @@
 {
   "language": "bg",
-  "tier": "mt-draft",
+  "tier": "corrected",
   "claimed_english_sha256": "7976a0534b6093b19a76a022162e47afed86b08557750ee5c44bd10851088c3c",
   "generated_at": "2026-10-22T13:29:25.090857+00:00",
   "provenance": {
@@ -9,6 +9,12 @@
     "model": "gpt-6-luna",
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
     "glossary_sha256": "922cac4807689c18c489c05f18cbb345be82ae1682b98f272f1a975cd806d31e",
-    "segments": 44
+    "segments": 44,
+    "last_convergence": "2026-10-22T13:45:25.338545+00:00"
+  },
+  "promotion": {
+    "at": "2026-10-22T13:44:45.515663+00:00",
+    "by": "review owner",
+    "note": "human-owned from here on; machine output arrives as proposals only"
   }
 }
