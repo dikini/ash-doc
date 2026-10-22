@@ -123,43 +123,42 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | type parameter | типов параметър | |
 | data definition | дефиниция на данни | |
 
+| evaluate | изчислява | Batch-approved 2026-10-22 from Provisional. |
+| entry module | начален модул | Batch-approved 2026-10-22 from Provisional. |
+| report | отчита | Batch-approved 2026-10-22 from Provisional. |
+| call | извикване | Batch-approved 2026-10-22 from Provisional. |
+| private | частен | Batch-approved 2026-10-22 from Provisional. |
+| strict evaluation | стриктно оценяване | Batch-approved 2026-10-22 from Provisional. |
+| lazy evaluation | мързеливо оценяване | Batch-approved 2026-10-22 from Provisional. |
+| structural recursion | структурна рекурсия | Batch-approved 2026-10-22 from Provisional. |
+| in scope | в областта на видимост | Batch-approved 2026-10-22 from Provisional. |
+| arm (of a match) | клон | Batch-approved 2026-10-22 from Provisional. |
+| pattern | образец | Batch-approved 2026-10-22 from Provisional. |
+| tuple | кортеж | Batch-approved 2026-10-22 from Provisional. |
+| product type | тип произведение | Batch-approved 2026-10-22 from Provisional. |
+| sum type | тип сума | Batch-approved 2026-10-22 from Provisional. |
+| algebraic data type | алгебраичен тип данни | Batch-approved 2026-10-22 from Provisional. |
+| abstract data type | абстрактен тип данни | Batch-approved 2026-10-22 from Provisional. |
+| closure | затваряне | Batch-approved 2026-10-22 from Provisional. |
+| higher-order function | функция от по-висок ред | Batch-approved 2026-10-22 from Provisional. |
+| generics | обобщени типове | Batch-approved 2026-10-22 from Provisional. |
+| parameterized algebraic data type | параметризиран алгебраичен тип | Batch-approved 2026-10-22 from Provisional. |
+| ad-hoc polymorphism | ad-hoc полиморфизъм | Batch-approved 2026-10-22 from Provisional. |
+| parametric polymorphism | параметричен полиморфизъм | Batch-approved 2026-10-22 from Provisional. |
+| kind | kind | Batch-approved 2026-10-22 from Provisional. |
+| local generalization | локално обобщение | Batch-approved 2026-10-22 from Provisional. |
+| monomorphic | мономорфен | Batch-approved 2026-10-22 from Provisional. |
 <!-- markdownlint-enable MD013 -->
 
 ## Provisional choices
 
-Valid renderings the pipeline accepts, flagged for the human reviewer to
-confirm one choice for the whole book:
+Coinages and contested renderings land here until the review owner
+confirms or rejects them. None currently.
 
 <!-- markdownlint-disable MD013 -->
 
 | Chosen | English | Alternative | Open question |
 | --- | --- | --- | --- |
-| изчислява | evaluate | пресмята | School habit prefers `пресмята`; computing texts prefer `изчислява`. One choice for all lessons. |
-| начален модул | entry module | входен модул | `входен` collides with the input sense of "entry". Confirm the coinage. |
-| отчита | report | съобщава | Whether the tool's reports and the prose's "reports" share one verb. |
-| извикване | call | повикване | Older texts use `повикване`; newer ones `извикване`. One choice. |
-| частен | private | частен за модула | Short form vs the unambiguous longer form. |
-| strict evaluation | стриктно оценяване | нетърпеливо оценяване | One choice for the strict/lazy pair across all lessons. |
-| lazy evaluation | мързеливо оценяване | отложено оценяване | Pair with strict evaluation above. |
-| structural recursion | структурна рекурсия | рекурсия по структурата | |
-| in scope | в областта на видимост | в scope | Diagnostic prose uses this heavily. |
-| arm (of a match) | клон | случай | |
-| pattern | образец | шаблон | The pattern-matching sense. |
-| tuple | кортеж | наредена двойка | |
-| product type | тип произведение | product тип | |
-| sum type | тип сума | sum тип | |
-| algebraic data type | алгебраичен тип данни | АДТ | |
-| abstract data type | абстрактен тип данни | АТД | |
-| closure | затваряне | клозър | |
-| higher-order function | функция от по-висок ред | | |
-| generics | обобщени типове | обобщено програмиране | |
-| parameterized algebraic data type | параметризиран алгебраичен тип | | |
-| ad-hoc polymorphism | ad-hoc полиморфизъм | презареждащ полиморфизъм | Keep the Latin prefix or coin a Bulgarian one? |
-| parametric polymorphism | параметричен полиморфизъм | | |
-| kind | kind | кайнд | Keeping the English word avoids collision with „вид“; transliterate instead? |
-| local generalization | локално обобщение | | |
-| monomorphic | мономорфен | | |
-
 <!-- markdownlint-enable MD013 -->
 
 ## Figures and assistant notes

@@ -1,6 +1,6 @@
 {
   "language": "bg",
-  "tier": "mt-draft",
+  "tier": "reviewed",
   "claimed_english_sha256": "58fa9909212a9f81728cf6c1d7fe9c28d0be1965163c7641caa9cbfa09d76ee8",
   "generated_at": "2026-10-22T14:21:21.801759+00:00",
   "provenance": {
@@ -10,5 +10,10 @@
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
     "glossary_sha256": "4e7b1009ba90c375596eeda32f62b471a846270673d186b2af75c8238cd2c090",
     "segments": 31
+  },
+  "certification": {
+    "at": "2026-10-22T14:35:12.741468+00:00",
+    "by": "review owner",
+    "surface": "review owner batch approval 2026-10-22"
   }
 }
