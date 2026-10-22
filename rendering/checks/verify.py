@@ -151,6 +151,8 @@ def verify_build_metadata(metadata, records, root=ROOT):
         check(selection in BOOK_FAMILIES, "part selection is not an indexed family")
         families = (selection,)
         expected_basename = f"ash-doc-{selection}"
+        if metadata.get("lang", "en") != "en":
+            expected_basename += f"-{metadata['lang']}"
     else:
         families = BOOK_FAMILIES
         expected_basename = "ash-doc-review" if mode == "book" else "ash-doc-specimen"
@@ -172,17 +174,25 @@ def verify_build_metadata(metadata, records, root=ROOT):
                          if any(Path(source).parts[1] == family for source in config["sources"]))
     lessons = {family: indexed_lessons(root, family) for family in families}
     if mode in ("book", "part"):
-        expected_sources = [source for family in families
+        lang = metadata.get("lang", "en")
+
+        def chapter_readme(source):
+            return source if lang == "en" else str(Path(source).with_name(f"README.{lang}.md"))
+
+        expected_sources = [chapter_readme(source) for family in families
                             for source in [f"content/{family}/README.md"] + lessons[family]]
         check(sources == expected_sources, "book sources differ from complete indexed reading order")
         for record in records:
             family = Path(record["source"]).parts[1]
-            role = "introduction" if record["source"] == f"content/{family}/README.md" else "lesson"
+            role = ("introduction"
+                    if record["source"] == chapter_readme(f"content/{family}/README.md")
+                    else "lesson")
             check(record.get("role") == role, f"{record['source']}: role must be {role}")
             check(record.get("family") == family, f"{record['source']}: incorrect source family")
         expected_parts = [{"family": family,
-                           "introduction": records[sources.index(f"content/{family}/README.md")]["chapter"],
-                           "chapters": [records[sources.index(source)]["chapter"] for source in lessons[family]]}
+                           "introduction": records[sources.index(chapter_readme(f"content/{family}/README.md"))]["chapter"],
+                           "chapters": [records[sources.index(source)]["chapter"] for source in
+                                        [chapter_readme(lesson) for lesson in lessons[family]]]}
                           for family in families]
         check(metadata["parts"] == expected_parts, "book part introductions/chapters differ from indexed sources")
         expected_count = sum(len(sources) for sources in lessons.values())

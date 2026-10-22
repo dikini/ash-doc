@@ -73,9 +73,13 @@ Machine translation with lagging human review carries translated prose,
 with the codex CLI (`gpt-6-luna`) as the pinned engine. English lessons,
 canonical programs, and diagnostic captures remain the source of truth
 and stay byte-identical across languages. The Learn path is fully
-Bulgarian: lessons 1-2 human-owned at `corrected` after promoted owner
-corrections, the other thirteen at `reviewed` after owner
-certification. The machinery lives under `content/checks/translation/`
+Bulgarian and certified: lessons 1-2 human-owned at `corrected` after
+promoted owner corrections, twelve at `reviewed` after owner
+certification, the edges-of-the-language lesson at `mt-draft`. The
+Learn introduction is translated as the Bulgarian book's front matter,
+and `--lang` renders whole translated parts in PT Serif with tier
+notices in the chrome. The machinery lives under
+`content/checks/translation/`
 (segmentation, transplant, glossary with the coinage rule, drift and
 convergence passes), and `--lang` renders translated lesson scopes in
 PT Serif with tier notices in the chrome. The workflow defines no Ash

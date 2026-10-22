@@ -97,6 +97,13 @@ class RoundTripTest(unittest.TestCase):
         for line in pipeline.format_block(block, long_span):
             self.assertLessEqual(len(line), 80, line)
 
+    def test_translated_headings_carry_the_english_anchor(self) -> None:
+        block = pipeline.Block(
+            "heading", [], text="Pausing after the first input", level=2)
+        self.assertEqual(
+            pipeline.format_block(block, "Пауза след първия вход"),
+            ["## Пауза след първия вход {#pausing-after-the-first-input}"])
+
     def test_glossary_parsing(self) -> None:
         never = pipeline.glossary_never_translate()
         for term in ("main", "pub", "import", "Unit", "Int",

@@ -122,6 +122,12 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | anonymous function | анонимна функция | |
 | type parameter | типов параметър | |
 | data definition | дефиниция на данни | |
+| comment | коментар | |
+| operator | оператор | |
+| literal | литерал | |
+| subtraction | изваждане | |
+| ordering | подреждане | |
+| boolean (value) | булева стойност | |
 
 | evaluate | изчислява | Batch-approved 2026-10-22 from Provisional. |
 | entry module | начален модул | Batch-approved 2026-10-22 from Provisional. |

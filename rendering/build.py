@@ -151,8 +151,8 @@ def select_sources(args, config):
     lang = getattr(args, "lang", "en")
     if sum(bool(value) for value in (lesson, part, book)) > 1:
         raise ValueError("select only one build scope")
-    if lang != "en" and not lesson:
-        raise ValueError("--lang is supported for lesson scope only in this pilot")
+    if lang != "en" and not (lesson or part):
+        raise ValueError("--lang is supported for lesson and part scopes only in this pilot")
     if lesson:
         path = (ROOT / lesson).resolve()
         if not path.is_relative_to(ROOT):
@@ -189,11 +189,15 @@ def select_sources(args, config):
         if not lessons:
             raise ValueError(f"{index}: family has no indexed lessons")
         introduction = index.relative_to(ROOT).as_posix()
+        suffix = "" if lang == "en" else f"-{lang}"
+        title = f"Ash documentation {part.title()} review"
+        if lang != "en":
+            title += f" ({lang})"
         return {"mode": "part", "selection": part, "sources": [introduction, *lessons],
                 "parts": [{"family": part, "introduction": chapter_name(introduction),
                            "chapters": [chapter_name(source) for source in lessons]}],
-                "title": f"Ash documentation {part.title()} review", "output_file": f"ash-doc-{part}",
-                "directory": f".build/parts/{part}"}
+                "title": title, "output_file": f"ash-doc-{part}{suffix}",
+                "directory": f".build/parts/{part}{suffix}"}
     if book:
         sources, parts = whole_book_sources(args.quarto)
         return {"mode": "book", "selection": None, "sources": sources, "parts": parts,
@@ -507,7 +511,10 @@ def prepare(args):
     for source in sources:
         assets = []
         details = {}
-        staged, codes = prepare_chapter(args.quarto, source, mapping, commit, jobs,
+        chapter_source = source
+        if lang != "en":
+            chapter_source = str(Path(source).with_name(f"README.{lang}.md"))
+        staged, codes = prepare_chapter(args.quarto, chapter_source, mapping, commit, jobs,
                                        output=args.output, assets=assets, details=details)
         chapter = mapping[source]
         (args.output / chapter).write_text(staged, encoding="utf-8")
@@ -523,8 +530,8 @@ def prepare(args):
             role = "introduction" if len(path.parts) == 3 else "lesson"
         else:
             role = "fixture"
-        record = {"source": source, "chapter": chapter, "code": codes, "assets": assets,
-                  "sha256": hashlib.sha256((ROOT / source).read_bytes()).hexdigest(),
+        record = {"source": chapter_source, "chapter": chapter, "code": codes, "assets": assets,
+                  "sha256": hashlib.sha256((ROOT / chapter_source).read_bytes()).hexdigest(),
                   "role": role, **details}
         if path.parts[0] == "content":
             record["family"] = path.parts[1]

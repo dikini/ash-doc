@@ -12,6 +12,13 @@ for chapter in content/learn/*/README.bg.md; do
         status=1
     fi
 done
+for family in learn cases libraries effects; do
+    if [ -f "content/$family/README.bg.md" ]; then
+        if ! python3 content/checks/translation/pipeline.py check --lesson "content/$family"; then
+            status=1
+        fi
+    fi
+done
 shopt -u nullglob
 
 if [ "$status" -eq 0 ]; then

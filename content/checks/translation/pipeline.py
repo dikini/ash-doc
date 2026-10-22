@@ -121,11 +121,15 @@ def parse(source: str) -> tuple[list[Block], list[int], int, bool]:
             item = LIST_ITEM_RE.match(line)
             linkdef = LINKDEF_RE.match(line)
             if heading:
+                heading_text = heading.group(2)
+                attribute = re.search(r"\s*\{#[^}]+\}\s*$", heading_text)
+                if attribute:
+                    heading_text = heading_text[:attribute.start()].rstrip()
                 blocks.append(
                     Block(
                         "heading",
                         lines[start : start + 1],
-                        text=heading.group(2),
+                        text=heading_text,
                         level=len(heading.group(1)),
                     )
                 )
@@ -233,9 +237,16 @@ def restore(text: str, spans: list[str]) -> str:
     return text
 
 
+def heading_slug(text: str) -> str:
+    slug = re.sub(r"[^a-z0-9\s-]", "", text.lower())
+    return re.sub(r"\s+", "-", slug).strip("-")
+
+
 def format_block(block: Block, text: str) -> list[str]:
     if block.kind == "heading":
-        return ["#" * block.level + " " + text]
+        slug = heading_slug(block.text or "")
+        suffix = f" {{#{slug}}}" if slug else ""
+        return ["#" * block.level + " " + text + suffix]
     if block.kind == "quote":
         protected, spans = protect(text)
         return ["> " + restore(line, spans) for line in textwrap.wrap(
