@@ -10,6 +10,29 @@ advanced close. Every lesson targets the pinned FFI Base baseline at
 transcluded from or checked against canonical, runnable source. This plan
 defines no Ash semantics and no permanent repository architecture.
 
+## Sequencing sources
+
+The arc adapts three sequencing traditions recorded in
+[research](../../research/sequencing-three-traditions.md); each contributes
+method, not wording, and none defines Ash behavior.
+
+- *How to Design Programs* — a concrete problem introduces each concept;
+  data definitions precede the functions that follow them; the reader
+  predicts before running. Learn already follows this shape; the extension
+  keeps it.
+- *Structure and Interpretation of Computer Programs* — name the process
+  shape when recursion changes it: structural recursion builds results on
+  the way back; an accumulator computes on the way down. The
+  ordering-from-data lesson carries both shapes. The edges lesson treats
+  the language's smallness as a feature, as SICP treats Scheme's.
+- *Algorithms + Data Structures = Programs* — the algorithm follows the
+  representation; change the representation and the algorithm changes with
+  it. The extension states this where a lesson changes representation.
+
+Deferred decision: whether Learn makes its design method visible as its own
+lesson (the HtDP design recipe). The option is recorded here; the outcome
+owner decides before candidate authoring begins.
+
 ## Candidates
 
 Lessons are numbered by their proposed slot in the main sequence; the
