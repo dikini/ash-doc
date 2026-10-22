@@ -14,6 +14,18 @@ An entry that claims an established Bulgarian rendering must carry its
 source. An unverified claim is a coinage and belongs in Provisional
 choices for the review owner to confirm or reject.
 
+## Coinage rule
+
+When no established Bulgarian rendering exists for a concept a lesson
+must name, the project coins one: transliterate the English term
+phonetically under Bulgarian orthographic convention — /ˈkʌri/ gives
+*къринг*, with ъ for English /ʌ/. The coinage enters Provisional choices;
+on the review owner's approval it moves to Approved renderings with the
+decision and date recorded, and each lesson's first mention carries a
+brief inline note tying the coinage to the English term. A coinage
+returns to review if later evidence establishes a different Bulgarian
+rendering or the owner reopens the decision.
+
 ## Transplant rule
 
 Anything inside a fenced block, inline code span, or diagnostic transcript
