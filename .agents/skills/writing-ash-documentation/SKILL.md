@@ -200,6 +200,10 @@ When a lesson covers an unsettled area:
   unsettled design decision as settled Ash.
 - Give the lesson YAML front matter a `volatile` key naming the unsettled
   area, so a later design change can find every affected lesson.
+- Record the pressure itself in the
+  [language-pressure register](../../../docs/project/language-pressure.md);
+  `content/checks/language-pressure-sync.sh` keeps the register and the
+  volatile flags in agreement.
 
 ## Review
 
@@ -251,6 +255,9 @@ one existing PDF layout does not require regenerating every other format.
 - Do project records retain authority, target, and evidence?
 - Does coverage of an unsettled area stay surface-level, consolidated, and
   flagged with the `volatile` front-matter key?
+- Does a new or revised lesson work around a language gap the
+  language-pressure register has not recorded, or change a logged idiom
+  without updating its entry?
 
 [liquid]: https://docs.racket-lang.org/liquid-shplait/
 [dcic]: https://dcic-world.org/2025-08-27/index.html
