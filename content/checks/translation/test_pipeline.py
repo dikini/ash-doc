@@ -78,6 +78,13 @@ class RoundTripTest(unittest.TestCase):
         self.assertIn("<!--t0-->", protected)
         self.assertEqual(text, pipeline.restore(protected, spans))
 
+    def test_formatting_never_splits_inline_spans(self) -> None:
+        text = ("В извикването `add 20 22` входовете съответстват на параметрите "
+                "отляво надясно в този файл и още малко текст за ширина")
+        block = pipeline.Block("paragraph", [], text=text)
+        for line in pipeline.format_block(block, text):
+            self.assertEqual(line.count("`") % 2, 0, line)
+
     def test_glossary_parsing(self) -> None:
         never = pipeline.glossary_never_translate()
         for term in ("main", "pub", "import", "Unit", "Int",

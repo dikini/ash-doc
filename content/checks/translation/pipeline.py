@@ -197,21 +197,25 @@ def format_block(block: Block, text: str) -> list[str]:
     if block.kind == "heading":
         return ["#" * block.level + " " + text]
     if block.kind == "quote":
-        return ["> " + line for line in textwrap.wrap(
-            text, width=76, break_long_words=False, break_on_hyphens=False)]
+        protected, spans = protect(text)
+        return ["> " + restore(line, spans) for line in textwrap.wrap(
+            protected, width=76, break_long_words=False, break_on_hyphens=False)]
     if block.kind == "list_item":
         initial = f"{block.indent}{block.marker} "
         hanging = block.indent + " " * (len(block.marker) + 1)
-        return textwrap.wrap(
-            text,
+        protected, spans = protect(text)
+        lines = textwrap.wrap(
+            protected,
             width=78,
             initial_indent=initial,
             subsequent_indent=hanging,
             break_long_words=False,
             break_on_hyphens=False,
         )
-    return textwrap.wrap(
-        text, width=78, break_long_words=False, break_on_hyphens=False)
+        return [restore(line, spans) for line in lines]
+    protected, spans = protect(text)
+    return [restore(line, spans) for line in textwrap.wrap(
+        protected, width=78, break_long_words=False, break_on_hyphens=False)]
 
 
 def assemble(
@@ -307,7 +311,11 @@ def translate_blocks(
 
 def glossary_never_translate() -> list[str]:
     section = GLOSSARY_TEXT.split("## Never translate")[1].split("## ")[0]
-    return re.findall(r"`([^`]+)`", section)
+    terms: list[str] = []
+    for line in section.split("\n"):
+        if line.strip().startswith("- "):
+            terms.extend(re.findall(r"`([^`]+)`", line))
+    return terms
 
 
 def glossary_renderings() -> dict[str, str]:
