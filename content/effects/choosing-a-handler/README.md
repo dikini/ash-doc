@@ -1,4 +1,4 @@
-# Which handler answers a request?
+# Choosing a handler
 
 The preceding lessons put each request under one handler. A calculation can
 also have a local rule inside a broader rule. To predict its result, follow

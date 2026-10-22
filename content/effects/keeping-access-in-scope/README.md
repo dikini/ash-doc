@@ -1,4 +1,4 @@
-# Why can a result leave a resource scope while access cannot?
+# Keeping access in scope
 
 A resource scope owns release, but its result can outlive that scope. The
 question is what the result retains. An integer read from a cell is a copy.

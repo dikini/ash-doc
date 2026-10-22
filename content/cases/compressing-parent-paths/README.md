@@ -1,4 +1,4 @@
-# Compress parent paths
+# Compressing parent paths
 
 Union–find represents a set by a root reached through parent links. This
 example follows [native buffers](../../effects/acquiring-a-buffer/README.md)

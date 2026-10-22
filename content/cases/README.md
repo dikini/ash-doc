@@ -90,8 +90,7 @@ storage strategy.
    from the operations supplied to a strict right fold.
 2. [Building finite lists](building-finite-lists/README.md) — use a transition and a structural
    measure to produce a complete eager list.
-3. [When should recursion retain knowledge from earlier
-   elements?](accumulating-list-results/README.md) — use accumulator state to
+3. [Accumulating list results](accumulating-list-results/README.md) — use accumulator state to
    avoid repeated append traversal while preserving the same reversed value.
 4. [Representing a dictionary as a list](dictionary-as-list/README.md) — use explicit equality for selective
    lookup, contrast its work with a strict fold, and observe older dictionary
@@ -121,26 +120,19 @@ storage strategy.
     transition fixed, let LIFO return a longer path and FIFO return the
     shortest path, guard the cycle by marking before addition, and account for
     logical pending entries separately.
-13. [How can a traversal number its leaves without threading a
-    counter?](numbering-tree-leaves/README.md) — compare explicit state passing
+13. [Numbering a tree's leaves](numbering-tree-leaves/README.md) — compare explicit state passing
     with a fresh-number request handled by a scoped cell.
-14. [How can a lookup count comparisons without changing its
-    ordering?](measuring-tree-search/README.md) — measure the same lookup in
+14. [Measuring tree-search comparisons](measuring-tree-search/README.md) — measure the same lookup in
     two tree shapes through a handler.
-15. [How can an order request its prices and
-    discount?](supplying-order-prices/README.md) — run one calculation under
+15. [Supplying an order's dependencies](supplying-order-prices/README.md) — run one calculation under
     regular, promotional, and unavailable responses.
-16. [How can a session use scripted input and collect its
-    replies?](running-a-scripted-session/README.md) — keep domain transitions
+16. [Running a scripted session](running-a-scripted-session/README.md) — keep domain transitions
     pure while a handler supplies commands and builds the transcript.
-17. [How can a search stop before exceeding its
-    budget?](bounding-search-work/README.md) — request permission before each
+17. [Bounding search work](bounding-search-work/README.md) — request permission before each
     nonempty expansion and distinguish exhaustion from absence.
-18. [How can updating parent links change repeated
-    lookup?](compressing-parent-paths/README.md) — compare reads and writes
+18. [Compressing parent paths](compressing-parent-paths/README.md) — compare reads and writes
     with and without compression in a scoped buffer.
-19. [How can a decoder request bytes from bounded
-    storage?](reading-a-bounded-message/README.md) — separate parsing from a
+19. [Reading a bounded byte message](reading-a-bounded-message/README.md) — separate parsing from a
     scoped cursor, and distinguish truncation from acquisition failure.
 20. [Controlling a hook pipeline](controlling-a-hook-pipeline/README.md) — combine local hook
     transformations with ordinary policy and trace handlers; connect the

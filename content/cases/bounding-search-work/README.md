@@ -1,4 +1,4 @@
-# Bound search work
+# Bounding search work
 
 A search can ask permission before expanding each nonempty node. This combines
 [frontier search](../choosing-a-search-frontier/README.md),

@@ -1,4 +1,4 @@
-# When can a local function work at several types?
+# Generalizing local functions
 
 The previous chapter gave a global identity function the signature `A -> A`,
 and each use chose its own type for `A`. A block can hold that kind of

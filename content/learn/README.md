@@ -61,7 +61,7 @@ with `ash` to test what it does.
 ## Contents
 
 <!-- markdownlint-disable MD029 -->
-1. [What is an Ash program?](what-is-an-ash-program/README.md) — produce values
+1. [An Ash program](what-is-an-ash-program/README.md) — produce values
    with expressions and functions.
 2. [Using another source file](using-another-source-file/README.md) —
    connect modules through imports, public declarations, and qualified names.
@@ -87,7 +87,7 @@ with `ash` to test what it does.
 
 ### Continuation chapters
 
-12. [When can a local function work at several types?](generalizing-local-functions/README.md)
+12. [Generalizing local functions](generalizing-local-functions/README.md)
     — distinguish local generalization from a fixed function value.
 
 13. [Defining local recursion](defining-local-recursion/README.md)

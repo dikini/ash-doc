@@ -1,4 +1,4 @@
-# Read a bounded byte message
+# Reading a bounded byte message
 
 A decoder can request the next byte without knowing how the input stores it.
 This message has one length byte followed by exactly that many payload bytes.

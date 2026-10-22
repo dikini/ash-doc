@@ -1,4 +1,4 @@
-# Run a scripted session
+# Running a scripted session
 
 A session remembers which commands are currently meaningful. Here `Start`
 opens a session, `Send` is accepted only while it is open, and `Close` ends the

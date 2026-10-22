@@ -27,7 +27,7 @@ A unit lives at `content/<family>/<unit>/`. Its `README.md` owns the explanation
 and links to canonical programs, fixtures, and checks kept inside the same unit.
 Create only the internal paths that its examples require.
 
-Start with [*What is an Ash program?*](learn/what-is-an-ash-program/README.md).
+Start with [*An Ash program*](learn/what-is-an-ash-program/README.md).
 After the complete Learn path, continue with
 [*Working with effects and scoped resources*](effects/README.md),
 [*Design library abstractions in Ash*](libraries/README.md) or

@@ -1,4 +1,4 @@
-# When should recursion retain knowledge from earlier elements?
+# Accumulating list results
 
 The preceding case used an unfold to carry the state needed to produce the
 next element. It did not retain a result derived from elements that had already

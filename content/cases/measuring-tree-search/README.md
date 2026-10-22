@@ -1,4 +1,4 @@
-# Measure tree-search comparisons
+# Measuring tree-search comparisons
 
 An ordered lookup needs comparisons. After [ordered tree search](../searching-ordered-tree/README.md)
 and [scoped cells](../../effects/counting-with-a-cell/README.md),

@@ -1,4 +1,4 @@
-# What is an Ash program?
+# An Ash program
 
 It is common to think of a program as a list of commands: do this, then do
 that. An Ash source file has a different shape. It contains definitions. Those

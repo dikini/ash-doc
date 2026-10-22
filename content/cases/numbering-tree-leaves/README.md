@@ -1,4 +1,4 @@
-# Number a tree’s leaves
+# Numbering a tree's leaves
 
 A tree traversal can number leaves from left to right by carrying the next
 unused number. This Case follows [scoped cells](../../effects/counting-with-a-cell/README.md)

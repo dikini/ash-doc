@@ -1,4 +1,4 @@
-# Supply an order’s dependencies
+# Supplying an order's dependencies
 
 An order calculation needs prices and a discount policy. Those dependencies
 can be function arguments, as the earlier tree lookup accepted a comparator.

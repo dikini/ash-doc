@@ -35,7 +35,7 @@ explain the command prompt, English messages, and displayed source paths.
 3. [Preserving callback effects](preserving-callback-effects/README.md)
    — give a callback's effect row a parameter and explain known effects beside
    an open tail.
-4. [Which handler answers a request?](choosing-a-handler/README.md)
+4. [Choosing a handler](choosing-a-handler/README.md)
    — trace nested handlers, exact effect instances, and later closure calls.
 5. [Resuming a calculation](resuming-a-calculation/README.md)
    — separate operation answers from results and consume continuations once.
@@ -43,7 +43,7 @@ explain the command prompt, English messages, and displayed source paths.
    — compare pure outcomes, resumption, and discard on a finite list.
 7. [Counting with a cell](counting-with-a-cell/README.md)
    — use acquired cell access and compare it with a pure accumulator.
-8. [Why can a result leave a resource scope while access cannot?](keeping-access-in-scope/README.md)
+8. [Keeping access in scope](keeping-access-in-scope/README.md)
    — follow dependencies through handles, closures, tuples, and requests.
 9. [Running cleanup](running-cleanup/README.md)
    — trace cleanup on normal completion and checked abandonment.
