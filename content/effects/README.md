@@ -6,7 +6,8 @@ and keeps control and resource access within their scopes.
 
 Finish [Learn Ash](../learn/README.md) first. The opening lesson uses its
 functions, signatures, values, and pattern bindings; it needs no library or
-algorithm Case as a prerequisite.
+algorithm Case as a prerequisite. The lessons are written for readers growing
+from beginner toward intermediate.
 
 Use the `ash` command from the repository's [shared setup](../../README.md#prepare-ash).
 The buffer chapter builds native executables; earlier chapters use ordinary

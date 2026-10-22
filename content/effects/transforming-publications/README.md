@@ -101,8 +101,10 @@ instance and lexical nesting determine the chain used by a publication.
 
 A transformer can itself request an effect. In `03-callback-context.ash`,
 `adjust` asks for a bonus. Callbacks run through a generated handler clause
-outside handlers placed only around publication. Use E4's distinction between
-body and clause requests to locate the context surrounding registration:
+outside handlers placed only around publication. The
+[handler-selection lesson](../choosing-a-handler/README.md) distinguished
+body requests from clause requests; use that distinction to locate the
+context surrounding registration:
 
 <!-- source: src/03-callback-context.ash -->
 ```ash
@@ -247,8 +249,9 @@ The remaining publication is skipped and the clause returns `7`. The
 registration is gone before the later publication, which returns the root's
 unchanged `5`. No callback ran, so the count is `0`.
 The callback captures cell access, but its owner surrounds the whole hook and
-all callback uses. The dependency rules from E8 still apply. Registration is
-not permission to return access beyond the cell's lifetime.
+all callback uses. The dependency rules from the
+[resource-scope lesson](../keeping-access-in-scope/README.md) still apply.
+Registration is not permission to return access beyond the cell's lifetime.
 
 ## Resume with the registration still owned
 
@@ -310,14 +313,17 @@ token or arbitrary removal operation.
 Start each task with a fresh copy of its named program in a scratch directory
 outside this lesson's `src` tree. Run the copy from that directory.
 
-1. Reverse the two registrations in `01-transform-order.ash`. Predict the
-   result by applying the functions in their new order.
-2. Put a registration inside the nested root of `02-nested-root.ash`.
-   Predict which tuple field changes.
-3. Change only the publication-body bonus handler in `03-callback-context.ash`.
-   Explain which request uses it before predicting the final result.
-4. Move the stop request after publication in `05-discard-registration.ash`.
-   Predict the callback count and which later work is abandoned.
+Reverse the two registrations in `01-transform-order.ash`. Apply the
+functions in their new order to predict the result.
+
+Put a registration inside the nested root of `02-nested-root.ash`. Which
+tuple field changes?
+
+In `03-callback-context.ash`, change only the publication-body bonus handler.
+Which request uses it? Answer before predicting the final result.
+
+Move the stop request after publication in `05-discard-registration.ash`.
+What is the callback count, and which later work is abandoned?
 
 Hook roots and registrations organize ordinary typed transformations within
 scopes. Their order, callback context, and completion obligations determine

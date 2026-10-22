@@ -271,7 +271,9 @@ main () = {
 ```
 
 What would the success wrapper retain if its body returned `bytes`? Apply
-E8's dependency rule before reading this source rejection:
+the dependency rule from the
+[resource-scope lesson](../keeping-access-in-scope/README.md) before reading
+this source rejection:
 
 <!-- diagnostic: src/07-handle-escape.ash -->
 <!-- markdownlint-disable MD013 -->
@@ -313,12 +315,16 @@ For each task, make a fresh copy of its named program in a scratch directory
 outside this lesson's `src` tree. Predict the outcome, then build and run the
 copy from its directory with the same `ffi` root.
 
-1. Give `03-acquisition-failure.ash` a valid small length. Predict the outcome
-   and the `entered` count before running.
-2. Change the index in `04-invalid-index.ash` to the last valid position.
-3. Use `255` in `05-invalid-byte.ash`. Predict both stored outcomes.
-4. Give the inner acquisition in `06-nested-acquisition.ash` a valid length.
-   Explain which buffer its body measures and predict the nested result.
+Give `03-acquisition-failure.ash` a valid small length. What outcome and
+`entered` count do you expect?
+
+Change the index in `04-invalid-index.ash` to the last valid position. What
+does the read return now?
+
+Use `255` in `05-invalid-byte.ash`. Predict both stored outcomes.
+
+Give the inner acquisition in `06-nested-acquisition.ash` a valid length.
+Which buffer does its body measure, and what nested result do you predict?
 
 Acquisition outcomes describe entry into a resource body. Read and write
 outcomes describe operations within it. Both remain ordinary typed values,

@@ -236,14 +236,16 @@ calculation in an argument does not hide its requirement either.
 Start each task from a fresh copy of its named program in this lesson's `src`
 directory.
 
-1. In `01-call-chain.ash`, add another function between `total` and
-   `round_score`. Write its signature before its body. Explain whether it
-   needs an effect row, then run it.
-2. In `02-request-later.ash`, change the remembered points and the handler's
-   answer. Predict the result and identify which call makes the request.
-3. In `03-request-now.ash`, call `calculate ()` twice and return both results
-   as a tuple. Predict whether those calls request another bonus. Run the
-   program and explain the result from the saved values.
+Add another function between `total` and `round_score` in
+`01-call-chain.ash`, writing its signature before its body. Does the new
+function need an effect row? Run it to confirm your answer.
+
+In `02-request-later.ash`, change the remembered points and the handler's
+answer. Predict the result and identify which call makes the request.
+
+In `03-request-now.ash`, call `calculate ()` twice and return both results as
+a tuple. Do those later calls request another bonus? Run the program and
+explain the result from the saved values.
 
 An effectful contract follows the work that can make the request. Ordinary
 callers carry the requirement outward until a handler answers it. A returned

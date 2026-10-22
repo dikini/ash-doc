@@ -207,14 +207,16 @@ method needs.
 Start each task with fresh copies of its named programs in a scratch directory
 outside this lesson's `src` tree, and run the copies from that directory.
 
-1. Copy `02-pure-count.ash` and `03-cell-count.ash`. Add another item to both
-   lists. Predict their results and explain their different representations
-   of intermediate state.
-2. Copy `01-read-and-write.ash` and write a different integer through `alias`.
-   Explain why `before` and the later read can differ.
-3. Copy `03-cell-count.ash` and `02-pure-count.ash`. Change `visit` to count
-   only nonzero scores. Keep the updates inside the branch that counts an item,
-   then make the same counting choice in the pure version and compare them.
+Add another item to the lists in `02-pure-count.ash` and `03-cell-count.ash`.
+Predict their results. How does each version represent the intermediate
+state?
+
+Write a different integer through `alias` in `01-read-and-write.ash`. Why can
+`before` and the later read differ?
+
+Change `visit` in `03-cell-count.ash` to count only nonzero scores, keeping
+the updates inside the branch that counts an item. Make the same counting
+choice in `02-pure-count.ash` and compare the two versions.
 
 A cell handle provides reusable access during one owned scope. The scope
 supplies the provider and operation interpreter and owns release; copies of a

@@ -282,11 +282,14 @@ For each task, start with fresh copies of `01-pure-outcome.ash`,
 outside this lesson's `src` tree. Make the same input change in the copies you
 compare, then run them from that directory.
 
-1. Move the zero marker to the beginning of the list. Predict the pure
-   outcome and the discarding handler's outcome before running either.
-2. Put zero at the end. Trace the accumulated total at the request.
-3. Change the values after zero. Compare the stopping and continuing handlers
-   and explain which result can depend on those later values.
+Move the zero marker to the beginning of the list. Predict the pure outcome
+and the discarding handler's outcome before running either.
+
+Put zero at the end of the list instead. What total has accumulated at the
+request?
+
+Change the values that come after zero. Which result — the stopping
+handler's or the continuing handler's — can depend on those later values?
 
 We can now trace a request, continue its waiting work, or stop that work and
 return a chosen outcome. The next question is how a calculation can keep

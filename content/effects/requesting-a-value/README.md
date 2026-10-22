@@ -4,7 +4,8 @@ A score might combine points earned with a bonus chosen for the round. The
 calculation needs that bonus, but it need not decide what the bonus is. So far,
 we have supplied values like this through function arguments. An *effect*
 gives us another way: the calculation requests a value, and a surrounding
-*handler* answers the request.
+*handler* answers the request. The programming-language literature calls this
+request-and-handler arrangement *algebraic effects*.
 
 We will keep the calculation small enough to follow each step. First we will
 pass the bonus directly. Then we will request it and see how different handlers
@@ -211,15 +212,16 @@ request or make the calculation pure.
 Start each task from a fresh copy of `02-handled.ash`, so changes from one
 task do not affect the next.
 
-1. Change the handler's answer to `7`. Before running the program, trace the
-   request and predict the score. Explain which source line supplies the
-   bonus and which line uses it.
-2. Change `score` so that it doubles the earned points before adding the
-   requested bonus. Keep the handler unchanged. Predict, run, and explain the
-   new result.
-3. Write the equivalent pure version with an explicit bonus argument. Compare
-   the two versions: where does each one receive the bonus, and which part
-   chooses its value?
+Suppose the round's rules change so the handler grants `7`. Before running
+the program, trace the request and predict the score; then identify which
+source line supplies the bonus and which line uses it.
+
+Next, change `score` so it doubles the earned points before adding the
+requested bonus, keeping the handler unchanged. Predict, run, and explain the
+new result.
+
+Finally, write the equivalent pure version with an explicit bonus argument.
+Where does each version receive the bonus, and which part chooses its value?
 
 You now have two ways to supply the same calculation with a value. An argument
 passes it directly. An effectful calculation requests it, records that need in

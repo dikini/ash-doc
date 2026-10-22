@@ -51,9 +51,10 @@ own action.
 
 Replace the bonus argument with a public request that each entry can answer.
 To count visits without passing cell access into the traversal, add a private
-`Visit` request before each item. Keep E6's stop request at zero. A surrounding
-`run` function will interpret visits and stops, while a cleanup action records
-the processing scope's completion.
+`Visit` request before each item. Keep the stop request from
+[Stopping a calculation](../stopping-a-calculation/README.md) at zero. A
+surrounding `run` function will interpret visits and stops, while a cleanup
+action records the processing scope's completion.
 
 `scoring.ash` contains those parts and the data declarations used above:
 
@@ -317,16 +318,19 @@ Start each task in a fresh scratch directory outside this lesson's `src`
 tree. Copy its named entry and the sibling `scoring.ash` together, so the
 entry's import finds your copy. Run the copied entry from that directory.
 
-1. Change the values and bonus in `01-finished.ash`. Predict the score, visit
-   count, and cleanup count separately.
-2. Move the zero marker in `02-stopped.ash`. Explain whether it contributes a
-   bonus, whether it contributes a visit, and which suffix is abandoned.
-3. Start from `01-finished.ash`. Call `Scoring.run` twice under a bonus handler
-   and return both reports. Predict whether the second run starts with fresh
-   counts.
-4. Start from `02-stopped.ash`. In your copied `scoring.ash`, move the visit
-   request below the zero check. Predict how this changes the stopped report
-   while retaining the scoring rule.
+Change the values and bonus in `01-finished.ash`. Predict the score, visit
+count, and cleanup count separately.
+
+Move the zero marker in `02-stopped.ash`. Does it still contribute a bonus
+and a visit? Which suffix is abandoned?
+
+Call `Scoring.run` twice under a bonus handler in `01-finished.ash`, returning
+both reports. Does the second run start with fresh counts? Predict before
+running.
+
+In your copied `scoring.ash` for `02-stopped.ash`, move the visit request
+below the zero check. How does the stopped report change while the scoring
+rule stays intact? Predict the new report.
 
 A complete explanation identifies where each request is answered, which work
 resumes or stops, and which owners remain responsible for completion. The

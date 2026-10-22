@@ -335,15 +335,16 @@ Use a fresh copy of `03-open-row.ash` for each of the first two tasks, and a
 fresh copy of `04-known-effect.ash` for the third. Keep the copies in this
 lesson's `src` directory.
 
-1. Make `apply_twice` call its callback three times and rename it
-   `apply_three_times`. Predict both results before running. Explain whether
-   the row needs to change.
-2. Add a pure Boolean callback that exchanges `true` and `false`. Use the
-   same `apply_twice` definition with that callback. Identify the value-type
-   and row arguments for this use, then run it.
-3. In `04-known-effect.ash`, change the handler's bonus and the initial points.
-   Trace the callback first and the helper's request second. Predict the
-   result without changing either function's contract.
+Rename `apply_twice` to `apply_three_times` and make it call its callback
+three times. Predict both results before running. Does the row need to change?
+
+Now add a pure Boolean callback that exchanges `true` and `false`, and use
+the same `apply_twice` definition with it. Which value-type and row arguments
+does this use supply? Run it to check.
+
+In `04-known-effect.ash`, change the handler's bonus and the initial points.
+Trace the callback first and the helper's request second; predict the result
+without changing either function's contract.
 
 A reusable helper can leave its value type and its effect requirements open.
 The repeated row parameter connects what the callback needs to what the

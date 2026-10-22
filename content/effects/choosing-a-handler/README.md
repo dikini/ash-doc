@@ -225,7 +225,8 @@ and operation signatures agree.
 
 ## A closure keeps values, not its creating handler
 
-E2 distinguished creating a function from calling it. In
+[Following effect contracts](../following-effect-contracts/README.md)
+distinguished creating a function from calling it. In
 `06-returned-function.ash`, creation itself includes one handled request:
 
 <!-- source: src/06-returned-function.ash -->
@@ -281,14 +282,17 @@ Start each task from a fresh copy of its named program in this lesson's `src`
 directory. Keep `left.ash` and `right.ash` beside the module-example copy so
 its relative imports still find the same declarations.
 
-1. Change only the inner answer in `01-nested.ash`. Predict which part of the
-   sum changes, then run the program.
-2. In `02-forwarding.ash`, change the outer answer. Explain the path from that
-   answer to the value passed to the inner `resume`.
-3. Rename the `Left` import alias in `05-module-identities.ash` and update its
-   uses. Predict whether that changes either answer.
-4. Change the handler around `request ()` in `06-returned-function.ash`.
-   Identify the saved value before predicting the new result.
+In `01-nested.ash`, change only the inner answer. Which part of the sum
+changes? Run the program to check.
+
+In `02-forwarding.ash`, change the outer answer. Explain the path from that
+answer to the value passed to the inner `resume`.
+
+Rename the `Left` import alias in `05-module-identities.ash` and update its
+uses. Does renaming change either answer? Predict before running.
+
+In `06-returned-function.ash`, change the handler around `request ()`. Its
+result combines one saved value with the new answer; predict the new result.
 
 The nearest matching handler answers a request from its body; its own clauses
 can request behavior from outside that handler. Exact declaration identity

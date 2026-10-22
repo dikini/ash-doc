@@ -41,8 +41,10 @@ $ ash 01-copied-result.ash
 
 The closure keeps the copied `41` and adds one, producing `42`. The scope
 releases the cell before `later ()` runs; the closure needs no access to it.
-This is E4's distinction between captured values and later effects applied
-to a resource lifetime.
+This is the same split the
+[handler-selection lesson](../choosing-a-handler/README.md) drew for
+closures: captured values travel with the function, while a request inside
+its body answers to the handler in place when the function is called.
 
 ## Reuse captured access while the owner remains live
 
@@ -370,14 +372,17 @@ retained access whose owner was in the suspended work.
 For each task, start with a fresh copy of its named program in a scratch
 directory outside this lesson's `src` tree. Run your copy from that directory.
 
-1. Change the cell's initial value in `01-copied-result.ash`. Explain what the
-   returned function remembers before predicting its result.
-2. Add another call through `alias` in `02-live-access.ash`. Identify which
-   owner remains live during all three calls.
-3. Change the initial values and the write in `05-two-acquisitions.ash`.
-   Predict both tuple fields separately.
-4. In `08-copied-payload.ash`, change the calculation over `copied`. Explain
-   why the closure needs no cell access while the resource scope is suspended.
+Change the cell's initial value in `01-copied-result.ash`. What does the
+returned function remember? Answer that before predicting its result.
+
+Add another call through `alias` in `02-live-access.ash`. Which owner must
+remain live during all three calls?
+
+Change the initial values and the write in `05-two-acquisitions.ash`. Predict
+each tuple field separately.
+
+In `08-copied-payload.ash`, change the calculation over `copied`. Why does
+the closure need no cell access while the resource scope is suspended?
 
 A dependency follows the access retained by a value, even through functions,
 aggregates, or request payloads. Ordinary copies can travel farther. Next we

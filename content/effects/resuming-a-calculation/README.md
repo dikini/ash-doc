@@ -282,12 +282,15 @@ For each task, make a fresh copy of the named program in a scratch directory
 outside this lesson's `src` tree. Predict the result, then run that copy from
 its directory.
 
-1. Start from `01-resumed-result.ash` and change the bonus answer. Predict the
-   resumed body's result and the final result after adding `100`.
-2. Start again from `01-resumed-result.ash` and change the `enabled` answer to
-   `false`. Trace what returns to the bonus clause before running the program.
-3. Start from `06-branching-resume.ash` and change the branch condition.
-   Explain why each alternative still consumes the continuation exactly once.
+Change the bonus answer in `01-resumed-result.ash`. What is the resumed
+body's result, and what is the final result after adding `100`?
+
+Start again from `01-resumed-result.ash`, now changing the `enabled` answer
+to `false`. What returns to the bonus clause? Trace it before running the
+program.
+
+Change the branch condition in `06-branching-resume.ash`. Why does each
+alternative still consume the continuation exactly once?
 
 A clause supplies an operation answer when it resumes, receives the result of
 the waiting calculation, and may then finish its own work. Sometimes we want

@@ -86,8 +86,9 @@ copy an ordinary callable value, not the scope's obligation to invoke it.
 
 ## Close owned scopes when their body is abandoned
 
-E6 used discard to skip a list calculation's remaining work.
-`03-discard-cleanup.ash` places two cleanup scopes in the waiting computation:
+[Stopping a calculation](../stopping-a-calculation/README.md) used discard
+to skip a list calculation's remaining work. `03-discard-cleanup.ash` places
+two cleanup scopes in the waiting computation:
 
 <!-- source: src/03-discard-cleanup.ash -->
 ```ash
@@ -348,12 +349,15 @@ not prove that a diverging action eventually returns.
 For each task, make a fresh copy of its named program in a scratch directory
 outside this lesson's `src` tree, then run the copy from that directory.
 
-1. Exchange the two actions in `02-nested-cleanup.ash`. Predict the log before
-   running the program.
-2. Change the body result in `01-normal-completion.ash`. Explain which tuple
-   field changes and which action still runs.
-3. In `03-discard-cleanup.ash`, replace the stop clause with `resume ()`.
-   Trace the body write, inner action, and outer action in order before running.
+Exchange the two actions in `02-nested-cleanup.ash`. What does the log
+contain? Predict before running.
+
+Change the body result in `01-normal-completion.ash`. Which tuple field
+changes, and which action still runs?
+
+Replace the stop clause in `03-discard-cleanup.ash` with `resume ()`. In what
+order do the body write, the inner action, and the outer action run? Trace
+them before running.
 
 A cleanup scope retains one action and owns its invocation. Normal return
 preserves the body's value; abandonment closes the owned scopes before the
