@@ -199,6 +199,23 @@ The pilot is complete only when all hold:
 7. The review owner signs the tiered-honesty wording and sets the human
    review effort budget for any continuation.
 
+## Progress record
+
+Steps 1-3 and 5 have landed. The decision is recorded in the roadmap;
+the glossary carries the coinage rule born of review, with къринг as its
+first application; the pipeline translates, checks, compares, and
+converges; Learn 1-3 are mt-draft with strict checks green. Step 5:
+TeX Gyre Pagella has no Cyrillic (the current CTAN release was checked
+too), so PT Serif (OFL, Cyrillic-first, 0401-04FF coverage verified)
+is the Bulgarian body face. `--lang` renders translated lesson scopes
+with a translation-check pre-flight, a blockquote draft notice visible
+in HTML and both PDFs, and PT Serif in the HTML theme and the patched
+project-local Typst partial. All three lessons pass artifact checks in
+HTML and A4 PDF; lesson 3 renders its three split figures from
+transplanted notation. Known gap: figure captions and descriptions stay
+English until front matter translation lands; EPUB was not exercised in
+the pilot builds.
+
 ## Execution order
 
 1. Approval of this design; roadmap records the decision and links this plan;
