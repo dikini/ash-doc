@@ -1,19 +1,14 @@
 {
   "language": "bg",
-  "tier": "reviewed",
-  "claimed_english_sha256": "0c82de2a09976335dcf0ab04b74baf1bea974af8a43b01156a84df6e7d952afe",
-  "generated_at": "2026-10-22T14:25:26.972613+00:00",
+  "tier": "mt-draft",
+  "claimed_english_sha256": "693d4e7d461bdfe72d19f8e0edbfc83317fb7c67ed231eb70dfd88de2a7baa4e",
+  "generated_at": "2026-10-23T04:02:18.712713+00:00",
   "provenance": {
     "engine": "codex-cli",
     "engine_version": "0.163.0",
     "model": "gpt-6-luna",
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
-    "glossary_sha256": "4e7b1009ba90c375596eeda32f62b471a846270673d186b2af75c8238cd2c090",
+    "glossary_sha256": "27c8ed617955edef56f035ac089264da51c99d8d3d1798182dd24c80a0918a76",
     "segments": 44
-  },
-  "certification": {
-    "at": "2026-10-22T14:35:12.741468+00:00",
-    "by": "review owner",
-    "surface": "review owner batch approval 2026-10-22"
   }
 }

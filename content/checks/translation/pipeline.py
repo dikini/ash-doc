@@ -231,7 +231,7 @@ def restore(text: str, spans: list[str]) -> str:
             base = f"<!--t{index}-->"
             if base in text:
                 text = text.replace(base, span, 1)
-    leftover = PLACEHOLDER_RE.search(text)
+    leftover = PLACEHOLDER_RE.search(text) or re.search(r"<!--t\d", text)
     if leftover:
         raise ValueError(f"unresolved placeholder {leftover.group(0)}")
     return text

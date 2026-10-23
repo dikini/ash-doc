@@ -85,6 +85,14 @@ class RoundTripTest(unittest.TestCase):
             pipeline.placeholder_token(0, len(spans[0])), "<!--t0-->")
         self.assertEqual(text, pipeline.restore(damaged, spans))
 
+    def test_restore_rejects_broken_placeholder_fragments(self) -> None:
+        text = "Тип `Box<Int>` тук"
+        protected, spans = pipeline.protect(text)
+        damaged = protected.replace(
+            pipeline.placeholder_token(0, len(spans[0])), "<!--t0--#")
+        with self.assertRaises(ValueError):
+            pipeline.restore(damaged, spans)
+
     def test_formatting_never_splits_inline_spans(self) -> None:
         text = ("В извикването `add 20 22` входовете съответстват на параметрите "
                 "отляво надясно в този файл и още малко текст за ширина")
