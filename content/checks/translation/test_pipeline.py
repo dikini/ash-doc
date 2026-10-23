@@ -198,6 +198,9 @@ class PlantedViolationTest(unittest.TestCase):
                 "и примера (`01`) за анонимна функция.")
         self.assertEqual(pipeline.scan_never_translate(
             text, pipeline.glossary_never_translate()), [])
+        labelled = "Същата причина, [правилата за импорт][import-rules]."
+        self.assertEqual(pipeline.scan_never_translate(
+            labelled, pipeline.glossary_never_translate()), [])
 
     @staticmethod
     def write_bg_corrupted_fence(fx: LessonFixture) -> None:

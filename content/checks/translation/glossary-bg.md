@@ -128,6 +128,9 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | subtraction | изваждане | |
 | ordering | подреждане | |
 | boolean (value) | булева стойност | |
+| accumulator | акумулатор | |
+| effect | ефект | |
+| provider | доставчик | |
 
 | evaluate | изчислява | Batch-approved 2026-10-22 from Provisional. |
 | entry module | начален модул | Batch-approved 2026-10-22 from Provisional. |
@@ -165,6 +168,12 @@ confirms or rejects them. None currently.
 
 | Chosen | English | Alternative | Open question |
 | --- | --- | --- | --- |
+| целев импорт | targeted import | насочен импорт | |
+| реекспортиране | re-export | повторно изнасяне | |
+| фасада | facade | | |
+| непрозрачен | opaque | скрит | |
+| обработвач | handler | разпределител | The effects sense. |
+| обхват | scope (resource) | област | Resource ownership sense, vs област на видимост for names. |
 <!-- markdownlint-enable MD013 -->
 
 ## Figures and assistant notes

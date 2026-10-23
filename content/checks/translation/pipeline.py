@@ -407,6 +407,7 @@ def scan_never_translate(text: str, terms: list[str]) -> list[str]:
     prose = INLINE_CODE_RE.sub("", text)
     prose = re.sub(r"\([^)\s]+\)", "", prose)
     prose = BARE_URL_RE.sub("", prose)
+    prose = re.sub(r"\[[a-z0-9-]+\]", "", prose)
     hits = []
     for term in terms:
         if not term.isidentifier():
