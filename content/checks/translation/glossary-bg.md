@@ -157,6 +157,12 @@ translate. The list covers the pilot lessons; each new lesson extends it.
 | kind | kind | Batch-approved 2026-10-22 from Provisional. |
 | local generalization | локално обобщение | Batch-approved 2026-10-22 from Provisional. |
 | monomorphic | мономорфен | Batch-approved 2026-10-22 from Provisional. |
+| targeted import | целев импорт | Batch-approved 2026-10-23 from Provisional. |
+| re-export | реекспортиране | Batch-approved 2026-10-23 from Provisional. |
+| facade | фасада | Batch-approved 2026-10-23 from Provisional. |
+| opaque | непрозрачен | Batch-approved 2026-10-23 from Provisional. |
+| handler | обработвач | Batch-approved 2026-10-23 from Provisional. |
+| scope (resource) | обхват | Batch-approved 2026-10-23 from Provisional. |
 <!-- markdownlint-enable MD013 -->
 
 ## Provisional choices
@@ -168,12 +174,6 @@ confirms or rejects them. None currently.
 
 | Chosen | English | Alternative | Open question |
 | --- | --- | --- | --- |
-| целев импорт | targeted import | насочен импорт | |
-| реекспортиране | re-export | повторно изнасяне | |
-| фасада | facade | | |
-| непрозрачен | opaque | скрит | |
-| обработвач | handler | разпределител | The effects sense. |
-| обхват | scope (resource) | област | Resource ownership sense, vs област на видимост for names. |
 <!-- markdownlint-enable MD013 -->
 
 ## Figures and assistant notes
