@@ -248,6 +248,48 @@ a browser-printed A4 PDF; these are local previews, not production lesson
 HTML/EPUB or either Quarto PDF layout certification. Accepted lessons,
 translations, shared rendering behavior, and all pins remain unchanged.
 
+## Typeset mathematical tree trial
+
+The [fold brief](fold-trial.md) requests matched diagonal trees in the style
+of the supplied visual reference, without its background or frame. The
+[construction](fold-trial.json) records shared branch geometry, numbered
+leaves, colon constructors on the left, and italic `f`/`z` on the right.
+The native SVG drawing program uses shared ink and hash-checked bundled
+Pagella regular/italic outlines; it copies no pixels or source artwork.
+
+```sh
+python3 rendering/illustrations/test_fold_trial.py
+PYTHONPATH=.build/illustration-python python3 rendering/illustrations/fold-trial.py
+node rendering/illustrations/fold-sketch.mjs
+node rendering/illustrations/fold-sketch.test.mjs
+python3 rendering/illustrations/prepare-trial.py \
+    .build/fold-trial/README.md .build/fold-trial/document
+```
+
+Saved state and SVG live together under `.build/fold-trial/`, with an ordinary
+saved-image preparation trial. The focused test checks repeated byte agreement,
+matching leaf attachments and spine geometry, corresponding labels, clearance
+below italic `f` descenders, and absence of background rectangles,
+runtime text, scripts, images, and filters. The result passes the source SVG
+validator. Inspect it as body-width artwork, not as an accepted margin figure.
+The transparent SVG can look dark on a dark viewer canvas; the document preview
+shows the same asset on its normal page without adding a background to the SVG.
+HTML and a standalone A4 print preview are local reviews, not adoption in a
+lesson or cross-format book certification. This is a mathematical illustration,
+not a claim about Ash syntax or library behavior.
+
+The requested hand-drawn revision keeps the mathematical lettering and roughens
+only the 21 connector/arrow-shaft segments. The tiny filled arrowhead remains
+crisp. A saved roughness of 1.8, bowing of 1, and seed 1729 reproduce the result.
+`fold-sketch.mjs` constructs the crisp base explicitly, saves it as `base.svg`,
+then writes the styled `figure.svg` and resolved renderer provenance. Its test
+checks byte agreement, unchanged lettering, anchored segment endpoints, and
+continued transparency. Numbered branches on the right retain clearance below
+the italic `f` descenders. A crisp/mild/rough comparison is available at
+`.build/fold-trial/comparison.html`; document preparation still reads only the
+selected saved SVG. The drawing program alone rebuilds the crisp intermediate,
+not the selected hand-drawn final.
+
 Keep this small tool while the pilot needs it. Replace it when another
 authoring representation can preserve construction, defaults, and portable
 SVGs more simply. It establishes no general scene language, filter registry,
