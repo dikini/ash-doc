@@ -12,6 +12,19 @@ not a heap trace. Do not add a function square or separate the pair components
 into two curried argument slots. The arrow relates input shape to result shape;
 it does not say that any integer converts into another by itself.
 
+The function signature belongs in the figure caption, outside the artwork.
+Keep the artwork focused on the pair's two components and the single result.
+
+The companion `fig-add-inputs` follows the literal `Int -> Int -> Int`
+signature: three separate blue squares with arrows between adjacent positions.
+Match square size and color to the pair figure. Its arrows follow the signature,
+not conversions between values. The author chose this direct comparison over
+enclosing `Int -> Int` as a function result. Keep the signature in its caption.
+
+Both figures share the `note-input-shapes` margin aside. Preserve their order
+and their matching geometry. At margin width, use the accepted larger labels
+and shortened lower wording; the captions identify the input and result roles.
+
 Use the existing solid-square vocabulary. The horizontal type/value split
 from other figures is a different view and is unnecessary here. A mixed-type
 pair may require a separate accepted type-color mapping; do not invent that

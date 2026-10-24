@@ -2,8 +2,12 @@
 diagrams:
   - kind: illustration
     id: fig-sum-pair
-    caption: Един вход — двойка — съдържа две места за цели числа.
+    caption: "sum_pair : (Int, Int) -> Int — един вход двойка, един целочислен резултат."
     description: Два съседни квадрата имат общ външен контур за входа двойка. Вътрешна линия разграничава двете му части от тип Int. Стрелка води към отделен квадрат за резултата от тип Int. И трите квадрата използват един и същ цвят за типа.
+  - kind: illustration
+    id: fig-add-inputs
+    caption: "add : Int -> Int -> Int — отделни целочислени входове, един целочислен резултат."
+    description: Три отделни сини квадрата от тип Int показват първия вход, втория вход и резултата в реда на сигнатурата. Стрелките между съседните квадрати следват сигнатурата; те не показват преобразувания между целочислени стойности.
 ---
 
 # Стойностите пътуват заедно {#making-values-travel-together}
@@ -71,6 +75,15 @@ sum_pair (20, 22)
 42
 ```
 
+Това се различава от по-ранната функция `add : Int -> Int -> Int`, дефинирана
+в [урока за няколко входа](../using-more-than-one-input/README.md). `add`
+получава едно цяло число, а после още едно; `sum_pair` получава една двойка. И
+двете могат да извършат същото събиране, но входовете имат различни форми и
+сигнатурите им го показват. Сравнете пълните извиквания с това, което остава
+след [първия вход][application]:
+
+::: {#note-input-shapes .column-margin}
+
 ```{#fig-sum-pair .illustration}
 Show sum_pair receiving one pair containing two Int slots and producing one
 Int slot. Follow the solid type-square style in the "Using more than one input"
@@ -80,14 +93,23 @@ separate result square. Use the same color for all three Int slots.
 A continuously connected shape represents one slot, which may contain other
 slots. The internal seam distinguishes the pair's component slots. Show type
 shape, without implying a physical memory layout or mutation.
+Put the function signature in the figure caption, not inside the artwork.
+Use labels large enough for the margin aside; abbreviate the lower labels to
+pair input and result.
 ```
 
-Това се различава от по-ранната функция `add : Int -> Int -> Int`, дефинирана
-в [урока за няколко входа](../using-more-than-one-input/README.md). `add`
-получава едно цяло число, а после още едно; `sum_pair` получава една двойка. И
-двете могат да извършат същото събиране, но входовете имат различни форми и
-сигнатурите им го показват. Сравнете пълните извиквания с това, което остава
-след [първия вход][application]:
+```{#fig-add-inputs .illustration}
+Show the literal add : Int -> Int -> Int signature as three separate blue
+Int squares with arrows between adjacent squares. Match the square size,
+Int color, and arrow style of fig-sum-pair. Label the positions first input,
+second input, and result. Do not join the inputs or enclose the remaining
+function. Put the signature in the caption, outside the artwork.
+The arrows follow the type signature, not conversions between integer values.
+Use labels large enough for the margin aside; abbreviate the lower labels to
+first, second, and result.
+```
+
+:::
 
 | Сравнение | `add` | `sum_pair` |
 | --- | --- | --- |

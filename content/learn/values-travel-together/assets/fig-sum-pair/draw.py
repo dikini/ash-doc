@@ -43,17 +43,17 @@ desc = ('Two adjoining blue squares share one rectangular outer contour. '
         'Color denotes type, not value identity. This is not a storage diagram.')
 body = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-labelledby="title desc">',
         f'<title id="title">{escape(title)}</title><desc id="desc">{escape(desc)}</desc>',
-        text(state['signature'], w/2, 34, 17),
         f'<g fill="{blue}" stroke="{stroke["node"]}" stroke-width="{stroke["nodeWidth"]}">',
         f'<rect x="{x}" y="{y}" width="{2*s}" height="{s}"/>',
         f'<path d="M{x+s} {y}v{s}" fill="none"/>',
         f'<rect x="{rx}" y="{ry}" width="{s}" height="{s}"/>', '</g>',
-        text('(Int, Int)', x+s, 72, 14, style['categories']['int']['ink']),
-        text('Int', rx+s/2, 72, 14, style['categories']['int']['ink'])]
+        text('(Int, Int)', x+s, y-14, state['label_size'], style['categories']['int']['ink']),
+        text('Int', rx+s/2, ry-14, state['label_size'], style['categories']['int']['ink'])]
 a, b, cy = x+2*s+22, rx-22, y+s/2
 head = stroke['arrowHead']
 body += [f'<path d="M{a} {cy}H{b} M{b-head} {cy-head}L{b} {cy}L{b-head} {cy+head}" fill="none" stroke="{stroke["arrow"]}" stroke-width="{stroke["arrowWidth"]}" stroke-linecap="round" stroke-linejoin="round"/>',
-         text('one pair input', x+s, 184, 12), text('one result', rx+s/2, 184, 12), '</svg>']
+         text('pair input', x+s, y+s+34, state['label_size']),
+         text('result', rx+s/2, ry+s+34, state['label_size']), '</svg>']
 temporary = ROOT / '.figure.svg.tmp'
 temporary.write_text('\n'.join(body))
 temporary.replace(ROOT / 'figure.svg')

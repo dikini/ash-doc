@@ -10,7 +10,6 @@
     }
   },
   "construction": {
-    "signature": "sum_pair : (Int, Int) -> Int",
     "input": {
       "kind": "tuple",
       "slots": [
@@ -24,17 +23,18 @@
     },
     "style": "rendering/styles/diagram-style.json",
     "slot_size": 64,
+    "label_size": 28,
     "input_origin": [
       40,
-      86
+      42
     ],
     "result_origin": [
       304,
-      86
+      42
     ],
     "canvas": [
       408,
-      210
+      166
     ]
   },
   "interpretation": {
@@ -43,7 +43,8 @@
       "Same type, same color.",
       "One continuous shape is one slot, possibly containing component slots.",
       "Interior seams distinguish component slots.",
-      "This depicts type shape, not physical storage."
+      "This depicts type shape, not physical storage.",
+      "The function signature belongs in the figure caption, outside the artwork."
     ]
   }
 }

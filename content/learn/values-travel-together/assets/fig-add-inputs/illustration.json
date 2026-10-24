@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "renderer": {
+    "source": "draw.py",
+    "command": "python3 draw.py",
+    "dependencies": {"Python": "3", "fontTools": "4.61.1"}
+  },
+  "construction": {
+    "style": "rendering/styles/diagram-style.json",
+    "slot_size": 64,
+    "origins": [[40, 42], [172, 42], [304, 42]],
+    "labels": ["first", "second", "result"],
+    "label_size": 28,
+    "canvas": [408, 166]
+  },
+  "interpretation": {
+    "intent": "Compare the literal Int -> Int -> Int signature with the tuple-input signature.",
+    "rules": [
+      "Three separate blue squares represent the three Int positions in signature order.",
+      "Arrows between adjacent squares follow the signature's arrows; they do not show conversions between integers.",
+      "Do not join the inputs or enclose the remaining function.",
+      "The function signature belongs in the figure caption, outside the artwork."
+    ]
+  }
+}

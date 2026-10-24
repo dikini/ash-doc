@@ -3,7 +3,8 @@
 An author should be able to request an illustration beside the passage it
 explains, review the result, and rebuild accepted artwork without recovering
 an agent conversation. This bounded decision implements that workflow for the
-pair-input figure in *Making values travel together*. The discussion approved
+pair-input figure and its `add` comparison in *Making values travel together*.
+The discussion approved
 agent-led authoring, lesson-local construction state, and deterministic document
 assembly. It leaves Ash at FFI Base, commit
 `354c76b391fe4af665cf6a03479a9874a57cb3e3`.
@@ -42,6 +43,15 @@ request changes. The document generator rejects an absent or duplicate ID.
 Add an entry with `kind: illustration`, matching `id`, `caption`, and
 `description` to the lesson's existing `diagrams` list in fence order. The
 request stays in the fence; do not copy it into front matter.
+
+The `.illustration` class is the explicit fence tag in Pandoc's attributed
+syntax; the same attributes retain its stable ID. To place an authored figure
+in an unnumbered margin note, wrap the fence in a `.column-margin` Div. A
+numbered sidenote can contain the fence in its indented footnote definition.
+The adapter substitutes saved artwork in either location; the usual note
+layout controls placement. Review label size at margin width before selecting
+that layout. The two comparison figures share the `note-input-shapes` margin
+aside beside the comparison paragraph and table.
 
 Resolve `assets/<id>/illustration.json` beside the lesson. The document
 generator requires this small envelope:
@@ -127,10 +137,10 @@ unknown. Do not infer that an arbitrary replacement archive is acceptable.
 ### Selected lesson review
 
 Both English and Bulgarian lesson scopes build in HTML, EPUB, book PDF, and A4
-PDF with the pinned toolchain. Artifact checks retain the saved SVG as one
-canonical lesson asset and preserve all nine code/transcript blocks. EPUBCheck
+PDF with the pinned toolchain. Artifact checks retain the saved SVGs as two
+canonical lesson assets and preserve all nine code/transcript blocks. EPUBCheck
 5.4.0 reports no errors or warnings. English PDFs contain nine and eight pages;
-Bulgarian PDFs contain ten and nine pages, respectively.
+Bulgarian PDFs contain nine pages in each layout.
 
 The English browser review passes desktop and 390-pixel HTML checks and
 390-pixel EPUB reflow at a 28-pixel root font in Chrome and Firefox. Visual
@@ -154,7 +164,7 @@ python3 rendering/build.py \
 
 Rebuilding the drawing twice with fontTools 4.61.1 produces identical bytes,
 with SHA-256
-`8ae2ca251b82a73c9501462164e5447d9b016c575d2dfc3edcc73f458d541783`.
+`b29bccfb86b7c5dc6025831bc1e55f8a7f746bf4bb1416fd6683388d4459bea0`.
 The ten adapter tests and skill validator pass. The rendering suite runs 111
 tests: 110 pass directly; the token-worktree fixture requires signing disabled
 for its temporary Git commit. Rerunning its twelve-test module with
@@ -163,8 +173,8 @@ passes without changing repository or user Git configuration.
 
 ### Bulgarian synchronization and remaining boundary
 
-The established `compare` pass produced 25 divergences. Agent review retained
-the existing wording, including the newly translated caption and description;
+The comparison revision's `compare` pass produced 30 divergences. Agent review
+retained the existing wording, including the new captions and descriptions;
 the fresh description also failed a protected-term check. `converge` consumed
 the adjudications and refreshed the exact English claim. The illustration fence
 is transplanted byte-identically. The comparison table retains its words with
@@ -185,3 +195,28 @@ characters, literal percent escapes, and distinct heading IDs. All thirteen
 browser unit tests pass. Rerunning both scoped browser reviews passes all 68
 checks per language, including the formerly failing Bulgarian index navigation
 and enlarged EPUB review in Chrome and Firefox.
+
+The function signature now appears in each language's figure caption rather
+than inside the artwork. The drawing removes that label and its vertical space;
+the pair contour, seam, type labels, and arrow retain their meanings. The
+lesson brief and construction record retain this requested separation.
+
+The companion `fig-add-inputs` has three separate blue squares and arrows
+between adjacent positions, following the author's literal-signature choice.
+Its square size, color, and labels align with `fig-sum-pair`; the two pair
+components remain attached. No region encloses the remaining function.
+Repeated renders of the companion with fontTools 4.61.1 agree at SHA-256
+`d5b70b9f6592d0509f7ec7ce23f2c8c1f5d93c45db2ae4108eb77f9fdfff48c6`.
+Canonical Ash programs and captured observations are unchanged; their
+exact-pin execution evidence is reused.
+
+The two fences now share one `.column-margin` Div after the comparison
+paragraph. Their reading order remains pair, then separate inputs. Desktop
+HTML and both PDFs place the group in the margin; narrow HTML and EPUB retain
+it in ordinary reading order. Margin-size inspection required larger outlined
+labels: both drawings now use size 28, with lower labels shortened to
+`pair input` / `result` and `first` / `second` / `result`. The captions and
+alternative descriptions still identify the input and result roles.
+The prose and translated metadata did not change during this placement step;
+`converge` refreshed the English claim after reviewing the byte-identical Div
+and fence transplants. Aside previews live in `.build/illustration-review/aside/`.
