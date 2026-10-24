@@ -38,6 +38,10 @@ export function htmlChapterName(href, base) {
   return href ? new URL(href, base).pathname.replace(/^\//, '') || 'index.html' : undefined;
 }
 
+export function fragmentIdentifier(fragment) {
+  return decodeURIComponent(fragment.slice(1));
+}
+
 export function chapterHeadings(document, includeTitle = false) {
   const text = node => {
     if (Array.isArray(node)) return node.map(text).join('');
@@ -289,7 +293,7 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
         anchor: node.getAttribute('data-scroll-target').slice(1), title: node.textContent.trim()
       })),
       mobile: [...document.querySelectorAll('.on-this-page a[href]')].map(node => ({
-        anchor: new URL(node.href).hash.slice(1), title: node.textContent.trim()
+        anchor: new URL(node.href).hash, title: node.textContent.trim()
       })),
       insideArticle: !!document.querySelector('main #TOC, main #quarto-sidebar, main .on-this-page')
     }));
@@ -299,7 +303,9 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
     assert.deepEqual(headings(navigation.local), headings(localHeadings.get(chapter)),
       'Local navigation follows the staged source headings.');
     assert.equal(navigation.insideArticle, false, 'Navigation stays outside the article.');
-    if (label === 'mobile') assert.deepEqual(navigation.mobile, navigation.local,
+    if (label === 'mobile') assert.deepEqual(navigation.mobile.map(node => ({
+      ...node, anchor: fragmentIdentifier(node.anchor)
+    })), navigation.local,
       'The mobile disclosure retains the complete local navigation.');
   }
 
@@ -310,10 +316,10 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
       await page.focus('.on-this-page summary');
       await page.keyboard.press('Enter');
       await page.keyboard.press('Tab');
-      assert.equal(await page.evaluate(() => new URL(document.activeElement.href).hash), `#${first.anchor}`);
+      assert.equal(fragmentIdentifier(await page.evaluate(() => new URL(document.activeElement.href).hash)), first.anchor);
     } else await page.focus(`#TOC a[data-scroll-target="#${first.anchor}"]`);
     await page.keyboard.press('Enter');
-    await page.waitForFunction(hash => location.hash === hash, {}, `#${first.anchor}`);
+    await page.waitForFunction(anchor => decodeURIComponent(location.hash.slice(1)) === anchor, {}, first.anchor);
     if (label === 'mobile') {
       await page.focus('.on-this-page summary');
       await page.keyboard.press('Enter');

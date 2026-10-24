@@ -1,0 +1,4 @@
+interface:
+  display_name: "Author Ash Illustrations"
+  short_description: "Author and revise illustrations within Ash lessons"
+  default_prompt: "Use $author-ash-illustrations to author or revise illustrations in an ash-doc lesson."

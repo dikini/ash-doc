@@ -312,6 +312,35 @@ def stage_images(document, source, output):
 
 
 DIAGRAM_KINDS = ("mermaid", "ebnf", "sequent", "split")
+FIGURE_KINDS = (*DIAGRAM_KINDS, "illustration")
+
+
+def illustration_target(source, identifier):
+    """Resolve authored artwork only; never interpret prompts or run drawing code."""
+    if not re.fullmatch(r"fig-[a-z0-9]+(?:-[a-z0-9]+)*", identifier):
+        raise ValueError(f"{source}: illustration needs a stable fig- identifier")
+    parent = (ROOT / source).parent.resolve()
+    directory = parent / "assets" / identifier
+    sidecar = directory / "illustration.json"
+    if not sidecar.resolve().is_relative_to(parent) or not sidecar.is_file():
+        raise ValueError(f"{source}: missing or escaping illustration state: {identifier}")
+    try:
+        state = json.loads(sidecar.read_text(encoding="utf-8"))
+    except (ValueError, UnicodeError) as error:
+        raise ValueError(f"{source}: invalid illustration state: {identifier}") from error
+    if not isinstance(state, dict) or type(state.get("version")) is not int or state["version"] != 1:
+        raise ValueError(f"{source}: illustration {identifier} needs state version 1")
+    target = state.get("svg")
+    if not isinstance(target, str):
+        raise ValueError(f"{source}: illustration {identifier} needs an SVG reference")
+    url = urlsplit(target)
+    path = Path(unquote(url.path))
+    asset = (directory / path).resolve()
+    if (not target or url.scheme or url.netloc or path.is_absolute() or url.query or url.fragment
+            or not asset.is_relative_to(directory.resolve()) or not asset.is_relative_to(parent)
+            or not asset.is_file() or asset.suffix.lower() != ".svg"):
+        raise ValueError(f"{source}: illustration {identifier} needs an existing local SVG")
+    return asset.relative_to(parent).as_posix()
 
 
 def locate_fence(text, code, kind, offset):
@@ -341,9 +370,9 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
     if assets is not None:
         assets.extend(staged_assets)
     descriptions = document["meta"].pop("diagrams", {"c": []})["c"]
-    state = {"diagram": 0, "offset": 0}
+    state = {"diagram": 0, "offset": 0, "illustration_ids": set()}
 
-    def diagram_image(kind, code):
+    def diagram_image(kind, code, attributes):
         number = state["diagram"]
         if number >= len(descriptions):
             raise ValueError(f"{source}: {kind} needs caption and description metadata")
@@ -351,11 +380,26 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
         if description["kind"] != kind:
             raise ValueError(f"{source}: diagram metadata order does not match {kind}")
         state["diagram"] = number + 1
+        image_attributes = [description["id"], [], [["fig-alt", description["description"]], ["width", "100%"]]]
+        if kind == "illustration":
+            identifier = attributes[0]
+            if identifier in state["illustration_ids"]:
+                raise ValueError(f"{source}: duplicate illustration identifier: {identifier}")
+            if identifier != description["id"]:
+                raise ValueError(f"{source}: illustration ID does not match figure metadata")
+            state["illustration_ids"].add(identifier)
+            image = {"t": "Para", "c": [{"t": "Image", "c": [image_attributes,
+                     [{"t": "Str", "c": description["caption"]}],
+                     [illustration_target(source, identifier), ""]]}]}
+            copied = stage_images({"blocks": [image]}, source, output)
+            if assets is not None:
+                known = {asset["source"] for asset in assets}
+                assets.extend(asset for asset in copied if asset["source"] not in known)
+            return image
         at = locate_fence(text, code, kind, state["offset"])
         state["offset"] = at + 1
         line = text[:at].count("\n") + 1
         jobs.append({**description, "source": code, "path": source, "line": line})
-        image_attributes = [description["id"], [], [["fig-alt", description["description"]], ["width", "100%"]]]
         return {"t": "Para", "c": [{"t": "Image", "c": [image_attributes,
                                [{"t": "Str", "c": description["caption"]}],
                                ["assets/" + description["id"] + ".svg", ""]]}]}
@@ -366,9 +410,9 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
             if node.get("t") == "CodeBlock":
                 attributes, code = node["c"]
                 kind = attributes[1][0] if attributes[1] else ""
-                if kind in DIAGRAM_KINDS:
+                if kind in FIGURE_KINDS:
                     node.clear()
-                    node.update(diagram_image(kind, code))
+                    node.update(diagram_image(kind, code, attributes))
                     return
             for key, value in node.items():
                 if key == "c":

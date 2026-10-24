@@ -1,7 +1,7 @@
 {
   "language": "bg",
-  "tier": "reviewed",
-  "claimed_english_sha256": "a552423768de8829fda21ae7644b331fc213aa8083a92f39d5f9cb79ea25b1fb",
+  "tier": "mt-draft",
+  "claimed_english_sha256": "dcec0ceb69f5aac48213dc5a5c44282f3b5af79108e96a61da2e93a7d72c6dae",
   "generated_at": "2026-10-22T14:21:54.006748+00:00",
   "provenance": {
     "engine": "codex-cli",
@@ -9,11 +9,8 @@
     "model": "gpt-6-luna",
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
     "glossary_sha256": "4e7b1009ba90c375596eeda32f62b471a846270673d186b2af75c8238cd2c090",
-    "segments": 32
-  },
-  "certification": {
-    "at": "2026-10-22T14:35:12.741468+00:00",
-    "by": "review owner",
-    "surface": "review owner batch approval 2026-10-22"
+    "segments": 32,
+    "last_convergence": "2026-10-24T11:39:22.266661+00:00",
+    "illustration_review": "Codex retained the reviewed prose after comparing 30 divergences, moved signatures into figure captions, translated the add metadata, and grouped both illustration fences in one margin aside. The placement-only convergence preserves translated prose and metadata. Renewed owner certification is pending."
   }
 }

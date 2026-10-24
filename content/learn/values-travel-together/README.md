@@ -1,3 +1,18 @@
+---
+illustration-defaults:
+  font: excalifont
+  stroke: mild
+diagrams:
+  - kind: illustration
+    id: fig-sum-pair
+    caption: "sum_pair : (Int, Int) -> Int — one pair input, one integer result."
+    description: Two adjoining squares share one outer contour for a pair input. An interior seam distinguishes its two Int parts. An arrow leads to one separate Int result square. All three squares use the same type color.
+  - kind: illustration
+    id: fig-add-inputs
+    caption: "add : Int -> Int -> Int — separate integer inputs, one integer result."
+    description: Three separate blue Int squares show the first input, second input, and result in signature order. Arrows between adjacent squares follow the signature; they do not show conversions between integer values.
+---
+
 # Making values travel together
 
 A `let` binding gives one value a local name. That value may be the result of a
@@ -68,6 +83,35 @@ receives one integer and then another; `sum_pair` receives one pair. Both can
 perform the same addition, but their inputs have different shapes and their
 signatures say so. Compare the complete calls with what remains after the
 [first input][application]:
+
+::: {#note-input-shapes .column-margin}
+
+```{#fig-sum-pair .illustration}
+Show sum_pair receiving one pair containing two Int slots and producing one
+Int slot. Follow the solid type-square style in the "Using more than one input"
+lesson. Attach the pair's two squares along one edge, then draw an arrow to a
+separate result square. Use the same color for all three Int slots.
+
+A continuously connected shape represents one slot, which may contain other
+slots. The internal seam distinguishes the pair's component slots. Show type
+shape, without implying a physical memory layout or mutation.
+Put the function signature in the figure caption, not inside the artwork.
+Use labels large enough for the margin aside; abbreviate the lower labels to
+pair input and result.
+```
+
+```{#fig-add-inputs .illustration}
+Show the literal add : Int -> Int -> Int signature as three separate blue
+Int squares with arrows between adjacent squares. Match the square size,
+Int color, and arrow style of fig-sum-pair. Label the positions first input,
+second input, and result. Do not join the inputs or enclose the remaining
+function. Put the signature in the caption, outside the artwork.
+The arrows follow the type signature, not conversions between integer values.
+Use labels large enough for the margin aside; abbreviate the lower labels to
+first, second, and result.
+```
+
+:::
 
 | Comparison | `add` | `sum_pair` |
 | --- | --- | --- |

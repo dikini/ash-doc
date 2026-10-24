@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "construction": {
+    "canvas": [536, 282],
+    "root": [56, 64],
+    "step": [32, 36],
+    "tree_offset": 270,
+    "values": [1, 2, 3, 4, 5],
+    "label_size": 22,
+    "stroke_width": 0.9,
+    "stroke_profile": {"name": "rough", "roughness": 1.8, "bowing": 1, "seed": 1729},
+    "numbered_branch_start": {"list": [-6, 7], "application": [-9, 15]},
+    "style": "rendering/styles/diagram-style.json",
+    "fonts": {
+      "regular": "rendering/fonts/texgyrepagella-regular.otf",
+      "italic": "rendering/fonts/texgyrepagella-italic.otf"
+    }
+  },
+  "renderer": {
+    "command": "PYTHONPATH=.build/illustration-python python3 rendering/illustrations/fold-trial.py",
+    "dependencies": {"fontTools": "4.61.1"}
+  },
+  "interpretation": {
+    "intent": "Expose the same branching structure while replacing list constructors with f and the empty list with z.",
+    "rules": [
+      "Colons identify the left tree's list constructors.",
+      "Both trees share numbered leaf positions and spine geometry; numbered branches clear their constructor glyphs.",
+      "Only constructor and terminal labels change between trees.",
+      "Use original vector construction, not pixels or assets copied from the reference image.",
+      "No background rectangle, enclosing border, or boxed nodes."
+    ]
+  }
+}

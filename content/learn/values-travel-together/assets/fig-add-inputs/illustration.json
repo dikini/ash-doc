@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "renderer": {
+    "source": "draw.py",
+    "base": "base.svg",
+    "command": "node rendering/illustrations/author.mjs --lesson content/learn/values-travel-together/README.md --figure fig-add-inputs",
+    "dependencies": {
+      "Python": "3",
+      "fontTools": "4.61.1",
+      "Brotli": "1.1.0",
+      "RoughJS": "4.6.6",
+      "Chrome": "152.0.7977.75"
+    }
+  },
+  "construction": {
+    "style": "rendering/styles/diagram-style.json",
+    "slot_size": 64,
+    "origins": [
+      [
+        40,
+        42
+      ],
+      [
+        172,
+        42
+      ],
+      [
+        304,
+        42
+      ]
+    ],
+    "labels": [
+      "first",
+      "second",
+      "result"
+    ],
+    "label_size": 28,
+    "canvas": [
+      408,
+      166
+    ],
+    "appearance": {
+      "stroke": "mild",
+      "roughness": 0.6,
+      "bowing": 0.5,
+      "font": "excalifont",
+      "seed": 1729
+    }
+  },
+  "interpretation": {
+    "intent": "Compare the literal Int -> Int -> Int signature with the tuple-input signature.",
+    "rules": [
+      "Three separate blue squares represent the three Int positions in signature order.",
+      "Arrows between adjacent squares follow the signature's arrows; they do not show conversions between integers.",
+      "Do not join the inputs or enclose the remaining function.",
+      "The function signature belongs in the figure caption, outside the artwork."
+    ]
+  },
+  "appearanceSelection": {
+    "global": "rendering/styles/diagram-style.json",
+    "document": "content/learn/values-travel-together/README.md",
+    "request": {}
+  }
+}

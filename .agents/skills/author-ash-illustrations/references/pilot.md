@@ -1,0 +1,41 @@
+# Pair-input pilot
+
+This is the accepted local visual-rule reference, not a verbatim user request
+or a general diagram language. For the reconstructed learner problem, inferred
+brief, construction choice, and evidence boundaries, read
+[the pair worked example](examples.md#pair-input-versus-separate-inputs).
+
+Read `content/learn/values-travel-together/README.md`, especially *Receiving one
+pair*, and its canonical `src/02-pair-input.ash`. Inspect the solid type-square
+figure in `content/learn/using-more-than-one-input/README.md`.
+
+The accepted experiment shows `(Int, Int) -> Int` with two attached squares,
+an arrow, and one separate square. All three use the shared `int` category
+color. One continuous outer contour denotes one composite slot; an interior
+seam distinguishes its two component slots. This is a type-shape illustration,
+not a heap trace. Do not add a function square or separate the pair components
+into two curried argument slots. The arrow relates input shape to result shape;
+it does not say that any integer converts into another by itself.
+
+The function signature belongs in the figure caption, outside the artwork.
+Keep the artwork focused on the pair's two components and the single result.
+
+The companion `fig-add-inputs` follows the literal `Int -> Int -> Int`
+signature: three separate blue squares with arrows between adjacent positions.
+Match square size and color to the pair figure. Its arrows follow the signature,
+not conversions between values. The author chose this direct comparison over
+enclosing `Int -> Int` as a function result. Keep the signature in its caption.
+
+Both figures share the `note-input-shapes` margin aside. Preserve their order
+and their matching geometry. At margin width, use the accepted larger labels
+and shortened lower wording; the captions identify the input and result roles.
+
+Use the existing solid-square vocabulary. The horizontal type/value split
+from other figures is a different view and is unnecessary here. A mixed-type
+pair may require a separate accepted type-color mapping; do not invent that
+mapping silently or change the pair's structure.
+
+The drawing program and sidecar beside the lesson retain the accepted
+construction. Rebuild using the command recorded there. The drawing program
+uses shared fonts and style through repository-relative references, and the
+SVG outlines its labels for portable document rendering.

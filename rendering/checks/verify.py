@@ -410,7 +410,7 @@ def wide_code_blocks(blocks):
     ordinary_codes = [re.sub(r"\s+", "", block["c"][1]) for block in ast_walk(blocks)
                       if block.get("t") == "CodeBlock" and
                       (not block["c"][0][1] or
-                       block["c"][0][1][0] not in ("mermaid", "ebnf", "sequent", "split"))]
+                       block["c"][0][1][0] not in ("mermaid", "ebnf", "sequent", "split", "illustration"))]
     codes, seen = [], set()
     for div in ast_walk(blocks):
         if div.get("t") != "Div" or "column-page-right" not in div["c"][0][1]:
@@ -422,7 +422,7 @@ def wide_code_blocks(blocks):
                 continue
             attributes, code = block["c"]
             kind = attributes[1][0] if attributes[1] else ""
-            if kind in ("mermaid", "ebnf", "sequent", "split"):
+            if kind in ("mermaid", "ebnf", "sequent", "split", "illustration"):
                 continue
             check(identifier, "real lesson: wide code has no stable region identifier")
             seen.add(id(block))

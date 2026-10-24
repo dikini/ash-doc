@@ -1,3 +1,18 @@
+---
+illustration-defaults:
+  font: excalifont
+  stroke: mild
+diagrams:
+  - kind: illustration
+    id: fig-sum-pair
+    caption: "sum_pair : (Int, Int) -> Int — един вход двойка, един целочислен резултат."
+    description: Два съседни квадрата имат общ външен контур за входа двойка. Вътрешна линия разграничава двете му части от тип Int. Стрелка води към отделен квадрат за резултата от тип Int. И трите квадрата използват един и същ цвят за типа.
+  - kind: illustration
+    id: fig-add-inputs
+    caption: "add : Int -> Int -> Int — отделни целочислени входове, един целочислен резултат."
+    description: Три отделни сини квадрата от тип Int показват първия вход, втория вход и резултата в реда на сигнатурата. Стрелките между съседните квадрати следват сигнатурата; те не показват преобразувания между целочислени стойности.
+---
+
 # Стойностите пътуват заедно {#making-values-travel-together}
 
 Едно свързване `let` дава локално име на една стойност. Тази стойност може
@@ -70,11 +85,41 @@ sum_pair (20, 22)
 сигнатурите им го показват. Сравнете пълните извиквания с това, което остава
 след [първия вход][application]:
 
-| Сравнение | `add` | `sum_pair` | | --- | --- | --- | | Тип |
-`Int -> Int -> Int` | `(Int, Int) -> Int` | | Пълно извикване | `add 20 22` |
-`sum_pair (20, 22)` | | Първа подадена стойност | `20 : Int` |
-`(20, 22) : (Int, Int)` | | Резултат след един вход | Функция от тип
-`Int -> Int` | `42 : Int` |
+::: {#note-input-shapes .column-margin}
+
+```{#fig-sum-pair .illustration}
+Show sum_pair receiving one pair containing two Int slots and producing one
+Int slot. Follow the solid type-square style in the "Using more than one input"
+lesson. Attach the pair's two squares along one edge, then draw an arrow to a
+separate result square. Use the same color for all three Int slots.
+
+A continuously connected shape represents one slot, which may contain other
+slots. The internal seam distinguishes the pair's component slots. Show type
+shape, without implying a physical memory layout or mutation.
+Put the function signature in the figure caption, not inside the artwork.
+Use labels large enough for the margin aside; abbreviate the lower labels to
+pair input and result.
+```
+
+```{#fig-add-inputs .illustration}
+Show the literal add : Int -> Int -> Int signature as three separate blue
+Int squares with arrows between adjacent squares. Match the square size,
+Int color, and arrow style of fig-sum-pair. Label the positions first input,
+second input, and result. Do not join the inputs or enclose the remaining
+function. Put the signature in the caption, outside the artwork.
+The arrows follow the type signature, not conversions between integer values.
+Use labels large enough for the margin aside; abbreviate the lower labels to
+first, second, and result.
+```
+
+:::
+
+| Сравнение | `add` | `sum_pair` |
+| --- | --- | --- |
+| Тип | `Int -> Int -> Int` | `(Int, Int) -> Int` |
+| Пълно извикване | `add 20 22` | `sum_pair (20, 22)` |
+| Първа подадена стойност | `20 : Int` | `(20, 22) : (Int, Int)` |
+| Резултат след един вход | Функция от тип `Int -> Int` | `42 : Int` |
 
 Кърингът (българска транслитерация на английското *currying*) позволява на
 `add` да изчака след получаването на `20`; второто цяло число

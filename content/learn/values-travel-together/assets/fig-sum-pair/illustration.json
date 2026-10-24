@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "renderer": {
+    "source": "draw.py",
+    "base": "base.svg",
+    "command": "node rendering/illustrations/author.mjs --lesson content/learn/values-travel-together/README.md --figure fig-sum-pair",
+    "dependencies": {
+      "Python": "3",
+      "fontTools": "4.61.1",
+      "Brotli": "1.1.0",
+      "RoughJS": "4.6.6",
+      "Chrome": "152.0.7977.75"
+    }
+  },
+  "construction": {
+    "input": {
+      "kind": "tuple",
+      "slots": [
+        "Int",
+        "Int"
+      ]
+    },
+    "output": {
+      "kind": "atomic",
+      "type": "Int"
+    },
+    "style": "rendering/styles/diagram-style.json",
+    "slot_size": 64,
+    "label_size": 28,
+    "input_origin": [
+      40,
+      42
+    ],
+    "result_origin": [
+      304,
+      42
+    ],
+    "canvas": [
+      408,
+      166
+    ],
+    "appearance": {
+      "stroke": "mild",
+      "roughness": 0.6,
+      "bowing": 0.5,
+      "font": "excalifont",
+      "seed": 1729
+    }
+  },
+  "interpretation": {
+    "intent": "Show one tuple input containing two Int components and one Int result.",
+    "rules": [
+      "Same type, same color.",
+      "One continuous shape is one slot, possibly containing component slots.",
+      "Interior seams distinguish component slots.",
+      "This depicts type shape, not physical storage.",
+      "The function signature belongs in the figure caption, outside the artwork."
+    ]
+  },
+  "appearanceSelection": {
+    "global": "rendering/styles/diagram-style.json",
+    "document": "content/learn/values-travel-together/README.md",
+    "request": {}
+  }
+}
