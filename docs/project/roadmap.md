@@ -77,20 +77,22 @@ lesson flags. The temporary plan left the working tree at completion.
 
 ## Multilingual workflow decision
 
-**State: complete for the Learn path; later families remain future work.**
+**State: translation coverage complete for the twenty-lesson Learn path.**
+Later families remain future work; two lessons still await owner certification.
 Machine translation with lagging human review carries translated prose,
 with the codex CLI (`gpt-6-luna`) as the pinned engine. English lessons,
 canonical programs, and diagnostic captures remain the source of truth
-and stay byte-identical across languages. The Learn path is fully
-Bulgarian and certified: lessons 1-2 human-owned at `corrected` after
-promoted owner corrections, twelve at `reviewed` after owner
-certification, the edges-of-the-language lesson at `mt-draft`. The
-Learn introduction is translated as the Bulgarian book's front matter,
-and `--lang` renders whole translated parts in PT Serif with tier
-notices in the chrome. The machinery lives under
-`content/checks/translation/`
-(segmentation, transplant, glossary with the coinage rule, drift and
-convergence passes), and `--lang` renders translated lesson scopes in
+and stay byte-identical across languages. All twenty Learn lessons and the
+introduction have Bulgarian translations. Two lessons are human-owned at
+`corrected`, sixteen are owner-certified at `reviewed`, and two are `mt-draft`:
+*The edges of the language* and *Making values travel together*. The latter
+awaits renewed certification after the illustration changes. The introduction
+is `reviewed` and supplies the Bulgarian book's front matter.
+
+The machinery lives under `content/checks/translation/`: segmentation,
+transplant, a glossary with the coinage rule, and drift and convergence passes.
+The glossary scanner excludes protected reference labels while checking
+visible link text. `--lang` renders translated lesson and part scopes in
 PT Serif with tier notices in the chrome. The workflow defines no Ash
 semantics and no publication mechanism.
 

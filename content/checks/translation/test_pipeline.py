@@ -202,6 +202,13 @@ class PlantedViolationTest(unittest.TestCase):
         self.assertEqual(pipeline.scan_never_translate(
             labelled, pipeline.glossary_never_translate()), [])
 
+    def test_glossary_scan_ignores_reference_labels_but_checks_visible_text(self) -> None:
+        terms = pipeline.glossary_never_translate()
+        self.assertEqual(pipeline.scan_never_translate(
+            "Вижте [правилата за импорт][import-rules].", terms), [])
+        self.assertEqual(pipeline.scan_never_translate(
+            "Вижте [import][import-rules].", terms), ["import"])
+
     @staticmethod
     def write_bg_corrupted_fence(fx: LessonFixture) -> None:
         text = fx.bg_text()
