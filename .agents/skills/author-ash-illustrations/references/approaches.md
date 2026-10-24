@@ -12,12 +12,25 @@ Keep the decisions separate:
 3. **Optional filtering:** what supported transformation changes appearance
    without changing the explanation?
 
-The workflow remains prose brief → agent-authored construction → optional
-styling/filtering → validated saved SVG → document preparation. A specialised
+The workflow remains problem → inferred relationship → prose brief →
+construction → optional styling/filtering → validated saved SVG → document
+preparation. A specialised
 notation can be saved construction without becoming the lesson's prose fence.
 The agent interprets the request; replay commands do not interpret new prose.
 
 ## Choose an example
+
+Read the [consistent worked example set](examples.md) for the reasoning behind
+each brief and the construction/appearance boundaries. The entries below are
+a tool-choice index; the worked set separates problem, interpretation, brief,
+construction, appearance/filter, and review/limits for all six examples.
+
+For a complete problem → inferred relationship → prose brief → construction
+example, read [the foldl authoring walkthrough](foldl-worked-example.md).
+It includes a useful initial interpretation that the author redirected, so
+it demonstrates semantic revision rather than merely replaying drawing code.
+The author accepted the final right-branching list → left-branching application
+diagram; the earlier snapshots remain a contrasting alternative.
 
 ### Specific type-shape relationships: custom vector construction
 
@@ -57,6 +70,30 @@ correct layering. Inspect source rendering before filtering it. Renderer bugs
 belong to the renderer owner; a styling filter is not their repair.
 Check the [consumer pin](../../../../rendering/specimen.json) before replaying
 a trial. A mismatched checkout is not permission to move that pin.
+
+For a labelled, rough-only variation, compare the same fold explanation using
+circles for constructors and triangles for leaves:
+
+- [Prose brief](../../../../rendering/illustrations/fold-tree-trial.md),
+  [authoring adapter](../../../../rendering/illustrations/fold-tree-trial.mjs),
+  [outlined handwritten labels](../../../../rendering/illustrations/fold-tree-labels.py),
+  and [structural checks](../../../../rendering/illustrations/test_fold_tree_trial.py).
+
+The adapter uses the exact pinned split-md layout sources extracted from Git;
+it does not require the upstream checkout to remain at that revision. Solid
+blue colon circles and orange `f` circles, handwritten labels, and side-by-side
+composition are explicit authoring adaptations, not new split-md syntax.
+Matching triangular leaves retain their colors and order, including `[]` → `z`.
+The common leaf baseline produces long branches: prefer this variation when
+ordered structural correspondence matters more than the compact diagonal
+mathematical silhouette. The user accepted the visual trial. Wide, narrow,
+and grayscale HTML were inspected; small-screen labels benefit from enlarging
+the SVG. This does not establish EPUB or production PDF suitability.
+
+The saved prose brief records the agent's interpretation of the request;
+the adapter records its construction choices.
+Replaying that adapter rebuilds the saved interpretation rather than parsing
+new prose. Document preparation only consumes the resulting saved SVG.
 
 ### Ordered messages: specialised sequence layout
 

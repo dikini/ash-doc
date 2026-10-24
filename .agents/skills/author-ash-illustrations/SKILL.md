@@ -14,9 +14,13 @@ from a visual metaphor.
 
 ## Read the explanation
 
-1. Locate the selected `illustration` fence in the canonical lesson. Treat its
-   prose as a prompt. Assign a missing stable `fig-` ID and preserve existing
-   IDs. Add matching caption and description metadata in the existing YAML list.
+1. If the user supplies a problem without an illustration fence, read its
+   context, infer the explanatory relationship, and draft a prose brief before
+   choosing construction. Save it as an `illustration` fence in the selected
+   lesson or isolated trial, according to the approved scope. Otherwise locate
+   the selected fence in the canonical lesson. Distinguish the user's problem
+   from the agent-authored brief. Assign a missing stable `fig-` ID, preserve
+   existing IDs, and add matching caption/description metadata in the YAML list.
 2. Read the surrounding section and enough of the lesson to understand the
    reader's prior knowledge. Follow relevant canonical-code markers and actual
    figure references. Do not replace that context with a cryptic title field.
@@ -49,6 +53,16 @@ split-md trees, Mermaid sequences, and precisely aligned mathematical SVG.
 Choose construction, appearance, and optional filters independently. These
 are examples, not an exhaustive list of permitted tools or guaranteed renderer
 and style combinations. Inspect the relevant source and its support limits.
+
+The [worked example set](references/examples.md) explains each existing example
+in the same order: problem, interpretation, prose brief, construction,
+appearance/filter, and review/limits. Read the relevant example before copying
+its technique. Reconstructed problem summaries are not original user prompts.
+
+For a worked example starting from a problem rather than a supplied picture,
+read [the foldl walkthrough](references/foldl-worked-example.md). It separates
+the author's task, the agent's inferred relationship and prose brief, feedback,
+construction, and review. Transfer that process, not its particular tree shape.
 
 ## Construct the visual explanation
 

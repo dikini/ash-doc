@@ -298,3 +298,43 @@ automatic freshness rule, or build-time model invocation.
 [decision]: ../../docs/project/illustration-authoring.md
 [rough-api]: https://github.com/rough-stuff/rough/wiki
 [font]: https://github.com/excalidraw/excalidraw/tree/b7de45e88111f5680ae4bb3c3f3541c7d3b279fe/packages/excalidraw/fonts/Excalifont
+
+## Rough structural fold trial
+
+`fold-tree-trial.md` is a prose request for the same constructor replacement
+as the typeset fold example, using split-md's circle-and-triangle tree layout.
+The agent-authored `fold-tree-trial.mjs` interprets that request into a binary
+spine, colors, labels, and a side-by-side composition. Replaying the script
+rebuilds saved choices; it does not interpret changed prose.
+
+Run `node rendering/illustrations/fold-tree-trial.mjs`, then
+`python3 rendering/illustrations/test_fold_tree_trial.py`. The command extracts
+the exact approved split-md layout sources from Git without changing either
+checkout or the rendering pin. It paints connectors behind filled shapes,
+applies seeded Rough.js strokes, and outlines handwritten labels with
+`fold-tree-labels.py`. The resolved scene, source, hashes, and final SVG live
+under `.build/fold-tree-trial/assets/fig-fold-tree/`.
+
+Open `.build/fold-tree-trial/index.html` for the rough-only preview and links
+to the prose request, construction state, and normally prepared document.
+Split-md's common triangle baseline creates long branches; this is a structural
+comparison, not a recreation of the earlier diagonal typeset layout. The
+trial changes no accepted lesson and verifies no EPUB or production PDF layout.
+
+## Foldl recursive-call snapshots
+
+`foldl-trial.md` requests a Haskell-specific progression rather than a static
+constructor replacement. `foldl-state.mjs` preserves the old accumulator as
+the first argument of each new application; `foldl-trial.mjs` draws four states
+with the same rough strokes, handwritten labels, and colored triangular leaves.
+This uses direct scene composition, not split-md's tree grammar. Arrows show
+successive recursive calls, not strict evaluation of the accumulator.
+
+Run `node --test rendering/illustrations/foldl-trial.test.mjs` and
+`node rendering/illustrations/foldl-trial.mjs`. Open
+`.build/foldl-trial/index.html`. Links expose the prose request, resolved
+construction, and ordinary prepared document. The authoring command checks
+deterministic SVG generation and structural counts, then saves wide, narrow,
+and grayscale previews. At phone width, enlarge the SVG to read its labels.
+No accepted lesson, Ash semantics, renderer pin, or preparation behavior changes;
+EPUB and production PDF layouts remain unverified for this trial.

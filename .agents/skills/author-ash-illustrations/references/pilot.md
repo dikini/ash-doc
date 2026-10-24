@@ -1,5 +1,10 @@
 # Pair-input pilot
 
+This is the accepted local visual-rule reference, not a verbatim user request
+or a general diagram language. For the reconstructed learner problem, inferred
+brief, construction choice, and evidence boundaries, read
+[the pair worked example](examples.md#pair-input-versus-separate-inputs).
+
 Read `content/learn/values-travel-together/README.md`, especially *Receiving one
 pair*, and its canonical `src/02-pair-input.ash`. Inspect the solid type-square
 figure in `content/learn/using-more-than-one-input/README.md`.
