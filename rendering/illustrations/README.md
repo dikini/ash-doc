@@ -142,6 +142,71 @@ comparison previews do not certify lesson layout: review selected HTML, EPUB,
 and both PDF layouts when adopting a treatment. The decision record retains
 actual verification evidence and remaining review boundaries.
 
+## Other shapes: bounded tree trial
+
+The approved follow-up compares the red-root sketch and left-left repair from
+*Guaranteeing logarithmic retrieval*. The adapter uses the existing split-md
+pin's structured scene, not a blind pass over every SVG path. It verifies the
+exact checkout commit, the bundle hash, and all five source modules against
+their committed bytes before importing them. Upstream split-md is unchanged.
+
+The trial supports split/solid circles, Empty leaves, triangular subtree
+markers, within-tree edges, and downward phase arrows. Filled semicircular
+paths stay untouched; triangle fills retain their original geometry. Only
+visible contours and connectors receive seeded rough strokes. Edges keep
+their canonical center-to-center endpoints. As in the current renderer, they
+extend into node centers; this trial does not reinterpret attachment geometry.
+There are no clipping definitions or printed labels in these trees. Clipped
+square rows, arbitrary SVGs, and font substitution in tree labels are not
+verified by this trial. Unsupported scene elements or geometry fail closed.
+
+```sh
+node rendering/illustrations/split-sketch.test.mjs
+node rendering/illustrations/split-sketch.mjs
+node rendering/illustrations/tree-cycle.mjs
+node rendering/illustrations/tree-cycle.mjs --rebuild
+```
+
+The comparison lives in `.build/split-sketch/index.html`, with crisp/mild/rough
+SVGs, margin/enlarged captures, `comparison.typ`, and a parameter/hash report.
+Compile `comparison.typ` with the same pinned Typst command used above, changing
+the input/output directory to `.build/split-sketch/`. Review color and grayscale
+at 50 mm width. The rough preset visibly separates some circular strokes from
+the unchanged fill edge; mild retains a closer contour. No tree treatment is
+adopted in the lesson.
+
+### Description-to-diagram cycle
+
+The [prose brief](tree-trial.md) is the request. The
+[construction record](tree-trial.json) is this agent's interpretation of it,
+not output from an automatic prose parser. It keeps association identity and
+subtree order across a left-left repair, using the program's named pieces.
+The replay command does not invoke a model or claim to interpret arbitrary
+new descriptions. A changed brief still requires authoring judgment.
+
+`tree-cycle.mjs` explicitly renders that construction, resolves appearance,
+and saves the brief, state, crisp intermediate, and final SVG together under
+`.build/split-sketch/end-to-end/`. Its `--rebuild` mode uses saved construction
+and appearance, not current defaults. Both paths assert repeated SVG byte
+agreement. The state records the request hash, interpretation, dependency
+hashes, and the exact rebuild command. Excalifont is selected in document
+defaults but not applied because the requested artwork has no printed labels.
+
+The separate `prepare-trial.py` calls the existing `prepare_chapter` adapter
+on the saved local trial. It substitutes the SVG with zero authoring jobs and
+hides the prose fence. The cycle checks that changing only the brief does not
+change prepared artwork and that a missing SVG fails instead of generating
+one. It then prepares a self-contained HTML preview and a browser-printed A4
+PDF. The prepared image hash agrees with the saved asset. Six focused shape
+tests pass, including determinism, metadata/fill preservation, distinct roles,
+fixed edge endpoints, and rejection cases.
+
+These previews exercise an isolated authoring/assembly cycle. They do not
+certify a changed lesson in HTML, EPUB, or either production PDF layout.
+Accepted lessons, translations, renderer pins, and document preparation remain
+unchanged. Remove the trial if rejected; promote only the smallest supported
+adapter after its lesson integration receives separate review.
+
 Keep this small tool while the pilot needs it. Replace it when another
 authoring representation can preserve construction, defaults, and portable
 SVGs more simply. It establishes no general scene language, filter registry,

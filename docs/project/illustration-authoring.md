@@ -287,3 +287,20 @@ both PDF layouts, including grayscale. Labels, seam, separate boxes, captions,
 and margin placement remain readable. Captures are retained locally in
 `.build/illustration-review/defaults/`. Canonical Ash programs and their
 promises are unchanged; exact-pin executable evidence is reused.
+
+### Tree-shape and end-to-end trial
+
+The [bounded tree trial](../../rendering/illustrations/README.md#other-shapes-bounded-tree-trial)
+extends the comparison to split circles, Empty leaves, triangular subtrees,
+edges, and phase arrows using unchanged, pinned split-md scene geometry.
+It preserves fills and canonical edge endpoints; only visible strokes change.
+Six focused tests pass. Crisp/mild/rough SVGs, margin/enlarged views, and a
+standalone print comparison are retained under `.build/split-sketch/`.
+
+A separate prose brief is interpreted by the agent into saved split
+construction. Its replay checks description → saved state/SVG → pure document
+preparation, including changed-brief and missing-asset controls. Rebuilds use
+saved appearance and reproduce the SVG bytes. The replay never invokes an
+agent. These are isolated authoring trials, not adopted tree assets or final
+lesson-format verification. No upstream renderer or document-build behavior
+changes.

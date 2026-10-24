@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "construction": {
+    "renderer": "split-md",
+    "source": "tree:\n  black/(k3,v3)\n    red/(k2,v2)\n      red/(k1,v1)\n        a\n        b\n      c\n    d\n\ntree:\n  red/(k2,v2)\n    black/(k1,v1)\n      a\n      b\n    black/(k3,v3)\n      c\n      d\nhues: (k1,v1)=#f1c84e/#946c00 (k2,v2)=#326cab/#285f94 (k3,v3)=#a06bab/#71518f a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf\n",
+    "requestAppearance": {"stroke": "mild"}
+  },
+  "interpretation": {
+    "author": "agent",
+    "context": "content/cases/guaranteeing-logarithmic-retrieval/README.md",
+    "intent": "Follow identical associations and ordered subtrees through a left-left repair, not a storage update.",
+    "rules": [
+      "Upper halves denote red or black forms; lower colors identify associations.",
+      "Triangles retain subtree order and identity across states.",
+      "Within-tree edges differ from the between-state arrow.",
+      "The requested label-free artwork does not exercise font substitution."
+    ]
+  }
+}
