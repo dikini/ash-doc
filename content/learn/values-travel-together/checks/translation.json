@@ -1,7 +1,7 @@
 {
   "language": "bg",
   "tier": "mt-draft",
-  "claimed_english_sha256": "93aa69d39b11331424134fd8562eb98a23a148335043502a5f9552ae0210725f",
+  "claimed_english_sha256": "dcec0ceb69f5aac48213dc5a5c44282f3b5af79108e96a61da2e93a7d72c6dae",
   "generated_at": "2026-10-22T14:21:54.006748+00:00",
   "provenance": {
     "engine": "codex-cli",

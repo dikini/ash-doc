@@ -65,6 +65,16 @@ notation for every Ash concept.
 
 ## Generate and inspect
 
+Resolve appearance during authoring: explicit illustration request overrides
+document `illustration-defaults`, which override `illustrationDefaults` in the
+shared diagram style. Interpret prose requests as authoring judgments, not a
+new fence grammar. Record resolved font, stroke, roughness, bowing, and seed
+in construction state. Rebuild from saved settings; adopt changed defaults only
+when explicitly revising artwork. Changing a default never triggers generation
+or a freshness decision during document preparation. The
+[pilot authoring tool](../../../rendering/illustrations/README.md) records the
+supported settings and explicit default-adoption command.
+
 Invoke the drawing tool explicitly during authoring. Preserve its source,
 parameters, and exact dependencies so accepted artwork can rebuild without an
 LLM. Use a saved seed only if the algorithm needs randomness. Consume shared

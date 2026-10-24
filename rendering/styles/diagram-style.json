@@ -1,5 +1,10 @@
 {
   "version": 1,
+  "illustrationDefaults": {
+    "font": "regular",
+    "stroke": "crisp",
+    "seed": 1729
+  },
   "description": "Normative style for generated Ash figures. Design tokens mirror docs/project/design-tokens.md v1; the categorical list records the split-shape identity hues. The diagram adapter must consume this file; there is no per-renderer opt-out.",
   "fonts": {
     "serif": "TeX Gyre Pagella",

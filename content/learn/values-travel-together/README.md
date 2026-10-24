@@ -1,4 +1,7 @@
 ---
+illustration-defaults:
+  font: excalifont
+  stroke: mild
 diagrams:
   - kind: illustration
     id: fig-sum-pair

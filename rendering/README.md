@@ -25,6 +25,8 @@ breaks, with source examples and the bounds shared by the four outputs.
   Its default selects the specimen; `--whole-book` selects the complete book.
 - `bootstrap.py` prepares pinned local tools.
 - `diagrams.mjs` derives standalone vector assets.
+- `illustrations/` owns the pilot's explicit authoring phases and saved
+  appearance defaults; document preparation does not execute them.
 - `styles/` separates navigation, article typography, EPUB reflow, and PDF print
   layouts. The generated `a4` profile shares the book's typography. The EPUB and
   Typst adapter uses generated source records to retain selected page links,

@@ -1,5 +1,6 @@
-"""Rebuild the accepted pair-slot SVG; run explicitly during authoring only."""
+"""Construct the crisp pair-slot base during explicit illustration authoring."""
 import json
+import argparse
 import re
 from pathlib import Path
 from html import escape
@@ -54,7 +55,10 @@ head = stroke['arrowHead']
 body += [f'<path d="M{a} {cy}H{b} M{b-head} {cy-head}L{b} {cy}L{b-head} {cy+head}" fill="none" stroke="{stroke["arrow"]}" stroke-width="{stroke["arrowWidth"]}" stroke-linecap="round" stroke-linejoin="round"/>',
          text('pair input', x+s, y+s+34, state['label_size']),
          text('result', rx+s/2, ry+s+34, state['label_size']), '</svg>']
-temporary = ROOT / '.figure.svg.tmp'
+parser = argparse.ArgumentParser()
+parser.add_argument('--output', type=Path, default=ROOT / 'base.svg')
+output = parser.parse_args().output
+temporary = output.with_name('.' + output.name + '.tmp')
 temporary.write_text('\n'.join(body))
-temporary.replace(ROOT / 'figure.svg')
-print(ROOT / 'figure.svg')
+temporary.replace(output)
+print(output)

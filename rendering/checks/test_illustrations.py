@@ -71,12 +71,12 @@ class IllustrationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build.illustration_target(self.source, 'fig-pair')
 
-    def prepare(self, blocks, descriptions=None):
+    def prepare(self, blocks, descriptions=None, metadata=None):
         self.lesson.joinpath('README.md').write_text('Canonical lesson stays unchanged.\n')
         if descriptions is None:
             descriptions = [self.description('illustration', 'fig-pair')]
         document = {'pandoc-api-version': [1, 23], 'meta': {
-            'diagrams': {'t': 'MetaList', 'c': descriptions}}, 'blocks': blocks}
+            'diagrams': {'t': 'MetaList', 'c': descriptions}, **(metadata or {})}, 'blocks': blocks}
         jobs, assets = [], []
         with patch.object(build, 'parse', return_value=copy.deepcopy(document)), \
                 patch.object(build, 'markdown', side_effect=lambda _, doc, __: doc):
@@ -114,6 +114,19 @@ class IllustrationTests(unittest.TestCase):
             self.prepare([self.fence(), self.fence()], descriptions)
         with self.assertRaisesRegex(ValueError, 'does not match'):
             self.prepare([self.fence('fig-other')])
+
+    def test_preparation_ignores_authoring_defaults_and_saved_appearance(self):
+        self.state['construction']['appearance'] = {'font': 'unknown', 'roughness': -1}
+        self.sidecar.write_text(json.dumps(self.state))
+        original = self.sidecar.read_bytes()
+        with patch.object(build, 'run', side_effect=AssertionError('No authoring execution')):
+            result, _, jobs, assets = self.prepare([self.fence()], metadata={
+                'illustration-defaults': {'t': 'MetaString', 'c': 'not an authoring map'}})
+        image = result['blocks'][0]['c'][0]
+        self.assertEqual((self.root / 'output' / image['c'][2][0]).read_bytes(), SVG)
+        self.assertEqual(self.sidecar.read_bytes(), original)
+        self.assertEqual(jobs, [])
+        self.assertEqual(len(assets), 1)
 
     def test_mixed_notation_keeps_metadata_order_and_only_notation_jobs(self):
         notation = {'t': 'CodeBlock', 'c': [['', ['split'], []], 'row: int']}

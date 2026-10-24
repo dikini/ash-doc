@@ -1,5 +1,6 @@
-"""Rebuild the literal add-signature figure during authoring only."""
+"""Construct the crisp add-signature base during explicit illustration authoring."""
 import json
+import argparse
 from html import escape
 from pathlib import Path
 from fontTools.ttLib import TTFont
@@ -57,7 +58,10 @@ for origin, following in zip(construction['origins'], construction['origins'][1:
                 f'stroke="{strokes["arrow"]}" stroke-width="{strokes["arrowWidth"]}" '
                 'stroke-linecap="round" stroke-linejoin="round"/>')
 body.append('</svg>')
-temporary = DIRECTORY / '.figure.svg.tmp'
+parser = argparse.ArgumentParser()
+parser.add_argument('--output', type=Path, default=DIRECTORY / 'base.svg')
+output = parser.parse_args().output
+temporary = output.with_name('.' + output.name + '.tmp')
 temporary.write_text('\n'.join(body))
-temporary.replace(DIRECTORY / 'figure.svg')
-print(DIRECTORY / 'figure.svg')
+temporary.replace(output)
+print(output)

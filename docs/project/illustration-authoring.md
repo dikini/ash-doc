@@ -95,6 +95,39 @@ It does not compare request or context hashes. Missing state, invalid JSON,
 missing SVGs, mismatched figure metadata, and invalid SVGs fail preparation.
 The authoring brief must never leak into published code blocks.
 
+## Appearance defaults
+
+The [pilot authoring tool](../../rendering/illustrations/README.md) resolves
+explicit illustration requests over document `illustration-defaults` YAML over
+global `illustrationDefaults` in the shared diagram style. An agent interprets
+prose such as “use rough strokes and Excalifont”; no prose parser is added.
+Shared defaults avoid repeating appearance in every brief; explicit per-figure
+settings alone would be simpler but duplicate the same choices. Select the
+hierarchy with saved resolved settings, not build-time inheritance.
+
+Global defaults remain regular/crisp. The selected lesson declares:
+
+```yaml
+illustration-defaults:
+  font: excalifont
+  stroke: mild
+```
+
+Both pilot figures adopt those settings with roughness 0.6, bowing 0.5, and
+seed 1729. Construction records the resolved values and selection sources.
+Normal artwork rebuilds use saved settings. Only an explicit authoring command
+with `--resolve-defaults` adopts current defaults; an interpreted request can
+override them through `--override`. Changing defaults does not alter accepted
+SVGs, trigger regeneration, or affect document preparation. The crisp
+intermediate `base.svg` and styled `figure.svg` remain beside the lesson assets.
+
+The font phase outlines selected glyphs; the geometry phase protects lettering
+and fills, uses seeded Rough.js from the existing frozen toolchain, and outputs
+ordinary SVG paths. Excalifont is pinned with its retained OFL notice. The
+bundled Latin subset supports the shared English figure labels, not new
+Cyrillic labels. The tool supports only these two pilot figures, not arbitrary
+SVGs. Replace it if a simpler authoring representation preserves these bounds.
+
 ## Verification and replacement
 
 Check the pure adapter's boundaries with malformed and missing assets, duplicate
@@ -112,7 +145,7 @@ language, model service, automatic freshness policy, or publication mechanism.
 
 ## Pilot evidence
 
-The initial implementation passes ten focused adapter tests, including nested
+The implementation passes eleven focused adapter tests, including nested
 fences, source preservation, invalid artwork, and missing or escaping assets.
 The parser/writer integration test uses the installed standalone Pandoc; it is
 not evidence for the pinned Quarto output layouts. The skill passes its
@@ -162,7 +195,7 @@ python3 rendering/build.py \
     --lang bg --output .build/illustration-bg
 ```
 
-Rebuilding the drawing twice with fontTools 4.61.1 produces identical bytes,
+Rebuilding the crisp intermediate with fontTools 4.61.1 produces identical bytes,
 with SHA-256
 `b29bccfb86b7c5dc6025831bc1e55f8a7f746bf4bb1416fd6683388d4459bea0`.
 The ten adapter tests and skill validator pass. The rendering suite runs 111
@@ -205,7 +238,8 @@ The companion `fig-add-inputs` has three separate blue squares and arrows
 between adjacent positions, following the author's literal-signature choice.
 Its square size, color, and labels align with `fig-sum-pair`; the two pair
 components remain attached. No region encloses the remaining function.
-Repeated renders of the companion with fontTools 4.61.1 agree at SHA-256
+Repeated renders of the companion's crisp intermediate with fontTools 4.61.1
+agree at SHA-256
 `d5b70b9f6592d0509f7ec7ce23f2c8c1f5d93c45db2ae4108eb77f9fdfff48c6`.
 Canonical Ash programs and captured observations are unchanged; their
 exact-pin execution evidence is reused.
@@ -220,3 +254,36 @@ alternative descriptions still identify the input and result roles.
 The prose and translated metadata did not change during this placement step;
 `converge` refreshed the English claim after reviewing the byte-identical Div
 and fence transplants. Aside previews live in `.build/illustration-review/aside/`.
+
+### Defaults and styled artwork verification
+
+On 2026-10-24, the defaults resolver passes two focused tests and the style
+phases pass twelve. Eleven adapter tests include a new boundary check:
+document preparation substitutes saved SVG bytes even when authoring defaults
+and saved appearance settings are invalid. It neither resolves those settings
+nor executes authoring code. The twelve token-sync tests pass with signing
+disabled for the fixture's temporary Git commit; shared tokens are unchanged.
+The updated authoring skill passes its structural validator.
+
+Explicit default adoption selects Excalifont and mild strokes for both figures.
+Rebuilding from saved settings produces identical bytes. Current final hashes:
+
+`fig-sum-pair`:
+`c7529e966d9b57a2c589940b2ba93570d884db7122f11b1f413f49a68316e93d`.
+
+`fig-add-inputs`:
+`54d003bc6a8ca4b494f8bc8ae91824440e57eede54425d078f4ad6609e9086f2`.
+
+The English and Bulgarian YAML defaults agree. No prose or translated captions
+changed; `converge` refreshed the English drift claim after reviewing that
+structural transplant. Translation sync passes; owner recertification remains
+pending at `mt-draft`.
+
+Both language scopes rebuild HTML, EPUB, book PDF, and A4 PDF. Artifact checks
+pass, EPUBCheck 5.4.0 reports no errors or warnings, and all 68 browser checks
+pass per language, with enlarged EPUB reviewed in Chrome and Firefox. Visual
+inspection covers the figure group in desktop/narrow HTML, enlarged EPUB, and
+both PDF layouts, including grayscale. Labels, seam, separate boxes, captions,
+and margin placement remain readable. Captures are retained locally in
+`.build/illustration-review/defaults/`. Canonical Ash programs and their
+promises are unchanged; exact-pin executable evidence is reused.
