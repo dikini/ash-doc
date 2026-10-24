@@ -31,6 +31,17 @@ test('the sidebar homepage alias identifies the manifest index chapter', async (
   assert.equal(htmlChapterName(undefined, base), undefined);
 });
 
+test('URL fragments resolve to Unicode heading IDs without decoding twice', async () => {
+  const fragmentIdentifier = await helper('fragmentIdentifier');
+  const identifier = 'документация-на-ash';
+  assert.equal(fragmentIdentifier(new URL(`https://example.test/#${identifier}`).hash), identifier);
+  assert.equal(fragmentIdentifier(`#${identifier}`), identifier);
+  assert.equal(fragmentIdentifier('#receiving-one-pair'), 'receiving-one-pair');
+  assert.equal(fragmentIdentifier('#part%2Fone%3Ftwo'), 'part/one?two');
+  assert.equal(fragmentIdentifier('#literal%2520percent'), 'literal%20percent');
+  assert.notEqual(fragmentIdentifier('#друга-глава'), identifier);
+});
+
 test('fitting code is accepted and overflowing code must be reachable', async () => {
   const codeReachability = await helper('codeReachability');
   assert.doesNotThrow(() => codeReachability([]));

@@ -1,3 +1,11 @@
+---
+diagrams:
+  - kind: illustration
+    id: fig-sum-pair
+    caption: One pair input contains two integer slots.
+    description: Two adjoining squares share one outer contour for a pair input. An interior seam distinguishes its two Int parts. An arrow leads to one separate Int result square. All three squares use the same type color.
+---
+
 # Making values travel together
 
 A `let` binding gives one value a local name. That value may be the result of a
@@ -60,6 +68,17 @@ Running confirms `42 : Int`; the pattern assigns the parts in order:
 sum_pair (20, 22)
 20 + 22
 42
+```
+
+```{#fig-sum-pair .illustration}
+Show sum_pair receiving one pair containing two Int slots and producing one
+Int slot. Follow the solid type-square style in the "Using more than one input"
+lesson. Attach the pair's two squares along one edge, then draw an arrow to a
+separate result square. Use the same color for all three Int slots.
+
+A continuously connected shape represents one slot, which may contain other
+slots. The internal seam distinguishes the pair's component slots. Show type
+shape, without implying a physical memory layout or mutation.
 ```
 
 This differs from the earlier function `add : Int -> Int -> Int`, defined

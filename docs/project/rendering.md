@@ -448,6 +448,37 @@ survives. Remove this compensation after unchanged upstream fixtures validate
 with adopted tools. The original Typst partial also avoids the defective
 bundled no-author cover default; it does not repair that default.
 
+## Authored illustration fences
+
+An `illustration` fence retains an authoring brief in canonical Markdown.
+The [illustration decision](illustration-authoring.md) defines IDs, lesson-local
+state, and the boundary between authoring and document assembly. Use the
+[authoring skill](../../.agents/skills/author-ash-illustrations/SKILL.md) to infer,
+create, revise, or preserve artwork before building the lesson.
+
+Preparation resolves `assets/<figure-id>/illustration.json` and its existing
+SVG, then stages that asset through the ordinary outlined-image validator.
+It reads only `version` and `svg` from the state. Construction and provenance
+remain available to the authoring agent. Preparation does not run drawing code,
+call a model, inspect hashes for freshness, or regenerate missing artwork.
+Missing state, invalid IDs, mismatched figure metadata, and unsuitable SVGs
+fail the build. The prompt is replaced, never published as ordinary code.
+
+The pair-input pilot lives in `content/learn/values-travel-together/`.
+Rebuild its accepted SVG explicitly during authoring:
+
+```sh
+python3 content/learn/values-travel-together/assets/fig-sum-pair/draw.py
+```
+
+That optional authoring program uses fontTools 4.61.1; document builds need
+only the accepted SVG. It reads the shared style contract and bundled font.
+Test the integration independently with:
+
+```sh
+python3 -m unittest discover -s rendering/checks -p 'test_illustrations.py'
+```
+
 ## Verify the affected scope
 
 Follow the [task boundary](workflow.md#bound-the-task). Run affected lesson

@@ -5,6 +5,15 @@ learning paths, and the selected delivery outcome when one exists. The learning
 sequence is provisional: it establishes reader outcomes and dependencies, not
 a delivery schedule, publication promise, or source of Ash semantics.
 
+## Illustration authoring pilot
+
+The [bounded illustration decision](illustration-authoring.md) adds a repository
+skill and deterministic fence substitution, piloted on *Making values travel
+together*. Authoring is agent-driven; document builds use accepted SVG assets.
+Integration, translation synchronization, and selected-lesson HTML, EPUB, and
+both PDF reviews are recorded in that decision. Renewed owner certification of
+the Bulgarian figure metadata remains pending; the lesson is marked `mt-draft`.
+
 ## Current baseline
 
 Ash-doc targets `ffi-base` at

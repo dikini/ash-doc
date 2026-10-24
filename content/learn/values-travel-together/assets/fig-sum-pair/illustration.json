@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "renderer": {
+    "source": "draw.py",
+    "command": "python3 draw.py",
+    "dependencies": {
+      "Python": "3",
+      "fontTools": "4.61.1"
+    }
+  },
+  "construction": {
+    "signature": "sum_pair : (Int, Int) -> Int",
+    "input": {
+      "kind": "tuple",
+      "slots": [
+        "Int",
+        "Int"
+      ]
+    },
+    "output": {
+      "kind": "atomic",
+      "type": "Int"
+    },
+    "style": "rendering/styles/diagram-style.json",
+    "slot_size": 64,
+    "input_origin": [
+      40,
+      86
+    ],
+    "result_origin": [
+      304,
+      86
+    ],
+    "canvas": [
+      408,
+      210
+    ]
+  },
+  "interpretation": {
+    "intent": "Show one tuple input containing two Int components and one Int result.",
+    "rules": [
+      "Same type, same color.",
+      "One continuous shape is one slot, possibly containing component slots.",
+      "Interior seams distinguish component slots.",
+      "This depicts type shape, not physical storage."
+    ]
+  }
+}

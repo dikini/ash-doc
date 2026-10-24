@@ -1,3 +1,11 @@
+---
+diagrams:
+  - kind: illustration
+    id: fig-sum-pair
+    caption: Един вход — двойка — съдържа две места за цели числа.
+    description: Два съседни квадрата имат общ външен контур за входа двойка. Вътрешна линия разграничава двете му части от тип Int. Стрелка води към отделен квадрат за резултата от тип Int. И трите квадрата използват един и същ цвят за типа.
+---
+
 # Стойностите пътуват заедно {#making-values-travel-together}
 
 Едно свързване `let` дава локално име на една стойност. Тази стойност може
@@ -63,6 +71,17 @@ sum_pair (20, 22)
 42
 ```
 
+```{#fig-sum-pair .illustration}
+Show sum_pair receiving one pair containing two Int slots and producing one
+Int slot. Follow the solid type-square style in the "Using more than one input"
+lesson. Attach the pair's two squares along one edge, then draw an arrow to a
+separate result square. Use the same color for all three Int slots.
+
+A continuously connected shape represents one slot, which may contain other
+slots. The internal seam distinguishes the pair's component slots. Show type
+shape, without implying a physical memory layout or mutation.
+```
+
 Това се различава от по-ранната функция `add : Int -> Int -> Int`, дефинирана
 в [урока за няколко входа](../using-more-than-one-input/README.md). `add`
 получава едно цяло число, а после още едно; `sum_pair` получава една двойка. И
@@ -70,11 +89,12 @@ sum_pair (20, 22)
 сигнатурите им го показват. Сравнете пълните извиквания с това, което остава
 след [първия вход][application]:
 
-| Сравнение | `add` | `sum_pair` | | --- | --- | --- | | Тип |
-`Int -> Int -> Int` | `(Int, Int) -> Int` | | Пълно извикване | `add 20 22` |
-`sum_pair (20, 22)` | | Първа подадена стойност | `20 : Int` |
-`(20, 22) : (Int, Int)` | | Резултат след един вход | Функция от тип
-`Int -> Int` | `42 : Int` |
+| Сравнение | `add` | `sum_pair` |
+| --- | --- | --- |
+| Тип | `Int -> Int -> Int` | `(Int, Int) -> Int` |
+| Пълно извикване | `add 20 22` | `sum_pair (20, 22)` |
+| Първа подадена стойност | `20 : Int` | `(20, 22) : (Int, Int)` |
+| Резултат след един вход | Функция от тип `Int -> Int` | `42 : Int` |
 
 Кърингът (българска транслитерация на английското *currying*) позволява на
 `add` да изчака след получаването на `20`; второто цяло число

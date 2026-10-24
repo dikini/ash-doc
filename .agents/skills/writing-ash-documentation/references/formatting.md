@@ -496,6 +496,28 @@ bracketed derivations; retain a failing canonical case and consult the
 affects an example. Do not silently change the intended notation to conceal a
 renderer failure.
 
+## Author an illustration from a prompt
+
+Use an `illustration` fence when a drawing needs agent-led interpretation and
+construction rather than an existing notation. Keep the brief beside its
+passage. Save construction state and SVG under `assets/<figure-id>/`.
+
+````markdown
+```{#fig-sum-pair .illustration}
+Show one pair input as two attached Int squares, followed by an arrow and
+one Int result square. Preserve the shared type color.
+```
+````
+
+Add `kind: illustration`, the matching `id`, `caption`, and `description` to
+the existing YAML `diagrams` list in fence order. The
+[authoring skill](../../author-ash-illustrations/SKILL.md) owns interpretation,
+creation, revision, and semantic freshness decisions. The
+[illustration contract](../../../../docs/project/illustration-authoring.md)
+defines the saved state and asset paths. Document preparation only substitutes
+the accepted SVG and applies the existing figure layout. A prompt-only fence
+must be authored before the lesson builds.
+
 ## Review the reading experience
 
 After adding special formatting, build the selected material through the

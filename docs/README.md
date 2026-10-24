@@ -15,6 +15,9 @@ does not contain published Ash instruction or define Ash behavior.
   covers stepwise calculation and readable code; its
   [formatting reference][formatting] covers notes, visual continuity, and output
   layouts. [Writing scenarios][writing-scenarios] test application of the rules.
+- [Illustration authoring](project/illustration-authoring.md) records the
+  prompt-fence and lesson-local artwork contract, with an
+  [authoring skill](../.agents/skills/author-ash-illustrations/SKILL.md).
 - [Cover illustration](project/cover-illustration.md) records the retained
   artwork, its use, and the generation prompt.
 - [Rendering](project/rendering.md) gives the complete local review book and
