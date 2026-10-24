@@ -115,6 +115,23 @@ class IllustrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'does not match'):
             self.prepare([self.fence('fig-other')])
 
+    def test_literal_physical_width_is_preserved_without_authoring(self):
+        description = self.description('illustration', 'fig-pair')
+        description['c']['width'] = {'t': 'MetaString', 'c': '42mm'}
+        result, _, jobs, _ = self.prepare([self.fence()], [description])
+        self.assertIn(['width', '42mm'], result['blocks'][0]['c'][0]['c'][0][2])
+        self.assertIn('authored-illustration', result['blocks'][0]['c'][0]['c'][0][1])
+        self.assertIn(['style', '--illustration-width:42mm;--illustration-note-fraction:0.84000000'],
+                      result['blocks'][0]['c'][0]['c'][0][2])
+        self.assertEqual(jobs, [])
+
+    def test_invalid_physical_width_is_rejected(self):
+        for width in ['0mm', '-2mm', 'auto', '120%', 'javascript:bad']:
+            description = self.description('illustration', 'fig-pair')
+            description['c']['width'] = {'t': 'MetaString', 'c': width}
+            with self.subTest(width=width), self.assertRaisesRegex(ValueError, 'width'):
+                self.prepare([self.fence()], [description])
+
     def test_preparation_ignores_authoring_defaults_and_saved_appearance(self):
         self.state['construction']['appearance'] = {'font': 'unknown', 'roughness': -1}
         self.sidecar.write_text(json.dumps(self.state))

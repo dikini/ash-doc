@@ -29,7 +29,7 @@ and [drawing source](../../../../content/learn/values-travel-together/assets/fig
 retain the choices; the [wrapper](../../../../rendering/illustrations/author.mjs)
 rebuilds the complete final artwork for the two named figures.
 
-**Appearance/filter.** The accepted lesson resolves mild rough strokes and
+**Appearance/filter.** The accepted lesson resolves rough strokes and
 Excalifont. Saved settings persist until explicit revision. These glyph and
 stroke adapters are not arbitrary-SVG filters.
 

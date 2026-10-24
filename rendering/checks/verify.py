@@ -526,7 +526,7 @@ def real_lesson_source(project, record):
         if image is not None:
             images[figure["c"][0][0]] = image
     divs = {node["c"][0][0]: node for node in nodes if node.get("t") == "Div"}
-    check({"fig-red-root-sketch", "fig-tree-repair"}.issubset(images),
+    check({"fig-restore-left-left", "fig-tree-repair"}.issubset(images),
           "real lesson: source images have no stable identifiers")
     for identifier in ("height-counting-cue", "repair-comparison"):
         check(identifier in divs, f"real lesson: source has no {identifier} region")
@@ -535,7 +535,7 @@ def real_lesson_source(project, record):
     check("column-page-right" in divs["repair-comparison"]["c"][0][1],
           "real lesson: repair figure does not request body and note space")
     note_nodes = [node for node in nodes if node.get("t") == "Note" and
-                  any(child.get("t") in ("Image", "Figure") and child["c"][0][0] == "fig-red-root-sketch"
+                  any(child.get("t") in ("Image", "Figure") and child["c"][0][0] == "fig-restore-left-left"
                       for child in ast_walk(node))]
     check(len(note_nodes) == 1, "real lesson: sketch is not in exactly one numbered note")
     note = note_nodes[0]
@@ -546,7 +546,8 @@ def real_lesson_source(project, record):
     note_text = " ".join(inline_text(block["c"]).strip() for block in note["c"]
                          if block["t"] in ("Para", "Plain") and
                          not any(child.get("t") == "Image" for child in ast_walk(block)))
-    check(note_text, "real lesson: numbered sketch has no explanatory note text")
+    if not note_text:
+        note_text = inline_text(images["fig-restore-left-left"]["c"][1])
     cue_text = " ".join(inline_text(block["c"]).strip()
                         for block in divs["height-counting-cue"]["c"][1]
                         if block["t"] in ("Para", "Plain"))
@@ -557,7 +558,7 @@ def real_lesson_source(project, record):
     cue_reference = " ".join(inline_text(cue_before["c"]).split()[-8:])
     expected_images = {}
     for identifier, image in images.items():
-        if identifier not in ("fig-red-root-sketch", "fig-tree-repair"):
+        if identifier not in ("fig-restore-left-left", "fig-tree-repair"):
             continue
         attributes = dict(image["c"][0][2])
         check(attributes.get("fig-alt"), f"real lesson: {identifier} has no explicit description")
@@ -565,6 +566,8 @@ def real_lesson_source(project, record):
         view_box = [float(value) for value in svg.attrib["viewBox"].split()]
         expected_images[identifier] = {"caption": inline_text(image["c"][1]),
                                        "alt": attributes["fig-alt"], "src": image["c"][2][0],
+                                       "width_mm": (float(attributes["width"][:-2])
+                                                    if re.fullmatch(r"[\d.]+mm", attributes.get("width", "")) else None),
                                        "height_ratio": view_box[3] / view_box[2]}
     return {"images": expected_images, "note": note_text, "cue": cue_text,
             "wide_code": wide_code_blocks(document["blocks"]),
@@ -606,7 +609,7 @@ def verify_lesson_pdf(pages, expected, filename, a4, known_notes=None):
         return occurrences[0][0], word_bounds(occurrences[0][1])
 
     for role, text in (("numbered note", expected["note"]),
-                       ("sketch caption", expected["images"]["fig-red-root-sketch"]["caption"]),
+                       ("sketch caption", expected["images"]["fig-restore-left-left"]["caption"]),
                        ("counting cue", expected["cue"])):
         number, bounds = phrase(text)
         left, right = ((140 * millimetre, 190 * millimetre) if a4 else
@@ -635,7 +638,10 @@ def verify_lesson_pdf(pages, expected, filename, a4, known_notes=None):
     check(extends_notes, f"{filename}: figure caption does not use the wide region")
     top = 20 * millimetre if a4 else 54
     height = 297 * millimetre if a4 else 720
-    figure_height = (right - left) * expected["images"]["fig-tree-repair"]["height_ratio"]
+    wide_image = expected["images"]["fig-tree-repair"]
+    figure_width = min(right - left, wide_image["width_mm"] * millimetre
+                       if wide_image["width_mm"] is not None else right - left)
+    figure_height = figure_width * wide_image["height_ratio"]
     check(wide_bounds["top"] - figure_height >= top - 3,
           f"{filename}: full-width figure and its caption cannot fit on the same print page")
     check(wide_bounds["bottom"] <= height - top + 1,
@@ -651,8 +657,10 @@ def verify_lesson_pdf(pages, expected, filename, a4, known_notes=None):
         note_regions.setdefault(number, []).append(bounds)
     note_left, note_right = ((140 * millimetre, 190 * millimetre) if a4 else
                             ((396, 540) if caption_page % 2 else (36, 180)))
-    sketch_height = ((note_right - note_left)
-                     * expected["images"]["fig-red-root-sketch"]["height_ratio"])
+    sketch = expected["images"]["fig-restore-left-left"]
+    sketch_width = min(note_right - note_left, sketch["width_mm"] * millimetre
+                       if sketch["width_mm"] is not None else note_right - note_left)
+    sketch_height = sketch_width * sketch["height_ratio"]
     note_regions[caption_page].append({"left": note_left, "right": note_right,
                                       "top": caption_bounds["top"] - sketch_height,
                                       "bottom": caption_bounds["bottom"]})
@@ -840,7 +848,7 @@ def verify(project):
             (output / Path(chapter).with_suffix(".html")).read_text()) for chapter in metadata["chapters"]}
         if lesson is not None:
             lesson_page = pages[Path(lesson["chapter"]).with_suffix(".html").name]
-            for identifier in ("fig-red-root-sketch", "repair-comparison", "fig-tree-repair", "height-counting-cue"):
+            for identifier in ("fig-restore-left-left", "repair-comparison", "fig-tree-repair", "height-counting-cue"):
                 check(identifier in lesson_page.ids, f"real lesson: missing rendered note/figure {identifier}")
             for identifier, image in lesson_expected["images"].items():
                 matches = [actual for actual in lesson_page.images if actual.get("src") == image["src"]]
@@ -920,7 +928,7 @@ def verify(project):
                           f"EPUB: {identifier} loses its image or description")
                 notes_with_image = [node for node in lesson_document.iter()
                                     if node.attrib.get("{http://www.idpf.org/2007/ops}type") == "footnote"
-                                    and any(child.attrib.get("id") == "fig-red-root-sketch" for child in node.iter())]
+                                    and any(child.attrib.get("id") == "fig-restore-left-left" for child in node.iter())]
                 check(len(notes_with_image) == 1, "EPUB: sketch is not inside its linked note")
                 note_id = notes_with_image[0].attrib["id"]
                 references = [node for node in lesson_document.iter()

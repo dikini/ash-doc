@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "construction": {
+    "source": "sig: [add] : [Int] -> [Int] -> [Int]\nrow: fn int int int\narrows: 3->4",
+    "placement": "aside",
+    "labelled": false,
+    "appearance": {
+      "stroke": "rough",
+      "roughness": 1.8,
+      "bowing": 1,
+      "font": "excalifont",
+      "seed": 1729
+    },
+    "scene": {
+      "width": 480,
+      "height": 134,
+      "elements": [
+        {
+          "kind": "text",
+          "x": 60,
+          "y": 35,
+          "size": 28,
+          "fill": "#98323c",
+          "content": "add",
+          "anchor": "middle"
+        },
+        {
+          "kind": "text",
+          "x": 180,
+          "y": 35,
+          "size": 28,
+          "fill": "#285f94",
+          "content": "Int",
+          "anchor": "middle"
+        },
+        {
+          "kind": "text",
+          "x": 300,
+          "y": 35,
+          "size": 28,
+          "fill": "#285f94",
+          "content": "Int",
+          "anchor": "middle"
+        },
+        {
+          "kind": "text",
+          "x": 420,
+          "y": 35,
+          "size": 28,
+          "fill": "#285f94",
+          "content": "Int",
+          "anchor": "middle"
+        },
+        {
+          "kind": "text",
+          "x": 120,
+          "y": 35,
+          "size": 28,
+          "fill": "#222222",
+          "content": ":",
+          "anchor": "middle"
+        },
+        {
+          "kind": "text",
+          "x": 240,
+          "y": 35,
+          "size": 28,
+          "fill": "#222222",
+          "content": "->",
+          "anchor": "middle"
+        },
+        {
+          "kind": "text",
+          "x": 360,
+          "y": 35,
+          "size": 28,
+          "fill": "#222222",
+          "content": "->",
+          "anchor": "middle"
+        },
+        {
+          "kind": "solid",
+          "x": 28,
+          "y": 54,
+          "width": 64,
+          "height": 64,
+          "rx": 3,
+          "fill": "#bd3e49",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "solid",
+          "x": 148,
+          "y": 54,
+          "width": 64,
+          "height": 64,
+          "rx": 3,
+          "fill": "#3975af",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "solid",
+          "x": 268,
+          "y": 54,
+          "width": 64,
+          "height": 64,
+          "rx": 3,
+          "fill": "#3975af",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "solid",
+          "x": 388,
+          "y": 54,
+          "width": 64,
+          "height": 64,
+          "rx": 3,
+          "fill": "#3975af",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "arrow",
+          "x1": 345,
+          "y1": 86,
+          "x2": 375,
+          "y2": 86,
+          "stroke": "#333333",
+          "strokeWidth": 3,
+          "head": 8
+        }
+      ]
+    },
+    "display": {
+      "placement": "aside",
+      "shape": "square",
+      "primitiveUnits": 64,
+      "primitiveMm": 6.5,
+      "width": "49.563mm"
+    }
+  },
+  "interpretation": {
+    "author": "agent",
+    "intent": "Retain signature alignment, type/value halves, and schematic application guides.",
+    "source": "content/learn/using-more-than-one-input/README.md",
+    "limits": "Authoring scene adapter; source syntax is saved construction, not document preparation."
+  },
+  "renderer": {
+    "command": "node rendering/illustrations/lesson-shapes.mjs",
+    "splitCommit": "b9d1298c16314b0d0b66223041b8937eeaece1e8",
+    "splitSourceHashes": {
+      "parse.js": "121b18cb822eb78302787ed6c9cd0d4cd6ec3c883f2ca6b035dbed67c9e83e5a",
+      "layout.js": "53efe1979d9ee2fc4ae2c40f06367cb7f22caef0b3513c732ef9ac84944c52e9",
+      "style.js": "1d1bbb70772ce8461d28848f3d948e43f472c3d46d5c7426979a07e79dacaf82"
+    },
+    "roughJS": "4.6.6",
+    "bundleSha256": "6853af8619532f3939b156cd16824d2e14f31e71d3df306ad5558eeafacab194",
+    "lockSha256": "d8679bdcce68d794995d1237ec8035b7a445ef0813ad4de74bb469cc324185ff",
+    "font": "Excalifont-Latin",
+    "fontApplied": true,
+    "fontTools": "4.61.1",
+    "Brotli": "1.1.0"
+  },
+  "provenance": {
+    "svgSha256": "6e772a8fc175cbba38d93fb4325bce485d22f39fa8215275bd856e5e9c187cf7"
+  }
+}

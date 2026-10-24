@@ -1,5 +1,9 @@
 {
   "version": 1,
+  "illustrationSizes": {
+    "aside": { "squareMm": 6.5, "circleMm": 5 },
+    "body": { "squareMm": 9, "circleMm": 8 }
+  },
   "illustrationDefaults": {
     "font": "regular",
     "stroke": "crisp",

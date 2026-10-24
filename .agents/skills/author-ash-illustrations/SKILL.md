@@ -77,6 +77,14 @@ recognizable pieces and distinguish within-state connections from transitions.
 Do not imply mutation, allocation reuse, or storage identity without evidence.
 Use labels or other cues so color is not the only carrier of meaning.
 
+When using the lesson square/circle vocabulary, choose the shared aside/body
+primitive sizes in `illustrationSizes`. Derive full image width from the nominal
+primitive and viewBox dimensions, not from an arbitrary percentage of its
+container. Record the resolved dimensions and literal figure-metadata width
+during authoring. Use the migrated lesson adapter and size checks described in
+the [tool reference](../../../rendering/illustrations/README.md). Preparation
+only copies explicit presentation metadata; it never resolves these defaults.
+
 When developing a new composition, compare a small number of alternatives using
 the same example. Describe construction rules as well as aesthetic adjectives.
 Reuse established visual components and mappings before inventing new ones.

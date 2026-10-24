@@ -1,15 +1,18 @@
 ---
 diagrams:
-  - kind: split
+  - kind: illustration
     id: fig-add-types
+    width: 49.563mm
     caption: Кърингована функция.
     description: "Сигнатурата add : Int -> Int -> Int е подравнена с червена кутия за функция и три сини кутии за целочислените позиции."
-  - kind: split
+  - kind: illustration
     id: fig-add-type-value
+    width: 49.563mm
     caption: Прилагане на функция.
     description: "Същата сигнатура се появява над разделени кутии. Горните половини показват типове: червено за функцията и синьо за Int. Долните половини разграничават по цвят add, 20, 22 и резултата 42, с етикети под тях. Стрелките на долния ред са схематични указатели за прилагане, а не преобразувания между цели числа."
-  - kind: split
+  - kind: illustration
     id: fig-add-20-application
+    width: 37.375mm
     caption: Частично прилагане.
     description: Прилагането на add към 20 дава функцията add_20 от тип Int -> Int. Отделната функция square има червена половина за типа и оранжева половина за стойността с етикет add 20. Входът 22 и резултатът 42 имат сини половини за типовете и виолетови и зелени половини за стойностите. В реда със стойностите етикетът на функцията е add_20.
 ---
@@ -111,26 +114,28 @@ main () = add 20
 
 ::: {.block}
 
-```split
-sig: [add] : [Int] -> [Int] -> [Int]
-row: fn int int int
-arrows: 3->4
+```{#fig-add-types .illustration}
+Align add : Int -> Int -> Int with a red function square and three blue
+integer squares. Show the schematic application guide from the second integer
+input to the result. Preserve the solid type-square vocabulary, not a value
+conversion. Use shared aside-size squares, rough strokes, and Excalifont labels.
 ```
 
-```split
-sig: [add] : [Int] -> [Int] -> [Int]
-row: fn/add int/20 int/22 int/42
-arrows: 3->4
+```{#fig-add-type-value .illustration}
+Keep the signature alignment and four square positions of the type-only
+figure. Split each square horizontally: the upper half shows the function
+or Int type; the lower half identifies add, 20, 22, or 42 with its color and
+label. Preserve the application guide and shared aside square size. Use rough
+strokes and Excalifont; do not imply that arrows convert integer values.
 ```
 
-```split
-sig: [add] [Int]
-row: fn/add int/20
-
-sig: [add_20] : [Int] -> [Int]
-row: fn/add_20 int/22 int/42
-arrows: 2->3
-hues: add_20=#e59b63/#91521e 22=#9673be/#71518f 42=#4e9d79/#286447
+```{#fig-add-20-application .illustration}
+Show add with 20 in the upper row, then a downward transition to the waiting
+function add_20 with input 22 and result 42. Preserve type/value halves:
+function types red, Int types blue, add_20 orange, 22 violet, and 42 green.
+Align add_20 : Int -> Int over the lower row. Keep its application guide
+distinct from the between-row arrow. Match square size to the other aside
+figures, not the width of this shorter row. Use rough strokes and Excalifont.
 ```
 
 :::

@@ -1,25 +1,30 @@
 ---
 diagrams:
-  - kind: split
-    id: fig-red-root-sketch
-    caption: A red root with two black Empty forms.
-    description: A root circle with a red upper half and a yellow association half connects to two terminal Empty circles with black upper halves and white lower halves. Empty has no key/value association. Each path contains one black form; the red root contributes none.
-  - kind: split
+  - kind: illustration
     id: fig-restore-left-left
+    width: 35.000mm
     caption: Rewire the same pieces - left-left.
     description: "Before above: black violet above a red blue left child and a red yellow left grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
-  - kind: split
+  - kind: illustration
     id: fig-restore-left-right
+    width: 35.000mm
     caption: Rewire the same pieces - left-right.
     description: "Before above: black violet above a red yellow left child, whose right child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
-  - kind: split
+  - kind: illustration
     id: fig-restore-right-left
+    width: 35.000mm
     caption: Rewire the same pieces - right-left.
     description: "Before above: black yellow above a red violet right child, whose left child is red blue. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
-  - kind: split
+  - kind: illustration
     id: fig-restore-right-right
+    width: 35.000mm
     caption: Rewire the same pieces - right-right.
     description: "Before above: black yellow above a red blue right child and a red violet right grandchild. After below: red blue above black yellow and black violet. The green, orange, pink, and cyan subtrees retain their left-to-right order."
+  - kind: illustration
+    id: fig-tree-repair
+    width: 162.667mm
+    caption: Rewire the same pieces - left-left, with the program's names.
+    description: "Left-left repair from left to right. Black violet (k3, v3) has red blue (k2, v2) on its left and subtree d on its right. Blue has red yellow (k1, v1) on its left and c on its right; yellow has a and b. After repair, red blue (k2, v2) has black yellow (k1, v1) and black violet (k3, v3) children. Yellow retains a and b; violet retains c and d. The upper halves show Red or Black, lower colors identify the associations, and the colored triangles retain subtrees a, b, c, and d. The labels use the program's names."
 ---
 
 # Guaranteeing logarithmic retrieval
@@ -77,7 +82,7 @@ key, its associated value, and the right dictionary, in that order. `K` and
 `Color` has exactly two alternatives, `Red` and `Black`.
 
 A color is useful only with rules for interpreting it. `Empty` counts as
-black.[^red-root-example] A black node adds one to the count on every path
+black. A black node adds one to the count on every path
 below it; a red node adds none. We call the common count, including the
 terminal `Empty`, the subtree's *black-height*. It measures the black forms
 on a path, rather than all its nonempty nodes.
@@ -101,25 +106,6 @@ left child `2` also has equal counts. The shorter right path counts `3` and
 `Empty`; each longer left path counts the same two black forms. Equal
 black-height therefore allows some difference in total path length. The
 rule against adjacent red nodes limits how much longer a path can become.
-
-<!-- markdownlint-disable MD013 -->
-
-[^red-root-example]:
-
-    ```split
-    scale: 1.5
-    tree:
-      red/root
-        Empty
-        Empty
-    hues: root=#f1c84e/#946c00
-    ```
-
-    Both paths contain one black form: their terminal `Empty`.
-    A red root adds no black form. The yellow lower half identifies the root's
-    `(k, v)` association. White lower halves mark `Empty`, which has none.
-
-<!-- markdownlint-enable MD013 -->
 
 The opaque declaration controls source access. Importers can name
 `Dictionary<K, V>`, but cannot name its constructors under Ash's
@@ -409,25 +395,14 @@ restore Black RArg(
 
 [^restore-left-left]:
 
-    ```split
-    tree:
-      black/(k1,v1)
-        red/(k2,v2)
-          red/(k3,v3)
-            a
-            b
-          c
-        d
-
-    tree:
-      red/(k2,v2)
-        black/(k3,v3)
-          a
-          b
-        black/(k1,v1)
-          c
-          d
-    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```{#fig-restore-left-left .illustration}
+    Compare left-left repair, before above and after below. Before: a black
+    violet root has a red blue left child and a red yellow left grandchild.
+    After: blue becomes the red root with black yellow and black violet
+    children. Preserve the green, orange, pink, cyan triangular subtrees in
+    left-to-right order. Upper circle halves show forms; lower halves track
+    associations. Use shared aside-size circles, rough contours, exact fills,
+    and no printed labels. Paint edges behind nodes, not across their interiors.
     ```
 
 <!-- markdownlint-enable MD013 -->
@@ -470,25 +445,13 @@ restore Black RArg(
 
 [^restore-left-right]:
 
-    ```split
-    tree:
-      black/(k1,v1)
-        red/(k3,v3)
-          a
-          red/(k2,v2)
-            b
-            c
-        d
-
-    tree:
-      red/(k2,v2)
-        black/(k3,v3)
-          a
-          b
-        black/(k1,v1)
-          c
-          d
-    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```{#fig-restore-left-right .illustration}
+    Compare left-right repair, before above and after below. A black violet
+    root has a red yellow left child whose right child is red blue. Blue
+    becomes the red root with black yellow and black violet children. Keep
+    green, orange, pink, cyan subtrees in order. Use split circles for forms
+    and association identities, triangles for subtrees, shared aside sizes,
+    rough contours, and exact fills. Keep edges behind nodes and omit labels.
     ```
 
 <!-- markdownlint-enable MD013 -->
@@ -525,25 +488,13 @@ restore Black RArg(a, k1, v1) Node(
 
 [^restore-right-left]:
 
-    ```split
-    tree:
-      black/(k3,v3)
-        a
-        red/(k1,v1)
-          red/(k2,v2)
-            b
-            c
-          d
-
-    tree:
-      red/(k2,v2)
-        black/(k3,v3)
-          a
-          b
-        black/(k1,v1)
-          c
-          d
-    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```{#fig-restore-right-left .illustration}
+    Compare right-left repair, before above and after below. A black yellow
+    root has a red violet right child whose left child is red blue. Blue
+    becomes the red root with black yellow and black violet children. Keep
+    green, orange, pink, cyan subtrees in order. Match the other aside circle
+    sizes, split form/association colors, and triangular leaves. Use rough
+    contours and exact fills, paint edges behind nodes, and omit labels.
     ```
 
 <!-- markdownlint-enable MD013 -->
@@ -577,25 +528,13 @@ restore Black RArg(a, k1, v1) Node(
 
 [^restore-right-right]:
 
-    ```split
-    tree:
-      black/(k3,v3)
-        a
-        red/(k2,v2)
-          b
-          red/(k1,v1)
-            c
-            d
-
-    tree:
-      red/(k2,v2)
-        black/(k3,v3)
-          a
-          b
-        black/(k1,v1)
-          c
-          d
-    hues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf
+    ```{#fig-restore-right-right .illustration}
+    Compare right-right repair, before above and after below. A black yellow
+    root has a red blue right child with a red violet right grandchild. Blue
+    becomes the red root with black yellow and black violet children. Preserve
+    green, orange, pink, cyan subtree order, split form/association colors,
+    and the shared aside circle size. Use rough contours, exact fills, edges
+    behind nodes, and no labels.
     ```
 
 <!-- markdownlint-enable MD013 -->
@@ -656,7 +595,17 @@ the program's names beside them:
 
 ::: {#repair-comparison .column-page-right}
 
-![Rewire the same pieces - left-left, with the program's names.](assets/tree-repair.svg){#fig-tree-repair fig-alt="Left-left repair from left to right. Black violet (k3, v3) has red blue (k2, v2) on its left and subtree d on its right. Blue has red yellow (k1, v1) on its left and c on its right; yellow has a and b. After repair, red blue (k2, v2) has black yellow (k1, v1) and black violet (k3, v3) children. Yellow retains a and b; violet retains c and d. The upper halves show Red or Black, lower colors identify the associations, and the colored triangles retain subtrees a, b, c, and d. The labels use the program's names." width=100%}
+```{#fig-tree-repair .illustration}
+Show the named left-left repair from left to right. Before: black violet
+(k3, v3) has red blue (k2, v2) on its left and subtree d on its right. Blue
+has red yellow (k1, v1) on its left and c on its right; yellow has a and b.
+After: red blue (k2, v2) is root, with black yellow (k1, v1) and black violet
+(k3, v3) children. Yellow retains a and b; violet retains c and d. Keep the
+same identity colors and ordered triangular subtrees. Put the program's names
+beside shapes, clear of connectors. Use shared body-size circles, larger than
+aside circles, with rough contours and Excalifont labels. Preserve exact fills
+and paint edges behind nodes. The arrow separates states, not storage updates.
+```
 
 :::
 

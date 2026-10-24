@@ -41,11 +41,18 @@
       166
     ],
     "appearance": {
-      "stroke": "mild",
-      "roughness": 0.6,
-      "bowing": 0.5,
+      "stroke": "rough",
+      "roughness": 1.8,
+      "bowing": 1,
       "font": "excalifont",
       "seed": 1729
+    },
+    "display": {
+      "placement": "aside",
+      "shape": "square",
+      "primitiveUnits": 64,
+      "primitiveMm": 6.5,
+      "width": "41.438mm"
     }
   },
   "interpretation": {
@@ -60,6 +67,11 @@
   "appearanceSelection": {
     "global": "rendering/styles/diagram-style.json",
     "document": "content/learn/values-travel-together/README.md",
-    "request": {}
+    "request": {
+      "stroke": "rough"
+    }
+  },
+  "provenance": {
+    "svgSha256": "5b512f336e6158e20a70b671e09d984af281c713bffccca816ed94e0a845686f"
   }
 }

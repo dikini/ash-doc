@@ -95,6 +95,65 @@ It does not compare request or context hashes. Missing state, invalid JSON,
 missing SVGs, mismatched figure metadata, and invalid SVGs fail preparation.
 The authoring brief must never leak into published code blocks.
 
+## Shared shape sizes and lesson migration
+
+The approved extension migrates the three input figures and five tree figures
+to prose illustration fences. Their IDs, captions, descriptions, relationships,
+and note/body placements remain stable. Split-md syntax now belongs to saved
+construction, not the learning page. The named wide repair uses the program's
+original association names. Its obsolete standalone SVG is removed after the
+new reproducible asset is saved.
+
+`illustrationSizes` in the shared style specifies physical primitive sizes:
+aside squares are 6.5 mm, aside circle diameters 5 mm, body squares 9 mm, and
+body circle diameters 8 mm. There is no body-square figure in this migration.
+Roughness may vary a contour around that nominal geometry; it must not change
+the construction's intended size or topology. Longer rows receive greater
+image width, not smaller squares. Figures do not independently grow to fill notes.
+
+HTML adds a shared presentation scale for authored illustrations in notes:
+1.1 at desktop widths of at least 992 px with a note column at least 210 px
+wide, 1.5 when the note's own inline
+width reaches 450 px, and 1 otherwise. The wide-inline rule takes precedence.
+This gives inline notes more presence without making the four repair cases
+use different circle diameters. Tight note columns apply a shared fit factor
+against a 50 mm reference span, large enough for the widest nominal aside.
+This prevents long diagrams from shrinking their primitives independently of
+shorter ones. Phone examples retain their baseline size; a narrow tablet note
+column may shrink all its primitives slightly. The full-width
+labelled figure, EPUB, and PDF retain their authored sizes. Preparation exposes
+only the literal width and its ratio to the shared reference span as CSS
+properties; CSS does not inspect construction.
+The redundant red-root illustration and its numbered note have been removed.
+
+During explicit authoring, `size.mjs` derives the complete image width from its
+viewBox and primitive dimensions. Save the resolved size and literal physical
+width beside construction. Put the same `width: <positive number>mm` in the
+figure's YAML metadata. The drawing wrappers reject a mismatch. Updating the
+shared size settings therefore requires an intentional authoring/layout review,
+not an implicit document-build restyle.
+
+Preparation validates and copies the literal width; it does not read size
+defaults or construction geometry. Missing width retains the earlier full-width
+behavior for unmigrated fixtures and trials. Existing responsive maximum-width
+rules may shrink a wide body figure on a narrow screen or EPUB viewport; the
+aside figures fit without shrinking. Do not claim absolute physical dimensions
+on arbitrary screen hardware or enlarged/reflowed e-reader layouts.
+
+`lesson-shapes.mjs` consumes the approved split-md parse/layout/style sources
+from Git without changing a checkout or pin. It draws edges before fills,
+roughens supported contours and guides, and outlines Excalifont labels.
+It preserves type/value halves and form/identity halves. It is a bounded
+authoring adapter for these saved scenes, not a universal SVG filter.
+
+The two existing pair figures explicitly adopt rough strokes and the shared
+aside square size. English/Bulgarian prose and translated captions remain
+unchanged; protected illustration fences and presentation metadata are
+transplanted through the existing translation workflow. Using more than one
+input returns to `mt-draft` with its earlier certification retained as history;
+Making values travel together remains `mt-draft`. Only the owner can renew
+their certification.
+
 ## Appearance defaults
 
 The [pilot authoring tool](../../rendering/illustrations/README.md) resolves
@@ -110,10 +169,10 @@ Global defaults remain regular/crisp. The selected lesson declares:
 ```yaml
 illustration-defaults:
   font: excalifont
-  stroke: mild
+  stroke: rough
 ```
 
-Both pilot figures adopt those settings with roughness 0.6, bowing 0.5, and
+Both pilot figures adopt those settings with roughness 1.8, bowing 1, and
 seed 1729. Construction records the resolved values and selection sources.
 Normal artwork rebuilds use saved settings. Only an explicit authoring command
 with `--resolve-defaults` adopts current defaults; an interpreted request can
@@ -143,180 +202,92 @@ visual checks. Revisit the sidecar envelope only when another concrete drawing
 tool cannot supply an SVG through it. This decision creates no general scene
 language, model service, automatic freshness policy, or publication mechanism.
 
-## Pilot evidence
+## Current migration evidence
 
-The implementation passes eleven focused adapter tests, including nested
-fences, source preservation, invalid artwork, and missing or escaping assets.
-The parser/writer integration test uses the installed standalone Pandoc; it is
-not evidence for the pinned Quarto output layouts. The skill passes its
-front-matter validator. Repeated authoring renders produce identical SVG bytes.
-The standalone pilot image has been inspected.
+The scoped migration review on 2026-10-25 targets FFI Base at
+`354c76b391fe4af665cf6a03479a9874a57cb3e3`. Canonical Ash programs,
+observations, and executable promises are unchanged; their exact-pin evidence
+is reused. There is no whole-book render or publication claim for this change.
 
-A separate skill trial reconstructed the lesson and saved construction and
-recommended preserving the vocabulary during a targeted boundary-emphasis
-revision. That source review does not establish final-size visual acceptance.
+### Tool and preparation boundaries
 
-### Verified toolchain
-
-On 2026-10-24, the cached Quarto 1.10.19 Linux amd64 archive hashed to
+The pinned Quarto 1.10.19 archive has SHA-256
 `8e38c2b2df6a6dbd369ea16e15acded6894545258d13a02f777f81ad18fd7973`.
-This agrees with the unchanged manifest, retained GitHub release asset digest,
-and a fresh download of the official release checksum list. The complete
-`python3 rendering/bootstrap.py --offline` check passes. No checksum check was
-disabled and no tool pin changed. The earlier mismatch is not reproducible
-with this archive; the rejected bytes were not retained, so its cause remains
-unknown. Do not infer that an arbitrary replacement archive is acceptable.
+It agrees with the manifest and previously checked official release digest.
+Offline bootstrap passes without bypassing checksums or changing pins.
+The earlier rejected archive was not retained, so the cause of its historical
+checksum mismatch remains unknown.
 
-### Selected lesson review
+All 114 rendering Python regressions pass, including thirteen illustration
+adapter checks. These exercise nested placement, missing/invalid assets,
+unchanged source, literal physical widths, mixed notation, and the prohibition
+on authoring/default interpretation during preparation. The thirteen browser
+helper tests, two default-resolution tests, twelve pilot appearance tests, six
+tree-sketch tests, and two size-calculation tests pass. The lesson-state checks
+cover all ten figures' widths, saved hashes, outlined labels, edge-first
+tree layering, and the named repair's preserved association names.
 
-Both English and Bulgarian lesson scopes build in HTML, EPUB, book PDF, and A4
-PDF with the pinned toolchain. Artifact checks retain the saved SVGs as two
-canonical lesson assets and preserve all nine code/transcript blocks. EPUBCheck
-5.4.0 reports no errors or warnings. English PDFs contain nine and eight pages;
-Bulgarian PDFs contain nine pages in each layout.
+The authoring wrappers assert repeated-render byte agreement. Current SVG
+hashes, resolved dimensions, and dependencies live in each figure's sidecar;
+this document does not duplicate hashes from an earlier appearance.
 
-The English browser review passes desktop and 390-pixel HTML checks and
-390-pixel EPUB reflow at a 28-pixel root font in Chrome and Firefox. Visual
-inspection of the figure at these sizes and in both print layouts confirms
-that the shared contour, component seam, arrow, and result remain distinct,
-with the caption below. The brief does not appear in the outputs. Print review
-is limited to this lesson, not complete-book pagination. The saved SVG retains
-English labels in both languages; the Bulgarian caption and description
-explain the same relationship.
+### Affected outputs
 
-Review artifacts live under ignored `.build/lessons/learn/values-travel-together/`
-and `.build/illustration-bg/`; page previews and focused figure captures live
-under `.build/illustration-review/`. Reproduce the builds with:
+The three English lesson scopes and two Bulgarian counterparts build in HTML,
+EPUB, book PDF, and A4 PDF. Artifact checks pass for all five scopes, retaining
+three input assets, two pair assets, and five tree assets respectively. The
+briefs do not appear in the rendered learning pages. All five EPUBs pass
+EPUBCheck 5.4.0 without errors or warnings.
+
+The four Learn/language browser reviews each pass 68 checks, including enlarged
+EPUB text in Chrome and Firefox. The tree review passes 77 checks using the
+stable illustration ID and literal physical widths, rather than the previous
+notation-generated alias and full-container-width assumption. The separate
+size review measures 105 primitive sizes across desktop, intermediate, tablet,
+and phone widths using the shared HTML scale above. The baseline dimensions
+are matching 6.5 mm aside squares across both lessons, 5 mm aside circles,
+and 8 mm body circles. Wide
+body artwork remains subject to responsive maximum-width limits on narrow
+screens. Sizes are nominal layout dimensions, not calibrated screen hardware.
+
+Visual review covers the input guides, type/value halves, pair seam, labelled
+wide repair, the four compact repair cases, and both PDF layouts. Label
+collisions and the
+short application-arrow shaft found during review were corrected in saved
+construction, not patched only in SVG. Captures and browser evidence live under
+the current worktree's ignored `.build/illustration-size-review/`,
+`.build/pdf-review/`, and scoped projects' `qa-browser/` directories.
+
+Reproduce a selected English scope with:
 
 ```sh
-python3 rendering/build.py --lesson content/learn/values-travel-together/README.md
-python3 rendering/build.py \
-    --lesson content/learn/values-travel-together/README.bg.md \
-    --lang bg --output .build/illustration-bg
+python3 rendering/build.py --lesson content/learn/using-more-than-one-input/README.md
 ```
 
-Rebuilding the crisp intermediate with fontTools 4.61.1 produces identical bytes,
-with SHA-256
-`b29bccfb86b7c5dc6025831bc1e55f8a7f746bf4bb1416fd6683388d4459bea0`.
-The ten adapter tests and skill validator pass. The rendering suite runs 111
-tests: 110 pass directly; the token-worktree fixture requires signing disabled
-for its temporary Git commit. Rerunning its twelve-test module with
-`GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=commit.gpgsign GIT_CONFIG_VALUE_0=false`
-passes without changing repository or user Git configuration.
+Use the corresponding `README.bg.md` plus `--lang bg` for a translated scope.
+The other selected lessons are `content/learn/values-travel-together/README.md`
+and `content/cases/guaranteeing-logarithmic-retrieval/README.md`.
+Scoped outputs are not complete-book pagination evidence.
 
-### Bulgarian synchronization and remaining boundary
+### Translation and remaining review
 
-The comparison revision's `compare` pass produced 30 divergences. Agent review
-retained the existing wording, including the new captions and descriptions;
-the fresh description also failed a protected-term check. `converge` consumed
-the adjudications and refreshed the exact English claim. The illustration fence
-is transplanted byte-identically. The comparison table retains its words with
-restored Markdown row breaks. `content/checks/translation/sync.sh` passes.
+The protected illustration fences and nontranslatable metadata are identical
+between English and Bulgarian. Existing translated prose, captions, and
+descriptions are retained. `converge` refreshes the exact English claims after
+mechanical transplant review; translation sync and all eighteen translation
+tests pass. No new machine translation was needed for these protected blocks.
 
-The previous owner certification predates the new figure metadata. The lesson
-therefore returns to `mt-draft` pending renewed owner certification; this agent
-review does not claim human approval. These scoped checks do not publish the
-edition or certify a whole-book build.
+Using more than one input is now `mt-draft`, with its earlier owner
+certification retained as history. Making values travel together remains
+`mt-draft`. Both await owner review of the changed artwork and sizes.
+An agent's mechanical and visual review does not renew human certification.
 
-The Bulgarian review exposed three checker failures on generated `index.html`:
-its Cyrillic heading yields a percent-encoded URL fragment, while the checker
-compared it with an unencoded Pandoc identifier. The approved follow-up fixes
-the browser checker to decode URL fragments once before comparing them with
-heading IDs, including keyboard-navigation waits. Page headings, IDs, and URLs
-remain unchanged. A regression test covers Cyrillic, ASCII, encoded reserved
-characters, literal percent escapes, and distinct heading IDs. All thirteen
-browser unit tests pass. Rerunning both scoped browser reviews passes all 68
-checks per language, including the formerly failing Bulgarian index navigation
-and enlarged EPUB review in Chrome and Firefox.
+### Standalone skill examples
 
-The function signature now appears in each language's figure caption rather
-than inside the artwork. The drawing removes that label and its vertical space;
-the pair contour, seam, type labels, and arrow retain their meanings. The
-lesson brief and construction record retain this requested separation.
-
-The companion `fig-add-inputs` has three separate blue squares and arrows
-between adjacent positions, following the author's literal-signature choice.
-Its square size, color, and labels align with `fig-sum-pair`; the two pair
-components remain attached. No region encloses the remaining function.
-Repeated renders of the companion's crisp intermediate with fontTools 4.61.1
-agree at SHA-256
-`d5b70b9f6592d0509f7ec7ce23f2c8c1f5d93c45db2ae4108eb77f9fdfff48c6`.
-Canonical Ash programs and captured observations are unchanged; their
-exact-pin execution evidence is reused.
-
-The two fences now share one `.column-margin` Div after the comparison
-paragraph. Their reading order remains pair, then separate inputs. Desktop
-HTML and both PDFs place the group in the margin; narrow HTML and EPUB retain
-it in ordinary reading order. Margin-size inspection required larger outlined
-labels: both drawings now use size 28, with lower labels shortened to
-`pair input` / `result` and `first` / `second` / `result`. The captions and
-alternative descriptions still identify the input and result roles.
-The prose and translated metadata did not change during this placement step;
-`converge` refreshed the English claim after reviewing the byte-identical Div
-and fence transplants. Aside previews live in `.build/illustration-review/aside/`.
-
-### Defaults and styled artwork verification
-
-On 2026-10-24, the defaults resolver passes two focused tests and the style
-phases pass twelve. Eleven adapter tests include a new boundary check:
-document preparation substitutes saved SVG bytes even when authoring defaults
-and saved appearance settings are invalid. It neither resolves those settings
-nor executes authoring code. The twelve token-sync tests pass with signing
-disabled for the fixture's temporary Git commit; shared tokens are unchanged.
-The updated authoring skill passes its structural validator.
-
-Explicit default adoption selects Excalifont and mild strokes for both figures.
-Rebuilding from saved settings produces identical bytes. Current final hashes:
-
-`fig-sum-pair`:
-`c7529e966d9b57a2c589940b2ba93570d884db7122f11b1f413f49a68316e93d`.
-
-`fig-add-inputs`:
-`54d003bc6a8ca4b494f8bc8ae91824440e57eede54425d078f4ad6609e9086f2`.
-
-The English and Bulgarian YAML defaults agree. No prose or translated captions
-changed; `converge` refreshed the English drift claim after reviewing that
-structural transplant. Translation sync passes; owner recertification remains
-pending at `mt-draft`.
-
-Both language scopes rebuild HTML, EPUB, book PDF, and A4 PDF. Artifact checks
-pass, EPUBCheck 5.4.0 reports no errors or warnings, and all 68 browser checks
-pass per language, with enlarged EPUB reviewed in Chrome and Firefox. Visual
-inspection covers the figure group in desktop/narrow HTML, enlarged EPUB, and
-both PDF layouts, including grayscale. Labels, seam, separate boxes, captions,
-and margin placement remain readable. Captures are retained locally in
-`.build/illustration-review/defaults/`. Canonical Ash programs and their
-promises are unchanged; exact-pin executable evidence is reused.
-
-### Tree-shape and end-to-end trial
-
-The [bounded tree trial](../../rendering/illustrations/README.md#other-shapes-bounded-tree-trial)
-extends the comparison to split circles, Empty leaves, triangular subtrees,
-edges, and phase arrows using unchanged, pinned split-md scene geometry.
-It preserves fills and canonical edge endpoints; only visible strokes change.
-Six focused tests pass. Crisp/mild/rough SVGs, margin/enlarged views, and a
-standalone print comparison are retained under `.build/split-sketch/`.
-
-A separate prose brief is interpreted by the agent into saved split
-construction. Its replay checks description → saved state/SVG → pure document
-preparation, including changed-brief and missing-asset controls. Rebuilds use
-saved appearance and reproduce the SVG bytes. The replay never invokes an
-agent. These are isolated authoring trials, not adopted tree assets or final
-lesson-format verification. No upstream renderer or document-build behavior
-changes.
-
-### Mermaid sequence authoring trial
-
-The [sequence trial](../../rendering/illustrations/README.md#mermaid-sequence-trial)
-exercises another construction renderer without changing the illustration
-envelope or document adapter. A prose brief becomes agent-authored Mermaid
-sequence construction, then a saved outlined SVG. Caller, Service, and Store
-exchange two solid-arrow requests followed by two dashed-arrow replies.
-
-Two focused checks and the SVG validator pass. Repeated renders and saved-state
-rebuilds agree byte-for-byte. Changed-brief and missing-asset controls confirm
-that document preparation substitutes saved artwork without authoring or
-freshness decisions. HTML and a standalone A4 print preview live under
-`.build/mermaid-sequence/`. This first trial uses regular lettering and crisp
-strokes; sequence-specific sketch styling and lesson integration are not
-claimed. No accepted content, renderer pin, or document-build behavior changes.
+The foldr, foldl, and Mermaid examples remain separate authoring references,
+not additional lesson figures. Their briefs, construction, filtering boundaries,
+commands, and evidence limits are indexed by the
+[worked example set](../../.agents/skills/author-ash-illustrations/references/examples.md).
+The earlier tree-sketch trial remains a comparison tool; it now reads native
+construction from lesson sidecars. Its explicit `SPLIT_MD_ROOT` option selects
+an exact pinned checkout without relaxing commit or source-hash checks.

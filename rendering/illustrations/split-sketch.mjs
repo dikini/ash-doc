@@ -7,7 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRuntime, PROFILES, ROOT, selectProfile } from './sketch.mjs';
 
 export const LESSON = 'content/cases/guaranteeing-logarithmic-retrieval/README.md';
-const IDS = ['fig-red-root-sketch', 'fig-restore-left-left'];
+const IDS = ['fig-restore-left-left'];
 const hash = data => createHash('sha256').update(data).digest('hex');
 const literal = node => node.t === 'Str' || node.t === 'MetaString' ? node.c :
   node.t === 'Space' || node.t === 'SoftBreak' ? ' ' : Array.isArray(node.c) ? node.c.map(literal).join('') : '';
@@ -17,7 +17,7 @@ export async function splitRuntime() {
   const config = JSON.parse(await readFile(new URL('rendering/specimen.json', ROOT)));
   const common = execFileSync('git', ['rev-parse', '--path-format=absolute', '--git-common-dir'],
     { cwd: root, encoding: 'utf8' }).trim();
-  const directory = join(dirname(dirname(common)), 'split-md');
+  const directory = resolve(process.env.SPLIT_MD_ROOT ?? join(dirname(dirname(common)), 'split-md'));
   const commit = execFileSync('git', ['-C', directory, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
   assert.equal(commit, config.renderers.split, 'Use the exact approved split-md pin.');
   const files = ['index.js', 'parse.js', 'layout.js', 'style.js', 'svg.js'];
@@ -53,20 +53,14 @@ export async function loadTrees() {
     fileURLToPath(new URL(LESSON, ROOT))], { encoding: 'utf8' }));
   const descriptions = document.meta.diagrams.c.map(node => Object.fromEntries(
     Object.entries(node.c).map(([key, value]) => [key, literal(value)])));
-  const fences = [];
-  const visit = node => {
-    if (!node || typeof node !== 'object') return;
-    if (node.t === 'CodeBlock' && node.c[0][1].includes('split')) fences.push(node.c[1]);
-    for (const value of Object.values(node)) {
-      if (Array.isArray(value)) value.forEach(visit);
-      else if (value && typeof value === 'object') visit(value);
-    }
-  };
-  visit(document.blocks);
-  assert.equal(fences.length, descriptions.length);
-  return descriptions.flatMap((description, index) => IDS.includes(description.id) ? [
-    split.construct(fences[index], description.id, description.caption, description.description)
-  ] : []);
+  const trees = await Promise.all(descriptions.filter(description => IDS.includes(description.id)).map(async description => {
+    const state = JSON.parse(await readFile(new URL(
+      `${dirname(LESSON)}/assets/${description.id}/illustration.json`, ROOT)));
+    return split.construct(state.construction.source, description.id, description.caption, description.description);
+  }));
+  return [split.construct('tree:\n  red/root\n    Empty\n    Empty\nhues: root=#f1c84e/#946c00',
+    'fig-red-root-sketch', 'A red root with two black Empty forms.',
+    'Standalone filter fixture: each path contains one black Empty form.'), ...trees];
 }
 
 export function transformTree({ source, scene, id, profile }) {

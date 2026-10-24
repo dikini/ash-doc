@@ -1,7 +1,7 @@
 {
   "language": "bg",
-  "tier": "reviewed",
-  "claimed_english_sha256": "06dc83684c225ea73e6e660ed1b2ad5010c7b8061899e0d42f52374bd11e1beb",
+  "tier": "mt-draft",
+  "claimed_english_sha256": "b422265350de57b55f12a66ec5c43f56b8c111cb4ae08955392ea09fb1c8a61e",
   "generated_at": "2026-10-22T14:03:20.822638+00:00",
   "provenance": {
     "engine": "codex-cli",
@@ -9,9 +9,10 @@
     "model": "gpt-6-luna",
     "prompt_sha256": "e44e5cc36dbcd5d6914425393e8c1d29f530b74de0cd89bd59864d88e8733e11",
     "glossary_sha256": "922cac4807689c18c489c05f18cbb345be82ae1682b98f272f1a975cd806d31e",
-    "segments": 29
+    "segments": 29,
+    "illustration_review": "2026-10-25: Transplanted the three agent-authored illustration fences and literal widths through the existing protected-block workflow, retaining translated prose and captions. New artwork and normalized shape sizes await renewed owner certification."
   },
-  "certification": {
+  "previous_certification": {
     "at": "2026-10-22T14:11:59.143681+00:00",
     "by": "review owner",
     "surface": "full chapter read on the rendered Bulgarian preview; terminology rulings (currying, predict) applied; owner corrections promoted; figure captions verified"

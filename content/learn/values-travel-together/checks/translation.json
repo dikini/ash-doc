@@ -1,7 +1,7 @@
 {
   "language": "bg",
   "tier": "mt-draft",
-  "claimed_english_sha256": "dcec0ceb69f5aac48213dc5a5c44282f3b5af79108e96a61da2e93a7d72c6dae",
+  "claimed_english_sha256": "812844a590b0075380f2842431d5b64bcde7ee5feb5386653bb4e97d82d51900",
   "generated_at": "2026-10-22T14:21:54.006748+00:00",
   "provenance": {
     "engine": "codex-cli",
@@ -11,6 +11,6 @@
     "glossary_sha256": "4e7b1009ba90c375596eeda32f62b471a846270673d186b2af75c8238cd2c090",
     "segments": 32,
     "last_convergence": "2026-10-24T11:39:22.266661+00:00",
-    "illustration_review": "Codex retained the reviewed prose after comparing 30 divergences, moved signatures into figure captions, translated the add metadata, and grouped both illustration fences in one margin aside. The placement-only convergence preserves translated prose and metadata. Renewed owner certification is pending."
+    "illustration_review": "2026-10-25: Retained translated prose, captions, and matching protected illustration fences. Explicit rough-stroke adoption and literal widths normalize aside squares to 6.5 mm. Renewed owner certification remains pending."
   }
 }

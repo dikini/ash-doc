@@ -10,9 +10,11 @@ a delivery schedule, publication promise, or source of Ash semantics.
 The [bounded illustration decision](illustration-authoring.md) adds a repository
 skill and deterministic fence substitution, piloted on *Making values travel
 together*. Authoring is agent-driven; document builds use accepted SVG assets.
-Integration, translation synchronization, and selected-lesson HTML, EPUB, and
-both PDF reviews are recorded in that decision. Renewed owner certification of
-the Bulgarian figure metadata remains pending; the lesson is marked `mt-draft`.
+The accepted extension migrates the input and tree figures to the same saved
+artwork workflow and separates physical aside/body shape sizes. Translation
+synchronization and scoped HTML, EPUB, and both PDF reviews belong to that
+decision. Renewed owner certification of the two Bulgarian lessons with changed
+artwork remains pending; both are marked `mt-draft`.
 
 ## Current baseline
 
@@ -84,9 +86,10 @@ with the codex CLI (`gpt-6-luna`) as the pinned engine. English lessons,
 canonical programs, and diagnostic captures remain the source of truth
 and stay byte-identical across languages. All twenty Learn lessons and the
 introduction have Bulgarian translations. Two lessons are human-owned at
-`corrected`, sixteen are owner-certified at `reviewed`, and two are `mt-draft`:
-*The edges of the language* and *Making values travel together*. The latter
-awaits renewed certification after the illustration changes. The introduction
+`corrected`, fifteen are owner-certified at `reviewed`, and three are `mt-draft`:
+*The edges of the language*, *Using more than one input*, and *Making values
+travel together*. The latter two await renewed certification after the
+illustration changes. The introduction
 is `reviewed` and supplies the Bulgarian book's front matter.
 
 The machinery lives under `content/checks/translation/`: segmentation,
@@ -167,14 +170,15 @@ A small public client demonstrates the three-key repair, and private probes
 check every repair and the fallback boundaries with distinct nonempty subtrees.
 
 Four optional sidenote sketches show before and after trees above and below,
-rendered from `split` fences; the numbered red-root sketch and the annotated
-wide comparison keep their accepted placements. Each circle's upper half
+authored from prose illustration fences with saved split construction and SVG;
+the annotated wide comparison keeps its accepted placement. The redundant
+red-root sketch has been removed. Each circle's upper half
 records Red or Black; its stable lower color tracks the association through
 the rewiring. Colored triangles track whole subtrees. The ordinary body column
 holds each complete repair equation and helper on one page in both PDFs.
 Selected longer signatures, the insertion definition, and the common labeled
 diagram use wider space at the unchanged type sizes; the annotated diagram
-remains a prepared static SVG.
+remains a saved SVG substituted during preparation.
 
 The prefix-check continuation is also verified. It develops observation data,
 operation types, scenario composition, and recursive checks through sixteen

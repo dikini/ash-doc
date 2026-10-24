@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -7,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { createRuntime, FIGURES, fontSources, ROOT, transformSvg } from './sketch.mjs';
 import { resolveAppearance } from './settings.mjs';
+import { figureWidth } from './size.mjs';
 
 const repository = fileURLToPath(ROOT);
 const globalPath = 'rendering/styles/diagram-style.json';
@@ -21,6 +23,14 @@ assert.ok(!values.override || values['resolve-defaults'], 'Request overrides nee
 const directory = new URL(`content/learn/values-travel-together/assets/${figure.id}/`, ROOT);
 const statePath = new URL('illustration.json', directory);
 const state = JSON.parse(await readFile(statePath));
+const shared = JSON.parse(await readFile(new URL(globalPath, ROOT)));
+const width = figureWidth(state.construction.canvas[0], state.construction.slot_size,
+  'aside', 'square', shared.illustrationSizes);
+const lessonText = await readFile(new URL(values.lesson, ROOT), 'utf8');
+assert.equal(new RegExp(`    id: ${figure.id}\\n    width: ([^\\n]+)`).exec(lessonText)?.[1], width,
+  'Explicitly update the lesson display width when changing size settings or geometry.');
+state.construction.display = { placement: 'aside', shape: 'square', primitiveUnits: state.construction.slot_size,
+  primitiveMm: shared.illustrationSizes.aside.squareMm, width };
 let appearance = state.construction.appearance;
 if (values['resolve-defaults']) {
   const quarto = fileURLToPath(new URL('.build/toolchain/quarto-1.10.19/bin/quarto', ROOT));
@@ -66,6 +76,8 @@ try {
   state.renderer = { source: 'draw.py', base: 'base.svg',
     command: `node rendering/illustrations/author.mjs --lesson ${values.lesson} --figure ${figure.id}`,
     dependencies: { Python: '3', fontTools: '4.61.1', Brotli: '1.1.0', RoughJS: '4.6.6', Chrome: '152.0.7977.75' } };
+  state.provenance = { ...state.provenance,
+    svgSha256: createHash('sha256').update(first.svg).digest('hex') };
   for (const [name, contents] of [['base.svg', source], ['figure.svg', first.svg],
     ['illustration.json', JSON.stringify(state, null, 2) + '\n']]) {
     const pending = new URL(`.${name}.tmp`, directory);

@@ -8,6 +8,46 @@ claim or compiler input. The [illustration decision][decision] owns the boundary
 
 ## Select and save appearance
 
+For the migrated lesson figures, rebuild the three input illustrations and five
+tree illustrations with `node rendering/illustrations/lesson-shapes.mjs`.
+Their split sources and resolved scenes live in lesson-local sidecars, while
+prose fences describe what the pictures explain. This adapter preserves shared
+style colors, topology, halves, and edge-first layering. It uses the exact
+pinned split source from Git, not the upstream checkout's current HEAD.
+
+`illustrationSizes` defines aside/body square sides and circle diameters in mm.
+The authoring tools compute image width from the viewBox and nominal primitive
+size, save it in construction, and check the matching literal `width` in lesson
+figure metadata. Preparation copies that width without running authoring code.
+When editing sizes or geometry, deliberately update both saved artwork and
+the metadata; do not let a larger image make its squares or circles larger.
+HTML applies one shared note scale: 1.1 on desktop (at least 992 px) when
+the note column is at least 210 px wide, 1.5
+in inline note containers at least 450 px wide, and 1 otherwise. The container
+rule wins. A shared 50 mm reference span caps the scale in tight note columns,
+so long and short diagrams shrink together instead of changing primitive sizes
+independently. Preparation exposes the literal width and its ratio to that
+span, without reading construction. These are presentation scales, not changes
+to saved construction;
+EPUB and print retain the nominal physical dimensions. All compact repair
+cases use the same scale. Aside figures fit their note columns; wide body
+figures may shrink responsively
+on narrow screens and EPUB viewports.
+
+Check `node rendering/illustrations/size.test.mjs`,
+`python3 rendering/illustrations/test_lesson_shapes.py`, and the preparation
+regressions. After rendering the five affected lesson/language combinations,
+`node rendering/illustrations/check-sizes.mjs` measures actual wide/narrow HTML
+primitive sizes and saves captures under `.build/illustration-size-review/`.
+Normal artifact/browser/EPUB and PDF checks remain separate from this size check.
+
+The older split-sketch comparison now reads split construction from the migrated
+sidecars, not the prose fences. Its strict checkout verifier also accepts an
+explicit `SPLIT_MD_ROOT` pointing to an exact pinned checkout. For example, set
+`SPLIT_MD_ROOT="$PWD/.build/toolchain/split-md-pinned"` when that verified local
+copy exists. The original sibling default, commit check, and source hashes
+remain enforced; this does not permit rendering against a different revision.
+
 Defaults resolve per setting, from lowest to highest priority:
 
 1. `illustrationDefaults` in `rendering/styles/diagram-style.json`.
@@ -20,7 +60,7 @@ selects:
 ```yaml
 illustration-defaults:
   font: excalifont
-  stroke: mild
+  stroke: rough
 ```
 
 The agent can interpret “use rough strokes” in a fence as a request override.
@@ -34,8 +74,8 @@ node rendering/illustrations/author.mjs \
 
 Omit `--override` to adopt the document/global defaults. This example is an
 authoring operation, not a document-build command; it replaces that figure's
-accepted SVG after successful validation. The pilot currently selects mild,
-not the rough override shown above.
+accepted SVG after successful validation. The lesson now selects rough strokes;
+the override above illustrates an explicit request rather than a build default.
 
 The resolver accepts `font`, `stroke`, `roughness`, `bowing`, and `seed`.
 Font choices are `regular` and `excalifont`; stroke choices are `crisp`,
@@ -144,7 +184,7 @@ actual verification evidence and remaining review boundaries.
 
 ## Other shapes: bounded tree trial
 
-The approved follow-up compares the red-root sketch and left-left repair from
+The standalone trial retains a red-root sketch and left-left repair from
 *Guaranteeing logarithmic retrieval*. The adapter uses the existing split-md
 pin's structured scene, not a blind pass over every SVG path. It verifies the
 exact checkout commit, the bundle hash, and all five source modules against

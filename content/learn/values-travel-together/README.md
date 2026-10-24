@@ -1,14 +1,16 @@
 ---
 illustration-defaults:
   font: excalifont
-  stroke: mild
+  stroke: rough
 diagrams:
   - kind: illustration
     id: fig-sum-pair
+    width: 41.438mm
     caption: "sum_pair : (Int, Int) -> Int — one pair input, one integer result."
     description: Two adjoining squares share one outer contour for a pair input. An interior seam distinguishes its two Int parts. An arrow leads to one separate Int result square. All three squares use the same type color.
   - kind: illustration
     id: fig-add-inputs
+    width: 41.438mm
     caption: "add : Int -> Int -> Int — separate integer inputs, one integer result."
     description: Three separate blue Int squares show the first input, second input, and result in signature order. Arrows between adjacent squares follow the signature; they do not show conversions between integer values.
 ---

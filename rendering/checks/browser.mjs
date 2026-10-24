@@ -422,7 +422,7 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
     let stableSince = Date.now();
     const started = Date.now();
     while (Date.now() - started < 10000) {
-      const current = JSON.stringify(await page.$$eval('#red-root-sketch, #height-counting-cue, #repair-comparison',
+      const current = JSON.stringify(await page.$$eval('#fig-restore-left-left, #height-counting-cue, #repair-comparison',
         nodes => nodes.map(node => {
           const box = node.getBoundingClientRect();
           return [box.x, box.y, box.width, box.height].map(value => Math.round(value * 10));
@@ -442,7 +442,7 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
         return { left: bounds.left, right: bounds.right, top: bounds.top,
           bottom: bounds.bottom, width: bounds.width, height: bounds.height };
       };
-      const sketch = document.getElementById('red-root-sketch');
+      const sketch = document.getElementById('fig-restore-left-left');
       const image = sketch?.matches('img') ? sketch : sketch?.querySelector('img');
       const note = image?.closest('[role="doc-footnote"], .sidenote, .footnote, [id^="fn"]');
       const reference = note && [...document.querySelectorAll('a.footnote-ref')].find(ref =>
@@ -453,6 +453,10 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
       const wideImage = wideFigure?.matches('img') ? wideFigure : wideFigure?.querySelector('img');
       if (!image || !note || !reference || !cue || !wide || !wideImage) return null;
       const imageData = image => ({ ...box(image), alt: image.alt,
+        availableWidth: image.parentElement.getBoundingClientRect().width,
+        declaredWidthMm: /^([\d.]+)mm$/.test(image.style.width) ? Number.parseFloat(image.style.width) : null,
+        illustrationScale: Number(getComputedStyle(image).getPropertyValue('--aside-illustration-scale')) || 1,
+        noteWidth: image.closest('.column-margin')?.getBoundingClientRect().width,
         complete: image.complete, naturalWidth: image.naturalWidth });
       const cueParent = cue.parentElement.closest('section');
       return { sketch: imageData(image), note: box(note), reference: box(reference),
@@ -466,17 +470,23 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
     });
     assert.ok(geometry, 'The real lesson includes all three note forms and a linked graphical sidenote.');
     const { sketch, note, reference, cue, wide, wideImage, body, viewport } = geometry;
-    for (const image of [sketch, wideImage]) {
+    for (const [image, available] of [[sketch, note.width], [wideImage, wide.width]]) {
       assert.ok(image.complete && image.naturalWidth > 0, 'The canonical lesson SVG loads.');
       assert.ok(image.alt.length > 20, 'The lesson figure retains a useful description.');
-      assert.ok(image.width > 100 && image.height > 30, 'The lesson figure has readable dimensions.');
+      assert.ok(image.declaredWidthMm > 0, 'The lesson figure declares its physical display width.');
+      const readingWidth = layout === 'mobile' ? body.width : available;
+      const expectedWidth = Math.min(available, image.availableWidth, readingWidth,
+        image.declaredWidthMm * image.illustrationScale * 96 / 25.4,
+        image.noteWidth ? image.noteWidth * image.declaredWidthMm / 50 : Infinity);
+      assert.ok(Math.abs(image.width - expectedWidth) <= 1 && image.height > 30,
+        'The lesson figure retains its declared size within the available region.');
     }
     assert.ok(sketch.width <= note.width + 1 && sketch.left >= note.left - 1 && sketch.right <= note.right + 1,
       'The optional sketch fits the actual note width.');
     if (layout !== 'epub') assert.ok(Math.abs(note.top - reference.top) < 500,
       'The numbered sketch remains near its HTML reference.');
-    assert.match(geometry.referenceText, /Empty counts as black/);
-    assert.match(geometry.noteText, /Both paths contain one black form/);
+    assert.match(geometry.referenceText, /Left-left/);
+    assert.match(geometry.noteText, /Rewire the same pieces - left-left/);
     assert.match(geometry.cueText, /Counting cue/);
     assert.equal(geometry.cueMarkers, 0, 'The local counting cue has no footnote marker.');
     assert.match(geometry.cueSection ?? '', /height|logarithm|bound/, 'The counting cue stays with the height proof.');
@@ -484,8 +494,8 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
       'The full-width image stays inside its reading region.');
     assert.ok(wide.left >= 0 && wide.right <= viewport + 1, 'The wide figure fits the viewport.');
     if (layout === 'desktop') {
-      assert.ok(wide.width >= body.width + 100 && wideImage.width >= body.width + 100,
-        'The figure itself uses the body and note columns.');
+      assert.ok(wide.width >= body.width + 100 && wideImage.left < body.right - 1 && wideImage.right > note.left + 1,
+        'The fixed-size figure spans body and note space without being stretched to fill it.');
       assert.ok(note.left >= body.right - 1 && cue.left >= body.right - 1,
         'Both local note forms occupy the right margin.');
       for (const margin of [note, cue]) {
@@ -499,7 +509,7 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
 
   async function realLessonReference(page) {
     const start = page.url();
-    const note = await page.$eval('#red-root-sketch', node =>
+    const note = await page.$eval('#fig-restore-left-left', node =>
       node.closest('[role="doc-footnote"], [id^="fn"]').id);
     const selector = `a.footnote-ref[href="#${note}"]`;
     await page.click(selector);
@@ -509,7 +519,7 @@ print(json.dumps({'spine': spine, 'navigation': navigation}))
   }
 
   async function realLessonCapture(page, label, layout = label) {
-    await page.$eval('#red-root-sketch', node => node.scrollIntoView({ block: 'center' }));
+    await page.$eval('#fig-restore-left-left', node => node.scrollIntoView({ block: 'center' }));
     await settledNotes(page);
     const path = join(qa, `real-lesson-notes-${label}.png`);
     await page.screenshot({ path });

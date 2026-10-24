@@ -23,6 +23,19 @@ div.sourceCode { border: 0; background: transparent; }
 .margin-container, .column-margin { font-size: .83rem; line-height: 1.4; }
 figure { margin: 1.75rem 0; }
 figure img { max-width: 100%; height: auto; }
+.column-margin { container: illustration-note / inline-size; }
+.column-margin img.authored-illustration {
+  width: min(calc(var(--illustration-width) * var(--aside-illustration-scale, 1)),
+    calc(100cqw * var(--illustration-note-fraction))) !important;
+}
+@media (min-width: 992px) {
+  @container illustration-note (min-width: 210px) {
+    img.authored-illustration { --aside-illustration-scale: 1.1; }
+  }
+}
+@container illustration-note (min-width: 450px) {
+  img.authored-illustration { --aside-illustration-scale: 1.5; }
+}
 figcaption { font-size: .85rem; line-height: 1.45; text-align: left; }
 table { font-size: .9rem; }
 .on-this-page { margin: 1rem 0; font-family: system-ui, sans-serif; font-size: .85rem; }

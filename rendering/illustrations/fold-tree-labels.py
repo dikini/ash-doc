@@ -1,4 +1,4 @@
-"""Outline the structural fold trial's labels with the pinned handwritten font."""
+"""Outline supported authoring SVG labels with the pinned handwritten font."""
 import hashlib
 from pathlib import Path
 import sys
@@ -25,7 +25,8 @@ for parent in list(document.iter()):
         names = [font.getBestCmap()[ord(character)] for character in text]
         scale = float(node.get('font-size')) / font['head'].unitsPerEm
         width = sum(font['hmtx'][name][0] for name in names) * scale
-        horizontal = float(node.get('x')) - width / 2
+        anchor = node.get('text-anchor', 'middle')
+        horizontal = float(node.get('x')) - (width / 2 if anchor == 'middle' else width if anchor == 'end' else 0)
         group = ElementTree.Element(f'{{{namespace}}}g', {
             'aria-label': text, 'fill': node.get('fill', '#222222'),
             'transform': f'translate({horizontal:.5f},{node.get("y")}) scale({scale:.8f},{-scale:.8f})'})

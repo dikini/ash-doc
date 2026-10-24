@@ -382,6 +382,15 @@ def prepare_chapter(quarto, source, mapping, commit, jobs, output=None, assets=N
         state["diagram"] = number + 1
         image_attributes = [description["id"], [], [["fig-alt", description["description"]], ["width", "100%"]]]
         if kind == "illustration":
+            if "width" in description:
+                width = description["width"]
+                if (not re.fullmatch(r"(?:\d+(?:\.\d+)?|\.\d+)mm", width)
+                        or not math.isfinite(float(width[:-2])) or float(width[:-2]) <= 0):
+                    raise ValueError(f"{source}: illustration width needs a positive millimetre value")
+                image_attributes[2][-1] = ["width", width]
+                image_attributes[1].append("authored-illustration")
+                image_attributes[2].append(["style", f"--illustration-width:{width}"])
+                image_attributes[2][-1][1] += f";--illustration-note-fraction:{float(width[:-2]) / 50:.8f}"
             identifier = attributes[0]
             if identifier in state["illustration_ids"]:
                 raise ValueError(f"{source}: duplicate illustration identifier: {identifier}")

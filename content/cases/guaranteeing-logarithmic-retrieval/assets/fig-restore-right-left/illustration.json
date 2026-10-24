@@ -1,0 +1,311 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "construction": {
+    "source": "tree:\n  black/(k3,v3)\n    a\n    red/(k1,v1)\n      red/(k2,v2)\n        b\n        c\n      d\n\ntree:\n  red/(k2,v2)\n    black/(k3,v3)\n      a\n      b\n    black/(k1,v1)\n      c\n      d\nhues: (k1,v1)=#a06bab/#71518f (k2,v2)=#326cab/#285f94 (k3,v3)=#f1c84e/#946c00 a=#75b695 b=#e49645 c=#c86b9d d=#64b5cf",
+    "placement": "aside",
+    "labelled": false,
+    "appearance": {
+      "stroke": "rough",
+      "roughness": 1.8,
+      "bowing": 1,
+      "font": "excalifont",
+      "seed": 1729
+    },
+    "scene": {
+      "width": 160,
+      "height": 240,
+      "elements": [
+        {
+          "kind": "triangle",
+          "x": 20,
+          "apex": 106,
+          "half": 8,
+          "height": 10,
+          "fill": "#75b695",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "triangle",
+          "x": 60,
+          "apex": 106,
+          "half": 8,
+          "height": 10,
+          "fill": "#e49645",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "triangle",
+          "x": 100,
+          "apex": 106,
+          "half": 8,
+          "height": 10,
+          "fill": "#c86b9d",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "circle",
+          "cx": 80,
+          "cy": 78,
+          "r": 12,
+          "topFill": "#c94136",
+          "bottomFill": "#326cab",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "triangle",
+          "x": 140,
+          "apex": 106,
+          "half": 8,
+          "height": 10,
+          "fill": "#64b5cf",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "circle",
+          "cx": 120,
+          "cy": 48,
+          "r": 12,
+          "topFill": "#c94136",
+          "bottomFill": "#a06bab",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "circle",
+          "cx": 40,
+          "cy": 18,
+          "r": 12,
+          "topFill": "#252525",
+          "bottomFill": "#f1c84e",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "edge",
+          "x1": 80,
+          "y1": 78,
+          "x2": 60,
+          "y2": 106,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 80,
+          "y1": 78,
+          "x2": 100,
+          "y2": 106,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 120,
+          "y1": 48,
+          "x2": 80,
+          "y2": 78,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 120,
+          "y1": 48,
+          "x2": 140,
+          "y2": 106,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 40,
+          "y1": 18,
+          "x2": 20,
+          "y2": 106,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 40,
+          "y1": 18,
+          "x2": 120,
+          "y2": 48,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "downArrow",
+          "x": 80,
+          "y1": 127,
+          "y2": 145,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3,
+          "head": 5
+        },
+        {
+          "kind": "triangle",
+          "x": 20,
+          "apex": 221,
+          "half": 8,
+          "height": 10,
+          "fill": "#75b695",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "triangle",
+          "x": 60,
+          "apex": 221,
+          "half": 8,
+          "height": 10,
+          "fill": "#e49645",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "circle",
+          "cx": 40,
+          "cy": 193,
+          "r": 12,
+          "topFill": "#252525",
+          "bottomFill": "#f1c84e",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "triangle",
+          "x": 100,
+          "apex": 221,
+          "half": 8,
+          "height": 10,
+          "fill": "#c86b9d",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "triangle",
+          "x": 140,
+          "apex": 221,
+          "half": 8,
+          "height": 10,
+          "fill": "#64b5cf",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "circle",
+          "cx": 120,
+          "cy": 193,
+          "r": 12,
+          "topFill": "#252525",
+          "bottomFill": "#a06bab",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "circle",
+          "cx": 80,
+          "cy": 163,
+          "r": 12,
+          "topFill": "#c94136",
+          "bottomFill": "#326cab",
+          "stroke": "#59534e",
+          "strokeWidth": 0.7
+        },
+        {
+          "kind": "edge",
+          "x1": 40,
+          "y1": 193,
+          "x2": 20,
+          "y2": 221,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 40,
+          "y1": 193,
+          "x2": 60,
+          "y2": 221,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 120,
+          "y1": 193,
+          "x2": 100,
+          "y2": 221,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 120,
+          "y1": 193,
+          "x2": 140,
+          "y2": 221,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 80,
+          "y1": 163,
+          "x2": 40,
+          "y2": 193,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        },
+        {
+          "kind": "edge",
+          "x1": 80,
+          "y1": 163,
+          "x2": 120,
+          "y2": 193,
+          "stroke": "#78716a",
+          "strokeWidth": 1.3
+        }
+      ]
+    },
+    "display": {
+      "placement": "aside",
+      "shape": "circle",
+      "primitiveUnits": 24,
+      "primitiveMm": 5,
+      "width": "35.000mm"
+    }
+  },
+  "interpretation": {
+    "author": "agent",
+    "intent": "Preserve form and association colors, ordered subtrees, and before/after topology.",
+    "source": "content/cases/guaranteeing-logarithmic-retrieval/README.md",
+    "limits": "Authoring scene adapter; source syntax is saved construction, not document preparation."
+  },
+  "renderer": {
+    "command": "node rendering/illustrations/lesson-shapes.mjs",
+    "splitCommit": "b9d1298c16314b0d0b66223041b8937eeaece1e8",
+    "splitSourceHashes": {
+      "parse.js": "121b18cb822eb78302787ed6c9cd0d4cd6ec3c883f2ca6b035dbed67c9e83e5a",
+      "layout.js": "53efe1979d9ee2fc4ae2c40f06367cb7f22caef0b3513c732ef9ac84944c52e9",
+      "style.js": "1d1bbb70772ce8461d28848f3d948e43f472c3d46d5c7426979a07e79dacaf82"
+    },
+    "roughJS": "4.6.6",
+    "bundleSha256": "6853af8619532f3939b156cd16824d2e14f31e71d3df306ad5558eeafacab194",
+    "lockSha256": "d8679bdcce68d794995d1237ec8035b7a445ef0813ad4de74bb469cc324185ff",
+    "font": "Excalifont-Latin",
+    "fontApplied": false,
+    "fontTools": "4.61.1",
+    "Brotli": "1.1.0"
+  },
+  "provenance": {
+    "svgSha256": "12a45901f57a92a535765773a5b758feadb399246ce4924abf77a80255792c28"
+  }
+}
