@@ -41,6 +41,15 @@ Inspect orphan SVGs before adopting or replacing them. Do not treat a missing
 sidecar as permission to destroy accepted artwork. Explain material choices
 briefly in construction metadata, not in rendered lesson prose.
 
+## Choose construction and appearance
+
+Read [the approach reference](references/approaches.md) when choosing a drawing
+method or adapting an unfamiliar example. It contrasts custom type shapes,
+split-md trees, Mermaid sequences, and precisely aligned mathematical SVG.
+Choose construction, appearance, and optional filters independently. These
+are examples, not an exhaustive list of permitted tools or guaranteed renderer
+and style combinations. Inspect the relevant source and its support limits.
+
 ## Construct the visual explanation
 
 Use the prompt, code, and reference figures to infer intent, composition, and
@@ -79,6 +88,15 @@ Invoke the drawing tool explicitly during authoring. Preserve its source,
 parameters, and exact dependencies so accepted artwork can rebuild without an
 LLM. Use a saved seed only if the algorithm needs randomness. Consume shared
 style tokens rather than copying the style file into each lesson.
+
+Apply optional filters explicitly during authoring, never during document
+preparation. The current example is seeded rough-stroke treatment; its adapters
+support particular constructions, not arbitrary SVGs. Follow the
+[filter guidance](references/approaches.md#apply-an-optional-filter) for input
+limits, protected geometry/lettering, parameters, dependencies, phase order,
+and verification. Record a rebuild command for the complete final artwork,
+not merely a crisp intermediate. New filters need a concrete approved example,
+not a speculative registry or an assumption that every renderer supports them.
 
 Render to a temporary location, inspect the image, and publish the SVG and its
 sidecar reference only after success. Preserve accepted files on failure. The
