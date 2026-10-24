@@ -207,6 +207,47 @@ Accepted lessons, translations, renderer pins, and document preparation remain
 unchanged. Remove the trial if rejected; promote only the smallest supported
 adapter after its lesson integration receives separate review.
 
+## Mermaid sequence trial
+
+The [sequence brief](sequence-trial.md) requests a caller → service → store
+lookup and its two replies. The agent's [interpretation](sequence-trial.json)
+records three Mermaid participants and four messages in the requested order.
+The document contains a prose illustration fence, not a Mermaid fence.
+
+```sh
+node rendering/illustrations/sequence-cycle.test.mjs
+node rendering/illustrations/sequence-cycle.mjs
+node rendering/illustrations/sequence-cycle.mjs --rebuild
+```
+
+This trial uses Mermaid 12.1.0 through CLI 12.0.0 and the existing vector
+outlining adapter. It checks installed versions, the frozen dependency lock,
+and bundled font hashes. The authoring operation saves `source.mmd`, resolved
+appearance, renderer/provenance state, and outlined `figure.svg` under
+`.build/mermaid-sequence/assets/fig-item-lookup-trial/`. Rebuild mode uses that
+saved construction and appearance; no model or prose parser runs in replay.
+
+Regular lettering and crisp geometry are explicit choices for this first
+sequence trial. The box/tree roughening adapters are not applied to Mermaid's
+lifelines, arrow markers, or reply dashes. Handwritten lettering and sketch
+strokes for sequences remain unverified, rather than being silently simulated
+by those adapters.
+
+The existing pure document adapter substitutes the saved SVG and hides the
+brief. Controls verify that a changed brief does not regenerate the image,
+and a missing SVG fails. Two focused tests check participants, message order,
+and request/reply arrow kinds. Two authoring renders agree byte-for-byte;
+saved-state rebuilds reproduce the same image. The resulting SVG passes the
+source-image validator and contains outlined lettering, not runtime text.
+
+The HTML preview at `.build/mermaid-sequence/index.html` links to the prose
+brief, Mermaid construction, saved state, and final SVG. The wide diagram
+scrolls horizontally on narrow screens rather than shrinking its labels.
+Browser checks verify image loading and narrow scrolling. The trial includes
+a browser-printed A4 PDF; these are local previews, not production lesson
+HTML/EPUB or either Quarto PDF layout certification. Accepted lessons,
+translations, shared rendering behavior, and all pins remain unchanged.
+
 Keep this small tool while the pilot needs it. Replace it when another
 authoring representation can preserve construction, defaults, and portable
 SVGs more simply. It establishes no general scene language, filter registry,

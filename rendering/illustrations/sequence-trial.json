@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "svg": "figure.svg",
+  "construction": {
+    "renderer": "mermaid",
+    "source": "sequenceDiagram\n    participant Caller\n    participant Service\n    participant Store\n    Caller->>Service: Get item\n    Service->>Store: Read item\n    Store-->>Service: Item\n    Service-->>Caller: Item\n",
+    "requestAppearance": {"font": "regular", "stroke": "crisp"}
+  },
+  "interpretation": {
+    "author": "agent",
+    "intent": "Expose the order of a delegated lookup and its replies without implying error handling or storage implementation.",
+    "rules": [
+      "Participants are ordered Caller, Service, Store.",
+      "Messages follow the brief's four steps in top-to-bottom order.",
+      "Solid request arrows differ from dashed reply arrows.",
+      "Mermaid is construction state, not a second fence in the document."
+    ]
+  }
+}

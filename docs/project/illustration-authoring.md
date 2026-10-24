@@ -304,3 +304,19 @@ saved appearance and reproduce the SVG bytes. The replay never invokes an
 agent. These are isolated authoring trials, not adopted tree assets or final
 lesson-format verification. No upstream renderer or document-build behavior
 changes.
+
+### Mermaid sequence authoring trial
+
+The [sequence trial](../../rendering/illustrations/README.md#mermaid-sequence-trial)
+exercises another construction renderer without changing the illustration
+envelope or document adapter. A prose brief becomes agent-authored Mermaid
+sequence construction, then a saved outlined SVG. Caller, Service, and Store
+exchange two solid-arrow requests followed by two dashed-arrow replies.
+
+Two focused checks and the SVG validator pass. Repeated renders and saved-state
+rebuilds agree byte-for-byte. Changed-brief and missing-asset controls confirm
+that document preparation substitutes saved artwork without authoring or
+freshness decisions. HTML and a standalone A4 print preview live under
+`.build/mermaid-sequence/`. This first trial uses regular lettering and crisp
+strokes; sequence-specific sketch styling and lesson integration are not
+claimed. No accepted content, renderer pin, or document-build behavior changes.
