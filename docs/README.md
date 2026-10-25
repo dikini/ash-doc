@@ -22,6 +22,8 @@ does not contain published Ash instruction or define Ash behavior.
   artwork, its use, and the generation prompt.
 - [Boyan](project/boyan.md) preserves the recurring character's fictional
   backstory and accepted starting visual references.
+- [Alice and Bot](project/alice.md) and [Eric](project/eric.md) preserve their
+  character briefs and accepted references in the same drawing style.
 - [Rendering](project/rendering.md) gives the complete local review book and
   regression specimen in HTML, EPUB 3, and both PDFs, with their tool boundary
   and checks. The
