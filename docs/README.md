@@ -20,6 +20,8 @@ does not contain published Ash instruction or define Ash behavior.
   [authoring skill](../.agents/skills/author-ash-illustrations/SKILL.md).
 - [Cover illustration](project/cover-illustration.md) records the retained
   artwork, its use, and the generation prompt.
+- [Boyan](project/boyan.md) preserves the recurring character's fictional
+  backstory and accepted starting visual references.
 - [Rendering](project/rendering.md) gives the complete local review book and
   regression specimen in HTML, EPUB 3, and both PDFs, with their tool boundary
   and checks. The
