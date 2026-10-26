@@ -26,6 +26,8 @@ does not contain published Ash instruction or define Ash behavior.
   character briefs and accepted references in the same drawing style.
 - [Bob](project/bob.md) records Alice's fellow student and friend, with his
   character brief and accepted visual reference.
+- [The man under the ash](project/man-under-the-ash.md) retains the first
+  two-page comic trial, its approved script, and lettering limitations.
 - [Rendering](project/rendering.md) gives the complete local review book and
   regression specimen in HTML, EPUB 3, and both PDFs, with their tool boundary
   and checks. The
